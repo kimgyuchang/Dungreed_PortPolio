@@ -11,10 +11,6 @@ HRESULT gameNode::init()
 	INPUT->init();						//입력매니져 초기화
 	RANDOM->init();						//랜덤매니져 초기화
 	IMAGEMANAGER->init();				//이미지매니져 초기화
-	PLAYERDATA->init();					//플레이어데이터 초기화
-	SCENEMANAGER->init();				//씬매니져 초기화
-	INIDATA->init();					//INI데이터 초기화
-	SOUNDMANAGER->init();				//사운드매니져 초기화
 
 	return S_OK;
 }
@@ -35,18 +31,6 @@ void gameNode::release()
 	//이미지매니져 해제
 	IMAGEMANAGER->release();
 	IMAGEMANAGER->releaseSingleton();
-	//플레이어데이터 해제
-	PLAYERDATA->release();
-	PLAYERDATA->releaseSingleton();
-	//씬매니져 해제
-	SCENEMANAGER->release();
-	SCENEMANAGER->releaseSingleton();
-	//INI데이터 해제
-	INIDATA->release();
-	INIDATA->releaseSingleton();
-	//사운드매니져 해제
-	SOUNDMANAGER->release();
-	SOUNDMANAGER->releaseSingleton();
 
 	//HDC 해제
 	ReleaseDC(_hWnd, _hdc);
@@ -85,6 +69,12 @@ LRESULT gameNode::MainProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 	case WM_MOUSEMOVE:
 		_ptMouse.x = LOWORD(lParam);
 		_ptMouse.y = HIWORD(lParam);
+		break;
+	case WM_MOUSEWHEEL:
+		if ((SHORT)HIWORD(wParam) > 0)
+			_mouseWheel = 1;
+		else if ((SHORT)HIWORD(wParam) < 0)
+			_mouseWheel = -1;
 		break;
 	case WM_KEYDOWN:
 		switch (wParam)

@@ -12,6 +12,7 @@ HRESULT startScene::init()
 
 void startScene::release()
 {
+	
 }
 
 void startScene::update()
@@ -23,7 +24,6 @@ void startScene::update()
 			SCENEMANAGER->loadScene("게임화면");
 		}
 	}
-
 }
 
 void startScene::render()

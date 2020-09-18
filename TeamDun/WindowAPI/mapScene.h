@@ -15,6 +15,7 @@ public :
 	void update();
 	void render();
 	void saveData();
+	void AddMapLine();
 	void loadData();
 
 	string GetTargetKey() { return _targetKey; }

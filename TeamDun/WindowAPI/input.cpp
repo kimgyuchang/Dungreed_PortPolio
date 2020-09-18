@@ -10,7 +10,29 @@ HRESULT input::init()
 		_keyDown[i] = false;
 	}
 
+	_clickTimer = 0;
+	_isOnceClicked = false;
+
 	return S_OK;
+}
+
+void input::update()
+{
+	if (_isOnceClicked)
+	{
+		_clickTimer++;
+		if (_clickTimer > 30)
+		{
+			_clickTimer = 0;
+			_isOnceClicked = false;
+		}
+	}
+
+	if (_mouseWheel == _prevMouseWheel)
+	{
+		_mouseWheel = 0;
+	}
+	_prevMouseWheel = _mouseWheel;
 }
 
 void input::release()
@@ -69,4 +91,10 @@ bool input::GetToggleKey(int key)
 		return true;
 	}
 	return false;
+}
+
+int input::GetMouseWheel()
+{
+
+	return 0;
 }

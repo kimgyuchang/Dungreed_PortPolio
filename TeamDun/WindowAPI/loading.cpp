@@ -197,6 +197,7 @@ bool loading::loadingDone()
 	}
 
 	loadItem* item = _vLoadItem[_currentGauge];
+
 	switch (item->getLoadKind())
 	{
 		case LOAD_KIND_IMAGE_0:

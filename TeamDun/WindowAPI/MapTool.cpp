@@ -10,11 +10,10 @@ HRESULT MapTool::init()
 		for (int j = 0; j < 12; j++)
 		{
 			Grid* grid = new Grid();
-			grid->SetImage(nullptr);
-			grid->SetX(i * 50 + 0);
-			grid->SetY(j * 50 + 0);
-			grid->SetRect(RectMake(grid->GetX(), grid->GetY(), 50, 50));
-			grid->SetIgKey("");
+			grid->_img = nullptr;
+			grid->_x = j * 50 + 0;
+			grid->_y = i * 50 + 0;
+			grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
 			gridLine.push_back(grid);
 		}
 		_vMapData.push_back(gridLine);
@@ -37,11 +36,11 @@ void MapTool::render()
 	{
 		for (int j = 0; j < _vMapData[i].size(); j++)
 		{
-			_vMapData[i][j]->render(getMemDC());
+			Rectangle(getMemDC(), _vMapData[i][j]->_rc);
+			if(_vMapData[i][j]->_img) _vMapData[i][j]->_img->render(getMemDC(), _vMapData[i][j]->_x, _vMapData[i][j]->_y);
 		}
 	}
 }
-
 
 Grid* MapTool::mouseCollisionCheck()
 {
@@ -49,7 +48,7 @@ Grid* MapTool::mouseCollisionCheck()
 	{
 		for (int j = 0; j < _vMapData[i].size(); j++)
 		{
-			if (PtInRect(&_vMapData[i][j]->GetRect(), _ptMouse))
+			if (PtInRect(&_vMapData[i][j]->_rc, _ptMouse))
 			{
 				return _vMapData[i][j];
 			}
@@ -61,55 +60,87 @@ Grid* MapTool::mouseCollisionCheck()
 
 void MapTool::SaveData()
 {
-	vector<vector<string>> saveData;
+	vector<vector<string>> stringData;
+	
+	stringData.push_back(vector<string>());
+	for (int i = 0; i < _vMapData[0].size(); i++) stringData[0].push_back("-1");
+
 	for (int i = 0; i < _vMapData.size(); i++)
 	{
-		vector<string> vStr;
+		stringData.push_back(vector<string>());
 		for (int j = 0; j < _vMapData[i].size(); j++)
 		{
-			if (!_vMapData[i][j]->GetImage()) vStr.push_back("-1");
-			else	vStr.push_back(_vMapData[i][j]->GetIgKey());
+			if (_vMapData[i][j]->_img) stringData[i+1].push_back(_vMapData[i][j]->_img->getKey());
+			else stringData[i+1].push_back("-1");
 		}
-		saveData.push_back(vStr);
 	}
 
-	saveData.insert(saveData.begin(), vector<string>{});
-	for (int i = 0; i < saveData[1].size(); i++)
-	{
-		saveData[0].push_back("0");
-	}
-
-	CSVMANAGER->csvSave("mapData.csv", saveData);
+	CSVMANAGER->csvSave("Data/MapData/gridSaveData.csv", stringData);
 }
 
 void MapTool::LoadData()
 {
-	vector<vector<string>> loadData = CSVMANAGER->csvLoad("mapData.csv");
-	if (loadData.size() > 0)
+	vector<vector<string>> stringData =	CSVMANAGER->csvLoad("Data/MapData/gridSaveData.csv");
+	
+	_vMapData.clear();
+
+	for (int i = 0; i < stringData.size(); i++)
 	{
-		_vMapData.clear();
-		for (int i = 0; i < loadData.size(); i++)
+		vector<Grid*> gridLine;
+		for (int j = 0; j < stringData[i].size(); j++)
 		{
-			vector<Grid*> gridLine;
+			cout << stringData[i][j] << endl;
 
-			for (int j = 0; j < loadData[i].size(); j++)
-			{
-				Grid* grid = new Grid();
-				grid->SetImage(IMAGEMANAGER->findImage(loadData[i][j]));
-				grid->SetIgKey(loadData[i][j]);
-				grid->SetX(i * 50 + 0);
-				grid->SetY(j * 50 + 0);
-				grid->SetRect(RectMake(grid->GetX(), grid->GetY(), 50, 50));
-
-				gridLine.push_back(grid);
-			}
-			_vMapData.push_back(gridLine);
-
+			Grid* grid = new Grid();
+			if (stringData[i][j] == "-1") grid->_img = nullptr;
+			else grid->_img = IMAGEMANAGER->findImage(stringData[i][j]);
+			grid->_x = j * 50 + 0;
+			grid->_y = i * 50 + 0;
+			grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
+			gridLine.push_back(grid);
 		}
+		_vMapData.push_back(gridLine);
+	}
+}
+
+void MapTool::MapLineAddRow()
+{
+	vector<Grid*> gridLine;
+	for (int j = 0; j < _vMapData[0].size(); j++)
+	{
+		Grid* grid = new Grid();
+		grid->_img = nullptr;
+		grid->_x = j * 50 + 0;
+		grid->_y = _vMapData.size() * 50 + 0;
+		grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
+		gridLine.push_back(grid);
 	}
 
-	else
+	_vMapData.push_back(gridLine);
+}
+
+void MapTool::MapLineAddCol()
+{
+	for (int i = 0; i < _vMapData.size(); i++)
 	{
-		cout << "CANNOT LOAD DATA" << endl;
+		Grid* grid = new Grid();
+		grid->_img = nullptr;
+		grid->_x = _vMapData[i].size() * 50 + 0;
+		grid->_y = i * 50 + 0;
+		grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
+		_vMapData[i].push_back(grid);
 	}
+}
+
+void MapTool::MapLineRemoveCol()
+{
+	for (int i = 0; i < _vMapData.size(); i++)
+	{
+		_vMapData[i].erase(_vMapData[i].end() - 1);
+	}
+}
+
+void MapTool::MapLineRemoveRow()
+{
+	_vMapData.erase(_vMapData.end() - 1);
 }

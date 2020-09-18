@@ -29,6 +29,7 @@ image * imageManager::addImage(string strKey, int width, int height)
 		return nullptr;
 	}
 
+	img->setKey(strKey);
 	//맵이미지 리스트에 추가
 	//_mImageList.insert(pair<string, image*>(strKey, img));
 	_mImageList.insert(make_pair(strKey, img));
@@ -53,6 +54,8 @@ image * imageManager::addImage(string strKey, const char * fileName, int width, 
 		SAFE_DELETE(img);
 		return nullptr;
 	}
+	
+	img->setKey(strKey);
 
 	//맵이미지 리스트에 추가
 	//_mImageList.insert(pair<string, image*>(strKey, img));
@@ -78,6 +81,8 @@ image * imageManager::addImage(string strKey, const char * fileName, float x, fl
 		SAFE_DELETE(img);
 		return nullptr;
 	}
+	
+	img->setKey(strKey);
 
 	//맵이미지 리스트에 추가
 	//_mImageList.insert(pair<string, image*>(strKey, img));
@@ -104,6 +109,8 @@ image * imageManager::addFrameImage(string strKey, const char * fileName, int wi
 		return nullptr;
 	}
 
+	img->setKey(strKey);
+
 	//맵이미지 리스트에 추가
 	//_mImageList.insert(pair<string, image*>(strKey, img));
 	_mImageList.insert(make_pair(strKey, img));
@@ -128,6 +135,8 @@ image * imageManager::addFrameImage(string strKey, const char * fileName, float 
 		SAFE_DELETE(img);
 		return nullptr;
 	}
+
+	img->setKey(strKey);
 
 	//맵이미지 리스트에 추가
 	//_mImageList.insert(pair<string, image*>(strKey, img));

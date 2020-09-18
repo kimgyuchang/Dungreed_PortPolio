@@ -14,20 +14,21 @@ public:
 
 	typedef struct tagImage
 	{
-		HDC hMemDC;			//메모리 DC
-		HBITMAP hBit;		//비트맵
-		HBITMAP hOBit;		//올드비트맵
-		float x;				//이미지 x좌표
-		float y;				//이미지 y좌표
-		int width;			//이미지 가로길이
-		int height;			//이미지 세로길이
-		int currentFrameX;	//현재 프레임X
-		int currentFrameY;	//현재 프레임Y
-		int maxFrameX;		//최대 프레임X 갯수
-		int maxFrameY;		//최대 프레임Y 갯수
-		int frameWidth;		//1프레임 가로길이
-		int frameHeight;	//1프레임 세로길이
-		BYTE loadType;		//이미지 로드타입
+		HDC		hMemDC;			//메모리 DC
+		HBITMAP hBit;			//비트맵
+		HBITMAP hOBit;			//올드비트맵
+		float	x;				//이미지 x좌표
+		float	y;				//이미지 y좌표
+		int		width;			//이미지 가로길이
+		int		height;			//이미지 세로길이
+		int		currentFrameX;	//현재 프레임X
+		int		currentFrameY;	//현재 프레임Y
+		int		maxFrameX;		//최대 프레임X 갯수
+		int		maxFrameY;		//최대 프레임Y 갯수
+		int		frameWidth;		//1프레임 가로길이
+		int		frameHeight;	//1프레임 세로길이
+		BYTE	loadType;		//이미지 로드타입
+
 		tagImage()
 		{
 			hMemDC = NULL;
@@ -50,9 +51,10 @@ public:
 private:
 	LPIMAGE_INFO	_imageInfo;		//이미지 정보
 	char*			_fileName;		//이미지 파일이름
+	string			_key;			//이미지 매니저에서 사용한 키
 	bool			_isTrans;		//배경색 없앨거냐?
 	COLORREF		_transColor;	//배경색 없앨 RGB (마젠타 = RGB(255, 0, 255))
-
+	
 	LPIMAGE_INFO	_blendImage;	//알파블렌드 이미지
 	BLENDFUNCTION	_blendFunc;		//알파블렌드 기능
 
@@ -100,6 +102,8 @@ public:
 	inline float getY() { return _imageInfo->y; }
 	inline void setX(float x) { _imageInfo->x = x; }
 	inline void setY(float y) { _imageInfo->y = y; }
+
+	inline void setKey(string key) { _key = key; }
 	//이미지 센터좌표
 	inline void setCenter(float x, float y)
 	{
@@ -149,7 +153,8 @@ public:
 	//맥스 프레임 가져오기
 	inline int getMaxFrameX() { return _imageInfo->maxFrameX; }
 	inline int getMaxFrameY() { return _imageInfo->maxFrameY; }
-
-	char* getFileName() { return _fileName; }
+	
+	inline char* getFileName() { return _fileName; }
+	inline string getKey() { return _key; }
 };
 

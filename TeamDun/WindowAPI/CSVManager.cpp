@@ -23,7 +23,7 @@ void CSVManager::csvSave(const char* saveFileName, vector<vector<string>> vStr)
 {
 	HANDLE file;
 
-	char str[450];
+	char str[10000];
 	DWORD write;
 
 	file = CreateFile(saveFileName, GENERIC_WRITE, NULL, NULL,
@@ -48,12 +48,12 @@ void CSVManager::csvSave(const char* saveFileName, vector<vector<string>> vStr)
 
 char* CSVManager::vectorArrayCombine(vector<string> vArray)
 {
-	char str[128];
+	char str[10000];
 
 	ZeroMemory(str, sizeof(str));
 	for (int i = 0; i < vArray.size(); i++)
 	{
-		strncat_s(str, 128, vArray[i].c_str(), 126);
+		strncat_s(str, 10000, vArray[i].c_str(), vArray[i].length());
 		if (i + 1 < vArray.size()) strcat(str, ",");
 	}
 
@@ -66,13 +66,13 @@ vector<vector<string>> CSVManager::csvLoad(const char* loadFileName)
 {
 	HANDLE file;
 
-	char str[10000] = { 0, };
+	char str[100000] = { 0, };
 	DWORD read;
 
 	file = CreateFile(loadFileName, GENERIC_READ, 0, NULL,
 		OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	ReadFile(file, str, 10000, &read, NULL);
+	ReadFile(file, str, 100000, &read, NULL);
 
 	CloseHandle(file);
 

@@ -30,9 +30,7 @@ void mapScene::update()
 		Grid* grid = _mapTool->mouseCollisionCheck();
 		if (grid)
 		{
-			cout << _targetKey << endl;
-			grid->SetImage(_targetImage);
-			grid->SetIgKey(_targetKey);
+			grid->_img = _targetImage;
 		}
 	}
 
@@ -41,11 +39,11 @@ void mapScene::update()
 		Grid* grid = _mapTool->mouseCollisionCheck();
 		if (grid)
 		{
-			grid->SetImage(nullptr);
-			grid->SetIgKey("-1");
+			grid->_img = nullptr;
 		}
 	}
 
+	AddMapLine();
 	saveData();
 	loadData();
 }
@@ -54,6 +52,8 @@ void mapScene::render()
 {
 	_uiBrushTool->render();
 	_mapTool->render();
+
+	if (_targetImage) _targetImage->alphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 128);
 }
 
 void mapScene::saveData()
@@ -61,6 +61,29 @@ void mapScene::saveData()
 	if (INPUT->GetKeyDown('S'))
 	{
 		_mapTool->SaveData();
+	}
+}
+
+void mapScene::AddMapLine()
+{
+	if (INPUT->GetKeyDown('T'))
+	{
+		_mapTool->MapLineAddCol();
+	}
+
+	if (INPUT->GetKeyDown('Y'))
+	{
+		_mapTool->MapLineAddRow();
+	}
+
+	if (INPUT->GetKeyDown('G'))
+	{
+		_mapTool->MapLineRemoveCol();
+	}
+
+	if (INPUT->GetKeyDown('H'))
+	{
+		_mapTool->MapLineRemoveRow();
 	}
 }
 

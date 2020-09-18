@@ -9,15 +9,12 @@ HRESULT uibrushTool::init()
 		for (int j = 0; j < 5; j++)
 		{
 			Grid* grid = new Grid();
-			grid->SetImage(IMAGEMANAGER->findImage("Tile" + to_string(i*5 +j)));
-			grid->SetIgKey("Tile" + to_string(i * 5 + j));
-			cout << grid->GetIgKey() << endl;
-			grid->SetX(i * 50 + WINSIZEX / 2 + 200);
-			grid->SetY(j * 50 + 300);
-			grid->SetRect(RectMake(grid->GetX(), grid->GetY(), 50, 50));
+			grid->_img = IMAGEMANAGER->findImage("Tile" + to_string(i*5 +j));
+			grid->_x = i * 50 + WINSIZEX / 2 + 200;
+			grid->_y = j * 50 + 300;
+			grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
 
 			_vUiBrushGrid.push_back(grid);
-
 		}
 	}
 
@@ -28,16 +25,18 @@ void uibrushTool::release()
 {
 }
 
-void uibrushTool::update()
+void uibrushTool::update() 
 {
 }
+
 
 void uibrushTool::render()
 {
 	for (int i = 0; i < _vUiBrushGrid.size(); i++)
 	{
 		Grid* grid = _vUiBrushGrid[i];
-		grid->render(getMemDC());
+		Rectangle(getMemDC(), grid->_rc);
+		if(grid->_img) grid->_img->render(getMemDC(), grid->_x, grid->_y);
 	}
 }
 
@@ -45,10 +44,9 @@ void uibrushTool::mouseCollisionCheck()
 {
 	for (int i = 0; i < _vUiBrushGrid.size(); i++)
 	{
-		if (PtInRect(&_vUiBrushGrid[i]->GetRect(), _ptMouse))
+		if (PtInRect(&_vUiBrushGrid[i]->_rc, _ptMouse))
 		{
-			_mapScene->SetTargetImage(_vUiBrushGrid[i]->GetImage());
-			_mapScene->SetTargetKey(_vUiBrushGrid[i]->GetIgKey());
+			_mapScene->SetTargetImage(_vUiBrushGrid[i]->_img);
 			return;
 		}
 	}

@@ -39,8 +39,8 @@ void soundManager::release()
 	}
 
 	//메모리 지우기
-	//SAFE_DELETE_ARRAY(_sound);
-	//SAFE_DELETE_ARRAY(_channel);
+	SAFE_DELETE_ARRAY(_sound);
+	SAFE_DELETE_ARRAY(_channel);
 
 	//시스템 닫기
 	if (_system != NULL)
@@ -52,10 +52,6 @@ void soundManager::release()
 
 void soundManager::update()
 {
-	//메인게임에 사운드매니져를 업데이트 꼭 해줘야 한다
-	//사운드 관련 총괄담당을 한다
-	//사운드 시스템은 볼륨이 변경되거나, 재생이 끝난 후 사운드를 변경하는 등
-	//사운드 전반적으로 변경이 이루어 질때 즉각적으로 처리해준다
 	_system->update();
 }
 
@@ -65,15 +61,10 @@ void soundManager::addSound(string keyName, string soundName, bool bgm, bool loo
 	{
 		if (bgm)
 		{
-			//사운드 파일을 미리 업로딩해두고 사용한다
-			//한개의 파일만 재생가능
 			_system->createStream(soundName.c_str(), FMOD_LOOP_NORMAL, 0, &_sound[_mTotalSound.size()]);
 		}
 		else //거의 사용안함
 		{
-			//사운드 파일을 그때그때 실시간으로 로딩한다
-			//따라서 효과음의 파일 크기가 클경우 버퍼가 생길 수도 있다
-			//여러개의 파일 동시재생 가능하기때문에 효과음에 사용하기적당하다
 			_system->createSound(soundName.c_str(), FMOD_LOOP_NORMAL, 0, &_sound[_mTotalSound.size()]);
 		}
 	}

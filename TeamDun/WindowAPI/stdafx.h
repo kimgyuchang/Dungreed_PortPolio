@@ -39,6 +39,7 @@ using namespace MY_UTIL;
 #include "iniData.h"
 #include "soundManager.h"
 #include "CSVManager.h"
+#include "UIManager.h"
 
 //=============================================================
 //	## 싱글톤을 추가한다 ##
@@ -51,6 +52,7 @@ using namespace MY_UTIL;
 #define INIDATA iniData::getSingleton()
 #define SOUNDMANAGER soundManager::getSingleton()
 #define CSVMANAGER CSVManager::getSingleton()
+#define UIMANAGER UIManager::getSingleton()
 
 //=============================================================
 //	## 디파인문 ## (윈도우창 초기화)
@@ -74,3 +76,4 @@ using namespace MY_UTIL;
 extern HINSTANCE	_hInstance;
 extern HWND			_hWnd;
 extern POINT		_ptMouse;
+extern int			_mouseWheel;

@@ -25,9 +25,6 @@
     <Filter Include="GameFramework\카메라">
       <UniqueIdentifier>{aa4ae9bf-5abe-4eee-a0e5-fe3d8d17ea5b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\슈팅게임">
-      <UniqueIdentifier>{c085af44-2c6f-4769-8527-9f6c78d87154}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameFramework\총알">
       <UniqueIdentifier>{0850c6c3-b3ea-4bbc-818b-2f7be3085366}</UniqueIdentifier>
     </Filter>
@@ -37,23 +34,23 @@
     <Filter Include="GameFramework\체력바">
       <UniqueIdentifier>{bc1fad6b-64c5-4477-8b5e-8fc16bc693dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\INI테스트">
-      <UniqueIdentifier>{8e6d480c-fe29-46b8-90ae-1b8ccd219b09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\사운드테스트">
-      <UniqueIdentifier>{fddc1305-6e22-4095-a825-8f29605b50ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MainGame\픽셀충돌">
-      <UniqueIdentifier>{7f5178d1-cf30-43b1-ba73-2458127a27d5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameFramework\로딩">
       <UniqueIdentifier>{380f7478-b624-45de-aeae-2ccb9055ab48}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\로딩화면">
-      <UniqueIdentifier>{7e12b8a1-bff7-4c0e-8411-c665eda32360}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MainGame\Map">
       <UniqueIdentifier>{517ef4a1-afcf-4118-9ef3-a1da4ce29493}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Scene">
+      <UniqueIdentifier>{c085af44-2c6f-4769-8527-9f6c78d87154}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object">
+      <UniqueIdentifier>{14a62846-bef5-4aa8-857c-e2a552b1b555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFramework\UI">
+      <UniqueIdentifier>{81627875-f41d-4905-9b6e-109bf22c5d38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFramework\UI\Component">
+      <UniqueIdentifier>{99ba7e3f-baeb-47b0-ae8b-587fdda58dd9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -84,67 +81,37 @@
     <ClCompile Include="camera.cpp">
       <Filter>GameFramework\카메라</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>MainGame\슈팅게임</Filter>
-    </ClCompile>
     <ClCompile Include="bullet.cpp">
       <Filter>GameFramework\총알</Filter>
     </ClCompile>
     <ClCompile Include="util.cpp">
       <Filter>GameFramework\유틸</Filter>
     </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>MainGame\슈팅게임</Filter>
-    </ClCompile>
-    <ClCompile Include="minion.cpp">
-      <Filter>MainGame\슈팅게임</Filter>
-    </ClCompile>
-    <ClCompile Include="enemyManager.cpp">
-      <Filter>MainGame\슈팅게임</Filter>
-    </ClCompile>
     <ClCompile Include="playerData.cpp">
       <Filter>GameFramework\싱글톤데이터</Filter>
-    </ClCompile>
-    <ClCompile Include="progressBar.cpp">
-      <Filter>GameFramework\체력바</Filter>
     </ClCompile>
     <ClCompile Include="sceneManager.cpp">
       <Filter>GameFramework\매니져</Filter>
     </ClCompile>
     <ClCompile Include="gameScene.cpp">
-      <Filter>MainGame\슈팅게임</Filter>
+      <Filter>MainGame\Scene</Filter>
     </ClCompile>
     <ClCompile Include="startScene.cpp">
-      <Filter>MainGame\슈팅게임</Filter>
+      <Filter>MainGame\Scene</Filter>
     </ClCompile>
     <ClCompile Include="iniData.cpp">
       <Filter>GameFramework\매니져</Filter>
     </ClCompile>
-    <ClCompile Include="iniTestScene.cpp">
-      <Filter>MainGame\INI테스트</Filter>
-    </ClCompile>
     <ClCompile Include="soundManager.cpp">
       <Filter>GameFramework\매니져</Filter>
     </ClCompile>
-    <ClCompile Include="soundTestScene.cpp">
-      <Filter>MainGame\사운드테스트</Filter>
-    </ClCompile>
-    <ClCompile Include="pixelCollisionScene.cpp">
-      <Filter>MainGame\픽셀충돌</Filter>
-    </ClCompile>
     <ClCompile Include="loading.cpp">
       <Filter>GameFramework\로딩</Filter>
-    </ClCompile>
-    <ClCompile Include="loadingScene.cpp">
-      <Filter>MainGame\로딩화면</Filter>
     </ClCompile>
     <ClCompile Include="mapScene.cpp">
       <Filter>MainGame\Map</Filter>
     </ClCompile>
     <ClCompile Include="uibrushTool.cpp">
-      <Filter>MainGame\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="Grid.cpp">
       <Filter>MainGame\Map</Filter>
     </ClCompile>
     <ClCompile Include="CSVManager.cpp">
@@ -153,7 +120,42 @@
     <ClCompile Include="MapTool.cpp">
       <Filter>MainGame\Map</Filter>
     </ClCompile>
-    <ClCompile Include="AddGithubTestFile.cpp" />
+    <ClCompile Include="loadingScene.cpp">
+      <Filter>MainGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>MainGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>MainGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>MainGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC.cpp">
+      <Filter>MainGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>MainGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="UIFrame.cpp">
+      <Filter>GameFramework\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIImage.cpp">
+      <Filter>GameFramework\UI\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>GameFramework\UI\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="UIScroll.cpp">
+      <Filter>GameFramework\UI\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="UIText.cpp">
+      <Filter>GameFramework\UI\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="progressBar.cpp">
+      <Filter>GameFramework\체력바</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -186,59 +188,32 @@
     <ClInclude Include="camera.h">
       <Filter>GameFramework\카메라</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>MainGame\슈팅게임</Filter>
-    </ClInclude>
     <ClInclude Include="bullet.h">
       <Filter>GameFramework\총알</Filter>
     </ClInclude>
     <ClInclude Include="util.h">
       <Filter>GameFramework\유틸</Filter>
     </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>MainGame\슈팅게임</Filter>
-    </ClInclude>
-    <ClInclude Include="minion.h">
-      <Filter>MainGame\슈팅게임</Filter>
-    </ClInclude>
-    <ClInclude Include="enemyManager.h">
-      <Filter>MainGame\슈팅게임</Filter>
-    </ClInclude>
     <ClInclude Include="playerData.h">
       <Filter>GameFramework\싱글톤데이터</Filter>
-    </ClInclude>
-    <ClInclude Include="progressBar.h">
-      <Filter>GameFramework\체력바</Filter>
     </ClInclude>
     <ClInclude Include="sceneManager.h">
       <Filter>GameFramework\매니져</Filter>
     </ClInclude>
     <ClInclude Include="gameScene.h">
-      <Filter>MainGame\슈팅게임</Filter>
+      <Filter>MainGame\Scene</Filter>
     </ClInclude>
     <ClInclude Include="startScene.h">
-      <Filter>MainGame\슈팅게임</Filter>
+      <Filter>MainGame\Scene</Filter>
     </ClInclude>
     <ClInclude Include="iniData.h">
       <Filter>GameFramework\매니져</Filter>
     </ClInclude>
-    <ClInclude Include="iniTestScene.h">
-      <Filter>MainGame\INI테스트</Filter>
-    </ClInclude>
     <ClInclude Include="soundManager.h">
       <Filter>GameFramework\매니져</Filter>
     </ClInclude>
-    <ClInclude Include="soundTestScene.h">
-      <Filter>MainGame\사운드테스트</Filter>
-    </ClInclude>
-    <ClInclude Include="pixelCollisionScene.h">
-      <Filter>MainGame\픽셀충돌</Filter>
-    </ClInclude>
     <ClInclude Include="loading.h">
       <Filter>GameFramework\로딩</Filter>
-    </ClInclude>
-    <ClInclude Include="loadingScene.h">
-      <Filter>MainGame\로딩화면</Filter>
     </ClInclude>
     <ClInclude Include="mapScene.h">
       <Filter>MainGame\Map</Filter>
@@ -246,14 +221,47 @@
     <ClInclude Include="uibrushTool.h">
       <Filter>MainGame\Map</Filter>
     </ClInclude>
-    <ClInclude Include="Grid.h">
-      <Filter>MainGame\Map</Filter>
-    </ClInclude>
     <ClInclude Include="CSVManager.h">
       <Filter>GameFramework\매니져</Filter>
     </ClInclude>
     <ClInclude Include="MapTool.h">
       <Filter>MainGame\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="loadingScene.h">
+      <Filter>MainGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>MainGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>MainGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>MainGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>MainGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>MainGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="UIFrame.h">
+      <Filter>GameFramework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIImage.h">
+      <Filter>GameFramework\UI\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>GameFramework\UI\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="UIScroll.h">
+      <Filter>GameFramework\UI\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="UIText.h">
+      <Filter>GameFramework\UI\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="progressBar.h">
+      <Filter>GameFramework\체력바</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

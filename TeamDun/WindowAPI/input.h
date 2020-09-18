@@ -12,10 +12,15 @@ private:
 	bool _keyUp[KEYMAX];
 	bool _keyDown[KEYMAX];
 
+	bool _isOnceClicked;
+	int	_clickTimer;
+	int _prevMouseWheel;
+
 public:
 	//입력매니져 초기화
 	HRESULT init();
 	//입력매니져 해제
+	void update();
 	void release();
 
 	//키가 계속 눌려 있냐?
@@ -27,6 +32,11 @@ public:
 	//토글키냐? (참고로 유니티에는 이기능은 없음)
 	bool GetToggleKey(int key);
 
+	bool GetIsOnceClicked() { return _isOnceClicked; }
+	int GetClickTimer() { return _clickTimer; }
+	void SetIsOnceClicked(bool isOnceClicked) { _isOnceClicked = isOnceClicked; }
+	void SetClickTimer(int clickTimer) { _clickTimer = clickTimer; }
+	int GetMouseWheel();
 	input() {}
 	~input() {}
 };
