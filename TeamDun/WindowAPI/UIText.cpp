@@ -60,7 +60,7 @@ void UIText::render(HDC hdc)
 		case WSORT_RIGHT: // 우측 정렬
 			for (int i = _text.length()-1; i >= 0; i--)
 			{
-				framePt = UIMANAGER->GetWordFramePosition(_text[i]);
+				framePt = GetWordFramePosition(_text[i]);
 				IMAGEMANAGER->findImage(fontName)->frameRender(hdc, curX, _y, framePt.x, framePt.y);
 				curX -= IMAGEMANAGER->findImage(fontName)->getFrameWidth() + _space;
 			}
