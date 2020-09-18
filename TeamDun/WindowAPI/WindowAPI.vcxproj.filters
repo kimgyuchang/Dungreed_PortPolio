@@ -153,6 +153,7 @@
     <ClCompile Include="MapTool.cpp">
       <Filter>MainGame\Map</Filter>
     </ClCompile>
+    <ClCompile Include="AddGithubTestFile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
