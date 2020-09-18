@@ -55,18 +55,18 @@ using namespace MY_UTIL;
 //=============================================================
 //	## 디파인문 ## (윈도우창 초기화)
 //=============================================================
-#define WINNAME (LPTSTR)(TEXT(" 프로그래밍 22기 "))
-#define WINSTARTX	100
-#define WINSTARTY	100
-#define WINSIZEX	800
-#define WINSIZEY	600
+#define WINNAME (LPTSTR)(TEXT("Dungreed"))
+#define WINSTARTX	0
+#define WINSTARTY	0
+#define WINSIZEX	1920
+#define WINSIZEY	1080
 #define WINSTYLE	WS_CAPTION | WS_SYSMENU
 
 //=============================================================
 //	## 매크로함수 ## (클래스에서 동적할당된 부분 해제)
 //=============================================================
 #define SAFE_DELETE(p)		{if(p) {delete (p); (p) = NULL;}}
-#define SAFE_DELETE_ARRAY(p)	{if(p) {delete[] (p); (p) = NULL;}}
+#define SAFE_DELETE_ARRAY(p)	{if(p) {delete[] (p); (p)  = NULL;}}
 
 //=============================================================
 //	## 전역변수 ##
