@@ -104,7 +104,7 @@ HRESULT loadItem::init(string strKey, const char * fileName, float x, float y, i
 HRESULT loading::init()
 {
 	//로딩화면 백그라운드 이미지 초기화
-	_background = IMAGEMANAGER->addImage("bgLoadingScene", "bgLoadingScene.bmp", WINSIZEX, WINSIZEY);
+	_background = IMAGEMANAGER->addImage("bgLoadingScene", "Images/LOADING.bmp", WINSIZEX, WINSIZEY);
 	//로딩바 이미지 초기화
 	IMAGEMANAGER->addImage("loadingBarFront", "loadingBarFront.bmp", 600, 20);
 	IMAGEMANAGER->addImage("loadingBarBack", "loadingBarBack.bmp", 600, 20);
