@@ -1,44 +1,59 @@
 #pragma once
 
+/// <summary>
+/// UIFrame은 UI의 기초가 될 뼈대이다. UI 텍스트, 스크롤, 이미지 등 UI의 모든 요소가 UIFrame을 상속하게 된다.
+/// </summary>
 class UIFrame
 {
 protected:
-	string				_name;
-	float				_x;
-	float				_y;
-	float				_sizeX;
-	float				_sizeY;
+	// 필수 구성요소 //
+	string					_name;				// 이 UI의 이름
+	float					_x;					// X 위치
+	float					_y;					// Y 위치
+	float					_sizeX;				// X 크기
+	float					_sizeY;				// Y 크기
+	RECT					_interactRect;		// 이 UI가 상호작용 할 RECT
+	bool					_isViewing;			// 이 UI가 Render되는지
 
-	image* _image;
-	RECT				_interactRect;
-	bool				_isChild;
-	bool				_isViewing;
-	vector<UIFrame*>	_vChildFrames;
-	map<string, UIFrame*> _mChildFrames;
+	image*					_image;				// 이 UI에 넣을 이미지 (없으면 nullptr)
 	
-	UIFrame* _parent;
+	// 부모자식 관련 //
+	vector<UIFrame*>		_vChildFrames;		// 자식 프레임들을 벡터에 넣은 것
+	map<string, UIFrame*>	_mChildFrames;		// 자식 프레임들을 맵으로 넣은 것 (검색에 이용, NAME이 Key로 들어감)
+	bool					_isChild;			// 이 UI가 자식 프레임인지
+	UIFrame*				_parent;			// 이 UI의 부모 프레임 (없으면 nullptr)
+	
+	/// 각종 기능 관련 ///
 
-	bool				_isSelected;
-	bool				_isOutside;
-	bool				_useOutsideLimit;
-	bool				_isMoveToDrag;
-	int					_selectTimer;
-	float				_moveStartX;
-	float				_moveStartY;
-	float				_savedX;
-	float				_savedY;
-
+	// 스크롤 관련 //
+	bool					_isOutside;			// 이 프레임이 부모 UI 틀 밖으로 빠져나왔는지 (스크롤에서 주로 사용, 빠져나오면 렌더되지 않음)
+	bool					_useOutsideLimit;	// isOutside 변수를 사용할것인지
+	
+	// 드래그 관련 //
+	bool					_isSelected;		// 클릭 등을 통해 선택된 UI인지
+	bool					_isMoveToDrag;		// 드래그를 통해 이동할 수 있는	 (true일 경우 따로 set을 통해 체크해줘야함)
+	int						_selectTimer;		// 얼마의 시간동안 꾸욱 눌렸는지
+	float					_moveStartX;		// 드래그 이동 시작 시 맨 처음 이동 시작할 때의 마우스 포인트 X
+	float					_moveStartY;		// 드래그 이동 시작 시 맨 처음 이동 시작할 때의 마우스 포인트 Y
+	float					_savedX;			// 드래그 이동 시작 시 맨 처음 이동 시작할 때의 UI 위치 X
+	float					_savedY;			// 드래그 이동 시작 시 맨 처음 이동 시작할 때의 UI 위치 Y
 
 public:
-
 	virtual	HRESULT init(string name, float x, float y, float sizeX, float sizeY, string imageName);
 	virtual void render(HDC hdc);
 	virtual void update();
 	virtual void release();
 
-	virtual void AddChildMap(string name, UIFrame* frame) { _mChildFrames[name] = frame; }
+	virtual void AddChildMap(string name, UIFrame* frame) { _mChildFrames[name] = frame; } // 자식 목록 Map에 key = name, value = frame으로 넣는다.
 	virtual void ToggleIsViewing();
 	virtual void AddFrame(UIFrame* frame);
+
+	void MoveFrame(); // 자식 포함 이동
+	void MoveFrameChild(float x, float y);
+	void CheckIsOutside();
+
+	void MoveY(int y) { _y += y; } // 자식 미포함 이동
+	void SetIntersectRect() { _interactRect = RectMake(_x, _y, _sizeX, _sizeY); }
 
 	UIFrame* GetChild(string name) { return _mChildFrames[name]; }
 	float GetX() { return _x; }
@@ -52,16 +67,11 @@ public:
 	bool GetIsOutside() { return _isOutside; }
 	bool GetIsViewing() { return _isViewing; }
 	bool GetUseOutsideLimit() { return _useOutsideLimit; }
+
 	void SetX(int x) { _x = x; }
 	void SetY(int y) { _y = y; }
-	void MoveY(int y) { _y += y; }
-	void SetIntersectRect() { _interactRect = RectMake(_x, _y, _sizeX, _sizeY); }
 	void SetIsViewing(bool isViewing, bool withChild = true);
 	void SetUseOutsideLimit(bool outside) { _useOutsideLimit = outside; }
 	void SetIsMoveToDrag(bool drag) { _isMoveToDrag = drag; }
 	void SetImage(image* target) { _image = target; }
-	void MoveFrame();
-	void MoveFrameChild(float x, float y);
-	void CheckIsOutside();
-
 };

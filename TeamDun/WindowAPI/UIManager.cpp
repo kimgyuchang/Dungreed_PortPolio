@@ -1,53 +1,74 @@
 #include "stdafx.h"
 #include "UIManager.h"
 
+/// <summary>
+/// 게임에서 사용될 UI들을 초기화시킨다. 던그리드는 씬이 여러개이기 때문에 _GameFrame 메인으로 두고 씬마다 UIManager를 새롭게 Init한다.
+/// </summary>
 HRESULT UIManager::init()
 {
+	// 사용 예시 (파는마녀에서 사용된 UI [이미지와 데이터가 없어서 실행이 안됨, 어떤 식으로 코드를 써야 하는지만 확인])
+
+	// 게임 전체를 덮는 UI (투명)
 	_GameFrame = new UIFrame();
 	_GameFrame->init("mainFrame", 0, 0, 1920, 1080, "");
 	_GameFrame->SetIsViewing(true);
 
+	// 가방 UI Image
 	UIImage* back = new UIImage();
 	back->init("mainFrame_backpack", 70, WINSIZEY - 160, IMAGEMANAGER->findImage("UI_Bag")->getWidth(), IMAGEMANAGER->findImage("UI_Bag")->getHeight(), "UI_Bag", false, 0, 0);
 	back->SetIsViewing(true);
 
+	// Stage 표시용 UI Text
 	UIText* stage = new UIText();
 	stage->init("stage", 700, 20, "STAGE 1", FONT::PIX, WORDSIZE::WS_BIG);
 	
+	// 현재 이동 거리 표시용 UI Text
 	UIText* m = new UIText();
 	m->init("m", 1200, 20, "0m", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_RIGHT);
 	
-	_GameFrame->AddFrame(back);
+	// 게임 프레임의 자식으로 가방과 스테이지, 이동 거리를 넣는다.
+	_GameFrame->AddFrame(back);	
 	_GameFrame->AddFrame(stage);
 	_GameFrame->AddFrame(m);
 
+	// 플레이어 프레임 틀
 	_PlayerFrame = new UIFrame();
 	_PlayerFrame->init("playerFrame", 200, 200, IMAGEMANAGER->findImage("UI_Menu")->getWidth(), IMAGEMANAGER->findImage("UI_Menu")->getHeight(), "UI_Menu");
 	_PlayerFrame->SetIsMoveToDrag(true);
 
+	// 인벤토리
 	UIFrame* inven = new UIFrame();
 	inven->init("playerFrame_inventory", 20, 44, IMAGEMANAGER->findImage("UI_Inven")->getWidth(), IMAGEMANAGER->findImage("UI_Inven")->getHeight(), "UI_Inven");
 	inven->SetIsViewing(false);
-	_PlayerFrame->AddFrame(inven);
 	
+	// 제작
 	UIFrame* craft = new UIFrame();
 	craft->init("playerFrame_craft", 19, 37, IMAGEMANAGER->findImage("UI_Craft")->getWidth(), IMAGEMANAGER->findImage("UI_Craft")->getHeight(), "UI_Craft");
 	craft->SetIsViewing(false);
 	craft->SetUseOutsideLimit(true);
-	_PlayerFrame->AddFrame(craft);
 	
+	// 돈 프레임 틀
 	UIFrame* money = new UIFrame();
 	money->init("playerFrame_money", 1300, 0, IMAGEMANAGER->findImage("UI_Money")->getWidth(), IMAGEMANAGER->findImage("UI_Money")->getHeight(), "UI_Money");
 	money->SetIsViewing(true);
+	
+	// 플레이어 프레임의 안에 인벤토리와 제작, 돈을 넣는다. 이후 다른 cpp 파일에서 이들의 안에 자식으로 아이템 목록 이미지, 텍스트 등이 들어가게 된다.
+	_PlayerFrame->AddFrame(inven);
+	_PlayerFrame->AddFrame(craft);
 	_PlayerFrame->AddFrame(money);
 	
+	// 돈 현황 텍스트
 	UIText* moneyText = new UIText();
 	moneyText->init("moneyText", IMAGEMANAGER->findImage("UI_Money")->getWidth() - 65, IMAGEMANAGER->findImage("UI_Money")->getHeight() - 55, "0", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_RIGHT, -6);
 	moneyText->SetIsViewing(true);
-	money->AddFrame(moneyText);
+	money->AddFrame(moneyText); // 돈 프레임 틀에 자식으로 현재 돈 텍스트를 넣는다.
+
 	return S_OK;
 }
 
+/// <summary>
+/// UIManager의 모든 UI들을 업데이트한다.
+/// </summary>
 void UIManager::update()
 {
 	for (int i = 0; i < _vItemToBag.size(); i++)
@@ -59,6 +80,9 @@ void UIManager::update()
 	_PlayerFrame->update();
 }
 
+/// <summary>
+/// UIManager의 모든 UI들을 렌더한다.
+/// </summary>
 void UIManager::render(HDC hdc)
 {
 	for (int i = 0; i < _vItemToBag.size(); i++)
@@ -70,6 +94,9 @@ void UIManager::render(HDC hdc)
 	_PlayerFrame->render(hdc);
 }
 
+/// <summary>
+/// UIManager의 모든 UI들을 릴리즈한다.
+/// </summary>
 void UIManager::release()
 {
 	for (int i = 0; i < _vItemToBag.size(); i++)
@@ -79,73 +106,4 @@ void UIManager::release()
 
 	_GameFrame->release();
 	_PlayerFrame->release();
-}
-
-POINT UIManager::GetWordFramePosition(char ch)
-{
-	POINT pt;
-
-	if (isalpha(ch))
-	{
-		ch = toupper(ch);
-	}
-	switch (ch)
-	{
-	case 'A': pt = { 0,0 }; break;
-	case 'B': pt = { 1,0 }; break;
-	case 'C': pt = { 2,0 }; break;
-	case 'D': pt = { 3,0 }; break;
-	case 'E': pt = { 4,0 }; break;
-	case 'F': pt = { 5,0 }; break;
-	case 'G': pt = { 6,0 }; break;
-	case 'H': pt = { 7,0 }; break;
-	case 'I': pt = { 8,0 }; break;
-	case 'J': pt = { 9,0 }; break;
-	case 'K': pt = { 10,0 }; break;
-	case 'L': pt = { 11,0 }; break;
-	case 'M': pt = { 12,0 }; break;
-	case 'N': pt = { 13,0 }; break;
-	case 'O': pt = { 14,0 }; break;
-	case 'P': pt = { 15,0 }; break;
-	case 'Q': pt = { 16,0 }; break;
-	case 'R': pt = { 17,0 }; break;
-	case 'S': pt = { 18,0 }; break;
-	case 'T': pt = { 19,0 }; break;
-	case 'U': pt = { 20,0 }; break;
-	case 'V': pt = { 21,0 }; break;
-	case 'W': pt = { 22,0 }; break;
-	case 'X': pt = { 23,0 }; break;
-	case 'Y': pt = { 24,0 }; break;
-	case 'Z': pt = { 25,0 }; break;
-	case '1': pt = { 0,1 }; break;
-	case '2': pt = { 1,1 }; break;
-	case '3': pt = { 2,1 }; break;
-	case '4': pt = { 3,1 }; break;
-	case '5': pt = { 4,1 }; break;
-	case '6': pt = { 5,1 }; break;
-	case '7': pt = { 6,1 }; break;
-	case '8': pt = { 7,1 }; break;
-	case '9': pt = { 8,1 }; break;
-	case '0': pt = { 9,1 }; break;
-	case '(': pt = { 0,2 }; break;
-	case ')': pt = { 1,2 }; break;
-	case '%': pt = { 2,2 }; break;
-	case '+': pt = { 3,2 }; break;
-	case '-': pt = { 4,2 }; break;
-	case '=': pt = { 5,2 }; break;
-	case '&': pt = { 6,2 }; break;
-	case '$': pt = { 7,2 }; break;
-	case '/': pt = { 8,2 }; break;
-	case '#': pt = { 12,2 }; break;
-	case '@': pt = { 13,2 }; break;
-	case '?': pt = { 14,2 }; break;
-	case '!': pt = { 15,2 }; break;
-	case '<': pt = { 16,2 }; break;
-	case '>': pt = { 17,2 }; break;
-	case ':': pt = { 18,2 }; break;
-	case ';': pt = { 19,2 }; break;
-	default: pt = { 20,1 }; break;
-	}
-
-	return pt;
 }

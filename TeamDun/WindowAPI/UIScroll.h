@@ -1,10 +1,14 @@
 #pragma once
 #include "UIFrame.h"
-class UIScroll : public UIFrame
+
+/// <summary>
+/// UIScroll은 스크롤 바에 특화된 UI이다.
+/// </summary>
+class UIScroll : public UIFrame // UIFrame을 상속받아 UIFrame의 기능들도 모두 이용할 수 있다.
 {
 private :
-	UIFrame*	_target;
-	float		_scrollPercent;
+	UIFrame*	_target;		// Scroll이 움직일 타겟 UI
+	float		_scrollPercent;	// Scroll이 얼마만큼 내려왔는지 비율
 
 	void CalculateScrollBarPercent();
 

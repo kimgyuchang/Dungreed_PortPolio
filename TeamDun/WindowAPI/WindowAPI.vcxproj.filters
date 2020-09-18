@@ -144,9 +144,6 @@
     <ClCompile Include="UIImage.cpp">
       <Filter>GameFramework\UI\Component</Filter>
     </ClCompile>
-    <ClCompile Include="UIManager.cpp">
-      <Filter>GameFramework\UI\Component</Filter>
-    </ClCompile>
     <ClCompile Include="UIScroll.cpp">
       <Filter>GameFramework\UI\Component</Filter>
     </ClCompile>
@@ -155,6 +152,9 @@
     </ClCompile>
     <ClCompile Include="progressBar.cpp">
       <Filter>GameFramework\체력바</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>GameFramework\매니져</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -251,9 +251,6 @@
     <ClInclude Include="UIImage.h">
       <Filter>GameFramework\UI\Component</Filter>
     </ClInclude>
-    <ClInclude Include="UIManager.h">
-      <Filter>GameFramework\UI\Component</Filter>
-    </ClInclude>
     <ClInclude Include="UIScroll.h">
       <Filter>GameFramework\UI\Component</Filter>
     </ClInclude>
@@ -262,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="progressBar.h">
       <Filter>GameFramework\체력바</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>GameFramework\매니져</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
