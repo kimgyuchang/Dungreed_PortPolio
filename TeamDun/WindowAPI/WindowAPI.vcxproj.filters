@@ -22,15 +22,6 @@
     <Filter Include="GameFramework\이미지">
       <UniqueIdentifier>{1e616e04-3329-41d7-b6ed-02b7d269f51f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameFramework\카메라">
-      <UniqueIdentifier>{aa4ae9bf-5abe-4eee-a0e5-fe3d8d17ea5b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameFramework\총알">
-      <UniqueIdentifier>{0850c6c3-b3ea-4bbc-818b-2f7be3085366}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameFramework\싱글톤데이터">
-      <UniqueIdentifier>{4f9c286a-e4c3-42c7-9fce-71a675503514}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameFramework\체력바">
       <UniqueIdentifier>{bc1fad6b-64c5-4477-8b5e-8fc16bc693dd}</UniqueIdentifier>
     </Filter>
@@ -78,17 +69,8 @@
     <ClCompile Include="imageManager.cpp">
       <Filter>GameFramework\매니져</Filter>
     </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>GameFramework\카메라</Filter>
-    </ClCompile>
-    <ClCompile Include="bullet.cpp">
-      <Filter>GameFramework\총알</Filter>
-    </ClCompile>
     <ClCompile Include="util.cpp">
       <Filter>GameFramework\유틸</Filter>
-    </ClCompile>
-    <ClCompile Include="playerData.cpp">
-      <Filter>GameFramework\싱글톤데이터</Filter>
     </ClCompile>
     <ClCompile Include="sceneManager.cpp">
       <Filter>GameFramework\매니져</Filter>
@@ -156,6 +138,9 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>GameFramework\매니져</Filter>
     </ClCompile>
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>GameFramework\매니져</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -185,17 +170,8 @@
     <ClInclude Include="imageManager.h">
       <Filter>GameFramework\매니져</Filter>
     </ClInclude>
-    <ClInclude Include="camera.h">
-      <Filter>GameFramework\카메라</Filter>
-    </ClInclude>
-    <ClInclude Include="bullet.h">
-      <Filter>GameFramework\총알</Filter>
-    </ClInclude>
     <ClInclude Include="util.h">
       <Filter>GameFramework\유틸</Filter>
-    </ClInclude>
-    <ClInclude Include="playerData.h">
-      <Filter>GameFramework\싱글톤데이터</Filter>
     </ClInclude>
     <ClInclude Include="sceneManager.h">
       <Filter>GameFramework\매니져</Filter>
@@ -261,6 +237,9 @@
       <Filter>GameFramework\체력바</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
+      <Filter>GameFramework\매니져</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManager.h">
       <Filter>GameFramework\매니져</Filter>
     </ClInclude>
   </ItemGroup>

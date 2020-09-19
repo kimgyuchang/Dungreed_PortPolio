@@ -245,6 +245,12 @@ void imageManager::alphaRender(string strKey, HDC hdc, int destX, int destY, int
 	if (img) img->alphaRender(hdc, destX, destY, sourX, sourY, sourWidth, sourHeight, alpha);
 }
 
+void imageManager::stretchRender(string strKey, HDC hdc, int destX, int destY, float scale)
+{
+	image* img = findImage(strKey);
+	if (img) img->stretchRender(hdc, destX, destY, scale);
+}
+
 //=============================================================
 //	## «¡∑π¿”∑ª¥ı ##
 //=============================================================

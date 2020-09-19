@@ -25,6 +25,9 @@ HRESULT image::init(int width, int height)
 	_imageInfo->width = width;
 	_imageInfo->height = height;
 
+	_stretchImage = nullptr;
+	_blendImage = nullptr;
+
 	//파일이름
 	_fileName = NULL;
 	//투명키 컬러 세팅
@@ -45,7 +48,7 @@ HRESULT image::init(int width, int height)
 }
 
 //이미지 파일로 초기화
-HRESULT image::init(const char * fileName, int width, int height, bool isTrans, COLORREF transColor)
+HRESULT image::init(const char* fileName, int width, int height, bool isTrans, COLORREF transColor)
 {
 	//재초기화 방지용, 이미지 정보의 값이 들어 있다면 릴리즈해서 깨끗하게 초기화 하자
 	if (_imageInfo != NULL) this->release();
@@ -61,6 +64,9 @@ HRESULT image::init(const char * fileName, int width, int height, bool isTrans, 
 	_imageInfo->hOBit = (HBITMAP)SelectObject(_imageInfo->hMemDC, _imageInfo->hBit);
 	_imageInfo->width = width;
 	_imageInfo->height = height;
+
+	_stretchImage = nullptr;
+	_blendImage = nullptr;
 
 	//파일이름
 	int len = strlen(fileName);
@@ -83,7 +89,7 @@ HRESULT image::init(const char * fileName, int width, int height, bool isTrans, 
 
 	return S_OK;
 }
-HRESULT image::init(const char * fileName, float x, float y, int width, int height, bool isTrans, COLORREF transColor)
+HRESULT image::init(const char* fileName, float x, float y, int width, int height, bool isTrans, COLORREF transColor)
 {
 	//재초기화 방지용, 이미지 정보의 값이 들어 있다면 릴리즈해서 깨끗하게 초기화 하자
 	if (_imageInfo != NULL) this->release();
@@ -102,6 +108,9 @@ HRESULT image::init(const char * fileName, float x, float y, int width, int heig
 	_imageInfo->width = width;
 	_imageInfo->height = height;
 
+	_stretchImage = nullptr;
+	_blendImage = nullptr;
+
 	//파일이름
 	int len = strlen(fileName);
 	_fileName = new char[len + 1];
@@ -123,7 +132,7 @@ HRESULT image::init(const char * fileName, float x, float y, int width, int heig
 
 	return S_OK;
 }
-HRESULT image::init(const char * fileName, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
+HRESULT image::init(const char* fileName, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
 {
 	//재초기화 방지용, 이미지 정보의 값이 들어 있다면 릴리즈해서 깨끗하게 초기화 하자
 	if (_imageInfo != NULL) this->release();
@@ -144,6 +153,9 @@ HRESULT image::init(const char * fileName, int width, int height, int frameX, in
 	_imageInfo->frameWidth = width / frameX;
 	_imageInfo->frameHeight = height / frameY;
 
+	_stretchImage = nullptr;
+	_blendImage = nullptr;
+
 	//파일이름
 	int len = strlen(fileName);
 	_fileName = new char[len + 1];
@@ -165,7 +177,7 @@ HRESULT image::init(const char * fileName, int width, int height, int frameX, in
 
 	return S_OK;
 }
-HRESULT image::init(const char * fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
+HRESULT image::init(const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
 {
 	//재초기화 방지용, 이미지 정보의 값이 들어 있다면 릴리즈해서 깨끗하게 초기화 하자
 	if (_imageInfo != NULL) this->release();
@@ -192,6 +204,9 @@ HRESULT image::init(const char * fileName, float x, float y, int width, int heig
 	int len = strlen(fileName);
 	_fileName = new char[len + 1];
 	strcpy(_fileName, fileName);
+
+	_stretchImage = nullptr;
+	_blendImage = nullptr;
 
 	//투명키 컬러 세팅
 	_isTrans = isTrans;
@@ -240,11 +255,28 @@ HRESULT image::initForAlphaBlend()
 	return S_OK;
 }
 
+HRESULT image::initForStretchBlend()
+{
+	HDC hdc = GetDC(_hWnd);
+
+	_stretchImage = new IMAGE_INFO;
+	_stretchImage->loadType = LOAD_FILE;
+	_stretchImage->hMemDC = CreateCompatibleDC(hdc);
+	_stretchImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, _imageInfo->width, _imageInfo->height);
+	_stretchImage->hOBit = (HBITMAP)SelectObject(_stretchImage->hMemDC, _stretchImage->hBit);
+	_stretchImage->width = WINSIZEX;
+	_stretchImage->height = WINSIZEY;
+
+	ReleaseDC(_hWnd, hdc);
+
+	return S_OK;
+}
+
 //해제
 void image::release()
 {
 	//이미지 정보가 남아 있다면 해제 시켜라
-	if (_imageInfo)
+	if (_imageInfo != nullptr)
 	{
 		//이미지 삭제
 		SelectObject(_imageInfo->hMemDC, _imageInfo->hOBit);
@@ -261,15 +293,24 @@ void image::release()
 	}
 
 	//알파블렌드 이미지 정보가 남아 있다면 해제 시켜라
-	if (_blendImage)
+	if (_blendImage != nullptr)
 	{
 		//이미지 삭제
 		SelectObject(_blendImage->hMemDC, _blendImage->hOBit);
 		DeleteObject(_blendImage->hBit);
 		DeleteDC(_blendImage->hMemDC);
-		
+
 		//포인터 삭제
 		SAFE_DELETE(_blendImage);
+	}
+
+	if (_stretchImage != nullptr)
+	{
+		SelectObject(_stretchImage->hMemDC, _stretchImage->hOBit);
+		DeleteObject(_stretchImage->hBit);
+		DeleteDC(_stretchImage->hMemDC);
+
+		SAFE_DELETE(_stretchImage);
 	}
 }
 
@@ -291,7 +332,6 @@ void image::render(HDC hdc, int destX, int destY)
 			_imageInfo->height,	//복사 영역 세로크기
 			_transColor);		//복사할때 제외할 색상 (일반적으로 마젠타 색상을 사용함)
 	}
-
 	else//원본 이미지 그대로 출력
 	{
 		//BitBlt : DC간의 영역끼리 고속복사 해주는 함수
@@ -328,6 +368,50 @@ void image::render(HDC hdc, int destX, int destY, int sourX, int sourY, int sour
 	}
 }
 
+void image::stretchRender(HDC hdc, int destX, int destY, float scale)
+{
+	if (!_stretchImage) this->initForStretchBlend();
+
+	if (_isTrans) //배경색 없애고 출력
+	{
+		BitBlt(_stretchImage->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height,
+			hdc, 0, 0, SRCCOPY);
+
+		// 먼저 늘이거나 줄이고
+		StretchBlt(
+			_stretchImage->hMemDC,
+			0,
+			0,
+			_imageInfo->width * scale,
+			_imageInfo->height * scale,
+			_imageInfo->hMemDC,
+			0, 0,
+			_imageInfo->width,
+			_imageInfo->height,
+			SRCCOPY
+		);
+
+		// 그 뒤에 투명화한다
+		GdiTransparentBlt(
+			hdc,
+			destX,
+			destY,
+			_imageInfo->width * scale,
+			_imageInfo->height * scale,
+			_stretchImage->hMemDC,
+			0,
+			0,
+			_imageInfo->width * scale,
+			_imageInfo->height * scale,
+			_transColor);
+	}
+	else//원본 이미지 그대로 출력
+	{
+		StretchBlt(hdc, destX, destY, _imageInfo->width * scale, _imageInfo->height * scale,
+			_imageInfo->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height, SRCCOPY);
+	}
+}
+
 void image::alphaRender(HDC hdc, BYTE alpha)
 {
 	//알파블렌드 사용할 수 있도록 초기화 해라
@@ -358,7 +442,7 @@ void image::alphaRender(HDC hdc, BYTE alpha)
 			_imageInfo->width,		//복사 영역 가로크기
 			_imageInfo->height,		//복사 영역 세로크기
 			_transColor);			//복사할때 제외할 색상 (일반적으로 마젠타 색상을 사용함)
-	
+
 		//3
 		GdiAlphaBlend(hdc, 0, 0, _imageInfo->width, _imageInfo->height,
 			_blendImage->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height, _blendFunc);
@@ -455,8 +539,8 @@ void image::frameRender(HDC hdc, int destX, int destY)
 	else//원본 이미지 그대로 출력
 	{
 		BitBlt(hdc, destX, destY, _imageInfo->frameWidth, _imageInfo->frameHeight,
-			_imageInfo->hMemDC, 
-			_imageInfo->currentFrameX * _imageInfo->frameWidth, 
+			_imageInfo->hMemDC,
+			_imageInfo->currentFrameX * _imageInfo->frameWidth,
 			_imageInfo->currentFrameY * _imageInfo->frameHeight, SRCCOPY);
 	}
 }

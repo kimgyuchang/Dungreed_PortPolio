@@ -1,5 +1,9 @@
--1,-1,-1,-1
--1,Tile2,Tile2,Tile2
--1,Tile2,-1,Tile2
--1,Tile2,Tile2,Tile2
--1,-1,Tile2,Tile2
+-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+-1,-1,-1,Tile2,Tile2,Tile2,Tile2,Tile2,-1,-1,-1
+-1,-1,-1,Tile2,Tile2,Tile2,Tile2,Tile2,-1,-1,-1
+-1,-1,-1,Tile2,Tile2,Tile2,Tile2,Tile2,-1,-1,-1
+-1,-1,-1,Tile2,Tile7,Tile7,Tile7,Tile7,-1,-1,-1
+-1,-1,-1,-1,Tile7,Tile7,Tile7,Tile7,-1,-1,-1
+-1,-1,-1,-1,Tile7,Tile7,Tile7,Tile7,-1,-1,-1
+-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1

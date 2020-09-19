@@ -148,8 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="bullet.h" />
-    <ClInclude Include="camera.h" />
+    <ClInclude Include="CameraManager.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="CSVManager.h" />
     <ClInclude Include="Enemy.h" />
@@ -168,7 +167,6 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="playerData.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="random.h" />
     <ClInclude Include="sceneManager.h" />
@@ -185,8 +183,7 @@
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bullet.cpp" />
-    <ClCompile Include="camera.cpp" />
+    <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="CSVManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="gameNode.cpp" />
@@ -204,7 +201,6 @@
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="playerData.cpp" />
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="random.cpp" />
     <ClCompile Include="sceneManager.cpp" />

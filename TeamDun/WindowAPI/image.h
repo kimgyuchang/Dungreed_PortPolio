@@ -14,21 +14,20 @@ public:
 
 	typedef struct tagImage
 	{
-		HDC		hMemDC;			//메모리 DC
-		HBITMAP hBit;			//비트맵
-		HBITMAP hOBit;			//올드비트맵
-		float	x;				//이미지 x좌표
-		float	y;				//이미지 y좌표
-		int		width;			//이미지 가로길이
-		int		height;			//이미지 세로길이
-		int		currentFrameX;	//현재 프레임X
-		int		currentFrameY;	//현재 프레임Y
-		int		maxFrameX;		//최대 프레임X 갯수
-		int		maxFrameY;		//최대 프레임Y 갯수
-		int		frameWidth;		//1프레임 가로길이
-		int		frameHeight;	//1프레임 세로길이
-		BYTE	loadType;		//이미지 로드타입
-
+		HDC hMemDC;			//메모리 DC
+		HBITMAP hBit;		//비트맵
+		HBITMAP hOBit;		//올드비트맵
+		float x;				//이미지 x좌표
+		float y;				//이미지 y좌표
+		int width;			//이미지 가로길이
+		int height;			//이미지 세로길이
+		int currentFrameX;	//현재 프레임X
+		int currentFrameY;	//현재 프레임Y
+		int maxFrameX;		//최대 프레임X 갯수
+		int maxFrameY;		//최대 프레임Y 갯수
+		int frameWidth;		//1프레임 가로길이
+		int frameHeight;	//1프레임 세로길이
+		BYTE loadType;		//이미지 로드타입
 		tagImage()
 		{
 			hMemDC = NULL;
@@ -46,18 +45,18 @@ public:
 			frameHeight = 0;
 			loadType = LOAD_EMPTY;
 		}
-	}IMAGE_INFO, *LPIMAGE_INFO;
+	}IMAGE_INFO, * LPIMAGE_INFO;
 
 private:
 	LPIMAGE_INFO	_imageInfo;		//이미지 정보
 	char*			_fileName;		//이미지 파일이름
-	string			_key;			//이미지 매니저에서 사용한 키
 	bool			_isTrans;		//배경색 없앨거냐?
 	COLORREF		_transColor;	//배경색 없앨 RGB (마젠타 = RGB(255, 0, 255))
-	
+
+	LPIMAGE_INFO	_stretchImage;	//스트레치 이미지
 	LPIMAGE_INFO	_blendImage;	//알파블렌드 이미지
 	BLENDFUNCTION	_blendFunc;		//알파블렌드 기능
-
+	string			_key;			//키		
 public:
 	image();
 	~image();
@@ -70,9 +69,11 @@ public:
 	//프레임 이미지 파일로 초기화
 	HRESULT init(const char* fileName, int width, int height, int frameX, int frameY, bool isTrans = true, COLORREF transColor = RGB(255, 0, 255));
 	HRESULT init(const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans = true, COLORREF transColor = RGB(255, 0, 255));
-	
+
 	//알파블렌드 초기화
 	HRESULT initForAlphaBlend();
+	//스트레치블렌드 초기화
+	HRESULT initForStretchBlend();
 
 
 	//해제
@@ -82,6 +83,9 @@ public:
 	void render(HDC hdc, int destX = 0, int destY = 0);
 	//렌더(원하는 좌표에 이미지를 잘라서 붙이기)
 	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
+	//늘이기렌더
+	void stretchRender(HDC hdc, int destX, int destY, float scale);
+
 	//알파렌더(이미지를 알파값만큼 투명화 시켜준다)
 	void alphaRender(HDC hdc, BYTE alpha);
 	void alphaRender(HDC hdc, int destX, int destY, BYTE alpha);
@@ -96,14 +100,15 @@ public:
 
 	//DC 얻기
 	inline HDC getMemDC() { return _imageInfo->hMemDC; }
+	
+	inline string getKey() { return _key; }
+	inline void setKey(string key) { _key = key; }
 
 	//이미지 x, y좌표
 	inline float getX() { return _imageInfo->x; }
 	inline float getY() { return _imageInfo->y; }
 	inline void setX(float x) { _imageInfo->x = x; }
 	inline void setY(float y) { _imageInfo->y = y; }
-
-	inline void setKey(string key) { _key = key; }
 	//이미지 센터좌표
 	inline void setCenter(float x, float y)
 	{
@@ -153,8 +158,5 @@ public:
 	//맥스 프레임 가져오기
 	inline int getMaxFrameX() { return _imageInfo->maxFrameX; }
 	inline int getMaxFrameY() { return _imageInfo->maxFrameY; }
-	
-	inline char* getFileName() { return _fileName; }
-	inline string getKey() { return _key; }
 };
 

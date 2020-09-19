@@ -57,6 +57,11 @@ public:
 	void frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
 
 //=============================================================
+//	## ½ºÆ®·¹Ä¡·»´õ##
+//=============================================================
+	void stretchRender(string strKey, HDC hdc, int destX, int destY, float scale);
+
+//=============================================================
 //	## ·çÇÁ·»´õ ##
 //=============================================================
 	void loopRender(string strKey, HDC hdc, const LPRECT drawArea, int offsetX, int offsetY);

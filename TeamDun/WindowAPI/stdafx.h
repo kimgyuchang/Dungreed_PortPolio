@@ -33,13 +33,13 @@ using namespace std;
 #include "random.h"
 #include "imageManager.h"
 #include "util.h"
-using namespace MY_UTIL;
-#include "playerData.h"
 #include "sceneManager.h"
 #include "iniData.h"
 #include "soundManager.h"
 #include "CSVManager.h"
 #include "UIManager.h"
+#include "CameraManager.h"
+using namespace MY_UTIL;
 
 //=============================================================
 //	## 싱글톤을 추가한다 ##
@@ -47,12 +47,12 @@ using namespace MY_UTIL;
 #define INPUT input::getSingleton() //세미콜론 찍으면 작동안함
 #define RANDOM random::getSingleton()
 #define IMAGEMANAGER imageManager::getSingleton()
-#define PLAYERDATA playerData::getSingleton()
 #define SCENEMANAGER sceneManager::getSingleton()
 #define INIDATA iniData::getSingleton()
 #define SOUNDMANAGER soundManager::getSingleton()
 #define CSVMANAGER CSVManager::getSingleton()
 #define UIMANAGER UIManager::getSingleton()
+#define CAMERAMANAGER CameraManager::getSingleton()
 
 //=============================================================
 //	## 디파인문 ## (윈도우창 초기화)
