@@ -91,8 +91,6 @@ void MapTool::LoadData()
 		vector<Grid*> gridLine;
 		for (int j = 0; j < stringData[i].size(); j++)
 		{
-			cout << stringData[i][j] << endl;
-
 			Grid* grid = new Grid();
 			if (stringData[i][j] == "-1") grid->_img = nullptr;
 			else grid->_img = IMAGEMANAGER->findImage(stringData[i][j]);
@@ -185,4 +183,30 @@ void MapTool::fill(image* targetImage, int indexX, int indexY)
 	}
 
 	return;
+}
+
+void MapTool::GridRange(float x, float y, float x1, float y1)
+{
+	int temp;
+	if (x1 < x)
+	{
+		temp = x;
+		x = x1;
+		x1 = temp;
+	}
+
+	if (y1 < y)
+	{
+		temp = y;
+		y = y1;
+		y1 = temp;
+	}
+
+	for (int i = x; i <= x1; i++)
+	{
+		for (int j = y; j <= y1; j++)
+		{
+			_vMapData[j][i]->_img = _mapScene->GetTargetImage();
+		}
+	}
 }

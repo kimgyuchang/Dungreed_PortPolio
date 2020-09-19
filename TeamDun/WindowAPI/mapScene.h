@@ -4,11 +4,14 @@
 class mapScene : public gameNode
 {
 private:
-	uibrushTool*			_uiBrushTool;
-	MapTool*				_mapTool;
-	image*					_targetImage;
-	string					_targetKey;
-		
+	uibrushTool*	_uiBrushTool;
+	MapTool*		_mapTool;
+	image*			_targetImage;
+	string			_targetKey;
+	bool			_isCheck;
+	POINT			_clickedPointOne;
+	POINT			_clickedPointTwo;
+
 public :
 	HRESULT init();
 	void release();
@@ -17,6 +20,7 @@ public :
 	void saveData();
 	void AddMapLine();
 	void loadData();
+
 
 	string GetTargetKey() { return _targetKey; }
 	image* GetTargetImage() { return _targetImage; }

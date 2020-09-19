@@ -10,7 +10,8 @@ HRESULT mapScene::init()
 	_mapTool = new MapTool();
 	_mapTool->init();
 	_mapTool->SetMapScene(this);
-	
+
+	_isCheck = false;
 	return S_OK;
 }
 
@@ -48,11 +49,31 @@ void mapScene::update()
 	if (_targetImage != nullptr && INPUT->GetKey(VK_RBUTTON))
 	{
 		Grid* grid = _mapTool->mouseCollisionCheck();
+		if(grid) grid->_img = _targetImage;
+	}
+
+	if (_targetImage != nullptr && INPUT->GetKeyDown('A'))
+	{
+		Grid* grid = _mapTool->mouseCollisionCheck();
 		if (grid)
 		{
-			grid->_img = _targetImage;
+
+			if (_isCheck == false)
+			{
+				_clickedPointOne = POINT{ grid->_xIndex, grid->_yIndex };
+				_isCheck = true;
+			}
+
+			else
+			{
+				_clickedPointTwo = POINT{ grid->_xIndex, grid->_yIndex };
+				_mapTool->GridRange(_clickedPointOne.x, _clickedPointOne.y, _clickedPointTwo.x, _clickedPointTwo.y);
+				_isCheck = false;
+			}
 		}
 	}
+
+
 
 	if (_targetImage != nullptr && INPUT->GetKeyDown(VK_SPACE))
 	{
