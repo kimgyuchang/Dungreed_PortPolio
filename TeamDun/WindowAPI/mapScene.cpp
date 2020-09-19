@@ -3,6 +3,8 @@
 
 HRESULT mapScene::init()
 {
+	UIMANAGER->init();
+
 	_uiBrushTool = new uibrushTool();
 	_uiBrushTool->init();
 	_uiBrushTool->SetMapScene(this);
@@ -20,6 +22,8 @@ void mapScene::release()
 
 void mapScene::update()
 {
+	UIMANAGER->update();
+
 	if (INPUT->GetKeyDown(VK_LBUTTON))
 	{
 		_uiBrushTool->mouseCollisionCheck();
@@ -54,6 +58,7 @@ void mapScene::render()
 	_mapTool->render();
 
 	if (_targetImage) _targetImage->alphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 128);
+	UIMANAGER->render(getMemDC());
 }
 
 void mapScene::saveData()

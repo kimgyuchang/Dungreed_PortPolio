@@ -89,8 +89,6 @@ void MapTool::LoadData()
 		vector<Grid*> gridLine;
 		for (int j = 0; j < stringData[i].size(); j++)
 		{
-			cout << stringData[i][j] << endl;
-
 			Grid* grid = new Grid();
 			if (stringData[i][j] == "-1") grid->_img = nullptr;
 			else grid->_img = IMAGEMANAGER->findImage(stringData[i][j]);

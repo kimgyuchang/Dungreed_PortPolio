@@ -75,8 +75,6 @@ void UIFrame::SetIsViewing(bool isViewing, bool withChild)
 			_vChildFrames[i]->SetIsViewing(isViewing, withChild);
 		}
 	}
-
-	
 }
 
 /// <summary>
