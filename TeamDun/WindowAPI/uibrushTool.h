@@ -15,7 +15,6 @@ private:
 
 public:
 
-
 	HRESULT init();
 	void release();
 	void update();

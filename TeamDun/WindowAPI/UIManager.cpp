@@ -6,12 +6,30 @@
 /// </summary>
 HRESULT UIManager::init()
 {
-	// 사용 예시 (파는마녀에서 사용된 UI [이미지와 데이터가 없어서 실행이 안됨, 어떤 식으로 코드를 써야 하는지만 확인])
-
-	// 게임 전체를 덮는 UI (투명)
 	_GameFrame = new UIFrame();
 	_GameFrame->init("mainFrame", 0, 0, 1920, 1080, "");
 	_GameFrame->SetIsViewing(true);
+
+	// TEXT 테스트용
+	UIText* text;
+
+	text = new UIText();
+	text->init("testText", 600, 500, 300, 50, 
+		"텍스트 테스트용입니다. 글자는 SMALLEST, 정렬은 왼쪽, 색은 흰색, 애니메이션은 빠름입니다.", 
+		FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT, RGB(255,255,255), true, WORDANIMATIONSPEED::WAS_FAST);
+	_GameFrame->AddFrame(text);
+
+	text = new UIText();
+	text->init("testText", 600, 550, 300, 50, 
+		"텍스트 테스트용입니다. 글자는 SMALLEST, 정렬은 가운데, 색은 주황색, 애니메이션은 중간입니다.", 
+		FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE, RGB(243, 151, 101), true, WORDANIMATIONSPEED::WAS_MIDDLE);
+	_GameFrame->AddFrame(text);
+
+	text = new UIText();
+	text->init("testText", 600, 600, 300, 50, 
+		"텍스트 테스트용입니다. 글자는 SMALLEST, 정렬은 오른쪽, 색은 보라색, 애니메이션은 느림입니다.", 
+		FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_RIGHT, RGB(200, 191, 231), true, WORDANIMATIONSPEED::WAS_SLOW);
+	_GameFrame->AddFrame(text);
 
 	return S_OK;
 }
@@ -21,9 +39,7 @@ HRESULT UIManager::init()
 /// </summary>
 void UIManager::update()
 {
-	
 	_GameFrame->update();
-
 }
 
 /// <summary>
@@ -31,10 +47,7 @@ void UIManager::update()
 /// </summary>
 void UIManager::render(HDC hdc)
 {
-	
-
 	_GameFrame->render(hdc);
-	
 }
 
 /// <summary>
@@ -42,7 +55,5 @@ void UIManager::render(HDC hdc)
 /// </summary>
 void UIManager::release()
 {
-	
 	_GameFrame->release();
-
 }
