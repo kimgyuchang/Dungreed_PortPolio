@@ -13,6 +13,8 @@ HRESULT MapTool::init()
 			grid->_img = nullptr;
 			grid->_x = j * 50 + 0;
 			grid->_y = i * 50 + 0;
+			grid->_xIndex = j;
+			grid->_yIndex = i;
 			grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
 			gridLine.push_back(grid);
 		}
@@ -89,13 +91,13 @@ void MapTool::LoadData()
 		vector<Grid*> gridLine;
 		for (int j = 0; j < stringData[i].size(); j++)
 		{
-			cout << stringData[i][j] << endl;
-
 			Grid* grid = new Grid();
 			if (stringData[i][j] == "-1") grid->_img = nullptr;
 			else grid->_img = IMAGEMANAGER->findImage(stringData[i][j]);
 			grid->_x = j * 50 + 0;
 			grid->_y = i * 50 + 0;
+			grid->_xIndex = j;
+			grid->_yIndex = i;
 			grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
 			gridLine.push_back(grid);
 		}
@@ -112,6 +114,8 @@ void MapTool::MapLineAddRow()
 		grid->_img = nullptr;
 		grid->_x = j * 50 + 0;
 		grid->_y = _vMapData.size() * 50 + 0;
+		grid->_xIndex = j;
+		grid->_yIndex = _vMapData.size();
 		grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
 		gridLine.push_back(grid);
 	}
@@ -127,6 +131,8 @@ void MapTool::MapLineAddCol()
 		grid->_img = nullptr;
 		grid->_x = _vMapData[i].size() * 50 + 0;
 		grid->_y = i * 50 + 0;
+		grid->_xIndex = _vMapData[i].size();
+		grid->_yIndex = i;
 		grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
 		_vMapData[i].push_back(grid);
 	}
@@ -143,4 +149,30 @@ void MapTool::MapLineRemoveCol()
 void MapTool::MapLineRemoveRow()
 {
 	_vMapData.erase(_vMapData.end() - 1);
+}
+
+void MapTool::GridRange(float x, float y, float x1, float y1)
+{
+	int temp;
+	if (x1 < x)
+	{
+		temp = x;
+		x = x1;
+		x1 = temp;
+	}
+
+	if (y1 < y)
+	{
+		temp = y;
+		y = y1;
+		y1 = temp;
+	}
+
+	for (int i = x; i <= x1; i++)
+	{
+		for (int j = y; j <= y1; j++)
+		{
+			_vMapData[j][i]->_img = _mapScene->GetTargetImage();
+		}
+	}
 }
