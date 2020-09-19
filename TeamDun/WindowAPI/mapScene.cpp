@@ -118,6 +118,7 @@ void mapScene::update()
 
 		if (_targetImage != nullptr && INPUT->GetKeyDown('P'))
 		{
+			_mapTool->EveSaveData();
 			Grid* grid = _mapTool->mouseCollisionCheck();
 			if (grid)
 			{
@@ -126,6 +127,7 @@ void mapScene::update()
 		}
 		if (_targetImage != nullptr && INPUT->GetKeyDown('O'))
 		{
+			_mapTool->EveSaveData();
 			Grid* grid = _mapTool->mouseCollisionCheck();
 			if (grid)
 			{
@@ -135,7 +137,10 @@ void mapScene::update()
 				}
 			}
 		}
-
+		if (_targetImage != nullptr && INPUT->GetKeyDown(VK_RBUTTON))
+		{
+			_mapTool->EveSaveData();//버튼을 누르며 지워지기 시작한 순간에 저장
+		}
 		if (_targetImage != nullptr && INPUT->GetKey(VK_RBUTTON))
 		{
 			Grid* grid = _mapTool->mouseCollisionCheck();
@@ -144,6 +149,7 @@ void mapScene::update()
 
 		if (_targetImage != nullptr && INPUT->GetKeyDown('A'))
 		{
+			
 			Grid* grid = _mapTool->mouseCollisionCheck();
 			if (grid)
 			{
@@ -156,6 +162,7 @@ void mapScene::update()
 
 				else
 				{
+					_mapTool->EveSaveData();
 					_clickedPointTwo = POINT{ grid->_xIndex, grid->_yIndex };
 					_mapTool->GridRange(_clickedPointOne.x, _clickedPointOne.y, _clickedPointTwo.x, _clickedPointTwo.y);
 					_isCheck = false;
@@ -163,8 +170,13 @@ void mapScene::update()
 			}
 		}
 
+		if (_targetImage != nullptr && INPUT->GetKeyDown(VK_SPACE))
+		{
+			_mapTool->EveSaveData(); //버튼을 누르며 지워지기 시작한 순간에 저장
+		}
 		if (_targetImage != nullptr && INPUT->GetKey(VK_SPACE))
 		{
+			
 			Grid* grid = _mapTool->mouseCollisionCheck();
 			if (grid)
 			{
@@ -175,6 +187,7 @@ void mapScene::update()
 		AddMapLine();
 		saveData();
 		loadData();
+		
 	}
 }
 
@@ -200,21 +213,25 @@ void mapScene::AddMapLine()
 {
 	if (INPUT->GetKeyDown('T'))
 	{
+		_mapTool->EveSaveData();
 		_mapTool->MapLineAddCol();
 	}
 
 	if (INPUT->GetKeyDown('Y'))
 	{
+		_mapTool->EveSaveData();
 		_mapTool->MapLineAddRow();
 	}
 
 	if (INPUT->GetKeyDown('G'))
 	{
+		_mapTool->EveSaveData();
 		_mapTool->MapLineRemoveCol();
 	}
 
 	if (INPUT->GetKeyDown('H'))
 	{
+		_mapTool->EveSaveData();
 		_mapTool->MapLineRemoveRow();
 	}
 }
@@ -223,6 +240,12 @@ void mapScene::loadData()
 {
 	if (INPUT->GetKeyDown('L'))
 	{
+		_mapTool->EveSaveData();
 		_mapTool->LoadData();
+	}
+
+	if (INPUT->GetKeyDown('R'))
+	{
+		_mapTool->EveLoadData();
 	}
 }

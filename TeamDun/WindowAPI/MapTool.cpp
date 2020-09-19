@@ -85,6 +85,30 @@ void MapTool::SaveData()
 	CSVMANAGER->csvSave("Data/MapData/gridSaveData.csv", stringData);
 }
 
+void MapTool::EveSaveData()
+{
+
+	vector<vector<string>> stringData;
+
+	stringData.push_back(vector<string>());
+	for (int i = 0; i < _vMapData[0].size(); i++)
+		stringData[0].push_back("-1");
+
+	for (int i = 0; i < _vMapData.size(); i++)
+	{
+		stringData.push_back(vector<string>());
+		for (int j = 0; j < _vMapData[i].size(); j++)
+		{
+			if (_vMapData[i][j]->_img) stringData[i + 1].push_back(_vMapData[i][j]->_img->getKey());
+			else stringData[i + 1].push_back("-1");
+		}
+	}
+
+	CSVMANAGER->csvSave("Data/MapData/eveGridSaveData.csv", stringData);	// 로드데이터처럼 csv파일로 저장을 하고
+	stringData = CSVMANAGER->csvLoad("Data/MapData/eveGridSaveData.csv");	// 정보를 다시 담아서 
+	EveData.push_back(stringData);											//vector<vector<string>>을 담고있는 벡터 EveData에 받은 정보를 push_back해준다
+}
+
 void MapTool::LoadData()
 {
 	vector<vector<string>> stringData = CSVMANAGER->csvLoad("Data/MapData/gridSaveData.csv");
@@ -107,6 +131,37 @@ void MapTool::LoadData()
 			gridLine.push_back(grid);
 		}
 		_vMapData.push_back(gridLine);
+	}
+}
+
+void MapTool::EveLoadData()
+{
+	if (EveData.size() > 0)
+	{
+
+	vector<vector<string>> stringData = EveData[EveData.size()-1];
+	
+	_vMapData.clear();
+
+	for (int i = 0; i < stringData.size(); i++)
+	{
+		vector<Grid*> gridLine;
+		for (int j = 0; j < stringData[i].size(); j++)
+		{
+			Grid* grid = new Grid();
+			if (stringData[i][j] == "-1") grid->_img = nullptr;
+			else grid->_img = IMAGEMANAGER->findImage(stringData[i][j]);
+			grid->_x = j * 50 + 0;
+			grid->_y = i * 50 + 0;
+			grid->_xIndex = j;
+			grid->_yIndex = i;
+			grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
+			gridLine.push_back(grid);
+		}
+		_vMapData.push_back(gridLine);
+	}
+
+	EveData.erase(EveData.end() - 1);
 	}
 }
 

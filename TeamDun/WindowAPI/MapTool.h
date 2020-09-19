@@ -16,10 +16,12 @@ class mapScene;
 class MapTool : public gameNode
 {
 private:
+
 	vector<vector<Grid*>>	_vMapData;
 	vector<Grid*>			_vUiBrushGrid;
 	mapScene*				_mapScene;
 
+	vector<vector<vector<string>>> EveData; //행동전 맵을 저장할 벡터
 public:
 	HRESULT init();
 	HRESULT init(int width, int height);
@@ -31,7 +33,9 @@ public:
 
 	Grid* mouseCollisionCheck();
 	void SaveData();
+	void EveSaveData();
 	void LoadData();
+	void EveLoadData();
 	void MapLineAddRow();
 	void MapLineAddCol();
 	void MapLineRemoveCol();
