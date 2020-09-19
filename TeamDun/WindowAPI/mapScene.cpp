@@ -21,19 +21,19 @@ HRESULT mapScene::init()
 	UIMANAGER->GetGameFrame()->AddFrame(setSizeFrame);
 
 	UIImage* setUpFrame = new UIImage();
-	setUpFrame->init("UpButtonFrame", 860, 120, IMAGEMANAGER->findImage("UpButton")->getWidth(), IMAGEMANAGER->findImage("UpButton")->getHeight(), "UpButton", false, 0, 0);
+	setUpFrame->init("UpButtonFrame", 860, 380, IMAGEMANAGER->findImage("UpButton")->getWidth(), IMAGEMANAGER->findImage("UpButton")->getHeight(), "UpButton", false, 0, 0);
 	setSizeFrame->AddFrame(setUpFrame);
 
 	UIImage* setDownFrame = new UIImage();
-	setDownFrame->init("DownButtonFrame", 860, 190, IMAGEMANAGER->findImage("DownButton")->getWidth(), IMAGEMANAGER->findImage("DownButton")->getHeight(), "DownButton", false, 0, 0);
+	setDownFrame->init("DownButtonFrame", 860, 450, IMAGEMANAGER->findImage("DownButton")->getWidth(), IMAGEMANAGER->findImage("DownButton")->getHeight(), "DownButton", false, 0, 0);
 	setSizeFrame->AddFrame(setDownFrame);
 
 	UIImage* setLeftFrame = new UIImage();
-	setLeftFrame->init("LeftButtonFrame", 860, 450, IMAGEMANAGER->findImage("LeftButton")->getWidth(), IMAGEMANAGER->findImage("LeftButton")->getHeight(), "LeftButton", false, 0, 0);
+	setLeftFrame->init("LeftButtonFrame", 860, 190, IMAGEMANAGER->findImage("LeftButton")->getWidth(), IMAGEMANAGER->findImage("LeftButton")->getHeight(), "LeftButton", false, 0, 0);
 	setSizeFrame->AddFrame(setLeftFrame);
 
 	UIImage* setRightFrame = new UIImage();
-	setRightFrame->init("RightButtonFrame", 860, 380, IMAGEMANAGER->findImage("RightButton")->getWidth(), IMAGEMANAGER->findImage("RightButton")->getHeight(), "RightButton", false, 0, 0);
+	setRightFrame->init("RightButtonFrame", 860, 120, IMAGEMANAGER->findImage("RightButton")->getWidth(), IMAGEMANAGER->findImage("RightButton")->getHeight(), "RightButton", false, 0, 0);
 	setSizeFrame->AddFrame(setRightFrame);
 
 	UIImage* setHeightBoxFrame = new UIImage();
