@@ -18,6 +18,7 @@ private:
 
 public:
 	HRESULT init();
+	HRESULT init(int width, int height);
 	void release();
 	void update();
 	void render();

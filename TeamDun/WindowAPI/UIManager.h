@@ -11,9 +11,7 @@ class UIManager : public singletonBase<UIManager>
 {
 
 public :
-	vector<UIImage*>	_vItemToBag;	// 예시용
 	UIFrame*			_GameFrame;		// 예시용
-	UIFrame*			_PlayerFrame;	// 예시용
 
 public :
 	HRESULT init();
@@ -22,6 +20,5 @@ public :
 	void release();
 
 	UIFrame* GetGameFrame()		{ return _GameFrame; }
-	UIFrame* GetPlayerFrame()	{ return _PlayerFrame; }
 };
 

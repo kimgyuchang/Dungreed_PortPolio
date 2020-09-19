@@ -4,10 +4,15 @@
 
 HRESULT MapTool::init()
 {
-	for (int i = 0; i < 12; i++)
+	return S_OK;
+}
+
+HRESULT MapTool::init(int width , int height)
+{
+	for (int i = 0; i < height; i++)
 	{
 		vector<Grid*> gridLine;
-		for (int j = 0; j < 12; j++)
+		for (int j = 0; j < width; j++)
 		{
 			Grid* grid = new Grid();
 			grid->_img = nullptr;

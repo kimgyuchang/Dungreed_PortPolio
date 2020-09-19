@@ -80,7 +80,7 @@ POINT UIText::GetWordFramePosition(char ch)
 
 	if (isalpha(ch)) // 알파벳이라면
 	{
-		ch = toupper(ch); // 대문자화 시킨다.
+		ch = toupper(ch); // 대문자화 시킨다. 
 	}
 
 	switch (ch)

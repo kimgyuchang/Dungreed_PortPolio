@@ -62,7 +62,17 @@ void loadingScene::loadingImage()
 	_loading->loadImage("Tile12", "Images/Tile (13).bmp", 48, 48);
 	_loading->loadImage("Tile13", "Images/Tile (14).bmp", 48, 48);
 	_loading->loadImage("Tile14", "Images/Tile (15).bmp", 48, 48);
-
+	_loading->loadImage("UIBaseBig", "Images/UI/Base.bmp", 222*5, 189*3 , true ,RGB(255,0,255));
+	_loading->loadImage("UIBaseMiddle", "Images/UI/Base.bmp", 222*2, 189*2 , true ,RGB(255,0,255));
+	_loading->loadImage("UIBaseSmall", "Images/UI/Base.bmp", 222, 189 , true ,RGB(255,0,255));
+	//юс╫ц©К
+	_loading->loadImage("UpButton", "Images/UI/FullWindowExitButton_Selected.bmp", 66, 57 , true ,RGB(255,0,255));
+	_loading->loadImage("RightButton", "Images/UI/FullWindowExitButton_Selected.bmp", 66, 57 , true ,RGB(255,0,255));
+	_loading->loadImage("DownButton", "Images/UI/FullWindowExitButton.bmp", 66, 57 , true ,RGB(255,0,255));
+	_loading->loadImage("LeftButton", "Images/UI/FullWindowExitButton.bmp", 66, 57 , true ,RGB(255,0,255));
+	_loading->loadImage("mapWidthBox", "Images/UI/AbilityTextBar.bmp", 66*3, 108 , true ,RGB(255,0,255));
+	_loading->loadImage("mapHeightBox", "Images/UI/AbilityTextBar.bmp", 66*3, 108 , true ,RGB(255,0,255));
+	_loading->loadFrameImage("Word", "Images/number.bmp", 220, 28 ,10,1, true ,RGB(255,0,255));
 }
 
 void loadingScene::loadingSound()

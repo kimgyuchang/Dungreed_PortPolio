@@ -9,6 +9,10 @@ private:
 	image*			_targetImage;
 	string			_targetKey;
 
+	int				_heightNum;
+	int				_widthNum;
+
+	bool			_endSetPage;
 public :
 	HRESULT init();
 	void release();
@@ -23,6 +27,8 @@ public :
 
 	void SetTargetKey(string key) { _targetKey = key; }
 	void SetTargetImage(image* img) { _targetImage = img; }
+
+
 };
 
 

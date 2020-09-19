@@ -34,6 +34,7 @@ enum FONT
 class UIText : public UIFrame 
 {
 private:
+
 	string				_text;				// 이 TextUI의 내용
 	WORDSIZE			_wordSize;			// 이 TextUI의 크기
 	WORDSORT			_wordSort;			// 이 TextUI의 정렬 방식
