@@ -11,6 +11,7 @@
 /// <param name="sizeY">UI의 크기 Y</param>
 /// <param name="imageName">이미지 이름</param>
 /// <returns></returns>
+
 HRESULT UIFrame::init(string name, float x, float y, float sizeX, float sizeY, string imageName)
 {
 	_name = name;
@@ -21,7 +22,7 @@ HRESULT UIFrame::init(string name, float x, float y, float sizeX, float sizeY, s
 	_image = IMAGEMANAGER->findImage(imageName);
 	_interactRect = RectMake(_x, _y, _sizeX, _sizeY);
 	_parent = nullptr;
-
+	_isViewing = false;
 	_isSelected = false;
 	_selectTimer = 0;
 	_moveStartX = 0;
@@ -50,7 +51,7 @@ void UIFrame::update()
 /// </summary>
 void UIFrame::ToggleIsViewing()
 {
-	_isViewing = !_isViewing;
+	_isViewing = !_isViewing; //반대거가 들어가게 됩니다.
 
 	for (int i = 0; i < _vChildFrames.size(); i++) // 자식 프레임들도 모두 Viewing 속성을 Toggle시킨다.
 	{
@@ -74,6 +75,8 @@ void UIFrame::SetIsViewing(bool isViewing, bool withChild)
 			_vChildFrames[i]->SetIsViewing(isViewing, withChild);
 		}
 	}
+
+	
 }
 
 /// <summary>
