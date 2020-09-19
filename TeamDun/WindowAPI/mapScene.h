@@ -4,11 +4,11 @@
 class mapScene : public gameNode
 {
 private:
-	uibrushTool*	_uiBrushTool;
-	MapTool*		_mapTool;
-	image*			_targetImage;
-	string			_targetKey;
-
+	uibrushTool*			_uiBrushTool;
+	MapTool*				_mapTool;
+	image*					_targetImage;
+	string					_targetKey;
+		
 public :
 	HRESULT init();
 	void release();
@@ -24,5 +24,3 @@ public :
 	void SetTargetKey(string key) { _targetKey = key; }
 	void SetTargetImage(image* img) { _targetImage = img; }
 };
-
-

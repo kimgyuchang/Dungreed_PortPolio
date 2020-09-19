@@ -60,8 +60,8 @@ using namespace MY_UTIL;
 #define WINNAME (LPTSTR)(TEXT("Dungreed"))
 #define WINSTARTX	0
 #define WINSTARTY	0
-#define WINSIZEX	1920
-#define WINSIZEY	1080
+#define WINSIZEX	1440
+#define WINSIZEY	800
 #define WINSTYLE	WS_CAPTION | WS_SYSMENU
 
 //=============================================================

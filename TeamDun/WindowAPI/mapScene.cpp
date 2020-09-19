@@ -25,6 +25,26 @@ void mapScene::update()
 		_uiBrushTool->mouseCollisionCheck();
 	}
 
+	if (_targetImage != nullptr && INPUT->GetKeyDown('P'))
+	{
+		Grid* grid = _mapTool->mouseCollisionCheck();
+		if (grid)
+		{
+			_mapTool->fillAll(_targetImage);
+		}
+	}
+	if (_targetImage != nullptr && INPUT->GetKeyDown('O'))
+	{
+		Grid* grid = _mapTool->mouseCollisionCheck();
+		if (grid)
+		{
+			if (grid->_img != _targetImage)
+			{
+				_mapTool->fill(grid->_img, grid->_xIndex, grid->_yIndex);
+			}
+		}
+	}
+
 	if (_targetImage != nullptr && INPUT->GetKey(VK_RBUTTON))
 	{
 		Grid* grid = _mapTool->mouseCollisionCheck();

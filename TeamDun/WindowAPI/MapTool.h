@@ -5,15 +5,19 @@ struct Grid
 {
 	int		_x;		// X 위치
 	int		_y;		// Y 위치
+	int		_xIndex;
+	int		_yIndex;
 	RECT	_rc;	// RECT
 	image* _img;	// IMAGE
 };
 
 class mapScene;
+
 class MapTool : public gameNode
 {
 private:
 	vector<vector<Grid*>>	_vMapData;
+	vector<Grid*>			_vUiBrushGrid;
 	mapScene*				_mapScene;
 
 public:
@@ -31,5 +35,7 @@ public:
 	void MapLineAddCol();
 	void MapLineRemoveCol();
 	void MapLineRemoveRow();
+	void fillAll(image * img);
+	void fill(image * targetImage, int indexX, int indexY);
 	void SetMapScene(mapScene* scene) { _mapScene = scene; }
 };
