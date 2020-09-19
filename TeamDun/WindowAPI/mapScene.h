@@ -8,6 +8,9 @@ private:
 	MapTool*		_mapTool;
 	image*			_targetImage;
 	string			_targetKey;
+	bool			_isCheck;
+	POINT			_clickedPointOne;
+	POINT			_clickedPointTwo;
 
 public :
 	HRESULT init();
@@ -18,11 +21,10 @@ public :
 	void AddMapLine();
 	void loadData();
 
+
 	string GetTargetKey() { return _targetKey; }
 	image* GetTargetImage() { return _targetImage; }
 
 	void SetTargetKey(string key) { _targetKey = key; }
 	void SetTargetImage(image* img) { _targetImage = img; }
 };
-
-
