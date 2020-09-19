@@ -7,12 +7,12 @@ HRESULT MapTool::init()
 	return S_OK;
 }
 
-HRESULT MapTool::init(int width , int height)
+HRESULT MapTool::init(int width, int height)
 {
-	for (int i = 0; i < height; i++)
+	for (int i = 0; i < width; i++)
 	{
 		vector<Grid*> gridLine;
-		for (int j = 0; j < width; j++)
+		for (int j = 0; j < height; j++)
 		{
 			Grid* grid = new Grid();
 			grid->_img = nullptr;
@@ -145,15 +145,21 @@ void MapTool::MapLineAddCol()
 
 void MapTool::MapLineRemoveCol()
 {
-	for (int i = 0; i < _vMapData.size(); i++)
+	if (_vMapData[0].size() > 1)
 	{
-		_vMapData[i].erase(_vMapData[i].end() - 1);
+		for (int i = 0; i < _vMapData.size(); i++)
+		{
+			_vMapData[i].erase(_vMapData[i].end() - 1);
+		}
 	}
 }
 
 void MapTool::MapLineRemoveRow()
 {
-	_vMapData.erase(_vMapData.end() - 1);
+	if (_vMapData.size() > 1)
+	{
+		_vMapData.erase(_vMapData.end() - 1);
+	}
 }
 
 void MapTool::fillAll(image* img)
@@ -172,7 +178,7 @@ void MapTool::fill(image* targetImage, int indexX, int indexY)
 	_vMapData[indexY][indexX]->_img = _mapScene->GetTargetImage();
 	if (indexX + 1 < _vMapData[0].size() && targetImage == _vMapData[indexY][indexX + 1]->_img)
 	{
-		fill(targetImage,indexX + 1, indexY);
+		fill(targetImage, indexX + 1, indexY);
 	}
 	if (indexX - 1 >= 0 && targetImage == _vMapData[indexY][indexX - 1]->_img)
 	{

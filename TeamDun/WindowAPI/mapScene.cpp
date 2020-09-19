@@ -5,8 +5,8 @@ HRESULT mapScene::init()
 {
 	UIMANAGER->init();
 
-	_heightNum = 0;
-	_widthNum = 0;
+	_heightNum = 1;
+	_widthNum = 1;
 	_endSetPage = true;
 
 	_uiBrushTool = new uibrushTool();
@@ -44,22 +44,21 @@ HRESULT mapScene::init()
 	setWidthBoxFrame->init("WidthBox", 600, 130, IMAGEMANAGER->findImage("mapWidthBox")->getWidth(), IMAGEMANAGER->findImage("mapWidthBox")->getHeight(), "mapWidthBox", false, 0, 0);
 	setSizeFrame->AddFrame(setWidthBoxFrame);
 
-	/*UIImage* setHeightNumFrame = new UIImage();
-	setHeightNumFrame->init("Word", 110, 40, IMAGEMANAGER->findImage("Word")->getWidth(), IMAGEMANAGER->findImage("Word")->getHeight(), "Word", true, _heightNum, 0);
+	UIText* widthText = new UIText();
+	widthText->init("Word", -200, 40, 200, 50, "가로", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	setHeightBoxFrame->AddFrame(widthText);
+
+	UIText* heightText = new UIText();
+	heightText->init("Word", -200, 40, 200, 50, "세로", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	setWidthBoxFrame->AddFrame(heightText);
+
+	UIText* setHeightNumFrame = new UIText();
+	setHeightNumFrame->init("Word", 0, 40, 200, 50, "1", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255,255,255));
 	setHeightBoxFrame->AddFrame(setHeightNumFrame);
 
-	UIImage* setHeightNumFrame2 = new UIImage();
-	setHeightNumFrame2->init("Word2", 70, 40, IMAGEMANAGER->findImage("Word")->getWidth(), IMAGEMANAGER->findImage("Word")->getHeight(), "Word", true,0, 0);
-	setHeightBoxFrame->AddFrame(setHeightNumFrame2);
-
-	UIImage* setWidthNumFrame = new UIImage();
-	setWidthNumFrame->init("Word", 110, 40, IMAGEMANAGER->findImage("Word")->getWidth(), IMAGEMANAGER->findImage("Word")->getHeight(), "Word", true, 0, 0);
+	UIText* setWidthNumFrame = new UIText();
+	setWidthNumFrame->init("Word", 0, 40, 200, 50, "1", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	setWidthBoxFrame->AddFrame(setWidthNumFrame);
-
-	UIImage* setWidthNumFrame2 = new UIImage();
-	setWidthNumFrame2->init("Word2", 70, 40, IMAGEMANAGER->findImage("Word")->getWidth(), IMAGEMANAGER->findImage("Word")->getHeight(), "Word", true, 0, 0);
-	setWidthBoxFrame->AddFrame(setWidthNumFrame2);
-	*/
 
 	return S_OK;
 }
@@ -85,22 +84,28 @@ void mapScene::update()
 		//10의자리 숫자 출력 안하게 하는거 예시
 		/*UIMANAGER->GetGameFrame()->GetChild("sizeFrame")->GetChild("HeightBox")->GetChild("Word2")->SetIsViewing(false, false);*/
 	
-
-		if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("sizeFrame")->GetChild("UpButtonFrame")->GetRect(), _ptMouse)&&INPUT->GetKeyDown(VK_LBUTTON))
+		UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("sizeFrame");
+		if (PtInRect(&frame->GetChild("UpButtonFrame")->GetRect(), _ptMouse)&&INPUT->GetKeyDown(VK_LBUTTON))
 		{
 			_heightNum++;
+			dynamic_cast<UIText*>(frame->GetChild("HeightBox")->GetChild("Word"))->SetText(to_string(_heightNum));
 		}
-		if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("sizeFrame")->GetChild("DownButtonFrame")->GetRect(), _ptMouse) && INPUT->GetKeyDown(VK_LBUTTON))
+		if (PtInRect(&frame->GetChild("DownButtonFrame")->GetRect(), _ptMouse) && INPUT->GetKeyDown(VK_LBUTTON))
 		{
 			_heightNum--;
+			if (_heightNum < 1) _heightNum = 1;
+			dynamic_cast<UIText*>(frame->GetChild("HeightBox")->GetChild("Word"))->SetText(to_string(_heightNum));
 		}
-		if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("sizeFrame")->GetChild("RightButtonFrame")->GetRect(), _ptMouse) && INPUT->GetKeyDown(VK_LBUTTON))
+		if (PtInRect(&frame->GetChild("RightButtonFrame")->GetRect(), _ptMouse) && INPUT->GetKeyDown(VK_LBUTTON))
 		{
 			_widthNum++;
+			dynamic_cast<UIText*>(frame->GetChild("WidthBox")->GetChild("Word"))->SetText(to_string(_widthNum));
 		}
-		if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("sizeFrame")->GetChild("LeftButtonFrame")->GetRect(), _ptMouse) && INPUT->GetKeyDown(VK_LBUTTON))
+		if (PtInRect(&frame->GetChild("LeftButtonFrame")->GetRect(), _ptMouse) && INPUT->GetKeyDown(VK_LBUTTON))
 		{
 			_widthNum--;
+			if (_widthNum < 1) _widthNum = 1;
+			dynamic_cast<UIText*>(frame->GetChild("WidthBox")->GetChild("Word"))->SetText(to_string(_widthNum));
 		}
 	}
 
@@ -158,7 +163,7 @@ void mapScene::update()
 			}
 		}
 
-		if (_targetImage != nullptr && INPUT->GetKeyDown(VK_SPACE))
+		if (_targetImage != nullptr && INPUT->GetKey(VK_SPACE))
 		{
 			Grid* grid = _mapTool->mouseCollisionCheck();
 			if (grid)
