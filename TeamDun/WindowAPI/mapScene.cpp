@@ -8,9 +8,8 @@ HRESULT mapScene::init()
 	// 카메라 //
 	_pivot = POINT{ _widthNum / 2 * 48, _heightNum / 2 * 48 };
 	CAMERAMANAGER->init(_pivot.x, _pivot.y, 15000, 15000, 0, 0, WINSIZEX / 2, WINSIZEY / 2);
-
 	// 시작 시 크기 설정 //
-	_heightNum = 50;
+	_heightNum = 100;
 	_widthNum = 100;
 	_isSettingPage = true;
 
@@ -337,7 +336,6 @@ void mapScene::render()
 
 	UIMANAGER->render(getMemDC());
 
-	CAMERAMANAGER->Rectangle(getMemDC(), RectMake(_pivot.x, _pivot.y, 100, 100));
 	// 회전맨들 //
 	/*
 	_rotTimer++;
@@ -356,18 +354,18 @@ void mapScene::camera()
 {
 	if (INPUT->GetKey(VK_LEFT))
 	{
-		_pivot.x -= 3;
+		_pivot.x -= 5;
 	}
 	if (INPUT->GetKey(VK_RIGHT))
 	{
-		_pivot.x += 3;
+		_pivot.x += 5;
 	}
 	if (INPUT->GetKey(VK_UP))
 	{
-		_pivot.y -= 3;
+		_pivot.y -= 5;
 	}
 	if (INPUT->GetKey(VK_DOWN))
 	{
-		_pivot.y += 3;
+		_pivot.y += 5;
 	}
 }

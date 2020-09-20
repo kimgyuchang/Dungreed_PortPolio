@@ -49,7 +49,7 @@ Grid* MapTool::mouseCollisionCheck()
 	{
 		for (int j = 0; j < _vMapData[i].size(); j++)
 		{
-			if (PtInRect(&_vMapData[i][j]->_rc, _ptMouse))
+			if (PtInRect(&_vMapData[i][j]->_rc, CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y)))
 			{
 				return _vMapData[i][j];
 			}
@@ -317,5 +317,4 @@ void MapTool::render()
 			if (_vMapData[i][j]->_img) CAMERAMANAGER->Render(getMemDC(), _vMapData[i][j]->_img, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
 		}
 	}
-
 }
