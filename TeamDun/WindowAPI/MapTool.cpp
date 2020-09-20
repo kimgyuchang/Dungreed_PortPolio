@@ -307,12 +307,15 @@ void MapTool::GridRange(float x, float y, float x1, float y1)
 
 void MapTool::render()
 {
-	for (int i = 0; i < _vMapData.size(); i++)
+	for (int i = ((CAMERAMANAGER->getPivotY() - (WINSIZEY / 2)) / 48) - 10; i < ((CAMERAMANAGER->getPivotY() + (WINSIZEY / 2)) / 48); i++)
 	{
-		for (int j = 0; j < _vMapData[i].size(); j++)
+		if (i < 0 || i >=_vMapData.size()) continue;
+		for (int j = ((CAMERAMANAGER->getPivotX() - (WINSIZEX / 2)) / 48) - 10; j < ((CAMERAMANAGER->getPivotX() + (WINSIZEX / 2)) / 48); j++)
 		{
-			Rectangle(getMemDC(), _vMapData[i][j]->_rc);
-			if (_vMapData[i][j]->_img) _vMapData[i][j]->_img->render(getMemDC(), _vMapData[i][j]->_x, _vMapData[i][j]->_y);
+			if (j < 0 || j >= _vMapData[i].size()) continue;
+			CAMERAMANAGER->Rectangle(getMemDC(), _vMapData[i][j]->_rc);
+			if (_vMapData[i][j]->_img) CAMERAMANAGER->Render(getMemDC(), _vMapData[i][j]->_img, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
 		}
 	}
+
 }

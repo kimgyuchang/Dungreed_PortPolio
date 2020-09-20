@@ -25,6 +25,8 @@ private:
 	int				_rotateTester;
 	int				_rotTimer;
 
+	POINT			_pivot;
+
 public :
 	HRESULT init();
 	void UIInit();
@@ -41,6 +43,7 @@ public :
 	void AddMapLine();
 	void loadData();
 	void render();
+	void camera();
 
 	// GETSET //
 	image* GetTargetImage() { return _targetImage; }
