@@ -39,7 +39,7 @@ void CameraManager::MovePivot(float x, float y)
 	_pivotY = y;
 	_cameraRect = RectMake(_pivotX - _initDistanceX, _pivotY - _initDistanceY, WINSIZEX, WINSIZEY);
 	//_pivotX - _initDistanceX -> _initDistance = Pivot이 화면에서 표시될 위치, _pivotX = 현재 따라갈 X의 좌표
-		//_pivotX - _initDistanceX =           _INITDISTANCE = WINSIZEX/2 , _PIVOTX = WINSIZEX/2 + 100
+	//_pivotX - _initDistanceX = _INITDISTANCE = WINSIZEX/2 , _PIVOTX = WINSIZEX/2 + 100
 	if (_cameraRect.left <= _minX) // LEFT가 최소가 되면
 	{
 		_cameraRect.left = _minX; // 카메라 렉트를 최소에 맞춰준다

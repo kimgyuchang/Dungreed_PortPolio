@@ -67,6 +67,12 @@ public:
 	void loopRender(string strKey, HDC hdc, const LPRECT drawArea, int offsetX, int offsetY);
 	void loopAlphaRender(string strKey, HDC hdc, const LPRECT drawArea, int offsetX, int offsetY, BYTE alpha);
 
+//=============================================================
+//  ## 회전 만들기 ##
+//=============================================================
+	void MakeRotateImage(string strKey);
+
+
 
 	imageManager() {}
 	~imageManager() {}
