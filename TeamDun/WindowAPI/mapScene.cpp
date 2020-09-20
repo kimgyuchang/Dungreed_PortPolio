@@ -60,6 +60,8 @@ HRESULT mapScene::init()
 	setWidthNumFrame->init("Word", 0, 40, 200, 50, "1", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	setWidthBoxFrame->AddFrame(setWidthNumFrame);
 
+	_rotateTester = 0;
+	_rotTimer = 0;
 	return S_OK;
 }
 
@@ -199,6 +201,16 @@ void mapScene::render()
 	if (_targetImage) _targetImage->alphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 128);
 
 	UIMANAGER->render(getMemDC());
+
+	_rotTimer++;
+	IMAGEMANAGER->findImage("DCutter")->frameRender(getMemDC(), 0, 0, _rotateTester, 0);
+	IMAGEMANAGER->findImage("WoodenQuarterStaff")->frameRender(getMemDC(), 500, 0, _rotateTester, 0);
+	IMAGEMANAGER->findImage("WoodenQuarterStaff_Short")->frameRender(getMemDC(), 1000, 0, _rotateTester, 0);
+	if (_rotTimer > 5)
+	{
+		_rotTimer = 0;
+		_rotateTester = _rotateTester + 1 >= 12 ? 0 : _rotateTester + 1;
+	}
 }
 
 void mapScene::saveData()

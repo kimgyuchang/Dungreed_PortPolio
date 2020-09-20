@@ -30,7 +30,8 @@ void loadingScene::update()
 	//로딩완료후 화면 변경
 	if (_loading->loadingDone())
 	{
-	//	SOUNDMANAGER->stop("PuzzleBubbleSound");
+		this->AddRotateImage();
+		//	SOUNDMANAGER->stop("PuzzleBubbleSound");
 		SCENEMANAGER->loadScene("맵씬");
 	}
 }
@@ -81,6 +82,17 @@ void loadingScene::loadingImage()
 	_loading->loadImage("mapWidthBox", "Images/UI/AbilityTextBar.bmp", 66*3, 108 , true ,RGB(255,0,255));
 	_loading->loadImage("mapHeightBox", "Images/UI/AbilityTextBar.bmp", 66*3, 108 , true ,RGB(255,0,255));
 	_loading->loadFrameImage("Word", "Images/number.bmp", 220, 28 ,10,1, true ,RGB(255,0,255));
+	
+	_loading->loadFrameImage("DCutter", "Images/Weapon/DCutter.bmp", 2304, 192,12,1, true ,RGB(255,0,255));
+	_loading->loadFrameImage("WoodenQuarterStaff", "Images/Weapon/WoodenQuarterStaff.bmp", 396, 33,12,1, true ,RGB(255,0,255));
+	_loading->loadFrameImage("WoodenQuarterStaff_Short", "Images/Weapon/WoodenQuarterStaff_Short.bmp", 36, 33,12,1, true ,RGB(255,0,255));
+}
+
+void loadingScene::AddRotateImage()
+{
+	IMAGEMANAGER->MakeRotateImage("DCutter");
+	IMAGEMANAGER->MakeRotateImage("WoodenQuarterStaff");
+	IMAGEMANAGER->MakeRotateImage("WoodenQuarterStaff_Short");
 }
 
 void loadingScene::loadingSound()

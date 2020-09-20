@@ -16,6 +16,9 @@ private:
 	int				_widthNum;
 
 	bool			_endSetPage;
+
+	int				_rotateTester;
+	int				_rotTimer;
 public :
 	HRESULT init();
 	void release();
