@@ -40,8 +40,8 @@ public:
 	void MapLineAddCol();
 	void MapLineRemoveCol();
 	void MapLineRemoveRow();
-	void fillAll(image * img);
-	void fill(image * targetImage, int indexX, int indexY);
+	void FillAll();
+	void FloodFill(image * targetImage, int indexX, int indexY);
 	void GridRange(float x, float y, float x1, float y1);
 	
 	// GETSET // 

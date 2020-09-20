@@ -6,8 +6,8 @@ HRESULT mapScene::init()
 	UIMANAGER->init();
 
 	// 시작 시 크기 설정 //
-	_heightNum = 1;
-	_widthNum = 1;
+	_heightNum = 10;
+	_widthNum = 10;
 	_isSettingPage = true;
 
 	// 회전 TESTER // 
@@ -72,11 +72,11 @@ void mapScene::UIInit()
 	setWidthBoxFrame->AddFrame(heightText);
 
 	UIText* setHeightNumFrame = new UIText();
-	setHeightNumFrame->init("Word", 0, 40, 200, 50, "1", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	setHeightNumFrame->init("Word", 0, 40, 200, 50, to_string(_heightNum), FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	setHeightBoxFrame->AddFrame(setHeightNumFrame);
 
 	UIText* setWidthNumFrame = new UIText();
-	setWidthNumFrame->init("Word", 0, 40, 200, 50, "1", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	setWidthNumFrame->init("Word", 0, 40, 200, 50, to_string(_widthNum), FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	setWidthBoxFrame->AddFrame(setWidthNumFrame);
 }
 
