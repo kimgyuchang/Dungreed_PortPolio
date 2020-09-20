@@ -5,9 +5,12 @@ HRESULT mapScene::init()
 {
 	UIMANAGER->init();
 
+	// 카메라 //
+	_pivot = POINT{ _widthNum / 2 * 48, _heightNum / 2 * 48 };
+	CAMERAMANAGER->init(_pivot.x, _pivot.y, 15000, 15000, 0, 0, WINSIZEX / 2, WINSIZEY / 2);
 	// 시작 시 크기 설정 //
-	_heightNum = 10;
-	_widthNum = 10;
+	_heightNum = 100;
+	_widthNum = 100;
 	_isSettingPage = true;
 
 	// 회전 TESTER // 
@@ -104,6 +107,8 @@ void mapScene::update()
 		AddMapLine();
 		saveData();
 		loadData();
+		camera();
+		CAMERAMANAGER->MovePivot(_pivot.x, _pivot.y);
 	}
 }
 
@@ -161,7 +166,6 @@ void mapScene::FillSquareRange()
 		Grid* grid = _mapTool->mouseCollisionCheck();
 		if (grid)
 		{
-
 			if (_isFillClicked == false)
 			{
 				_clickedPointOne = POINT{ grid->_xIndex, grid->_yIndex };
@@ -236,6 +240,8 @@ void mapScene::SetMapSize()
 		_mapTool->SetMapScene(this);
 		_isSettingPage = false;
 		UIMANAGER->GetGameFrame()->GetChild("sizeFrame")->SetIsViewing(false);
+		_pivot.x = _widthNum * 48 / 2;
+		_pivot.y = _heightNum * 48 / 2;
 	}
 
 	//10의자리 숫자 출력 안하게 하는거 예시
@@ -323,13 +329,12 @@ void mapScene::loadData()
 
 void mapScene::render()
 {
-	_uiBrushTool->render();
 	_mapTool->render();
+	_uiBrushTool->render();
 
 	if (_targetImage) _targetImage->alphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 128);
 
 	UIMANAGER->render(getMemDC());
-
 
 	// 회전맨들 //
 	/*
@@ -343,4 +348,24 @@ void mapScene::render()
 		_rotateTester = _rotateTester + 1 >= 12 ? 0 : _rotateTester + 1;
 	}
 	*/
+}
+
+void mapScene::camera()
+{
+	if (INPUT->GetKey(VK_LEFT))
+	{
+		_pivot.x -= 5;
+	}
+	if (INPUT->GetKey(VK_RIGHT))
+	{
+		_pivot.x += 5;
+	}
+	if (INPUT->GetKey(VK_UP))
+	{
+		_pivot.y -= 5;
+	}
+	if (INPUT->GetKey(VK_DOWN))
+	{
+		_pivot.y += 5;
+	}
 }

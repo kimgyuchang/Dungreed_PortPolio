@@ -29,7 +29,7 @@ private:
 	int		_shakeTimer;		// 흔들 시간
 	int		_shakeCycleTimer;	// 흔들 사이클 타이머
 	int		_shakeCycle;		// 흔들 사이클
-	
+
 	// ZOOM //
 	float	_zoomTargetX;		// 줌의 위치가 될 대상 X
 	float	_zoomTargetY;		// 줌의 위치가 될 대상 Y
@@ -67,10 +67,11 @@ public:
 	void MovePivotRegular(float x, float y, float moveSpeed);
 	void Shake(float shakePowerX, float shakePowerY, int shakeTime, int shakeCycle = 0);
 	void ZoomInOut(HDC hdc, int destX, int destY, int sourX, int sourY, float scale);
-	int GetRelativeX(float x) { return x - _cameraRect.left; }	
+	int GetRelativeX(float x) { return x - _cameraRect.left; }
 	int GetRelativeY(float y) { return y - _cameraRect.top; }
 	int GetAbsoluteX(float x) { return x + _cameraRect.left; }
 	int GetAbsoluteY(float y) { return y + _cameraRect.top; }
+	POINT GetAbsolutePoint(long x, long y) { return POINT{ x + _cameraRect.left, y + _cameraRect.top }; }
 	float getPivotX() { return _pivotX; }
 	float getPivotY() { return _pivotY; }
 	float getDistanceX() { return _distanceX; }
