@@ -45,16 +45,23 @@ void MapTool::update()
 /// </summary>
 Grid* MapTool::mouseCollisionCheck()
 {
-	for (int i = 0; i < _vMapData.size(); i++)
+	int xIndex = CAMERAMANAGER->GetAbsoluteX(_ptMouse.x) / 48;
+	int yIndex = CAMERAMANAGER->GetAbsoluteY(_ptMouse.y) / 48;
+		
+	for (int i = yIndex - 3; i < yIndex + 3; i++)
 	{
-		for (int j = 0; j < _vMapData[i].size(); j++)
+		if (i < 0 || i >= _vMapData.size()) continue;
+		for (int j = xIndex - 3; j < xIndex + 3; j++)
 		{
+			if (j < 0 || j >= _vMapData[i].size()) continue;
+
 			if (PtInRect(&_vMapData[i][j]->_rc, CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y)))
 			{
 				return _vMapData[i][j];
 			}
 		}
 	}
+	
 
 	return nullptr;
 }
@@ -315,6 +322,8 @@ void MapTool::render()
 			if (j < 0 || j >= _vMapData[i].size()) continue;
 			CAMERAMANAGER->Rectangle(getMemDC(), _vMapData[i][j]->_rc);
 			if (_vMapData[i][j]->_img) CAMERAMANAGER->Render(getMemDC(), _vMapData[i][j]->_img, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
+			string str = to_string(i) + " " + to_string(j);
+			CAMERAMANAGER->TextDraw(getMemDC(), _vMapData[i][j]->_x, _vMapData[i][j]->_y, str.c_str(), str.length());
 		}
 	}
 }

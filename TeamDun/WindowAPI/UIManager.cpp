@@ -13,7 +13,7 @@ HRESULT UIManager::init()
 	// TEXT 테스트용
 	UIText* text;
 
-	text = new UIText();
+	/*text = new UIText();
 	text->init("testText", 600, 500, 300, 50, 
 		"텍스트 테스트용입니다. 글자는 SMALLEST, 정렬은 왼쪽, 색은 흰색, 애니메이션은 빠름입니다.", 
 		FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT, RGB(255,255,255), true, WORDANIMATIONSPEED::WAS_FAST);
@@ -29,7 +29,7 @@ HRESULT UIManager::init()
 	text->init("testText", 600, 600, 300, 50, 
 		"텍스트 테스트용입니다. 글자는 SMALLEST, 정렬은 오른쪽, 색은 보라색, 애니메이션은 느림입니다.", 
 		FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_RIGHT, RGB(200, 191, 231), true, WORDANIMATIONSPEED::WAS_SLOW);
-	_GameFrame->AddFrame(text);
+	_GameFrame->AddFrame(text);*/
 
 	return S_OK;
 }
