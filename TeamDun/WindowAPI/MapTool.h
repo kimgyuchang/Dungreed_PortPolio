@@ -17,11 +17,12 @@ class MapTool : public gameNode
 {
 private:
 
-	vector<vector<Grid*>>	_vMapData;
-	vector<Grid*>			_vUiBrushGrid;
-	mapScene*				_mapScene;
+	vector<vector<Grid*>>			_vMapData;		// 맵 데이터를 가지고 있는 벡터
+	vector<Grid*>					_vUiBrushGrid;	// 선택 가능한 브러식들을 가지고 있는 벡터
+	vector<vector<vector<string>>>	_vEveData;		// 실행취소를 위해 행동 전 맵을 저장할 벡터
 
-	vector<vector<vector<string>>> EveData; //행동전 맵을 저장할 벡터
+	mapScene*						_mapScene;		// 맵씬
+
 public:
 	HRESULT init();
 	HRESULT init(int width, int height);
@@ -29,12 +30,11 @@ public:
 	void update();
 	void render();
 
-	vector<vector<Grid*>>& GetGrid() { return _vMapData; }
 
 	Grid* mouseCollisionCheck();
 	void SaveData();
-	void EveSaveData();
 	void LoadData();
+	void EveSaveData();
 	void EveLoadData();
 	void MapLineAddRow();
 	void MapLineAddCol();
@@ -43,6 +43,9 @@ public:
 	void fillAll(image * img);
 	void fill(image * targetImage, int indexX, int indexY);
 	void GridRange(float x, float y, float x1, float y1);
+	
+	// GETSET // 
 	void SetMapScene(mapScene* scene) { _mapScene = scene; }
+	vector<vector<Grid*>>& GetGrid() { return _vMapData; }
 
 };
