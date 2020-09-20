@@ -8,6 +8,7 @@
 //	## 전역변수 써준다 ##
 //=============================================================
 HWND		_hWnd;
+HWND		_hEdit;
 HINSTANCE	_hInstance;
 POINT		_ptMouse = { 0, 0 };
 int			_mouseWheel = 0;

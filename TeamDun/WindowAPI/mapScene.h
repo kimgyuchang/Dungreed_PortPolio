@@ -27,6 +27,11 @@ private:
 
 	POINT			_pivot;
 
+	// 세이브 로드용 //
+	bool			_isEditerViewing;
+	char			_fileName[128];
+	bool			_isLoad;
+
 public :
 	HRESULT init();
 	void UIInit();
@@ -39,11 +44,12 @@ public :
 	void FloodFill();
 	void FillAll();
 	void GetUiBrush();
-	void saveData();
+	void CallSaveLoadEditor();
 	void AddMapLine();
-	void loadData();
+	void Undo();
 	void render();
-	void camera();
+	void CameraMove();
+	void SaveLoadMap();
 
 	// GETSET //
 	image* GetTargetImage() { return _targetImage; }

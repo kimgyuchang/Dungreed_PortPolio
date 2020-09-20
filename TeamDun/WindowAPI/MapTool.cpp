@@ -69,7 +69,7 @@ Grid* MapTool::mouseCollisionCheck()
 /// <summary>
 /// 맵을 CSV 파일로 세이브한다.
 /// </summary>
-void MapTool::SaveData()
+void MapTool::SaveData(string name)
 {
 	vector<vector<string>> stringData;
 
@@ -86,7 +86,7 @@ void MapTool::SaveData()
 		}
 	}
 
-	CSVMANAGER->csvSave("Data/MapData/gridSaveData.csv", stringData);
+	CSVMANAGER->csvSave("Data/MapData/" + name + ".mapData", stringData);
 }
 
 /// <summary>
@@ -110,18 +110,18 @@ void MapTool::EveSaveData()
 		}
 	}
 
-	CSVMANAGER->csvSave("Data/MapData/eveGridSaveData.csv", stringData);	// 로드데이터처럼 csv파일로 저장을 하고
-	stringData = CSVMANAGER->csvLoad("Data/MapData/eveGridSaveData.csv");	// 정보를 다시 담아서 
+	CSVMANAGER->csvSave("Data/MapData/eveGridSaveData.undoData", stringData);	// 로드데이터처럼 csv파일로 저장을 하고
+	stringData = CSVMANAGER->csvLoad("Data/MapData/eveGridSaveData.undoData");	// 정보를 다시 담아서 
 	_vEveData.push_back(stringData);										// vector<vector<string>>을 담고있는 벡터 EveData에 받은 정보를 push_back해준다
 }
 
 /// <summary>
 /// 맵을 CSV 파일로 로드한다.
 /// </summary>
-void MapTool::LoadData()
+void MapTool::LoadData(string name)
 {
-	vector<vector<string>> stringData = CSVMANAGER->csvLoad("Data/MapData/gridSaveData.csv");
-
+	vector<vector<string>> stringData = CSVMANAGER->csvLoad("Data/MapData/" + name + ".mapData");
+	if (stringData.size() == 0) return;
 	_vMapData.clear();
 
 	for (int i = 0; i < stringData.size(); i++)

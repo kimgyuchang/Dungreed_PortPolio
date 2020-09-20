@@ -19,14 +19,14 @@ void CSVManager::release()
 }
 
 //Save
-void CSVManager::csvSave(const char* saveFileName, vector<vector<string>> vStr)
+void CSVManager::csvSave(string saveFileName, vector<vector<string>> vStr)
 {
 	HANDLE file;
 
 	char str[10000];
 	DWORD write;
 
-	file = CreateFile(saveFileName, GENERIC_WRITE, NULL, NULL,
+	file = CreateFile(saveFileName.c_str(), GENERIC_WRITE, NULL, NULL,
 		CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	for (int i = 0; i < vStr.size(); i++)
@@ -62,18 +62,22 @@ char* CSVManager::vectorArrayCombine(vector<string> vArray)
 
 
 // 행, 열의 결과로 Return된다.
-vector<vector<string>> CSVManager::csvLoad(const char* loadFileName)
+vector<vector<string>> CSVManager::csvLoad(string loadFileName)
 {
 	HANDLE file;
 
 	char str[100000] = { 0, };
 	DWORD read;
 
-	file = CreateFile(loadFileName, GENERIC_READ, 0, NULL,
+	file = CreateFile(loadFileName.c_str(), GENERIC_READ, 0, NULL,
 		OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	ReadFile(file, str, 100000, &read, NULL);
-
+	bool cannotRead =	ReadFile(file, str, 100000, &read, NULL);
+	if (cannotRead && read == 0)
+	{
+		return vector<vector<string>>(); // 사이즈 0/0의 데이터를 리턴
+	}
+	
 	CloseHandle(file);
 
 	return charArraySeparationSub(charArraySeparation(str));

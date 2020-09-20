@@ -16,6 +16,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <tchar.h>
+#include <math.h>
+#include <commdlg.h>
 // C++ 런타임 헤더 파일입니다.
 #include <iostream>
 using namespace std;
@@ -74,6 +76,7 @@ using namespace MY_UTIL;
 //	## 전역변수 ##
 //=============================================================
 extern HINSTANCE	_hInstance;
-extern HWND			_hWnd;
+extern HWND			_hWnd; 
+extern HWND			_hEdit;
 extern POINT		_ptMouse;
 extern int			_mouseWheel;

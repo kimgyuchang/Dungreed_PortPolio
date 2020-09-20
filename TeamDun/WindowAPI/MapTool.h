@@ -32,8 +32,8 @@ public:
 
 
 	Grid* mouseCollisionCheck();
-	void SaveData();
-	void LoadData();
+	void SaveData(string name);
+	void LoadData(string name);
 	void EveSaveData();
 	void EveLoadData();
 	void MapLineAddRow();

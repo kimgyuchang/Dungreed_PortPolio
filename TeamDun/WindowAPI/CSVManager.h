@@ -13,8 +13,8 @@ public:
     HRESULT init();
     void release();
 
-    void csvSave(const char* saveFileName, vector<vector<string>> vStr);
-    vector<vector<string>> csvLoad(const char* loadFileName);
+    void csvSave(string saveFileName, vector<vector<string>> vStr);
+    vector<vector<string>> csvLoad(string loadFileName);
 private:
     char* vectorArrayCombine(vector<string> vArray);
     vector<string> charArraySeparation(char charArray[]);

@@ -9,8 +9,8 @@ HRESULT mapScene::init()
 	_pivot = POINT{ _widthNum / 2 * 48, _heightNum / 2 * 48 };
 	CAMERAMANAGER->init(_pivot.x, _pivot.y, 15000, 15000, 0, 0, WINSIZEX / 2, WINSIZEY / 2);
 	// 시작 시 크기 설정 //
-	_heightNum = 100;
-	_widthNum = 100;
+	_heightNum = 50;
+	_widthNum = 50;
 	_isSettingPage = true;
 
 	// 회전 TESTER // 
@@ -25,9 +25,17 @@ HRESULT mapScene::init()
 	// MAP //
 	_mapTool = new MapTool();
 
-	// FILL (두번으로 채우기)
+	// FILL (두번으로 채우기) //
 	_isFillClicked = false;
 
+	// SAVE LOAD //
+	_hEdit = CreateWindow("edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER |
+		ES_AUTOHSCROLL | ES_RIGHT, 500, 500, 200, 50, _hWnd, (HMENU)100, _hInstance, NULL);
+	ShowWindow(_hEdit, SW_HIDE);
+	_isEditerViewing = false;
+	_isLoad = false;
+	
+	// UI //
 	UIInit();
 
 	return S_OK;
@@ -81,6 +89,15 @@ void mapScene::UIInit()
 	UIText* setWidthNumFrame = new UIText();
 	setWidthNumFrame->init("Word", 0, 40, 200, 50, to_string(_widthNum), FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	setWidthBoxFrame->AddFrame(setWidthNumFrame);
+
+	UIFrame* saveLoadFrame = new UIFrame();
+	saveLoadFrame->init("saveLoadFrame", 100, 100, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig");
+	UIMANAGER->GetGameFrame()->AddFrame(saveLoadFrame);
+	saveLoadFrame->SetIsViewing(false);
+
+	UIText* saveLoadText = new UIText();
+	saveLoadText->init("SaveLoader", 200, 200, 200, 100, "SAVE", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	saveLoadFrame->AddFrame(saveLoadText);
 }
 
 void mapScene::release()
@@ -90,7 +107,7 @@ void mapScene::release()
 void mapScene::update()
 {
 	UIMANAGER->update();
-
+	
 	if (_isSettingPage) // 맵 사이즈 결정 중
 	{
 		SetMapSize();
@@ -105,9 +122,10 @@ void mapScene::update()
 		FillSquareRange();
 		FloodFill();
 		AddMapLine();
-		saveData();
-		loadData();
-		camera();
+		CallSaveLoadEditor();
+		SaveLoadMap();
+		Undo();
+		CameraMove();
 		CAMERAMANAGER->MovePivot(_pivot.x, _pivot.y);
 	}
 }
@@ -272,11 +290,45 @@ void mapScene::SetMapSize()
 	}
 }
 
-void mapScene::saveData()
+void mapScene::CallSaveLoadEditor()
 {
-	if (INPUT->GetKeyDown('S'))
+	if (INPUT->GetKeyDown(VK_F1))
 	{
-		_mapTool->SaveData();
+
+		if (!_isEditerViewing || _isLoad)
+		{
+			UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(true);
+			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->GetChild("SaveLoader"))->SetText("SAVE");
+			_isEditerViewing = true;
+			ShowWindow(_hEdit, SW_SHOW);
+		}
+
+		else
+		{
+			UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(false);
+			_isEditerViewing = false;
+			ShowWindow(_hEdit, SW_HIDE);
+		}
+		_isLoad = false;
+	}
+
+	if (INPUT->GetKeyDown(VK_F2))
+	{
+		if (!_isEditerViewing || !_isLoad)
+		{
+			UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(true);
+			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->GetChild("SaveLoader"))->SetText("LOAD");
+			_isEditerViewing = true;
+			ShowWindow(_hEdit, SW_SHOW);
+		}
+
+		else
+		{
+			UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(false);
+			_isEditerViewing = false;
+			ShowWindow(_hEdit, SW_HIDE);
+		}
+		_isLoad = true;
 	}
 }
 
@@ -311,16 +363,10 @@ void mapScene::AddMapLine()
 }
 
 /// <summary>
-/// 맵 로드 및 실행취소를 한다
+/// 실행취소를 한다
 /// </summary>
-void mapScene::loadData()
+void mapScene::Undo()
 {
-	if (INPUT->GetKeyDown('L'))
-	{
-		_mapTool->EveSaveData();
-		_mapTool->LoadData();
-	}
-
 	if (INPUT->GetKeyDown('R'))
 	{
 		_mapTool->EveLoadData();
@@ -350,7 +396,7 @@ void mapScene::render()
 	*/
 }
 
-void mapScene::camera()
+void mapScene::CameraMove()
 {
 	if (INPUT->GetKey(VK_LEFT))
 	{
@@ -367,5 +413,23 @@ void mapScene::camera()
 	if (INPUT->GetKey(VK_DOWN))
 	{
 		_pivot.y += 5;
+	}
+}
+
+void mapScene::SaveLoadMap()
+{
+	if (_isEditerViewing && INPUT->GetKeyDown(VK_RETURN))
+	{
+		GetWindowText(_hEdit, _fileName, 128);
+		if (!_isLoad)
+		{
+			_mapTool->SaveData(_fileName);
+		}
+
+		else 
+		{
+			_mapTool->EveSaveData();
+			_mapTool->LoadData(_fileName);
+		}
 	}
 }
