@@ -86,6 +86,9 @@ void loadingScene::loadingImage()
 	_loading->loadFrameImage("DCutter", "Images/Weapon/DCutter.bmp", 2304, 192,12,1, true ,RGB(255,0,255));
 	_loading->loadFrameImage("WoodenQuarterStaff", "Images/Weapon/WoodenQuarterStaff.bmp", 396, 33,12,1, true ,RGB(255,0,255));
 	_loading->loadFrameImage("WoodenQuarterStaff_Short", "Images/Weapon/WoodenQuarterStaff_Short.bmp", 36, 33,12,1, true ,RGB(255,0,255));
+	_loading->loadImage("ShortcutKeyGround", "Images/UI/AltarButton1.bmp", 266*3.5, 87, true ,RGB(255,0,255));
+	_loading->loadImage("ShortcutKey1", "Images/UI/IconGray.bmp", 57, 57, true ,RGB(255,0,255));
+	_loading->loadImage("ShortcutKey2", "Images/UI/IconWhite1.bmp", 57, 57, true ,RGB(255,0,255));
 }
 
 void loadingScene::AddRotateImage()

@@ -4,9 +4,6 @@
     <Filter Include="GameFramework">
       <UniqueIdentifier>{cccde409-42c4-4245-8615-71c432ee4f8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameFramework\매니져">
-      <UniqueIdentifier>{db6058e2-83f6-4c0d-a233-34e042a4969a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameFramework\유틸">
       <UniqueIdentifier>{82ed7401-0ae2-484e-9601-12b179f70e74}</UniqueIdentifier>
     </Filter>
@@ -43,6 +40,9 @@
     <Filter Include="GameFramework\UI\Component">
       <UniqueIdentifier>{99ba7e3f-baeb-47b0-ae8b-587fdda58dd9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameFramework\로딩\매니져">
+      <UniqueIdentifier>{db6058e2-83f6-4c0d-a233-34e042a4969a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -58,7 +58,7 @@
       <Filter>MainGame</Filter>
     </ClCompile>
     <ClCompile Include="input.cpp">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClCompile>
     <ClCompile Include="random.cpp">
       <Filter>GameFramework\유틸</Filter>
@@ -67,13 +67,13 @@
       <Filter>GameFramework\이미지</Filter>
     </ClCompile>
     <ClCompile Include="imageManager.cpp">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClCompile>
     <ClCompile Include="util.cpp">
       <Filter>GameFramework\유틸</Filter>
     </ClCompile>
     <ClCompile Include="sceneManager.cpp">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClCompile>
     <ClCompile Include="gameScene.cpp">
       <Filter>MainGame\Scene</Filter>
@@ -82,10 +82,10 @@
       <Filter>MainGame\Scene</Filter>
     </ClCompile>
     <ClCompile Include="iniData.cpp">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClCompile>
     <ClCompile Include="soundManager.cpp">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClCompile>
     <ClCompile Include="loading.cpp">
       <Filter>GameFramework\로딩</Filter>
@@ -97,7 +97,7 @@
       <Filter>MainGame\Map</Filter>
     </ClCompile>
     <ClCompile Include="CSVManager.cpp">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClCompile>
     <ClCompile Include="MapTool.cpp">
       <Filter>MainGame\Map</Filter>
@@ -136,10 +136,10 @@
       <Filter>GameFramework\체력바</Filter>
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClCompile>
     <ClCompile Include="CameraManager.cpp">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -156,10 +156,10 @@
       <Filter>GameFramework\유틸</Filter>
     </ClInclude>
     <ClInclude Include="singletonBase.h">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClInclude>
     <ClInclude Include="input.h">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClInclude>
     <ClInclude Include="random.h">
       <Filter>GameFramework\유틸</Filter>
@@ -168,13 +168,13 @@
       <Filter>GameFramework\이미지</Filter>
     </ClInclude>
     <ClInclude Include="imageManager.h">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClInclude>
     <ClInclude Include="util.h">
       <Filter>GameFramework\유틸</Filter>
     </ClInclude>
     <ClInclude Include="sceneManager.h">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClInclude>
     <ClInclude Include="gameScene.h">
       <Filter>MainGame\Scene</Filter>
@@ -183,10 +183,10 @@
       <Filter>MainGame\Scene</Filter>
     </ClInclude>
     <ClInclude Include="iniData.h">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClInclude>
     <ClInclude Include="soundManager.h">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClInclude>
     <ClInclude Include="loading.h">
       <Filter>GameFramework\로딩</Filter>
@@ -198,7 +198,7 @@
       <Filter>MainGame\Map</Filter>
     </ClInclude>
     <ClInclude Include="CSVManager.h">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClInclude>
     <ClInclude Include="MapTool.h">
       <Filter>MainGame\Map</Filter>
@@ -237,10 +237,10 @@
       <Filter>GameFramework\체력바</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClInclude>
     <ClInclude Include="CameraManager.h">
-      <Filter>GameFramework\매니져</Filter>
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

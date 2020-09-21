@@ -10,6 +10,7 @@ private:
 	// MAP TOOL 관련 //
 	MapTool*		_mapTool;
 	image*			_targetImage;
+	
 
 	// FILL RANGE 관련 //
 	bool			_isFillClicked;
@@ -32,11 +33,17 @@ private:
 	char			_fileName[128];
 	bool			_isLoad;
 
+	// 키 입력 용 //
+	bool			_isMouseLeftClicked;
+
+	image * _shorcutKeyIg;
+	
 public :
 	HRESULT init();
 	void UIInit();
 	void release();
 	void update();
+	void MouseChecker();
 	void SetMapSize();
 	void RemovePaint();
 	void FillSquareRange();
@@ -50,9 +57,12 @@ public :
 	void render();
 	void CameraMove();
 	void SaveLoadMap();
+	
 
 	// GETSET //
 	image* GetTargetImage() { return _targetImage; }
 	void SetTargetImage(image* img) { _targetImage = img; }
+	void SaveShortcutKey();
+	void LoadShortcutKey();
 };
 
