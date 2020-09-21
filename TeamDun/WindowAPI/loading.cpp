@@ -105,7 +105,7 @@ HRESULT loadItem::init(string strKey, const char * fileName, float x, float y, i
 HRESULT loading::init()
 {
 	//로딩화면 백그라운드 이미지 초기화
-	_background = IMAGEMANAGER->addImage("bgLoadingScene", "Images/LOADING.bmp", WINSIZEX, WINSIZEY);
+	_background = IMAGEMANAGER->addFrameImage("bgLoadingScene", "Images/LOADING.bmp", WINSIZEX * 6, WINSIZEY, 6, 1);
 	//로딩바 이미지 초기화
 	IMAGEMANAGER->addImage("loadingBarFront", "loadingBarFront.bmp", 600, 20);
 	IMAGEMANAGER->addImage("loadingBarBack", "loadingBarBack.bmp", 600, 20);
@@ -134,17 +134,31 @@ void loading::update()
 {
 	//로딩바 클래스 업데이트
 	_loadingBar->update();
+	this->animation();
 }
 
 void loading::render()
 {
+	//textOut(getMemDC(), _loadingBar->getX() + 250, _loadingBar->getY() + 5, text.c_str(), text.length());
+
 	//백그라운드 이미지 렌더
-	_background->render(getMemDC());
+	_background->frameRender(getMemDC(), 0, 0);
 	//로딩바 클래스 렌더
 	_loadingBar->render();
+}
 
-	textOut(getMemDC(), _loadingBar->getX() + 250, _loadingBar->getY() + 5, text.c_str(), text.length());
-	
+void loading::animation()
+{
+	_count++;
+	if (_count % 10 == 0)
+	{
+		_index++;
+		if (_index > _background->getMaxFrameX())
+		{
+			_index = 0;
+		}
+		_background->setFrameX(_index);
+	}
 }
 
 void loading::loadSound(string keyName, string soundName, bool bgm, bool loop)
