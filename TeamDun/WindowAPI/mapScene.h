@@ -32,11 +32,17 @@ private:
 	char			_fileName[128];
 	bool			_isLoad;
 
+	// 클릭 관련//
+	bool			_isLeftClicked;
+	bool			_isRightClicked;
+	
+
 public :
 	HRESULT init();
 	void UIInit();
 	void release();
 	void update();
+	void InputCheck();
 	void SetMapSize();
 	void RemovePaint();
 	void FillSquareRange();

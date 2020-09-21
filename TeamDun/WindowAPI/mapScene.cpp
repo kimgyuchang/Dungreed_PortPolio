@@ -107,6 +107,7 @@ void mapScene::release()
 void mapScene::update()
 {
 	UIMANAGER->update();
+	InputCheck();
 	
 	if (_isSettingPage) // 맵 사이즈 결정 중
 	{
@@ -115,6 +116,7 @@ void mapScene::update()
 
 	else
 	{
+		_uiBrushTool->update();
 		GetUiBrush();
 		Paint();
 		RemovePaint();
@@ -130,6 +132,15 @@ void mapScene::update()
 	}
 }
 
+void mapScene::InputCheck()
+{
+	_isLeftClicked = false;
+	_isRightClicked = false;
+
+	if (INPUT->GetKeyDown(VK_LBUTTON)) _isLeftClicked = true;
+	if (INPUT->GetKeyDown(VK_RBUTTON)) _isRightClicked = true;
+}
+
 /// <summary>
 /// 해당 마우스 포인터가 위치한 부분을 칠한다
 /// </summary>
@@ -137,7 +148,7 @@ void mapScene::Paint()
 {
 	if (_targetImage != nullptr)
 	{
-		if (INPUT->GetKeyDown(VK_RBUTTON))
+		if (_isRightClicked)
 		{
 			_mapTool->EveSaveData();//버튼을 누르며 지워지기 시작한 순간에 저장
 		}
@@ -180,7 +191,6 @@ void mapScene::FillSquareRange()
 {
 	if (_targetImage != nullptr && INPUT->GetKeyDown('A'))
 	{
-
 		Grid* grid = _mapTool->mouseCollisionCheck();
 		if (grid)
 		{
@@ -241,9 +251,10 @@ void mapScene::FillAll()
 /// </summary>
 void mapScene::GetUiBrush()
 {
-	if (INPUT->GetKeyDown(VK_LBUTTON))
+	if (_isLeftClicked)
 	{
 		_uiBrushTool->mouseCollisionCheck();
+		_uiBrushTool->MenuCollisionCheck();
 	}
 }
 
@@ -260,6 +271,7 @@ void mapScene::SetMapSize()
 		UIMANAGER->GetGameFrame()->GetChild("sizeFrame")->SetIsViewing(false);
 		_pivot.x = _widthNum * 48 / 2;
 		_pivot.y = _heightNum * 48 / 2;
+		_uiBrushTool->UIInit();
 	}
 
 	//10의자리 숫자 출력 안하게 하는거 예시
@@ -381,19 +393,6 @@ void mapScene::render()
 	if (_targetImage) _targetImage->alphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 128);
 
 	UIMANAGER->render(getMemDC());
-
-	// 회전맨들 //
-	/*
-	_rotTimer++;
-	IMAGEMANAGER->findImage("DCutter")->frameRender(getMemDC(), 0, 0, _rotateTester, 0);
-	 IMAGEMANAGER->findImage("WoodenQuarterStaff")->frameRender(getMemDC(), 500, 0, _rotateTester, 0);
-	 IMAGEMANAGER->findImage("WoodenQuarterStaff_Short")->frameRender(getMemDC(), 1000, 0, _rotateTester, 0);
-	if (_rotTimer > 5)
-	{
-		_rotTimer = 0;
-		_rotateTester = _rotateTester + 1 >= 12 ? 0 : _rotateTester + 1;
-	}
-	*/
 }
 
 void mapScene::CameraMove()

@@ -262,10 +262,10 @@ HRESULT image::initForStretchBlend()
 	_stretchImage = new IMAGE_INFO;
 	_stretchImage->loadType = LOAD_FILE;
 	_stretchImage->hMemDC = CreateCompatibleDC(hdc);
-	_stretchImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, _imageInfo->width, _imageInfo->height);
+	_stretchImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, _imageInfo->width * 10, _imageInfo->height * 10);
 	_stretchImage->hOBit = (HBITMAP)SelectObject(_stretchImage->hMemDC, _stretchImage->hBit);
-	_stretchImage->width = WINSIZEX;
-	_stretchImage->height = WINSIZEY;
+	_stretchImage->width = WINSIZEX * 10;
+	_stretchImage->height = WINSIZEY * 10;
 
 	ReleaseDC(_hWnd, hdc);
 
@@ -368,7 +368,7 @@ void image::render(HDC hdc, int destX, int destY, int sourX, int sourY, int sour
 	}
 }
 
-void image::stretchRender(HDC hdc, int destX, int destY, float scale)
+void image::stretchRender(HDC hdc, int destX, int destY, float scaleX, float scaleY)
 {
 	if (!_stretchImage) this->initForStretchBlend();
 
@@ -382,8 +382,8 @@ void image::stretchRender(HDC hdc, int destX, int destY, float scale)
 			_stretchImage->hMemDC,
 			0,
 			0,
-			_imageInfo->width * scale,
-			_imageInfo->height * scale,
+			_imageInfo->width * scaleX,
+			_imageInfo->height * scaleY,
 			_imageInfo->hMemDC,
 			0, 0,
 			_imageInfo->width,
@@ -391,23 +391,22 @@ void image::stretchRender(HDC hdc, int destX, int destY, float scale)
 			SRCCOPY
 		);
 
-		// 그 뒤에 투명화한다
 		GdiTransparentBlt(
 			hdc,
 			destX,
 			destY,
-			_imageInfo->width * scale,
-			_imageInfo->height * scale,
+			_imageInfo->width * scaleX,
+			_imageInfo->height * scaleY,
 			_stretchImage->hMemDC,
-			0,
-			0,
-			_imageInfo->width * scale,
-			_imageInfo->height * scale,
+			0, 0,
+			_imageInfo->width * scaleX,
+			_imageInfo->height * scaleY,
 			_transColor);
+			
 	}
 	else//원본 이미지 그대로 출력
 	{
-		StretchBlt(hdc, destX, destY, _imageInfo->width * scale, _imageInfo->height * scale,
+		StretchBlt(hdc, destX, destY, _imageInfo->width * scaleX, _imageInfo->height * scaleY,
 			_imageInfo->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height, SRCCOPY);
 	}
 }
@@ -480,6 +479,7 @@ void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 		GdiAlphaBlend(hdc, destX, destY, _imageInfo->width, _imageInfo->height,
 			_blendImage->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height, _blendFunc);
 	}
+
 	else//원본 이미지 그대로 출력
 	{
 		GdiAlphaBlend(hdc, destX, destY, _imageInfo->width, _imageInfo->height,
@@ -580,6 +580,62 @@ void image::frameRender(HDC hdc, int destX, int destY, int currentFrameX, int cu
 			_imageInfo->hMemDC,
 			_imageInfo->currentFrameX * _imageInfo->frameWidth,
 			_imageInfo->currentFrameY * _imageInfo->frameHeight, SRCCOPY);
+	}
+}
+
+void image::frameStretchRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY)
+{
+	//이미지 예외처리
+	_imageInfo->currentFrameX = currentFrameX;
+	_imageInfo->currentFrameY = currentFrameY;
+	if (currentFrameX > _imageInfo->maxFrameX)
+	{
+		_imageInfo->currentFrameX = _imageInfo->maxFrameX;
+	}
+	if (currentFrameY > _imageInfo->maxFrameY)
+	{
+		_imageInfo->currentFrameY = _imageInfo->maxFrameX;
+	}
+
+	if (!_stretchImage) this->initForStretchBlend();
+
+	if (_isTrans) //배경색 없애고 출력
+	{
+		BitBlt(_stretchImage->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height,
+			hdc, 0, 0, SRCCOPY);
+
+		// 먼저 늘이거나 줄이고
+		StretchBlt(
+			_stretchImage->hMemDC,
+			0,
+			0,
+			_imageInfo->width * scaleX,
+			_imageInfo->height * scaleY,
+			_imageInfo->hMemDC,
+			0, 0,
+			_imageInfo->width,
+			_imageInfo->height,
+			SRCCOPY
+		);
+
+		// 그 뒤에 투명화한다
+		GdiTransparentBlt(
+			hdc,
+			destX,
+			destY,
+			_imageInfo->frameWidth * scaleX,
+			_imageInfo->frameHeight * scaleY,
+			_stretchImage->hMemDC,
+			0,
+			0,
+			_imageInfo->frameWidth * scaleX * currentFrameX,
+			_imageInfo->frameHeight * scaleY * currentFrameY,
+			_transColor);
+	}
+	else//원본 이미지 그대로 출력
+	{
+		StretchBlt(hdc, destX, destY, _imageInfo->frameWidth * scaleX, _imageInfo->frameHeight * scaleY,
+			_imageInfo->hMemDC, currentFrameX * _imageInfo->frameWidth, currentFrameY * _imageInfo->frameHeight, _imageInfo->frameWidth, _imageInfo->frameHeight, SRCCOPY);
 	}
 }
 

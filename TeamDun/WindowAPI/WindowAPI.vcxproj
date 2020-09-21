@@ -151,6 +151,7 @@
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="CSVManager.h" />
+    <ClInclude Include="DataManager.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="gameScene.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="mapScene.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="random.h" />
@@ -185,6 +187,7 @@
   <ItemGroup>
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="CSVManager.cpp" />
+    <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="gameScene.cpp" />
@@ -200,6 +203,7 @@
     <ClCompile Include="mapScene.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="random.cpp" />

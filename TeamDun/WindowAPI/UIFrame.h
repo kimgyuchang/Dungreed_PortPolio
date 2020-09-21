@@ -38,8 +38,13 @@ protected:
 	float					_savedX;			// 드래그 이동 시작 시 맨 처음 이동 시작할 때의 UI 위치 X
 	float					_savedY;			// 드래그 이동 시작 시 맨 처음 이동 시작할 때의 UI 위치 Y
 
+	// 렌더 관련 //
+	float					_scaleX;			// 확대 스케일 X
+	float					_scaleY;			// 확대 스케일 Y
+	bool					_childFirst;		// 아이를 먼저 그릴지
+
 public:
-	virtual	HRESULT init(string name, float x, float y, float sizeX, float sizeY, string imageName);
+	virtual HRESULT init(string name, float x, float y, float sizeX, float sizeY, string imageName, float scaleX = 1, float scaleY = 1);
 	virtual void render(HDC hdc);
 	virtual void update();
 	virtual void release();
@@ -51,11 +56,12 @@ public:
 	void MoveFrame(); // 자식 포함 이동
 	void MoveFrameChild(float x, float y);
 	void CheckIsOutside();
-
+	void MoveFrame(float x, float y);
 	void MoveY(int y) { _y += y; } // 자식 미포함 이동
-	void SetIntersectRect() { _interactRect = RectMake(_x, _y, _sizeX, _sizeY); }
+	void SetIntersectRect() { _interactRect = RectMake(_x, _y, _sizeX*_scaleX, _sizeY*_scaleY); }
 
 	UIFrame* GetChild(string name) { return _mChildFrames[name]; }
+
 	float GetX() { return _x; }
 	float GetY() { return _y; }
 	float GetSizeX() { return _sizeX; }
@@ -74,4 +80,5 @@ public:
 	void SetUseOutsideLimit(bool outside) { _useOutsideLimit = outside; }
 	void SetIsMoveToDrag(bool drag) { _isMoveToDrag = drag; }
 	void SetImage(image* target) { _image = target; }
+	void SetChildFirst(bool childFirst) { _childFirst = childFirst; }
 };

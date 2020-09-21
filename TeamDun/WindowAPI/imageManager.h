@@ -59,13 +59,15 @@ public:
 //=============================================================
 //	## 스트레치렌더##
 //=============================================================
-	void stretchRender(string strKey, HDC hdc, int destX, int destY, float scale);
+	void stretchRender(string strKey, HDC hdc, int destX, int destY, float scaleX, float scaleY);
 
 //=============================================================
 //	## 루프렌더 ##
 //=============================================================
 	void loopRender(string strKey, HDC hdc, const LPRECT drawArea, int offsetX, int offsetY);
 	void loopAlphaRender(string strKey, HDC hdc, const LPRECT drawArea, int offsetX, int offsetY, BYTE alpha);
+
+	void frameStretchRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY);
 
 //=============================================================
 //  ## 회전 만들기 ##

@@ -41,6 +41,8 @@ using namespace std;
 #include "CSVManager.h"
 #include "UIManager.h"
 #include "CameraManager.h"
+#include "DataManager.h"
+
 using namespace MY_UTIL;
 
 //=============================================================
@@ -55,6 +57,7 @@ using namespace MY_UTIL;
 #define CSVMANAGER CSVManager::getSingleton()
 #define UIMANAGER UIManager::getSingleton()
 #define CAMERAMANAGER CameraManager::getSingleton()
+#define DATAMANAGER DataManager::getSingleton()
 
 //=============================================================
 //	## 디파인문 ## (윈도우창 초기화)

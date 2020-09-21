@@ -60,7 +60,7 @@ HRESULT loadItem::init(string strKey, const char * fileName, float x, float y, i
 	return S_OK;
 }
 
-HRESULT loadItem::init(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
+HRESULT loadItem::init(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor, bool isRotate)
 {
 	//로딩종류 초기화
 	_kind = LOAD_KIND_FRAMEIMAGE_0;
@@ -74,11 +74,12 @@ HRESULT loadItem::init(string strKey, const char * fileName, int width, int heig
 	_imageResource.frameY = frameY;
 	_imageResource.isTrans = isTrans;
 	_imageResource.transColor = transColor;
+	_imageResource.isRotate = isRotate;
 
 	return S_OK;
 }
 
-HRESULT loadItem::init(string strKey, const char * fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
+HRESULT loadItem::init(string strKey, const char * fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor, bool isRotate)
 {
 	//로딩종류 초기화
 	_kind = LOAD_KIND_FRAMEIMAGE_1;
@@ -94,7 +95,7 @@ HRESULT loadItem::init(string strKey, const char * fileName, float x, float y, i
 	_imageResource.frameY = frameY;
 	_imageResource.isTrans = isTrans;
 	_imageResource.transColor = transColor;
-
+	_imageResource.isRotate = isRotate;
 	return S_OK;
 }
 
@@ -174,17 +175,18 @@ void loading::loadImage(string strKey, const char * fileName, float x, float y, 
 	_vLoadItem.push_back(item);
 }
 
-void loading::loadFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
+void loading::loadFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor, bool isRotate)
 {
 	loadItem* item = new loadItem;
-	item->init(strKey, fileName, width, height, frameX, frameY, isTrans, transColor);
+	item->init(strKey, fileName, width, height, frameX, frameY, isTrans, transColor, isRotate);
+	
 	_vLoadItem.push_back(item);
 }
 
-void loading::loadFrameImage(string strKey, const char * fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
+void loading::loadFrameImage(string strKey, const char * fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor, bool isRotate)
 {
 	loadItem* item = new loadItem;
-	item->init(strKey, fileName, width, x, y, height, frameX, frameY, isTrans, transColor);
+	item->init(strKey, fileName, width, x, y, height, frameX, frameY, isTrans, transColor, isRotate);
 	_vLoadItem.push_back(item);
 }
 
@@ -229,6 +231,7 @@ bool loading::loadingDone()
 			tagImageResource img = item->getImageResource();
 			IMAGEMANAGER->addFrameImage(img.keyName, img.fileName, img.width, img.height, img.frameX, img.frameY, img.isTrans, img.transColor);
 			text = img.keyName;
+			if (img.isRotate) IMAGEMANAGER->MakeRotateImage(text);
 		}
 		break;
 		
@@ -237,10 +240,10 @@ bool loading::loadingDone()
 			tagImageResource img = item->getImageResource();
 			IMAGEMANAGER->addFrameImage(img.keyName, img.fileName, img.x, img.y, img.width, img.height, img.frameX, img.frameY, img.isTrans, img.transColor);
 			text = img.keyName;
+			if (img.isRotate) IMAGEMANAGER->MakeRotateImage(text);
 		}
 		break;
 
-		//여러분들이 한번 만들어 보기
 		case LOAD_KIND_SOUND:
 		{
 			tagSoundResource sound = item->getSoundResource();

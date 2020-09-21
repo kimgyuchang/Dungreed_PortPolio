@@ -11,16 +11,15 @@
 /// <param name="sizeY">UI의 크기 Y</param>
 /// <param name="imageName">이미지 이름</param>
 /// <returns></returns>
-
-HRESULT UIFrame::init(string name, float x, float y, float sizeX, float sizeY, string imageName)
+HRESULT UIFrame::init(string name, float x, float y, float sizeX, float sizeY, string imageName, float scaleX, float scaleY)
 {
 	_name = name;
 	_x = x;
 	_y = y;
-	_sizeX = sizeX;
-	_sizeY = sizeY;
+	_sizeX = sizeX * scaleX;
+	_sizeY = sizeY * scaleY;
 	_image = IMAGEMANAGER->findImage(imageName);
-	_interactRect = RectMake(_x, _y, _sizeX, _sizeY);
+	_interactRect = RectMake(_x, _y, _sizeX * scaleX, _sizeY * scaleY);
 	_parent = nullptr;
 	_isViewing = false;
 	_isSelected = false;
@@ -29,6 +28,9 @@ HRESULT UIFrame::init(string name, float x, float y, float sizeX, float sizeY, s
 	_moveStartY = 0;
 	_useOutsideLimit = false;
 	_isMoveToDrag = false;
+	_scaleX = scaleX;
+	_scaleY = scaleY;
+	_childFirst = false;
 	SetIntersectRect();
 
 	return S_OK;
@@ -178,6 +180,18 @@ void UIFrame::CheckIsOutside()
 	}
 }
 
+void UIFrame::MoveFrame(float x, float y)
+{
+	_x += x;
+	_y += y;
+	SetIntersectRect();
+
+	for (int i = 0; i < _vChildFrames.size(); i++)
+	{
+		_vChildFrames[i]->MoveFrame(x, y);
+	}
+}
+
 void UIFrame::render(HDC hdc)
 {
 	if (_isViewing) // 보이는 상태이며
@@ -186,12 +200,28 @@ void UIFrame::render(HDC hdc)
 
 		else // 그게 아니라면
 		{
-			if (_image != nullptr) _image->render(hdc, _x, _y); // 그린다
+			if (_childFirst)
+			{
+				for (int i = 0; i < _vChildFrames.size(); i++)
+				{
+					_vChildFrames[i]->render(hdc);
+				}
+			}
+
+			if (_image != nullptr)
+			{
+				if (_scaleX == 1 && _scaleY == 1) _image->render(hdc, _x, _y); // 그린다
+				else _image->stretchRender(hdc, _x, _y, _scaleX, _scaleY);
+			}
+			
 			if (INPUT->GetKey('P')) Rectangle(hdc, _interactRect); // P를 누른 상태라면 충돌 범위도 그린다
 
-			for (int i = 0; i < _vChildFrames.size(); i++) // 자식 역시 그린다
+			if (!_childFirst)
 			{
-				_vChildFrames[i]->render(hdc);
+				for (int i = 0; i < _vChildFrames.size(); i++) // 자식 역시 그린다
+				{
+					_vChildFrames[i]->render(hdc);
+				}
 			}
 		}
 	}

@@ -59,8 +59,9 @@ public:
 
 	void Render(HDC hdc, image* ig, int destX, int destY);
 	void FrameRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY);
+	void StretchRender(HDC hdc, image* ig, int destX, int destY, float scaleX, float scaleY);
+	void frameStretchRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, float scaleX, float scaleY);
 	void TextDraw(HDC hdc, int destX, int destY, LPCSTR lpstring, int c);
-	void StretchRender(HDC hdc, image* ig, int destX, int destY, float scale);
 	void AlphaRender(HDC hdc, image * ig, int destX, int destY, BYTE alpha);
 	void MovePivot(float x, float y);
 	void MovePivotLerp(float x, float y, float lerpSpeed = 10.f);

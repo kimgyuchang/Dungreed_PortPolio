@@ -73,7 +73,7 @@ vector<vector<string>> CSVManager::csvLoad(string loadFileName)
 		OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	bool cannotRead =	ReadFile(file, str, 100000, &read, NULL);
-	if (cannotRead && read == 0)
+	if (!cannotRead && read == 0)
 	{
 		return vector<vector<string>>(); // 사이즈 0/0의 데이터를 리턴
 	}

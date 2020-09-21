@@ -23,6 +23,8 @@ private:
 
 	mapScene*						_mapScene;		// 맵씬
 
+	// OBJECT 관련 //
+	vector<Object*>					_vObjs;			// 오브젝트 목록
 public:
 	HRESULT init();
 	HRESULT init(int width, int height);

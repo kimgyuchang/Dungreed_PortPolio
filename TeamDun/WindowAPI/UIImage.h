@@ -12,7 +12,7 @@ private:
 	int		_frameY;		// FrameY
 
 public:
-	virtual	HRESULT init(string name, float x, float y, float sizeX, float sizeY, string imageName, bool useFrameImage, int frameX, int frameY);
+	HRESULT init(string name, float x, float y, float sizeX, float sizeY, string imageName, bool useFrameImage, int frameX, int frameY, float scaleX = 1, float scaleY = 1);
 	virtual void render(HDC hdc);
 
 	void SetFrameX(int x) { _frameX = x; }

@@ -84,7 +84,7 @@ public:
 	//렌더(원하는 좌표에 이미지를 잘라서 붙이기)
 	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
 	//늘이기렌더
-	void stretchRender(HDC hdc, int destX, int destY, float scale);
+	void stretchRender(HDC hdc, int destX, int destY, float scaleX, float scaleY);
 
 	//알파렌더(이미지를 알파값만큼 투명화 시켜준다)
 	void alphaRender(HDC hdc, BYTE alpha);
@@ -93,6 +93,8 @@ public:
 	//프레임렌더
 	void frameRender(HDC hdc, int destX, int destY);
 	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
+
+	void frameStretchRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY);
 
 	//루프렌더
 	void loopRender(HDC hdc, const LPRECT drawArea, int offsetX, int offsetY);

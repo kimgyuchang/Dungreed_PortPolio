@@ -28,6 +28,7 @@ struct tagImageResource
 	int frameX, frameY;			//프레임 x, y
 	bool isTrans;				//배경지울거임?
 	COLORREF transColor;		//어떤색으로
+	bool isRotate;				//회전할거임?
 };
 
 //사운드 리소스 구조체
@@ -51,8 +52,9 @@ public:
 	HRESULT init(string strKey, int width, int height);
 	HRESULT init(string strKey, const char* fileName, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
 	HRESULT init(string strKey, const char* fileName, float x, float y, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
-	HRESULT init(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool isTrans = true, COLORREF transColor = RGB(255, 0, 255));
-	HRESULT init(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans = true, COLORREF transColor = RGB(255, 0, 255));
+	HRESULT init(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor = RGB(255,0,255), bool isRotate = false);
+	HRESULT init(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor = RGB(255,0,255), bool isRotate = false);
+	
 	//로딩아이템 종류 가져오기
 	LOAD_KIND getLoadKind() { return _kind; }
 	//이미지 리소스 가져오기
@@ -87,10 +89,10 @@ public:
 	void render();
 	void loadSound(string keyName, string soundName, bool bgm, bool loop);
 	void loadImage(string strKey, int width, int height);
-	void loadImage(string strKey, const char* fileName, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
+	void loadImage(string strKey, const char* fileName, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0,0,0));
 	void loadImage(string strKey, const char* fileName, float x, float y, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
-	void loadFrameImage(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool isTrans = true, COLORREF transColor = RGB(255, 0, 255));
-	void loadFrameImage(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans = true, COLORREF transColor = RGB(255, 0, 255));
+	void loadFrameImage(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool isTrans = true, COLORREF transColor = RGB(255,255,255), bool isRotate = false);
+	void loadFrameImage(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans = true, COLORREF transColor = RGB(255,255,255), bool isRotate = false);
 
 	/*중요함*/
 	//로딩완료 됐냐? (로딩완료후 화면전환)
@@ -100,7 +102,5 @@ public:
 	vLoadItem getLoadItem() { return _vLoadItem; }
 	//현재게이지 가져오기
 	int getCurrentGauge() { return _currentGauge; }
-	
-
 };
 
