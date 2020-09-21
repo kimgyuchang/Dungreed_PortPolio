@@ -34,7 +34,6 @@ HRESULT mapScene::init()
 	ShowWindow(_hEdit, SW_HIDE);
 	_isEditerViewing = false;
 	_isLoad = false;
-	_isMouseLeftClicked = false;
 
 	// UI //
 	UIInit();
