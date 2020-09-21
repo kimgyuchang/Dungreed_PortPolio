@@ -9,8 +9,8 @@ HRESULT mapScene::init()
 	_pivot = POINT{ _widthNum / 2 * 48, _heightNum / 2 * 48 };
 	CAMERAMANAGER->init(_pivot.x, _pivot.y, 15000, 15000, 0, 0, WINSIZEX / 2, WINSIZEY / 2);
 	// 시작 시 크기 설정 //
-	_heightNum = 50;
-	_widthNum = 50;
+	_heightNum = 10;
+	_widthNum = 10;
 	_isSettingPage = true;
 
 	// 회전 TESTER // 
@@ -34,7 +34,8 @@ HRESULT mapScene::init()
 	ShowWindow(_hEdit, SW_HIDE);
 	_isEditerViewing = false;
 	_isLoad = false;
-	
+	_isMouseLeftClicked = false;
+
 	// UI //
 	UIInit();
 
@@ -46,6 +47,23 @@ HRESULT mapScene::init()
 /// </summary>
 void mapScene::UIInit()
 {
+	UIFrame* setShortcutKeyFrame = new UIFrame();
+	setShortcutKeyFrame->init("ShortcutKeyFrame", 60, WINSIZEY - 100, IMAGEMANAGER->findImage("ShortcutKeyGround")->getWidth(), IMAGEMANAGER->findImage("ShortcutKeyGround")->getHeight(), "ShortcutKeyGround");
+	UIMANAGER->GetGameFrame()->AddFrame(setShortcutKeyFrame);
+
+	for (int i = 0; i < 10; i++)
+	{
+		UIFrame* setShortcutKeyBox = new UIFrame();
+		setShortcutKeyBox->init("shortcutBox" + to_string(i), 100 + 70 * i, 15, IMAGEMANAGER->findImage("ShortcutKey1")->getWidth(), IMAGEMANAGER->findImage("ShortcutKey1")->getHeight(), "ShortcutKey1");
+		setShortcutKeyFrame->AddFrame(setShortcutKeyBox);
+
+		UIImage* setShortcutKeyIg = new UIImage();
+		setShortcutKeyIg->init("Ig", 4, 4, 48, 48, "", false, 0, 0);
+		setShortcutKeyBox->AddFrame(setShortcutKeyIg);
+	}
+
+	/*setShortcutKeyFrame->GetChild("shortcutBox0")->GetChild("Ig")->SetImage()*/
+
 	UIFrame* setSizeFrame = new UIFrame();
 	setSizeFrame->init("sizeFrame", 100, 100, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig");
 	UIMANAGER->GetGameFrame()->AddFrame(setSizeFrame);
@@ -98,6 +116,9 @@ void mapScene::UIInit()
 	UIText* saveLoadText = new UIText();
 	saveLoadText->init("SaveLoader", 200, 200, 200, 100, "SAVE", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	saveLoadFrame->AddFrame(saveLoadText);
+
+
+
 }
 
 void mapScene::release()
@@ -108,7 +129,7 @@ void mapScene::update()
 {
 	UIMANAGER->update();
 	InputCheck();
-	
+
 	if (_isSettingPage) // 맵 사이즈 결정 중
 	{
 		SetMapSize();
@@ -128,6 +149,9 @@ void mapScene::update()
 		SaveLoadMap();
 		Undo();
 		CameraMove();
+		SaveShortcutKey();
+		LoadShortcutKey();
+
 		CAMERAMANAGER->MovePivot(_pivot.x, _pivot.y);
 	}
 }
@@ -235,7 +259,7 @@ void mapScene::FloodFill()
 /// </summary>
 void mapScene::FillAll()
 {
-	if (_targetImage != nullptr && INPUT->GetKeyDown('P'))
+	if (_targetImage != nullptr && INPUT->GetKeyDown('I'))
 	{
 		_mapTool->EveSaveData();
 		Grid* grid = _mapTool->mouseCollisionCheck();
@@ -425,10 +449,36 @@ void mapScene::SaveLoadMap()
 			_mapTool->SaveData(_fileName);
 		}
 
-		else 
+		else
 		{
 			_mapTool->EveSaveData();
 			_mapTool->LoadData(_fileName);
+		}
+	}
+}
+
+void mapScene::SaveShortcutKey()
+{
+	for (int i = 0; i < 10; i++)
+	{
+		if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('0' + i))
+		{
+			UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame")->GetChild("shortcutBox" + to_string(i))->GetChild("Ig")->SetImage(_targetImage);
+		}
+	}
+}
+
+void mapScene::LoadShortcutKey()
+{
+	UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame");
+	for (int i = 0; i < 10; i++)
+	{
+		if (frame->GetChild("shortcutBox" + to_string(i))->GetChild("Ig")->GetImage() != nullptr)
+		{
+			if (INPUT->GetKeyDown('0' + i))
+			{
+				_targetImage = frame->GetChild("shortcutBox" + to_string(i))->GetChild("Ig")->GetImage();
+			}
 		}
 	}
 }

@@ -10,6 +10,7 @@ private:
 	// MAP TOOL 관련 //
 	MapTool*		_mapTool;
 	image*			_targetImage;
+	
 
 	// FILL RANGE 관련 //
 	bool			_isFillClicked;
@@ -35,8 +36,9 @@ private:
 	// 클릭 관련//
 	bool			_isLeftClicked;
 	bool			_isRightClicked;
-	
 
+	image * _shorcutKeyIg;
+	
 public :
 	HRESULT init();
 	void UIInit();
@@ -56,9 +58,12 @@ public :
 	void render();
 	void CameraMove();
 	void SaveLoadMap();
+	
 
 	// GETSET //
 	image* GetTargetImage() { return _targetImage; }
 	void SetTargetImage(image* img) { _targetImage = img; }
+	void SaveShortcutKey();
+	void LoadShortcutKey();
 };
 
