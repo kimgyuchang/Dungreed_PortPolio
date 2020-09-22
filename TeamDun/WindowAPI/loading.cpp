@@ -107,15 +107,15 @@ HRESULT loading::init()
 	//로딩화면 백그라운드 이미지 초기화
 	_background = IMAGEMANAGER->addFrameImage("bgLoadingScene", "Images/LOADING.bmp", WINSIZEX * 6, WINSIZEY, 6, 1);
 	//로딩바 이미지 초기화
-	IMAGEMANAGER->addImage("loadingBarFront", "loadingBarFront.bmp", 600, 20);
-	IMAGEMANAGER->addImage("loadingBarBack", "loadingBarBack.bmp", 600, 20);
+	IMAGEMANAGER->addImage("loadingBarFront", "loadingBarFront.bmp", 620, 200);
+	IMAGEMANAGER->addImage("loadingBarBack", "loadingBarBack.bmp", 620, 200);
 	IMAGEMANAGER->addFrameImage("number", "Images/number.bmp", 220, 28, 10, 1);
 
 	//로딩바 클래스 초기화
 	_loadingBar = new progressBar;
 	_loadingBar->init("loadingBarFront", "loadingBarBack");
 	//로딩바 위치 초기화
-	_loadingBar->setPos(100, 500);
+	_loadingBar->setPos(410, 210);
 
 	//현재 게이지
 	_currentGauge = 0;
@@ -139,12 +139,11 @@ void loading::update()
 
 void loading::render()
 {
-	//textOut(getMemDC(), _loadingBar->getX() + 250, _loadingBar->getY() + 5, text.c_str(), text.length());
-
-	//백그라운드 이미지 렌더
-	_background->frameRender(getMemDC(), 0, 0);
 	//로딩바 클래스 렌더
 	_loadingBar->render();
+	//백그라운드 이미지 렌더
+	_background->frameRender(getMemDC(), 0, 0);
+	textOut(getMemDC(), _loadingBar->getX() + 250, _loadingBar->getY() + 330, text.c_str(), text.length());
 }
 
 void loading::animation()

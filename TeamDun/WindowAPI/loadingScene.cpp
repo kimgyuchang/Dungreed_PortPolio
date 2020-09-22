@@ -41,9 +41,9 @@ void loadingScene::render()
 
 	textOut(getMemDC(), 10, 10, "로딩화면");
 
-	IMAGEMANAGER->frameRender("number", getMemDC(), 680, 500,(int)((float)_loading->getCurrentGauge() /(float)_loading->getLoadItem().size()*100) % 10, 0);
+	IMAGEMANAGER->frameRender("number", getMemDC(), 710, 500,(int)((float)_loading->getCurrentGauge() /(float)_loading->getLoadItem().size()*100) % 10, 0);
 	if ((int)((float)_loading->getCurrentGauge()*(100 / (float)_loading->getLoadItem().size()) / 10) > 0)
-	IMAGEMANAGER->frameRender("number", getMemDC(), 660, 500, (float)_loading->getCurrentGauge()*(100/(float)_loading->getLoadItem().size()) / 10, 0);
+	IMAGEMANAGER->frameRender("number", getMemDC(), 690, 500, (float)_loading->getCurrentGauge()*(100/(float)_loading->getLoadItem().size()) / 10, 0);
 }
 
 void loadingScene::loadingFont()
