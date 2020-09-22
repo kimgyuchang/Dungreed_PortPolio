@@ -9,6 +9,9 @@ struct Grid
 	int		_yIndex;	// yIndex
 	RECT	_rc;		// RECT
 	image*	_img;		// IMAGE
+	image*	_img2;		// IMGE2
+	image*	_checkImg;	// 체크이미지
+	int		_alpha;
 };
 
 class mapScene;
@@ -25,6 +28,9 @@ private:
 
 	// OBJECT 관련 //
 	vector<Object*>					_vObjs;			// 오브젝트 목록
+	
+
+	
 public:
 	HRESULT init();
 	HRESULT init(int width, int height);
@@ -44,6 +50,7 @@ public:
 	void MapLineRemoveRow();
 	void FillAll();
 	void FloodFill(image * targetImage, int indexX, int indexY);
+	void PreviewGridRange( int startIndexX, int startIndexY, int indexX, int indexY,int alpha);
 	void GridRange(float x, float y, float x1, float y1);
 	
 	// GETSET // 

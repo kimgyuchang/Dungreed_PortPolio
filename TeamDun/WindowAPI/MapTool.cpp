@@ -19,6 +19,8 @@ HRESULT MapTool::init(int width, int height)
 		{
 			Grid* grid = new Grid();
 			grid->_img = nullptr;
+			grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
+			grid->_alpha = 30;
 			grid->_x = j * 50 + 0;
 			grid->_y = i * 50 + 0;
 			grid->_xIndex = j;
@@ -110,9 +112,9 @@ void MapTool::EveSaveData()
 		}
 	}
 
-	CSVMANAGER->csvSave("Data/MapData/eveGridSaveData.undoData", stringData);	// 로드데이터처럼 csv파일로 저장을 하고
-	stringData = CSVMANAGER->csvLoad("Data/MapData/eveGridSaveData.undoData");	// 정보를 다시 담아서 
-	_vEveData.push_back(stringData);										// vector<vector<string>>을 담고있는 벡터 EveData에 받은 정보를 push_back해준다
+	CSVMANAGER->csvSave("Data/MapData/eveGridSaveData.undoData", stringData);	
+	stringData = CSVMANAGER->csvLoad("Data/MapData/eveGridSaveData.undoData");	
+	_vEveData.push_back(stringData);										
 }
 
 /// <summary>
@@ -260,27 +262,87 @@ void MapTool::FillAll()
 /// <param name="targetImage">채울 이미지</param>
 /// <param name="indexX">현재 검사대상인 X Index</param>
 /// <param name="indexY">현재 검사대상인 Y Index</param>
+
 void MapTool::FloodFill(image* targetImage, int indexX, int indexY)
 {
+	vector<POINT>FloodFilllist;
+	POINT pt;
+	pt.x = indexX;
+	pt.y = indexY;
+	FloodFilllist.push_back(pt);
 	_vMapData[indexY][indexX]->_img = _mapScene->GetTargetImage();
-	if (indexX + 1 < _vMapData[0].size() && targetImage == _vMapData[indexY][indexX + 1]->_img)
+	while (FloodFilllist.size() > 0)
 	{
-		FloodFill(targetImage, indexX + 1, indexY);
-	}
-	if (indexX - 1 >= 0 && targetImage == _vMapData[indexY][indexX - 1]->_img)
-	{
-		FloodFill(targetImage, indexX - 1, indexY);
-	}
-	if (indexY + 1 < _vMapData.size() && targetImage == _vMapData[indexY + 1][indexX]->_img)
-	{
-		FloodFill(targetImage, indexX, indexY + 1);
-	}
-	if (indexY - 1 >= 0 && targetImage == _vMapData[indexY - 1][indexX]->_img)
-	{
-		FloodFill(targetImage, indexX, indexY - 1);
+		int indexX = FloodFilllist[0].x;
+		int indexY = FloodFilllist[0].y;
+
+		if (indexX + 1 < _vMapData[0].size() && targetImage == _vMapData[indexY][indexX + 1]->_img)
+		{
+			FloodFilllist.push_back(POINT{ indexX + 1,indexY });
+			_vMapData[indexY][indexX + 1]->_img = _mapScene->GetTargetImage();
+			
+		}
+		if (indexX - 1 >= 0 && targetImage == _vMapData[indexY][indexX - 1]->_img)
+		{
+			FloodFilllist.push_back(POINT{ indexX - 1,indexY });
+			_vMapData[indexY][indexX - 1]->_img = _mapScene->GetTargetImage();
+
+		}
+		if (indexY + 1 < _vMapData.size() && targetImage == _vMapData[indexY + 1][indexX]->_img)
+		{
+			FloodFilllist.push_back(POINT{ indexX,indexY + 1 });
+			_vMapData[indexY+1][indexX]->_img = _mapScene->GetTargetImage();
+		}
+		if (indexY - 1 >= 0 && targetImage == _vMapData[indexY - 1][indexX]->_img)
+		{
+			FloodFilllist.push_back(POINT{ indexX,indexY - 1 });
+			_vMapData[indexY-1][indexX]->_img = _mapScene->GetTargetImage();
+		}
+		FloodFilllist.erase(FloodFilllist.begin());
+
 	}
 
 	return;
+}
+
+void MapTool::PreviewGridRange(int startIndexX, int startIndexY, int indexX, int indexY, int alpha)
+{
+	
+	int temp;
+	if (indexX < startIndexX)
+	{
+		temp = startIndexX;
+		startIndexX = indexX;
+		indexX = temp;
+	}
+
+	if (indexY < startIndexY)
+	{
+		temp = startIndexY;
+		startIndexY = indexY;
+		indexY = temp;
+	}
+
+	for (int i = 0; i < _vMapData.size(); i++)
+	{
+		for (int j = 0; j < _vMapData[i].size(); j++)
+		{
+			_vMapData[i][j]->_alpha = 30;
+		}
+	}
+
+
+	for (int j = startIndexY; j <= indexY; j++)
+	{
+		for (int i = startIndexX; i <= indexX; i++)
+		{
+			cout << j <<"   " << i << endl;
+			
+			_vMapData[j][i]->_alpha = alpha;
+		}
+	}
+	
+
 }
 
 /// <summary>
@@ -320,10 +382,11 @@ void MapTool::render()
 		for (int j = ((CAMERAMANAGER->getPivotX() - (WINSIZEX / 2)) / 48) - 10; j < ((CAMERAMANAGER->getPivotX() + (WINSIZEX / 2)) / 48); j++)
 		{
 			if (j < 0 || j >= _vMapData[i].size()) continue;
-			CAMERAMANAGER->Rectangle(getMemDC(), _vMapData[i][j]->_rc);
+			//CAMERAMANAGER->Rectangle(getMemDC(), _vMapData[i][j]->_rc);
 			if (_vMapData[i][j]->_img) CAMERAMANAGER->Render(getMemDC(), _vMapData[i][j]->_img, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
 			string str = to_string(i) + " " + to_string(j);
 			CAMERAMANAGER->TextDraw(getMemDC(), _vMapData[i][j]->_x, _vMapData[i][j]->_y, str.c_str(), str.length());
+			CAMERAMANAGER->AlphaRender(getMemDC(), _vMapData[i][j]->_checkImg, _vMapData[i][j]->_x, _vMapData[i][j]->_y, _vMapData[i][j]->_alpha);
 		}
 	}
 }

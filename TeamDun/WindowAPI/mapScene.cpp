@@ -7,10 +7,10 @@ HRESULT mapScene::init()
 
 	// 카메라 //
 	_pivot = POINT{ _widthNum / 2 * 48, _heightNum / 2 * 48 };
-	CAMERAMANAGER->init(_pivot.x, _pivot.y, 15000, 15000, 0, 0, WINSIZEX / 2, WINSIZEY / 2);
+	CAMERAMANAGER->init(_pivot.x, _pivot.y, 15000, 15000, -600, -600, WINSIZEX / 2, WINSIZEY / 2);
 	// 시작 시 크기 설정 //
-	_heightNum = 10;
-	_widthNum = 10;
+	_heightNum = 100;
+	_widthNum = 100;
 	_isSettingPage = true;
 
 	// 회전 TESTER // 
@@ -160,7 +160,11 @@ void mapScene::InputCheck()
 	_isLeftClicked = false;
 	_isRightClicked = false;
 
-	if (INPUT->GetKeyDown(VK_LBUTTON)) _isLeftClicked = true;
+	if (INPUT->GetKeyDown(VK_LBUTTON))
+	{
+		_isLeftClicked = true;
+	}
+
 	if (INPUT->GetKeyDown(VK_RBUTTON)) _isRightClicked = true;
 }
 
@@ -169,11 +173,12 @@ void mapScene::InputCheck()
 /// </summary>
 void mapScene::Paint()
 {
+	
 	if (_targetImage != nullptr)
 	{
 		if (_isRightClicked)
 		{
-			_mapTool->EveSaveData();//버튼을 누르며 지워지기 시작한 순간에 저장
+			//_mapTool->EveSaveData();//버튼을 누르며 지워지기 시작한 순간에 저장
 		}
 
 		if (INPUT->GetKey(VK_RBUTTON))
@@ -193,7 +198,7 @@ void mapScene::RemovePaint()
 	{
 		if (INPUT->GetKeyDown(VK_SPACE))
 		{
-			_mapTool->EveSaveData(); //버튼을 누르며 지워지기 시작한 순간에 저장
+			//_mapTool->EveSaveData(); //버튼을 누르며 지워지기 시작한 순간에 저장
 		}
 
 		if (INPUT->GetKey(VK_SPACE))
@@ -212,23 +217,44 @@ void mapScene::RemovePaint()
 /// </summary>
 void mapScene::FillSquareRange()
 {
-	if (_targetImage != nullptr && INPUT->GetKeyDown('A'))
+	
+	if (_isFillClicked == false)
 	{
-		Grid* grid = _mapTool->mouseCollisionCheck();
-		if (grid)
+		if (_targetImage != nullptr && INPUT->GetKeyDown('A'))
 		{
-			if (_isFillClicked == false)
+			Grid* grid = _mapTool->mouseCollisionCheck();
+			if (grid)
 			{
-				_clickedPointOne = POINT{ grid->_xIndex, grid->_yIndex };
-				_isFillClicked = true;
+				
+					_clickedPointOne = POINT{ grid->_xIndex, grid->_yIndex };
+					_isFillClicked = true;
 			}
 
-			else
+		}
+	}
+
+	if (_isFillClicked)
+	{
+		Grid* grid = _mapTool->mouseCollisionCheck();
+		
+		_mapTool->PreviewGridRange(_clickedPointOne.x, _clickedPointOne.y, grid->_xIndex, grid->_yIndex, 150);
+
+		if (_targetImage != nullptr && INPUT->GetKeyDown('A'))
+		{
+			Grid* grid = _mapTool->mouseCollisionCheck();
+
+			if (grid)
 			{
-				_mapTool->EveSaveData();
 				_clickedPointTwo = POINT{ grid->_xIndex, grid->_yIndex };
 				_mapTool->GridRange(_clickedPointOne.x, _clickedPointOne.y, _clickedPointTwo.x, _clickedPointTwo.y);
 				_isFillClicked = false;
+				for (int i = 0; i < _mapTool->GetGrid().size(); i++)
+				{
+					for (int j = 0; j < _mapTool->GetGrid()[i].size(); j++)
+					{
+						_mapTool->GetGrid()[i][j]->_alpha = 30;
+					}
+				}
 			}
 		}
 	}
@@ -241,7 +267,7 @@ void mapScene::FloodFill()
 {
 	if (_targetImage != nullptr && INPUT->GetKeyDown('O'))
 	{
-		_mapTool->EveSaveData();
+		
 		Grid* grid = _mapTool->mouseCollisionCheck();
 		if (grid)
 		{
@@ -260,7 +286,7 @@ void mapScene::FillAll()
 {
 	if (_targetImage != nullptr && INPUT->GetKeyDown('I'))
 	{
-		_mapTool->EveSaveData();
+		//_mapTool->EveSaveData();
 		Grid* grid = _mapTool->mouseCollisionCheck();
 		if (grid)
 		{
@@ -374,25 +400,25 @@ void mapScene::AddMapLine()
 {
 	if (INPUT->GetKeyDown('T'))
 	{
-		_mapTool->EveSaveData();
+		//_mapTool->EveSaveData();
 		_mapTool->MapLineAddCol();
 	}
 
 	if (INPUT->GetKeyDown('Y'))
 	{
-		_mapTool->EveSaveData();
+		//_mapTool->EveSaveData();
 		_mapTool->MapLineAddRow();
 	}
 
 	if (INPUT->GetKeyDown('G'))
 	{
-		_mapTool->EveSaveData();
+		//_mapTool->EveSaveData();
 		_mapTool->MapLineRemoveCol();
 	}
 
 	if (INPUT->GetKeyDown('H'))
 	{
-		_mapTool->EveSaveData();
+		//_mapTool->EveSaveData();
 		_mapTool->MapLineRemoveRow();
 	}
 }
@@ -404,7 +430,7 @@ void mapScene::Undo()
 {
 	if (INPUT->GetKeyDown('R'))
 	{
-		_mapTool->EveLoadData();
+		//_mapTool->EveLoadData();
 	}
 }
 
@@ -450,7 +476,7 @@ void mapScene::SaveLoadMap()
 
 		else
 		{
-			_mapTool->EveSaveData();
+			//_mapTool->EveSaveData();
 			_mapTool->LoadData(_fileName);
 		}
 	}

@@ -161,7 +161,8 @@ void loadingScene::loadingImage()
 	_loading->loadImage("ScrollRect", "Images/UI/ScrollRect.bmp", 906, 396, true ,RGB(255,0,255));
 	_loading->loadImage("SlotDeleteButton", "Images/UI/SlotDeleteButton.bmp", 186, 51, true ,RGB(255,0,255));
 	_loading->loadImage("SlotDeleteButton_Rev", "Images/UI/SlotDeleteButton_Rev.bmp", 51, 186, true ,RGB(255,0,255));
-
+	_loading->loadImage("CheckImage", "Images/GridBound.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("CheckImageRed", "Images/GridBoundRed.bmp", 48, 48, true, RGB(255, 0, 255));
 }
 
 void loadingScene::loadingSound()
