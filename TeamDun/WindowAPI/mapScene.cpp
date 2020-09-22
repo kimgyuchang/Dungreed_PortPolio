@@ -413,7 +413,8 @@ void mapScene::render()
 	_mapTool->render();
 	_uiBrushTool->render();
 
-	if (_targetImage) _targetImage->alphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 128);
+	Grid* targetGrid = _mapTool->mouseCollisionCheck();
+	if(targetGrid) _targetImage->alphaRender(getMemDC(), targetGrid->_rc.left, targetGrid->_rc.top, 100);
 
 	UIMANAGER->render(getMemDC());
 }

@@ -32,7 +32,6 @@ public:
 	void update();
 	void render();
 
-
 	Grid* mouseCollisionCheck();
 	void SaveData(string name);
 	void LoadData(string name);
@@ -49,5 +48,4 @@ public:
 	// GETSET // 
 	void SetMapScene(mapScene* scene) { _mapScene = scene; }
 	vector<vector<Grid*>>& GetGrid() { return _vMapData; }
-
 };

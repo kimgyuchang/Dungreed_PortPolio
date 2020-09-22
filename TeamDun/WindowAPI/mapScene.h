@@ -10,7 +10,6 @@ private:
 	// MAP TOOL 관련 //
 	MapTool*		_mapTool;
 	image*			_targetImage;
-	
 
 	// FILL RANGE 관련 //
 	bool			_isFillClicked;
