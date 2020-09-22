@@ -41,7 +41,7 @@ protected:
 	// 렌더 관련 //
 	float					_scaleX;			// 확대 스케일 X
 	float					_scaleY;			// 확대 스케일 Y
-	bool					_childFirst;		// 아이를 먼저 그릴지
+	bool					_renderBeforeParent;// 부모보다 먼저 렌더될 것인지 (부모에 가려짐)
 
 public:
 	virtual HRESULT init(string name, float x, float y, float sizeX, float sizeY, string imageName, float scaleX = 1, float scaleY = 1);
@@ -73,6 +73,7 @@ public:
 	bool GetIsOutside() { return _isOutside; }
 	bool GetIsViewing() { return _isViewing; }
 	bool GetUseOutsideLimit() { return _useOutsideLimit; }
+	bool GetRenderBeforeParent() { return _renderBeforeParent; }
 
 	void SetX(int x) { _x = x; }
 	void SetY(int y) { _y = y; }
@@ -80,5 +81,5 @@ public:
 	void SetUseOutsideLimit(bool outside) { _useOutsideLimit = outside; }
 	void SetIsMoveToDrag(bool drag) { _isMoveToDrag = drag; }
 	void SetImage(image* target) { _image = target; }
-	void SetChildFirst(bool childFirst) { _childFirst = childFirst; }
+	void SetRenderBeforeParent(bool rbp) { _renderBeforeParent = rbp; }
 };
