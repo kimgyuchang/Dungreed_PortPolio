@@ -424,7 +424,7 @@ void mapScene::render()
 	_uiBrushTool->render();
 
 	Grid* targetGrid = _mapTool->mouseCollisionCheck();
-	if(targetGrid) _targetImage->alphaRender(getMemDC(), targetGrid->_rc.left, targetGrid->_rc.top, 100);
+	if(targetGrid) CAMERAMANAGER->AlphaRender(getMemDC(), _targetImage, targetGrid->_rc.left, targetGrid->_rc.top, 100);
 
 	UIMANAGER->render(getMemDC());
 

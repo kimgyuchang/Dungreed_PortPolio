@@ -61,8 +61,6 @@ Grid* MapTool::mouseCollisionCheck()
 			}
 		}
 	}
-	
-
 	return nullptr;
 }
 
