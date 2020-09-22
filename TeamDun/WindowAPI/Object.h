@@ -15,7 +15,6 @@ private :
 	vector<image*>	_vImages;		// 이미지들
 
 public :
-	
 	// GETSET //
 	int GetX() { return _x; }
 	void SetX(int x) { _x = x; }
@@ -26,4 +25,3 @@ public :
 	image* GetImage(int index) { return _vImages[index]; }
 	void Setimage(int index, image* img) { _vImages[index] = img; }
 };
-

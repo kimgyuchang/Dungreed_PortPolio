@@ -30,7 +30,7 @@ HRESULT UIFrame::init(string name, float x, float y, float sizeX, float sizeY, s
 	_isMoveToDrag = false;
 	_scaleX = scaleX;
 	_scaleY = scaleY;
-	_childFirst = false;
+	_renderBeforeParent = false;
 	SetIntersectRect();
 
 	return S_OK;
@@ -200,12 +200,10 @@ void UIFrame::render(HDC hdc)
 
 		else // 그게 아니라면
 		{
-			if (_childFirst)
+			for (int i = 0; i < _vChildFrames.size(); i++)
 			{
-				for (int i = 0; i < _vChildFrames.size(); i++)
-				{
+				if(_vChildFrames[i]->GetRenderBeforeParent()) // 부모 렌더 전에 렌더되는 자식이라면
 					_vChildFrames[i]->render(hdc);
-				}
 			}
 
 			if (_image != nullptr)
@@ -216,13 +214,12 @@ void UIFrame::render(HDC hdc)
 			
 			if (INPUT->GetKey('P')) Rectangle(hdc, _interactRect); // P를 누른 상태라면 충돌 범위도 그린다
 
-			if (!_childFirst)
+			for (int i = 0; i < _vChildFrames.size(); i++) // 자식 역시 그린다
 			{
-				for (int i = 0; i < _vChildFrames.size(); i++) // 자식 역시 그린다
-				{
+				if(!_vChildFrames[i]->GetRenderBeforeParent()) // 부모 렌더 후에 렌더되는 자식이라면
 					_vChildFrames[i]->render(hdc);
-				}
 			}
+			
 		}
 	}
 }

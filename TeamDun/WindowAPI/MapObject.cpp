@@ -3,5 +3,5 @@
 
 void MapObject::Animation()
 {
-
+	
 }

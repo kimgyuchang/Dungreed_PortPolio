@@ -1,0 +1,11 @@
+id,x,y,image,page
+100,큰 박스,Breakable,BigBox0,0
+101,박스,Breakable,Box0,0
+500,뼈 0,Etc,Bone0,1
+501,뼈 1,Etc,Bone1,1
+1000,큰 톱니,Obstacle,gear,2
+1001,중간 톱니,Obstacle,Gear_Small,2
+1002,작은 톱니,Obstacle,Gear_Small_Small,2
+102,오크통,Breakable,OakDrum0,0
+0,포탈,NPC,WormPassageIdle00,3
+1,딸기분수,NPC,StrawberryFountain0,3

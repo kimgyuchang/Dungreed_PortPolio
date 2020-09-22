@@ -1,6 +1,7 @@
 #pragma once
 #include "uibrushTool.h"
 #include "MapTool.h"
+
 class mapScene : public gameNode
 {
 private:
@@ -46,6 +47,7 @@ public :
 	void InputCheck();
 	void SetMapSize();
 	void RemovePaint();
+	void ToolMovePage();
 	void FillSquareRange();
 	void Paint();
 	void FloodFill();
@@ -57,7 +59,6 @@ public :
 	void render();
 	void CameraMove();
 	void SaveLoadMap();
-	
 
 	// GETSET //
 	image* GetTargetImage() { return _targetImage; }

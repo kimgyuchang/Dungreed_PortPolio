@@ -4,23 +4,9 @@
 
 HRESULT uibrushTool::init()
 {
+	DATAMANAGER->GetUIBrushToolData();
+
 	_page = 0;
-	
-	_vUiBrushGrid.push_back(vector<Grid*>());
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 5; j++)
-		{
-			Grid* grid = new Grid();
-			grid->_img = IMAGEMANAGER->findImage("Tile" + to_string(i*5 +j));
-			grid->_x = i * 50 + WINSIZEX / 2 + 200;
-			grid->_y = j * 50 + 300;
-			grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
-
-			_vUiBrushGrid[0].push_back(grid);
-		}
-	}
-
 	_vUiBrushObject.push_back(vector<Object*>());
 	_isOn = false;
 	_isObject = true;
@@ -31,13 +17,13 @@ HRESULT uibrushTool::init()
 void uibrushTool::UIInit()
 {
 	UIFrame* brushToolFrame = new UIFrame();
-	brushToolFrame->init("brushTool", _xPos, 180, 222, 189, "Base", 1.7f, 2.5f);
+	brushToolFrame->init("brushTool", _xPos, 10, 222, 189, "Base", 1.7f, 4.1f);
 	UIMANAGER->GetGameFrame()->AddFrame(brushToolFrame);
-	brushToolFrame->SetChildFirst(true);
 
 	UIFrame* brushGridButton = new UIFrame();
 	brushGridButton->init("gridBtn", -50, 20, 222, 189, "Base", 0.5f, 1.0f);
 	brushToolFrame->AddFrame(brushGridButton);
+	brushGridButton->SetRenderBeforeParent(true);
 
 	UIText* brushText = new UIText();
 	brushText->init("Text", 10, 20, 30, 170, "   그리드   ", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
@@ -46,13 +32,46 @@ void uibrushTool::UIInit()
 	UIFrame* brushObjectButton = new UIFrame();
 	brushObjectButton->init("objBtn", -50, 220, 222, 189, "Base", 0.5f, 1.0f);
 	brushToolFrame->AddFrame(brushObjectButton);
+	brushObjectButton->SetRenderBeforeParent(true);
 
 	brushText = new UIText();
 	brushText->init("Text", 10, 0, 30, 170, "  오브젝트  ", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	brushObjectButton->AddFrame(brushText);
 
+	UIImage* arrow = new UIImage();
+	arrow->init("arrowLeft", 30, 670, IMAGEMANAGER->findImage("OptionArrow1")->getWidth(), IMAGEMANAGER->findImage("OptionArrow1")->getHeight(), "OptionArrow1", false, 0, 0);
+	brushToolFrame->AddFrame(arrow);
+
+	arrow = new UIImage();
+	arrow->init("arrowRight", 240, 670, IMAGEMANAGER->findImage("OptionArrow0")->getWidth(), IMAGEMANAGER->findImage("OptionArrow0")->getHeight(), "OptionArrow0", false,0,0);
+	brushToolFrame->AddFrame(arrow);
+	
+	map<int, GridData*> dataSet = DATAMANAGER->GetGridData();
+	for (auto it = dataSet.begin(); it != dataSet.end(); it++)
+	{
+		GridData* data = it->second;
+		UIImage* image = new UIImage();
+		image->init(data->_name, data->_x, data->_y, 48, 48, data->_name, false, 0, 0);
+		brushToolFrame->AddFrame(image);
+
+		while (_vUiBrushGrid.size() <= data->_page) _vUiBrushGrid.push_back(vector<UIImage*>());
+		_vUiBrushGrid[data->_page].push_back(image);
+
+		if (data->_page != _page) image->SetIsViewing(false);
+	}
 }
 
+void uibrushTool::PageViewChange()
+{
+	for (int i = 0; i < _vUiBrushGrid.size(); i++)
+	{
+		for (int j = 0; j < _vUiBrushGrid[i].size(); j++)
+		{
+			if (i == _page) _vUiBrushGrid[i][j]->SetIsViewing(true);
+			else _vUiBrushGrid[i][j]->SetIsViewing(false);
+		}
+	}
+}
 
 void uibrushTool::release()
 {
@@ -81,7 +100,6 @@ void uibrushTool::MoveBrushTool()
 void uibrushTool::MenuCollisionCheck()
 {
 	UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("brushTool");
-	cout << "COLLISION CHECK" << endl;
 	if (PtInRect(&frame->GetChild("gridBtn")->GetRect(), _ptMouse))
 	{
 		if (_isOn)
@@ -130,27 +148,15 @@ void uibrushTool::MenuCollisionCheck()
 
 void uibrushTool::render()
 {
-	for (int i = 0; i < _vUiBrushGrid[_page].size(); i++)
-	{
-		Grid* grid = _vUiBrushGrid[_page][i];
-		Rectangle(getMemDC(), grid->_rc);
-		if(grid->_img) grid->_img->render(getMemDC(), grid->_x, grid->_y);
-	}
-
-	for (int i = 0; i < _vUiBrushObject[_page].size(); i++)
-	{
-		Object* obj = _vUiBrushObject[_page][i];
-		obj->GetImage(0)->render(getMemDC(), obj->GetX(), obj->GetY());
-	}
 }
 
 void uibrushTool::mouseCollisionCheck()
 {
 	for (int i = 0; i < _vUiBrushGrid[_page].size(); i++)
 	{
-		if (PtInRect(&_vUiBrushGrid[_page][i]->_rc, _ptMouse))
+		if (PtInRect(&_vUiBrushGrid[_page][i]->GetRect(), _ptMouse))
 		{
-			_mapScene->SetTargetImage(_vUiBrushGrid[_page][i]->_img);
+			_mapScene->SetTargetImage(_vUiBrushGrid[_page][i]->GetImage());
 			return;
 		}
 	}

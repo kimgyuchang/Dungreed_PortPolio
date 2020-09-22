@@ -3,4 +3,3 @@
 class Obstacle : public Object
 {
 };
-
