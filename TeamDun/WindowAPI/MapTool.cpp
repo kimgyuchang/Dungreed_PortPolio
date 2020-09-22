@@ -63,8 +63,6 @@ Grid* MapTool::mouseCollisionCheck()
 			}
 		}
 	}
-	
-
 	return nullptr;
 }
 
@@ -336,8 +334,6 @@ void MapTool::PreviewGridRange(int startIndexX, int startIndexY, int indexX, int
 	{
 		for (int i = startIndexX; i <= indexX; i++)
 		{
-			cout << j <<"   " << i << endl;
-			
 			_vMapData[j][i]->_alpha = alpha;
 		}
 	}
@@ -385,7 +381,6 @@ void MapTool::render()
 			//CAMERAMANAGER->Rectangle(getMemDC(), _vMapData[i][j]->_rc);
 			if (_vMapData[i][j]->_img) CAMERAMANAGER->Render(getMemDC(), _vMapData[i][j]->_img, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
 			string str = to_string(i) + " " + to_string(j);
-			CAMERAMANAGER->TextDraw(getMemDC(), _vMapData[i][j]->_x, _vMapData[i][j]->_y, str.c_str(), str.length());
 			CAMERAMANAGER->AlphaRender(getMemDC(), _vMapData[i][j]->_checkImg, _vMapData[i][j]->_x, _vMapData[i][j]->_y, _vMapData[i][j]->_alpha);
 		}
 	}

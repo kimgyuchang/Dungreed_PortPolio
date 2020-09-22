@@ -455,7 +455,6 @@ void image::alphaRender(HDC hdc, BYTE alpha)
 
 void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 {
-
 	if (!_blendImage) this->initForAlphaBlend();
 	_blendFunc.SourceConstantAlpha = alpha;
 

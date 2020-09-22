@@ -27,12 +27,10 @@ void UIImage::render(HDC hdc)
 
 		else // 렌더하는 케이스
 		{
-			if (_childFirst)
+			for (int i = 0; i < _vChildFrames.size(); i++) // 자식들 렌더
 			{
-				for (int i = 0; i < _vChildFrames.size(); i++) // 자식들 렌더
-				{
+				if (_vChildFrames[i]->GetRenderBeforeParent())
 					_vChildFrames[i]->render(hdc);
-				}
 			}
 			if (_image != nullptr)
 			{
@@ -56,13 +54,12 @@ void UIImage::render(HDC hdc)
 
 			if (INPUT->GetKey('P')) Rectangle(hdc, _interactRect); // P를 통해 상호작용 Rect 출력
 
-			if (!_childFirst)
+			for (int i = 0; i < _vChildFrames.size(); i++) // 자식들 렌더
 			{
-				for (int i = 0; i < _vChildFrames.size(); i++) // 자식들 렌더
-				{
+				if(!_vChildFrames[i]->GetRenderBeforeParent())
 					_vChildFrames[i]->render(hdc);
-				}
 			}
+			
 		}
 	}
 }

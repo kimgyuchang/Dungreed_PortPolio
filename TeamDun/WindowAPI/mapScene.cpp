@@ -7,7 +7,7 @@ HRESULT mapScene::init()
 
 	// 카메라 //
 	_pivot = POINT{ _widthNum / 2 * 48, _heightNum / 2 * 48 };
-	CAMERAMANAGER->init(_pivot.x, _pivot.y, 15000, 15000, -600, -600, WINSIZEX / 2, WINSIZEY / 2);
+	CAMERAMANAGER->init(_pivot.x, _pivot.y, 50000, 50000, -50000, -50000, WINSIZEX / 2, WINSIZEY / 2);
 	// 시작 시 크기 설정 //
 	_heightNum = 100;
 	_widthNum = 100;
@@ -61,8 +61,6 @@ void mapScene::UIInit()
 		setShortcutKeyBox->AddFrame(setShortcutKeyIg);
 	}
 
-	/*setShortcutKeyFrame->GetChild("shortcutBox0")->GetChild("Ig")->SetImage()*/
-
 	UIFrame* setSizeFrame = new UIFrame();
 	setSizeFrame->init("sizeFrame", 100, 100, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig");
 	UIMANAGER->GetGameFrame()->AddFrame(setSizeFrame);
@@ -115,9 +113,6 @@ void mapScene::UIInit()
 	UIText* saveLoadText = new UIText();
 	saveLoadText->init("SaveLoader", 200, 200, 200, 100, "SAVE", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	saveLoadFrame->AddFrame(saveLoadText);
-
-
-
 }
 
 void mapScene::release()
@@ -139,6 +134,7 @@ void mapScene::update()
 		_uiBrushTool->update();
 		GetUiBrush();
 		Paint();
+		ToolMovePage();
 		RemovePaint();
 		FillAll();
 		FillSquareRange();
@@ -173,7 +169,7 @@ void mapScene::InputCheck()
 /// </summary>
 void mapScene::Paint()
 {
-	
+
 	if (_targetImage != nullptr)
 	{
 		if (_isRightClicked)
@@ -212,12 +208,27 @@ void mapScene::RemovePaint()
 	}
 }
 
+void mapScene::ToolMovePage()
+{
+	if (_uiBrushTool->GetPage() > 0 && PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("arrowLeft")->GetRect(), _ptMouse) && _isLeftClicked)
+	{
+		_uiBrushTool->SetPage(_uiBrushTool->GetPage() - 1);
+		_uiBrushTool->PageViewChange();
+	}
+
+	if (_uiBrushTool->GetPage() < _uiBrushTool->GetUiBrushGrid().size() - 1 && PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("arrowRight")->GetRect(), _ptMouse) && _isLeftClicked)
+	{
+		_uiBrushTool->SetPage(_uiBrushTool->GetPage() + 1);
+		_uiBrushTool->PageViewChange();
+	}
+}
+
 /// <summary>
 /// 두번에 걸쳐 입력한 사각 범위만큼을 칠한다
 /// </summary>
 void mapScene::FillSquareRange()
 {
-	
+
 	if (_isFillClicked == false)
 	{
 		if (_targetImage != nullptr && INPUT->GetKeyDown('A'))
@@ -225,9 +236,9 @@ void mapScene::FillSquareRange()
 			Grid* grid = _mapTool->mouseCollisionCheck();
 			if (grid)
 			{
-				
-					_clickedPointOne = POINT{ grid->_xIndex, grid->_yIndex };
-					_isFillClicked = true;
+
+				_clickedPointOne = POINT{ grid->_xIndex, grid->_yIndex };
+				_isFillClicked = true;
 			}
 
 		}
@@ -236,7 +247,7 @@ void mapScene::FillSquareRange()
 	if (_isFillClicked)
 	{
 		Grid* grid = _mapTool->mouseCollisionCheck();
-		
+
 		_mapTool->PreviewGridRange(_clickedPointOne.x, _clickedPointOne.y, grid->_xIndex, grid->_yIndex, 150);
 
 		if (_targetImage != nullptr && INPUT->GetKeyDown('A'))
@@ -267,7 +278,7 @@ void mapScene::FloodFill()
 {
 	if (_targetImage != nullptr && INPUT->GetKeyDown('O'))
 	{
-		
+
 		Grid* grid = _mapTool->mouseCollisionCheck();
 		if (grid)
 		{
@@ -327,23 +338,23 @@ void mapScene::SetMapSize()
 	/*UIMANAGER->GetGameFrame()->GetChild("sizeFrame")->GetChild("HeightBox")->GetChild("Word2")->SetIsViewing(false, false);*/
 
 	UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("sizeFrame");
-	if (PtInRect(&frame->GetChild("UpButtonFrame")->GetRect(), _ptMouse) && INPUT->GetKeyDown(VK_LBUTTON))
+	if (PtInRect(&frame->GetChild("UpButtonFrame")->GetRect(), _ptMouse) && _isLeftClicked)
 	{
 		_heightNum++;
 		dynamic_cast<UIText*>(frame->GetChild("HeightBox")->GetChild("Word"))->SetText(to_string(_heightNum));
 	}
-	if (PtInRect(&frame->GetChild("DownButtonFrame")->GetRect(), _ptMouse) && INPUT->GetKeyDown(VK_LBUTTON))
+	if (PtInRect(&frame->GetChild("DownButtonFrame")->GetRect(), _ptMouse) && _isLeftClicked)
 	{
 		_heightNum--;
 		if (_heightNum < 1) _heightNum = 1;
 		dynamic_cast<UIText*>(frame->GetChild("HeightBox")->GetChild("Word"))->SetText(to_string(_heightNum));
 	}
-	if (PtInRect(&frame->GetChild("RightButtonFrame")->GetRect(), _ptMouse) && INPUT->GetKeyDown(VK_LBUTTON))
+	if (PtInRect(&frame->GetChild("RightButtonFrame")->GetRect(), _ptMouse) && _isLeftClicked)
 	{
 		_widthNum++;
 		dynamic_cast<UIText*>(frame->GetChild("WidthBox")->GetChild("Word"))->SetText(to_string(_widthNum));
 	}
-	if (PtInRect(&frame->GetChild("LeftButtonFrame")->GetRect(), _ptMouse) && INPUT->GetKeyDown(VK_LBUTTON))
+	if (PtInRect(&frame->GetChild("LeftButtonFrame")->GetRect(), _ptMouse) && _isLeftClicked)
 	{
 		_widthNum--;
 		if (_widthNum < 1) _widthNum = 1;
@@ -355,7 +366,6 @@ void mapScene::CallSaveLoadEditor()
 {
 	if (INPUT->GetKeyDown(VK_F1))
 	{
-
 		if (!_isEditerViewing || _isLoad)
 		{
 			UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(true);
@@ -439,9 +449,13 @@ void mapScene::render()
 	_mapTool->render();
 	_uiBrushTool->render();
 
-	if (_targetImage) _targetImage->alphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 128);
+	Grid* targetGrid = _mapTool->mouseCollisionCheck();
+	if (_targetImage && targetGrid) CAMERAMANAGER->AlphaRender(getMemDC(), _targetImage, targetGrid->_rc.left, targetGrid->_rc.top, 100);
 
 	UIMANAGER->render(getMemDC());
+
+	string n = to_string(_ptMouse.x) + " " + to_string(_ptMouse.y);
+	TextOut(getMemDC(), _ptMouse.x, _ptMouse.y, n.c_str(), n.length());
 }
 
 void mapScene::CameraMove()
