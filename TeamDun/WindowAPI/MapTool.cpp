@@ -134,6 +134,8 @@ void MapTool::LoadData(string name)
 			else grid->_img = IMAGEMANAGER->findImage(stringData[i][j]);
 			grid->_x = j * 50 + 0;
 			grid->_y = i * 50 + 0;
+			grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
+			grid->_alpha = 30;
 			grid->_xIndex = j;
 			grid->_yIndex = i;
 			grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
@@ -190,6 +192,8 @@ void MapTool::MapLineAddRow()
 		grid->_y = _vMapData.size() * 50 + 0;
 		grid->_xIndex = j;
 		grid->_yIndex = _vMapData.size();
+		grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
+		grid->_alpha = 30;
 		grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
 		gridLine.push_back(grid);
 	}
@@ -210,6 +214,8 @@ void MapTool::MapLineAddCol()
 		grid->_y = i * 50 + 0;
 		grid->_xIndex = _vMapData[i].size();
 		grid->_yIndex = i;
+		grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
+		grid->_alpha = 30;
 		grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
 		_vMapData[i].push_back(grid);
 	}

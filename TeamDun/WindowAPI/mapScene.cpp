@@ -9,8 +9,8 @@ HRESULT mapScene::init()
 	_pivot = POINT{ _widthNum / 2 * 48, _heightNum / 2 * 48 };
 	CAMERAMANAGER->init(_pivot.x, _pivot.y, 50000, 50000, -50000, -50000, WINSIZEX / 2, WINSIZEY / 2);
 	// 시작 시 크기 설정 //
-	_heightNum = 100;
-	_widthNum = 100;
+	_heightNum = 10;
+	_widthNum = 10;
 	_isSettingPage = true;
 
 	// 회전 TESTER // 
@@ -278,7 +278,6 @@ void mapScene::FloodFill()
 {
 	if (_targetImage != nullptr && INPUT->GetKeyDown('O'))
 	{
-
 		Grid* grid = _mapTool->mouseCollisionCheck();
 		if (grid)
 		{
@@ -462,19 +461,19 @@ void mapScene::CameraMove()
 {
 	if (INPUT->GetKey(VK_LEFT))
 	{
-		_pivot.x -= 5;
+		_pivot.x -= 30;
 	}
 	if (INPUT->GetKey(VK_RIGHT))
 	{
-		_pivot.x += 5;
+		_pivot.x += 30;
 	}
 	if (INPUT->GetKey(VK_UP))
 	{
-		_pivot.y -= 5;
+		_pivot.y -= 30;
 	}
 	if (INPUT->GetKey(VK_DOWN))
 	{
-		_pivot.y += 5;
+		_pivot.y += 30;
 	}
 }
 

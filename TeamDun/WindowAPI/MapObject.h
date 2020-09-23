@@ -10,13 +10,20 @@ public :
 	float		_x;					// X
 	float		_y;					// Y
 	int			_spawnTime;			// 스폰 시간
-	image		_img;				// 이미지
+	int			_page;				// 페이지
 
+	image*		_image;
 	int			_animationTimer;	// 애니메이션 타이머
 	int			_frameX;			// 애니메이션 프레임 X
 	int			_frameY;			// 애니메이션 프레임 Y
+	int			_alpha;
 
-private :
+public :
+	HRESULT init(int id, float x, float y, int page);
+	void update();
+	void render(HDC hdc);
+	void release();
+
 	void Animation();
 	void SetSpawnTime(int spawnTime) { _spawnTime = spawnTime; }
 };

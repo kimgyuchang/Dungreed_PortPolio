@@ -1,6 +1,7 @@
 #pragma once
 #include "singletonBase.h"
 #include "Object.h"
+#include "MapObject.h"
 
 struct GridData
 {
@@ -14,11 +15,14 @@ struct GridData
 class DataManager : public singletonBase<DataManager>
 {
 private :
-	vector<Object*> _vObjs;
-	map<int, GridData*> _mGridData;
+	map<int, GridData*>		_mGridData;
+	map<int, Object*>		_mObjs;
+	map<int, MapObject*>	_mMapObjectData;
 public :
-	void GetUIBrushToolData();
-	void GetMapObjectData();
+	void GetUIBrushToolGridData();
+	void GetObjectData();
 	map<int, GridData*>& GetGridData() { return _mGridData; }
+	map<int, MapObject*>& GetMapObjectData() { return _mMapObjectData; }
+	Object* GetObjectById(int id) { return _mObjs[id]; }
 };
 

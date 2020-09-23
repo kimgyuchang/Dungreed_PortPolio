@@ -7,10 +7,11 @@ class mapScene : public gameNode
 private:
 	// UI BRUSH 관련 //
 	uibrushTool*	_uiBrushTool;
-	
+
 	// MAP TOOL 관련 //
 	MapTool*		_mapTool;
 	image*			_targetImage;
+	MapObject*		_targetObject;
 
 	// FILL RANGE 관련 //
 	bool			_isFillClicked;
@@ -63,6 +64,9 @@ public :
 	// GETSET //
 	image* GetTargetImage() { return _targetImage; }
 	void SetTargetImage(image* img) { _targetImage = img; }
+	MapObject* GetTargetObject() { return _targetObject; }
+	void SetTargetObject(MapObject* obj) { _targetObject = obj; }
+
 	void SaveShortcutKey();
 	void LoadShortcutKey();
 };

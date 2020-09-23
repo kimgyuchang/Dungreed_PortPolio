@@ -1,11 +1,11 @@
-id,x,y,image,page
-100,Å« ¹Ú½º,Breakable,BigBox0,0
-101,¹Ú½º,Breakable,Box0,0
-500,»À 0,Etc,Bone0,1
-501,»À 1,Etc,Bone1,1
-1000,Å« Åé´Ï,Obstacle,gear,2
-1001,Áß°£ Åé´Ï,Obstacle,Gear_Small,2
-1002,ÀÛÀº Åé´Ï,Obstacle,Gear_Small_Small,2
-102,¿ÀÅ©Åë,Breakable,OakDrum0,0
-0,Æ÷Å»,NPC,WormPassageIdle00,3
-1,µþ±âºÐ¼ö,NPC,StrawberryFountain0,3
+id,x,y,page
+100,100,100,0
+101,200,100,0
+500,100,100,1
+501,200,100,1
+1000,100,100,2
+1001,100,250,2
+1002,100,350,2
+102,100,100,0
+0,100,100,3
+1,100,250,3

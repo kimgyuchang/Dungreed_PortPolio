@@ -8,7 +8,7 @@ class uibrushTool : public gameNode
 {
 private:
 	vector<vector<UIImage*>>	_vUiBrushGrid;		// 그리드 브러시
-	vector<vector<Object*>>		_vUiBrushObject;	// 오브젝트 브러시
+	vector<vector<UIImage*>>		_vUiBrushObject;	// 오브젝트 브러시
 	mapScene*					_mapScene;			
 
 	int							_page;				// 현재 페이지
