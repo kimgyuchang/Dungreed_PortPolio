@@ -588,7 +588,8 @@ void mapScene::render()
 
 	Grid* targetGrid = _mapTool->mouseCollisionCheck();
 	if (_targetImage && targetGrid) CAMERAMANAGER->AlphaRender(getMemDC(), _targetImage, targetGrid->_rc.left, targetGrid->_rc.top, 100);
-
+	if (_targetObject) _targetObject->_image->alphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 100);
+	
 	UIMANAGER->render(getMemDC());
 
 	string n = to_string(_ptMouse.x) + " " + to_string(_ptMouse.y);
