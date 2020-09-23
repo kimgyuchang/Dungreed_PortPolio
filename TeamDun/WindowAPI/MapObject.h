@@ -17,6 +17,8 @@ public :
 	int			_frameX;			// 애니메이션 프레임 X
 	int			_frameY;			// 애니메이션 프레임 Y
 	int			_alpha;
+	
+	RECT		_body;				// 충돌 바디
 
 public :
 	HRESULT init(int id, float x, float y, int page);
@@ -24,6 +26,8 @@ public :
 	void render(HDC hdc);
 	void release();
 
+	void UpdateBody();
 	void Animation();
+
 	void SetSpawnTime(int spawnTime) { _spawnTime = spawnTime; }
 };
