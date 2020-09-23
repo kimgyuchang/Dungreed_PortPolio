@@ -65,5 +65,6 @@ public :
 	void SetTargetImage(image* img) { _targetImage = img; }
 	void SaveShortcutKey();
 	void LoadShortcutKey();
+	void SetLayer();
 };
 
