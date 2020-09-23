@@ -81,7 +81,6 @@ void uibrushTool::MoveBrushTool()
 void uibrushTool::MenuCollisionCheck()
 {
 	UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("brushTool");
-	cout << "COLLISION CHECK" << endl;
 	if (PtInRect(&frame->GetChild("gridBtn")->GetRect(), _ptMouse))
 	{
 		if (_isOn)
