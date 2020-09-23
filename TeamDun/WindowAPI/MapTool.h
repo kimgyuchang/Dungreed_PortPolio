@@ -3,14 +3,15 @@
 
 struct Grid
 {
-	int		_x;			// X 위치
-	int		_y;			// Y 위치
-	int     _xIndex;	// xIndex
-	int		_yIndex;	// yIndex
-	RECT	_rc;		// RECT
-	image*	_img;		// IMAGE
-	image*	_img2;		// IMGE2
-	image*	_checkImg;	// 체크이미지
+	int		_x;					// X 위치
+	int		_y;					// Y 위치
+	int     _xIndex;			// xIndex
+	int		_yIndex;			// yIndex
+	RECT	_rc;				// RECT
+	image*	_img;				// IMAGE
+	image*	_img2;				// IMGE2
+	vector<image*>_vBeforeImg;	// 전IMAGE
+	image*	_checkImg;			// 체크이미지
 	int		_alpha;
 };
 
@@ -28,7 +29,8 @@ private:
 
 	// OBJECT 관련 //
 	vector<Object*>					_vObjs;			// 오브젝트 목록
-	
+
+	bool							_isLayer;		// 레이어 선택하기위한 불값
 
 	
 public:
@@ -55,4 +57,6 @@ public:
 	// GETSET // 
 	void SetMapScene(mapScene* scene) { _mapScene = scene; }
 	vector<vector<Grid*>>& GetGrid() { return _vMapData; }
+	bool getIsLayer() { return _isLayer; }
+	void setIsLayer(bool isLayer) { _isLayer = isLayer; }
 };

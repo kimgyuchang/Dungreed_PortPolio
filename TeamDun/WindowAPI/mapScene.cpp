@@ -225,6 +225,7 @@ void mapScene::update()
 		CameraMove();
 		SaveShortcutKey();
 		LoadShortcutKey();
+		SetLayer();
 
 		CAMERAMANAGER->MovePivot(_pivot.x, _pivot.y);
 	}
@@ -240,7 +241,11 @@ void mapScene::InputCheck()
 		_isLeftClicked = true;
 	}
 
-	if (INPUT->GetKeyDown(VK_RBUTTON)) _isRightClicked = true;
+	if (INPUT->GetKeyDown(VK_RBUTTON))
+	{
+
+		_isRightClicked = true;
+	}
 }
 
 /// <summary>
@@ -248,9 +253,14 @@ void mapScene::InputCheck()
 /// </summary>
 void mapScene::Paint()
 {
-	// _mapTool->EveSaveData();//버튼을 누르며 지워지기 시작한 순간에 저장
 	Grid* grid = _mapTool->mouseCollisionCheck();
-	if (grid) grid->_img = _targetImage;
+	if (grid)
+	{
+		if (_mapTool->getIsLayer() == true)
+			grid->_img = _targetImage;
+		else
+			grid->_img2 = _targetImage;
+	}
 }
 
 /// <summary>
@@ -262,7 +272,10 @@ void mapScene::RemovePaint()
 	Grid* grid = _mapTool->mouseCollisionCheck();
 	if (grid)
 	{
-		grid->_img = nullptr;
+		if (_mapTool->getIsLayer() == true)
+			grid->_img = nullptr;
+		else
+			grid->_img2 = nullptr;
 	}
 }
 
@@ -271,7 +284,7 @@ void mapScene::UpdateFillSquareRange()
 	if (_isFillClicked)
 	{
 		Grid* grid = _mapTool->mouseCollisionCheck();
-		if(grid != nullptr) _mapTool->PreviewGridRange(_clickedPointOne.x, _clickedPointOne.y, grid->_xIndex, grid->_yIndex, 150);
+		if (grid != nullptr) _mapTool->PreviewGridRange(_clickedPointOne.x, _clickedPointOne.y, grid->_xIndex, grid->_yIndex, 150);
 	}
 }
 
@@ -297,6 +310,7 @@ void mapScene::FillSquareRange()
 	{
 		if (_targetImage != nullptr)
 		{
+			_mapTool->EveSaveData();
 			Grid* grid = _mapTool->mouseCollisionCheck();
 
 			if (grid)
@@ -342,18 +356,18 @@ void mapScene::CheckShortCutBtnCollision()
 				case 6:
 					_brushType = BRUSHTYPE::BT_FLOODFILL; break;
 				case 7:
-					AddRemoveLine(); break;
+					SwitchSizeFrame(); break;
 				case 8:
 					Undo(); break;
 				}
 			}
-			//_mapTool->EveSaveData(); //버튼을 누르며 지워지기 시작한 순간에 저장
+			_mapTool->EveSaveData(); //버튼을 누르며 지워지기 시작한 순간에 저장
 		}
 
 		if (_isEditerViewing == true)
 		{
 			UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame");
-			
+
 			for (int i = 0; i < 4; i++)
 			{
 				if (PtInRect(&frame->GetChild("shortSizeBox" + to_string(i))->GetRect(), _ptMouse))
@@ -429,14 +443,11 @@ void mapScene::ToolMovePage()
 /// </summary>
 void mapScene::FloodFill()
 {
-	// _mapTool->EveSaveData();
 	Grid* grid = _mapTool->mouseCollisionCheck();
-	if (grid)
+	if (grid && _targetImage != nullptr)
 	{
-		if (grid->_img != _targetImage)
-		{
-			_mapTool->FloodFill(grid->_img, grid->_xIndex, grid->_yIndex);
-		}
+		_mapTool->EveSaveData();
+		_mapTool->FloodFill(grid->_img, grid->_xIndex, grid->_yIndex);
 	}
 }
 
@@ -445,7 +456,7 @@ void mapScene::FloodFill()
 /// </summary>
 void mapScene::FillAll()
 {
-	// _mapTool->EveSaveData();
+	_mapTool->EveSaveData();
 	_mapTool->FillAll();
 }
 
@@ -476,9 +487,6 @@ void mapScene::SetMapSize()
 		_pivot.y = _heightNum * 48 / 2;
 		_uiBrushTool->UIInit();
 	}
-
-	//10의자리 숫자 출력 안하게 하는거 예시
-	/*UIMANAGER->GetGameFrame()->GetChild("sizeFrame")->GetChild("HeightBox")->GetChild("Word2")->SetIsViewing(false, false);*/
 
 	UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("sizeFrame");
 	if (PtInRect(&frame->GetChild("UpButtonFrame")->GetRect(), _ptMouse) && _isLeftClicked)
@@ -550,25 +558,25 @@ void mapScene::AddMapLine(int type)
 {
 	if (type == 0)
 	{
-		//_mapTool->EveSaveData();
+		_mapTool->EveSaveData();
 		_mapTool->MapLineAddCol();
 	}
 
 	if (type == 1)
 	{
-		//_mapTool->EveSaveData();
+		_mapTool->EveSaveData();
 		_mapTool->MapLineAddRow();
 	}
 
 	if (type == 2)
 	{
-		//_mapTool->EveSaveData();
+		_mapTool->EveSaveData();
 		_mapTool->MapLineRemoveCol();
 	}
 
 	if (type == 3)
 	{
-		//_mapTool->EveSaveData();
+		_mapTool->EveSaveData();
 		_mapTool->MapLineRemoveRow();
 	}
 }
@@ -589,11 +597,8 @@ void mapScene::render()
 	Grid* targetGrid = _mapTool->mouseCollisionCheck();
 	if (_targetImage && targetGrid) CAMERAMANAGER->AlphaRender(getMemDC(), _targetImage, targetGrid->_rc.left, targetGrid->_rc.top, 100);
 	if (_targetObject) _targetObject->_image->alphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 100);
-	
-	UIMANAGER->render(getMemDC());
 
-	string n = to_string(_ptMouse.x) + " " + to_string(_ptMouse.y);
-	TextOut(getMemDC(), _ptMouse.x, _ptMouse.y, n.c_str(), n.length());
+	UIMANAGER->render(getMemDC());
 }
 
 void mapScene::CameraMove()
@@ -628,13 +633,13 @@ void mapScene::SaveLoadMap()
 
 		else
 		{
-			// _mapTool->EveSaveData();
-			_mapTool->LoadData(_fileName);
+				_mapTool->EveSaveData();
+				_mapTool->LoadData(_fileName);
 		}
 	}
 }
 
-void mapScene::AddRemoveLine()
+void mapScene::SwitchSizeFrame()
 {
 	if (!_isEditerViewing || INPUT->GetKeyDown(VK_LBUTTON))
 	{
@@ -671,5 +676,17 @@ void mapScene::LoadShortcutKey()
 				_targetImage = frame->GetChild("shortcutBox" + to_string(i))->GetChild("Ig")->GetImage();
 			}
 		}
+	}
+}
+
+void mapScene::SetLayer()
+{
+	if (INPUT->GetKeyDown('B'))
+	{
+		if (_mapTool->getIsLayer() == false)
+			_mapTool->setIsLayer(true);
+		else
+			_mapTool->setIsLayer(false);
+
 	}
 }

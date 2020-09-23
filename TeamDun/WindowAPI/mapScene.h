@@ -67,7 +67,7 @@ public :
 	void render();
 	void CameraMove();
 	void SaveLoadMap();
-	void AddRemoveLine();
+	void SwitchSizeFrame();
 	
 	// GETSET //
 	image* GetTargetImage() { return _targetImage; }
@@ -77,5 +77,6 @@ public :
 
 	void SaveShortcutKey();
 	void LoadShortcutKey();
+	void SetLayer();
 };
 
