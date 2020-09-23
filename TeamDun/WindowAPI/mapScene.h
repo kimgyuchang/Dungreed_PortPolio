@@ -11,11 +11,11 @@ class mapScene : public gameNode
 private:
 	// UI BRUSH 관련 //
 	uibrushTool*	_uiBrushTool;
-	
+
 	// MAP TOOL 관련 //
 	MapTool*		_mapTool;
 	image*			_targetImage;
-	
+	MapObject*		_targetObject;
 
 	// FILL RANGE 관련 //
 	bool			_isFillClicked;
@@ -52,6 +52,8 @@ public :
 	void SetMapSize();
 	void CallSaveEditor();
 	void RemovePaint();
+	void UpdateFillSquareRange();
+	void ToolMovePage();
 	void FillSquareRange();
 	void CheckShortCutBtnCollision();
 	void DoClickByType();
@@ -67,10 +69,12 @@ public :
 	void SaveLoadMap();
 	void AddRemoveLine();
 	
-
 	// GETSET //
 	image* GetTargetImage() { return _targetImage; }
 	void SetTargetImage(image* img) { _targetImage = img; }
+	MapObject* GetTargetObject() { return _targetObject; }
+	void SetTargetObject(MapObject* obj) { _targetObject = obj; }
+
 	void SaveShortcutKey();
 	void LoadShortcutKey();
 };

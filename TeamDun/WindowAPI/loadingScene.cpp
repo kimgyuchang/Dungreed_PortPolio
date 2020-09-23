@@ -41,9 +41,9 @@ void loadingScene::render()
 
 	textOut(getMemDC(), 10, 10, "로딩화면");
 
-	IMAGEMANAGER->frameRender("number", getMemDC(), 680, 500,(int)((float)_loading->getCurrentGauge() /(float)_loading->getLoadItem().size()*100) % 10, 0);
+	IMAGEMANAGER->frameRender("number", getMemDC(), 710, 500,(int)((float)_loading->getCurrentGauge() /(float)_loading->getLoadItem().size()*100) % 10, 0);
 	if ((int)((float)_loading->getCurrentGauge()*(100 / (float)_loading->getLoadItem().size()) / 10) > 0)
-	IMAGEMANAGER->frameRender("number", getMemDC(), 660, 500, (float)_loading->getCurrentGauge()*(100/(float)_loading->getLoadItem().size()) / 10, 0);
+	IMAGEMANAGER->frameRender("number", getMemDC(), 690, 500, (float)_loading->getCurrentGauge()*(100/(float)_loading->getLoadItem().size()) / 10, 0);
 }
 
 void loadingScene::loadingFont()
@@ -56,21 +56,100 @@ void loadingScene::loadingFont()
 void loadingScene::loadingImage()
 {
 	// STAGE 1 //
-	_loading->loadImage("Tile0", "Images/Tile (1).bmp", 48, 48);
-	_loading->loadImage("Tile1", "Images/Tile (2).bmp", 48, 48);
-	_loading->loadImage("Tile2", "Images/Tile (3).bmp", 48, 48);
-	_loading->loadImage("Tile3", "Images/Tile (4).bmp", 48, 48);
-	_loading->loadImage("Tile4", "Images/Tile (5).bmp", 48, 48);
-	_loading->loadImage("Tile5", "Images/Tile (6).bmp", 48, 48);
-	_loading->loadImage("Tile6", "Images/Tile (7).bmp", 48, 48);
-	_loading->loadImage("Tile7", "Images/Tile (8).bmp", 48, 48);
-	_loading->loadImage("Tile8", "Images/Tile (9).bmp", 48, 48);
-	_loading->loadImage("Tile9", "Images/Tile (10).bmp", 48, 48);
-	_loading->loadImage("Tile10", "Images/Tile (11).bmp", 48, 48);
-	_loading->loadImage("Tile11", "Images/Tile (12).bmp", 48, 48);
-	_loading->loadImage("Tile12", "Images/Tile (13).bmp", 48, 48);
-	_loading->loadImage("Tile13", "Images/Tile (14).bmp", 48, 48);
-	_loading->loadImage("Tile14", "Images/Tile (15).bmp", 48, 48);
+	_loading->loadImage("Stage1_Tile0", "Images/1Floor/Basic_H_Type2_0.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile1", "Images/1Floor/Basic_H_Type2_1.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile2", "Images/1Floor/Basic_H_Type2_2.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile3", "Images/1Floor/Basic_H_Type2_3.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile4", "Images/1Floor/Basic_H_Type2_4.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile5", "Images/1Floor/Basic_H_Type2_5.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile6", "Images/1Floor/Basic_H_Type2_6.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile7", "Images/1Floor/Basic_H_Type2_7.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile8", "Images/1Floor/Basic_H_Type2_8.bmp", 48, 48, true, RGB(255,0,255));
+
+	_loading->loadImage("Stage1_Tile9", "Images/1Floor/BasicStone_BottomCenter.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile10", "Images/1Floor/BasicStone_TopCenter_2.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile11", "Images/1Floor/BasicStone_TopCenter_4.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile12", "Images/1Floor/1FloorTileLeft.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile13", "Images/1Floor/1FloorTileMiddle.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile14", "Images/1Floor/1FloorTileRight.bmp", 48, 48, true, RGB(255, 0, 255));
+
+	_loading->loadImage("Stage1_Tile15", "Images/1Floor/Tile_H1.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile16", "Images/1Floor/Tile_H3.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile17", "Images/1Floor/Tile_H4.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile18", "Images/1Floor/Tile_H5.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile19", "Images/1Floor/Tile_H7.bmp", 48, 48, true, RGB(255,0,255));
+
+	_loading->loadImage("Stage1_Tile20", "Images/1Floor/Tile_H9.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile21", "Images/1Floor/Tile_H10.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile22", "Images/1Floor/Tile_H11.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile23", "Images/1Floor/Tile_H12.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile24", "Images/1Floor/Tile_H14.bmp", 48, 48, true, RGB(255,0,255));
+
+	_loading->loadImage("Stage1_Tile25", "Images/1Floor/Tile_Marble_Stair_BottomLeft.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile26", "Images/1Floor/Tile_Marble_Stair_BottomRight.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile27", "Images/1Floor/Tile_Marble_Stair_TopLeft.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile28", "Images/1Floor/Tile_Marble_Stair_TopRight.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile29", "Images/1Floor/Tile_Stair_BottomLeft.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile30", "Images/1Floor/Tile_Stair_BottomRight.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile31", "Images/1Floor/Tile_Stair_TopLeft.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile32", "Images/1Floor/Tile_Stair_TopRight.bmp", 48, 48, true, RGB(255, 0, 255));
+	
+	_loading->loadImage("Stage1_Tile33", "Images/1Floor/Tile_Slim_Bottom.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile34", "Images/1Floor/Tile_Slim_BottomCenter.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile35", "Images/1Floor/Tile_Slim_Left.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile36", "Images/1Floor/Tile_Slim_MiddleRight.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile37", "Images/1Floor/Tile_Slim_Right.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile38", "Images/1Floor/Tile_Slim_Top.bmp", 48, 48, true, RGB(255, 0, 255));
+	
+	_loading->loadImage("Stage1_Tile39", "Images/1Floor/Wall_Basic_0.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile40", "Images/1Floor/Wall_Basic_1.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile41", "Images/1Floor/Wall_Basic_2.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile42", "Images/1Floor/Wall_Basic_3.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile43", "Images/1Floor/Wall_Basic_4.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile44", "Images/1Floor/Wall_Basic_5.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile45", "Images/1Floor/Wall_Basic_12.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile46", "Images/1Floor/Wall_Basic_13.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile47", "Images/1Floor/Wall_Basic_14.bmp", 48, 48, true, RGB(255,0,255));
+	
+	_loading->loadImage("Stage1_Tile48", "Images/1Floor/Wall_Basic_6.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile49", "Images/1Floor/Wall_Basic_8.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile50", "Images/1Floor/Wall_Basic_15.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile51", "Images/1Floor/Wall_Basic_16.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile52", "Images/1Floor/Wall_Basic_9.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile53", "Images/1Floor/Wall_Basic_10.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile54", "Images/1Floor/Wall_Basic_11.bmp", 48, 48, true, RGB(255,0,255));
+	
+	_loading->loadImage("Stage1_Tile55", "Images/1Floor/Wall_Basic_Ceiling_0.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile56", "Images/1Floor/Wall_Basic_Ceiling_1.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile57", "Images/1Floor/Wall_Basic_Ceiling_2.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile58", "Images/1Floor/Wall_Basic_Ceiling_3.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile59", "Images/1Floor/Wall_Basic_Ceiling_4.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile60", "Images/1Floor/Wall_Basic_Ceiling_5.bmp", 48, 48, true, RGB(255,0,255));
+	
+	_loading->loadImage("Stage1_Tile61", "Images/1Floor/Wall_Type2_StairLeft.bmp", 48, 48, true, RGB(255, 0, 255));
+	
+	_loading->loadImage("Stage1_Tile62", "Images/1Floor/Wall_Cracked_0.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile63", "Images/1Floor/Wall_Cracked_1.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile64", "Images/1Floor/Wall_Cracked_2.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile65", "Images/1Floor/Wall_Cracked_3.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile66", "Images/1Floor/Wall_Cracked_4.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile67", "Images/1Floor/Wall_Cracked_5.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile68", "Images/1Floor/Wall_Cracked_6.bmp", 48, 48, true, RGB(255,0,255));
+
+	_loading->loadImage("Stage1_Tile69", "Images/1Floor/Wall_H0.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile70", "Images/1Floor/Wall_H1.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile71", "Images/1Floor/Wall_H2.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile72", "Images/1Floor/Wall_H3.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile73", "Images/1Floor/Wall_H4_1.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile74", "Images/1Floor/Wall_H4_2.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("Stage1_Tile75", "Images/1Floor/Wall_H6.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile76", "Images/1Floor/Wall_H8.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile77", "Images/1Floor/Wall_H9.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile78", "Images/1Floor/Wall_H10.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile79", "Images/1Floor/Wall_H11.bmp", 48, 48, true, RGB(255,0,255));
+	_loading->loadImage("Stage1_Tile80", "Images/1Floor/Wall_H12.bmp", 48, 48, true, RGB(255,0,255));
+	
+	// UNUSE UIBASE //
 	_loading->loadImage("UIBaseBig", "Images/UI/Base.bmp", 222*5, 189*3 , true ,RGB(255,0,255));
 	_loading->loadImage("UIBaseMiddle", "Images/UI/Base.bmp", 222*2, 189*2 , true ,RGB(255,0,255));
 	_loading->loadImage("UIBaseSmall", "Images/UI/Base.bmp", 222, 189 , true ,RGB(255,0,255));
@@ -162,6 +241,9 @@ void loadingScene::loadingImage()
 	_loading->loadImage("SlotDeleteButton", "Images/UI/SlotDeleteButton.bmp", 186, 51, true ,RGB(255,0,255));
 	_loading->loadImage("SlotDeleteButton_Rev", "Images/UI/SlotDeleteButton_Rev.bmp", 51, 186, true ,RGB(255,0,255));
 
+	// MAPTOOL 미리보기 //
+	_loading->loadImage("CheckImage", "Images/GridBound.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->loadImage("CheckImageRed", "Images/GridBoundRed.bmp", 48, 48, true, RGB(255, 0, 255));
 }
 
 void loadingScene::loadingSound()

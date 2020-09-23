@@ -7,7 +7,7 @@ HRESULT mapScene::init()
 
 	// 카메라 //
 	_pivot = POINT{ _widthNum / 2 * 48, _heightNum / 2 * 48 };
-	CAMERAMANAGER->init(_pivot.x, _pivot.y, 15000, 15000, 0, 0, WINSIZEX / 2, WINSIZEY / 2);
+	CAMERAMANAGER->init(_pivot.x, _pivot.y, 50000, 50000, -50000, -50000, WINSIZEX / 2, WINSIZEY / 2);
 	// 시작 시 크기 설정 //
 	_heightNum = 10;
 	_widthNum = 10;
@@ -60,8 +60,6 @@ void mapScene::UIInit()
 		setShortcutKeyIg->init("Ig", 4, 4, 48, 48, "", false, 0, 0);
 		setShortcutKeyBox->AddFrame(setShortcutKeyIg);
 	}
-
-	/*setShortcutKeyFrame->GetChild("shortcutBox0")->GetChild("Ig")->SetImage()*/
 
 	UIFrame* setSizeFrame = new UIFrame();
 	setSizeFrame->init("sizeFrame", 100, 100, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig");
@@ -119,7 +117,6 @@ void mapScene::UIInit()
 	UIFrame* ShortcutFrame = new UIFrame();
 	ShortcutFrame->init("ShortcutFrame", 60, 0, IMAGEMANAGER->findImage("ShortcutKeyGround")->getWidth(), IMAGEMANAGER->findImage("ShortcutKeyGround")->getHeight(), "ShortcutKeyGround");
 	UIMANAGER->GetGameFrame()->AddFrame(ShortcutFrame);
-
 
 	for (int i = 0; i < 9; i++)
 	{
@@ -221,6 +218,9 @@ void mapScene::update()
 		CheckShortCutBtnCollision();
 		DoClickByType();
 		GetUiBrush();
+		ToolMovePage();
+
+		UpdateFillSquareRange();
 		SaveLoadMap();
 		CameraMove();
 		SaveShortcutKey();
@@ -235,7 +235,11 @@ void mapScene::InputCheck()
 	_isLeftClicked = false;
 	_isRightClicked = false;
 
-	if (INPUT->GetKeyDown(VK_LBUTTON)) _isLeftClicked = true;
+	if (INPUT->GetKeyDown(VK_LBUTTON))
+	{
+		_isLeftClicked = true;
+	}
+
 	if (INPUT->GetKeyDown(VK_RBUTTON)) _isRightClicked = true;
 }
 
@@ -244,7 +248,7 @@ void mapScene::InputCheck()
 /// </summary>
 void mapScene::Paint()
 {
-	_mapTool->EveSaveData();//버튼을 누르며 지워지기 시작한 순간에 저장
+	// _mapTool->EveSaveData();//버튼을 누르며 지워지기 시작한 순간에 저장
 	Grid* grid = _mapTool->mouseCollisionCheck();
 	if (grid) grid->_img = _targetImage;
 }
@@ -254,11 +258,20 @@ void mapScene::Paint()
 /// </summary>
 void mapScene::RemovePaint()
 {
-	_mapTool->EveSaveData(); //버튼을 누르며 지워지기 시작한 순간에 저장
+	// _mapTool->EveSaveData(); //버튼을 누르며 지워지기 시작한 순간에 저장
 	Grid* grid = _mapTool->mouseCollisionCheck();
 	if (grid)
 	{
 		grid->_img = nullptr;
+	}
+}
+
+void mapScene::UpdateFillSquareRange()
+{
+	if (_isFillClicked)
+	{
+		Grid* grid = _mapTool->mouseCollisionCheck();
+		if(grid != nullptr) _mapTool->PreviewGridRange(_clickedPointOne.x, _clickedPointOne.y, grid->_xIndex, grid->_yIndex, 150);
 	}
 }
 
@@ -267,21 +280,38 @@ void mapScene::RemovePaint()
 /// </summary>
 void mapScene::FillSquareRange()
 {
-	Grid* grid = _mapTool->mouseCollisionCheck();
-	if (grid)
+	if (_isFillClicked == false)
 	{
-		if (_isFillClicked == false)
+		if (_targetImage != nullptr)
 		{
-			_clickedPointOne = POINT{ grid->_xIndex, grid->_yIndex };
-			_isFillClicked = true;
+			Grid* grid = _mapTool->mouseCollisionCheck();
+			if (grid)
+			{
+				_clickedPointOne = POINT{ grid->_xIndex, grid->_yIndex };
+				_isFillClicked = true;
+			}
 		}
+	}
 
-		else
+	else if (_isFillClicked)
+	{
+		if (_targetImage != nullptr)
 		{
-			_mapTool->EveSaveData();
-			_clickedPointTwo = POINT{ grid->_xIndex, grid->_yIndex };
-			_mapTool->GridRange(_clickedPointOne.x, _clickedPointOne.y, _clickedPointTwo.x, _clickedPointTwo.y);
-			_isFillClicked = false;
+			Grid* grid = _mapTool->mouseCollisionCheck();
+
+			if (grid)
+			{
+				_clickedPointTwo = POINT{ grid->_xIndex, grid->_yIndex };
+				_mapTool->GridRange(_clickedPointOne.x, _clickedPointOne.y, _clickedPointTwo.x, _clickedPointTwo.y);
+				_isFillClicked = false;
+				for (int i = 0; i < _mapTool->GetGrid().size(); i++)
+				{
+					for (int j = 0; j < _mapTool->GetGrid()[i].size(); j++)
+					{
+						_mapTool->GetGrid()[i][j]->_alpha = 30;
+					}
+				}
+			}
 		}
 	}
 }
@@ -317,6 +347,7 @@ void mapScene::CheckShortCutBtnCollision()
 					Undo(); break;
 				}
 			}
+			//_mapTool->EveSaveData(); //버튼을 누르며 지워지기 시작한 순간에 저장
 		}
 
 		if (_isEditerViewing == true)
@@ -378,12 +409,27 @@ void mapScene::DoClickByType()
 	}
 }
 
+void mapScene::ToolMovePage()
+{
+	if (_uiBrushTool->GetPage() > 0 && PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("arrowLeft")->GetRect(), _ptMouse) && _isLeftClicked)
+	{
+		_uiBrushTool->SetPage(_uiBrushTool->GetPage() - 1);
+		_uiBrushTool->PageViewChange();
+	}
+
+	if (_uiBrushTool->GetPage() < _uiBrushTool->GetUiBrushGrid().size() - 1 && PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("arrowRight")->GetRect(), _ptMouse) && _isLeftClicked)
+	{
+		_uiBrushTool->SetPage(_uiBrushTool->GetPage() + 1);
+		_uiBrushTool->PageViewChange();
+	}
+}
+
 /// <summary>
 /// 주변을 검사하여 같은 타일만 칠하도록 한다
 /// </summary>
 void mapScene::FloodFill()
 {
-	_mapTool->EveSaveData();
+	// _mapTool->EveSaveData();
 	Grid* grid = _mapTool->mouseCollisionCheck();
 	if (grid)
 	{
@@ -399,12 +445,8 @@ void mapScene::FloodFill()
 /// </summary>
 void mapScene::FillAll()
 {
-	_mapTool->EveSaveData();
-	Grid* grid = _mapTool->mouseCollisionCheck();
-	if (grid)
-	{
-		_mapTool->FillAll();
-	}
+	// _mapTool->EveSaveData();
+	_mapTool->FillAll();
 }
 
 /// <summary>
@@ -508,25 +550,25 @@ void mapScene::AddMapLine(int type)
 {
 	if (type == 0)
 	{
-		_mapTool->EveSaveData();
+		//_mapTool->EveSaveData();
 		_mapTool->MapLineAddCol();
 	}
 
 	if (type == 1)
 	{
-		_mapTool->EveSaveData();
+		//_mapTool->EveSaveData();
 		_mapTool->MapLineAddRow();
 	}
 
 	if (type == 2)
 	{
-		_mapTool->EveSaveData();
+		//_mapTool->EveSaveData();
 		_mapTool->MapLineRemoveCol();
 	}
 
 	if (type == 3)
 	{
-		_mapTool->EveSaveData();
+		//_mapTool->EveSaveData();
 		_mapTool->MapLineRemoveRow();
 	}
 }
@@ -544,28 +586,32 @@ void mapScene::render()
 	_mapTool->render();
 	_uiBrushTool->render();
 
-	if (_targetImage) _targetImage->alphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 128);
+	Grid* targetGrid = _mapTool->mouseCollisionCheck();
+	if (_targetImage && targetGrid) CAMERAMANAGER->AlphaRender(getMemDC(), _targetImage, targetGrid->_rc.left, targetGrid->_rc.top, 100);
 
 	UIMANAGER->render(getMemDC());
+
+	string n = to_string(_ptMouse.x) + " " + to_string(_ptMouse.y);
+	TextOut(getMemDC(), _ptMouse.x, _ptMouse.y, n.c_str(), n.length());
 }
 
 void mapScene::CameraMove()
 {
 	if (INPUT->GetKey(VK_LEFT))
 	{
-		_pivot.x -= 5;
+		_pivot.x -= 30;
 	}
 	if (INPUT->GetKey(VK_RIGHT))
 	{
-		_pivot.x += 5;
+		_pivot.x += 30;
 	}
 	if (INPUT->GetKey(VK_UP))
 	{
-		_pivot.y -= 5;
+		_pivot.y -= 30;
 	}
 	if (INPUT->GetKey(VK_DOWN))
 	{
-		_pivot.y += 5;
+		_pivot.y += 30;
 	}
 }
 
@@ -579,11 +625,9 @@ void mapScene::SaveLoadMap()
 			_mapTool->SaveData(_fileName);
 		}
 
-
-
 		else
 		{
-			_mapTool->EveSaveData();
+			// _mapTool->EveSaveData();
 			_mapTool->LoadData(_fileName);
 		}
 	}

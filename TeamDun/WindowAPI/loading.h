@@ -73,6 +73,8 @@ private:
 	typedef vector<loadItem*> vLoadItem;
 	typedef vector<loadItem*>::iterator viLoadItem;
 
+	int _count;
+	int _index;
 private:
 	vLoadItem _vLoadItem;
 
@@ -87,6 +89,7 @@ public:
 	void release();
 	void update();
 	void render();
+	void animation();
 	void loadSound(string keyName, string soundName, bool bgm, bool loop);
 	void loadImage(string strKey, int width, int height);
 	void loadImage(string strKey, const char* fileName, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0,0,0));

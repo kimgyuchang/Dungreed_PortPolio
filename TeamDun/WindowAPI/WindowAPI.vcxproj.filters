@@ -141,11 +141,11 @@
     <ClCompile Include="CameraManager.cpp">
       <Filter>GameFramework\로딩\매니져</Filter>
     </ClCompile>
-    <ClCompile Include="DataManager.cpp">
-      <Filter>GameFramework\매니져</Filter>
-    </ClCompile>
     <ClCompile Include="Obstacle.cpp">
       <Filter>MainGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -248,11 +248,11 @@
     <ClInclude Include="CameraManager.h">
       <Filter>GameFramework\로딩\매니져</Filter>
     </ClInclude>
-    <ClInclude Include="DataManager.h">
-      <Filter>GameFramework\매니져</Filter>
-    </ClInclude>
     <ClInclude Include="Obstacle.h">
       <Filter>MainGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>GameFramework\로딩\매니져</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
