@@ -114,14 +114,12 @@ void MapTool::SaveData(string name)
 /// </summary>
 void MapTool::EveSaveData()
 {
-	
 	for (int i = 0; i < _vMapData.size(); i++)
 	{
 		for (int j = 0; j < _vMapData[i].size(); j++)
 		{
 			//if(_vMapData[i][j]->_vBeforeImg.size() >0 && _vMapData[i][j]->_vBeforeImg[_vMapData[i][j]->_vBeforeImg.size()-1] != _vMapData[i][j]->_img)
 			_vMapData[i][j]->_vBeforeImg.push_back(_vMapData[i][j]->_img);
-			
 		}
 	}
 }
@@ -458,5 +456,10 @@ void MapTool::render()
 			string str = to_string(i) + " " + to_string(j);
 			CAMERAMANAGER->AlphaRender(getMemDC(), _vMapData[i][j]->_checkImg, _vMapData[i][j]->_x, _vMapData[i][j]->_y, _vMapData[i][j]->_alpha);
 		}
+	}
+
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		_vObjs[i]->render(getMemDC());
 	}
 }

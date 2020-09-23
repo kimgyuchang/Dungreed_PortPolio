@@ -24,9 +24,9 @@ void MapObject::update()
 void MapObject::render(HDC hdc)
 {
 	if (_image->getMaxFrameX() == 0)
-		_image->alphaRender(hdc, _x, _y, _alpha);
+		CAMERAMANAGER->AlphaRender(hdc, _image, _x, _y, _alpha);
 	else
-		_image->frameRender(hdc, _x, _y, _frameX, _frameY);
+		CAMERAMANAGER->FrameRender(hdc, _image, _x, _y, _frameX, _frameY);
 }
 
 void MapObject::release()
