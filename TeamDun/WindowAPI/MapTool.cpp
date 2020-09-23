@@ -121,7 +121,7 @@ void MapTool::EveSaveData()
 		{
 			//if(_vMapData[i][j]->_vBeforeImg.size() >0 && _vMapData[i][j]->_vBeforeImg[_vMapData[i][j]->_vBeforeImg.size()-1] != _vMapData[i][j]->_img)
 			_vMapData[i][j]->_vBeforeImg.push_back(_vMapData[i][j]->_img);
-			_vMapData[i][j]->_vBeforeImg.push_back(_vMapData[i][j]->_img2);
+			
 		}
 	}
 }
@@ -289,6 +289,8 @@ void MapTool::FillAll()
 
 void MapTool::FloodFill(image* targetImage, int indexX, int indexY)
 {
+	if (_mapScene->GetTargetImage() == nullptr) return;
+
 	if (_isLayer)
 	{
 		vector<POINT>FloodFilllist;
@@ -337,6 +339,7 @@ void MapTool::FloodFill(image* targetImage, int indexX, int indexY)
 		_vMapData[indexY][indexX]->_img2 = _mapScene->GetTargetImage();
 		while (FloodFilllist.size() > 0)
 		{
+
 			int indexX = FloodFilllist[0].x;
 			int indexY = FloodFilllist[0].y;
 

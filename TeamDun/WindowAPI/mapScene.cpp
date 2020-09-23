@@ -268,7 +268,7 @@ void mapScene::Paint()
 /// </summary>
 void mapScene::RemovePaint()
 {
-	// _mapTool->EveSaveData(); //버튼을 누르며 지워지기 시작한 순간에 저장
+	_mapTool->EveSaveData(); //버튼을 누르며 지워지기 시작한 순간에 저장
 	Grid* grid = _mapTool->mouseCollisionCheck();
 	if (grid)
 	{
