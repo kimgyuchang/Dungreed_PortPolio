@@ -18,7 +18,7 @@ HRESULT uibrushTool::init()
 void uibrushTool::UIInit()
 {
 	UIFrame* brushToolFrame = new UIFrame();
-	brushToolFrame->init("brushTool", _xPos, 10, 222, 189, "Base", 5.9f, 4.1f);
+	brushToolFrame->init("brushTool", _xPos, 10, 222, 189, "Base", 1.7f, 4.1f);
 	UIMANAGER->GetGameFrame()->AddFrame(brushToolFrame);
 
 	UIFrame* brushGridButton = new UIFrame();
@@ -40,11 +40,11 @@ void uibrushTool::UIInit()
 	brushObjectButton->AddFrame(brushText);
 
 	UIImage* arrow = new UIImage();
-	arrow->init("arrowLeft", 550, 670, IMAGEMANAGER->findImage("OptionArrow1")->getWidth(), IMAGEMANAGER->findImage("OptionArrow1")->getHeight(), "OptionArrow1", false, 0, 0);
+	arrow->init("arrowLeft", 50, 670, IMAGEMANAGER->findImage("OptionArrow1")->getWidth(), IMAGEMANAGER->findImage("OptionArrow1")->getHeight(), "OptionArrow1", false, 0, 0);
 	brushToolFrame->AddFrame(arrow);
 
 	arrow = new UIImage();
-	arrow->init("arrowRight", 750, 670, IMAGEMANAGER->findImage("OptionArrow0")->getWidth(), IMAGEMANAGER->findImage("OptionArrow0")->getHeight(), "OptionArrow0", false,0,0);
+	arrow->init("arrowRight", 250, 670, IMAGEMANAGER->findImage("OptionArrow0")->getWidth(), IMAGEMANAGER->findImage("OptionArrow0")->getHeight(), "OptionArrow0", false,0,0);
 	brushToolFrame->AddFrame(arrow);
 	
 	map<int, GridData*> gridDataSet = DATAMANAGER->GetGridData();
@@ -142,7 +142,7 @@ void uibrushTool::MoveBrushTool()
 {
 	UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("brushTool");
 
-	if (_isOn && frame->GetX() > 100)
+	if (_isOn && frame->GetX() > 1100)
 	{
 		UIMANAGER->GetGameFrame()->GetChild("brushTool")->MoveFrame(-15, 0);
 	}
