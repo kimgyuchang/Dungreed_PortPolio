@@ -30,7 +30,7 @@ HRESULT mapScene::init()
 
 	// SAVE LOAD //
 	_hEdit = CreateWindow("edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER |
-		ES_AUTOHSCROLL | ES_RIGHT, 500, 500, 200, 50, _hWnd, (HMENU)100, _hInstance, NULL);
+		ES_AUTOHSCROLL | ES_RIGHT, WINSIZEX/2 - 95, WINSIZEY / 2, 200, 25, _hWnd, (HMENU)100, _hInstance, NULL);
 	ShowWindow(_hEdit, SW_HIDE);
 	_isEditerViewing = false;
 	_isLoad = false;
@@ -49,7 +49,7 @@ void mapScene::UIInit()
 	UIFrame* setShortcutKeyFrame = new UIFrame();
 	setShortcutKeyFrame->init("ShortcutKeyFrame", 300, WINSIZEY - 150, IMAGEMANAGER->findImage("ShortcutKeyGround")->getWidth(), IMAGEMANAGER->findImage("ShortcutKeyGround")->getHeight(), "ShortcutKeyGround");
 	UIMANAGER->GetGameFrame()->AddFrame(setShortcutKeyFrame);
-
+	setShortcutKeyFrame->SetIsViewing(false);
 	for (int i = 0; i < 10; i++)
 	{
 		UIFrame* setShortcutKeyBox = new UIFrame();
@@ -106,17 +106,18 @@ void mapScene::UIInit()
 	setWidthBoxFrame->AddFrame(setWidthNumFrame);
 
 	UIFrame* saveLoadFrame = new UIFrame();
-	saveLoadFrame->init("saveLoadFrame", 100, 100, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig");
+	saveLoadFrame->init("saveLoadFrame", WINSIZEX/2 - 170, WINSIZEY/2 - 130, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig", 0.7, 0.7f);
 	UIMANAGER->GetGameFrame()->AddFrame(saveLoadFrame);
 	saveLoadFrame->SetIsViewing(false);
 
 	UIText* saveLoadText = new UIText();
-	saveLoadText->init("SaveLoader", 200, 200, 200, 100, "SAVE", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	saveLoadText->init("SaveLoader", 75, 60, 200, 100, "SAVE", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	saveLoadFrame->AddFrame(saveLoadText);
 
 	UIFrame* ShortcutFrame = new UIFrame();
 	ShortcutFrame->init("ShortcutFrame", 300, 50, IMAGEMANAGER->findImage("ShortcutKeyGround")->getWidth(), IMAGEMANAGER->findImage("ShortcutKeyGround")->getHeight(), "ShortcutKeyGround");
 	UIMANAGER->GetGameFrame()->AddFrame(ShortcutFrame);
+	ShortcutFrame->SetIsViewing(false);
 
 	for (int i = 0; i < 9; i++)
 	{
@@ -165,7 +166,6 @@ void mapScene::UIInit()
 	UIFrame* adjustSizeFrame = new UIFrame();
 	adjustSizeFrame->init("ShortSizeFrame", -100, 60, IMAGEMANAGER->findImage("AltarButton0")->getWidth(), IMAGEMANAGER->findImage("AltarButton0")->getHeight(), "AltarButton0");
 	UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->AddFrame(adjustSizeFrame);
-
 	for (int i = 0; i < 4; i++)
 	{
 		UIFrame* setSizeBoxFrame = new UIFrame();
@@ -558,6 +558,9 @@ void mapScene::SetMapSize()
 		_pivot.x = _widthNum * 48 / 2;
 		_pivot.y = _heightNum * 48 / 2;
 		_uiBrushTool->UIInit();
+		UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->SetIsViewing(true);
+		UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame")->SetIsViewing(true);
+		UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->SetIsViewing(false);
 	}
 
 	UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("sizeFrame");
