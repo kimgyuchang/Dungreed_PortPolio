@@ -226,8 +226,28 @@ void mapScene::update()
 		SaveShortcutKey();
 		LoadShortcutKey();
 		SetLayer();
+		PlaceObject();
 
 		CAMERAMANAGER->MovePivot(_pivot.x, _pivot.y);
+	}
+}
+
+void mapScene::PlaceObject()
+{
+	if (_targetObject != nullptr && _isLeftClicked)
+	{
+		int absPtX = CAMERAMANAGER->GetAbsoluteX(_ptMouse.x);
+		int absPtY = CAMERAMANAGER->GetAbsoluteY(_ptMouse.y);
+
+		// 그리드 범위 안에서 배치되도록
+		if (absPtX >= 0 && absPtY >= 0 && absPtY < _mapTool->GetGrid().size() * 48 && absPtX < _mapTool->GetGrid()[0].size() * 48)
+		{
+			MapObject* obj = new MapObject(*_targetObject);
+			obj->_x = absPtX;
+			obj->_y = absPtY;
+			obj->_alpha = 255;
+			_mapTool->GetVObject().push_back(obj);
+		}
 	}
 }
 
@@ -243,8 +263,123 @@ void mapScene::InputCheck()
 
 	if (INPUT->GetKeyDown(VK_RBUTTON))
 	{
-
 		_isRightClicked = true;
+	}
+}
+
+void mapScene::CheckShortCutBtnCollision()
+{
+	if (_isLeftClicked)
+	{
+		UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame");
+		for (int i = 0; i < 9; i++)
+		{
+			if (PtInRect(&frame->GetChild("shortcutBox" + to_string(i))->GetRect(), _ptMouse))
+			{
+				switch (i)
+				{
+				case 0:
+					CallSaveEditor(); break;
+				case 1:
+					CallLoadEditor(); break;
+				case 2:
+					_brushType = BRUSHTYPE::BT_PAINT; break;
+				case 3:
+					_brushType = BRUSHTYPE::BT_ERASE; break;
+				case 4:
+					FillAll(); break;
+				case 5:
+					_brushType = BRUSHTYPE::BT_FILLRECT; break;
+				case 6:
+					_brushType = BRUSHTYPE::BT_FLOODFILL; break;
+				case 7:
+					SwitchSizeFrame(); break;
+				case 8:
+					Undo(); break;
+				}
+			}
+		}
+
+		if (_isEditerViewing == true)
+		{
+			UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame");
+
+			for (int i = 0; i < 4; i++)
+			{
+				if (PtInRect(&frame->GetChild("shortSizeBox" + to_string(i))->GetRect(), _ptMouse))
+				{
+					switch (i)
+					{
+					case 0:
+						AddMapLine(0);
+						break;
+					case 1:
+						AddMapLine(1);
+						break;
+					case 2:
+						AddMapLine(2);
+						break;
+					case 3:
+						AddMapLine(3);
+						break;
+					}
+				}
+			}
+			return;
+		}
+	}
+}
+
+void mapScene::DoClickByType()
+{
+	if (_isLeftClicked)
+	{
+		switch (_brushType)
+		{
+		case BT_FILLRECT:
+			if (_targetImage) FillSquareRange();
+			break;
+		case BT_FLOODFILL:
+			if (_targetImage) FloodFill();
+			break;
+		case BT_PAINT:
+			if(_targetImage) PaintSaver();
+			break;
+		case BT_ERASE:
+			EraseSaver();
+			break;
+		}
+	}
+
+	if (INPUT->GetKey(VK_LBUTTON))
+	{
+		switch (_brushType)
+		{
+		case BT_PAINT:
+			if (_targetImage) Paint();
+			break;
+		case BT_ERASE:
+			RemovePaint();
+			break;
+		}
+	}
+}
+
+void mapScene::PaintSaver()
+{
+	Grid* grid = _mapTool->mouseCollisionCheck();
+	if (grid)
+	{
+		_mapTool->EveSaveData();
+	}
+}
+
+void mapScene::EraseSaver()
+{
+	Grid* grid = _mapTool->mouseCollisionCheck();
+	if (grid)
+	{
+		_mapTool->EveSaveData();
 	}
 }
 
@@ -256,10 +391,13 @@ void mapScene::Paint()
 	Grid* grid = _mapTool->mouseCollisionCheck();
 	if (grid)
 	{
-		if (_mapTool->getIsLayer() == true)
-			grid->_img = _targetImage;
-		else
-			grid->_img2 = _targetImage;
+		if (_targetImage != nullptr)
+		{
+			if (_mapTool->getIsLayer() == true)
+				grid->_img = _targetImage;
+			else
+				grid->_img2 = _targetImage;
+		}
 	}
 }
 
@@ -268,7 +406,6 @@ void mapScene::Paint()
 /// </summary>
 void mapScene::RemovePaint()
 {
-	_mapTool->EveSaveData(); //버튼을 누르며 지워지기 시작한 순간에 저장
 	Grid* grid = _mapTool->mouseCollisionCheck();
 	if (grid)
 	{
@@ -330,110 +467,26 @@ void mapScene::FillSquareRange()
 	}
 }
 
-void mapScene::CheckShortCutBtnCollision()
-{
-	if (_isLeftClicked)
-	{
-		UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame");
-		for (int i = 0; i < 9; i++)
-		{
-			if (PtInRect(&frame->GetChild("shortcutBox" + to_string(i))->GetRect(), _ptMouse))
-			{
-				switch (i)
-				{
-				case 0:
-					CallSaveEditor(); break;
-				case 1:
-					CallLoadEditor(); break;
-				case 2:
-					_brushType = BRUSHTYPE::BT_PAINT; break;
-				case 3:
-					_brushType = BRUSHTYPE::BT_ERASE; break;
-				case 4:
-					FillAll(); break;
-				case 5:
-					_brushType = BRUSHTYPE::BT_FILLRECT; break;
-				case 6:
-					_brushType = BRUSHTYPE::BT_FLOODFILL; break;
-				case 7:
-					SwitchSizeFrame(); break;
-				case 8:
-					Undo(); break;
-				}
-			}
-			_mapTool->EveSaveData(); //버튼을 누르며 지워지기 시작한 순간에 저장
-		}
-
-		if (_isEditerViewing == true)
-		{
-			UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame");
-
-			for (int i = 0; i < 4; i++)
-			{
-				if (PtInRect(&frame->GetChild("shortSizeBox" + to_string(i))->GetRect(), _ptMouse))
-				{
-					switch (i)
-					{
-					case 0:
-						AddMapLine(0);
-						break;
-					case 1:
-						AddMapLine(1);
-						break;
-					case 2:
-						AddMapLine(2);
-						break;
-					case 3:
-						AddMapLine(3);
-						break;
-					}
-				}
-			}
-			return;
-		}
-	}
-}
-
-void mapScene::DoClickByType()
-{
-	if (_isLeftClicked)
-	{
-		switch (_brushType)
-		{
-		case BT_FILLRECT:
-			if (_targetImage) FillSquareRange();
-			break;
-		case BT_FLOODFILL:
-			if (_targetImage) FloodFill();
-			break;
-		}
-	}
-
-	if (INPUT->GetKey(VK_LBUTTON))
-	{
-		switch (_brushType)
-		{
-		case BT_PAINT:
-			if (_targetImage) Paint();
-			break;
-		case BT_ERASE:
-			RemovePaint();
-			break;
-		}
-	}
-}
-
 void mapScene::ToolMovePage()
 {
-	if (_uiBrushTool->GetPage() > 0 && PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("arrowLeft")->GetRect(), _ptMouse) && _isLeftClicked)
+	if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("arrowLeft")->GetRect(), _ptMouse) && _isLeftClicked)
 	{
-		_uiBrushTool->SetPage(_uiBrushTool->GetPage() - 1);
+		if (_uiBrushTool->GetIsObject() && _uiBrushTool->GetObjPage() > 0)
+			_uiBrushTool->SetObjPage(_uiBrushTool->GetObjPage() - 1);
+
+		if (!_uiBrushTool->GetIsObject() && _uiBrushTool->GetGridPage() > 0)
+			_uiBrushTool->SetGridPage(_uiBrushTool->GetGridPage() - 1);
+
 		_uiBrushTool->PageViewChange();
 	}
 
-	if (_uiBrushTool->GetPage() < _uiBrushTool->GetUiBrushGrid().size() - 1 && PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("arrowRight")->GetRect(), _ptMouse) && _isLeftClicked)
+	if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("arrowRight")->GetRect(), _ptMouse) && _isLeftClicked)
 	{
-		_uiBrushTool->SetPage(_uiBrushTool->GetPage() + 1);
+		if (_uiBrushTool->GetIsObject() && _uiBrushTool->GetObjPage() < _uiBrushTool->GetUiObjectGrid().size() - 1)
+			_uiBrushTool->SetObjPage(_uiBrushTool->GetObjPage() + 1);
+		if (!_uiBrushTool->GetIsObject() && _uiBrushTool->GetGridPage() < _uiBrushTool->GetUiBrushGrid().size() - 1)
+			_uiBrushTool->SetGridPage(_uiBrushTool->GetGridPage() + 1);
+
 		_uiBrushTool->PageViewChange();
 	}
 }
@@ -633,8 +686,8 @@ void mapScene::SaveLoadMap()
 
 		else
 		{
-				_mapTool->EveSaveData();
-				_mapTool->LoadData(_fileName);
+			_mapTool->EveSaveData();
+			_mapTool->LoadData(_fileName);
 		}
 	}
 }

@@ -114,14 +114,12 @@ void MapTool::SaveData(string name)
 /// </summary>
 void MapTool::EveSaveData()
 {
-	
 	for (int i = 0; i < _vMapData.size(); i++)
 	{
 		for (int j = 0; j < _vMapData[i].size(); j++)
 		{
 			//if(_vMapData[i][j]->_vBeforeImg.size() >0 && _vMapData[i][j]->_vBeforeImg[_vMapData[i][j]->_vBeforeImg.size()-1] != _vMapData[i][j]->_img)
 			_vMapData[i][j]->_vBeforeImg.push_back(_vMapData[i][j]->_img);
-			
 		}
 	}
 }
@@ -290,7 +288,6 @@ void MapTool::FillAll()
 void MapTool::FloodFill(image* targetImage, int indexX, int indexY)
 {
 	if (_mapScene->GetTargetImage() == nullptr) return;
-
 	if (_isLayer)
 	{
 		vector<POINT>FloodFilllist;
@@ -298,35 +295,40 @@ void MapTool::FloodFill(image* targetImage, int indexX, int indexY)
 		pt.x = indexX;
 		pt.y = indexY;
 		FloodFilllist.push_back(pt);
-		_vMapData[indexY][indexX]->_img = _mapScene->GetTargetImage();
-		while (FloodFilllist.size() > 0)
+		if (_vMapData[indexY][indexX]->_img != _mapScene->GetTargetImage())
 		{
-			int indexX = FloodFilllist[0].x;
-			int indexY = FloodFilllist[0].y;
 
-			if (indexX + 1 < _vMapData[0].size() && targetImage == _vMapData[indexY][indexX + 1]->_img)
+			_vMapData[indexY][indexX]->_img = _mapScene->GetTargetImage();
+	
+			while (FloodFilllist.size() > 0)
 			{
-				FloodFilllist.push_back(POINT{ indexX + 1,indexY });
-				_vMapData[indexY][indexX + 1]->_img = _mapScene->GetTargetImage();
-				
-			}
-			if (indexX - 1 >= 0 && targetImage == _vMapData[indexY][indexX - 1]->_img)
-			{
-				FloodFilllist.push_back(POINT{ indexX - 1,indexY });
-				_vMapData[indexY][indexX - 1]->_img = _mapScene->GetTargetImage();
+				int indexX = FloodFilllist[0].x;
+				int indexY = FloodFilllist[0].y;
 
+				if (indexX + 1 < _vMapData[0].size() && targetImage == _vMapData[indexY][indexX + 1]->_img)
+				{
+					FloodFilllist.push_back(POINT{ indexX + 1,indexY });
+					_vMapData[indexY][indexX + 1]->_img = _mapScene->GetTargetImage();
+
+				}
+				if (indexX - 1 >= 0 && targetImage == _vMapData[indexY][indexX - 1]->_img)
+				{
+					FloodFilllist.push_back(POINT{ indexX - 1,indexY });
+					_vMapData[indexY][indexX - 1]->_img = _mapScene->GetTargetImage();
+
+				}
+				if (indexY + 1 < _vMapData.size() && targetImage == _vMapData[indexY + 1][indexX]->_img)
+				{
+					FloodFilllist.push_back(POINT{ indexX,indexY + 1 });
+					_vMapData[indexY + 1][indexX]->_img = _mapScene->GetTargetImage();
+				}
+				if (indexY - 1 >= 0 && targetImage == _vMapData[indexY - 1][indexX]->_img)
+				{
+					FloodFilllist.push_back(POINT{ indexX,indexY - 1 });
+					_vMapData[indexY - 1][indexX]->_img = _mapScene->GetTargetImage();
+				}
+				FloodFilllist.erase(FloodFilllist.begin());
 			}
-			if (indexY + 1 < _vMapData.size() && targetImage == _vMapData[indexY + 1][indexX]->_img)
-			{
-				FloodFilllist.push_back(POINT{ indexX,indexY + 1 });
-				_vMapData[indexY+1][indexX]->_img = _mapScene->GetTargetImage();
-			}
-			if (indexY - 1 >= 0 && targetImage == _vMapData[indexY - 1][indexX]->_img)
-			{
-				FloodFilllist.push_back(POINT{ indexX,indexY - 1 });
-				_vMapData[indexY-1][indexX]->_img = _mapScene->GetTargetImage();
-			}
-			FloodFilllist.erase(FloodFilllist.begin());
 		}
 	}
 	else
@@ -336,38 +338,41 @@ void MapTool::FloodFill(image* targetImage, int indexX, int indexY)
 		pt.x = indexX;
 		pt.y = indexY;
 		FloodFilllist.push_back(pt);
-		_vMapData[indexY][indexX]->_img2 = _mapScene->GetTargetImage();
-		while (FloodFilllist.size() > 0)
+		if (_vMapData[indexY][indexX]->_img2 != _mapScene->GetTargetImage())
 		{
-
-			int indexX = FloodFilllist[0].x;
-			int indexY = FloodFilllist[0].y;
-
-			if (indexX + 1 < _vMapData[0].size() && targetImage == _vMapData[indexY][indexX + 1]->_img2)
+			_vMapData[indexY][indexX]->_img2 = _mapScene->GetTargetImage();
+			while (FloodFilllist.size() > 0)
 			{
-				FloodFilllist.push_back(POINT{ indexX + 1,indexY });
-				_vMapData[indexY][indexX + 1]->_img2 = _mapScene->GetTargetImage();
+				int indexX = FloodFilllist[0].x;
+				int indexY = FloodFilllist[0].y;
 
-			}
-			if (indexX - 1 >= 0 && targetImage == _vMapData[indexY][indexX - 1]->_img2)
-			{
-				FloodFilllist.push_back(POINT{ indexX - 1,indexY });
-				_vMapData[indexY][indexX - 1]->_img2 = _mapScene->GetTargetImage();
+				if (indexX + 1 < _vMapData[0].size() && targetImage == _vMapData[indexY][indexX + 1]->_img2)
+				{
+					FloodFilllist.push_back(POINT{ indexX + 1,indexY });
+					_vMapData[indexY][indexX + 1]->_img2 = _mapScene->GetTargetImage();
 
+				}
+				if (indexX - 1 >= 0 && targetImage == _vMapData[indexY][indexX - 1]->_img2)
+				{
+					FloodFilllist.push_back(POINT{ indexX - 1,indexY });
+					_vMapData[indexY][indexX - 1]->_img2 = _mapScene->GetTargetImage();
+
+				}
+				if (indexY + 1 < _vMapData.size() && targetImage == _vMapData[indexY + 1][indexX]->_img2)
+				{
+					FloodFilllist.push_back(POINT{ indexX,indexY + 1 });
+					_vMapData[indexY + 1][indexX]->_img2 = _mapScene->GetTargetImage();
+				}
+				if (indexY - 1 >= 0 && targetImage == _vMapData[indexY - 1][indexX]->_img2)
+				{
+					FloodFilllist.push_back(POINT{ indexX,indexY - 1 });
+					_vMapData[indexY - 1][indexX]->_img2 = _mapScene->GetTargetImage();
+				}
+				FloodFilllist.erase(FloodFilllist.begin());
 			}
-			if (indexY + 1 < _vMapData.size() && targetImage == _vMapData[indexY + 1][indexX]->_img2)
-			{
-				FloodFilllist.push_back(POINT{ indexX,indexY + 1 });
-				_vMapData[indexY + 1][indexX]->_img2 = _mapScene->GetTargetImage();
-			}
-			if (indexY - 1 >= 0 && targetImage == _vMapData[indexY - 1][indexX]->_img2)
-			{
-				FloodFilllist.push_back(POINT{ indexX,indexY - 1 });
-				_vMapData[indexY - 1][indexX]->_img2 = _mapScene->GetTargetImage();
-			}
-			FloodFilllist.erase(FloodFilllist.begin());
 		}
 	}
+
 	return;
 }
 
@@ -458,5 +463,10 @@ void MapTool::render()
 			string str = to_string(i) + " " + to_string(j);
 			CAMERAMANAGER->AlphaRender(getMemDC(), _vMapData[i][j]->_checkImg, _vMapData[i][j]->_x, _vMapData[i][j]->_y, _vMapData[i][j]->_alpha);
 		}
+	}
+
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		_vObjs[i]->render(getMemDC());
 	}
 }

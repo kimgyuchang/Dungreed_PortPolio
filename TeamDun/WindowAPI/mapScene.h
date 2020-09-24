@@ -48,6 +48,7 @@ public :
 	void UIInit();
 	void release();
 	void update();
+	void PlaceObject();
 	void InputCheck();
 	void SetMapSize();
 	void CallSaveEditor();
@@ -57,6 +58,8 @@ public :
 	void FillSquareRange();
 	void CheckShortCutBtnCollision();
 	void DoClickByType();
+	void PaintSaver();
+	void EraseSaver();
 	void Paint();
 	void FloodFill();
 	void FillAll();
