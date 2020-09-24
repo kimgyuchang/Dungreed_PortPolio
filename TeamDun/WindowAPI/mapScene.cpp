@@ -219,12 +219,13 @@ void mapScene::update()
 		DoClickByType();
 		GetUiBrush();
 		ToolMovePage();
-
 		UpdateFillSquareRange();
 		SaveLoadMap();
 		CameraMove();
 		SaveShortcutKey();
 		LoadShortcutKey();
+		ShortcutKey();
+
 
 		CAMERAMANAGER->MovePivot(_pivot.x, _pivot.y);
 	}
@@ -507,21 +508,21 @@ void mapScene::SetMapSize()
 
 void mapScene::CallSaveEditor()
 {
-	if (!_isEditerViewing || _isLoad)
-	{
-		UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(true);
-		dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->GetChild("SaveLoader"))->SetText("SAVE");
-		_isEditerViewing = true;
-		ShowWindow(_hEdit, SW_SHOW);
-	}
+		if (!_isEditerViewing || _isLoad)
+		{
+			UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(true);
+			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->GetChild("SaveLoader"))->SetText("SAVE");
+			_isEditerViewing = true;
+			ShowWindow(_hEdit, SW_SHOW);
+		}
 
-	else
-	{
-		UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(false);
-		_isEditerViewing = false;
-		ShowWindow(_hEdit, SW_HIDE);
-	}
-	_isLoad = false;
+		else
+		{
+			UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(false);
+			_isEditerViewing = false;
+			ShowWindow(_hEdit, SW_HIDE);
+		}
+		_isLoad = false;
 }
 
 void mapScene::CallLoadEditor()
@@ -630,6 +631,10 @@ void mapScene::SaveLoadMap()
 			// _mapTool->EveSaveData();
 			_mapTool->LoadData(_fileName);
 		}
+
+		_isEditerViewing = false;
+		ShowWindow(_hEdit, SW_HIDE);
+		UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(false);
 	}
 }
 
@@ -645,6 +650,66 @@ void mapScene::AddRemoveLine()
 		UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->SetIsViewing(false);
 		_isEditerViewing = false;
 	}
+}
+
+void mapScene::ShortcutKey()
+{
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown(VK_F1))
+	{
+		CallSaveEditor();
+	}
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown(VK_F2))
+	{
+		CallLoadEditor();
+	}
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('G'))
+	{
+		AddMapLine(0);
+	}
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('H'))
+	{
+		AddMapLine(1);
+	}
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('B'))
+	{
+		AddMapLine(2);
+	}
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('N'))
+	{
+		AddMapLine(3);
+	}
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('I'))
+	{
+		FillAll();
+	}
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('Z'))
+	{
+		Undo();
+	}
+	if (INPUT->GetKeyDown(VK_RETURN))
+	{
+		SaveLoadMap();
+	}
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('P'))
+	{
+		_brushType = BRUSHTYPE::BT_PAINT;
+	}
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('E'))
+	{
+		_brushType = BRUSHTYPE::BT_ERASE;
+	}
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('A'))
+	{
+		_brushType = BRUSHTYPE::BT_FILLRECT;
+	}
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('O'))
+	{
+		_brushType = BRUSHTYPE::BT_FLOODFILL;
+	}
+	
+	
+	
+	
 }
 
 void mapScene::SaveShortcutKey()

@@ -212,7 +212,7 @@ void UIFrame::render(HDC hdc)
 				else _image->stretchRender(hdc, _x, _y, _scaleX, _scaleY);
 			}
 			
-			if (INPUT->GetKey('P')) Rectangle(hdc, _interactRect); // P를 누른 상태라면 충돌 범위도 그린다
+			if (INPUT->GetKey(VK_F3)) Rectangle(hdc, _interactRect); // P를 누른 상태라면 충돌 범위도 그린다
 
 			for (int i = 0; i < _vChildFrames.size(); i++) // 자식 역시 그린다
 			{

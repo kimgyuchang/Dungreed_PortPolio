@@ -52,7 +52,7 @@ void UIImage::render(HDC hdc)
 				}
 			}
 
-			if (INPUT->GetKey('P')) Rectangle(hdc, _interactRect); // P를 통해 상호작용 Rect 출력
+			if (INPUT->GetKey(VK_F3)) Rectangle(hdc, _interactRect); // P를 통해 상호작용 Rect 출력
 
 			for (int i = 0; i < _vChildFrames.size(); i++) // 자식들 렌더
 			{

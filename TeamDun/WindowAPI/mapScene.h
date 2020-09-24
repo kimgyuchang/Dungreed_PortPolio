@@ -68,6 +68,7 @@ public :
 	void CameraMove();
 	void SaveLoadMap();
 	void AddRemoveLine();
+	void shortCutKey();
 	
 	// GETSET //
 	image* GetTargetImage() { return _targetImage; }
