@@ -813,7 +813,7 @@ void mapScene::SaveShortcutKey()
 {
 	for (int i = 1; i < 11; i++)
 	{
-		if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('0' + i))
+		if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('0' + i%10))
 		{
 			UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame")->GetChild("shortcutBox" + to_string(i-1))->GetChild("Ig")->SetImage(_targetImage);
 		}
@@ -827,7 +827,7 @@ void mapScene::LoadShortcutKey()
 	{
 		if (frame->GetChild("shortcutBox" + to_string(i-1))->GetChild("Ig")->GetImage() != nullptr)
 		{
-			if (INPUT->GetKeyDown('0' + i))
+			if (INPUT->GetKeyDown('0' + i%10))
 			{
 				_targetImage = frame->GetChild("shortcutBox" + to_string(i-1))->GetChild("Ig")->GetImage();
 			}
