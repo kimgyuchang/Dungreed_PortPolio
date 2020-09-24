@@ -49,6 +49,7 @@ public :
 	void release();
 	void update();
 	void PlaceObject();
+	void EraseObject();
 	void InputCheck();
 	void SetMapSize();
 	void CallSaveEditor();
@@ -70,6 +71,7 @@ public :
 	void render();
 	void CameraMove();
 	void SaveLoadMap();
+	void ShortcutKey();
 	void SwitchSizeFrame();
 	
 	// GETSET //

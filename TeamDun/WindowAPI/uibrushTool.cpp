@@ -40,11 +40,11 @@ void uibrushTool::UIInit()
 	brushObjectButton->AddFrame(brushText);
 
 	UIImage* arrow = new UIImage();
-	arrow->init("arrowLeft", 30, 670, IMAGEMANAGER->findImage("OptionArrow1")->getWidth(), IMAGEMANAGER->findImage("OptionArrow1")->getHeight(), "OptionArrow1", false, 0, 0);
+	arrow->init("arrowLeft", 50, 670, IMAGEMANAGER->findImage("OptionArrow1")->getWidth(), IMAGEMANAGER->findImage("OptionArrow1")->getHeight(), "OptionArrow1", false, 0, 0);
 	brushToolFrame->AddFrame(arrow);
 
 	arrow = new UIImage();
-	arrow->init("arrowRight", 240, 670, IMAGEMANAGER->findImage("OptionArrow0")->getWidth(), IMAGEMANAGER->findImage("OptionArrow0")->getHeight(), "OptionArrow0", false,0,0);
+	arrow->init("arrowRight", 250, 670, IMAGEMANAGER->findImage("OptionArrow0")->getWidth(), IMAGEMANAGER->findImage("OptionArrow0")->getHeight(), "OptionArrow0", false,0,0);
 	brushToolFrame->AddFrame(arrow);
 	
 	map<int, GridData*> gridDataSet = DATAMANAGER->GetGridData();
@@ -67,10 +67,22 @@ void uibrushTool::UIInit()
 		MapObject* data = it->second;
 		Object* obj = DATAMANAGER->GetObjectById(data->_id);
 		UIImage* image = new UIImage();
-		image->init(to_string(data->_id), data->_x, data->_y,
-			(float)obj->GetImage(0)->getWidth() / (obj->GetImage(0)->getMaxFrameX() + 1),
-			(float)obj->GetImage(0)->getHeight() / (obj->GetImage(0)->getMaxFrameY() + 1),
-			obj->GetImage(0)->getKey(), false, 0,0);
+		if (obj->GetImage(0)->getMaxFrameX() != 0)
+		{
+			image->init(to_string(data->_id), data->_x, data->_y,
+				(float)obj->GetImage(0)->getWidth() / (obj->GetImage(0)->getMaxFrameX() + 1),
+				(float)obj->GetImage(0)->getHeight() / (obj->GetImage(0)->getMaxFrameY() + 1),
+				obj->GetImage(0)->getKey(), true, 0, 0);
+		}
+
+		else
+		{
+			image->init(to_string(data->_id), data->_x, data->_y,
+				(float)obj->GetImage(0)->getWidth() / (obj->GetImage(0)->getMaxFrameX() + 1),
+				(float)obj->GetImage(0)->getHeight() / (obj->GetImage(0)->getMaxFrameY() + 1),
+				obj->GetImage(0)->getKey(), false, 0, 0);
+		}
+
 		brushToolFrame->AddFrame(image);
 		
 		while (_vUiBrushObject.size() <= data->_page) _vUiBrushObject.push_back(vector<UIImage*>());

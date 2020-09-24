@@ -106,6 +106,6 @@ void UIText::render(HDC hdc)
 		SelectObject(hdc, OldFont);
 		DeleteObject(hFont);
 
-		if (INPUT->GetKey('P')) Rectangle(hdc, _interactRect);
+		if (INPUT->GetKey(VK_F3)) Rectangle(hdc, _interactRect);
 	}
 }

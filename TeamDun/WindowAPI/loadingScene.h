@@ -14,7 +14,6 @@ public:
 	void render();
 
 	void loadingFont();
-
 	//로딩이미지 함수 (이곳에 이미지를 전부 넣어라)
 	void loadingImage();
 	//로딩사운드 함수 (이곳에 사운드를 전부 넣어라)

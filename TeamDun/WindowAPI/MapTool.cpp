@@ -43,6 +43,10 @@ void MapTool::release()
 
 void MapTool::update()
 {
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		_vObjs[i]->update();
+	}
 }
 
 /// <summary>
@@ -115,6 +119,19 @@ void MapTool::SaveData(string name)
 	}
 
 	CSVMANAGER->csvSave("Data/MapData/" + name + "2.mapData", stringData2);
+
+	vector<vector<string>> stringData3;
+	stringData3.push_back(vector<string>{"ID", "x", "y", "spawnTime"});
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		stringData3.push_back(vector<string>());
+		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_id));
+		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_x));
+		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_y));
+		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_spawnTime));
+	}
+
+	CSVMANAGER->csvSave("Data/MapData/" + name + "_Objs.mapData", stringData3);
 }
 
 /// <summary>
@@ -170,8 +187,16 @@ void MapTool::LoadData(string name)
 		_vMapData.push_back(gridLine);
 	}
 	
+	_vObjs.clear();
+	vector<vector<string>> objData = CSVMANAGER->csvLoad("Data/MapData/" + name + "_Objs.mapData");
+	for (int i = 0; i < objData.size(); i++)
+	{
+		MapObject* obj = new MapObject();
+		obj->init(stoi(objData[i][0]), stoi(objData[i][1]), stoi(objData[i][2]), stoi(objData[i][3]));
+		obj->_alpha = 255;
 
-
+		_vObjs.push_back(obj);
+	}
 }
 
 /// <summary>

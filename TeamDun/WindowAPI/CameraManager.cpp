@@ -190,6 +190,11 @@ void CameraManager::AlphaRender(HDC hdc, image* ig, int destX, int destY, BYTE a
 	ig->alphaRender(hdc, GetRelativeX(destX), GetRelativeY(destY), alpha);
 }
 
+void CameraManager::frameAlphaRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, BYTE alpha)
+{
+	ig->frameAlphaRender(hdc, GetRelativeX(destX), GetRelativeY(destY), frameX, frameY, alpha);
+}
+
 void CameraManager::Rectangle(HDC hdc, RECT rc)
 {
 	::Rectangle(hdc, GetRelativeX(rc.left), GetRelativeY(rc.top), GetRelativeX(rc.right), GetRelativeY(rc.bottom));
