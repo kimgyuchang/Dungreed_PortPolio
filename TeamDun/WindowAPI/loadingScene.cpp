@@ -185,7 +185,7 @@ void loadingScene::loadingImage()
 	
 	_loading->loadImage("AbilityTextBar", "Images/UI/AbilityTextBar.bmp", 33, 54, true ,RGB(255,0,255));
 	_loading->loadImage("accessoryZone", "Images/UI/accessoryZone.bmp", 96, 75, true ,RGB(255,0,255));
-	_loading->loadImage("AltarButton0", "Images/UI/AltarButton0.bmp", 266, 87, true ,RGB(255,0,255));
+	_loading->loadImage("AltarButton0", "Images/UI/AltarButton0.bmp", 300, 90, true ,RGB(255,0,255));
 	_loading->loadImage("AltarButton1", "Images/UI/AltarButton1.bmp", 266, 87, true ,RGB(255,0,255));
 	_loading->loadImage("AltarGaugeBase", "Images/UI/AltarGaugeBase.bmp", 116, 21, true ,RGB(255,0,255));
 	_loading->loadImage("AnvilCloseButton", "Images/UI/AnvilCloseButton.bmp", 39, 39, true ,RGB(255,0,255));
