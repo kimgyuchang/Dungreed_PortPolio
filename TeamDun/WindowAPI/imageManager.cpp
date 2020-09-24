@@ -278,6 +278,12 @@ void imageManager::frameAlphaRender(string strKey, HDC hdc, int destX, int destY
 	if (img) img->frameAlphaRender(hdc, destX, destY, currentFrameX, currentFrameY, alpha);
 }
 
+void imageManager::frameStretchAlphaRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha)
+{
+	image* img = findImage(strKey);
+	if (img) img->frameStretchAlphaRender(hdc, destX, destY, currentFrameX, currentFrameY, scaleX, scaleY, alpha);
+}
+
 //=============================================================
 //	## ∑Á«¡∑ª¥ı ##
 //=============================================================

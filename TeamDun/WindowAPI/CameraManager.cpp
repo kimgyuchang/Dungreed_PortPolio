@@ -180,9 +180,19 @@ void CameraManager::StretchRender(HDC hdc, image* ig, int destX, int destY, floa
 	ig->stretchRender(hdc, GetRelativeX(destX), GetRelativeY(destY), scaleX, scaleY);
 }
 
+void CameraManager::stretchAlphaRender(HDC hdc, image * ig, int destX, int destY, float scaleX, float scaleY, BYTE alpha)
+{
+	ig->stretchAlphaRender(hdc, GetRelativeX(destX), GetRelativeY(destY), scaleX, scaleY, alpha);
+}
+
 void CameraManager::frameStretchRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, float scaleX, float scaleY)
 {
-	ig->frameStretchRender(hdc, GetRelativeX(destX), GetRelativeX(destY), frameX, frameY, scaleX, scaleY);
+	ig->frameStretchRender(hdc, GetRelativeX(destX), GetRelativeY(destY), frameX, frameY, scaleX, scaleY);
+}
+
+void CameraManager::frameStretchAlphaRender(HDC hdc, image * ig, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha)
+{
+	ig->frameStretchAlphaRender(hdc, GetRelativeX(destX), GetRelativeY(destY), currentFrameX, currentFrameY, scaleX, scaleY, alpha);
 }
 
 void CameraManager::AlphaRender(HDC hdc, image* ig, int destX, int destY, BYTE alpha)

@@ -36,7 +36,6 @@ public:
 	int GetClickTimer() { return _clickTimer; }
 	void SetIsOnceClicked(bool isOnceClicked) { _isOnceClicked = isOnceClicked; }
 	void SetClickTimer(int clickTimer) { _clickTimer = clickTimer; }
-	int GetMouseWheel();
 	input() {}
 	~input() {}
 };

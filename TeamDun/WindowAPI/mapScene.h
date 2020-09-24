@@ -38,11 +38,13 @@ private:
 	char			_fileName[128];
 	bool			_isLoad;
 
-	// 클릭 관련//
+	// 클릭 관련 //
 	bool			_isLeftClicked;
 	bool			_isRightClicked;
 	BRUSHTYPE		_brushType;
 	
+	// UI 관련 //
+	bool			_isSizeAdjustOpened;
 public :
 	HRESULT init();
 	void UIInit();
@@ -83,5 +85,6 @@ public :
 	void SaveShortcutKey();
 	void LoadShortcutKey();
 	void SetLayer();
+	void ZoomInOut();
 };
 
