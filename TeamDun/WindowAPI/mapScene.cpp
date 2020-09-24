@@ -811,11 +811,11 @@ void mapScene::ShortcutKey()
 
 void mapScene::SaveShortcutKey()
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 1; i < 11; i++)
 	{
 		if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('0' + i))
 		{
-			UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame")->GetChild("shortcutBox" + to_string(i))->GetChild("Ig")->SetImage(_targetImage);
+			UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame")->GetChild("shortcutBox" + to_string(i-1))->GetChild("Ig")->SetImage(_targetImage);
 		}
 	}
 }
@@ -823,13 +823,13 @@ void mapScene::SaveShortcutKey()
 void mapScene::LoadShortcutKey()
 {
 	UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame");
-	for (int i = 0; i < 10; i++)
+	for (int i = 1; i < 11; i++)
 	{
-		if (frame->GetChild("shortcutBox" + to_string(i))->GetChild("Ig")->GetImage() != nullptr)
+		if (frame->GetChild("shortcutBox" + to_string(i-1))->GetChild("Ig")->GetImage() != nullptr)
 		{
 			if (INPUT->GetKeyDown('0' + i))
 			{
-				_targetImage = frame->GetChild("shortcutBox" + to_string(i))->GetChild("Ig")->GetImage();
+				_targetImage = frame->GetChild("shortcutBox" + to_string(i-1))->GetChild("Ig")->GetImage();
 			}
 		}
 	}
