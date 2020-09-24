@@ -163,9 +163,21 @@ void loadingScene::loadingImage()
 	_loading->loadImage("WormPassage00", "Images/Object/WormPassage00.bmp", 81, 93, true, RGB(255,0,255));
 	
 	// 미회전 //
-	_loading->loadFrameImage("StrawberryFountain0", "Images/Object/StrawberryFountain0.bmp", 480, 96, 5, 1, true, RGB(255,0,255));
+	_loading->loadFrameImage("StrawberryFountain0", "Images/Object/StrawberryFountain0.bmp", 384, 96, 4, 1, true, RGB(255,0,255));
+	_loading->loadImage("StrawberryFountain1", "Images/Object/StrawberryFountain1.bmp", 96, 96, true, RGB(255,0,255));
 	_loading->loadFrameImage("WormPassageEat00", "Images/Object/WormPassageEat00.bmp", 324, 93, 4, 1, true, RGB(255,0,255));
 	_loading->loadFrameImage("WormPassageIdle00", "Images/Object/WormPassageIdle00.bmp", 729, 93, 9, 1, true, RGB(255,0,255));
+	_loading->loadFrameImage("PinkTresureClosed00", "Images/Object/PinkTresureClosed00.bmp", 396, 63, 12, 1, true, RGB(255,0,255));
+	_loading->loadFrameImage("PinkTresureOpened00", "Images/Object/PinkTresureOpened00.bmp", 396, 63, 12, 1, true, RGB(255,0,255));
+	_loading->loadFrameImage("PinkTresureOpened00", "Images/Object/PinkTresureOpened00.bmp", 396, 63, 12, 1, true, RGB(255,0,255));
+	_loading->loadImage("RareTresureClosed", "Images/Object/RareTresureClosed.bmp", 93, 54, true, RGB(255,0,255));
+	_loading->loadImage("RareTresureOpened", "Images/Object/RareTresureOpened.bmp", 93, 54, true, RGB(255,0,255));
+	_loading->loadImage("GrayTresureClosed", "Images/Object/GrayTresureClosed.bmp", 63, 45, true, RGB(255,0,255));
+	_loading->loadImage("GrayTresureOpen", "Images/Object/GrayTresureOpen.bmp", 63, 45, true, RGB(255,0,255));
+	_loading->loadImage("StashClosed", "Images/Object/StashClosed.bmp", 84, 48, true, RGB(255,0,255));
+	_loading->loadImage("StashOpened", "Images/Object/StashOpened.bmp", 84, 48, true, RGB(255,0,255));
+	_loading->loadImage("YellowTresureClosed", "Images/Object/YellowTresureClosed.bmp", 117, 69, true, RGB(255,0,255));
+	_loading->loadImage("YellowTresureOpened", "Images/Object/YellowTresureOpened.bmp", 117, 69, true, RGB(255,0,255));
 
 	// 회전 //
 	_loading->loadFrameImage("gear", "Images/Object/gear.bmp", 1296, 108, 12, 1, true, RGB(255,0,255), true);

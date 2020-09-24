@@ -18,7 +18,7 @@ HRESULT uibrushTool::init()
 void uibrushTool::UIInit()
 {
 	UIFrame* brushToolFrame = new UIFrame();
-	brushToolFrame->init("brushTool", _xPos, 10, 222, 189, "Base", 1.7f, 4.1f);
+	brushToolFrame->init("brushTool", _xPos, 10, 222, 189, "Base", 1.7f, 3.9f);
 	UIMANAGER->GetGameFrame()->AddFrame(brushToolFrame);
 
 	UIFrame* brushGridButton = new UIFrame();

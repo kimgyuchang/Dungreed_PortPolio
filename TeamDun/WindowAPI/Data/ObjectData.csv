@@ -8,5 +8,10 @@ id,name,type,image,image2,image3
 1002,작은 톱니,Obstacle,Gear_Small_Small,.,.
 102,오크통,Breakable,OakDrum0,.,.
 0,포탈,NPC,WormPassageIdle00,WormPassage00,WormPassageEat00
-1,딸기분수,NPC,StrawberryFountain0,.,.
+1,딸기분수,NPC,StrawberryFountain0,StrawberryFountain1,.
 701,밴시,Monster,AbyssBansheeIdle,.,.
+2,전설상자,NPC,PinkTresureClosed00,PinkTresureOpened00,.
+3,레어상자,NPC,RareTresureClosed,RareTresureOpened,.
+4,회색상자,NPC,GrayTresureClosed,GrayTresureOpen,.
+5,갈색상자,NPC,StashClosed,StashOpened,.
+6,금색상자,NPC,YellowTresureClosed,YellowTresureOpened,.
