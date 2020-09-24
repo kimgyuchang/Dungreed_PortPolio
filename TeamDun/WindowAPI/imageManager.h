@@ -55,8 +55,8 @@ public:
 //=============================================================
 	void frameRender(string strKey, HDC hdc, int destX, int destY);
 	void frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
-
 	void frameAlphaRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, int alpha);
+	void frameStretchAlphaRender(string strKey ,HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha);
 
 //=============================================================
 //	## 스트레치렌더##
@@ -75,7 +75,6 @@ public:
 //  ## 회전 만들기 ##
 //=============================================================
 	void MakeRotateImage(string strKey);
-
 
 
 	imageManager() {}

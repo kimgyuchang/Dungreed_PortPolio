@@ -4,6 +4,7 @@
 
 HRESULT MapTool::init()
 {
+	
 	return S_OK;
 }
 
@@ -13,6 +14,9 @@ HRESULT MapTool::init()
 
 HRESULT MapTool::init(int width, int height)
 {
+	_zoomHeight = 48;
+	_zoomWidth = 48;
+
 	_isLayer = true;
 	for (int i = 0; i < width; i++)
 	{
@@ -22,13 +26,15 @@ HRESULT MapTool::init(int width, int height)
 			Grid* grid = new Grid();
 			grid->_img = nullptr;
 			grid->_img2 = nullptr;
+			grid->_width = _zoomWidth;
+			grid->_height = _zoomHeight;
 			grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
 			grid->_alpha = 70;
-			grid->_x = j * 50 + 0;
-			grid->_y = i * 50 + 0;
+			grid->_x = j * (_zoomWidth+2) + 0;
+			grid->_y = i * (_zoomHeight+2)+ 0;
 			grid->_xIndex = j;
 			grid->_yIndex = i;
-			grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
+			grid->_rc = RectMake(grid->_x, grid->_y, _zoomWidth, _zoomHeight);
 			gridLine.push_back(grid);
 		}
 		_vMapData.push_back(gridLine);
@@ -54,8 +60,8 @@ void MapTool::update()
 /// </summary>
 Grid* MapTool::mouseCollisionCheck()
 {
-	int xIndex = CAMERAMANAGER->GetAbsoluteX(_ptMouse.x) / 48;
-	int yIndex = CAMERAMANAGER->GetAbsoluteY(_ptMouse.y) / 48;
+	int xIndex = CAMERAMANAGER->GetAbsoluteX(_ptMouse.x) / _zoomWidth;
+	int yIndex = CAMERAMANAGER->GetAbsoluteY(_ptMouse.y) / _zoomHeight;
 		
 	for (int i = yIndex - 3; i < yIndex + 3; i++)
 	{
@@ -66,15 +72,23 @@ Grid* MapTool::mouseCollisionCheck()
 
 			if (PtInRect(&_vMapData[i][j]->_rc, CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y)) 
 				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame")->GetRect(), _ptMouse)
-				//&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->GetRect(), _ptMouse)
 				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetRect(), _ptMouse)
-				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->GetRect(), _ptMouse)
 				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetRect(), _ptMouse)
 				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("gridBtn")->GetRect(), _ptMouse)
 				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("objBtn")->GetRect(), _ptMouse)
 				)
 			{
-				return _vMapData[i][j];
+				if (UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->GetIsViewing())
+				{
+					if (!PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->GetRect(), _ptMouse))
+					{
+						return _vMapData[i][j];
+					}
+				}
+				else
+				{
+					return _vMapData[i][j];
+				}
 			}
 		}
 	}
@@ -126,8 +140,8 @@ void MapTool::SaveData(string name)
 	{
 		stringData3.push_back(vector<string>());
 		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_id));
-		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_x));
-		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_y));
+		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_x/_zoomWidth*48));
+		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_y/_zoomHeight*48));
 		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_spawnTime));
 	}
 
@@ -171,16 +185,14 @@ void MapTool::LoadData(string name)
 
 			if (stringData2[i][j] == "-1") grid->_img2= nullptr;
 			else grid->_img2 = IMAGEMANAGER->findImage(stringData2[i][j]);
-
-			grid->_x = j * 50 + 0;
-			grid->_y = i * 50 + 0;
+			grid->_x = j * _zoomWidth + 0;
+			grid->_y = i * _zoomHeight + 0;
 			grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
-			grid->_alpha = 30;
 			grid->_xIndex = j;
 			grid->_yIndex = i;
 			grid->_alpha = 70;
 			grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
-			grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
+			grid->_rc = RectMake(grid->_x, grid->_y,_zoomWidth,_zoomHeight);
 			gridLine.push_back(grid);
 			
 		}
@@ -195,7 +207,7 @@ void MapTool::LoadData(string name)
 		obj->init(stoi(objData[i][0]), stoi(objData[i][1]), stoi(objData[i][2]), 0);
 		obj->_spawnTime = stoi(objData[i][3]);
 		obj->_alpha = 255;
-		
+		obj->_mapTool = this;
 		_vObjs.push_back(obj);
 	}
 }
@@ -233,13 +245,13 @@ void MapTool::MapLineAddRow()
 	{
 		Grid* grid = new Grid();
 		grid->_img = nullptr;
-		grid->_x = j * 50 + 0;
-		grid->_y = _vMapData.size() * 50 + 0;
+		grid->_x = j * (_zoomWidth + (2 * _zoomWidth / 48));
+		grid->_y = _vMapData.size() * (_zoomHeight + ( 2 * _zoomHeight / 48));
 		grid->_xIndex = j;
 		grid->_yIndex = _vMapData.size();
 		grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
 		grid->_alpha = 70;
-		grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
+		grid->_rc = RectMake(grid->_x, grid->_y, _zoomWidth, _zoomHeight);
 		gridLine.push_back(grid);
 	}
 
@@ -255,13 +267,13 @@ void MapTool::MapLineAddCol()
 	{
 		Grid* grid = new Grid();
 		grid->_img = nullptr;
-		grid->_x = _vMapData[i].size() * 50 + 0;
-		grid->_y = i * 50 + 0;
+		grid->_x = _vMapData[i].size() * (_zoomWidth + (2 * _zoomWidth / 48));
+		grid->_y = i * (_zoomWidth + (2 * _zoomHeight / 48));
 		grid->_xIndex = _vMapData[i].size();
 		grid->_yIndex = i;
 		grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
 		grid->_alpha = 70;
-		grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
+		grid->_rc = RectMake(grid->_x, grid->_y, _zoomWidth, _zoomHeight);
 		_vMapData[i].push_back(grid);
 	}
 }
@@ -489,21 +501,41 @@ void MapTool::GridRange(float x, float y, float x1, float y1)
 	}
 }
 
-void MapTool::render()
+void MapTool::SetMap()
 {
-	for (int i = ((CAMERAMANAGER->getPivotY() - (WINSIZEY / 2)) / 48) - 10; i < ((CAMERAMANAGER->getPivotY() + (WINSIZEY / 2)) / 48); i++)
+
+	for (int i = 0; i < _vMapData.size(); i++)
 	{
-		if (i < 0 || i >=_vMapData.size()) continue;
-		for (int j = ((CAMERAMANAGER->getPivotX() - (WINSIZEX / 2)) / 48) - 10; j < ((CAMERAMANAGER->getPivotX() + (WINSIZEX / 2)) / 48); j++)
+		for (int j = 0; j < _vMapData[i].size(); j++)
 		{
-			if (j < 0 || j >= _vMapData[i].size()) continue;
-			//CAMERAMANAGER->Rectangle(getMemDC(), _vMapData[i][j]->_rc);
-			if (_vMapData[i][j]->_img2) CAMERAMANAGER->Render(getMemDC(), _vMapData[i][j]->_img2, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
-			if (_vMapData[i][j]->_img) CAMERAMANAGER->Render(getMemDC(), _vMapData[i][j]->_img, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
-			string str = to_string(i) + " " + to_string(j);
-			CAMERAMANAGER->AlphaRender(getMemDC(), _vMapData[i][j]->_checkImg, _vMapData[i][j]->_x, _vMapData[i][j]->_y, _vMapData[i][j]->_alpha);
+			_vMapData[i][j]->_x = j * (_zoomWidth+(2*_zoomWidth/48)) + 0;
+			_vMapData[i][j]->_y = i * (_zoomHeight+(2*_zoomHeight/48)) + 0;
+			_vMapData[i][j]->_rc = RectMake(_vMapData[i][j]->_x, _vMapData[i][j]->_y, _zoomWidth, _zoomHeight);
 		}
 	}
+
+
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		_vObjs[i]->SetZoomPosition();
+	}
+}
+
+void MapTool::render()
+{
+	for (int i = ((CAMERAMANAGER->getPivotY() - (WINSIZEY / 2)) / (_zoomHeight == 0 ? 48 : _zoomHeight)); i < ((CAMERAMANAGER->getPivotY() + (WINSIZEY / 2)) / (_zoomHeight == 0 ? 48 : _zoomHeight)); i++)
+	{
+		if (i < 0 || i >=_vMapData.size()) continue;
+		for (int j = ((CAMERAMANAGER->getPivotX() - (WINSIZEX / 2)) / (_zoomWidth == 0 ? 48 : _zoomWidth)); j < ((CAMERAMANAGER->getPivotX() + (WINSIZEX / 2)) / (_zoomWidth == 0 ? 48 : _zoomWidth)); j++)
+		{
+			if (j < 0 || j >= _vMapData[i].size()) continue;
+			if (_vMapData[i][j]->_img2) CAMERAMANAGER->StretchRender(getMemDC(), _vMapData[i][j]->_img2, _vMapData[i][j]->_x, _vMapData[i][j]->_y, (_zoomWidth == 0 ? 48 : _zoomWidth) /48, (_zoomHeight == 0 ? 48 : _zoomHeight) /48);
+			if (_vMapData[i][j]->_img) CAMERAMANAGER->StretchRender(getMemDC(), _vMapData[i][j]->_img, _vMapData[i][j]->_x, _vMapData[i][j]->_y, (_zoomWidth == 0 ? 48 : _zoomWidth) / 48 , (_zoomHeight == 0 ? 48 : _zoomHeight) / 48);
+			string str = to_string(i) + " " + to_string(j);
+			CAMERAMANAGER->stretchAlphaRender(getMemDC(), _vMapData[i][j]->_checkImg, _vMapData[i][j]->_x, _vMapData[i][j]->_y, (_zoomWidth == 0 ? 48 : _zoomWidth) /48 , (_zoomHeight == 0 ? 48 : _zoomHeight) /48 , _vMapData[i][j]->_alpha);
+		}
+	}
+	
 
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
