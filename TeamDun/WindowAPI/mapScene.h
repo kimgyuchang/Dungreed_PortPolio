@@ -49,8 +49,13 @@ private:
 	bool			_isEnterPressed;
 	BRUSHTYPE		_brushType;
 	
+	// 커서 관련 //
+	image*			_cursorImage;
+	vector<string>	_cursorImageStrings;
+
 	// UI 관련 //
 	bool			_isSizeAdjustOpened;
+
 public :
 	HRESULT init();
 	void UIInit();
