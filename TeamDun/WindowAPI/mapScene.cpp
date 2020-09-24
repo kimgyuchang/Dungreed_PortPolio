@@ -214,6 +214,7 @@ void mapScene::update()
 
 	else
 	{
+		_mapTool->update();
 		_uiBrushTool->update();
 		CheckShortCutBtnCollision();
 		DoClickByType();
@@ -227,6 +228,7 @@ void mapScene::update()
 		LoadShortcutKey();
 		SetLayer();
 		PlaceObject();
+		EraseObject();
 
 		CAMERAMANAGER->MovePivot(_pivot.x, _pivot.y);
 	}
@@ -242,11 +244,28 @@ void mapScene::PlaceObject()
 		// 그리드 범위 안에서 배치되도록
 		if (absPtX >= 0 && absPtY >= 0 && absPtY < _mapTool->GetGrid().size() * 48 && absPtX < _mapTool->GetGrid()[0].size() * 48)
 		{
+			Grid* grid = _mapTool->mouseCollisionCheck();
+
 			MapObject* obj = new MapObject(*_targetObject);
 			obj->_x = absPtX;
 			obj->_y = absPtY;
 			obj->_alpha = 255;
 			_mapTool->GetVObject().push_back(obj);
+		}
+	}
+}
+
+void mapScene::EraseObject()
+{
+	for (int i = 0; i < _mapTool->GetVObject().size(); i++)
+	{
+		if (_isRightClicked)
+		{
+			if (PtInRect(&_mapTool->GetVObject()[i]->_body, CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y)))
+			{
+				_mapTool->GetVObject().erase(_mapTool->GetVObject().begin() + i);
+				break;
+			}
 		}
 	}
 }
@@ -649,8 +668,11 @@ void mapScene::render()
 
 	Grid* targetGrid = _mapTool->mouseCollisionCheck();
 	if (_targetImage && targetGrid) CAMERAMANAGER->AlphaRender(getMemDC(), _targetImage, targetGrid->_rc.left, targetGrid->_rc.top, 100);
-	if (_targetObject) _targetObject->_image->alphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 100);
-
+	if (_targetObject)
+	{
+		if (_targetObject->_image->getMaxFrameX() == 0) _targetObject->_image->alphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 100);
+		else _targetObject->_image->frameAlphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 0, 0, 100);
+	}
 	UIMANAGER->render(getMemDC());
 }
 

@@ -49,6 +49,7 @@ public :
 	void release();
 	void update();
 	void PlaceObject();
+	void EraseObject();
 	void InputCheck();
 	void SetMapSize();
 	void CallSaveEditor();
