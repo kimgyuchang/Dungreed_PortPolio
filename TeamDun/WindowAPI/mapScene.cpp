@@ -243,6 +243,7 @@ void mapScene::UIInit()
 	UIText* layerText = new UIText();
 	layerText->init("LayerChecker", WINSIZEX - 360, WINSIZEY - 50, 300, 50, "Layer Main", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_RIGHT, RGB(255, 255, 255));
 	UIMANAGER->GetGameFrame()->AddFrame(layerText);
+	layerText->SetIsViewing(false);
 	
 	UIFrame* setSpawnTimeFrame = new UIFrame();
 	setSpawnTimeFrame->init("spawnFrame", WINSIZEX / 2 - 250, WINSIZEY / 2 - 150, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig", 0.4, 0.3);
@@ -699,6 +700,7 @@ void mapScene::SetMapSize()
 		_uiBrushTool->UIInit();
 		UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->SetIsViewing(true);
 		UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame")->SetIsViewing(true);
+		UIMANAGER->GetGameFrame()->GetChild("LayerChecker")->SetIsViewing(true);
 		UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->SetIsViewing(false);
 	}
 

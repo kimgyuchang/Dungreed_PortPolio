@@ -204,7 +204,9 @@ void MapTool::LoadData(string name)
 	for (int i = 0; i < objData.size(); i++)
 	{
 		MapObject* obj = new MapObject();
-		obj->init(stoi(objData[i][0]), stoi(objData[i][1]), stoi(objData[i][2]), 0);
+		obj->init(stoi(objData[i][0]), stoi(objData[i][1]) * _zoomWidth / 48, stoi(objData[i][2]) * _zoomHeight / 48, 0);
+		obj->_initX = stoi(objData[i][1]);
+		obj->_initY = stoi(objData[i][2]);
 		obj->_spawnTime = stoi(objData[i][3]);
 		obj->_alpha = 255;
 		obj->_mapTool = this;

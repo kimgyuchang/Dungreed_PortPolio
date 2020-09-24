@@ -1,17 +1,32 @@
 id,name,type,image,image2,image3
-100,큰 박스,Breakable,BigBox0,.,.
-101,박스,Breakable,Box0,.,.
-500,뼈 0,Etc,Bone0,.,.
-501,뼈 1,Etc,Bone1,.,.
-1000,큰 톱니,Obstacle,gear,.,.
-1001,중간 톱니,Obstacle,Gear_Small,.,.
-1002,작은 톱니,Obstacle,Gear_Small_Small,.,.
-102,오크통,Breakable,OakDrum0,.,.
 0,포탈,NPC,WormPassageIdle00,WormPassage00,WormPassageEat00
 1,딸기분수,NPC,StrawberryFountain0,StrawberryFountain1,.
-701,밴시,Monster,AbyssBansheeIdle,.,.
 2,전설상자,NPC,PinkTresureClosed00,PinkTresureOpened00,.
 3,레어상자,NPC,RareTresureClosed,RareTresureOpened,.
 4,회색상자,NPC,GrayTresureClosed,GrayTresureOpen,.
 5,갈색상자,NPC,StashClosed,StashOpened,.
 6,금색상자,NPC,YellowTresureClosed,YellowTresureOpened,.
+7,스테이지1문열림,NPC,Door0_Open,.,.
+8,스테이지1문닫힘,NPC,Door0_Closed,.,.
+100,큰 박스,Breakable,BigBox0,.,.
+101,박스,Breakable,Box0,.,.
+102,오크통,Breakable,OakDrum0,.,.
+500,뼈 0,Etc,Bone0,.,.
+501,뼈 1,Etc,Bone1,.,.
+502,해골 0,Etc,Skull0,.,.
+503,해골 1,Etc,Skull1,.,.
+701,밴시,Monster,AbyssBansheeIdle,.,.
+1000,큰 톱니,Obstacle,gear,.,.
+1001,중간 톱니,Obstacle,Gear_Small,.,.
+1002,작은 톱니,Obstacle,Gear_Small_Small,.,.
+1003,가시함정,Obstacle,SpikePlatform1,.,.
+504,횃불,Etc,Torch0,.,.
+505,돌 1,Etc,Stone_1,.,.
+506,돌 2,Etc,Stone_2,.,.
+507,돌 3,Etc,Stone_3,.,.
+508,책상 0,Etc,Table0,.,.
+509,고문책상 0,Etc,TortureTable_0,.,.
+510,고문책상 1,Etc,TortureTable_1,.,.
+511,고문파편 0,Etc,TortureTable1_0,.,.
+512,고문파편 1,Etc,TortureTable1_1,.,.
+1004,가시,Obstacle,Spike,.,.
