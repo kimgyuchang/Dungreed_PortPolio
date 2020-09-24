@@ -5,6 +5,8 @@ struct Grid
 {
 	int				_x;					// X 위치
 	int				_y;					// Y 위치
+	int				_width;				// 렉트길이
+	int				_height;			// 렉트세로길이
 	int				_xIndex;			// xIndex
 	int				_yIndex;			// yIndex
 	RECT			_rc;				// RECT
@@ -32,7 +34,8 @@ private:
 	vector<MapObject*>				_vObjs;			// 오브젝트 목록
 
 	bool							_isLayer;		// 레이어 선택하기위한 불값
-
+	float							_zoomWidth;
+	float							_zoomHeight;
 	
 public:
 	HRESULT init();
@@ -54,6 +57,8 @@ public:
 	void FloodFill(image * targetImage, int indexX, int indexY);
 	void PreviewGridRange( int startIndexX, int startIndexY, int indexX, int indexY,int alpha);
 	void GridRange(float x, float y, float x1, float y1);
+
+	void SetMap();
 	
 	// GETSET // 
 	void SetMapScene(mapScene* scene) { _mapScene = scene; }
@@ -61,5 +66,9 @@ public:
 	vector<MapObject *>& GetVObject() { return _vObjs; }
 	bool getIsLayer() { return _isLayer; }
 	void setIsLayer(bool isLayer) { _isLayer = isLayer; }
-	
+
+	float getZoomWidth() { return _zoomWidth;}
+	void setZoomWidth(float width) { _zoomWidth = width; }
+	float getZoomHeight() { return _zoomHeight; }
+	void setZoomHeight(float height) { _zoomHeight = height; }
 };

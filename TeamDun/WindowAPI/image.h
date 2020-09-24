@@ -85,6 +85,7 @@ public:
 	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
 	//늘이기렌더
 	void stretchRender(HDC hdc, int destX, int destY, float scaleX, float scaleY);
+	void stretchAlphaRender(HDC hdc, int destX, int destY, float scaleX, float scaleY, BYTE alpha);
 
 	//알파렌더(이미지를 알파값만큼 투명화 시켜준다)
 	void alphaRender(HDC hdc, BYTE alpha);
@@ -96,6 +97,8 @@ public:
 	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
 
 	void frameStretchRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY);
+	void frameStretchAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY , BYTE alpha);
+	
 
 	//루프렌더
 	void loopRender(HDC hdc, const LPRECT drawArea, int offsetX, int offsetY);

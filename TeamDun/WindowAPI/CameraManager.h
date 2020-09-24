@@ -60,7 +60,9 @@ public:
 	void Render(HDC hdc, image* ig, int destX, int destY);
 	void FrameRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY);
 	void StretchRender(HDC hdc, image* ig, int destX, int destY, float scaleX, float scaleY);
+	void stretchAlphaRender(HDC hdc,image* ig, int destX, int destY, float scaleX, float scaleY, BYTE alpha);
 	void frameStretchRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, float scaleX, float scaleY);
+	void frameStretchAlphaRender(HDC hdc, image* ig, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha);
 	void TextDraw(HDC hdc, int destX, int destY, LPCSTR lpstring, int c);
 	void AlphaRender(HDC hdc, image * ig, int destX, int destY, BYTE alpha);
 	void frameAlphaRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, BYTE alpha);

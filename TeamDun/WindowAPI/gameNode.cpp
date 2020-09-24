@@ -63,6 +63,8 @@ LRESULT gameNode::MainProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 	{
 	case WM_TIMER:
 		this->update();
+		_mouseWheel = 0;
+
 		break;
 	case WM_PAINT:
 		this->render();

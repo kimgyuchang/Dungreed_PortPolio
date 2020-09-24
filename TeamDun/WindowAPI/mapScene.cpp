@@ -32,13 +32,19 @@ HRESULT mapScene::init()
 
 	// SAVE LOAD //
 	_hEdit = CreateWindow("edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER |
-		ES_AUTOHSCROLL | ES_RIGHT, WINSIZEX/2 - 95, WINSIZEY / 2, 200, 25, _hWnd, (HMENU)100, _hInstance, NULL);
+		ES_AUTOHSCROLL | ES_RIGHT, WINSIZEX / 2 - 95, WINSIZEY / 2, 200, 25, _hWnd, (HMENU)100, _hInstance, NULL);
 	ShowWindow(_hEdit, SW_HIDE);
-	_isEditerViewing = false;
+	_isEditorViewing = false;
 	_isLoad = false;
+
+	_hMonsterSpawnTime = CreateWindow("edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER |
+		ES_AUTOHSCROLL | ES_RIGHT, WINSIZEX / 2 - 95, WINSIZEY / 2, 80, 25, _hWnd, (HMENU)100, _hInstance, NULL);
+	ShowWindow(_hMonsterSpawnTime, SW_HIDE);
+	_isMonsterSettingOn = false;
 
 	// UI //
 	UIInit();
+	_isSizeAdjustOpened = false;
 
 	_cursorImageStrings.push_back("BasicCursor");
 	_cursorImageStrings.push_back("brushCursor");
@@ -63,7 +69,7 @@ void mapScene::UIInit()
 	for (int i = 1; i < 11; i++)
 	{
 		UIFrame* setShortcutKeyBox = new UIFrame();
-		setShortcutKeyBox->init("shortcutBox" + to_string(i-1), 55 + 70 * (i-1), 15, IMAGEMANAGER->findImage("ShortcutKey1")->getWidth(), IMAGEMANAGER->findImage("ShortcutKey1")->getHeight(), "ShortcutKey1");
+		setShortcutKeyBox->init("shortcutBox" + to_string(i - 1), 55 + 70 * (i - 1), 15, IMAGEMANAGER->findImage("ShortcutKey1")->getWidth(), IMAGEMANAGER->findImage("ShortcutKey1")->getHeight(), "ShortcutKey1");
 		setShortcutKeyFrame->AddFrame(setShortcutKeyBox);
 
 		UIImage* setShortcutKeyIg = new UIImage();
@@ -71,7 +77,7 @@ void mapScene::UIInit()
 		setShortcutKeyBox->AddFrame(setShortcutKeyIg);
 
 		UIText* setShortcutKeyNum = new UIText();
-		setShortcutKeyNum->init("shorcutNum", 17, 30, 50, 50, to_string(i%10), FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+		setShortcutKeyNum->init("shorcutNum", 17, 30, 50, 50, to_string(i % 10), FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 		setShortcutKeyIg->AddFrame(setShortcutKeyNum);
 	}
 
@@ -120,7 +126,7 @@ void mapScene::UIInit()
 	setWidthBoxFrame->AddFrame(setWidthNumFrame);
 
 	UIFrame* saveLoadFrame = new UIFrame();
-	saveLoadFrame->init("saveLoadFrame", WINSIZEX/2 - 170, WINSIZEY/2 - 130, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig", 0.7, 0.7f);
+	saveLoadFrame->init("saveLoadFrame", WINSIZEX / 2 - 170, WINSIZEY / 2 - 130, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig", 0.7, 0.7f);
 	UIMANAGER->GetGameFrame()->AddFrame(saveLoadFrame);
 	saveLoadFrame->SetIsViewing(false);
 
@@ -234,9 +240,18 @@ void mapScene::UIInit()
 	}
 	UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->SetIsViewing(false);
 
-	UIText*	layerText = new UIText();
+	UIText* layerText = new UIText();
 	layerText->init("LayerChecker", WINSIZEX - 400, WINSIZEY - 50, 300, 50, "Layer Main", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_RIGHT, RGB(255, 255, 255));
 	UIMANAGER->GetGameFrame()->AddFrame(layerText);
+
+	UIFrame* setSpawnTimeFrame = new UIFrame();
+	setSpawnTimeFrame->init("spawnFrame", WINSIZEX / 2 - 250, WINSIZEY / 2 - 150, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig", 0.4, 0.3);
+	UIMANAGER->GetGameFrame()->AddFrame(setSpawnTimeFrame);
+	setSpawnTimeFrame->SetIsViewing(false);
+
+	UIText* spawnText = new UIText();
+	spawnText->init("text", 0, 10, 200, 100, "스폰시간 입력", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	setSpawnTimeFrame->AddFrame(spawnText);
 }
 
 void mapScene::release()
@@ -257,21 +272,83 @@ void mapScene::update()
 	{
 		_mapTool->update();
 		_uiBrushTool->update();
-		CheckShortCutBtnCollision();
-		DoClickByType();
-		GetUiBrush();
-		ToolMovePage();
-		UpdateFillSquareRange();
-		SaveLoadMap();
-		CameraMove();
-		SaveShortcutKey();
-		LoadShortcutKey();
-		ShortcutKey();
-		SetLayer();
-		PlaceObject();
-		EraseObject();
+
+		if (!_isEditorViewing && !_isMonsterSettingOn)
+		{
+			CheckShortCutBtnCollision();
+			DoClickByType();
+			GetUiBrush();
+			ToolMovePage();
+			UpdateFillSquareRange();
+			SaveLoadMap();
+			CameraMove();
+			SaveShortcutKey();
+			LoadShortcutKey();
+			ShortcutKey();
+			SetLayer();
+			PlaceObject();
+			EraseObject();
+			SetMonsterPage();
+			ZoomInOut();
+		}
+
+		if(_isMonsterSettingOn)
+		{
+			InMonsterSetPage();
+		}
+
+		if(_isEditorViewing)
+		{
+			SaveLoadMap();
+		}
 
 		CAMERAMANAGER->MovePivot(_pivot.x, _pivot.y);
+	}
+}
+
+void mapScene::SetMonsterPage()
+{
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown(VK_SPACE))
+	{
+		for (int i = 0; i < _mapTool->GetVObject().size(); i++)
+		{
+			if (PtInRect(&_mapTool->GetVObject()[i]->_body, CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y)))
+			{
+				if (DATAMANAGER->GetObjectById(_mapTool->GetVObject()[i]->_id)->GetType() == OBJECTTYPE::OT_MONSTER)
+				{
+					ShowWindow(_hMonsterSpawnTime, SW_SHOW);
+					_isMonsterSettingOn = true;
+					_currentMonsterIndex = i;
+					SetWindowText(_hMonsterSpawnTime, to_string(_mapTool->GetVObject()[i]->_spawnTime).c_str());
+					UIMANAGER->GetGameFrame()->GetChild("spawnFrame")->SetIsViewing(true);
+					UIMANAGER->GetGameFrame()->GetChild("spawnFrame")->MoveFrameToXY(_ptMouse.x, _ptMouse.y);
+					SetWindowPos(_hMonsterSpawnTime, _hMonsterSpawnTime, _ptMouse.x + 60, _ptMouse.y + 50, 80, 25 , SWP_NOZORDER);
+					return;
+				}
+			}
+		}
+	}
+}
+
+void mapScene::InMonsterSetPage()
+{
+	if (_isMonsterSettingOn)
+	{
+		if (_isEnterPressed)
+		{
+			GetWindowText(_hMonsterSpawnTime, _spawnTime, 128);
+			_mapTool->GetVObject()[_currentMonsterIndex]->_spawnTime = atoi(_spawnTime);
+			ShowWindow(_hMonsterSpawnTime, SW_HIDE);
+			_isMonsterSettingOn = false;
+			UIMANAGER->GetGameFrame()->GetChild("spawnFrame")->SetIsViewing(false);
+		}
+
+		if (INPUT->GetKeyDown(VK_TAB))
+		{
+			ShowWindow(_hMonsterSpawnTime, SW_HIDE);
+			_isMonsterSettingOn = false;
+			UIMANAGER->GetGameFrame()->GetChild("spawnFrame")->SetIsViewing(false);
+		}
 	}
 }
 
@@ -283,14 +360,18 @@ void mapScene::PlaceObject()
 		int absPtY = CAMERAMANAGER->GetAbsoluteY(_ptMouse.y);
 
 		// 그리드 범위 안에서 배치되도록
-		if (absPtX >= 0 && absPtY >= 0 && absPtY < _mapTool->GetGrid().size() * 48 && absPtX < _mapTool->GetGrid()[0].size() * 48)
+		if (absPtX >= 0 && absPtY >= 0 && absPtY < _mapTool->GetGrid().size() * _mapTool->getZoomHeight() && absPtX < _mapTool->GetGrid()[0].size() * _mapTool->getZoomWidth())
 		{
 			Grid* grid = _mapTool->mouseCollisionCheck();
 
-			MapObject* obj = new MapObject(*_targetObject);
+			MapObject* obj = new MapObject(*_targetObject); // 값만 복사하여 새롭게 주소 할당
+			
 			obj->_x = absPtX;
 			obj->_y = absPtY;
+			obj->_initX = absPtX /_mapTool->getZoomWidth()*48;
+			obj->_initY = absPtY / _mapTool->getZoomHeight()*48;
 			obj->_alpha = 255;
+			obj->_mapTool = _mapTool;
 			_mapTool->GetVObject().push_back(obj);
 		}
 	}
@@ -315,6 +396,7 @@ void mapScene::InputCheck()
 {
 	_isLeftClicked = false;
 	_isRightClicked = false;
+	_isEnterPressed = false;
 
 	if (INPUT->GetKeyDown(VK_LBUTTON))
 	{
@@ -324,6 +406,11 @@ void mapScene::InputCheck()
 	if (INPUT->GetKeyDown(VK_RBUTTON))
 	{
 		_isRightClicked = true;
+	}
+
+	if (INPUT->GetKeyDown(VK_RETURN))
+	{
+		_isEnterPressed = true;
 	}
 }
 
@@ -368,7 +455,7 @@ void mapScene::CheckShortCutBtnCollision()
 			}
 		}
 
-		if (_isEditerViewing == true)
+		if (_isSizeAdjustOpened == true)
 		{
 			UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame");
 
@@ -411,7 +498,7 @@ void mapScene::DoClickByType()
 			if (_targetImage) FloodFill();
 			break;
 		case BT_PAINT:
-			if(_targetImage) PaintSaver();
+			if (_targetImage) PaintSaver();
 			break;
 		case BT_ERASE:
 			EraseSaver();
@@ -568,7 +655,7 @@ void mapScene::FloodFill()
 	if (grid && _targetImage != nullptr)
 	{
 		_mapTool->EveSaveData();
-		if(_mapTool->getIsLayer())
+		if (_mapTool->getIsLayer())
 			_mapTool->FloodFill(grid->_img, grid->_xIndex, grid->_yIndex);
 		else
 			_mapTool->FloodFill(grid->_img2, grid->_xIndex, grid->_yIndex);
@@ -638,43 +725,41 @@ void mapScene::SetMapSize()
 		if (_widthNum < 1) _widthNum = 1;
 		dynamic_cast<UIText*>(frame->GetChild("WidthBox")->GetChild("Word"))->SetText(to_string(_widthNum));
 	}
-
-	
 }
 
 void mapScene::CallSaveEditor()
 {
-		if (!_isEditerViewing || _isLoad)
-		{
-			UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(true);
-			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->GetChild("SaveLoader"))->SetText("SAVE");
-			_isEditerViewing = true;
-			ShowWindow(_hEdit, SW_SHOW);
-		}
-
-		else
-		{
-			UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(false);
-			_isEditerViewing = false;
-			ShowWindow(_hEdit, SW_HIDE);
-		}
-		_isLoad = false;
-}
-
-void mapScene::CallLoadEditor()
-{
-	if (!_isEditerViewing || !_isLoad)
+	if (!_isEditorViewing || _isLoad)
 	{
 		UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(true);
-		dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->GetChild("SaveLoader"))->SetText("LOAD");
-		_isEditerViewing = true;
+		dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->GetChild("SaveLoader"))->SetText("SAVE");
+		_isEditorViewing = true;
 		ShowWindow(_hEdit, SW_SHOW);
 	}
 
 	else
 	{
 		UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(false);
-		_isEditerViewing = false;
+		_isEditorViewing = false;
+		ShowWindow(_hEdit, SW_HIDE);
+	}
+	_isLoad = false;
+}
+
+void mapScene::CallLoadEditor()
+{
+	if (!_isEditorViewing || !_isLoad)
+	{
+		UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(true);
+		dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->GetChild("SaveLoader"))->SetText("LOAD");
+		_isEditorViewing = true;
+		ShowWindow(_hEdit, SW_SHOW);
+	}
+
+	else
+	{
+		UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(false);
+		_isEditorViewing = false;
 		ShowWindow(_hEdit, SW_HIDE);
 	}
 	_isLoad = true;
@@ -724,11 +809,11 @@ void mapScene::render()
 	_uiBrushTool->render();
 
 	Grid* targetGrid = _mapTool->mouseCollisionCheck();
-	if (_targetImage && targetGrid) CAMERAMANAGER->AlphaRender(getMemDC(), _targetImage, targetGrid->_rc.left, targetGrid->_rc.top, 100);
+	if (_targetImage && targetGrid) CAMERAMANAGER->stretchAlphaRender(getMemDC(), _targetImage, targetGrid->_rc.left, targetGrid->_rc.top, _mapTool->getZoomWidth() / 48, _mapTool->getZoomHeight() / 48, 100);
 	if (_targetObject)
 	{
-		if (_targetObject->_image->getMaxFrameX() == 0) _targetObject->_image->alphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 100);
-		else _targetObject->_image->frameAlphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 0, 0, 100);
+		if (_targetObject->_image->getMaxFrameX() == 0) _targetObject->_image->stretchAlphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, _mapTool->getZoomWidth()/48 , _mapTool->getZoomHeight() / 48,100);
+		else _targetObject->_image->frameStretchAlphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 0, 0,_mapTool->getZoomWidth()/48, _mapTool->getZoomHeight() / 48, 100);
 	}
 	UIMANAGER->render(getMemDC());
 
@@ -739,55 +824,66 @@ void mapScene::CameraMove()
 {
 	if (INPUT->GetKey(VK_LEFT))
 	{
-		_pivot.x -= 30;
+		_pivot.x -= 30*(_mapTool->getZoomWidth()/48);
 	}
 	if (INPUT->GetKey(VK_RIGHT))
 	{
-		_pivot.x += 30;
+		_pivot.x += 30 * (_mapTool->getZoomWidth() / 48);
 	}
 	if (INPUT->GetKey(VK_UP))
 	{
-		_pivot.y -= 30;
+		_pivot.y -= 30 * (_mapTool->getZoomWidth() / 48);
 	}
 	if (INPUT->GetKey(VK_DOWN))
 	{
-		_pivot.y += 30;
+		_pivot.y += 30 * (_mapTool->getZoomWidth() / 48);
 	}
 }
 
 void mapScene::SaveLoadMap()
 {
-	if (_isEditerViewing && INPUT->GetKeyDown(VK_RETURN))
+	if (_isEditorViewing)
 	{
-		GetWindowText(_hEdit, _fileName, 128);
-		if (!_isLoad)
+		if (_isEnterPressed)
 		{
-			_mapTool->SaveData(_fileName);
+			GetWindowText(_hEdit, _fileName, 128);
+			if (!_isLoad)
+			{
+				_mapTool->SaveData(_fileName);
+			}
+
+			else
+			{
+				_mapTool->EveSaveData();
+				_mapTool->LoadData(_fileName);
+			}
+
+			_isEditorViewing = false;
+			ShowWindow(_hEdit, SW_HIDE);
+			UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(false);
 		}
 
-		else
+		if (INPUT->GetKeyDown(VK_TAB))
 		{
-			_mapTool->EveSaveData();
-			_mapTool->LoadData(_fileName);
+			_isEditorViewing = false;
+			ShowWindow(_hEdit, SW_HIDE);
+			UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(false);
 		}
-
-		_isEditerViewing = false;
-		ShowWindow(_hEdit, SW_HIDE);
-		UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(false);
 	}
 }
 
 void mapScene::SwitchSizeFrame()
 {
-	if (!_isEditerViewing || INPUT->GetKeyDown(VK_LBUTTON))
+
+	if (!_isSizeAdjustOpened || INPUT->GetKeyDown(VK_LBUTTON))
 	{
 		UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->SetIsViewing(true);
-		_isEditerViewing = true;
+		_isSizeAdjustOpened = true;
 	}
 	else
 	{
 		UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->SetIsViewing(false);
-		_isEditerViewing = false;
+		_isSizeAdjustOpened = false;
 	}
 }
 
@@ -853,11 +949,11 @@ void mapScene::ShortcutKey()
 
 void mapScene::SaveShortcutKey()
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 1; i < 11; i++)
 	{
-		if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('0' + i))
+		if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('0' + i % 10))
 		{
-			UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame")->GetChild("shortcutBox" + to_string(i))->GetChild("Ig")->SetImage(_targetImage);
+			UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame")->GetChild("shortcutBox" + to_string(i - 1))->GetChild("Ig")->SetImage(_targetImage);
 		}
 	}
 }
@@ -865,13 +961,13 @@ void mapScene::SaveShortcutKey()
 void mapScene::LoadShortcutKey()
 {
 	UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame");
-	for (int i = 0; i < 10; i++)
+	for (int i = 1; i < 11; i++)
 	{
-		if (frame->GetChild("shortcutBox" + to_string(i))->GetChild("Ig")->GetImage() != nullptr)
+		if (frame->GetChild("shortcutBox" + to_string(i - 1))->GetChild("Ig")->GetImage() != nullptr)
 		{
-			if (INPUT->GetKeyDown('0' + i))
+			if (INPUT->GetKeyDown('0' + i % 10))
 			{
-				_targetImage = frame->GetChild("shortcutBox" + to_string(i))->GetChild("Ig")->GetImage();
+				_targetImage = frame->GetChild("shortcutBox" + to_string(i - 1))->GetChild("Ig")->GetImage();
 			}
 		}
 	}
@@ -891,6 +987,21 @@ void mapScene::SetLayer()
 			_mapTool->setIsLayer(false);
 			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("LayerChecker"))->SetText("Layer Back");
 		}
+	}
+}
 
+void mapScene::ZoomInOut()
+{
+	if (_mouseWheel == 1)
+	{
+		_mapTool->setZoomHeight(_mapTool->getZoomHeight() + 5);
+		_mapTool->setZoomWidth(_mapTool->getZoomWidth() + 5);
+		_mapTool->SetMap();
+	}
+	if (_mouseWheel == -1)
+	{
+		_mapTool->setZoomHeight(_mapTool->getZoomHeight() - 5);
+		_mapTool->setZoomWidth(_mapTool->getZoomWidth() - 5);
+		_mapTool->SetMap();
 	}
 }

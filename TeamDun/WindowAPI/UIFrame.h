@@ -57,6 +57,7 @@ public:
 	void MoveFrameChild(float x, float y);
 	void CheckIsOutside();
 	void MoveFrame(float x, float y);
+	void MoveFrameToXY(float x, float y);
 	void MoveY(int y) { _y += y; } // 자식 미포함 이동
 	void SetIntersectRect() { _interactRect = RectMake(_x, _y, _sizeX*_scaleX, _sizeY*_scaleY); }
 

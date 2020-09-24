@@ -92,9 +92,3 @@ bool input::GetToggleKey(int key)
 	}
 	return false;
 }
-
-int input::GetMouseWheel()
-{
-
-	return 0;
-}

@@ -33,25 +33,36 @@ private:
 
 	POINT			_pivot;
 
+	// 몬스터 관련 //
+	bool			_isMonsterSettingOn;
+	char			_spawnTime[100];
+	int				_currentMonsterIndex;
+
 	// 세이브 로드용 //
-	bool			_isEditerViewing;
+	bool			_isEditorViewing;
 	char			_fileName[128];
 	bool			_isLoad;
 
-	// 클릭 관련//
+	// 클릭 관련 //
 	bool			_isLeftClicked;
 	bool			_isRightClicked;
+	bool			_isEnterPressed;
 	BRUSHTYPE		_brushType;
 	
 	// 커서 관련 //
 	image*			_cursorImage;
 	vector<string>	_cursorImageStrings;
 
+	// UI 관련 //
+	bool			_isSizeAdjustOpened;
+
 public :
 	HRESULT init();
 	void UIInit();
 	void release();
 	void update();
+	void SetMonsterPage();
+	void InMonsterSetPage();
 	void PlaceObject();
 	void EraseObject();
 	void InputCheck();
@@ -87,5 +98,6 @@ public :
 	void SaveShortcutKey();
 	void LoadShortcutKey();
 	void SetLayer();
+	void ZoomInOut();
 };
 

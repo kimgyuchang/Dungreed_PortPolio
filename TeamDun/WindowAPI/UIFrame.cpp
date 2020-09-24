@@ -192,6 +192,20 @@ void UIFrame::MoveFrame(float x, float y)
 	}
 }
 
+void UIFrame::MoveFrameToXY(float x, float y)
+{
+	float moveX = _x - x;
+	float moveY = _y - y;
+	_x = x;
+	_y = y;
+	SetIntersectRect();
+
+	for (int i = 0; i < _vChildFrames.size(); i++)
+	{
+		_vChildFrames[i]->MoveFrame(-moveX, -moveY);
+	}
+}
+
 void UIFrame::render(HDC hdc)
 {
 	if (_isViewing) // 보이는 상태이며

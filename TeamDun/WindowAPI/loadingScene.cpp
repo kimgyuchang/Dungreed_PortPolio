@@ -258,6 +258,9 @@ void loadingScene::loadingImage()
 	_loading->loadImage("rowPlusIcon", "Images/UI/ICON/RowPlus.bmp", 50, 50, true, RGB(255, 0, 255));
 	_loading->loadImage("paintIcon", "Images/UI/ICON/paint.bmp", 45, 46, true, RGB(255, 0, 255));
 	_loading->loadImage("eraseIcon", "Images/UI/ICON/eraseIcon.bmp", 40, 40, true, RGB(255, 0, 255));
+	
+	// MONSTER //
+	_loading->loadFrameImage("AbyssBansheeIdle", "Images/Monster/AbyssBansheeIdle.bmp", 360, 66, 6, 1, true, RGB(255, 0, 255));
 
 	// MAPTOOL 미리보기 //
 	_loading->loadImage("CheckImage", "Images/GridBound.bmp", 48, 48, true, RGB(255, 0, 255));
