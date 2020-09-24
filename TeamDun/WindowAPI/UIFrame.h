@@ -70,6 +70,7 @@ public:
 	RECT GetRect() { return _interactRect; }
 	vector<UIFrame*>& GetVChildFrames() { return _vChildFrames; }
 	image* GetImage() { return _image; }
+
 	bool GetIsOutside() { return _isOutside; }
 	bool GetIsViewing() { return _isViewing; }
 	bool GetUseOutsideLimit() { return _useOutsideLimit; }

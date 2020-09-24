@@ -23,7 +23,7 @@ HRESULT MapTool::init(int width, int height)
 			grid->_img = nullptr;
 			grid->_img2 = nullptr;
 			grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
-			grid->_alpha = 30;
+			grid->_alpha = 70;
 			grid->_x = j * 50 + 0;
 			grid->_y = i * 50 + 0;
 			grid->_xIndex = j;
@@ -64,7 +64,15 @@ Grid* MapTool::mouseCollisionCheck()
 		{
 			if (j < 0 || j >= _vMapData[i].size()) continue;
 
-			if (PtInRect(&_vMapData[i][j]->_rc, CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y)))
+			if (PtInRect(&_vMapData[i][j]->_rc, CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y)) 
+				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame")->GetRect(), _ptMouse)
+				//&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->GetRect(), _ptMouse)
+				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetRect(), _ptMouse)
+				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->GetRect(), _ptMouse)
+				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetRect(), _ptMouse)
+				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("gridBtn")->GetRect(), _ptMouse)
+				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("objBtn")->GetRect(), _ptMouse)
+				)
 			{
 				return _vMapData[i][j];
 			}
@@ -137,6 +145,7 @@ void MapTool::EveSaveData()
 		{
 			//if(_vMapData[i][j]->_vBeforeImg.size() >0 && _vMapData[i][j]->_vBeforeImg[_vMapData[i][j]->_vBeforeImg.size()-1] != _vMapData[i][j]->_img)
 			_vMapData[i][j]->_vBeforeImg.push_back(_vMapData[i][j]->_img);
+			_vMapData[i][j]->_vBeforeImg2.push_back(_vMapData[i][j]->_img2);
 		}
 	}
 }
@@ -169,7 +178,7 @@ void MapTool::LoadData(string name)
 			grid->_alpha = 30;
 			grid->_xIndex = j;
 			grid->_yIndex = i;
-			grid->_alpha = 30;
+			grid->_alpha = 70;
 			grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
 			grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
 			gridLine.push_back(grid);
@@ -204,6 +213,11 @@ void MapTool::EveLoadData()
 				_vMapData[i][j]->_img = _vMapData[i][j]->_vBeforeImg[_vMapData[i][j]->_vBeforeImg.size() - 1];
 				_vMapData[i][j]->_vBeforeImg.erase(_vMapData[i][j]->_vBeforeImg.end() - 1);
 			}
+			if (_vMapData[i][j]->_vBeforeImg2.size() > 0)
+			{
+				_vMapData[i][j]->_img2 = _vMapData[i][j]->_vBeforeImg2[_vMapData[i][j]->_vBeforeImg2.size() - 1];
+				_vMapData[i][j]->_vBeforeImg2.erase(_vMapData[i][j]->_vBeforeImg2.end() - 1);
+			}
 		}
 	}
 }
@@ -223,7 +237,7 @@ void MapTool::MapLineAddRow()
 		grid->_xIndex = j;
 		grid->_yIndex = _vMapData.size();
 		grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
-		grid->_alpha = 30;
+		grid->_alpha = 70;
 		grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
 		gridLine.push_back(grid);
 	}
@@ -245,7 +259,7 @@ void MapTool::MapLineAddCol()
 		grid->_xIndex = _vMapData[i].size();
 		grid->_yIndex = i;
 		grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
-		grid->_alpha = 30;
+		grid->_alpha = 70;
 		grid->_rc = RectMake(grid->_x, grid->_y, 50, 50);
 		_vMapData[i].push_back(grid);
 	}

@@ -71,6 +71,7 @@ public :
 	void render();
 	void CameraMove();
 	void SaveLoadMap();
+	void ShortcutKey();
 	void SwitchSizeFrame();
 	
 	// GETSET //
