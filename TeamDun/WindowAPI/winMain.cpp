@@ -9,6 +9,7 @@
 //=============================================================
 HWND		_hWnd;
 HWND		_hEdit;
+HWND		_hMonsterSpawnTime;
 HINSTANCE	_hInstance;
 POINT		_ptMouse = { 0, 0 };
 int			_mouseWheel = 0;

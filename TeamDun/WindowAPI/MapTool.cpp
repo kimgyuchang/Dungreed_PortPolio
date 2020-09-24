@@ -192,9 +192,10 @@ void MapTool::LoadData(string name)
 	for (int i = 0; i < objData.size(); i++)
 	{
 		MapObject* obj = new MapObject();
-		obj->init(stoi(objData[i][0]), stoi(objData[i][1]), stoi(objData[i][2]), stoi(objData[i][3]));
+		obj->init(stoi(objData[i][0]), stoi(objData[i][1]), stoi(objData[i][2]), 0);
+		obj->_spawnTime = stoi(objData[i][3]);
 		obj->_alpha = 255;
-
+		
 		_vObjs.push_back(obj);
 	}
 }

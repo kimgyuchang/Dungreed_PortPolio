@@ -81,5 +81,6 @@ using namespace MY_UTIL;
 extern HINSTANCE	_hInstance;
 extern HWND			_hWnd; 
 extern HWND			_hEdit;
+extern HWND			_hMonsterSpawnTime;
 extern POINT		_ptMouse;
 extern int			_mouseWheel;
