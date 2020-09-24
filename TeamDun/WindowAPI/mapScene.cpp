@@ -47,13 +47,13 @@ HRESULT mapScene::init()
 void mapScene::UIInit()
 {
 	UIFrame* setShortcutKeyFrame = new UIFrame();
-	setShortcutKeyFrame->init("ShortcutKeyFrame", 60, WINSIZEY - 100, IMAGEMANAGER->findImage("ShortcutKeyGround")->getWidth(), IMAGEMANAGER->findImage("ShortcutKeyGround")->getHeight(), "ShortcutKeyGround");
+	setShortcutKeyFrame->init("ShortcutKeyFrame", 300, WINSIZEY - 150, IMAGEMANAGER->findImage("ShortcutKeyGround")->getWidth(), IMAGEMANAGER->findImage("ShortcutKeyGround")->getHeight(), "ShortcutKeyGround");
 	UIMANAGER->GetGameFrame()->AddFrame(setShortcutKeyFrame);
 
 	for (int i = 0; i < 10; i++)
 	{
 		UIFrame* setShortcutKeyBox = new UIFrame();
-		setShortcutKeyBox->init("shortcutBox" + to_string(i), 100 + 70 * i, 15, IMAGEMANAGER->findImage("ShortcutKey1")->getWidth(), IMAGEMANAGER->findImage("ShortcutKey1")->getHeight(), "ShortcutKey1");
+		setShortcutKeyBox->init("shortcutBox" + to_string(i), 60 + 70 * i, 15, IMAGEMANAGER->findImage("ShortcutKey1")->getWidth(), IMAGEMANAGER->findImage("ShortcutKey1")->getHeight(), "ShortcutKey1");
 		setShortcutKeyFrame->AddFrame(setShortcutKeyBox);
 
 		UIImage* setShortcutKeyIg = new UIImage();
@@ -62,47 +62,47 @@ void mapScene::UIInit()
 	}
 
 	UIFrame* setSizeFrame = new UIFrame();
-	setSizeFrame->init("sizeFrame", 100, 100, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig");
+	setSizeFrame->init("sizeFrame", WINSIZEX / 2 - 250, WINSIZEY / 2 - 150, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig");
 	UIMANAGER->GetGameFrame()->AddFrame(setSizeFrame);
 
 	UIImage* setUpFrame = new UIImage();
-	setUpFrame->init("UpButtonFrame", 860, 380, IMAGEMANAGER->findImage("UpButton")->getWidth(), IMAGEMANAGER->findImage("UpButton")->getHeight(), "UpButton", false, 0, 0);
+	setUpFrame->init("UpButtonFrame", 180, 100, IMAGEMANAGER->findImage("UpButton")->getWidth(), IMAGEMANAGER->findImage("UpButton")->getHeight(), "UpButton", false, 0, 0);
 	setSizeFrame->AddFrame(setUpFrame);
 
 	UIImage* setDownFrame = new UIImage();
-	setDownFrame->init("DownButtonFrame", 860, 450, IMAGEMANAGER->findImage("DownButton")->getWidth(), IMAGEMANAGER->findImage("DownButton")->getHeight(), "DownButton", false, 0, 0);
+	setDownFrame->init("DownButtonFrame", 180, 170, IMAGEMANAGER->findImage("DownButton")->getWidth(), IMAGEMANAGER->findImage("DownButton")->getHeight(), "DownButton", false, 0, 0);
 	setSizeFrame->AddFrame(setDownFrame);
 
 	UIImage* setLeftFrame = new UIImage();
-	setLeftFrame->init("LeftButtonFrame", 860, 190, IMAGEMANAGER->findImage("LeftButton")->getWidth(), IMAGEMANAGER->findImage("LeftButton")->getHeight(), "LeftButton", false, 0, 0);
+	setLeftFrame->init("LeftButtonFrame", 400, 170, IMAGEMANAGER->findImage("LeftButton")->getWidth(), IMAGEMANAGER->findImage("LeftButton")->getHeight(), "LeftButton", false, 0, 0);
 	setSizeFrame->AddFrame(setLeftFrame);
 
 	UIImage* setRightFrame = new UIImage();
-	setRightFrame->init("RightButtonFrame", 860, 120, IMAGEMANAGER->findImage("RightButton")->getWidth(), IMAGEMANAGER->findImage("RightButton")->getHeight(), "RightButton", false, 0, 0);
+	setRightFrame->init("RightButtonFrame", 400, 100, IMAGEMANAGER->findImage("RightButton")->getWidth(), IMAGEMANAGER->findImage("RightButton")->getHeight(), "RightButton", false, 0, 0);
 	setSizeFrame->AddFrame(setRightFrame);
 
 	UIImage* setHeightBoxFrame = new UIImage();
-	setHeightBoxFrame->init("HeightBox", 600, 390, IMAGEMANAGER->findImage("mapHeightBox")->getWidth(), IMAGEMANAGER->findImage("mapHeightBox")->getHeight(), "mapHeightBox", false, 0, 0);
+	setHeightBoxFrame->init("HeightBox", 50, 130, IMAGEMANAGER->findImage("mapHeightBox")->getWidth(), IMAGEMANAGER->findImage("mapHeightBox")->getHeight(), "mapHeightBox", false, 0, 0);
 	setSizeFrame->AddFrame(setHeightBoxFrame);
 
 	UIImage* setWidthBoxFrame = new UIImage();
-	setWidthBoxFrame->init("WidthBox", 600, 130, IMAGEMANAGER->findImage("mapWidthBox")->getWidth(), IMAGEMANAGER->findImage("mapWidthBox")->getHeight(), "mapWidthBox", false, 0, 0);
+	setWidthBoxFrame->init("WidthBox", 270, 130, IMAGEMANAGER->findImage("mapWidthBox")->getWidth(), IMAGEMANAGER->findImage("mapWidthBox")->getHeight(), "mapWidthBox", false, 0, 0);
 	setSizeFrame->AddFrame(setWidthBoxFrame);
 
 	UIText* widthText = new UIText();
-	widthText->init("Word", -200, 40, 200, 50, "가로", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	widthText->init("Word", -40, -50, 200, 50, "가로", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	setHeightBoxFrame->AddFrame(widthText);
 
 	UIText* heightText = new UIText();
-	heightText->init("Word", -200, 40, 200, 50, "세로", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	heightText->init("Word", -40, -50, 200, 50, "세로", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	setWidthBoxFrame->AddFrame(heightText);
 
 	UIText* setHeightNumFrame = new UIText();
-	setHeightNumFrame->init("Word", 0, 40, 200, 50, to_string(_heightNum), FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	setHeightNumFrame->init("Word", -40, 30, 200, 50, to_string(_heightNum), FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	setHeightBoxFrame->AddFrame(setHeightNumFrame);
 
 	UIText* setWidthNumFrame = new UIText();
-	setWidthNumFrame->init("Word", 0, 40, 200, 50, to_string(_widthNum), FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	setWidthNumFrame->init("Word", -40, 30, 200, 50, to_string(_widthNum), FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	setWidthBoxFrame->AddFrame(setWidthNumFrame);
 
 	UIFrame* saveLoadFrame = new UIFrame();
@@ -115,13 +115,13 @@ void mapScene::UIInit()
 	saveLoadFrame->AddFrame(saveLoadText);
 
 	UIFrame* ShortcutFrame = new UIFrame();
-	ShortcutFrame->init("ShortcutFrame", 60, 0, IMAGEMANAGER->findImage("ShortcutKeyGround")->getWidth(), IMAGEMANAGER->findImage("ShortcutKeyGround")->getHeight(), "ShortcutKeyGround");
+	ShortcutFrame->init("ShortcutFrame", 300, 50, IMAGEMANAGER->findImage("ShortcutKeyGround")->getWidth(), IMAGEMANAGER->findImage("ShortcutKeyGround")->getHeight(), "ShortcutKeyGround");
 	UIMANAGER->GetGameFrame()->AddFrame(ShortcutFrame);
 
 	for (int i = 0; i < 9; i++)
 	{
 		UIFrame* setShortcutKeyBox = new UIFrame();
-		setShortcutKeyBox->init("shortcutBox" + to_string(i), 100 + 80 * i, 15, IMAGEMANAGER->findImage("ShortcutKey1")->getWidth(), IMAGEMANAGER->findImage("ShortcutKey1")->getHeight(), "ShortcutKey1");
+		setShortcutKeyBox->init("shortcutBox" + to_string(i), 60 + 80 * i, 15, IMAGEMANAGER->findImage("ShortcutKey1")->getWidth(), IMAGEMANAGER->findImage("ShortcutKey1")->getHeight(), "ShortcutKey1");
 		ShortcutFrame->AddFrame(setShortcutKeyBox);
 
 		UIImage* setShortcutKeyIg = new UIImage();
