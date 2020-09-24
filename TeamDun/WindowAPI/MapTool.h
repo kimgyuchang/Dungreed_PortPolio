@@ -11,6 +11,7 @@ struct Grid
 	image*			_img;				// IMAGE
 	image*			_img2;				// IMGE2
 	vector<image*>	_vBeforeImg;		// 전IMAGE
+	vector<image*>	_vBeforeImg2;		// 전IMAGE2
 	image*			_checkImg;			// 체크이미지
 	int				_alpha;
 };

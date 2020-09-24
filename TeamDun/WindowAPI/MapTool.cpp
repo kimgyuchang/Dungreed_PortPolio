@@ -60,7 +60,15 @@ Grid* MapTool::mouseCollisionCheck()
 		{
 			if (j < 0 || j >= _vMapData[i].size()) continue;
 
-			if (PtInRect(&_vMapData[i][j]->_rc, CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y)))
+			if (PtInRect(&_vMapData[i][j]->_rc, CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y)) 
+				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame")->GetRect(), _ptMouse)
+				//&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->GetRect(), _ptMouse)
+				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetRect(), _ptMouse)
+				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->GetRect(), _ptMouse)
+				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetRect(), _ptMouse)
+				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("gridBtn")->GetRect(), _ptMouse)
+				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("objBtn")->GetRect(), _ptMouse)
+				)
 			{
 				return _vMapData[i][j];
 			}
@@ -120,6 +128,7 @@ void MapTool::EveSaveData()
 		{
 			//if(_vMapData[i][j]->_vBeforeImg.size() >0 && _vMapData[i][j]->_vBeforeImg[_vMapData[i][j]->_vBeforeImg.size()-1] != _vMapData[i][j]->_img)
 			_vMapData[i][j]->_vBeforeImg.push_back(_vMapData[i][j]->_img);
+			_vMapData[i][j]->_vBeforeImg2.push_back(_vMapData[i][j]->_img2);
 		}
 	}
 }
@@ -178,6 +187,11 @@ void MapTool::EveLoadData()
 			{
 				_vMapData[i][j]->_img = _vMapData[i][j]->_vBeforeImg[_vMapData[i][j]->_vBeforeImg.size() - 1];
 				_vMapData[i][j]->_vBeforeImg.erase(_vMapData[i][j]->_vBeforeImg.end() - 1);
+			}
+			if (_vMapData[i][j]->_vBeforeImg2.size() > 0)
+			{
+				_vMapData[i][j]->_img2 = _vMapData[i][j]->_vBeforeImg2[_vMapData[i][j]->_vBeforeImg2.size() - 1];
+				_vMapData[i][j]->_vBeforeImg2.erase(_vMapData[i][j]->_vBeforeImg2.end() - 1);
 			}
 		}
 	}

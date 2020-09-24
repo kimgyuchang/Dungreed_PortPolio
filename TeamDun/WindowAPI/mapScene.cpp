@@ -50,15 +50,20 @@ void mapScene::UIInit()
 	setShortcutKeyFrame->init("ShortcutKeyFrame", 60, WINSIZEY - 100, IMAGEMANAGER->findImage("ShortcutKeyGround")->getWidth(), IMAGEMANAGER->findImage("ShortcutKeyGround")->getHeight(), "ShortcutKeyGround");
 	UIMANAGER->GetGameFrame()->AddFrame(setShortcutKeyFrame);
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 1; i < 11; i++)
 	{
+
 		UIFrame* setShortcutKeyBox = new UIFrame();
-		setShortcutKeyBox->init("shortcutBox" + to_string(i), 100 + 70 * i, 15, IMAGEMANAGER->findImage("ShortcutKey1")->getWidth(), IMAGEMANAGER->findImage("ShortcutKey1")->getHeight(), "ShortcutKey1");
+		setShortcutKeyBox->init("shortcutBox" + to_string(i-1), 100 + 70 * (i-1), 15, IMAGEMANAGER->findImage("ShortcutKey1")->getWidth(), IMAGEMANAGER->findImage("ShortcutKey1")->getHeight(), "ShortcutKey1");
 		setShortcutKeyFrame->AddFrame(setShortcutKeyBox);
 
 		UIImage* setShortcutKeyIg = new UIImage();
 		setShortcutKeyIg->init("Ig", 4, 4, 48, 48, "", false, 0, 0);
 		setShortcutKeyBox->AddFrame(setShortcutKeyIg);
+
+		UIText* setShortcutKeyNum = new UIText();
+		setShortcutKeyNum->init("shorcutNum", 17, 30, 50, 50, to_string(i%10), FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+		setShortcutKeyIg->AddFrame(setShortcutKeyNum);
 	}
 
 	UIFrame* setSizeFrame = new UIFrame();
@@ -196,6 +201,10 @@ void mapScene::UIInit()
 		setSizeBoxImg->AddFrame(text);
 	}
 	UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->SetIsViewing(false);
+
+	UIText*	layerText = new UIText();
+	layerText->init("LayerChecker", WINSIZEX - 400, WINSIZEY - 50, 300, 50, "Layer Main", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_RIGHT, RGB(255, 255, 255));
+	UIMANAGER->GetGameFrame()->AddFrame(layerText);
 }
 
 void mapScene::release()
@@ -500,7 +509,10 @@ void mapScene::FloodFill()
 	if (grid && _targetImage != nullptr)
 	{
 		_mapTool->EveSaveData();
-		_mapTool->FloodFill(grid->_img, grid->_xIndex, grid->_yIndex);
+		if(_mapTool->getIsLayer())
+			_mapTool->FloodFill(grid->_img, grid->_xIndex, grid->_yIndex);
+		else
+			_mapTool->FloodFill(grid->_img2, grid->_xIndex, grid->_yIndex);
 	}
 }
 
@@ -564,6 +576,8 @@ void mapScene::SetMapSize()
 		if (_widthNum < 1) _widthNum = 1;
 		dynamic_cast<UIText*>(frame->GetChild("WidthBox")->GetChild("Word"))->SetText(to_string(_widthNum));
 	}
+
+	
 }
 
 void mapScene::CallSaveEditor()
@@ -737,9 +751,15 @@ void mapScene::SetLayer()
 	if (INPUT->GetKeyDown('B'))
 	{
 		if (_mapTool->getIsLayer() == false)
+		{
 			_mapTool->setIsLayer(true);
+			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("LayerChecker"))->SetText("Layer Main");
+		}
 		else
+		{
 			_mapTool->setIsLayer(false);
+			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("LayerChecker"))->SetText("Layer Back");
+		}
 
 	}
 }
