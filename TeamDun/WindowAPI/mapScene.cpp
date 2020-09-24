@@ -4,6 +4,7 @@
 HRESULT mapScene::init()
 {
 	UIMANAGER->init();
+	ShowCursor(false);
 
 	// 카메라 //
 	_pivot = POINT{ _widthNum / 2 * 48, _heightNum / 2 * 48 };
@@ -28,6 +29,7 @@ HRESULT mapScene::init()
 	// FILL (두번으로 채우기) //
 	_isFillClicked = false;
 
+
 	// SAVE LOAD //
 	_hEdit = CreateWindow("edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER |
 		ES_AUTOHSCROLL | ES_RIGHT, WINSIZEX/2 - 95, WINSIZEY / 2, 200, 25, _hWnd, (HMENU)100, _hInstance, NULL);
@@ -37,6 +39,13 @@ HRESULT mapScene::init()
 
 	// UI //
 	UIInit();
+
+	_cursorImageStrings.push_back("BasicCursor");
+	_cursorImageStrings.push_back("brushCursor");
+	_cursorImageStrings.push_back("paintCursor");
+	_cursorImageStrings.push_back("eraserCursor");
+
+	_cursorImage = IMAGEMANAGER->findImage(_cursorImageStrings[0]);
 
 	return S_OK;
 }
@@ -134,38 +143,55 @@ void mapScene::UIInit()
 		setShortcutKeyIg->init("Ig", 4, 4, 48, 48, "", false, 0, 0);
 		setShortcutKeyBox->AddFrame(setShortcutKeyIg);
 
-		UIText* text = new UIText();
+		UIFrame* SaveIcon = new UIFrame();
+		UIFrame* loadIcon = new UIFrame();
+		UIFrame* FillRectIcon = new UIFrame();
+		UIFrame* FillIcon = new UIFrame();
+		UIFrame* FloodFillIcon = new UIFrame();
+		UIFrame* SizeUpDownIcon = new UIFrame();
+		UIFrame* UndoIcon = new UIFrame();
+		UIFrame* PaintIcon = new UIFrame();
+		UIFrame* EraseIcon = new UIFrame();
+
 		switch (i)
 		{
 		case 0:
-			text->init("Text", 0, 16, 48, 24, "SAVE", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+			SaveIcon->init("saveIcon", 5, 4, IMAGEMANAGER->findImage("saveIcon")->getWidth(), IMAGEMANAGER->findImage("saveIcon")->getHeight(), "saveIcon", 0.8f, 0.8f);
+			setShortcutKeyIg->AddFrame(SaveIcon);
 			break;
 		case 1:
-			text->init("Text", 0, 16, 48, 24, "LOAD", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+			loadIcon->init("loadIcon", 5, 4, IMAGEMANAGER->findImage("loadIcon")->getWidth(), IMAGEMANAGER->findImage("loadIcon")->getHeight(), "loadIcon", 0.8f, 0.8f);
+			setShortcutKeyIg->AddFrame(loadIcon);
 			break;
-		case 2:
-			text->init("Text", 0, 16, 48, 24, "PAINT", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+		case 2:	
+			PaintIcon->init("paintIcon", 3, 2, IMAGEMANAGER->findImage("paintIcon")->getWidth(), IMAGEMANAGER->findImage("paintIcon")->getHeight(), "paintIcon");
+			setShortcutKeyIg->AddFrame(PaintIcon);
 			break;
 		case 3:
-			text->init("Text", 0, 16, 48, 24, "ERASE", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+			EraseIcon->init("eraseIcon", 5, 5, IMAGEMANAGER->findImage("eraseIcon")->getWidth(), IMAGEMANAGER->findImage("eraseIcon")->getHeight(), "eraseIcon");
+			setShortcutKeyIg->AddFrame(EraseIcon);
 			break;
 		case 4:
-			text->init("Text", 0, 16, 48, 24, "FILL", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+			FillIcon->init("fillIcon", 7, 3, IMAGEMANAGER->findImage("fillIcon")->getWidth(), IMAGEMANAGER->findImage("fillIcon")->getHeight(), "fillIcon");
+			setShortcutKeyIg->AddFrame(FillIcon);
 			break;
 		case 5:
-			text->init("Text", 0, 16, 48, 24, "RECT", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+			FillRectIcon->init("fillRectIcon", 5, 5, IMAGEMANAGER->findImage("fillRectIcon")->getWidth(), IMAGEMANAGER->findImage("fillRectIcon")->getHeight(), "fillRectIcon", 0.8f, 0.8f);
+			setShortcutKeyIg->AddFrame(FillRectIcon);
 			break;
 		case 6:
-			text->init("Text", 0, 16, 48, 24, "FLOOD", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+			FloodFillIcon->init("floodFillIcon", 5, 5, IMAGEMANAGER->findImage("floodFillIcon")->getWidth(), IMAGEMANAGER->findImage("floodFillIcon")->getHeight(), "floodFillIcon", 0.8f, 0.8f);
+			setShortcutKeyIg->AddFrame(FloodFillIcon);
 			break;
 		case 7:
-			text->init("Text", 0, 16, 48, 24, "SIZE", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+			SizeUpDownIcon->init("sizeUpDownIcon", 0, 0, IMAGEMANAGER->findImage("sizeUpDownIcon")->getWidth(), IMAGEMANAGER->findImage("sizeUpDownIcon")->getHeight(), "sizeUpDownIcon");
+			setShortcutKeyIg->AddFrame(SizeUpDownIcon);
 			break;
 		case 8:
-			text->init("Text", 0, 16, 48, 24, "UNDO", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+			UndoIcon->init("undoIcon", 5, 5, IMAGEMANAGER->findImage("undoIcon")->getWidth(), IMAGEMANAGER->findImage("undoIcon")->getHeight(), "undoIcon", 0.8f, 0.8f);
+			setShortcutKeyIg->AddFrame(UndoIcon);
 			break;
 		}
-		setShortcutKeyIg->AddFrame(text);
 	}
 
 	UIFrame* adjustSizeFrame = new UIFrame();
@@ -181,24 +207,30 @@ void mapScene::UIInit()
 		setSizeBoxImg->init("Ig", 4, 4, 48, 48, "", false, 0, 0);
 		setSizeBoxFrame->AddFrame(setSizeBoxImg);
 
-		UIText* text = new UIText();
+		UIFrame* ColMinusIcon = new UIFrame();
+		UIFrame* ColPlusIcon = new UIFrame();
+		UIFrame* RowMinusIcon = new UIFrame();
+		UIFrame* RowPlusIcon = new UIFrame();
 
 		switch (i)
 		{
 		case 0:
-			text->init("Text", 0, 16, 48, 24, "AddCol", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+			ColPlusIcon->init("colPlusIcon", 0, 0, IMAGEMANAGER->findImage("colPlusIcon")->getWidth(), IMAGEMANAGER->findImage("colPlusIcon")->getHeight(), "colPlusIcon");
+			setSizeBoxImg->AddFrame(ColPlusIcon);
 			break;
 		case 1:
-			text->init("Text", 0, 16, 48, 24, "AddRow", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+			RowPlusIcon->init("rowPlusIcon", 0, 0, IMAGEMANAGER->findImage("rowPlusIcon")->getWidth(), IMAGEMANAGER->findImage("rowPlusIcon")->getHeight(), "rowPlusIcon");
+			setSizeBoxImg->AddFrame(RowPlusIcon);
 			break;
 		case 2:
-			text->init("Text", 0, 16, 48, 24, "RemoveCol", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+			ColMinusIcon->init("colMinusIcon", 0, 0, IMAGEMANAGER->findImage("colMinusIcon")->getWidth(), IMAGEMANAGER->findImage("colMinusIcon")->getHeight(), "colMinusIcon");
+			setSizeBoxImg->AddFrame(ColMinusIcon);
 			break;
 		case 3:
-			text->init("Text", 0, 16, 48, 24, "RemoveRow", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+			RowMinusIcon->init("rowMinusIcon", -1, 2, IMAGEMANAGER->findImage("rowMinusIcon")->getWidth(), IMAGEMANAGER->findImage("rowMinusIcon")->getHeight(), "rowMinusIcon");
+			setSizeBoxImg->AddFrame(RowMinusIcon);
 			break;
 		}
-		setSizeBoxImg->AddFrame(text);
 	}
 	UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->SetIsViewing(false);
 
@@ -311,15 +343,23 @@ void mapScene::CheckShortCutBtnCollision()
 				case 1:
 					CallLoadEditor(); break;
 				case 2:
-					_brushType = BRUSHTYPE::BT_PAINT; break;
+					_brushType = BRUSHTYPE::BT_PAINT; 
+					_cursorImage = IMAGEMANAGER->findImage(_cursorImageStrings[1]);
+					break;
 				case 3:
-					_brushType = BRUSHTYPE::BT_ERASE; break;
+					_brushType = BRUSHTYPE::BT_ERASE; 
+					_cursorImage = IMAGEMANAGER->findImage(_cursorImageStrings[3]);
+					break;
 				case 4:
 					FillAll(); break;
 				case 5:
-					_brushType = BRUSHTYPE::BT_FILLRECT; break;
+					_brushType = BRUSHTYPE::BT_FILLRECT; 
+					_cursorImage = IMAGEMANAGER->findImage(_cursorImageStrings[2]);
+					break;
 				case 6:
-					_brushType = BRUSHTYPE::BT_FLOODFILL; break;
+					_brushType = BRUSHTYPE::BT_FLOODFILL;
+					_cursorImage = IMAGEMANAGER->findImage(_cursorImageStrings[2]);
+					break;
 				case 7:
 					SwitchSizeFrame(); break;
 				case 8:
@@ -691,6 +731,8 @@ void mapScene::render()
 		else _targetObject->_image->frameAlphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 0, 0, 100);
 	}
 	UIMANAGER->render(getMemDC());
+
+	_cursorImage->render(getMemDC(), _ptMouse.x, _ptMouse.y);
 }
 
 void mapScene::CameraMove()
@@ -790,23 +832,23 @@ void mapScene::ShortcutKey()
 	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('P'))
 	{
 		_brushType = BRUSHTYPE::BT_PAINT;
+		_cursorImage = IMAGEMANAGER->findImage(_cursorImageStrings[1]);
 	}
 	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('E'))
 	{
 		_brushType = BRUSHTYPE::BT_ERASE;
+		_cursorImage = IMAGEMANAGER->findImage(_cursorImageStrings[3]);
 	}
 	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('A'))
 	{
 		_brushType = BRUSHTYPE::BT_FILLRECT;
+		_cursorImage = IMAGEMANAGER->findImage(_cursorImageStrings[2]);
 	}
 	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('O'))
 	{
 		_brushType = BRUSHTYPE::BT_FLOODFILL;
+		_cursorImage = IMAGEMANAGER->findImage(_cursorImageStrings[2]);
 	}
-	
-	
-	
-	
 }
 
 void mapScene::SaveShortcutKey()

@@ -43,6 +43,10 @@ private:
 	bool			_isRightClicked;
 	BRUSHTYPE		_brushType;
 	
+	// 커서 관련 //
+	image*			_cursorImage;
+	vector<string>	_cursorImageStrings;
+
 public :
 	HRESULT init();
 	void UIInit();
