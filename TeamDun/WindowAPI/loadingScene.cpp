@@ -242,7 +242,7 @@ void loadingScene::loadingImage()
 	_loading->loadImage("SlotDeleteButton_Rev", "Images/UI/SlotDeleteButton_Rev.bmp", 51, 186, true ,RGB(255,0,255));
 
 	// ICON //
-	_loading->loadImage("brushCursor", "Images/UI/ICON/Brush.bmp", 27, 33, true, RGB(255, 0, 255));
+	_loading->loadImage("brushCursor", "Images/UI/ICON/Brush.bmp", 35, 35, true, RGB(255, 0, 255));
 	_loading->loadImage("paintCursor", "Images/UI/ICON/paintCursor.bmp", 27, 33, true, RGB(255, 0, 255));
 	_loading->loadImage("eraserCursor", "Images/UI/ICON/eraserIcon.bmp", 30, 27, true, RGB(255, 0, 255));
 	_loading->loadImage("fillIcon", "Images/UI/ICON/fillIcon.bmp", 36, 44, true, RGB(255, 0, 255));
