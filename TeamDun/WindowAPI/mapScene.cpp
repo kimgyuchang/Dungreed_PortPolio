@@ -30,7 +30,7 @@ HRESULT mapScene::init()
 
 	// SAVE LOAD //
 	_hEdit = CreateWindow("edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER |
-		ES_AUTOHSCROLL | ES_RIGHT, 500, 500, 200, 50, _hWnd, (HMENU)100, _hInstance, NULL);
+		ES_AUTOHSCROLL | ES_RIGHT, WINSIZEX/2 - 95, WINSIZEY / 2, 200, 25, _hWnd, (HMENU)100, _hInstance, NULL);
 	ShowWindow(_hEdit, SW_HIDE);
 	_isEditerViewing = false;
 	_isLoad = false;
@@ -47,13 +47,13 @@ HRESULT mapScene::init()
 void mapScene::UIInit()
 {
 	UIFrame* setShortcutKeyFrame = new UIFrame();
-	setShortcutKeyFrame->init("ShortcutKeyFrame", 60, WINSIZEY - 100, IMAGEMANAGER->findImage("ShortcutKeyGround")->getWidth(), IMAGEMANAGER->findImage("ShortcutKeyGround")->getHeight(), "ShortcutKeyGround");
+	setShortcutKeyFrame->init("ShortcutKeyFrame", 300, WINSIZEY - 150, IMAGEMANAGER->findImage("ShortcutKeyGround")->getWidth(), IMAGEMANAGER->findImage("ShortcutKeyGround")->getHeight(), "ShortcutKeyGround");
 	UIMANAGER->GetGameFrame()->AddFrame(setShortcutKeyFrame);
-
+	setShortcutKeyFrame->SetIsViewing(false);
 	for (int i = 0; i < 10; i++)
 	{
 		UIFrame* setShortcutKeyBox = new UIFrame();
-		setShortcutKeyBox->init("shortcutBox" + to_string(i), 100 + 70 * i, 15, IMAGEMANAGER->findImage("ShortcutKey1")->getWidth(), IMAGEMANAGER->findImage("ShortcutKey1")->getHeight(), "ShortcutKey1");
+		setShortcutKeyBox->init("shortcutBox" + to_string(i), 60 + 70 * i, 15, IMAGEMANAGER->findImage("ShortcutKey1")->getWidth(), IMAGEMANAGER->findImage("ShortcutKey1")->getHeight(), "ShortcutKey1");
 		setShortcutKeyFrame->AddFrame(setShortcutKeyBox);
 
 		UIImage* setShortcutKeyIg = new UIImage();
@@ -62,66 +62,67 @@ void mapScene::UIInit()
 	}
 
 	UIFrame* setSizeFrame = new UIFrame();
-	setSizeFrame->init("sizeFrame", 100, 100, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig");
+	setSizeFrame->init("sizeFrame", WINSIZEX / 2 - 250, WINSIZEY / 2 - 150, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig");
 	UIMANAGER->GetGameFrame()->AddFrame(setSizeFrame);
 
 	UIImage* setUpFrame = new UIImage();
-	setUpFrame->init("UpButtonFrame", 860, 380, IMAGEMANAGER->findImage("UpButton")->getWidth(), IMAGEMANAGER->findImage("UpButton")->getHeight(), "UpButton", false, 0, 0);
+	setUpFrame->init("UpButtonFrame", 180, 100, IMAGEMANAGER->findImage("UpButton")->getWidth(), IMAGEMANAGER->findImage("UpButton")->getHeight(), "UpButton", false, 0, 0);
 	setSizeFrame->AddFrame(setUpFrame);
 
 	UIImage* setDownFrame = new UIImage();
-	setDownFrame->init("DownButtonFrame", 860, 450, IMAGEMANAGER->findImage("DownButton")->getWidth(), IMAGEMANAGER->findImage("DownButton")->getHeight(), "DownButton", false, 0, 0);
+	setDownFrame->init("DownButtonFrame", 180, 170, IMAGEMANAGER->findImage("DownButton")->getWidth(), IMAGEMANAGER->findImage("DownButton")->getHeight(), "DownButton", false, 0, 0);
 	setSizeFrame->AddFrame(setDownFrame);
 
 	UIImage* setLeftFrame = new UIImage();
-	setLeftFrame->init("LeftButtonFrame", 860, 190, IMAGEMANAGER->findImage("LeftButton")->getWidth(), IMAGEMANAGER->findImage("LeftButton")->getHeight(), "LeftButton", false, 0, 0);
+	setLeftFrame->init("LeftButtonFrame", 400, 170, IMAGEMANAGER->findImage("LeftButton")->getWidth(), IMAGEMANAGER->findImage("LeftButton")->getHeight(), "LeftButton", false, 0, 0);
 	setSizeFrame->AddFrame(setLeftFrame);
 
 	UIImage* setRightFrame = new UIImage();
-	setRightFrame->init("RightButtonFrame", 860, 120, IMAGEMANAGER->findImage("RightButton")->getWidth(), IMAGEMANAGER->findImage("RightButton")->getHeight(), "RightButton", false, 0, 0);
+	setRightFrame->init("RightButtonFrame", 400, 100, IMAGEMANAGER->findImage("RightButton")->getWidth(), IMAGEMANAGER->findImage("RightButton")->getHeight(), "RightButton", false, 0, 0);
 	setSizeFrame->AddFrame(setRightFrame);
 
 	UIImage* setHeightBoxFrame = new UIImage();
-	setHeightBoxFrame->init("HeightBox", 600, 390, IMAGEMANAGER->findImage("mapHeightBox")->getWidth(), IMAGEMANAGER->findImage("mapHeightBox")->getHeight(), "mapHeightBox", false, 0, 0);
+	setHeightBoxFrame->init("HeightBox", 50, 130, IMAGEMANAGER->findImage("mapHeightBox")->getWidth(), IMAGEMANAGER->findImage("mapHeightBox")->getHeight(), "mapHeightBox", false, 0, 0);
 	setSizeFrame->AddFrame(setHeightBoxFrame);
 
 	UIImage* setWidthBoxFrame = new UIImage();
-	setWidthBoxFrame->init("WidthBox", 600, 130, IMAGEMANAGER->findImage("mapWidthBox")->getWidth(), IMAGEMANAGER->findImage("mapWidthBox")->getHeight(), "mapWidthBox", false, 0, 0);
+	setWidthBoxFrame->init("WidthBox", 270, 130, IMAGEMANAGER->findImage("mapWidthBox")->getWidth(), IMAGEMANAGER->findImage("mapWidthBox")->getHeight(), "mapWidthBox", false, 0, 0);
 	setSizeFrame->AddFrame(setWidthBoxFrame);
 
 	UIText* widthText = new UIText();
-	widthText->init("Word", -200, 40, 200, 50, "가로", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	widthText->init("Word", -40, -50, 200, 50, "가로", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	setHeightBoxFrame->AddFrame(widthText);
 
 	UIText* heightText = new UIText();
-	heightText->init("Word", -200, 40, 200, 50, "세로", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	heightText->init("Word", -40, -50, 200, 50, "세로", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	setWidthBoxFrame->AddFrame(heightText);
 
 	UIText* setHeightNumFrame = new UIText();
-	setHeightNumFrame->init("Word", 0, 40, 200, 50, to_string(_heightNum), FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	setHeightNumFrame->init("Word", -40, 30, 200, 50, to_string(_heightNum), FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	setHeightBoxFrame->AddFrame(setHeightNumFrame);
 
 	UIText* setWidthNumFrame = new UIText();
-	setWidthNumFrame->init("Word", 0, 40, 200, 50, to_string(_widthNum), FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	setWidthNumFrame->init("Word", -40, 30, 200, 50, to_string(_widthNum), FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	setWidthBoxFrame->AddFrame(setWidthNumFrame);
 
 	UIFrame* saveLoadFrame = new UIFrame();
-	saveLoadFrame->init("saveLoadFrame", 100, 100, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig");
+	saveLoadFrame->init("saveLoadFrame", WINSIZEX/2 - 170, WINSIZEY/2 - 130, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig", 0.7, 0.7f);
 	UIMANAGER->GetGameFrame()->AddFrame(saveLoadFrame);
 	saveLoadFrame->SetIsViewing(false);
 
 	UIText* saveLoadText = new UIText();
-	saveLoadText->init("SaveLoader", 200, 200, 200, 100, "SAVE", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	saveLoadText->init("SaveLoader", 75, 60, 200, 100, "SAVE", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	saveLoadFrame->AddFrame(saveLoadText);
 
 	UIFrame* ShortcutFrame = new UIFrame();
-	ShortcutFrame->init("ShortcutFrame", 60, 0, IMAGEMANAGER->findImage("ShortcutKeyGround")->getWidth(), IMAGEMANAGER->findImage("ShortcutKeyGround")->getHeight(), "ShortcutKeyGround");
+	ShortcutFrame->init("ShortcutFrame", 300, 50, IMAGEMANAGER->findImage("ShortcutKeyGround")->getWidth(), IMAGEMANAGER->findImage("ShortcutKeyGround")->getHeight(), "ShortcutKeyGround");
 	UIMANAGER->GetGameFrame()->AddFrame(ShortcutFrame);
+	ShortcutFrame->SetIsViewing(false);
 
 	for (int i = 0; i < 9; i++)
 	{
 		UIFrame* setShortcutKeyBox = new UIFrame();
-		setShortcutKeyBox->init("shortcutBox" + to_string(i), 100 + 80 * i, 15, IMAGEMANAGER->findImage("ShortcutKey1")->getWidth(), IMAGEMANAGER->findImage("ShortcutKey1")->getHeight(), "ShortcutKey1");
+		setShortcutKeyBox->init("shortcutBox" + to_string(i), 60 + 80 * i, 15, IMAGEMANAGER->findImage("ShortcutKey1")->getWidth(), IMAGEMANAGER->findImage("ShortcutKey1")->getHeight(), "ShortcutKey1");
 		ShortcutFrame->AddFrame(setShortcutKeyBox);
 
 		UIImage* setShortcutKeyIg = new UIImage();
@@ -165,7 +166,6 @@ void mapScene::UIInit()
 	UIFrame* adjustSizeFrame = new UIFrame();
 	adjustSizeFrame->init("ShortSizeFrame", -100, 60, IMAGEMANAGER->findImage("AltarButton0")->getWidth(), IMAGEMANAGER->findImage("AltarButton0")->getHeight(), "AltarButton0");
 	UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->AddFrame(adjustSizeFrame);
-
 	for (int i = 0; i < 4; i++)
 	{
 		UIFrame* setSizeBoxFrame = new UIFrame();
@@ -214,6 +214,7 @@ void mapScene::update()
 
 	else
 	{
+		_mapTool->update();
 		_uiBrushTool->update();
 		CheckShortCutBtnCollision();
 		DoClickByType();
@@ -225,9 +226,47 @@ void mapScene::update()
 		SaveShortcutKey();
 		LoadShortcutKey();
 		ShortcutKey();
-
+		SetLayer();
+		PlaceObject();
+		EraseObject();
 
 		CAMERAMANAGER->MovePivot(_pivot.x, _pivot.y);
+	}
+}
+
+void mapScene::PlaceObject()
+{
+	if (_targetObject != nullptr && _isLeftClicked)
+	{
+		int absPtX = CAMERAMANAGER->GetAbsoluteX(_ptMouse.x);
+		int absPtY = CAMERAMANAGER->GetAbsoluteY(_ptMouse.y);
+
+		// 그리드 범위 안에서 배치되도록
+		if (absPtX >= 0 && absPtY >= 0 && absPtY < _mapTool->GetGrid().size() * 48 && absPtX < _mapTool->GetGrid()[0].size() * 48)
+		{
+			Grid* grid = _mapTool->mouseCollisionCheck();
+
+			MapObject* obj = new MapObject(*_targetObject);
+			obj->_x = absPtX;
+			obj->_y = absPtY;
+			obj->_alpha = 255;
+			_mapTool->GetVObject().push_back(obj);
+		}
+	}
+}
+
+void mapScene::EraseObject()
+{
+	for (int i = 0; i < _mapTool->GetVObject().size(); i++)
+	{
+		if (_isRightClicked)
+		{
+			if (PtInRect(&_mapTool->GetVObject()[i]->_body, CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y)))
+			{
+				_mapTool->GetVObject().erase(_mapTool->GetVObject().begin() + i);
+				break;
+			}
+		}
 	}
 }
 
@@ -241,79 +280,9 @@ void mapScene::InputCheck()
 		_isLeftClicked = true;
 	}
 
-	if (INPUT->GetKeyDown(VK_RBUTTON)) _isRightClicked = true;
-}
-
-/// <summary>
-/// 해당 마우스 포인터가 위치한 부분을 칠한다
-/// </summary>
-void mapScene::Paint()
-{
-	// _mapTool->EveSaveData();//버튼을 누르며 지워지기 시작한 순간에 저장
-	Grid* grid = _mapTool->mouseCollisionCheck();
-	if (grid) grid->_img = _targetImage;
-}
-
-/// <summary>
-/// 마우스 포인터 위의 타일을 미사용으로 바꾼다
-/// </summary>
-void mapScene::RemovePaint()
-{
-	// _mapTool->EveSaveData(); //버튼을 누르며 지워지기 시작한 순간에 저장
-	Grid* grid = _mapTool->mouseCollisionCheck();
-	if (grid)
+	if (INPUT->GetKeyDown(VK_RBUTTON))
 	{
-		grid->_img = nullptr;
-	}
-}
-
-void mapScene::UpdateFillSquareRange()
-{
-	if (_isFillClicked)
-	{
-		Grid* grid = _mapTool->mouseCollisionCheck();
-		if(grid != nullptr) _mapTool->PreviewGridRange(_clickedPointOne.x, _clickedPointOne.y, grid->_xIndex, grid->_yIndex, 150);
-	}
-}
-
-/// <summary>
-/// 두번에 걸쳐 입력한 사각 범위만큼을 칠한다
-/// </summary>
-void mapScene::FillSquareRange()
-{
-	if (_isFillClicked == false)
-	{
-		if (_targetImage != nullptr)
-		{
-			Grid* grid = _mapTool->mouseCollisionCheck();
-			if (grid)
-			{
-				_clickedPointOne = POINT{ grid->_xIndex, grid->_yIndex };
-				_isFillClicked = true;
-			}
-		}
-	}
-
-	else if (_isFillClicked)
-	{
-		if (_targetImage != nullptr)
-		{
-			Grid* grid = _mapTool->mouseCollisionCheck();
-
-			if (grid)
-			{
-				_clickedPointTwo = POINT{ grid->_xIndex, grid->_yIndex };
-				_mapTool->GridRange(_clickedPointOne.x, _clickedPointOne.y, _clickedPointTwo.x, _clickedPointTwo.y);
-				_isFillClicked = false;
-				for (int i = 0; i < _mapTool->GetGrid().size(); i++)
-				{
-					for (int j = 0; j < _mapTool->GetGrid()[i].size(); j++)
-					{
-						_mapTool->GetGrid()[i][j]->_alpha = 30;
-					}
-				}
-			}
-		}
+		_isRightClicked = true;
 	}
 }
 
@@ -343,18 +312,17 @@ void mapScene::CheckShortCutBtnCollision()
 				case 6:
 					_brushType = BRUSHTYPE::BT_FLOODFILL; break;
 				case 7:
-					AddRemoveLine(); break;
+					SwitchSizeFrame(); break;
 				case 8:
 					Undo(); break;
 				}
 			}
-			//_mapTool->EveSaveData(); //버튼을 누르며 지워지기 시작한 순간에 저장
 		}
 
 		if (_isEditerViewing == true)
 		{
 			UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame");
-			
+
 			for (int i = 0; i < 4; i++)
 			{
 				if (PtInRect(&frame->GetChild("shortSizeBox" + to_string(i))->GetRect(), _ptMouse))
@@ -393,6 +361,12 @@ void mapScene::DoClickByType()
 		case BT_FLOODFILL:
 			if (_targetImage) FloodFill();
 			break;
+		case BT_PAINT:
+			if(_targetImage) PaintSaver();
+			break;
+		case BT_ERASE:
+			EraseSaver();
+			break;
 		}
 	}
 
@@ -410,17 +384,128 @@ void mapScene::DoClickByType()
 	}
 }
 
+void mapScene::PaintSaver()
+{
+	Grid* grid = _mapTool->mouseCollisionCheck();
+	if (grid)
+	{
+		_mapTool->EveSaveData();
+	}
+}
+
+void mapScene::EraseSaver()
+{
+	Grid* grid = _mapTool->mouseCollisionCheck();
+	if (grid)
+	{
+		_mapTool->EveSaveData();
+	}
+}
+
+/// <summary>
+/// 해당 마우스 포인터가 위치한 부분을 칠한다
+/// </summary>
+void mapScene::Paint()
+{
+	Grid* grid = _mapTool->mouseCollisionCheck();
+	if (grid)
+	{
+		if (_targetImage != nullptr)
+		{
+			if (_mapTool->getIsLayer() == true)
+				grid->_img = _targetImage;
+			else
+				grid->_img2 = _targetImage;
+		}
+	}
+}
+
+/// <summary>
+/// 마우스 포인터 위의 타일을 미사용으로 바꾼다
+/// </summary>
+void mapScene::RemovePaint()
+{
+	Grid* grid = _mapTool->mouseCollisionCheck();
+	if (grid)
+	{
+		if (_mapTool->getIsLayer() == true)
+			grid->_img = nullptr;
+		else
+			grid->_img2 = nullptr;
+	}
+}
+
+void mapScene::UpdateFillSquareRange()
+{
+	if (_isFillClicked)
+	{
+		Grid* grid = _mapTool->mouseCollisionCheck();
+		if (grid != nullptr) _mapTool->PreviewGridRange(_clickedPointOne.x, _clickedPointOne.y, grid->_xIndex, grid->_yIndex, 150);
+	}
+}
+
+/// <summary>
+/// 두번에 걸쳐 입력한 사각 범위만큼을 칠한다
+/// </summary>
+void mapScene::FillSquareRange()
+{
+	if (_isFillClicked == false)
+	{
+		if (_targetImage != nullptr)
+		{
+			Grid* grid = _mapTool->mouseCollisionCheck();
+			if (grid)
+			{
+				_clickedPointOne = POINT{ grid->_xIndex, grid->_yIndex };
+				_isFillClicked = true;
+			}
+		}
+	}
+
+	else if (_isFillClicked)
+	{
+		if (_targetImage != nullptr)
+		{
+			_mapTool->EveSaveData();
+			Grid* grid = _mapTool->mouseCollisionCheck();
+
+			if (grid)
+			{
+				_clickedPointTwo = POINT{ grid->_xIndex, grid->_yIndex };
+				_mapTool->GridRange(_clickedPointOne.x, _clickedPointOne.y, _clickedPointTwo.x, _clickedPointTwo.y);
+				_isFillClicked = false;
+				for (int i = 0; i < _mapTool->GetGrid().size(); i++)
+				{
+					for (int j = 0; j < _mapTool->GetGrid()[i].size(); j++)
+					{
+						_mapTool->GetGrid()[i][j]->_alpha = 30;
+					}
+				}
+			}
+		}
+	}
+}
+
 void mapScene::ToolMovePage()
 {
-	if (_uiBrushTool->GetPage() > 0 && PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("arrowLeft")->GetRect(), _ptMouse) && _isLeftClicked)
+	if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("arrowLeft")->GetRect(), _ptMouse) && _isLeftClicked)
 	{
-		_uiBrushTool->SetPage(_uiBrushTool->GetPage() - 1);
+		if (_uiBrushTool->GetIsObject() && _uiBrushTool->GetObjPage() > 0)
+			_uiBrushTool->SetObjPage(_uiBrushTool->GetObjPage() - 1);
+
+		if (!_uiBrushTool->GetIsObject() && _uiBrushTool->GetGridPage() > 0)
+			_uiBrushTool->SetGridPage(_uiBrushTool->GetGridPage() - 1);
+
 		_uiBrushTool->PageViewChange();
 	}
 
-	if (_uiBrushTool->GetPage() < _uiBrushTool->GetUiBrushGrid().size() - 1 && PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("arrowRight")->GetRect(), _ptMouse) && _isLeftClicked)
+	if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("arrowRight")->GetRect(), _ptMouse) && _isLeftClicked)
 	{
-		_uiBrushTool->SetPage(_uiBrushTool->GetPage() + 1);
+		if (_uiBrushTool->GetIsObject() && _uiBrushTool->GetObjPage() < _uiBrushTool->GetUiObjectGrid().size() - 1)
+			_uiBrushTool->SetObjPage(_uiBrushTool->GetObjPage() + 1);
+		if (!_uiBrushTool->GetIsObject() && _uiBrushTool->GetGridPage() < _uiBrushTool->GetUiBrushGrid().size() - 1)
+			_uiBrushTool->SetGridPage(_uiBrushTool->GetGridPage() + 1);
+
 		_uiBrushTool->PageViewChange();
 	}
 }
@@ -430,14 +515,11 @@ void mapScene::ToolMovePage()
 /// </summary>
 void mapScene::FloodFill()
 {
-	// _mapTool->EveSaveData();
 	Grid* grid = _mapTool->mouseCollisionCheck();
-	if (grid)
+	if (grid && _targetImage != nullptr)
 	{
-		if (grid->_img != _targetImage)
-		{
-			_mapTool->FloodFill(grid->_img, grid->_xIndex, grid->_yIndex);
-		}
+		_mapTool->EveSaveData();
+		_mapTool->FloodFill(grid->_img, grid->_xIndex, grid->_yIndex);
 	}
 }
 
@@ -446,7 +528,7 @@ void mapScene::FloodFill()
 /// </summary>
 void mapScene::FillAll()
 {
-	// _mapTool->EveSaveData();
+	_mapTool->EveSaveData();
 	_mapTool->FillAll();
 }
 
@@ -476,10 +558,10 @@ void mapScene::SetMapSize()
 		_pivot.x = _widthNum * 48 / 2;
 		_pivot.y = _heightNum * 48 / 2;
 		_uiBrushTool->UIInit();
+		UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->SetIsViewing(true);
+		UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame")->SetIsViewing(true);
+		UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->SetIsViewing(false);
 	}
-
-	//10의자리 숫자 출력 안하게 하는거 예시
-	/*UIMANAGER->GetGameFrame()->GetChild("sizeFrame")->GetChild("HeightBox")->GetChild("Word2")->SetIsViewing(false, false);*/
 
 	UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("sizeFrame");
 	if (PtInRect(&frame->GetChild("UpButtonFrame")->GetRect(), _ptMouse) && _isLeftClicked)
@@ -551,25 +633,25 @@ void mapScene::AddMapLine(int type)
 {
 	if (type == 0)
 	{
-		//_mapTool->EveSaveData();
+		_mapTool->EveSaveData();
 		_mapTool->MapLineAddCol();
 	}
 
 	if (type == 1)
 	{
-		//_mapTool->EveSaveData();
+		_mapTool->EveSaveData();
 		_mapTool->MapLineAddRow();
 	}
 
 	if (type == 2)
 	{
-		//_mapTool->EveSaveData();
+		_mapTool->EveSaveData();
 		_mapTool->MapLineRemoveCol();
 	}
 
 	if (type == 3)
 	{
-		//_mapTool->EveSaveData();
+		_mapTool->EveSaveData();
 		_mapTool->MapLineRemoveRow();
 	}
 }
@@ -589,11 +671,12 @@ void mapScene::render()
 
 	Grid* targetGrid = _mapTool->mouseCollisionCheck();
 	if (_targetImage && targetGrid) CAMERAMANAGER->AlphaRender(getMemDC(), _targetImage, targetGrid->_rc.left, targetGrid->_rc.top, 100);
-
+	if (_targetObject)
+	{
+		if (_targetObject->_image->getMaxFrameX() == 0) _targetObject->_image->alphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 100);
+		else _targetObject->_image->frameAlphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 0, 0, 100);
+	}
 	UIMANAGER->render(getMemDC());
-
-	string n = to_string(_ptMouse.x) + " " + to_string(_ptMouse.y);
-	TextOut(getMemDC(), _ptMouse.x, _ptMouse.y, n.c_str(), n.length());
 }
 
 void mapScene::CameraMove()
@@ -628,7 +711,7 @@ void mapScene::SaveLoadMap()
 
 		else
 		{
-			// _mapTool->EveSaveData();
+			_mapTool->EveSaveData();
 			_mapTool->LoadData(_fileName);
 		}
 
@@ -638,7 +721,7 @@ void mapScene::SaveLoadMap()
 	}
 }
 
-void mapScene::AddRemoveLine()
+void mapScene::SwitchSizeFrame()
 {
 	if (!_isEditerViewing || INPUT->GetKeyDown(VK_LBUTTON))
 	{
@@ -735,5 +818,17 @@ void mapScene::LoadShortcutKey()
 				_targetImage = frame->GetChild("shortcutBox" + to_string(i))->GetChild("Ig")->GetImage();
 			}
 		}
+	}
+}
+
+void mapScene::SetLayer()
+{
+	if (INPUT->GetKeyDown('B'))
+	{
+		if (_mapTool->getIsLayer() == false)
+			_mapTool->setIsLayer(true);
+		else
+			_mapTool->setIsLayer(false);
+
 	}
 }

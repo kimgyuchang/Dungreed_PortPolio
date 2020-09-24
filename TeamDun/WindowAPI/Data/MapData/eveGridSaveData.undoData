@@ -1,9 +1,0 @@
--1,-1,-1,-1,-1,-1,-1,-1,-1
-Stage1_Tile9,Stage1_Tile6,Stage1_Tile6,Stage1_Tile6,-1,Stage1_Tile9,-1,-1,-1
-Stage1_Tile9,Stage1_Tile6,Stage1_Tile6,Stage1_Tile6,Stage1_Tile9,Stage1_Tile9,Stage1_Tile9,-1,-1
-Stage1_Tile10,Stage1_Tile9,Stage1_Tile16,Stage1_Tile16,Stage1_Tile16,Stage1_Tile16,Stage1_Tile16,-1,-1
-Stage1_Tile10,Stage1_Tile9,Stage1_Tile16,Stage1_Tile10,Stage1_Tile10,-1,Stage1_Tile6,-1,-1
-Stage1_Tile10,-1,Stage1_Tile16,Stage1_Tile10,Stage1_Tile10,-1,Stage1_Tile6,-1,-1
-Stage1_Tile10,-1,Stage1_Tile16,Stage1_Tile10,-1,-1,Stage1_Tile6,-1,-1
--1,Stage1_Tile6,Stage1_Tile16,Stage1_Tile16,Stage1_Tile16,Stage1_Tile16,Stage1_Tile16,-1,-1
--1,-1,-1,-1,-1,-1,-1,-1,-1

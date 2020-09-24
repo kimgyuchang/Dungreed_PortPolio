@@ -7,7 +7,8 @@ HRESULT uibrushTool::init()
 	DATAMANAGER->GetUIBrushToolGridData();
 	DATAMANAGER->GetObjectData();
 
-	_page = 0;
+	_gridPage = 0;
+	_objPage = 0;
 	_isOn = false;
 	_isObject = true;
 	_xPos = 1400;
@@ -39,11 +40,11 @@ void uibrushTool::UIInit()
 	brushObjectButton->AddFrame(brushText);
 
 	UIImage* arrow = new UIImage();
-	arrow->init("arrowLeft", 30, 670, IMAGEMANAGER->findImage("OptionArrow1")->getWidth(), IMAGEMANAGER->findImage("OptionArrow1")->getHeight(), "OptionArrow1", false, 0, 0);
+	arrow->init("arrowLeft", 50, 670, IMAGEMANAGER->findImage("OptionArrow1")->getWidth(), IMAGEMANAGER->findImage("OptionArrow1")->getHeight(), "OptionArrow1", false, 0, 0);
 	brushToolFrame->AddFrame(arrow);
 
 	arrow = new UIImage();
-	arrow->init("arrowRight", 240, 670, IMAGEMANAGER->findImage("OptionArrow0")->getWidth(), IMAGEMANAGER->findImage("OptionArrow0")->getHeight(), "OptionArrow0", false,0,0);
+	arrow->init("arrowRight", 250, 670, IMAGEMANAGER->findImage("OptionArrow0")->getWidth(), IMAGEMANAGER->findImage("OptionArrow0")->getHeight(), "OptionArrow0", false,0,0);
 	brushToolFrame->AddFrame(arrow);
 	
 	map<int, GridData*> gridDataSet = DATAMANAGER->GetGridData();
@@ -57,7 +58,7 @@ void uibrushTool::UIInit()
 		while (_vUiBrushGrid.size() <= data->_page) _vUiBrushGrid.push_back(vector<UIImage*>());
 		_vUiBrushGrid[data->_page].push_back(image);
 
-		if (data->_page != _page) image->SetIsViewing(false);
+		if (data->_page != _gridPage) image->SetIsViewing(false);
 	}
 	
 	map<int, MapObject*> objDataSet = DATAMANAGER->GetMapObjectData();
@@ -66,16 +67,28 @@ void uibrushTool::UIInit()
 		MapObject* data = it->second;
 		Object* obj = DATAMANAGER->GetObjectById(data->_id);
 		UIImage* image = new UIImage();
-		image->init(to_string(data->_id), data->_x, data->_y,
-			(float)obj->GetImage(0)->getWidth() / (obj->GetImage(0)->getMaxFrameX() + 1),
-			(float)obj->GetImage(0)->getHeight() / (obj->GetImage(0)->getMaxFrameY() + 1),
-			obj->GetImage(0)->getKey(), false, 0,0);
+		if (obj->GetImage(0)->getMaxFrameX() != 0)
+		{
+			image->init(to_string(data->_id), data->_x, data->_y,
+				(float)obj->GetImage(0)->getWidth() / (obj->GetImage(0)->getMaxFrameX() + 1),
+				(float)obj->GetImage(0)->getHeight() / (obj->GetImage(0)->getMaxFrameY() + 1),
+				obj->GetImage(0)->getKey(), true, 0, 0);
+		}
+
+		else
+		{
+			image->init(to_string(data->_id), data->_x, data->_y,
+				(float)obj->GetImage(0)->getWidth() / (obj->GetImage(0)->getMaxFrameX() + 1),
+				(float)obj->GetImage(0)->getHeight() / (obj->GetImage(0)->getMaxFrameY() + 1),
+				obj->GetImage(0)->getKey(), false, 0, 0);
+		}
+
 		brushToolFrame->AddFrame(image);
 		
 		while (_vUiBrushObject.size() <= data->_page) _vUiBrushObject.push_back(vector<UIImage*>());
 		_vUiBrushObject[data->_page].push_back(image);
 		
-		if (data->_page != _page) image->SetIsViewing(false);
+		if (data->_page != _objPage) image->SetIsViewing(false);
 	}	
 }
 
@@ -92,7 +105,7 @@ void uibrushTool::PageViewChange()
 
 			else
 			{
-				if (i == _page) _vUiBrushGrid[i][j]->SetIsViewing(true);
+				if (i == _gridPage) _vUiBrushGrid[i][j]->SetIsViewing(true);
 				else _vUiBrushGrid[i][j]->SetIsViewing(false);
 			}
 		}
@@ -104,7 +117,7 @@ void uibrushTool::PageViewChange()
 		{
 			if (_isObject)
 			{
-				if (i == _page) _vUiBrushObject[i][j]->SetIsViewing(true);
+				if (i == _objPage) _vUiBrushObject[i][j]->SetIsViewing(true);
 				else _vUiBrushObject[i][j]->SetIsViewing(false);
 			}
 
@@ -200,12 +213,12 @@ void uibrushTool::mouseCollisionCheck()
 {
 	if (_isObject)
 	{
-		for (int i = 0; i < _vUiBrushObject[_page].size(); i++)
+		for (int i = 0; i < _vUiBrushObject[_objPage].size(); i++)
 		{
-			if (PtInRect(&_vUiBrushObject[_page][i]->GetRect(), _ptMouse))
+			if (PtInRect(&_vUiBrushObject[_objPage][i]->GetRect(), _ptMouse))
 			{
 				_mapScene->SetTargetImage(nullptr);
-				_mapScene->SetTargetObject(DATAMANAGER->GetMapObjectData()[stoi(_vUiBrushObject[_page][i]->GetName())]);
+				_mapScene->SetTargetObject(DATAMANAGER->GetMapObjectData()[stoi(_vUiBrushObject[_objPage][i]->GetName())]);
 				return;
 			}
 		}
@@ -213,11 +226,11 @@ void uibrushTool::mouseCollisionCheck()
 
 	else
 	{
-		for (int i = 0; i < _vUiBrushGrid[_page].size(); i++)
+		for (int i = 0; i < _vUiBrushGrid[_gridPage].size(); i++)
 		{
-			if (PtInRect(&_vUiBrushGrid[_page][i]->GetRect(), _ptMouse))
+			if (PtInRect(&_vUiBrushGrid[_gridPage][i]->GetRect(), _ptMouse))
 			{
-				_mapScene->SetTargetImage(_vUiBrushGrid[_page][i]->GetImage());
+				_mapScene->SetTargetImage(_vUiBrushGrid[_gridPage][i]->GetImage());
 				_mapScene->SetTargetObject(nullptr);
 				return;
 			}

@@ -150,7 +150,7 @@ void loadingScene::loadingImage()
 	_loading->loadImage("Stage1_Tile80", "Images/1Floor/Wall_H12.bmp", 48, 48, true, RGB(255,0,255));
 	
 	// UNUSE UIBASE //
-	_loading->loadImage("UIBaseBig", "Images/UI/Base.bmp", 222*5, 189*3 , true ,RGB(255,0,255));
+	_loading->loadImage("UIBaseBig", "Images/UI/Base.bmp", 500, 300 , true ,RGB(255,0,255));
 	_loading->loadImage("UIBaseMiddle", "Images/UI/Base.bmp", 222*2, 189*2 , true ,RGB(255,0,255));
 	_loading->loadImage("UIBaseSmall", "Images/UI/Base.bmp", 222, 189 , true ,RGB(255,0,255));
 
@@ -177,9 +177,9 @@ void loadingScene::loadingImage()
 	_loading->loadImage("RightButton", "Images/UI/FullWindowExitButton_Selected.bmp", 66, 57 , true ,RGB(255,0,255));
 	_loading->loadImage("DownButton", "Images/UI/FullWindowExitButton.bmp", 66, 57 , true ,RGB(255,0,255));
 	_loading->loadImage("LeftButton", "Images/UI/FullWindowExitButton.bmp", 66, 57 , true ,RGB(255,0,255));
-	_loading->loadImage("mapWidthBox", "Images/UI/AbilityTextBar.bmp", 66*3, 108 , true ,RGB(255,0,255));
-	_loading->loadImage("mapHeightBox", "Images/UI/AbilityTextBar.bmp", 66*3, 108 , true ,RGB(255,0,255));
-	_loading->loadImage("ShortcutKeyGround", "Images/UI/AltarButton1.bmp", 266*3.5, 87, true ,RGB(255,0,255));
+	_loading->loadImage("mapWidthBox", "Images/UI/AbilityTextBar.bmp", 120, 100 , true ,RGB(255,0,255));
+	_loading->loadImage("mapHeightBox", "Images/UI/AbilityTextBar.bmp", 120, 100 , true ,RGB(255,0,255));
+	_loading->loadImage("ShortcutKeyGround", "Images/UI/AltarButton1.bmp", 800, 87, true ,RGB(255,0,255));
 	_loading->loadImage("ShortcutKey1", "Images/UI/IconGray.bmp", 57, 57, true ,RGB(255,0,255));
 	_loading->loadImage("ShortcutKey2", "Images/UI/IconWhite1.bmp", 57, 57, true ,RGB(255,0,255));
 	

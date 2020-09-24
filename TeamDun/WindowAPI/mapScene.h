@@ -48,6 +48,8 @@ public :
 	void UIInit();
 	void release();
 	void update();
+	void PlaceObject();
+	void EraseObject();
 	void InputCheck();
 	void SetMapSize();
 	void CallSaveEditor();
@@ -57,6 +59,8 @@ public :
 	void FillSquareRange();
 	void CheckShortCutBtnCollision();
 	void DoClickByType();
+	void PaintSaver();
+	void EraseSaver();
 	void Paint();
 	void FloodFill();
 	void FillAll();
@@ -67,8 +71,8 @@ public :
 	void render();
 	void CameraMove();
 	void SaveLoadMap();
-	void AddRemoveLine();
-	void shortCutKey();
+	void ShortcutKey();
+	void SwitchSizeFrame();
 	
 	// GETSET //
 	image* GetTargetImage() { return _targetImage; }
@@ -78,5 +82,6 @@ public :
 
 	void SaveShortcutKey();
 	void LoadShortcutKey();
+	void SetLayer();
 };
 
