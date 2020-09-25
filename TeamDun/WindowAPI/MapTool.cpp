@@ -525,16 +525,16 @@ void MapTool::SetMap()
 
 void MapTool::render()
 {
-	for (int i = ((CAMERAMANAGER->getPivotY() - (WINSIZEY / 2)) / (_zoomHeight == 0 ? 48 : _zoomHeight)); i < ((CAMERAMANAGER->getPivotY() + (WINSIZEY / 2)) / (_zoomHeight == 0 ? 48 : _zoomHeight)); i++)
+	for (int i = ((CAMERAMANAGER->GetPivotY() - (WINSIZEY / 2)) / (_zoomHeight == 0 ? 48 : _zoomHeight)); i < ((CAMERAMANAGER->GetPivotY() + (WINSIZEY / 2)) / (_zoomHeight == 0 ? 48 : _zoomHeight)); i++)
 	{
 		if (i < 0 || i >=_vMapData.size()) continue;
-		for (int j = ((CAMERAMANAGER->getPivotX() - (WINSIZEX / 2)) / (_zoomWidth == 0 ? 48 : _zoomWidth)); j < ((CAMERAMANAGER->getPivotX() + (WINSIZEX / 2)) / (_zoomWidth == 0 ? 48 : _zoomWidth)); j++)
+		for (int j = ((CAMERAMANAGER->GetPivotX() - (WINSIZEX / 2)) / (_zoomWidth == 0 ? 48 : _zoomWidth)); j < ((CAMERAMANAGER->GetPivotX() + (WINSIZEX / 2)) / (_zoomWidth == 0 ? 48 : _zoomWidth)); j++)
 		{
 			if (j < 0 || j >= _vMapData[i].size()) continue;
 			if (_vMapData[i][j]->_img2) CAMERAMANAGER->StretchRender(getMemDC(), _vMapData[i][j]->_img2, _vMapData[i][j]->_x, _vMapData[i][j]->_y, (_zoomWidth == 0 ? 48 : _zoomWidth) /48, (_zoomHeight == 0 ? 48 : _zoomHeight) /48);
 			if (_vMapData[i][j]->_img) CAMERAMANAGER->StretchRender(getMemDC(), _vMapData[i][j]->_img, _vMapData[i][j]->_x, _vMapData[i][j]->_y, (_zoomWidth == 0 ? 48 : _zoomWidth) / 48 , (_zoomHeight == 0 ? 48 : _zoomHeight) / 48);
 			string str = to_string(i) + " " + to_string(j);
-			CAMERAMANAGER->stretchAlphaRender(getMemDC(), _vMapData[i][j]->_checkImg, _vMapData[i][j]->_x, _vMapData[i][j]->_y, (_zoomWidth == 0 ? 48 : _zoomWidth) /48 , (_zoomHeight == 0 ? 48 : _zoomHeight) /48 , _vMapData[i][j]->_alpha);
+			CAMERAMANAGER->StretchAlphaRender(getMemDC(), _vMapData[i][j]->_checkImg, _vMapData[i][j]->_x, _vMapData[i][j]->_y, (_zoomWidth == 0 ? 48 : _zoomWidth) /48 , (_zoomHeight == 0 ? 48 : _zoomHeight) /48 , _vMapData[i][j]->_alpha);
 		}
 	}
 	

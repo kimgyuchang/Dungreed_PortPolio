@@ -30,11 +30,11 @@ HRESULT mapScene::init()
 	_isFillClicked = false;
 
 
-	// SAVE LOAD //
+	// SUB WINDOW //
 	_hEdit = CreateWindow("edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER |
 		ES_AUTOHSCROLL | ES_RIGHT, WINSIZEX / 2 - 95, WINSIZEY / 2, 200, 25, _hWnd, (HMENU)100, _hInstance, NULL);
 	ShowWindow(_hEdit, SW_HIDE);
-	_isEditorViewing = false;
+	_isSaveLoaderOn = false;
 	_isLoad = false;
 
 	_hMonsterSpawnTime = CreateWindow("edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER |
@@ -274,7 +274,7 @@ void mapScene::update()
 		_mapTool->update();
 		_uiBrushTool->update();
 
-		if (!_isEditorViewing && !_isMonsterSettingOn)
+		if (!_isSaveLoaderOn && !_isMonsterSettingOn)
 		{
 			CheckShortCutBtnCollision();
 			DoClickByType();
@@ -293,12 +293,12 @@ void mapScene::update()
 			ZoomInOut();
 		}
 
-		if(_isMonsterSettingOn)
+		if(_isMonsterSettingOn) // 몬스터 세팅 페이지가 열어져있음
 		{
 			InMonsterSetPage();
 		}
 
-		if(_isEditorViewing)
+		if(_isSaveLoaderOn) // 세이브 로드 페이지가 열어져있음
 		{
 			SaveLoadMap();
 		}
@@ -307,6 +307,24 @@ void mapScene::update()
 	}
 }
 
+
+/// <summary>
+/// INPUT 중복 체크 방지용 변수 설정 함수
+/// </summary>
+void mapScene::InputCheck()
+{
+	_isLeftClicked = false;
+	_isRightClicked = false;
+	_isEnterPressed = false;
+
+	if (INPUT->GetKeyDown(VK_LBUTTON)) _isLeftClicked = true;
+	if (INPUT->GetKeyDown(VK_RBUTTON)) _isRightClicked = true;
+	if (INPUT->GetKeyDown(VK_RETURN)) _isEnterPressed = true;
+}
+
+/// <summary>
+/// 단축키를 입력받아 몬스터 설정 페이지를 연다
+/// </summary>
 void mapScene::SetMonsterPage()
 {
 	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown(VK_SPACE))
@@ -331,6 +349,9 @@ void mapScene::SetMonsterPage()
 	}
 }
 
+/// <summary>
+/// 몬스터 설정 페이지가 열려있을 시 입력을 받도록 한다. 
+/// </summary>
 void mapScene::InMonsterSetPage()
 {
 	if (_isMonsterSettingOn)
@@ -353,6 +374,9 @@ void mapScene::InMonsterSetPage()
 	}
 }
 
+/// <summary>
+/// 클릭을 통해 오브젝트를 배치한다.
+/// </summary>
 void mapScene::PlaceObject()
 {
 	if (_targetObject != nullptr && _isLeftClicked)
@@ -378,6 +402,9 @@ void mapScene::PlaceObject()
 	}
 }
 
+/// <summary>
+/// 우클릭을 통해 오브젝트를 지운다.
+/// </summary>
 void mapScene::EraseObject()
 {
 	for (int i = 0; i < _mapTool->GetVObject().size(); i++)
@@ -393,28 +420,9 @@ void mapScene::EraseObject()
 	}
 }
 
-void mapScene::InputCheck()
-{
-	_isLeftClicked = false;
-	_isRightClicked = false;
-	_isEnterPressed = false;
-
-	if (INPUT->GetKeyDown(VK_LBUTTON))
-	{
-		_isLeftClicked = true;
-	}
-
-	if (INPUT->GetKeyDown(VK_RBUTTON))
-	{
-		_isRightClicked = true;
-	}
-
-	if (INPUT->GetKeyDown(VK_RETURN))
-	{
-		_isEnterPressed = true;
-	}
-}
-
+/// <summary>
+/// 상단의 메뉴 버튼들의 충돌을 검사해 기능을 작동시킨다.
+/// </summary>
 void mapScene::CheckShortCutBtnCollision()
 {
 	if (_isLeftClicked)
@@ -466,18 +474,10 @@ void mapScene::CheckShortCutBtnCollision()
 				{
 					switch (i)
 					{
-					case 0:
-						AddMapLine(0);
-						break;
-					case 1:
-						AddMapLine(1);
-						break;
-					case 2:
-						AddMapLine(2);
-						break;
-					case 3:
-						AddMapLine(3);
-						break;
+					case 0:	AddMapLine(0); break;
+					case 1: AddMapLine(1); break;
+					case 2:	AddMapLine(2); break;
+					case 3:	AddMapLine(3); break;
 					}
 				}
 			}
@@ -486,6 +486,9 @@ void mapScene::CheckShortCutBtnCollision()
 	}
 }
 
+/// <summary>
+/// 현재 브러쉬 타입에 따른 상호작용을 실시한다.
+/// </summary>
 void mapScene::DoClickByType()
 {
 	if (_isLeftClicked)
@@ -521,6 +524,9 @@ void mapScene::DoClickByType()
 	}
 }
 
+/// <summary>
+/// 페인트 시의 실행취소용 작업 세이버
+/// </summary>
 void mapScene::PaintSaver()
 {
 	Grid* grid = _mapTool->mouseCollisionCheck();
@@ -530,6 +536,9 @@ void mapScene::PaintSaver()
 	}
 }
 
+/// <summary>
+/// 지울 시의 실행취소용 작업 세이버 
+/// </summary>
 void mapScene::EraseSaver()
 {
 	Grid* grid = _mapTool->mouseCollisionCheck();
@@ -558,26 +567,17 @@ void mapScene::Paint()
 }
 
 /// <summary>
-/// 마우스 포인터 위의 타일을 미사용으로 바꾼다
+/// 마우스 포인터 위의 타일을 지운다
 /// </summary>
 void mapScene::RemovePaint()
 {
 	Grid* grid = _mapTool->mouseCollisionCheck();
 	if (grid)
 	{
-		if (_mapTool->getIsLayer() == true)
-			grid->_img = nullptr;
-		else
+		if (_mapTool->getIsLayer() == true) // 현재 레이어 1을 선택했다면
+			grid->_img = nullptr; 
+		else // 레이어 2를 선택했다면
 			grid->_img2 = nullptr;
-	}
-}
-
-void mapScene::UpdateFillSquareRange()
-{
-	if (_isFillClicked)
-	{
-		Grid* grid = _mapTool->mouseCollisionCheck();
-		if (grid != nullptr) _mapTool->PreviewGridRange(_clickedPointOne.x, _clickedPointOne.y, grid->_xIndex, grid->_yIndex, 150);
 	}
 }
 
@@ -623,27 +623,15 @@ void mapScene::FillSquareRange()
 	}
 }
 
-void mapScene::ToolMovePage()
+/// <summary>
+/// 첫번째 사각 범위 포인트 선택이 이뤄질 시의 미리보기 실행
+/// </summary>
+void mapScene::UpdateFillSquareRange()
 {
-	if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("arrowLeft")->GetRect(), _ptMouse) && _isLeftClicked)
+	if (_isFillClicked)
 	{
-		if (_uiBrushTool->GetIsObject() && _uiBrushTool->GetObjPage() > 0)
-			_uiBrushTool->SetObjPage(_uiBrushTool->GetObjPage() - 1);
-
-		if (!_uiBrushTool->GetIsObject() && _uiBrushTool->GetGridPage() > 0)
-			_uiBrushTool->SetGridPage(_uiBrushTool->GetGridPage() - 1);
-
-		_uiBrushTool->PageViewChange();
-	}
-
-	if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("arrowRight")->GetRect(), _ptMouse) && _isLeftClicked)
-	{
-		if (_uiBrushTool->GetIsObject() && _uiBrushTool->GetObjPage() < _uiBrushTool->GetUiObjectGrid().size() - 1)
-			_uiBrushTool->SetObjPage(_uiBrushTool->GetObjPage() + 1);
-		if (!_uiBrushTool->GetIsObject() && _uiBrushTool->GetGridPage() < _uiBrushTool->GetUiBrushGrid().size() - 1)
-			_uiBrushTool->SetGridPage(_uiBrushTool->GetGridPage() + 1);
-
-		_uiBrushTool->PageViewChange();
+		Grid* grid = _mapTool->mouseCollisionCheck();
+		if (grid != nullptr) _mapTool->PreviewGridRange(_clickedPointOne.x, _clickedPointOne.y, grid->_xIndex, grid->_yIndex, 150);
 	}
 }
 
@@ -685,7 +673,7 @@ void mapScene::GetUiBrush()
 }
 
 /// <summary>
-/// 초기에 맵 사이즈를 정하도록 한다
+/// 초기 맵 페이지 정하는 함수
 /// </summary>
 void mapScene::SetMapSize()
 {
@@ -729,39 +717,45 @@ void mapScene::SetMapSize()
 	}
 }
 
+/// <summary>
+/// 세이브 창의 ON/OFF
+/// </summary>
 void mapScene::CallSaveEditor()
 {
-	if (!_isEditorViewing || _isLoad)
+	if (!_isSaveLoaderOn || _isLoad)
 	{
 		UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(true);
 		dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->GetChild("SaveLoader"))->SetText("SAVE");
-		_isEditorViewing = true;
+		_isSaveLoaderOn = true;
 		ShowWindow(_hEdit, SW_SHOW);
 	}
 
 	else
 	{
 		UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(false);
-		_isEditorViewing = false;
+		_isSaveLoaderOn = false;
 		ShowWindow(_hEdit, SW_HIDE);
 	}
 	_isLoad = false;
 }
 
+/// <summary>
+/// 로드 창의 ON/OFF
+/// </summary>
 void mapScene::CallLoadEditor()
 {
-	if (!_isEditorViewing || !_isLoad)
+	if (!_isSaveLoaderOn || !_isLoad)
 	{
 		UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(true);
 		dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->GetChild("SaveLoader"))->SetText("LOAD");
-		_isEditorViewing = true;
+		_isSaveLoaderOn = true;
 		ShowWindow(_hEdit, SW_SHOW);
 	}
 
 	else
 	{
 		UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(false);
-		_isEditorViewing = false;
+		_isSaveLoaderOn = false;
 		ShowWindow(_hEdit, SW_HIDE);
 	}
 	_isLoad = true;
@@ -798,30 +792,16 @@ void mapScene::AddMapLine(int type)
 }
 
 /// <summary>
-/// 실행취소를 한다
+/// 실행취소 작동
 /// </summary>
 void mapScene::Undo()
 {
 	_mapTool->EveLoadData();
 }
 
-void mapScene::render()
-{
-	_mapTool->render();
-	_uiBrushTool->render();
-
-	Grid* targetGrid = _mapTool->mouseCollisionCheck();
-	if (_targetImage && targetGrid) CAMERAMANAGER->stretchAlphaRender(getMemDC(), _targetImage, targetGrid->_rc.left, targetGrid->_rc.top, _mapTool->getZoomWidth() / 48, _mapTool->getZoomHeight() / 48, 100);
-	if (_targetObject)
-	{
-		if (_targetObject->_image->getMaxFrameX() == 0) _targetObject->_image->stretchAlphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, _mapTool->getZoomWidth()/48 , _mapTool->getZoomHeight() / 48,100);
-		else _targetObject->_image->frameStretchAlphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 0, 0,_mapTool->getZoomWidth()/48, _mapTool->getZoomHeight() / 48, 100);
-	}
-	UIMANAGER->render(getMemDC());
-
-	_cursorImage->render(getMemDC(), _ptMouse.x, _ptMouse.y);
-}
-
+/// <summary>
+/// 키를 입력받아 카메라를 움직인다.
+/// </summary>
 void mapScene::CameraMove()
 {
 	if (INPUT->GetKey(VK_LEFT))
@@ -842,9 +822,12 @@ void mapScene::CameraMove()
 	}
 }
 
+/// <summary>
+/// 서브 윈도우의 입력을 받아 세이브 및 로드를 실시한다.
+/// </summary>
 void mapScene::SaveLoadMap()
 {
-	if (_isEditorViewing)
+	if (_isSaveLoaderOn)
 	{
 		if (_isEnterPressed)
 		{
@@ -860,20 +843,23 @@ void mapScene::SaveLoadMap()
 				_mapTool->LoadData(_fileName);
 			}
 
-			_isEditorViewing = false;
+			_isSaveLoaderOn = false;
 			ShowWindow(_hEdit, SW_HIDE);
 			UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(false);
 		}
 
 		if (INPUT->GetKeyDown(VK_TAB))
 		{
-			_isEditorViewing = false;
+			_isSaveLoaderOn = false;
 			ShowWindow(_hEdit, SW_HIDE);
 			UIMANAGER->GetGameFrame()->GetChild("saveLoadFrame")->SetIsViewing(false);
 		}
 	}
 }
 
+/// <summary>
+/// 버튼 충돌을 검사해 사이즈 조절 메뉴를 ON/OFF한다.
+/// </summary>
 void mapScene::SwitchSizeFrame()
 {
 
@@ -889,6 +875,9 @@ void mapScene::SwitchSizeFrame()
 	}
 }
 
+/// <summary>
+/// 단축키로 기능을 실행한다.
+/// </summary>
 void mapScene::ShortcutKey()
 {
 	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown(VK_F1))
@@ -949,6 +938,9 @@ void mapScene::ShortcutKey()
 	}
 }
 
+/// <summary>
+/// 즐겨찾기 타일을 저장한다.
+/// </summary>
 void mapScene::SaveShortcutKey()
 {
 	for (int i = 1; i < 11; i++)
@@ -960,6 +952,9 @@ void mapScene::SaveShortcutKey()
 	}
 }
 
+/// <summary>
+/// 즐겨찾기 타일을 불러온다.
+/// </summary>
 void mapScene::LoadShortcutKey()
 {
 	UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame");
@@ -975,9 +970,12 @@ void mapScene::LoadShortcutKey()
 	}
 }
 
+/// <summary>
+/// 레이어를 스위칭한다
+/// </summary>
 void mapScene::SetLayer()
 {
-	if (INPUT->GetKeyDown('B'))
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('L'))
 	{
 		if (_mapTool->getIsLayer() == false)
 		{
@@ -992,6 +990,9 @@ void mapScene::SetLayer()
 	}
 }
 
+/// <summary>
+/// 마우스 휠로 줌인 / 줌아웃을 실시
+/// </summary>
 void mapScene::ZoomInOut()
 {
 	if (_mouseWheel == 1)
@@ -1006,4 +1007,48 @@ void mapScene::ZoomInOut()
 		_mapTool->setZoomWidth(_mapTool->getZoomWidth() - 5);
 		_mapTool->SetMap();
 	}
+}
+
+/// <summary>
+/// UIBrushTool의 페이지 선택
+/// </summary>
+void mapScene::ToolMovePage()
+{
+	if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("arrowLeft")->GetRect(), _ptMouse) && _isLeftClicked)
+	{
+		if (_uiBrushTool->GetIsObject() && _uiBrushTool->GetObjPage() > 0)
+			_uiBrushTool->SetObjPage(_uiBrushTool->GetObjPage() - 1);
+
+		if (!_uiBrushTool->GetIsObject() && _uiBrushTool->GetGridPage() > 0)
+			_uiBrushTool->SetGridPage(_uiBrushTool->GetGridPage() - 1);
+
+		_uiBrushTool->PageViewChange();
+	}
+
+	if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("arrowRight")->GetRect(), _ptMouse) && _isLeftClicked)
+	{
+		if (_uiBrushTool->GetIsObject() && _uiBrushTool->GetObjPage() < _uiBrushTool->GetUiObjectGrid().size() - 1)
+			_uiBrushTool->SetObjPage(_uiBrushTool->GetObjPage() + 1);
+		if (!_uiBrushTool->GetIsObject() && _uiBrushTool->GetGridPage() < _uiBrushTool->GetUiBrushGrid().size() - 1)
+			_uiBrushTool->SetGridPage(_uiBrushTool->GetGridPage() + 1);
+
+		_uiBrushTool->PageViewChange();
+	}
+}
+
+void mapScene::render()
+{
+	_mapTool->render();
+	_uiBrushTool->render();
+
+	Grid* targetGrid = _mapTool->mouseCollisionCheck();
+	if (_targetImage && targetGrid) CAMERAMANAGER->StretchAlphaRender(getMemDC(), _targetImage, targetGrid->_rc.left, targetGrid->_rc.top, _mapTool->getZoomWidth() / 48, _mapTool->getZoomHeight() / 48, 100);
+	if (_targetObject)
+	{
+		if (_targetObject->_image->getMaxFrameX() == 0) _targetObject->_image->stretchAlphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, _mapTool->getZoomWidth() / 48, _mapTool->getZoomHeight() / 48, 100);
+		else _targetObject->_image->frameStretchAlphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 0, 0, _mapTool->getZoomWidth() / 48, _mapTool->getZoomHeight() / 48, 100);
+	}
+	UIMANAGER->render(getMemDC());
+
+	_cursorImage->render(getMemDC(), _ptMouse.x, _ptMouse.y);
 }

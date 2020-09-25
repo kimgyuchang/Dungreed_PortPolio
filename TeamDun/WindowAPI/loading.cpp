@@ -1,19 +1,27 @@
 #include "stdafx.h"
 #include "loading.h"
 
-HRESULT loadItem::init(string keyName, string soundName, bool bgm, bool loop)
+/////////////////////////////// LOADITEM 관련 //////////////////////////////////////////////
+
+/// <summary>
+/// 초기화 - 사운드
+/// </summary>
+HRESULT LoadItem::init(string keyName, string soundName, bool bgm, bool loop)
 {
 	_kind = LOAD_KIND_SOUND;
 
 	_soundResource.keyName = keyName;
 	_soundResource.fileName = soundName;
-	_soundResource.bgm = bgm;
-	_soundResource.loop = loop;
+	_soundResource.isBGM = bgm;
+	_soundResource.isLoop = loop;
 
 	return S_OK;
 }
 
-HRESULT loadItem::init(string strKey, int width, int height)
+/// <summary>
+/// 초기화 - 이미지 1 (기본)
+/// </summary>
+HRESULT LoadItem::init(string strKey, int width, int height)
 {
 	//로딩종류 초기화
 	_kind = LOAD_KIND_IMAGE_0;
@@ -26,7 +34,10 @@ HRESULT loadItem::init(string strKey, int width, int height)
 	return S_OK;
 }
 
-HRESULT loadItem::init(string strKey, const char * fileName, int width, int height, bool isTrans, COLORREF transColor)
+/// <summary>
+/// 초기화 - 이미지 2 (파일 이름 및 날리기 여부 추가)
+/// </summary>
+HRESULT LoadItem::init(string strKey, const char * fileName, int width, int height, bool isTrans, COLORREF transColor)
 {
 	//로딩종류 초기화
 	_kind = LOAD_KIND_IMAGE_1;
@@ -42,7 +53,10 @@ HRESULT loadItem::init(string strKey, const char * fileName, int width, int heig
 	return S_OK;
 }
 
-HRESULT loadItem::init(string strKey, const char * fileName, float x, float y, int width, int height, bool isTrans, COLORREF transColor)
+/// <summary>
+/// 초기화 - 이미지 3 (사용할 좌표 추가)
+/// </summary>
+HRESULT LoadItem::init(string strKey, const char * fileName, float x, float y, int width, int height, bool isTrans, COLORREF transColor)
 {
 	//로딩종류 초기화
 	_kind = LOAD_KIND_IMAGE_2;
@@ -60,7 +74,10 @@ HRESULT loadItem::init(string strKey, const char * fileName, float x, float y, i
 	return S_OK;
 }
 
-HRESULT loadItem::init(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor, bool isRotate)
+/// <summary>
+/// 초기화 - 프레임 이미지 1 (기본)
+/// </summary>
+HRESULT LoadItem::init(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor, bool isRotate)
 {
 	//로딩종류 초기화
 	_kind = LOAD_KIND_FRAMEIMAGE_0;
@@ -79,7 +96,10 @@ HRESULT loadItem::init(string strKey, const char * fileName, int width, int heig
 	return S_OK;
 }
 
-HRESULT loadItem::init(string strKey, const char * fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor, bool isRotate)
+/// <summary>
+/// 초기화 - 프레임 이미지 2 (사용할 좌표 추가)
+/// </summary>
+HRESULT LoadItem::init(string strKey, const char * fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor, bool isRotate)
 {
 	//로딩종류 초기화
 	_kind = LOAD_KIND_FRAMEIMAGE_1;
@@ -99,127 +119,100 @@ HRESULT loadItem::init(string strKey, const char * fileName, float x, float y, i
 	return S_OK;
 }
 
-//=============================================================
-//	## loading ## (로딩클래스 - 로딩화면 구현하기, 로딩바, 백그라운드)
-//=============================================================
-HRESULT loading::init()
+/////////////////////////////// LOADING 관련 //////////////////////////////////////////////
+
+HRESULT Loading::init()
 {
-	//로딩화면 백그라운드 이미지 초기화
-	_background = IMAGEMANAGER->addFrameImage("bgLoadingScene", "Images/LOADING.bmp", WINSIZEX * 6, WINSIZEY, 6, 1);
-	//로딩바 이미지 초기화
-	IMAGEMANAGER->addImage("loadingBarFront", "loadingBarFront.bmp", 620, 200);
-	IMAGEMANAGER->addImage("loadingBarBack", "loadingBarBack.bmp", 620, 200);
-	IMAGEMANAGER->addFrameImage("number", "Images/number.bmp", 220, 28, 10, 1);
-
-	//로딩바 클래스 초기화
-	_loadingBar = new progressBar;
-	_loadingBar->init("loadingBarFront", "loadingBarBack");
-	//로딩바 위치 초기화
-	_loadingBar->setPos(410, 210);
-
-	//현재 게이지
-	_currentGauge = 0;
-
 	return S_OK;
 }
 
-void loading::release()
+void Loading::release()
 {
-	//로딩바 해제
-	SAFE_DELETE(_loadingBar);
-	
+	for (int i = 0; i < _vLoadItem.size(); i++) SAFE_DELETE(_vLoadItem[i]);
 }
 
-void loading::update()
+void Loading::update()
 {
-	//로딩바 클래스 업데이트
-	_loadingBar->update();
-	this->animation();
 }
 
-void loading::render()
+void Loading::render()
 {
-	//로딩바 클래스 렌더
-	_loadingBar->render();
-	//백그라운드 이미지 렌더
-	_background->frameRender(getMemDC(), 0, 0);
-	textOut(getMemDC(), _loadingBar->getX() + 250, _loadingBar->getY() + 330, text.c_str(), text.length());
 }
 
-void loading::animation()
+/// <summary>
+/// 로드 - 사운드
+/// </summary>
+void Loading::LoadSound(string keyName, string soundName, bool bgm, bool loop)
 {
-	_count++;
-	if (_count % 10 == 0)
-	{
-		_index++;
-		if (_index > _background->getMaxFrameX())
-		{
-			_index = 0;
-		}
-		_background->setFrameX(_index);
-	}
+	LoadItem*item = new LoadItem;
+	item->init(keyName, soundName, bgm, loop); // 적합한 초기화를 해준 뒤
+	_vLoadItem.push_back(item);	// vLoadItem에 추가
 }
 
-void loading::loadSound(string keyName, string soundName, bool bgm, bool loop)
+/// <summary>
+/// 로드 - 이미지 1 (기본)
+/// </summary>
+void Loading::LoadNormalImage(string strKey, int width, int height)
 {
-	loadItem*item = new loadItem;
-	item->init(keyName, soundName, bgm, loop);
-	_vLoadItem.push_back(item);
-}
-
-void loading::loadImage(string strKey, int width, int height)
-{
-	loadItem* item = new loadItem;
+	LoadItem* item = new LoadItem;
 	item->init(strKey, width, height);
 	_vLoadItem.push_back(item);
 }
 
-void loading::loadImage(string strKey, const char * fileName, int width, int height, bool isTrans, COLORREF transColor)
+/// <summary>
+/// 로드 - 이미지 2 (파일 이름 및 날리기 여부 추가)
+/// </summary>
+void Loading::LoadNormalImage(string strKey, const char * fileName, int width, int height, bool isTrans, COLORREF transColor)
 {
-	loadItem* item = new loadItem;
+	LoadItem* item = new LoadItem;
 	item->init(strKey, fileName, width, height, isTrans, transColor);
 	_vLoadItem.push_back(item);
 }
 
-void loading::loadImage(string strKey, const char * fileName, float x, float y, int width, int height, bool isTrans, COLORREF transColor)
+/// <summary>
+/// 로드 - 이미지 3 (사용할 좌표 추가)
+/// </summary>
+void Loading::LoadNormalImage(string strKey, const char * fileName, float x, float y, int width, int height, bool isTrans, COLORREF transColor)
 {
-	loadItem* item = new loadItem;
+	LoadItem* item = new LoadItem;
 	item->init(strKey, fileName, x, y, width, height, isTrans, transColor);
 	_vLoadItem.push_back(item);
 }
 
-void loading::loadFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor, bool isRotate)
+/// <summary>
+/// 로드 - 프레임 이미지 1 (기본)
+/// </summary>
+void Loading::LoadFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor, bool isRotate)
 {
-	loadItem* item = new loadItem;
+	LoadItem* item = new LoadItem;
 	item->init(strKey, fileName, width, height, frameX, frameY, isTrans, transColor, isRotate);
 	
 	_vLoadItem.push_back(item);
 }
 
-void loading::loadFrameImage(string strKey, const char * fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor, bool isRotate)
+/// <summary>
+/// 로드 - 프레임 이미지 2 (사용할 좌표 추가)
+/// </summary>
+void Loading::LoadFrameImage(string strKey, const char * fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor, bool isRotate)
 {
-	loadItem* item = new loadItem;
+	LoadItem* item = new LoadItem;
 	item->init(strKey, fileName, width, x, y, height, frameX, frameY, isTrans, transColor, isRotate);
 	_vLoadItem.push_back(item);
 }
 
-bool loading::loadingDone()
+/// <summary>
+/// 해당 아이템의 타입에 맞추어 IMAGEMANAGER나 SOUNDMANAGER에 추가하는 작업을 실시한다.
+/// </summary>
+void Loading::LoadingDone(LoadItem* item)
 {
-	//로딩완료됨
-	if (_currentGauge >= _vLoadItem.size())
-	{
-		return true;
-	}
-
-	loadItem* item = _vLoadItem[_currentGauge];
-
+	// 아이템의 타입에 맞추어 ADD 작업이 이뤄진다.
 	switch (item->getLoadKind())
 	{
 		case LOAD_KIND_IMAGE_0:
 		{
 			tagImageResource img = item->getImageResource();
 			IMAGEMANAGER->addImage(img.keyName, img.width, img.height);
-			text = img.keyName;
+			_curKey = img.keyName;
 		}
 		break;
 		
@@ -227,7 +220,7 @@ bool loading::loadingDone()
 		{
 			tagImageResource img = item->getImageResource();
 			IMAGEMANAGER->addImage(img.keyName, img.fileName, img.width, img.height, img.isTrans, img.transColor);
-			text = img.keyName;
+			_curKey = img.keyName;
 		}
 		break;
 		
@@ -235,7 +228,7 @@ bool loading::loadingDone()
 		{
 			tagImageResource img = item->getImageResource();
 			IMAGEMANAGER->addImage(img.keyName, img.fileName, img.x, img.y, img.width, img.height, img.isTrans, img.transColor);
-			text = img.keyName;
+			_curKey = img.keyName;
 		}
 		break;
 		
@@ -243,8 +236,8 @@ bool loading::loadingDone()
 		{
 			tagImageResource img = item->getImageResource();
 			IMAGEMANAGER->addFrameImage(img.keyName, img.fileName, img.width, img.height, img.frameX, img.frameY, img.isTrans, img.transColor);
-			text = img.keyName;
-			if (img.isRotate) IMAGEMANAGER->MakeRotateImage(text);
+			_curKey = img.keyName;
+			if (img.isRotate) IMAGEMANAGER->MakeRotateImage(_curKey); // 회전한다면 회전까지 해준다.
 		}
 		break;
 		
@@ -252,27 +245,19 @@ bool loading::loadingDone()
 		{
 			tagImageResource img = item->getImageResource();
 			IMAGEMANAGER->addFrameImage(img.keyName, img.fileName, img.x, img.y, img.width, img.height, img.frameX, img.frameY, img.isTrans, img.transColor);
-			text = img.keyName;
-			if (img.isRotate) IMAGEMANAGER->MakeRotateImage(text);
+			_curKey = img.keyName;
+			if (img.isRotate) IMAGEMANAGER->MakeRotateImage(_curKey); // 회전한다면 회전까지 해준다.
 		}
 		break;
 
 		case LOAD_KIND_SOUND:
 		{
 			tagSoundResource sound = item->getSoundResource();
-			SOUNDMANAGER->addSound(sound.keyName, sound.fileName, sound.bgm, sound.loop);
-			text = sound.keyName;
+			SOUNDMANAGER->addSound(sound.keyName, sound.fileName, sound.isBGM, sound.isLoop);
+			_curKey = sound.keyName;
 		}
 		break;
 	}
-	
-	//현재 게이지 증가
-	_currentGauge++;
-
-	//로딩바 이미지 변경
-	_loadingBar->setGauge(_vLoadItem.size(), _currentGauge);
-
-	return false;
 }
 
 

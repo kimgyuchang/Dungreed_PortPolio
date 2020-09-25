@@ -29,12 +29,13 @@ private:
 	int		_shakeTimer;		// 흔들 시간
 	int		_shakeCycleTimer;	// 흔들 사이클 타이머
 	int		_shakeCycle;		// 흔들 사이클
+	
+	void Shaker();
 
 	// ZOOM //
 	float	_zoomTargetX;		// 줌의 위치가 될 대상 X
 	float	_zoomTargetY;		// 줌의 위치가 될 대상 Y
 
-	void Shaker();
 public:
 	CameraManager() {
 		_cameraRect = { 0,0,0,0 };
@@ -54,31 +55,37 @@ public:
 	HRESULT init(float pivotX, float pivotY, float maxX, float maxY, float minX, float minY, float disX, float disY);
 	void update();
 
+	// RENDER //
+	void Render(HDC hdc, image* ig, int destX, int destY);
+	void AlphaRender(HDC hdc, image * ig, int destX, int destY, BYTE alpha);
+	void StretchRender(HDC hdc, image* ig, int destX, int destY, float scaleX, float scaleY);
+	void StretchAlphaRender(HDC hdc,image* ig, int destX, int destY, float scaleX, float scaleY, BYTE alpha);
+	void FrameRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY);
+	void FrameAlphaRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, BYTE alpha);
+	void FrameStretchRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, float scaleX, float scaleY);
+	void FrameStretchAlphaRender(HDC hdc, image* ig, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha);
 	void Rectangle(HDC hdc, RECT rc);
 	void RectangleMake(HDC hdc, int left, int top, int width, int height);
-
-	void Render(HDC hdc, image* ig, int destX, int destY);
-	void FrameRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY);
-	void StretchRender(HDC hdc, image* ig, int destX, int destY, float scaleX, float scaleY);
-	void stretchAlphaRender(HDC hdc,image* ig, int destX, int destY, float scaleX, float scaleY, BYTE alpha);
-	void frameStretchRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, float scaleX, float scaleY);
-	void frameStretchAlphaRender(HDC hdc, image* ig, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha);
 	void TextDraw(HDC hdc, int destX, int destY, LPCSTR lpstring, int c);
-	void AlphaRender(HDC hdc, image * ig, int destX, int destY, BYTE alpha);
-	void frameAlphaRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, BYTE alpha);
+	
+	// 기능 // 
 	void MovePivot(float x, float y);
 	void MovePivotLerp(float x, float y, float lerpSpeed = 10.f);
 	void MovePivotRegular(float x, float y, float moveSpeed);
 	void Shake(float shakePowerX, float shakePowerY, int shakeTime, int shakeCycle = 0);
 	void ZoomInOut(HDC hdc, int destX, int destY, int sourX, int sourY, float scale);
-	int GetRelativeX(float x) { return x - _cameraRect.left; }
-	int GetRelativeY(float y) { return y - _cameraRect.top; }
-	int GetAbsoluteX(float x) { return x + _cameraRect.left; }
-	int GetAbsoluteY(float y) { return y + _cameraRect.top; }
-	POINT GetAbsolutePoint(long x, long y) { return POINT{ x + _cameraRect.left, y + _cameraRect.top }; }
-	float getPivotX() { return _pivotX; }
-	float getPivotY() { return _pivotY; }
-	float getDistanceX() { return _distanceX; }
-	float getDistanceY() { return _distanceY; }
-	RECT getRect() { return _cameraRect; }
+	
+	// 편의성 //
+	int		GetRelativeX(float x)				{ return x - _cameraRect.left; }
+	int		GetRelativeY(float y)				{ return y - _cameraRect.top; }
+	int		GetAbsoluteX(float x)				{ return x + _cameraRect.left; }
+	int		GetAbsoluteY(float y)				{ return y + _cameraRect.top; }
+	POINT	GetAbsolutePoint(long x, long y)	{ return POINT{ x + _cameraRect.left, y + _cameraRect.top }; }
+	
+	// GETSET //
+	float	GetPivotX()		{ return _pivotX; }
+	float	GetPivotY()		{ return _pivotY; }
+	float	GetDistanceX()	{ return _distanceX; }
+	float	GetDistanceY()	{ return _distanceY; }
+	RECT	GetRect()		{ return _cameraRect; }
 };

@@ -4,7 +4,6 @@
 
 HRESULT MapObject::init(int id, float x, float y, int page)
 {
-	
 	_id = id;
 	_x = x;
 	_y = y;
@@ -17,14 +16,7 @@ HRESULT MapObject::init(int id, float x, float y, int page)
 	_frameY = 0;
 
 	_image = DATAMANAGER->GetObjectById(_id)->GetImage(0);
-	if (_image->getMaxFrameX() == 0)
-	{
-		_body = RectMake(_x, _y, _image->getWidth(), _image->getHeight());
-	}
-	else
-	{
-		_body = RectMake(_x, _y, _image->getFrameWidth(), _image->getFrameHeight());
-	}
+	UpdateBody();
 
 	return S_OK;
 }
@@ -38,9 +30,9 @@ void MapObject::update()
 void MapObject::render(HDC hdc)
 {
 	if (_image->getMaxFrameX() == 0)
-		CAMERAMANAGER->stretchAlphaRender(hdc, _image, _x, _y,_mapTool->getZoomWidth()/48, _mapTool->getZoomHeight() / 48, _alpha );
+		CAMERAMANAGER->StretchAlphaRender(hdc, _image, _x, _y,_mapTool->getZoomWidth()/48, _mapTool->getZoomHeight() / 48, _alpha );
 	else 
-		CAMERAMANAGER->frameStretchRender(hdc, _image, _x, _y, _frameX, _frameY, _mapTool->getZoomWidth() / 48, _mapTool->getZoomHeight() / 48);
+		CAMERAMANAGER->FrameStretchRender(hdc, _image, _x, _y, _frameX, _frameY, _mapTool->getZoomWidth() / 48, _mapTool->getZoomHeight() / 48);
 	
 	if (INPUT->GetKey('O'))
 	{
@@ -52,6 +44,9 @@ void MapObject::release()
 {
 }
 
+/// <summary>
+/// 현재 위치를 기반으로 충돌체 위치를 업데이트한다.
+/// </summary>
 void MapObject::UpdateBody()
 {
 	if (_image->getMaxFrameX() == 0)
@@ -64,6 +59,9 @@ void MapObject::UpdateBody()
 	}
 }
 
+/// <summary>
+/// 맵 오브젝트의 애니메이션을 실시한다.
+/// </summary>
 void MapObject::Animation()
 {
 	if (_image->getMaxFrameX() != 0)
@@ -83,9 +81,11 @@ void MapObject::Animation()
 	}
 }
 
+/// <summary>
+/// 줌 비율에 따른 위치를 설정한다.
+/// </summary>
 void MapObject::SetZoomPosition()
 {
-	
 	_x =_initX*( _mapTool->getZoomWidth() / 48);
 	_y =_initY*( _mapTool->getZoomHeight() / 48);
 
@@ -97,5 +97,4 @@ void MapObject::SetZoomPosition()
 	{
 		_body = RectMake(_x, _y, _image->getFrameWidth(), _image->getFrameHeight());
 	}
-	
 }

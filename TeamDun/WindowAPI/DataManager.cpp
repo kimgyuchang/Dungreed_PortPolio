@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "DataManager.h"
 
+/// <summary>
+/// UIBrushTool에 배치하기 위한 GridData들을 불러온다.
+/// </summary>
 void DataManager::GetUIBrushToolGridData()
 {
 	vector<vector<string>> gridData = CSVMANAGER->csvLoad("Data/UIBrushToolGrid.csv");
@@ -19,9 +22,12 @@ void DataManager::GetUIBrushToolGridData()
 	}
 }
 
-
+/// <summary>
+/// Object들의 데이터를 불러온다.
+/// </summary>
 void DataManager::GetObjectData()
 {
+	// Object 데이터 파트
 	vector<vector<string>> objData = CSVMANAGER->csvLoad("Data/ObjectData.csv");
 
 	for (int i = 0; i < objData.size(); i++)
@@ -46,9 +52,10 @@ void DataManager::GetObjectData()
 			vector<string>{objData[i][3], objData[i][4], objData[i][5] }
 		);
 
-		_mObjs[stoi(objData[i][0])] = obj;
+		_mObjectData[stoi(objData[i][0])] = obj;
 	}
 
+	// UIBrushTool에 배치하기 위한 mapObject 데이터 파트
 	vector<vector<string>> mapObjData = CSVMANAGER->csvLoad("Data/MapObjectData.csv");
 	for (int i = 0; i < mapObjData.size(); i++)
 	{

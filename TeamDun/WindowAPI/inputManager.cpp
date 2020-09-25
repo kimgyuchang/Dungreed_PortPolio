@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "input.h"
+#include "inputManager.h"
 
-HRESULT input::init()
+HRESULT inputManager::init()
 {
 	//키값을 전부 눌려있지 않은 상태로 초기화
 	for (int i = 0; i < KEYMAX; i++)
@@ -16,7 +16,7 @@ HRESULT input::init()
 	return S_OK;
 }
 
-void input::update()
+void inputManager::update()
 {
 	if (_isOnceClicked)
 	{
@@ -35,11 +35,11 @@ void input::update()
 	_prevMouseWheel = _mouseWheel;
 }
 
-void input::release()
+void inputManager::release()
 {
 }
 
-bool input::GetKey(int key)
+bool inputManager::GetKey(int key)
 {
 	if (GetAsyncKeyState(key) & 0x8000)
 	{
@@ -48,7 +48,7 @@ bool input::GetKey(int key)
 	return false;
 }
 
-bool input::GetKeyDown(int key)
+bool inputManager::GetKeyDown(int key)
 {
 	if (GetAsyncKeyState(key) & 0x8000)
 	{
@@ -66,7 +66,7 @@ bool input::GetKeyDown(int key)
 	return false;
 }
 
-bool input::GetKeyUp(int key)
+bool inputManager::GetKeyUp(int key)
 {
 	if (GetAsyncKeyState(key) & 0x8000)
 	{
@@ -84,7 +84,7 @@ bool input::GetKeyUp(int key)
 	return false;
 }
 
-bool input::GetToggleKey(int key)
+bool inputManager::GetToggleKey(int key)
 {
 	if (GetKeyState(key) & 0x0001)
 	{

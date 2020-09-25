@@ -39,14 +39,15 @@ private:
 	int				_currentMonsterIndex;
 
 	// 세이브 로드용 //
-	bool			_isEditorViewing;
+	bool			_isSaveLoaderOn;
 	char			_fileName[128];
 	bool			_isLoad;
 
-	// 클릭 관련 //
+	// 인풋 관련 //
 	bool			_isLeftClicked;
 	bool			_isRightClicked;
 	bool			_isEnterPressed;
+
 	BRUSHTYPE		_brushType;
 	
 	// 커서 관련 //

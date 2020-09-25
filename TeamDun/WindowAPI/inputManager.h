@@ -6,7 +6,7 @@
 
 #define KEYMAX 256
 
-class input : public singletonBase <input>
+class inputManager : public singletonBase <inputManager>
 {
 private:
 	bool _keyUp[KEYMAX];
@@ -36,6 +36,6 @@ public:
 	int GetClickTimer() { return _clickTimer; }
 	void SetIsOnceClicked(bool isOnceClicked) { _isOnceClicked = isOnceClicked; }
 	void SetClickTimer(int clickTimer) { _clickTimer = clickTimer; }
-	input() {}
-	~input() {}
+	inputManager() {}
+	~inputManager() {}
 };
