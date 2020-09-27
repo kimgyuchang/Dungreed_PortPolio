@@ -2,10 +2,6 @@
 #include "gameNode.h"
 #include "progressBar.h"
 
-//=============================================================
-//	## loadItem ## (로드아이템 - 이미지정보, 사운드정보)
-//=============================================================
-
 //로드아이템 종류
 enum LOAD_KIND
 {
@@ -21,32 +17,38 @@ enum LOAD_KIND
 //이미지 리소스 구조체
 struct tagImageResource
 {
-	string keyName;				//이미지 키값
-	const char* fileName;		//이미지 파일이름
-	int x, y;					//위치좌표
-	int width, height;			//가로, 세로길이
-	int frameX, frameY;			//프레임 x, y
-	bool isTrans;				//배경지울거임?
-	COLORREF transColor;		//어떤색으로
-	bool isRotate;				//회전할거임?
+	string		keyName;		// 이미지 키값
+	const char* fileName;		// 이미지 파일이름
+	int			x;				// 위치 좌표 x
+	int			y;				// 위치 좌표 y
+	int			width;			// 가로 길이
+	int			height;			// 세로 길이
+	int			frameX;			// 프레임 x
+	int			frameY;			// 프레임 y
+	bool		isTrans;		// 배경 제거 여부
+	COLORREF	transColor;		// 색
+	bool		isRotate;		// 회전 여부
 };
 
 //사운드 리소스 구조체
 struct tagSoundResource
 {
-	string keyName;
-	string fileName;
-	bool bgm;
-	bool loop;
-	//(키값, 파일이름, BGM ? , 루프시킬거냐)
+	string	keyName;	// 사운드 키값
+	string	fileName;	// 사운드 파일이름
+	bool	isBGM;		// bgm 여부
+	bool	isLoop;		// 루프 여부
 };
 
-class loadItem
+/// <summary>
+/// 로드 아이템은 로드할 대상(사운드 / 이미지)의 정보를 저장하고 있다.
+/// </summary>
+class LoadItem
 {
 private:
-	LOAD_KIND _kind;					//로딩종류
-	tagImageResource _imageResource;	//이미지 정보
-	tagSoundResource _soundResource;    //사운드 정보
+	LOAD_KIND			_kind;				// 로딩종류
+	tagImageResource	_imageResource;		// 이미지 정보
+	tagSoundResource	_soundResource;		// 사운드 정보
+
 public:
 	HRESULT init(string keyName, string soundName, bool bgm, bool loop);
 	HRESULT init(string strKey, int width, int height);
@@ -55,55 +57,41 @@ public:
 	HRESULT init(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor = RGB(255,0,255), bool isRotate = false);
 	HRESULT init(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor = RGB(255,0,255), bool isRotate = false);
 	
-	//로딩아이템 종류 가져오기
-	LOAD_KIND getLoadKind() { return _kind; }
-	//이미지 리소스 가져오기
-	tagImageResource getImageResource() { return _imageResource; }
-	tagSoundResource getSoundResource() { return _soundResource; }
+	// GETSET //
+	LOAD_KIND			getLoadKind()		{ return _kind; }
+	tagImageResource	getImageResource()	{ return _imageResource; }
+	tagSoundResource	getSoundResource()	{ return _soundResource; }
 };
 
-//=============================================================
-//	## loading ## (로딩클래스 - 로딩화면 구현하기, 로딩바, 백그라운드)
-//=============================================================
-class loading : public gameNode
+/// <summary>
+/// 로딩 클래스는 로딩 씬에서 사용될 로딩 프로세스를 포함하고 있다.
+/// </summary>
+class Loading : public gameNode
 {
 private:
-	//로드아이템 클래스를 담을 벡터 및 반복자
 
-	typedef vector<loadItem*> vLoadItem;
-	typedef vector<loadItem*>::iterator viLoadItem;
-
-	int _count;
-	int _index;
-private:
-	vLoadItem _vLoadItem;
-
-	//이부분은 로딩화면에서 사용할 이미지와 로딩바
-	image* _background;
-	progressBar* _loadingBar;
-	int _currentGauge;
-	string text;
+	// 로드 아이템 관련 //
+	typedef vector<LoadItem*>			vLoadItem;			// 로드 아이템 정보를 담음 (이미지 및 사운드)
+	typedef vector<LoadItem*>::iterator viLoadItem;			// 벡터 ITR
+	vLoadItem							_vLoadItem;			// 로드 아이템 벡터
+	string								_curKey;			// 현재 로드 아이템의 키값
 
 public:
 	HRESULT init();
 	void release();
 	void update();
 	void render();
-	void animation();
-	void loadSound(string keyName, string soundName, bool bgm, bool loop);
-	void loadImage(string strKey, int width, int height);
-	void loadImage(string strKey, const char* fileName, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0,0,0));
-	void loadImage(string strKey, const char* fileName, float x, float y, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
-	void loadFrameImage(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool isTrans = true, COLORREF transColor = RGB(255,255,255), bool isRotate = false);
-	void loadFrameImage(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans = true, COLORREF transColor = RGB(255,255,255), bool isRotate = false);
+	
+	void LoadSound(string keyName, string soundName, bool bgm, bool loop);
+	void LoadNormalImage(string strKey, int width, int height);
+	void LoadNormalImage(string strKey, const char* fileName, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0,0,0));
+	void LoadNormalImage(string strKey, const char* fileName, float x, float y, int width, int height, bool isTrans = false, COLORREF transColor = RGB(0, 0, 0));
+	void LoadFrameImage(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool isTrans = true, COLORREF transColor = RGB(255,255,255), bool isRotate = false);
+	void LoadFrameImage(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans = true, COLORREF transColor = RGB(255,255,255), bool isRotate = false);
+	void LoadingDone(LoadItem* item);
 
-	/*중요함*/
-	//로딩완료 됐냐? (로딩완료후 화면전환)
-	bool loadingDone();
-
-	//로드아이템 클래스 담겨있는 벡터 가져오기
-	vLoadItem getLoadItem() { return _vLoadItem; }
-	//현재게이지 가져오기
-	int getCurrentGauge() { return _currentGauge; }
+	// GETSET //
+	string		GetCurKey()		{ return _curKey; }
+	vLoadItem	GetLoadItem()	{ return _vLoadItem; }
 };
 

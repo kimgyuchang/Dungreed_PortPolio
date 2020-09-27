@@ -30,13 +30,14 @@ private:
 
 	mapScene*						_mapScene;		// 맵씬
 
-	// OBJECT 관련 //
-	vector<MapObject*>				_vObjs;			// 오브젝트 목록
-
 	bool							_isLayer;		// 레이어 선택하기위한 불값
+	bool							_useTwoLayer;	// FloodFill에서 두 레이어를 모두 사용한다
 	float							_zoomWidth;
 	float							_zoomHeight;
 	
+	// OBJECT 관련 //
+	vector<MapObject*>				_vObjs;			// 오브젝트 목록
+
 public:
 	HRESULT init();
 	HRESULT init(int width, int height);
@@ -61,14 +62,15 @@ public:
 	void SetMap();
 	
 	// GETSET // 
-	void SetMapScene(mapScene* scene) { _mapScene = scene; }
-	vector<vector<Grid*>>& GetGrid() { return _vMapData; }
-	vector<MapObject *>& GetVObject() { return _vObjs; }
-	bool getIsLayer() { return _isLayer; }
-	void setIsLayer(bool isLayer) { _isLayer = isLayer; }
-
-	float getZoomWidth() { return _zoomWidth;}
-	void setZoomWidth(float width) { _zoomWidth = width; }
-	float getZoomHeight() { return _zoomHeight; }
-	void setZoomHeight(float height) { _zoomHeight = height; }
+	void					SetMapScene(mapScene* scene)		{ _mapScene = scene; }
+	vector<vector<Grid*>>&	GetGrid()							{ return _vMapData; }
+	vector<MapObject *>&	GetVObject()						{ return _vObjs; }
+	bool					getIsLayer()						{ return _isLayer; }
+	void					setIsLayer(bool isLayer)			{ _isLayer = isLayer; }
+	bool					getUseTwoLayer()					{ return _useTwoLayer; }
+	void					setUseTwolayer(bool useTwoLayer)	{ _useTwoLayer = useTwoLayer; }
+	float					getZoomWidth()						{ return _zoomWidth;}
+	void					setZoomWidth(float width)			{ _zoomWidth = width; }
+	float					getZoomHeight()						{ return _zoomHeight; }
+	void					setZoomHeight(float height)			{ _zoomHeight = height; }
 };

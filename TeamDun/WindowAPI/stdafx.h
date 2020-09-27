@@ -31,12 +31,12 @@ using namespace std;
 //	## 내가 만든 헤더파일을 이곳에 추가한다 ##
 //=============================================================
 #include "commonMacroFunction.h"
-#include "input.h"
 #include "random.h"
-#include "imageManager.h"
 #include "util.h"
-#include "sceneManager.h"
 #include "iniData.h"
+#include "inputManager.h"
+#include "imageManager.h"
+#include "sceneManager.h"
 #include "soundManager.h"
 #include "CSVManager.h"
 #include "UIManager.h"
@@ -48,16 +48,16 @@ using namespace MY_UTIL;
 //=============================================================
 //	## 싱글톤을 추가한다 ##
 //=============================================================
-#define INPUT input::getSingleton() //세미콜론 찍으면 작동안함
-#define RANDOM random::getSingleton()
+#define INPUT inputManager::getSingleton() //세미콜론 찍으면 작동안함
 #define IMAGEMANAGER imageManager::getSingleton()
 #define SCENEMANAGER sceneManager::getSingleton()
-#define INIDATA iniData::getSingleton()
 #define SOUNDMANAGER soundManager::getSingleton()
 #define CSVMANAGER CSVManager::getSingleton()
 #define UIMANAGER UIManager::getSingleton()
 #define CAMERAMANAGER CameraManager::getSingleton()
 #define DATAMANAGER DataManager::getSingleton()
+#define RANDOM random::getSingleton()
+#define INIDATA iniData::getSingleton()
 
 //=============================================================
 //	## 디파인문 ## (윈도우창 초기화)

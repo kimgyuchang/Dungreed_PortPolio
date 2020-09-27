@@ -22,9 +22,6 @@
     <Filter Include="GameFramework\체력바">
       <UniqueIdentifier>{bc1fad6b-64c5-4477-8b5e-8fc16bc693dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainGame\Map">
-      <UniqueIdentifier>{517ef4a1-afcf-4118-9ef3-a1da4ce29493}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MainGame\Scene">
       <UniqueIdentifier>{c085af44-2c6f-4769-8527-9f6c78d87154}</UniqueIdentifier>
     </Filter>
@@ -40,6 +37,12 @@
     <Filter Include="GameFramework\매니져">
       <UniqueIdentifier>{db6058e2-83f6-4c0d-a233-34e042a4969a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Scene\Scenes">
+      <UniqueIdentifier>{dd560185-2cfa-4d79-a5e8-d17b3340d2c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\MapTool">
+      <UniqueIdentifier>{517ef4a1-afcf-4118-9ef3-a1da4ce29493}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -53,9 +56,6 @@
     </ClCompile>
     <ClCompile Include="mainGame.cpp">
       <Filter>MainGame</Filter>
-    </ClCompile>
-    <ClCompile Include="input.cpp">
-      <Filter>GameFramework\매니져</Filter>
     </ClCompile>
     <ClCompile Include="random.cpp">
       <Filter>GameFramework\유틸</Filter>
@@ -75,29 +75,17 @@
     <ClCompile Include="gameScene.cpp">
       <Filter>MainGame\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="startScene.cpp">
-      <Filter>MainGame\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="iniData.cpp">
-      <Filter>GameFramework\매니져</Filter>
-    </ClCompile>
     <ClCompile Include="soundManager.cpp">
       <Filter>GameFramework\매니져</Filter>
     </ClCompile>
-    <ClCompile Include="mapScene.cpp">
-      <Filter>MainGame\Map</Filter>
-    </ClCompile>
     <ClCompile Include="uibrushTool.cpp">
-      <Filter>MainGame\Map</Filter>
+      <Filter>MainGame\MapTool</Filter>
     </ClCompile>
     <ClCompile Include="CSVManager.cpp">
       <Filter>GameFramework\매니져</Filter>
     </ClCompile>
     <ClCompile Include="MapTool.cpp">
-      <Filter>MainGame\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="loadingScene.cpp">
-      <Filter>MainGame\Scene</Filter>
+      <Filter>MainGame\MapTool</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>MainGame\Object</Filter>
@@ -144,6 +132,21 @@
     <ClCompile Include="loading.cpp">
       <Filter>GameFramework\유틸</Filter>
     </ClCompile>
+    <ClCompile Include="loadingScene.cpp">
+      <Filter>MainGame\Scene\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="startScene.cpp">
+      <Filter>MainGame\Scene\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="mapScene.cpp">
+      <Filter>MainGame\Scene\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="inputManager.cpp">
+      <Filter>GameFramework\매니져</Filter>
+    </ClCompile>
+    <ClCompile Include="iniData.cpp">
+      <Filter>GameFramework\유틸</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -157,12 +160,6 @@
     </ClInclude>
     <ClInclude Include="commonMacroFunction.h">
       <Filter>GameFramework\유틸</Filter>
-    </ClInclude>
-    <ClInclude Include="singletonBase.h">
-      <Filter>GameFramework\매니져</Filter>
-    </ClInclude>
-    <ClInclude Include="input.h">
-      <Filter>GameFramework\매니져</Filter>
     </ClInclude>
     <ClInclude Include="random.h">
       <Filter>GameFramework\유틸</Filter>
@@ -182,29 +179,17 @@
     <ClInclude Include="gameScene.h">
       <Filter>MainGame\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="startScene.h">
-      <Filter>MainGame\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="iniData.h">
-      <Filter>GameFramework\매니져</Filter>
-    </ClInclude>
     <ClInclude Include="soundManager.h">
       <Filter>GameFramework\매니져</Filter>
     </ClInclude>
-    <ClInclude Include="mapScene.h">
-      <Filter>MainGame\Map</Filter>
-    </ClInclude>
     <ClInclude Include="uibrushTool.h">
-      <Filter>MainGame\Map</Filter>
+      <Filter>MainGame\MapTool</Filter>
     </ClInclude>
     <ClInclude Include="CSVManager.h">
       <Filter>GameFramework\매니져</Filter>
     </ClInclude>
     <ClInclude Include="MapTool.h">
-      <Filter>MainGame\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="loadingScene.h">
-      <Filter>MainGame\Scene</Filter>
+      <Filter>MainGame\MapTool</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>MainGame\Object</Filter>
@@ -249,6 +234,24 @@
       <Filter>GameFramework\매니져</Filter>
     </ClInclude>
     <ClInclude Include="loading.h">
+      <Filter>GameFramework\유틸</Filter>
+    </ClInclude>
+    <ClInclude Include="loadingScene.h">
+      <Filter>MainGame\Scene\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="startScene.h">
+      <Filter>MainGame\Scene\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="mapScene.h">
+      <Filter>MainGame\Scene\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="inputManager.h">
+      <Filter>GameFramework\매니져</Filter>
+    </ClInclude>
+    <ClInclude Include="iniData.h">
+      <Filter>GameFramework\유틸</Filter>
+    </ClInclude>
+    <ClInclude Include="singletonBase.h">
       <Filter>GameFramework\유틸</Filter>
     </ClInclude>
   </ItemGroup>

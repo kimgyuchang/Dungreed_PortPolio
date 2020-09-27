@@ -3,7 +3,7 @@
 #include "MapTool.h"
 enum BRUSHTYPE
 {
-	BT_NOFUNC, BT_PAINT, BT_ERASE, BT_FILLRECT, BT_FLOODFILL
+	BT_NOFUNC, BT_PAINT, BT_ERASE, BT_FILLRECT, BT_FLOODFILL, BT_PIPETTE
 };
 
 class mapScene : public gameNode
@@ -39,14 +39,15 @@ private:
 	int				_currentMonsterIndex;
 
 	// 세이브 로드용 //
-	bool			_isEditorViewing;
+	bool			_isSaveLoaderOn;
 	char			_fileName[128];
 	bool			_isLoad;
 
-	// 클릭 관련 //
+	// 인풋 관련 //
 	bool			_isLeftClicked;
 	bool			_isRightClicked;
 	bool			_isEnterPressed;
+
 	BRUSHTYPE		_brushType;
 	
 	// 커서 관련 //
@@ -88,6 +89,12 @@ public :
 	void SaveLoadMap();
 	void ShortcutKey();
 	void SwitchSizeFrame();
+
+	void Pipette();
+
+	void RemoveCurrentTile();
+
+	void ShowUseTwoLayer();
 	
 	// GETSET //
 	image* GetTargetImage() { return _targetImage; }
