@@ -4,7 +4,7 @@
 
 HRESULT MapTool::init()
 {
-	
+
 	return S_OK;
 }
 
@@ -17,7 +17,9 @@ HRESULT MapTool::init(int width, int height)
 	_zoomHeight = 48;
 	_zoomWidth = 48;
 
+	_useTwoLayer;	// FloodFill에서 두 레이어를 모두 사용한다
 	_isLayer = true;
+
 	for (int i = 0; i < width; i++)
 	{
 		vector<Grid*> gridLine;
@@ -30,8 +32,8 @@ HRESULT MapTool::init(int width, int height)
 			grid->_height = _zoomHeight;
 			grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
 			grid->_alpha = 70;
-			grid->_x = j * (_zoomWidth+2) + 0;
-			grid->_y = i * (_zoomHeight+2)+ 0;
+			grid->_x = j * (_zoomWidth + 2) + 0;
+			grid->_y = i * (_zoomHeight + 2) + 0;
 			grid->_xIndex = j;
 			grid->_yIndex = i;
 			grid->_rc = RectMake(grid->_x, grid->_y, _zoomWidth, _zoomHeight);
@@ -62,7 +64,7 @@ Grid* MapTool::mouseCollisionCheck()
 {
 	int xIndex = CAMERAMANAGER->GetAbsoluteX(_ptMouse.x) / _zoomWidth;
 	int yIndex = CAMERAMANAGER->GetAbsoluteY(_ptMouse.y) / _zoomHeight;
-		
+
 	for (int i = yIndex - 3; i < yIndex + 3; i++)
 	{
 		if (i < 0 || i >= _vMapData.size()) continue;
@@ -70,7 +72,7 @@ Grid* MapTool::mouseCollisionCheck()
 		{
 			if (j < 0 || j >= _vMapData[i].size()) continue;
 
-			if (PtInRect(&_vMapData[i][j]->_rc, CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y)) 
+			if (PtInRect(&_vMapData[i][j]->_rc, CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y))
 				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame")->GetRect(), _ptMouse)
 				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetRect(), _ptMouse)
 				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetRect(), _ptMouse)
@@ -140,8 +142,8 @@ void MapTool::SaveData(string name)
 	{
 		stringData3.push_back(vector<string>());
 		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_id));
-		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_x/_zoomWidth*48));
-		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_y/_zoomHeight*48));
+		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_x / _zoomWidth * 48));
+		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_y / _zoomHeight * 48));
 		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_spawnTime));
 	}
 
@@ -171,7 +173,7 @@ void MapTool::LoadData(string name)
 {
 	vector<vector<string>> stringData = CSVMANAGER->csvLoad("Data/MapData/" + name + ".mapData");
 	vector<vector<string>> stringData2 = CSVMANAGER->csvLoad("Data/MapData/" + name + "2.mapData");
-	if (stringData.size() == 0&& stringData2.size() == 0) return;
+	if (stringData.size() == 0 && stringData2.size() == 0) return;
 	_vMapData.clear();
 
 	for (int i = 0; i < stringData.size(); i++)
@@ -183,7 +185,7 @@ void MapTool::LoadData(string name)
 			if (stringData[i][j] == "-1") grid->_img = nullptr;
 			else grid->_img = IMAGEMANAGER->findImage(stringData[i][j]);
 
-			if (stringData2[i][j] == "-1") grid->_img2= nullptr;
+			if (stringData2[i][j] == "-1") grid->_img2 = nullptr;
 			else grid->_img2 = IMAGEMANAGER->findImage(stringData2[i][j]);
 			grid->_x = j * _zoomWidth + 0;
 			grid->_y = i * _zoomHeight + 0;
@@ -192,13 +194,13 @@ void MapTool::LoadData(string name)
 			grid->_yIndex = i;
 			grid->_alpha = 70;
 			grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
-			grid->_rc = RectMake(grid->_x, grid->_y,_zoomWidth,_zoomHeight);
+			grid->_rc = RectMake(grid->_x, grid->_y, _zoomWidth, _zoomHeight);
 			gridLine.push_back(grid);
-			
+
 		}
 		_vMapData.push_back(gridLine);
 	}
-	
+
 	_vObjs.clear();
 	vector<vector<string>> objData = CSVMANAGER->csvLoad("Data/MapData/" + name + "_Objs.mapData");
 	for (int i = 0; i < objData.size(); i++)
@@ -248,7 +250,7 @@ void MapTool::MapLineAddRow()
 		Grid* grid = new Grid();
 		grid->_img = nullptr;
 		grid->_x = j * (_zoomWidth + (2 * _zoomWidth / 48));
-		grid->_y = _vMapData.size() * (_zoomHeight + ( 2 * _zoomHeight / 48));
+		grid->_y = _vMapData.size() * (_zoomHeight + (2 * _zoomHeight / 48));
 		grid->_xIndex = j;
 		grid->_yIndex = _vMapData.size();
 		grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
@@ -351,32 +353,34 @@ void MapTool::FloodFill(image* targetImage, int indexX, int indexY)
 		FloodFilllist.push_back(pt);
 		if (_vMapData[indexY][indexX]->_img != _mapScene->GetTargetImage())
 		{
-
 			_vMapData[indexY][indexX]->_img = _mapScene->GetTargetImage();
-	
+
 			while (FloodFilllist.size() > 0)
 			{
 				int indexX = FloodFilllist[0].x;
 				int indexY = FloodFilllist[0].y;
 
-				if (indexX + 1 < _vMapData[0].size() && targetImage == _vMapData[indexY][indexX + 1]->_img)
+				if (indexX + 1 < _vMapData[0].size() && targetImage == _vMapData[indexY][indexX + 1]->_img
+					&& (_useTwoLayer ? (targetImage == _vMapData[indexY][indexX + 1]->_img2 || nullptr == _vMapData[indexY][indexX + 1]->_img2) : true))
 				{
 					FloodFilllist.push_back(POINT{ indexX + 1,indexY });
 					_vMapData[indexY][indexX + 1]->_img = _mapScene->GetTargetImage();
 
 				}
-				if (indexX - 1 >= 0 && targetImage == _vMapData[indexY][indexX - 1]->_img)
+				if (indexX - 1 >= 0 && targetImage == _vMapData[indexY][indexX - 1]->_img
+					&& (_useTwoLayer ? (targetImage == _vMapData[indexY][indexX - 1]->_img2 || nullptr == _vMapData[indexY][indexX - 1]->_img2) : true))
 				{
 					FloodFilllist.push_back(POINT{ indexX - 1,indexY });
 					_vMapData[indexY][indexX - 1]->_img = _mapScene->GetTargetImage();
-
 				}
-				if (indexY + 1 < _vMapData.size() && targetImage == _vMapData[indexY + 1][indexX]->_img)
+				if (indexY + 1 < _vMapData.size() && targetImage == _vMapData[indexY + 1][indexX]->_img
+					&& (_useTwoLayer ? (targetImage == _vMapData[indexY + 1][indexX]->_img2 || nullptr == _vMapData[indexY + 1][indexX]->_img2) : true))
 				{
 					FloodFilllist.push_back(POINT{ indexX,indexY + 1 });
 					_vMapData[indexY + 1][indexX]->_img = _mapScene->GetTargetImage();
 				}
-				if (indexY - 1 >= 0 && targetImage == _vMapData[indexY - 1][indexX]->_img)
+				if (indexY - 1 >= 0 && targetImage == _vMapData[indexY - 1][indexX]->_img
+					&& (_useTwoLayer ? (targetImage == _vMapData[indexY - 1][indexX]->_img2 || nullptr == _vMapData[indexY - 1][indexX]->_img2) : true))
 				{
 					FloodFilllist.push_back(POINT{ indexX,indexY - 1 });
 					_vMapData[indexY - 1][indexX]->_img = _mapScene->GetTargetImage();
@@ -400,24 +404,28 @@ void MapTool::FloodFill(image* targetImage, int indexX, int indexY)
 				int indexX = FloodFilllist[0].x;
 				int indexY = FloodFilllist[0].y;
 
-				if (indexX + 1 < _vMapData[0].size() && targetImage == _vMapData[indexY][indexX + 1]->_img2)
+				if (indexX + 1 < _vMapData[0].size() && targetImage == _vMapData[indexY][indexX + 1]->_img2
+					&& (_useTwoLayer ? (targetImage == _vMapData[indexY][indexX + 1]->_img || nullptr == _vMapData[indexY][indexX + 1]->_img) : true))
 				{
 					FloodFilllist.push_back(POINT{ indexX + 1,indexY });
 					_vMapData[indexY][indexX + 1]->_img2 = _mapScene->GetTargetImage();
 
 				}
-				if (indexX - 1 >= 0 && targetImage == _vMapData[indexY][indexX - 1]->_img2)
+				if (indexX - 1 >= 0 && targetImage == _vMapData[indexY][indexX - 1]->_img2
+					&& (_useTwoLayer ? (targetImage == _vMapData[indexY][indexX - 1]->_img || nullptr == _vMapData[indexY][indexX - 1]->_img) : true))
 				{
 					FloodFilllist.push_back(POINT{ indexX - 1,indexY });
 					_vMapData[indexY][indexX - 1]->_img2 = _mapScene->GetTargetImage();
 
 				}
-				if (indexY + 1 < _vMapData.size() && targetImage == _vMapData[indexY + 1][indexX]->_img2)
+				if (indexY + 1 < _vMapData.size() && targetImage == _vMapData[indexY + 1][indexX]->_img2
+					&& (_useTwoLayer ? (targetImage == _vMapData[indexY + 1][indexX]->_img || nullptr == _vMapData[indexY + 1][indexX]->_img) : true))
 				{
 					FloodFilllist.push_back(POINT{ indexX,indexY + 1 });
 					_vMapData[indexY + 1][indexX]->_img2 = _mapScene->GetTargetImage();
 				}
-				if (indexY - 1 >= 0 && targetImage == _vMapData[indexY - 1][indexX]->_img2)
+				if (indexY - 1 >= 0 && targetImage == _vMapData[indexY - 1][indexX]->_img2
+					&& (_useTwoLayer ? (targetImage == _vMapData[indexY - 1][indexX]->_img || nullptr == _vMapData[indexY - 1][indexX]->_img) : true))
 				{
 					FloodFilllist.push_back(POINT{ indexX,indexY - 1 });
 					_vMapData[indexY - 1][indexX]->_img2 = _mapScene->GetTargetImage();
@@ -505,17 +513,15 @@ void MapTool::GridRange(float x, float y, float x1, float y1)
 
 void MapTool::SetMap()
 {
-
 	for (int i = 0; i < _vMapData.size(); i++)
 	{
 		for (int j = 0; j < _vMapData[i].size(); j++)
 		{
-			_vMapData[i][j]->_x = j * (_zoomWidth+(2*_zoomWidth/48)) + 0;
-			_vMapData[i][j]->_y = i * (_zoomHeight+(2*_zoomHeight/48)) + 0;
+			_vMapData[i][j]->_x = j * (_zoomWidth + (2 * _zoomWidth / 48)) + 0;
+			_vMapData[i][j]->_y = i * (_zoomHeight + (2 * _zoomHeight / 48)) + 0;
 			_vMapData[i][j]->_rc = RectMake(_vMapData[i][j]->_x, _vMapData[i][j]->_y, _zoomWidth, _zoomHeight);
 		}
 	}
-
 
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
@@ -527,17 +533,16 @@ void MapTool::render()
 {
 	for (int i = ((CAMERAMANAGER->GetPivotY() - (WINSIZEY / 2)) / (_zoomHeight == 0 ? 48 : _zoomHeight)); i < ((CAMERAMANAGER->GetPivotY() + (WINSIZEY / 2)) / (_zoomHeight == 0 ? 48 : _zoomHeight)); i++)
 	{
-		if (i < 0 || i >=_vMapData.size()) continue;
+		if (i < 0 || i >= _vMapData.size()) continue;
 		for (int j = ((CAMERAMANAGER->GetPivotX() - (WINSIZEX / 2)) / (_zoomWidth == 0 ? 48 : _zoomWidth)); j < ((CAMERAMANAGER->GetPivotX() + (WINSIZEX / 2)) / (_zoomWidth == 0 ? 48 : _zoomWidth)); j++)
 		{
 			if (j < 0 || j >= _vMapData[i].size()) continue;
-			if (_vMapData[i][j]->_img2) CAMERAMANAGER->StretchRender(getMemDC(), _vMapData[i][j]->_img2, _vMapData[i][j]->_x, _vMapData[i][j]->_y, (_zoomWidth == 0 ? 48 : _zoomWidth) /48, (_zoomHeight == 0 ? 48 : _zoomHeight) /48);
-			if (_vMapData[i][j]->_img) CAMERAMANAGER->StretchRender(getMemDC(), _vMapData[i][j]->_img, _vMapData[i][j]->_x, _vMapData[i][j]->_y, (_zoomWidth == 0 ? 48 : _zoomWidth) / 48 , (_zoomHeight == 0 ? 48 : _zoomHeight) / 48);
+			if (_vMapData[i][j]->_img2) CAMERAMANAGER->StretchAlphaRender(getMemDC(), _vMapData[i][j]->_img2, _vMapData[i][j]->_x, _vMapData[i][j]->_y, (_zoomWidth == 0 ? 48 : _zoomWidth) / 48, (_zoomHeight == 0 ? 48 : _zoomHeight) / 48, _isLayer ? 100 : 255);
+			if (_vMapData[i][j]->_img) CAMERAMANAGER->StretchAlphaRender(getMemDC(), _vMapData[i][j]->_img, _vMapData[i][j]->_x, _vMapData[i][j]->_y, (_zoomWidth == 0 ? 48 : _zoomWidth) / 48, (_zoomHeight == 0 ? 48 : _zoomHeight) / 48, _isLayer ? 255 : 100);
 			string str = to_string(i) + " " + to_string(j);
-			CAMERAMANAGER->StretchAlphaRender(getMemDC(), _vMapData[i][j]->_checkImg, _vMapData[i][j]->_x, _vMapData[i][j]->_y, (_zoomWidth == 0 ? 48 : _zoomWidth) /48 , (_zoomHeight == 0 ? 48 : _zoomHeight) /48 , _vMapData[i][j]->_alpha);
+			CAMERAMANAGER->StretchAlphaRender(getMemDC(), _vMapData[i][j]->_checkImg, _vMapData[i][j]->_x, _vMapData[i][j]->_y, (_zoomWidth == 0 ? 48 : _zoomWidth) / 48, (_zoomHeight == 0 ? 48 : _zoomHeight) / 48, _vMapData[i][j]->_alpha);
 		}
 	}
-	
 
 	for (int i = 0; i < _vObjs.size(); i++)
 	{

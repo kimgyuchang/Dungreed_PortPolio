@@ -3,7 +3,7 @@
 #include "MapTool.h"
 enum BRUSHTYPE
 {
-	BT_NOFUNC, BT_PAINT, BT_ERASE, BT_FILLRECT, BT_FLOODFILL
+	BT_NOFUNC, BT_PAINT, BT_ERASE, BT_FILLRECT, BT_FLOODFILL, BT_PIPETTE
 };
 
 class mapScene : public gameNode
@@ -89,6 +89,12 @@ public :
 	void SaveLoadMap();
 	void ShortcutKey();
 	void SwitchSizeFrame();
+
+	void Pipette();
+
+	void RemoveCurrentTile();
+
+	void ShowUseTwoLayer();
 	
 	// GETSET //
 	image* GetTargetImage() { return _targetImage; }

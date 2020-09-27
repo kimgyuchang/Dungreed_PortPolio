@@ -10,8 +10,8 @@ HRESULT mapScene::init()
 	_pivot = POINT{ _widthNum / 2 * 48, _heightNum / 2 * 48 };
 	CAMERAMANAGER->init(_pivot.x, _pivot.y, 50000, 50000, -50000, -50000, WINSIZEX / 2, WINSIZEY / 2);
 	// 시작 시 크기 설정 //
-	_heightNum = 10;
-	_widthNum = 10;
+	_heightNum = 50;
+	_widthNum = 50;
 	_isSettingPage = true;
 
 	// 회전 TESTER // 
@@ -28,7 +28,6 @@ HRESULT mapScene::init()
 
 	// FILL (두번으로 채우기) //
 	_isFillClicked = false;
-
 
 	// SUB WINDOW //
 	_hEdit = CreateWindow("edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER |
@@ -245,6 +244,11 @@ void mapScene::UIInit()
 	UIMANAGER->GetGameFrame()->AddFrame(layerText);
 	layerText->SetIsViewing(false);
 	
+	UIText* floodFillText = new UIText();
+	floodFillText->init("useTwoLayer", 10, WINSIZEY - 50, 300, 50, "Use Two Layer", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
+	UIMANAGER->GetGameFrame()->AddFrame(floodFillText);
+	floodFillText->SetIsViewing(false);
+
 	UIFrame* setSpawnTimeFrame = new UIFrame();
 	setSpawnTimeFrame->init("spawnFrame", WINSIZEX / 2 - 250, WINSIZEY / 2 - 150, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig", 0.4, 0.3);
 	UIMANAGER->GetGameFrame()->AddFrame(setSpawnTimeFrame);
@@ -279,6 +283,7 @@ void mapScene::update()
 			CheckShortCutBtnCollision();
 			DoClickByType();
 			GetUiBrush();
+			RemoveCurrentTile();
 			ToolMovePage();
 			UpdateFillSquareRange();
 			SaveLoadMap();
@@ -287,6 +292,7 @@ void mapScene::update()
 			LoadShortcutKey();
 			ShortcutKey();
 			SetLayer();
+			ShowUseTwoLayer();
 			PlaceObject();
 			EraseObject();
 			SetMonsterPage();
@@ -506,6 +512,9 @@ void mapScene::DoClickByType()
 			break;
 		case BT_ERASE:
 			EraseSaver();
+			break;
+		case BT_PIPETTE:
+			Pipette();
 			break;
 		}
 	}
@@ -876,6 +885,61 @@ void mapScene::SwitchSizeFrame()
 }
 
 /// <summary>
+/// 해당 마우스 포인터가 위치한 곳의 타일을 가져옴.
+/// </summary>
+void mapScene::Pipette()
+{
+	Grid* grid = _mapTool->mouseCollisionCheck();
+	if (grid)
+	{
+		if (_mapTool->getIsLayer() == true)
+			_targetImage = grid->_img;
+		else
+			_targetImage = grid->_img2;
+	}
+}
+
+/// <summary>
+/// 단축키로 현재 선택한 타일을 지운다.
+/// </summary>
+void mapScene::RemoveCurrentTile()
+{
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown(VK_F3))
+	{
+		_targetImage = nullptr;
+		_targetObject = nullptr;
+		_cursorImage = IMAGEMANAGER->findImage(_cursorImageStrings[0]);
+	}
+}
+
+/// <summary>
+/// 두개의 레이어를 사용하는지 보여준다.
+/// </summary>
+void mapScene::ShowUseTwoLayer()
+{
+	if (_brushType == BRUSHTYPE::BT_FLOODFILL)
+	{
+		UIText* text = dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("useTwoLayer"));
+		text->SetIsViewing(true);
+		if (_mapTool->getUseTwoLayer())
+		{
+			text->SetText("useTwoLayer");
+		}
+
+		else
+		{
+			text->SetText("useOneLayer");
+		}
+	}
+
+	else
+	{
+		UIText* text = dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("useTwoLayer"));
+		text->SetIsViewing(false);
+	}
+}
+
+/// <summary>
 /// 단축키로 기능을 실행한다.
 /// </summary>
 void mapScene::ShortcutKey()
@@ -887,6 +951,10 @@ void mapScene::ShortcutKey()
 	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown(VK_F2))
 	{
 		CallLoadEditor();
+	}
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown(VK_F4)) // FloodFill에 두 레이어를 모두 사용할것인지 여부
+	{
+		_mapTool->setUseTwolayer(!_mapTool->getUseTwoLayer());
 	}
 	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('G'))
 	{
@@ -904,7 +972,7 @@ void mapScene::ShortcutKey()
 	{
 		AddMapLine(3);
 	}
-	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('I'))
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('U'))
 	{
 		FillAll();
 	}
@@ -912,6 +980,7 @@ void mapScene::ShortcutKey()
 	{
 		Undo();
 	}
+
 	if (INPUT->GetKeyDown(VK_RETURN))
 	{
 		SaveLoadMap();
@@ -935,6 +1004,12 @@ void mapScene::ShortcutKey()
 	{
 		_brushType = BRUSHTYPE::BT_FLOODFILL;
 		_cursorImage = IMAGEMANAGER->findImage(_cursorImageStrings[2]);
+	}
+
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('I'))
+	{
+		_brushType = BRUSHTYPE::BT_PIPETTE;
+		_cursorImage = IMAGEMANAGER->findImage(_cursorImageStrings[0]);
 	}
 }
 
