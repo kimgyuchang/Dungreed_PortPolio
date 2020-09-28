@@ -168,7 +168,7 @@ void mapScene::UIInit()
 			loadIcon->init("loadIcon", 5, 4, IMAGEMANAGER->findImage("loadIcon")->getWidth(), IMAGEMANAGER->findImage("loadIcon")->getHeight(), "loadIcon", 0.8f, 0.8f);
 			setShortcutKeyIg->AddFrame(loadIcon);
 			break;
-		case 2:	
+		case 2:
 			PaintIcon->init("paintIcon", 3, 2, IMAGEMANAGER->findImage("paintIcon")->getWidth(), IMAGEMANAGER->findImage("paintIcon")->getHeight(), "paintIcon");
 			setShortcutKeyIg->AddFrame(PaintIcon);
 			break;
@@ -243,7 +243,7 @@ void mapScene::UIInit()
 	layerText->init("LayerChecker", WINSIZEX - 360, WINSIZEY - 50, 300, 50, "Layer Main", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_RIGHT, RGB(255, 255, 255));
 	UIMANAGER->GetGameFrame()->AddFrame(layerText);
 	layerText->SetIsViewing(false);
-	
+
 	UIText* floodFillText = new UIText();
 	floodFillText->init("useTwoLayer", 10, WINSIZEY - 50, 300, 50, "Use Two Layer", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
 	UIMANAGER->GetGameFrame()->AddFrame(floodFillText);
@@ -314,12 +314,12 @@ void mapScene::update()
 			ZoomInOut();
 		}
 
-		if(_isMonsterSettingOn) // 몬스터 세팅 페이지가 열어져있음
+		if (_isMonsterSettingOn) // 몬스터 세팅 페이지가 열어져있음
 		{
 			InMonsterSetPage();
 		}
 
-		if(_isSaveLoaderOn) // 세이브 로드 페이지가 열어져있음
+		if (_isSaveLoaderOn) // 세이브 로드 페이지가 열어져있음
 		{
 			SaveLoadMap();
 		}
@@ -371,7 +371,7 @@ void mapScene::SetMonsterPage()
 					SetWindowText(_hMonsterSpawnTime, to_string(_mapTool->GetVObject()[i]->_spawnTime).c_str());
 					UIMANAGER->GetGameFrame()->GetChild("spawnFrame")->SetIsViewing(true);
 					UIMANAGER->GetGameFrame()->GetChild("spawnFrame")->MoveFrameToXY(_ptMouse.x, _ptMouse.y);
-					SetWindowPos(_hMonsterSpawnTime, _hMonsterSpawnTime, _ptMouse.x + 60, _ptMouse.y + 50, 80, 25 , SWP_NOZORDER);
+					SetWindowPos(_hMonsterSpawnTime, _hMonsterSpawnTime, _ptMouse.x + 60, _ptMouse.y + 50, 80, 25, SWP_NOZORDER);
 					return;
 				}
 			}
@@ -477,17 +477,17 @@ void mapScene::CheckShortCutBtnCollision()
 				case 1:
 					CallLoadEditor(); break;
 				case 2:
-					_brushType = BRUSHTYPE::BT_PAINT; 
+					_brushType = BRUSHTYPE::BT_PAINT;
 					_cursorImage = IMAGEMANAGER->findImage(_cursorImageStrings[1]);
 					break;
 				case 3:
-					_brushType = BRUSHTYPE::BT_ERASE; 
+					_brushType = BRUSHTYPE::BT_ERASE;
 					_cursorImage = IMAGEMANAGER->findImage(_cursorImageStrings[3]);
 					break;
 				case 4:
 					FillAll(); break;
 				case 5:
-					_brushType = BRUSHTYPE::BT_FILLRECT; 
+					_brushType = BRUSHTYPE::BT_FILLRECT;
 					_cursorImage = IMAGEMANAGER->findImage(_cursorImageStrings[2]);
 					break;
 				case 6:
@@ -594,7 +594,8 @@ void mapScene::EraseSaver()
 /// </summary>
 void mapScene::Paint()
 {
-	Grid* grid = _mapTool->mouseCollisionCheck();
+	Grid* grid = _mapTool->mouseCollisionCheck(1);
+
 	if (grid)
 	{
 		if (_targetImage != nullptr)
@@ -616,7 +617,7 @@ void mapScene::RemovePaint()
 	if (grid)
 	{
 		if (_mapTool->getIsLayer() == true) // 현재 레이어 1을 선택했다면
-			grid->_img = nullptr; 
+			grid->_img = nullptr;
 		else // 레이어 2를 선택했다면
 			grid->_img2 = nullptr;
 	}
@@ -847,7 +848,7 @@ void mapScene::CameraMove()
 {
 	if (INPUT->GetKey(VK_LEFT))
 	{
-		_pivot.x -= 30*(_mapTool->getZoomWidth()/48);
+		_pivot.x -= 30 * (_mapTool->getZoomWidth() / 48);
 	}
 	if (INPUT->GetKey(VK_RIGHT))
 	{
