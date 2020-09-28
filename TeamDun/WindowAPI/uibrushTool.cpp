@@ -131,6 +131,23 @@ void uibrushTool::PageViewChange()
 
 void uibrushTool::release()
 {
+	for (int i = 0; i < _vUiBrushGrid.size(); i++)
+	{
+		for (int j = 0; j < _vUiBrushGrid[i].size(); j++)
+		{
+			SAFE_DELETE(_vUiBrushGrid[i][j]);
+		}
+	}
+
+	for (int i = 0; i < _vUiBrushObject.size(); i++) 
+	{
+		for (int j = 0; j < _vUiBrushObject[i].size(); j++)
+		{
+			SAFE_DELETE(_vUiBrushObject[i][j]);
+		}
+	}
+
+	SAFE_DELETE(_mapScene);
 }
 
 void uibrushTool::update() 

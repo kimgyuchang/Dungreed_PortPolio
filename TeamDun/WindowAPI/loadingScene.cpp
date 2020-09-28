@@ -39,7 +39,7 @@ void loadingScene::update()
 	// 이미지 로드가 완료되면 이동
 	if (_currentGauge >= _loading->GetLoadItem().size())
 	{
-		SCENEMANAGER->loadScene("맵씬");
+		SCENEMANAGER->loadScene("시작화면");
 	}
 	
 	// 아니라면 계속해서 불러오기
@@ -366,7 +366,8 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("rowPlusIcon", "Images/UI/ICON/RowPlus.bmp", 50, 50, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("paintIcon", "Images/UI/ICON/paint.bmp", 45, 46, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("eraseIcon", "Images/UI/ICON/eraseIcon.bmp", 40, 40, true, RGB(255, 0, 255));
-	
+	_loading->LoadNormalImage("Exit", "Images/UI/ICON/Exit.bmp", 48, 48, true, RGB(255, 0, 255));
+
 	// TOWN //
 	_loading->LoadNormalImage("bridgeTileLeft1", "Images/villageFloor/townBridge/1.bmp", 48, 48, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("bridgeTileLeft2", "Images/villageFloor/townBridge/2.bmp", 48, 48, true, RGB(255, 0, 255));

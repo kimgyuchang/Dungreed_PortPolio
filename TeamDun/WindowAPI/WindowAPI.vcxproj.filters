@@ -75,9 +75,6 @@
     <ClCompile Include="sceneManager.cpp">
       <Filter>GameFramework\매니져</Filter>
     </ClCompile>
-    <ClCompile Include="gameScene.cpp">
-      <Filter>MainGame\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="soundManager.cpp">
       <Filter>GameFramework\매니져</Filter>
     </ClCompile>
@@ -159,6 +156,9 @@
     <ClCompile Include="RedBat.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="gameScene.cpp">
+      <Filter>MainGame\Scene\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -187,9 +187,6 @@
     </ClInclude>
     <ClInclude Include="sceneManager.h">
       <Filter>GameFramework\매니져</Filter>
-    </ClInclude>
-    <ClInclude Include="gameScene.h">
-      <Filter>MainGame\Scene</Filter>
     </ClInclude>
     <ClInclude Include="soundManager.h">
       <Filter>GameFramework\매니져</Filter>
@@ -274,6 +271,9 @@
     </ClInclude>
     <ClInclude Include="RedBat.h">
       <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="gameScene.h">
+      <Filter>MainGame\Scene\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
