@@ -10,7 +10,7 @@ HRESULT gameScene::init()
 	_pivX = WINSIZEX / 2;
 	_pivY = WINSIZEY / 2;
 
-	LoadMap("Stage1_FieldLargeMap");
+	LoadMap("Stage1_BossStart");
 	return S_OK;
 }
 
@@ -45,8 +45,8 @@ void gameScene::LoadMap(string fileName)
 	{
 		Object* obj = new Object();
 		obj = new Object(*DATAMANAGER->GetObjectById(stoi(objData[i][0])));
-		obj->SetX(stoi(objData[i][1]));
-		obj->SetY(stoi(objData[i][2]));
+		obj->SetX(stof(objData[i][1])*48);
+		obj->SetY(stof(objData[i][2])*48);
 		obj->SetSpawnTime(stoi(objData[i][3]));
 		ENTITYMANAGER->getVObjs().push_back(obj);
 	}

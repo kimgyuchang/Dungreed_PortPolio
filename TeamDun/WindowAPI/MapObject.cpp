@@ -85,8 +85,8 @@ void MapObject::Animation()
 /// </summary>
 void MapObject::SetZoomPosition()
 {
-	_x =_initX*( (_mapTool->getZoomWidth() + (2*_mapTool->getZoomWidth() / 48)) / 48);
-	_y =_initY*( (_mapTool->getZoomHeight() + (2*_mapTool->getZoomHeight() / 48)) / 48);
+	_x = _initX*_mapTool->getZoomWidth()/48;
+	_y = _initY* _mapTool->getZoomHeight() /48;
 
 	if (_image->getMaxFrameX() == 0)
 	{
