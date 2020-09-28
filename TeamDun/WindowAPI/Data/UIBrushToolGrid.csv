@@ -140,9 +140,9 @@ ID,X,Y,PAGE,IMAGE
 2020,180,30,4,bridgeTileLeft21
 2021,230,30,4,bridgeTileLeft22
 2022,280,30,4,bridgeTileLeft23
-2023,180,30,4,bridgeTileRight3
-2024,230,30,4,bridgeTileRight2
-2025,280,30,4,bridgeTileRight1
+2023,180,90,4,bridgeTileRight3
+2024,230,90,4,bridgeTileRight2
+2025,280,90,4,bridgeTileRight1
 2026,20,30,5,bridgeTileRight7
 2027,70,30,5,bridgeTileRight6
 2028,120,30,5,bridgeTileRight5
@@ -177,10 +177,10 @@ ID,X,Y,PAGE,IMAGE
 2057,70,330,4,bridgeSecondFloor2
 2058,120,330,4,bridgeSecondFloor3
 2059,170,330,4,bridgeSecondFloor4
-2060,240,90,4,townBasicStair1
-2061,290,90,4,townBasicStair2
-2062,240,150,4,townBasicStair3
-2063,290,150,4,townBasicStair4
+2060,240,150,4,townBasicStair1
+2061,290,150,4,townBasicStair2
+2062,240,500,4,townBasicStair3
+2063,290,500,4,townBasicStair4
 2064,20,390,4,dirtFloor1
 2065,70,390,4,dirtFloor2
 2066,120,390,4,dirtFloor3
@@ -196,7 +196,6 @@ ID,X,Y,PAGE,IMAGE
 2076,120,500,4,dirtFloor10
 2077,170,500,4,dirtFloor9
 2078,20,560,4,dirtFloor15
-2079,70,560,4,dirtFloor16
 2079,70,560,4,dirtFloor16
 2080,20,390,5,dirtFloor17
 2081,70,390,5,dirtFloor18
