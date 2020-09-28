@@ -47,6 +47,21 @@ HRESULT MapTool::init(int width, int height)
 
 void MapTool::release()
 {
+	for (int i = 0; i < _vMapData.size(); i++)
+	{
+		for (int j = 0; j < _vMapData[i].size(); j++)
+		{
+			SAFE_DELETE(_vMapData[i][j]);
+		}
+	}
+
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		SAFE_DELETE(_vObjs[i]);
+	}
+
+	SAFE_DELETE(_mapScene);
+
 }
 
 void MapTool::update()

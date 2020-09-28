@@ -31,3 +31,4 @@ id,name,type,image,image2,image3
 512,고문파편 1,Etc,TortureTable1_1,.,.
 1004,가시,Obstacle,Spike,.,.
 513,던전사인,Etc,DungeonSign,.,.
+702,붉은박쥐,Monster,BatRedIdle,BatRedAttack,.

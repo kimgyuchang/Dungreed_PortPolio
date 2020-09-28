@@ -43,6 +43,9 @@
     <Filter Include="MainGame\MapTool">
       <UniqueIdentifier>{517ef4a1-afcf-4118-9ef3-a1da4ce29493}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Enemy">
+      <UniqueIdentifier>{914fd17c-26f6-4abf-b188-d12b39a0b790}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -71,9 +74,6 @@
     </ClCompile>
     <ClCompile Include="sceneManager.cpp">
       <Filter>GameFramework\매니져</Filter>
-    </ClCompile>
-    <ClCompile Include="gameScene.cpp">
-      <Filter>MainGame\Scene</Filter>
     </ClCompile>
     <ClCompile Include="soundManager.cpp">
       <Filter>GameFramework\매니져</Filter>
@@ -147,6 +147,18 @@
     <ClCompile Include="iniData.cpp">
       <Filter>GameFramework\유틸</Filter>
     </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>GameFramework\매니져</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>MainGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="RedBat.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="gameScene.cpp">
+      <Filter>MainGame\Scene\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -175,9 +187,6 @@
     </ClInclude>
     <ClInclude Include="sceneManager.h">
       <Filter>GameFramework\매니져</Filter>
-    </ClInclude>
-    <ClInclude Include="gameScene.h">
-      <Filter>MainGame\Scene</Filter>
     </ClInclude>
     <ClInclude Include="soundManager.h">
       <Filter>GameFramework\매니져</Filter>
@@ -253,6 +262,18 @@
     </ClInclude>
     <ClInclude Include="singletonBase.h">
       <Filter>GameFramework\유틸</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>GameFramework\매니져</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>MainGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="RedBat.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="gameScene.h">
+      <Filter>MainGame\Scene\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

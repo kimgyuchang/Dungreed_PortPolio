@@ -257,16 +257,31 @@ void mapScene::UIInit()
 	UIText* spawnText = new UIText();
 	spawnText->init("text", 0, 10, 200, 100, "스폰시간 입력", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	setSpawnTimeFrame->AddFrame(spawnText);
+
+	UIFrame* exitFrame = new UIFrame();
+	exitFrame->init("exitFrame", 30, WINSIZEY - 100, IMAGEMANAGER->findImage("ShortcutKey1")->getWidth(), IMAGEMANAGER->findImage("ShortcutKey1")->getHeight(), "ShortcutKey1");
+	UIMANAGER->GetGameFrame()->AddFrame(exitFrame);
+
+	UIImage* exitTextImg = new UIImage();
+	exitTextImg->init("img", 4, 4, 48, 48, "Exit", false, 0, 0);
+	exitFrame->AddFrame(exitTextImg);
 }
 
 void mapScene::release()
 {
+	_mapTool->release();
+	_uiBrushTool->release();
+
+	SAFE_DELETE(_mapTool);
+	SAFE_DELETE(_uiBrushTool);
+	SAFE_DELETE(_targetObject);
 }
 
 void mapScene::update()
 {
 	UIMANAGER->update();
 	InputCheck();
+	ExitCheck();
 
 	if (_isSettingPage) // 맵 사이즈 결정 중
 	{
@@ -328,6 +343,15 @@ void mapScene::InputCheck()
 	if (INPUT->GetKeyDown(VK_RETURN)) _isEnterPressed = true;
 }
 
+void mapScene::ExitCheck()
+{
+	if (_isLeftClicked && PtInRect(&UIMANAGER->GetGameFrame()->GetChild("exitFrame")->GetRect(), _ptMouse))
+	{
+		UIMANAGER->GetGameFrame()->GetVChildFrames().clear();
+		SCENEMANAGER->loadScene("시작화면");
+	}
+}
+
 /// <summary>
 /// 단축키를 입력받아 몬스터 설정 페이지를 연다
 /// </summary>
@@ -387,23 +411,31 @@ void mapScene::PlaceObject()
 {
 	if (_targetObject != nullptr && _isLeftClicked)
 	{
-		int absPtX = CAMERAMANAGER->GetAbsoluteX(_ptMouse.x);
-		int absPtY = CAMERAMANAGER->GetAbsoluteY(_ptMouse.y);
-
-		// 그리드 범위 안에서 배치되도록
-		if (absPtX >= 0 && absPtY >= 0 && absPtY < _mapTool->GetGrid().size() * _mapTool->getZoomHeight() && absPtX < _mapTool->GetGrid()[0].size() * _mapTool->getZoomWidth())
+		if (!PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame")->GetRect(), _ptMouse)
+			&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetRect(), _ptMouse)
+			&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetRect(), _ptMouse)
+			&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("gridBtn")->GetRect(), _ptMouse)
+			&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("objBtn")->GetRect(), _ptMouse)
+			) // UI와의 충돌 체크
 		{
-			Grid* grid = _mapTool->mouseCollisionCheck();
+			int absPtX = CAMERAMANAGER->GetAbsoluteX(_ptMouse.x);
+			int absPtY = CAMERAMANAGER->GetAbsoluteY(_ptMouse.y);
 
-			MapObject* obj = new MapObject(*_targetObject); // 값만 복사하여 새롭게 주소 할당
-			
-			obj->_x = absPtX;
-			obj->_y = absPtY;
-			obj->_initX = absPtX /_mapTool->getZoomWidth()*48;
-			obj->_initY = absPtY / _mapTool->getZoomHeight()*48;
-			obj->_alpha = 255;
-			obj->_mapTool = _mapTool;
-			_mapTool->GetVObject().push_back(obj);
+			// 그리드 범위 안에서 배치되도록
+			if (absPtX >= 0 && absPtY >= 0 && absPtY < _mapTool->GetGrid().size() * _mapTool->getZoomHeight() && absPtX < _mapTool->GetGrid()[0].size() * _mapTool->getZoomWidth())
+			{
+				Grid* grid = _mapTool->mouseCollisionCheck();
+
+				MapObject* obj = new MapObject(*_targetObject); // 값만 복사하여 새롭게 주소 할당
+
+				obj->_x = absPtX;
+				obj->_y = absPtY;
+				obj->_initX = absPtX / _mapTool->getZoomWidth() * 48;
+				obj->_initY = absPtY / _mapTool->getZoomHeight() * 48;
+				obj->_alpha = 255;
+				obj->_mapTool = _mapTool;
+				_mapTool->GetVObject().push_back(obj);
+			}
 		}
 	}
 }
@@ -985,6 +1017,7 @@ void mapScene::ShortcutKey()
 	{
 		SaveLoadMap();
 	}
+
 	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('P'))
 	{
 		_brushType = BRUSHTYPE::BT_PAINT;
