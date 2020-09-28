@@ -67,6 +67,7 @@ public :
 	void PlaceObject();
 	void EraseObject();
 	void InputCheck();
+	void ExitCheck();
 	void SetMapSize();
 	void CallSaveEditor();
 	void RemovePaint();

@@ -25,12 +25,15 @@ void Enemy::render(HDC hdc)
 
 void Enemy::Move()
 {
+	// 미구현 (상속 클래스 내부에서 세부구현) //
 }
 
 void Enemy::Attack()
 {
+	// 미구현 (상속 클래스 내부에서 세부구현) //
 }
 
 void Enemy::Animation()
 {
+	// 미구현 (상속 클래스 내부에서 세부구현) //
 }

@@ -5,6 +5,8 @@
 /*씬들의 헤더파일만 이곳에 추가한다*/
 #include "loadingScene.h"
 #include "mapScene.h"
+#include "startScene.h"
+#include "gameScene.h"
 
 class mainGame : public gameNode
 {

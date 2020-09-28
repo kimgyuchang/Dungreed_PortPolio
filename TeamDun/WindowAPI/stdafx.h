@@ -42,6 +42,7 @@ using namespace std;
 #include "UIManager.h"
 #include "CameraManager.h"
 #include "DataManager.h"
+#include "EntityManager.h"
 
 using namespace MY_UTIL;
 
@@ -56,6 +57,7 @@ using namespace MY_UTIL;
 #define UIMANAGER UIManager::getSingleton()
 #define CAMERAMANAGER CameraManager::getSingleton()
 #define DATAMANAGER DataManager::getSingleton()
+#define ENTITYMANAGER EntityManager::getSingleton()
 #define RANDOM random::getSingleton()
 #define INIDATA iniData::getSingleton()
 

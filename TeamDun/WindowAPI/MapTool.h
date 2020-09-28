@@ -25,7 +25,6 @@ class MapTool : public gameNode
 private:
 
 	vector<vector<Grid*>>			_vMapData;		// 맵 데이터를 가지고 있는 벡터
-	vector<Grid*>					_vUiBrushGrid;	// 선택 가능한 브러시들을 가지고 있는 벡터
 	vector<vector<vector<string>>>	_vEveData;		// 실행취소를 위해 행동 전 맵을 저장할 벡터
 
 	mapScene*						_mapScene;		// 맵씬

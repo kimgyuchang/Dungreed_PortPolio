@@ -257,16 +257,31 @@ void mapScene::UIInit()
 	UIText* spawnText = new UIText();
 	spawnText->init("text", 0, 10, 200, 100, "스폰시간 입력", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
 	setSpawnTimeFrame->AddFrame(spawnText);
+
+	UIFrame* exitFrame = new UIFrame();
+	exitFrame->init("exitFrame", 30, WINSIZEY - 100, IMAGEMANAGER->findImage("ShortcutKey1")->getWidth(), IMAGEMANAGER->findImage("ShortcutKey1")->getHeight(), "ShortcutKey1");
+	UIMANAGER->GetGameFrame()->AddFrame(exitFrame);
+
+	UIImage* exitTextImg = new UIImage();
+	exitTextImg->init("img", 4, 4, 48, 48, "Exit", false, 0, 0);
+	exitFrame->AddFrame(exitTextImg);
 }
 
 void mapScene::release()
 {
+	_mapTool->release();
+	_uiBrushTool->release();
+
+	SAFE_DELETE(_mapTool);
+	SAFE_DELETE(_uiBrushTool);
+	SAFE_DELETE(_targetObject);
 }
 
 void mapScene::update()
 {
 	UIMANAGER->update();
 	InputCheck();
+	ExitCheck();
 
 	if (_isSettingPage) // 맵 사이즈 결정 중
 	{
@@ -326,6 +341,15 @@ void mapScene::InputCheck()
 	if (INPUT->GetKeyDown(VK_LBUTTON)) _isLeftClicked = true;
 	if (INPUT->GetKeyDown(VK_RBUTTON)) _isRightClicked = true;
 	if (INPUT->GetKeyDown(VK_RETURN)) _isEnterPressed = true;
+}
+
+void mapScene::ExitCheck()
+{
+	if (_isLeftClicked && PtInRect(&UIMANAGER->GetGameFrame()->GetChild("exitFrame")->GetRect(), _ptMouse))
+	{
+		UIMANAGER->GetGameFrame()->GetVChildFrames().clear();
+		SCENEMANAGER->loadScene("시작화면");
+	}
 }
 
 /// <summary>
@@ -993,6 +1017,7 @@ void mapScene::ShortcutKey()
 	{
 		SaveLoadMap();
 	}
+
 	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown('P'))
 	{
 		_brushType = BRUSHTYPE::BT_PAINT;

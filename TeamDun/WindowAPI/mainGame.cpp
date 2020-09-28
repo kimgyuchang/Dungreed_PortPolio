@@ -8,7 +8,9 @@ HRESULT mainGame::init()
 {
 	gameNode::init();
 
+	SCENEMANAGER->addScene("시작화면", new startScene());
 	SCENEMANAGER->addScene("로딩화면", new loadingScene());
+	SCENEMANAGER->addScene("게임화면", new gameScene());
 	SCENEMANAGER->addScene("맵씬", new mapScene());
 	SCENEMANAGER->loadScene("로딩화면");
 
