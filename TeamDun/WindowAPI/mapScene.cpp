@@ -41,6 +41,9 @@ HRESULT mapScene::init()
 	ShowWindow(_hMonsterSpawnTime, SW_HIDE);
 	_isMonsterSettingOn = false;
 
+	// SAVELOAD //
+	_autoSaveCount = 1;
+
 	// UI //
 	UIInit();
 	_isSizeAdjustOpened = false;
@@ -290,6 +293,7 @@ void mapScene::update()
 
 	else
 	{
+		AutoSave();
 		_mapTool->update();
 		_uiBrushTool->update();
 
@@ -328,6 +332,19 @@ void mapScene::update()
 	}
 }
 
+void mapScene::AutoSave()
+{
+	_autoSaveCount++;
+
+	if (_autoSaveCount % 3000 == 0)
+	{
+		SYSTEMTIME timer;
+		GetLocalTime(&timer);
+		string time = "AutoSave/" + to_string(timer.wYear) + to_string(timer.wMonth) + to_string(timer.wDay) + to_string(timer.wHour) + to_string(timer.wMinute) + to_string(timer.wSecond) + "_AutoSave";
+		_autoSaveCount = 0;
+		_mapTool->SaveData(time);
+	}
+}
 
 /// <summary>
 /// INPUT 중복 체크 방지용 변수 설정 함수
