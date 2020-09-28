@@ -42,6 +42,7 @@ private:
 	bool			_isSaveLoaderOn;
 	char			_fileName[128];
 	bool			_isLoad;
+	int				_autoSaveCount;
 
 	// ÀÎÇ² °ü·Ã //
 	bool			_isLeftClicked;
@@ -62,6 +63,7 @@ public :
 	void UIInit();
 	void release();
 	void update();
+	void AutoSave();
 	void SetMonsterPage();
 	void InMonsterSetPage();
 	void PlaceObject();
