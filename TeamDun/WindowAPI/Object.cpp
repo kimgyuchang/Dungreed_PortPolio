@@ -14,10 +14,14 @@ HRESULT Object::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
             _vImages.push_back(IMAGEMANAGER->findImage(imgNames[i]));
         }
     }
+
     _x = 0;
     _y = 0;
     _spawnTime = 0;
     
+    _frameX = 0;
+    _frameY = 0;
+    _useImage = 0;
     return S_OK;
 }
 
