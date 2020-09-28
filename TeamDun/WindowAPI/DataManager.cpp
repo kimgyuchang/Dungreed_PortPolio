@@ -17,8 +17,9 @@ void DataManager::GetUIBrushToolGridData()
 		grid->_page = stoi(gridData[i][3]);
 		grid->_image = IMAGEMANAGER->findImage(gridData[i][4]);
 		grid->_name = gridData[i][4];
-
+		grid->_colImage = IMAGEMANAGER->findImage(gridData[i][5]);
 		_mGridData[stoi(gridData[i][0])] = grid;
+		_mGridDataByName[grid->_name] = grid;
 	}
 }
 
