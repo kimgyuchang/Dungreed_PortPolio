@@ -14,7 +14,6 @@ HRESULT MapObject::init(int id, float x, float y, int page)
 	_animationTimer = 0;
 	_frameX = 0;
 	_frameY = 0;
-
 	_image = DATAMANAGER->GetObjectById(_id)->GetImage(0);
 	UpdateBody();
 
@@ -86,8 +85,8 @@ void MapObject::Animation()
 /// </summary>
 void MapObject::SetZoomPosition()
 {
-	_x =_initX*( _mapTool->getZoomWidth() / 48);
-	_y =_initY*( _mapTool->getZoomHeight() / 48);
+	_x =_initX*( (_mapTool->getZoomWidth() + (2*_mapTool->getZoomWidth() / 48)) / 48);
+	_y =_initY*( (_mapTool->getZoomHeight() + (2*_mapTool->getZoomHeight() / 48)) / 48);
 
 	if (_image->getMaxFrameX() == 0)
 	{

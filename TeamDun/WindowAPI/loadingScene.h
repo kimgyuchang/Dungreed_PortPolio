@@ -20,6 +20,8 @@ public:
 	void	update();
 	void	render();
 
+	void LoadData();
+
 	void animation();
 
 	void loadingFont();

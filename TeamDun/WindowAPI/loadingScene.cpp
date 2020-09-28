@@ -19,7 +19,6 @@ HRESULT loadingScene::init()
 	this->loadingImage();
 	this->loadingSound();
 	this->loadingFont();
-
 	return S_OK;
 }
 
@@ -39,6 +38,7 @@ void loadingScene::update()
 	// 이미지 로드가 완료되면 이동
 	if (_currentGauge >= _loading->GetLoadItem().size())
 	{
+		LoadData();
 		SCENEMANAGER->loadScene("시작화면");
 	}
 	
@@ -66,6 +66,15 @@ void loadingScene::render()
 }
 
 /// <summary>
+/// CSV데이터들을 불러온다
+/// </summary>
+void loadingScene::LoadData()
+{
+	DATAMANAGER->GetUIBrushToolGridData();
+	DATAMANAGER->GetObjectData();
+}
+
+/// <summary>
 /// 로딩창의 애니메이션을 관리한다.
 /// </summary>
 void loadingScene::animation()
@@ -81,7 +90,6 @@ void loadingScene::animation()
 		_background->setFrameX(_animationFrame);
 	}
 }
-
 
 void loadingScene::loadingFont()
 {

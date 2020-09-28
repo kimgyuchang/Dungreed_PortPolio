@@ -35,4 +35,6 @@ void Object::release()
 
 void Object::render(HDC hdc)
 {
+    if (_vImages[_useImage]->getMaxFrameX() == 0) CAMERAMANAGER->Render(hdc, _vImages[_useImage], _x, _y);
+    else CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);
 }

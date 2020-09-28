@@ -161,8 +161,8 @@ void MapTool::SaveData(string name)
 	{
 		stringData3.push_back(vector<string>());
 		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_id));
-		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_x / _zoomWidth * 48));
-		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_y / _zoomHeight * 48));
+		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_x / (_zoomWidth + (2 * _zoomWidth / 48)) * 48));
+		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_y / (_zoomHeight + (2 * _zoomHeight / 48)) * 48));
 		stringData3[stringData3.size() - 1].push_back(to_string(_vObjs[i]->_spawnTime));
 	}
 
@@ -226,8 +226,8 @@ void MapTool::LoadData(string name)
 	{
 		MapObject* obj = new MapObject();
 		obj->init(stoi(objData[i][0]), stoi(objData[i][1]) * _zoomWidth / 48, stoi(objData[i][2]) * _zoomHeight / 48, 0);
-		obj->_initX = stoi(objData[i][1]);
-		obj->_initY = stoi(objData[i][2]);
+		obj->_initX = stoi(objData[i][1]) * _zoomWidth / 48;
+		obj->_initY = stoi(objData[i][2]) * _zoomHeight / 48;
 		obj->_spawnTime = stoi(objData[i][3]);
 		obj->_alpha = 255;
 		obj->_mapTool = this;

@@ -44,4 +44,5 @@ public :
 	void		SetUseImage(int index)			{ _useImage = index; }
 	void		SetFrameX(int x)				{ _frameX = x; }
 	void		SetFrameY(int y)				{ _frameY = y; }
+	void		SetSpawnTime(int time)			{ _spawnTime = time; }
 };

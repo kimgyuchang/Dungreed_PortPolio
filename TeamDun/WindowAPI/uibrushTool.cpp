@@ -4,9 +4,6 @@
 
 HRESULT uibrushTool::init()
 {
-	DATAMANAGER->GetUIBrushToolGridData();
-	DATAMANAGER->GetObjectData();
-
 	_gridPage = 0;
 	_objPage = 0;
 	_isOn = false;

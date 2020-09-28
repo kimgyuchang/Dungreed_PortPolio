@@ -16,5 +16,10 @@ public :
 	void update();
 	void render(HDC hdc);
 	void release();
+
+	// GETSET //
+	vector<Object*>&	getVObjs()		{ return _vObjs; }
+	vector<Bullet*>&	getVBullets()	{ return _vBullets; }
+	Player*				getPlayer()		{ return _p; }
 };
 
