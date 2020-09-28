@@ -32,8 +32,8 @@ HRESULT MapTool::init(int width, int height)
 			grid->_height = _zoomHeight;
 			grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
 			grid->_alpha = 70;
-			grid->_x = j * (_zoomWidth + 2) + 0;
-			grid->_y = i * (_zoomHeight + 2) + 0;
+			grid->_x = j * _zoomWidth;
+			grid->_y = i * _zoomHeight;
 			grid->_xIndex = j;
 			grid->_yIndex = i;
 			grid->_rc = RectMake(grid->_x, grid->_y, _zoomWidth, _zoomHeight);
@@ -75,18 +75,19 @@ void MapTool::update()
 /// <summary>
 /// 맵툴 내 그리드와의 충돌을 검사한다.
 /// </summary>
-Grid* MapTool::mouseCollisionCheck()
+Grid* MapTool::mouseCollisionCheck(int n)
 {
-	int xIndex = CAMERAMANAGER->GetAbsoluteX(_ptMouse.x) / _zoomWidth;
-	int yIndex = CAMERAMANAGER->GetAbsoluteY(_ptMouse.y) / _zoomHeight;
+	int xIndex = CAMERAMANAGER->GetAbsoluteX(_ptMouse.x) / (_zoomWidth);
+	int yIndex = CAMERAMANAGER->GetAbsoluteY(_ptMouse.y) / (_zoomHeight);
+	
 
-	for (int i = yIndex - 3; i < yIndex + 3; i++)
+	for (int i = yIndex - 10; i < yIndex + 10; i++)
 	{
 		if (i < 0 || i >= _vMapData.size()) continue;
-		for (int j = xIndex - 3; j < xIndex + 3; j++)
+		for (int j = xIndex - 10; j < xIndex + 10; j++)
 		{
 			if (j < 0 || j >= _vMapData[i].size()) continue;
-
+			
 			if (PtInRect(&_vMapData[i][j]->_rc, CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y))
 				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame")->GetRect(), _ptMouse)
 				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetRect(), _ptMouse)
@@ -94,7 +95,9 @@ Grid* MapTool::mouseCollisionCheck()
 				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("gridBtn")->GetRect(), _ptMouse)
 				&& !PtInRect(&UIMANAGER->GetGameFrame()->GetChild("brushTool")->GetChild("objBtn")->GetRect(), _ptMouse)
 				)
+				
 			{
+				
 				if (UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->GetIsViewing())
 				{
 					if (!PtInRect(&UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->GetRect(), _ptMouse))
@@ -102,6 +105,7 @@ Grid* MapTool::mouseCollisionCheck()
 						return _vMapData[i][j];
 					}
 				}
+				
 				else
 				{
 					return _vMapData[i][j];
@@ -202,8 +206,8 @@ void MapTool::LoadData(string name)
 
 			if (stringData2[i][j] == "-1") grid->_img2 = nullptr;
 			else grid->_img2 = IMAGEMANAGER->findImage(stringData2[i][j]);
-			grid->_x = j * _zoomWidth + 0;
-			grid->_y = i * _zoomHeight + 0;
+			grid->_x = j * _zoomWidth;
+			grid->_y = i * _zoomHeight;
 			grid->_checkImg = IMAGEMANAGER->findImage("CheckImage");
 			grid->_xIndex = j;
 			grid->_yIndex = i;
@@ -556,6 +560,11 @@ void MapTool::render()
 			if (_vMapData[i][j]->_img) CAMERAMANAGER->StretchAlphaRender(getMemDC(), _vMapData[i][j]->_img, _vMapData[i][j]->_x, _vMapData[i][j]->_y, (_zoomWidth == 0 ? 48 : _zoomWidth) / 48, (_zoomHeight == 0 ? 48 : _zoomHeight) / 48, _isLayer ? 255 : 100);
 			string str = to_string(i) + " " + to_string(j);
 			CAMERAMANAGER->StretchAlphaRender(getMemDC(), _vMapData[i][j]->_checkImg, _vMapData[i][j]->_x, _vMapData[i][j]->_y, (_zoomWidth == 0 ? 48 : _zoomWidth) / 48, (_zoomHeight == 0 ? 48 : _zoomHeight) / 48, _vMapData[i][j]->_alpha);
+
+			if (INPUT->GetKey(VK_F5) && INPUT->GetKey(VK_CONTROL))
+			{
+				CAMERAMANAGER->Rectangle(getMemDC(), _vMapData[i][j]->_rc);
+			}
 		}
 	}
 

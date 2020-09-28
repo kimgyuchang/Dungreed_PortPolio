@@ -44,7 +44,7 @@ public:
 	void update();
 	void render();
 
-	Grid* mouseCollisionCheck();
+	Grid* mouseCollisionCheck(int n = 0);
 	void SaveData(string name);
 	void LoadData(string name);
 	void EveSaveData();

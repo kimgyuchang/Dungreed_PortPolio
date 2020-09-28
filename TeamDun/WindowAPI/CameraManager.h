@@ -76,10 +76,10 @@ public:
 	void ZoomInOut(HDC hdc, int destX, int destY, int sourX, int sourY, float scale);
 	
 	// ∆Ì¿«º∫ //
-	int		GetRelativeX(float x)				{ return x - _cameraRect.left; }
-	int		GetRelativeY(float y)				{ return y - _cameraRect.top; }
-	int		GetAbsoluteX(float x)				{ return x + _cameraRect.left; }
-	int		GetAbsoluteY(float y)				{ return y + _cameraRect.top; }
+	float	GetRelativeX(float x)				{ return x - _cameraRect.left; }
+	float	GetRelativeY(float y)				{ return y - _cameraRect.top; }
+	float	GetAbsoluteX(float x)				{ return x + _cameraRect.left; }
+	float	GetAbsoluteY(float y)				{ return y + _cameraRect.top; }
 	POINT	GetAbsolutePoint(long x, long y)	{ return POINT{ x + _cameraRect.left, y + _cameraRect.top }; }
 	
 	// GETSET //
