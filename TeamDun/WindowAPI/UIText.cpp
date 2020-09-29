@@ -40,7 +40,6 @@ void UIText::init(string name, float x, float y, float xSize, float ySize, strin
 
 void UIText::render(HDC hdc)
 {
-
 	HFONT hFont;
 	HFONT OldFont;
 

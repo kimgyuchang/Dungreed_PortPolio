@@ -11,7 +11,6 @@ private:
 	int		_frameX;		// FrameX
 	int		_frameY;		// FrameY
 
-	// æ»≥Á«œººø‰
 public:
 	HRESULT init(string name, float x, float y, float sizeX, float sizeY, string imageName, bool useFrameImage, int frameX, int frameY, float scaleX = 1, float scaleY = 1);
 	virtual void render(HDC hdc);

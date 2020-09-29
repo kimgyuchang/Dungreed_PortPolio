@@ -12,7 +12,7 @@ class BigWhiteSkel : public Enemy
 {
 private:
 	Enemy* _enemy;
-	image* _bigWhiteSkelIdle;
+	image* _bigWhiteSkelImg;
 	RECT _SkelRc;
 
 public:
@@ -25,4 +25,3 @@ public:
 	virtual void	Attack();
 	virtual void	Animation();
 };
-
