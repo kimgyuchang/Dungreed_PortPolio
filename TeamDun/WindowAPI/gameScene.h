@@ -18,6 +18,7 @@ private:
 	vector <RECT>			_vMiniRc;
 	float					_pivX;
 	float					_pivY;
+	Player*					_p;
 
 public:
 	HRESULT init();

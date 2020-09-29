@@ -4,13 +4,17 @@
 HRESULT gameScene::init()
 {
 	UIMANAGER->init();
+	_p = new Player();
+	_p->init();
+
 	ENTITYMANAGER->init();
+	ENTITYMANAGER->setPlayer(_p);
 	CAMERAMANAGER->init(0,0,15000,15000,-500,-500,WINSIZEX/2, WINSIZEY/2);
 
 	_pivX = WINSIZEX / 2;
 	_pivY = WINSIZEY / 2;
 
-	LoadMap("stage0_town");
+	LoadMap("Stage0_Start");
 	return S_OK;
 }
 
