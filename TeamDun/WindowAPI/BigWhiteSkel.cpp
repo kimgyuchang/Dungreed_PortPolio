@@ -13,7 +13,6 @@ HRESULT BigWhiteSkel::init(int id, string name, OBJECTTYPE type, vector<string> 
 
 void BigWhiteSkel::update()
 {
-	cout << _state << endl;
 	switch (_state)
 	{
 	case ES_IDLE:
