@@ -14,7 +14,7 @@ HRESULT gameScene::init()
 	_pivX = WINSIZEX / 2;
 	_pivY = WINSIZEY / 2;
 
-	LoadMap("Stage0_Start");
+	LoadMap("Stage1_longY");
 	return S_OK;
 }
 

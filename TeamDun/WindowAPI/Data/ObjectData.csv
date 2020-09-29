@@ -33,3 +33,4 @@ id,name,type,image,image2,image3
 513,던전사인,Etc,DungeonSign,.,.
 702,붉은박쥐,Monster,BatRedIdle,BatRedAttack,.
 1500,큰 해골-하얀색,Monster,BigWhiteSkelIdle,BigWhiteSkelMove,BigWhiteSkelAttack
+1501,미노타우르스,Monster,MinotaursIdle,MinotaursCharge,MinotaursAttack

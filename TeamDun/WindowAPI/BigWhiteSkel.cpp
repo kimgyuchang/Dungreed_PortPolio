@@ -3,9 +3,9 @@
 
 HRESULT BigWhiteSkel::init(int id, string name, OBJECTTYPE type, vector<string> imgNames)
 {
-	Enemy::init(id, name, type, imgNames);
+	_enemy = new Enemy;
 
-	_enemy->Setimage(1, _bigWhiteSkelIdle);
+	_enemy->Setimage(1, _bigWhiteSkelImg);
 	_SkelRc = RectMake(WINSIZEX / 2, WINSIZEY / 2, 99, 90);
 
 	return S_OK;
@@ -30,11 +30,13 @@ void BigWhiteSkel::render(HDC hdc)
 void BigWhiteSkel::Move()
 {
 	Enemy::Move();
+	_enemy->Setimage(3, _bigWhiteSkelImg);
 }
 
 void BigWhiteSkel::Attack()
 {
 	Enemy::Attack();
+	_enemy->Setimage(3, _bigWhiteSkelImg);
 }
 
 void BigWhiteSkel::Animation()
