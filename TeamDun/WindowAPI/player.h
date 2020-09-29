@@ -36,6 +36,7 @@ private:
 	float		_dashDamage;		//대쉬 공격력
 
 	RECT		_collider[8];		//픽셀충돌용
+	float		_probeBottom;		//픽셀충돌용좌표
 
 public:
 
@@ -44,6 +45,7 @@ public:
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 	virtual void	Animation();
+	virtual void	Move();
 
 	float getHp() { return _hp; }
 	float getDamage() { return _damage; }
@@ -56,4 +58,5 @@ public:
 	float getCritical() { return _critical; }
 	float getCriticalDamage() { return _criticalDamage; }
 	float getDashDamage() { return _dashDamage; }
+	
 };
