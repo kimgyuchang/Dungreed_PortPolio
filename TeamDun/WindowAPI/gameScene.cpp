@@ -40,6 +40,8 @@ void gameScene::LoadMap(string fileName)
 			else tile->_img2 = IMAGEMANAGER->findImage(stringData2[i][j]);
 			tile->_x = j * 48;
 			tile->_y = i * 48;
+			if (stringData[i][j] != "-1") tile->_collisionImage = DATAMANAGER->GetGridDataByName(stringData[i][j])->_colImage;
+			else tile->_collisionImage = nullptr;
 			tileLine.push_back(tile);
 			
 			
@@ -111,12 +113,12 @@ void gameScene::render()
 			if (j < 0 || j >= _vMapData[i].size()) continue;
 			if (_vMapData[i][j]->_img2) CAMERAMANAGER->Render(getMemDC(), _vMapData[i][j]->_img2, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
 			if (_vMapData[i][j]->_img) CAMERAMANAGER->Render(getMemDC(), _vMapData[i][j]->_img, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
+			if (INPUT->GetKey(VK_F1) && _vMapData[i][j]->_collisionImage != nullptr) CAMERAMANAGER->Render(getMemDC(), _vMapData[i][j]->_collisionImage, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
 		}
 	}
 	
 	for (int i = 0; i < _vMiniRc.size(); i++)
 	{
-		
 		IMAGEMANAGER->findImage("MiniMapPixel")->render(getMemDC(), _vMiniRc[i].left, _vMiniRc[i].top);
 	}
 	

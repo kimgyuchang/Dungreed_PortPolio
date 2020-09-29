@@ -343,6 +343,7 @@ void MapTool::FillAll()
 			}
 		}
 	}
+
 	else
 	{
 		for (int i = 0; i < _vMapData.size(); i++)

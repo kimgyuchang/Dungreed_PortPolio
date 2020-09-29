@@ -3,10 +3,11 @@
 
 struct Tile
 {
-	int		_x;		// X 위치
-	int		_y;		// Y 위치
-	image*	_img;	// IMAGE
-	image*	_img2;	// IMAGE2
+	int		_x;					// X 위치
+	int		_y;					// Y 위치
+	image*	_img;				// IMAGE
+	image*	_img2;				// IMAGE2
+	image*	_collisionImage;	// 픽셀충돌 이미지
 };
 
 class gameScene : public gameNode
