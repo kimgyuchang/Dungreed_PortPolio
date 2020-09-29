@@ -46,6 +46,9 @@
     <Filter Include="MainGame\Object\Enemy">
       <UniqueIdentifier>{914fd17c-26f6-4abf-b188-d12b39a0b790}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\인벤토리">
+      <UniqueIdentifier>{babaf7e3-2c16-410a-9b15-1e37f4435f82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -160,6 +163,9 @@
       <Filter>MainGame\Scene\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="MapManager.cpp" />
+    <ClCompile Include="inventory.cpp">
+      <Filter>MainGame\인벤토리</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -277,5 +283,8 @@
       <Filter>MainGame\Scene\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="MapManager.h" />
+    <ClInclude Include="inventory.h">
+      <Filter>MainGame\인벤토리</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
