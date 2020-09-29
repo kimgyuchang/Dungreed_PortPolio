@@ -186,6 +186,7 @@
     <ClInclude Include="UIFrame.h" />
     <ClInclude Include="UIImage.h" />
     <ClInclude Include="UIManager.h" />
+    <ClInclude Include="UIProgressBar.h" />
     <ClInclude Include="UIScroll.h" />
     <ClInclude Include="UIText.h" />
     <ClInclude Include="util.h" />
@@ -232,6 +233,7 @@
     <ClCompile Include="UIFrame.cpp" />
     <ClCompile Include="UIImage.cpp" />
     <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="UIProgressBar.cpp" />
     <ClCompile Include="UIScroll.cpp" />
     <ClCompile Include="UIText.cpp" />
     <ClCompile Include="util.cpp" />

@@ -164,6 +164,9 @@
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="inventory.cpp" />
+    <ClCompile Include="UIProgressBar.cpp">
+      <Filter>GameFramework\UI\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -285,5 +288,8 @@
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="inventory.h" />
+    <ClInclude Include="UIProgressBar.h">
+      <Filter>GameFramework\UI\Component</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
