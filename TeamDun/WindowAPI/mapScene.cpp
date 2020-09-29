@@ -9,6 +9,7 @@ HRESULT mapScene::init()
 	// 카메라 //
 	_pivot = POINT{ _widthNum / 2 * 48, _heightNum / 2 * 48 };
 	CAMERAMANAGER->init(_pivot.x, _pivot.y, 50000, 50000, -50000, -50000, WINSIZEX / 2, WINSIZEY / 2);
+
 	// 시작 시 크기 설정 //
 	_heightNum = 50;
 	_widthNum = 50;
@@ -268,6 +269,8 @@ void mapScene::UIInit()
 	UIImage* exitTextImg = new UIImage();
 	exitTextImg->init("img", 4, 4, 48, 48, "Exit", false, 0, 0);
 	exitFrame->AddFrame(exitTextImg);
+
+
 }
 
 void mapScene::release()
