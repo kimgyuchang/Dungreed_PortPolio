@@ -160,6 +160,9 @@
       <Filter>MainGame\Scene\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="MapManager.cpp" />
+    <ClCompile Include="BigWhiteSkel.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -277,5 +280,8 @@
       <Filter>MainGame\Scene\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="MapManager.h" />
+    <ClInclude Include="BigWhiteSkel.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
