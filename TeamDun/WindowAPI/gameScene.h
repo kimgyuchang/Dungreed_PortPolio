@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include "BigWhiteSkel.h"
 
 struct Tile
 {
@@ -20,6 +21,8 @@ private:
 	float					_pivY;
 	Player*					_p;
 
+	float					_fillTesterInit;
+	float					_fillTesterPros;
 public:
 	HRESULT init();
 	void LoadMap(string fileName);

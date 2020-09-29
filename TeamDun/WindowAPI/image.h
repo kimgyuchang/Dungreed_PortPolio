@@ -17,8 +17,8 @@ public:
 		HDC hMemDC;			//메모리 DC
 		HBITMAP hBit;		//비트맵
 		HBITMAP hOBit;		//올드비트맵
-		float x;				//이미지 x좌표
-		float y;				//이미지 y좌표
+		float x;			//이미지 x좌표
+		float y;			//이미지 y좌표
 		int width;			//이미지 가로길이
 		int height;			//이미지 세로길이
 		int currentFrameX;	//현재 프레임X

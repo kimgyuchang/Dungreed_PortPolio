@@ -12,6 +12,7 @@ protected:
 	string			_name;			// 이름
 	OBJECTTYPE		_type;			// 오브젝트 타입
 	vector<image*>	_vImages;		// 이미지들
+	vector<string>	_vImageNames;	// 이미지 이름들
 	float			_x;				// 위치 X 
 	float			_y;				// 위치 Y
 	int				_useImage;		// 사용중인 이미지
@@ -29,6 +30,7 @@ public:
 
 	// GETSET //
 	string		GetName() { return _name; }
+	vector<string> GetImgNames() { return _vImageNames; }
 	int			GetX() { return _x; }
 	int			GetY() { return _y; }
 	OBJECTTYPE	GetType() { return _type; }
@@ -36,6 +38,7 @@ public:
 	int			GetUseImage() { return _useImage; }
 	int			GetFrameX() { return _frameX; }
 	int			GetFrameY() { return _frameY; }
+	
 
 	void		SetName(string name) { _name = name; }
 	void		SetX(int x) { _x = x; }
