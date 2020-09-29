@@ -2,6 +2,7 @@
 #include "singletonBase.h"
 #include "Object.h"
 #include "MapObject.h"
+#include "BigWhiteSkel.h"
 
 struct GridData
 {

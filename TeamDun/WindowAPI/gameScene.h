@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include "BigWhiteSkel.h"
 
 struct Tile
 {

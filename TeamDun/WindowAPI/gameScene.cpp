@@ -9,7 +9,7 @@ HRESULT gameScene::init()
 
 	ENTITYMANAGER->init();
 	ENTITYMANAGER->setPlayer(_p);
-	CAMERAMANAGER->init(0,0,15000,15000,-500,-500,WINSIZEX/2, WINSIZEY/2);
+	CAMERAMANAGER->init(0, 0, 15000, 15000, -500, -500, WINSIZEX / 2, WINSIZEY / 2);
 
 	_pivX = WINSIZEX / 2;
 	_pivY = WINSIZEY / 2;
@@ -34,7 +34,7 @@ void gameScene::LoadMap(string fileName)
 	vector<vector<string>> stringData2 = CSVMANAGER->csvLoad("Data/MapData/" + fileName + "2.mapData");
 	if (stringData.size() == 0 && stringData2.size() == 0) return;
 	_vMapData.clear();
-		
+
 	for (int i = 0; i < stringData.size(); i++)
 	{
 		vector<Tile*> tileLine;
@@ -57,21 +57,29 @@ void gameScene::LoadMap(string fileName)
 			if (stringData[i][j] != "-1") tile->_collisionImage = DATAMANAGER->GetGridDataByName(stringData[i][j])->_colImage;
 			else tile->_collisionImage = nullptr;
 			tileLine.push_back(tile);
-			
-			
+
+
 		}
 		_vMapData.push_back(tileLine);
 	}
-	
-	
+
+
 	_vObjs.clear();
 	vector<vector<string>> objData = CSVMANAGER->csvLoad("Data/MapData/" + fileName + "_Objs.mapData");
 	for (int i = 0; i < objData.size(); i++)
 	{
-		Object* obj = new Object();
-		obj = new Object(*DATAMANAGER->GetObjectById(stoi(objData[i][0])));
-		obj->SetX(stof(objData[i][1])*48);
-		obj->SetY(stof(objData[i][2])*48);
+		Object* obj;
+		switch (stoi(objData[i][0]))
+		{
+		case 1500:// Å« ÇØ°ñ
+			obj = new BigWhiteSkel(*dynamic_cast<BigWhiteSkel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+		default:
+			obj = new Object(*DATAMANAGER->GetObjectById(stoi(objData[i][0])));
+			break;
+		}
+		obj->SetX(stof(objData[i][1]) * 48);
+		obj->SetY(stof(objData[i][2]) * 48);
 		obj->SetSpawnTime(stoi(objData[i][3]));
 		ENTITYMANAGER->getVObjs().push_back(obj);
 	}
@@ -137,12 +145,12 @@ void gameScene::render()
 			if (INPUT->GetKey(VK_F1) && _vMapData[i][j]->_collisionImage != nullptr) CAMERAMANAGER->Render(getMemDC(), _vMapData[i][j]->_collisionImage, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
 		}
 	}
-	
+
 	for (int i = 0; i < _vMiniRc.size(); i++)
 	{
 		IMAGEMANAGER->findImage("MiniMapPixel")->render(getMemDC(), _vMiniRc[i].left, _vMiniRc[i].top);
 	}
-	
+
 	ENTITYMANAGER->render(getMemDC());
 	UIMANAGER->render(getMemDC());
 }

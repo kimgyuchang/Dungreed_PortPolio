@@ -11,6 +11,7 @@ HRESULT Object::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
     {
         if (imgNames[i] != ".")
         {
+			_vImageNames.push_back(imgNames[i]);
             _vImages.push_back(IMAGEMANAGER->findImage(imgNames[i]));
         }
     }

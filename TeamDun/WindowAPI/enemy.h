@@ -7,12 +7,13 @@ enum ENEMYSTATE {
 
 class Enemy : public Object
 {
-private :
+protected :
 	ENEMYSTATE		_state;				// 현재 상태
 	RECT			_body;				// 충돌체
 	int				_attackCoolTime;	// 공격 쿨타임
 	int				_useBulletId;		// 사용하는 불릿 ID
 	float			_moveSpeed;			// 이동속도
+	float			_gravity;			// 몬스터 중력값
 
 
 public :

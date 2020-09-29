@@ -45,7 +45,17 @@ void DataManager::GetObjectData()
 		else if (objData[i][2] == "Monster")
 			type = OBJECTTYPE::OT_MONSTER;
 
-		Object* obj = new Object();
+		Object* obj;
+		switch (stoi(objData[i][0]))
+		{
+		case 1500:// Å« ÇØ°ñ
+			obj = new BigWhiteSkel();
+			break;
+		default:
+			obj = new Object();
+			break;
+		}
+
 		obj->init(
 			stoi(objData[i][0]),
 			objData[i][1],
