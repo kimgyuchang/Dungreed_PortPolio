@@ -9,12 +9,12 @@ HRESULT gameScene::init()
 
 	ENTITYMANAGER->init();
 	ENTITYMANAGER->setPlayer(_p);
-	CAMERAMANAGER->init(0,0,15000,15000,-500,-500,WINSIZEX/2, WINSIZEY/2);
 
 	_pivX = WINSIZEX / 2;
 	_pivY = WINSIZEY / 2;
 
-	LoadMap("Stage0_Start");
+	LoadMap("Stage1_Boss");
+	CAMERAMANAGER->init(0,0,15000,15000,-500,-500,WINSIZEX/2, WINSIZEY/2);
 	return S_OK;
 }
 
@@ -44,7 +44,11 @@ void gameScene::LoadMap(string fileName)
 			else tile->_img2 = IMAGEMANAGER->findImage(stringData2[i][j]);
 			tile->_x = j * 48;
 			tile->_y = i * 48;
-			if (stringData[i][j] != "-1") tile->_collisionImage = DATAMANAGER->GetGridDataByName(stringData[i][j])->_colImage;
+			if (stringData[i][j] != "-1")
+			{
+				tile->_collisionImage = DATAMANAGER->GetGridDataByName(stringData[i][j])->_colImage;
+				tile->_collisionImage->render(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(),tile->_x,tile->_y);
+			}
 			else tile->_collisionImage = nullptr;
 			tileLine.push_back(tile);
 			
@@ -63,6 +67,7 @@ void gameScene::LoadMap(string fileName)
 		obj->SetX(stof(objData[i][1])*48);
 		obj->SetY(stof(objData[i][2])*48);
 		obj->SetSpawnTime(stoi(objData[i][3]));
+
 		ENTITYMANAGER->getVObjs().push_back(obj);
 	}
 }
@@ -78,6 +83,7 @@ void gameScene::update()
 	{
 		UIMANAGER->_GameFrame->GetVChildFrames().clear();
 		SCENEMANAGER->loadScene("시작화면");
+		
 	}
 
 	if (INPUT->GetKey(VK_LEFT))
@@ -126,6 +132,7 @@ void gameScene::render()
 		IMAGEMANAGER->findImage("MiniMapPixel")->render(getMemDC(), _vMiniRc[i].left, _vMiniRc[i].top);
 	}
 	
+	CAMERAMANAGER->Render(getMemDC(), IMAGEMANAGER->findImage("PixelMapIg"),0,0);
 	ENTITYMANAGER->render(getMemDC());
 }
 

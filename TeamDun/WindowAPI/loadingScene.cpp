@@ -508,6 +508,7 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("baseCharIdle", "Images/player/baseCharIdle.bmp", 285, 132, 5, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("baseCharRun", "Images/player/baseCharRun.bmp", 504, 132, 8, 2, true, RGB(255, 0, 255));
 
+	_loading->LoadNormalImage("PixelMapIg", "Images/PixelMapIg.bmp", 9600, 9600, true, RGB(255, 0, 255));
 }
 
 void loadingScene::loadingSound()
