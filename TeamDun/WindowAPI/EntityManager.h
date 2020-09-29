@@ -21,5 +21,6 @@ public :
 	vector<Object*>&	getVObjs()		{ return _vObjs; }
 	vector<Bullet*>&	getVBullets()	{ return _vBullets; }
 	Player*				getPlayer()		{ return _p; }
+	void				setPlayer(Player* p) { _p = p; }
 };
 

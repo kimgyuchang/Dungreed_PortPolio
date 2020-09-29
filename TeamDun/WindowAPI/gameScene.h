@@ -16,6 +16,7 @@ private:
 	vector <Object*>		_vObjs;
 	float					_pivX;
 	float					_pivY;
+	Player*					_p;
 
 public:
 	HRESULT init();

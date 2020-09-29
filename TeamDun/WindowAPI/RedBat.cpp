@@ -9,7 +9,6 @@ HRESULT RedBat::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 
 void RedBat::update()
 {
-
 }
 
 void RedBat::release()

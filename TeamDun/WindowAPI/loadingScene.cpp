@@ -45,9 +45,13 @@ void loadingScene::update()
 	// 아니라면 계속해서 불러오기
 	else
 	{
-		LoadItem* item = _loading->GetLoadItem()[_currentGauge];
-		_loading->LoadingDone(item);
-		_currentGauge++;
+		for (int i = 0; i < 5; i++)
+		{
+			LoadItem* item = _loading->GetLoadItem()[_currentGauge];
+			_loading->LoadingDone(item);
+			_currentGauge++;
+			if (_currentGauge >= _loading->GetLoadItem().size()) break;
+		}
 		_loadingBar->setGauge(_loading->GetLoadItem().size(), _currentGauge);
 	}
 }
@@ -481,6 +485,11 @@ void loadingScene::loadingImage()
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BatBulletHit", "Images/Monster/Bullet/BatBulletHit.bmp", 546, 78, 5, 2, true, RGB(255, 0, 255));
+	
+	_loading->LoadFrameImage("baseCharIdle", "Images/player/baseCharIdle.bmp", 285, 132, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("baseCharRun", "Images/player/baseCharRun.bmp", 504, 132, 8, 2, true, RGB(255, 0, 255));
+
+
 }
 
 void loadingScene::loadingSound()

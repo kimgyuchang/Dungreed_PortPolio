@@ -17,6 +17,8 @@ void EntityManager::update()
 	{
 		_vBullets[i]->update();
 	}
+
+	_p->update();
 }
 
 void EntityManager::render(HDC hdc)
@@ -30,6 +32,8 @@ void EntityManager::render(HDC hdc)
 	{
 		_vBullets[i]->render(hdc);
 	}
+
+	_p->render(hdc);
 }
 
 void EntityManager::release()
@@ -43,4 +47,6 @@ void EntityManager::release()
 	{
 		_vBullets[i]->release();
 	}
+
+	_p->release();
 }
