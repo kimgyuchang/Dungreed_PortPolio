@@ -77,7 +77,7 @@ void MapTool::update()
 /// </summary>
 Grid* MapTool::mouseCollisionCheck(int n)
 {
-	int xIndex = CAMERAMANAGER->GetAbsoluteX(_ptMouse.x) / (_zoomWidth	+(2*_zoomWidth/48));
+	int xIndex = CAMERAMANAGER->GetAbsoluteX(_ptMouse.x) / (_zoomWidth	+ (2 * _zoomWidth / 48));
 	int yIndex = CAMERAMANAGER->GetAbsoluteY(_ptMouse.y) / (_zoomHeight + (2 * _zoomHeight/ 48));
 	
 
