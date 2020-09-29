@@ -14,7 +14,17 @@ HRESULT gameScene::init()
 	_pivX = WINSIZEX / 2;
 	_pivY = WINSIZEY / 2;
 
-	LoadMap("Stage1_longY");
+	_fillTesterInit = 100;
+	_fillTesterPros = 0;
+	LoadMap("Stage0_Start");
+
+	/*
+	UIProgressBar* bar = new UIProgressBar();
+	bar->init("bar", 0, 0, 300, 100, "ExplorationFailure.korean", "ExplorationSuccess.korean");
+	UIMANAGER->GetGameFrame()->AddFrame(bar);
+	*/
+	// PROGRESSBAR TEST
+
 	return S_OK;
 }
 
@@ -74,6 +84,13 @@ void gameScene::release()
 
 void gameScene::update()
 {
+	/*
+	_fillTesterPros += 0.2f;
+	if (_fillTesterPros > _fillTesterInit) _fillTesterPros = _fillTesterInit;
+	dynamic_cast<UIProgressBar*>(UIMANAGER->GetGameFrame()->GetChild("bar"))->FillCheck(_fillTesterInit, _fillTesterPros);
+	*/
+	// PROGRESSBAR TEST
+
 	if (INPUT->GetKeyDown(VK_BACK))
 	{
 		UIMANAGER->_GameFrame->GetVChildFrames().clear();
@@ -127,6 +144,7 @@ void gameScene::render()
 	}
 	
 	ENTITYMANAGER->render(getMemDC());
+	UIMANAGER->render(getMemDC());
 }
 
 void gameScene::setMiniMap()

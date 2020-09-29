@@ -2,7 +2,8 @@
 #include "singletonBase.h"
 #include "UIText.h"
 #include "UIImage.h"
-#include "UIScroll.h" 
+#include "UIScroll.h"
+#include "UIProgressBar.h"
 
 /// <summary>
 /// UI전체를 관리하는 매니저이다.

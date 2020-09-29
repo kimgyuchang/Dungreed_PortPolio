@@ -20,6 +20,8 @@ private:
 	float					_pivY;
 	Player*					_p;
 
+	float					_fillTesterInit;
+	float					_fillTesterPros;
 public:
 	HRESULT init();
 	void LoadMap(string fileName);
