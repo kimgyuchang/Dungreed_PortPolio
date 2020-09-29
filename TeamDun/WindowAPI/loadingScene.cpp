@@ -343,10 +343,12 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Empty", "Images/UI/Empty.bmp", 96, 96, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("EndurancePain", "Images/UI/EndurancePain.bmp", 51, 51, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("EquippedWeaponBase", "Images/UI/EquippedWeaponBase.bmp", 102, 72, true ,RGB(255,0,255));
+	_loading->LoadNormalImage("ExplorationFailure.korean", "Images/UI/ExplorationFailure.korean.bmp", 960, 108, true ,RGB(255,0,255));
+	_loading->LoadNormalImage("ExplorationSuccess.korean", "Images/UI/ExplorationSuccess.korean.bmp", 960, 108, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("FullWindowExitButton", "Images/UI/FullWindowExitButton.bmp", 66, 57, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("FullWindowExitButton_Selected", "Images/UI/FullWindowExitButton_Selected.bmp", 66, 57, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("IconGray", "Images/UI/IconGray.bmp", 57, 57, true ,RGB(255,0,255));
-	_loading->LoadNormalImage("IconWhite #16786", "Images/UI/IconWhite #16786.bmp", 57, 57, true ,RGB(255,0,255));
+	_loading->LoadNormalImage("IconWhite 1", "Images/UI/IconWhite 1.bmp", 57, 57, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("IconWhite", "Images/UI/IconWhite.bmp", 57, 57, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("IconWhite_Trans", "Images/UI/IconWhite_Trans.bmp", 57, 57, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("IconYellow_Trans", "Images/UI/IconYellow_Trans.bmp", 57, 57, true ,RGB(255,0,255));
