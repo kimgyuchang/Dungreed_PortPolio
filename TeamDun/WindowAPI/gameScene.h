@@ -15,6 +15,7 @@ class gameScene : public gameNode
 private:
 	vector <vector<Tile*>>	_vMapData;
 	vector <Object*>		_vObjs;
+	vector <RECT>			_vMiniRc;
 	float					_pivX;
 	float					_pivY;
 
@@ -24,5 +25,7 @@ public:
 	void release();
 	void update();
 	void render();
+	void setMiniMap();
+
 };
 

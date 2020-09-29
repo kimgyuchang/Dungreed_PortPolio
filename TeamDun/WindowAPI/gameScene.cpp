@@ -20,7 +20,7 @@ void gameScene::LoadMap(string fileName)
 	vector<vector<string>> stringData2 = CSVMANAGER->csvLoad("Data/MapData/" + fileName + "2.mapData");
 	if (stringData.size() == 0 && stringData2.size() == 0) return;
 	_vMapData.clear();
-
+		
 	for (int i = 0; i < stringData.size(); i++)
 	{
 		vector<Tile*> tileLine;
@@ -28,8 +28,14 @@ void gameScene::LoadMap(string fileName)
 		{
 			Tile* tile = new Tile();
 			if (stringData[i][j] == "-1") tile->_img = nullptr;
-			else tile->_img = IMAGEMANAGER->findImage(stringData[i][j]);
+			else
+			{
+				tile->_img = IMAGEMANAGER->findImage(stringData[i][j]);
+				RECT rc;
+				rc = RectMake(10 + j * 5, 10 + i * 5, 5, 5); // 한칸당 5픽셀 이기때문에 늘리고싶으면 이미지도 같이 바까야합니다
+				_vMiniRc.push_back(rc);
 
+			}
 			if (stringData2[i][j] == "-1") tile->_img2 = nullptr;
 			else tile->_img2 = IMAGEMANAGER->findImage(stringData2[i][j]);
 			tile->_x = j * 48;
@@ -37,10 +43,13 @@ void gameScene::LoadMap(string fileName)
 			if (stringData[i][j] != "-1") tile->_collisionImage = DATAMANAGER->GetGridDataByName(stringData[i][j])->_colImage;
 			else tile->_collisionImage = nullptr;
 			tileLine.push_back(tile);
+			
+			
 		}
 		_vMapData.push_back(tileLine);
 	}
-
+	
+	
 	_vObjs.clear();
 	vector<vector<string>> objData = CSVMANAGER->csvLoad("Data/MapData/" + fileName + "_Objs.mapData");
 	for (int i = 0; i < objData.size(); i++)
@@ -107,8 +116,15 @@ void gameScene::render()
 			if (INPUT->GetKey(VK_F1) && _vMapData[i][j]->_collisionImage != nullptr) CAMERAMANAGER->Render(getMemDC(), _vMapData[i][j]->_collisionImage, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
 		}
 	}
-
 	
-
+	for (int i = 0; i < _vMiniRc.size(); i++)
+	{
+		IMAGEMANAGER->findImage("MiniMapPixel")->render(getMemDC(), _vMiniRc[i].left, _vMiniRc[i].top);
+	}
+	
 	ENTITYMANAGER->render(getMemDC());
+}
+
+void gameScene::setMiniMap()
+{
 }
