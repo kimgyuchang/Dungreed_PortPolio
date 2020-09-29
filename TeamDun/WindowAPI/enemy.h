@@ -14,7 +14,8 @@ protected :
 	int				_useBulletId;		// 사용하는 불릿 ID
 	float			_moveSpeed;			// 이동속도
 	float			_gravity;			// 몬스터 중력값
-
+	int				_count;				// 애니메이션 용 카운트
+	int				_index;				// 애니메이션 용 인덱스
 
 public :
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);

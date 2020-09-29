@@ -16,19 +16,22 @@ void BigWhiteSkel::update()
 	switch (_state)
 	{
 	case ES_IDLE:
-		if (ENTITYMANAGER->getPlayer()->GetX() - 100 < _x)
+		if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()+ 20) < 100)
 		{
 			_state = ES_MOVE;
 		}
 		break;
 	case ES_MOVE:
-		if (ENTITYMANAGER->getPlayer()->GetX() > _x)
+		if (ENTITYMANAGER->getPlayer()->GetX() - 20 > _x)
 		{
 			_x += 3;
 		}
-		if (ENTITYMANAGER->getPlayer()->GetX() - 20 > _x && ENTITYMANAGER->getPlayer()->GetX() + 20 < _x)
+		else if (ENTITYMANAGER->getPlayer()->GetX() + 70 < _x)
 		{
 			_x -= 3;
+		}
+		if (ENTITYMANAGER->getPlayer()->GetX() - 20 < _x && ENTITYMANAGER->getPlayer()->GetX() + 70 > _x)
+		{
 			_state = ES_ATTACK;
 		}
 		break;
