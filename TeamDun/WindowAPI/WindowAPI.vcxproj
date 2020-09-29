@@ -170,6 +170,7 @@
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="MapTool.h" />
     <ClInclude Include="mapScene.h" />
+    <ClInclude Include="Minotaurs.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Obstacle.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="MapTool.cpp" />
     <ClCompile Include="mapScene.cpp" />
+    <ClCompile Include="Minotaurs.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Obstacle.cpp" />

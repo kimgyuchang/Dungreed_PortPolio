@@ -35,4 +35,5 @@ void Enemy::Attack()
 
 void Enemy::Animation()
 {
+	// 미구현 (상속 클래스 내부에서 세부구현) //
 }

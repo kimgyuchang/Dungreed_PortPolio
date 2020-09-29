@@ -167,6 +167,9 @@
     <ClCompile Include="UIProgressBar.cpp">
       <Filter>GameFramework\UI\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Minotaurs.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -290,6 +293,9 @@
     <ClInclude Include="inventory.h" />
     <ClInclude Include="UIProgressBar.h">
       <Filter>GameFramework\UI\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minotaurs.h">
+      <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

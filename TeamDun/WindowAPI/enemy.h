@@ -16,6 +16,7 @@ protected :
 	float			_gravity;			// 몬스터 중력값
 	int				_count;				// 애니메이션 용 카운트
 	int				_index;				// 애니메이션 용 인덱스
+	bool			_isLeft;			// 애니메이션이 왼쪽이냐?
 
 public :
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
