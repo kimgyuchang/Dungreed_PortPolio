@@ -57,8 +57,8 @@ void gameScene::LoadMap(string fileName)
 			tile->_y = i * 48;
 			if (stringData[i][j] != "-1")
 			{
-				tile->_collisionImage = DATAMANAGER->GetGridDataByName(stringData[i][j])->_colImage;
-				tile->_collisionImage->render(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(),tile->_x,tile->_y);
+				tile->_collisionImage = DATAMANAGER->GetGridDataByName(stringData[i][j])->_colImage; 
+				tile->_collisionImage->render(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(),tile->_x,tile->_y); // 충돌용 배경에 충돌용 타일 배치
 			}
 			else tile->_collisionImage = nullptr;
 			tileLine.push_back(tile);
@@ -112,27 +112,7 @@ void gameScene::update()
 		
 	}
 
-	if (INPUT->GetKey(VK_LEFT))
-	{
-		_pivX -= 5;
-	}
-
-	if (INPUT->GetKey(VK_RIGHT))
-	{
-		_pivX += 5;
-	}
-
-	if (INPUT->GetKey(VK_UP))
-	{
-		_pivY -= 5;
-	}
-
-	if (INPUT->GetKey(VK_DOWN))
-	{
-		_pivY += 5;
-	}
-
-	CAMERAMANAGER->MovePivotLerp(_pivX, _pivY, 5.f);
+	CAMERAMANAGER->MovePivotLerp(ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY(), 5.f);
 	ENTITYMANAGER->update();
 }
 
@@ -149,7 +129,7 @@ void gameScene::render()
 			if (j < 0 || j >= _vMapData[i].size()) continue;
 			if (_vMapData[i][j]->_img2) CAMERAMANAGER->Render(getMemDC(), _vMapData[i][j]->_img2, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
 			if (_vMapData[i][j]->_img) CAMERAMANAGER->Render(getMemDC(), _vMapData[i][j]->_img, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
-			if (INPUT->GetKey(VK_F1) && _vMapData[i][j]->_collisionImage != nullptr) CAMERAMANAGER->Render(getMemDC(), _vMapData[i][j]->_collisionImage, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
+			
 		}
 	}
 
@@ -158,7 +138,11 @@ void gameScene::render()
 		IMAGEMANAGER->findImage("MiniMapPixel")->render(getMemDC(), _vMiniRc[i].left, _vMiniRc[i].top);
 	}
 	
-	CAMERAMANAGER->Render(getMemDC(), IMAGEMANAGER->findImage("PixelMapIg"),0,0);
+	if (INPUT->GetKey(VK_F1))
+	{
+		CAMERAMANAGER->Render(getMemDC(), IMAGEMANAGER->findImage("PixelMapIg"),0,0);
+
+	}
 
 	ENTITYMANAGER->render(getMemDC());
 	UIMANAGER->render(getMemDC());
