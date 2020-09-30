@@ -190,6 +190,9 @@ void MapTool::EveSaveData()
 /// </summary>
 void MapTool::LoadData(string name)
 {
+	_zoomHeight = 48;
+	_zoomWidth = 48;
+
 	vector<vector<string>> stringData = CSVMANAGER->csvLoad("Data/MapData/" + name + ".mapData");
 	vector<vector<string>> stringData2 = CSVMANAGER->csvLoad("Data/MapData/" + name + "2.mapData");
 	if (stringData.size() == 0 && stringData2.size() == 0) return;

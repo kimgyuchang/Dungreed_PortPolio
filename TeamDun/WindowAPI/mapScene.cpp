@@ -253,6 +253,11 @@ void mapScene::UIInit()
 	UIMANAGER->GetGameFrame()->AddFrame(floodFillText);
 	floodFillText->SetIsViewing(false);
 
+	UIText* zoomText = new UIText();
+	zoomText->init("ZoomText", 10, WINSIZEY - 150, 300, 50, "ZoomData : 48", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
+	UIMANAGER->GetGameFrame()->AddFrame(zoomText);
+	zoomText->SetIsViewing(false);
+
 	UIFrame* setSpawnTimeFrame = new UIFrame();
 	setSpawnTimeFrame->init("spawnFrame", WINSIZEX / 2 - 250, WINSIZEY / 2 - 150, IMAGEMANAGER->findImage("UIBaseBig")->getWidth(), IMAGEMANAGER->findImage("UIBaseBig")->getHeight(), "UIBaseBig", 0.4, 0.3);
 	UIMANAGER->GetGameFrame()->AddFrame(setSpawnTimeFrame);
@@ -269,7 +274,6 @@ void mapScene::UIInit()
 	UIImage* exitTextImg = new UIImage();
 	exitTextImg->init("img", 4, 4, 48, 48, "Exit", false, 0, 0);
 	exitFrame->AddFrame(exitTextImg);
-
 
 }
 
@@ -554,7 +558,7 @@ void mapScene::DoClickByType()
 		switch (_brushType)
 		{
 		case BT_FILLRECT:
-			if (_targetImage) FillSquareRange();
+			FillSquareRange();
 			break;
 		case BT_FLOODFILL:
 			if (_targetImage) FloodFill();
@@ -650,35 +654,29 @@ void mapScene::FillSquareRange()
 {
 	if (_isFillClicked == false)
 	{
-		if (_targetImage != nullptr)
+		Grid* grid = _mapTool->mouseCollisionCheck();
+		if (grid)
 		{
-			Grid* grid = _mapTool->mouseCollisionCheck();
-			if (grid)
-			{
-				_clickedPointOne = POINT{ grid->_xIndex, grid->_yIndex };
-				_isFillClicked = true;
-			}
+			_clickedPointOne = POINT{ grid->_xIndex, grid->_yIndex };
+			_isFillClicked = true;
 		}
 	}
 
 	else if (_isFillClicked)
 	{
-		if (_targetImage != nullptr)
-		{
-			_mapTool->EveSaveData();
-			Grid* grid = _mapTool->mouseCollisionCheck();
+		_mapTool->EveSaveData();
+		Grid* grid = _mapTool->mouseCollisionCheck();
 
-			if (grid)
+		if (grid)
+		{
+			_clickedPointTwo = POINT{ grid->_xIndex, grid->_yIndex };
+			_mapTool->GridRange(_clickedPointOne.x, _clickedPointOne.y, _clickedPointTwo.x, _clickedPointTwo.y);
+			_isFillClicked = false;
+			for (int i = 0; i < _mapTool->GetGrid().size(); i++)
 			{
-				_clickedPointTwo = POINT{ grid->_xIndex, grid->_yIndex };
-				_mapTool->GridRange(_clickedPointOne.x, _clickedPointOne.y, _clickedPointTwo.x, _clickedPointTwo.y);
-				_isFillClicked = false;
-				for (int i = 0; i < _mapTool->GetGrid().size(); i++)
+				for (int j = 0; j < _mapTool->GetGrid()[i].size(); j++)
 				{
-					for (int j = 0; j < _mapTool->GetGrid()[i].size(); j++)
-					{
-						_mapTool->GetGrid()[i][j]->_alpha = 70;
-					}
+					_mapTool->GetGrid()[i][j]->_alpha = 70;
 				}
 			}
 		}
@@ -752,6 +750,7 @@ void mapScene::SetMapSize()
 		UIMANAGER->GetGameFrame()->GetChild("ShortcutKeyFrame")->SetIsViewing(true);
 		UIMANAGER->GetGameFrame()->GetChild("LayerChecker")->SetIsViewing(true);
 		UIMANAGER->GetGameFrame()->GetChild("ShortcutFrame")->GetChild("shortcutBox7")->GetChild("ShortSizeFrame")->SetIsViewing(false);
+		UIMANAGER->GetGameFrame()->GetChild("ZoomText")->SetIsViewing(true);
 	}
 
 	UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("sizeFrame");
@@ -1129,12 +1128,14 @@ void mapScene::ZoomInOut()
 		_mapTool->setZoomHeight(_mapTool->getZoomHeight() + 5);
 		_mapTool->setZoomWidth(_mapTool->getZoomWidth() + 5);
 		_mapTool->SetMap();
+		dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("ZoomText"))->SetText("ZoomText : " + to_string((int)_mapTool->getZoomWidth()));
 	}
 	if (_mouseWheel == -1)
 	{
 		_mapTool->setZoomHeight(_mapTool->getZoomHeight() - 5);
 		_mapTool->setZoomWidth(_mapTool->getZoomWidth() - 5);
 		_mapTool->SetMap();
+		dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("ZoomText"))->SetText("ZoomText : " + to_string((int)_mapTool->getZoomWidth()));
 	}
 }
 
