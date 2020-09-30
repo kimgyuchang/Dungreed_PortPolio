@@ -170,6 +170,9 @@
     <ClCompile Include="Minotaurs.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Belial.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -295,6 +298,9 @@
       <Filter>GameFramework\UI\Component</Filter>
     </ClInclude>
     <ClInclude Include="Minotaurs.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Belial.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>

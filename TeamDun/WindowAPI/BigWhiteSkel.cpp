@@ -43,6 +43,7 @@ void BigWhiteSkel::update()
 			}
 			else
 			{
+				_x = _x - 65;
 				_isLeft = false;
 			}
 		}
@@ -60,6 +61,7 @@ void BigWhiteSkel::update()
 			if (_count % 5 == 0)
 			{
 				_state = ES_IDLE;
+				_x = _x + 65;
 			}
 		}
 		break;

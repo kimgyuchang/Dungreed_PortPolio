@@ -17,7 +17,7 @@ HRESULT gameScene::init()
 
 	_fillTesterInit = 100;
 	_fillTesterPros = 0;
-	LoadMap("Stage0_start");
+	LoadMap("Stage0_Start");
 
 	/*
 	UIProgressBar* bar = new UIProgressBar();
