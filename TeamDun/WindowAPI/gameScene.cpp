@@ -3,6 +3,7 @@
 
 HRESULT gameScene::init()
 {
+	MAPMANAGER->init();
 	UIMANAGER->init();
 	_p = new Player();
 	_p->init();
@@ -15,11 +16,7 @@ HRESULT gameScene::init()
 
 	CAMERAMANAGER->init(0,0,15000,15000,-500,-500,WINSIZEX/2, WINSIZEY/2);
 
-	
-	FieldMap* map = new FieldMap();
-	map->init("Stage1_longY");
-	_maps.push_back(map);
-	_currentMap = 0;
+	_currentMap = RANDOM->range((int)MAPMANAGER->GetMaps().size());
 	return S_OK;
 }
 
@@ -35,7 +32,15 @@ void gameScene::update()
 		UIMANAGER->_GameFrame->GetVChildFrames().clear();
 		SCENEMANAGER->loadScene("시작화면");
 	}
-	_maps[_currentMap]->update();
+
+	if (INPUT->GetKeyDown(VK_F2))
+	{
+		_currentMap = RANDOM->range((int)MAPMANAGER->GetMaps().size());
+		ENTITYMANAGER->getPlayer()->SetX(30);
+		ENTITYMANAGER->getPlayer()->SetY(30);
+	}
+
+	MAPMANAGER->GetMaps()[_currentMap]->update();
 	CAMERAMANAGER->MovePivotLerp(ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY(), 5.f);
 	ENTITYMANAGER->update();
 }
@@ -45,7 +50,7 @@ void gameScene::render()
 	IMAGEMANAGER->findImage("BasicCursor")->render(getMemDC(), _ptMouse.x, _ptMouse.y);
 	TextOut(getMemDC(), 0, 0, "EXIT : VK_BACK", strlen("EXIT : VK_BACK"));
 
-	_maps[_currentMap]->render(getMemDC());
+	MAPMANAGER->GetMaps()[_currentMap]->render(getMemDC());
 	ENTITYMANAGER->render(getMemDC());
 	UIMANAGER->render(getMemDC());
 }

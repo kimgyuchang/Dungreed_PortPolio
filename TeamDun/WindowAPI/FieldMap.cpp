@@ -5,7 +5,13 @@ void FieldMap::LoadMap()
 {
 	vector<vector<string>> stringData = CSVMANAGER->csvLoad("Data/MapData/" + _fileName + ".mapData");
 	vector<vector<string>> stringData2 = CSVMANAGER->csvLoad("Data/MapData/" + _fileName + "2.mapData");
-	if (stringData.size() == 0 && stringData2.size() == 0) return;
+	
+	if (stringData.size() == 0 || stringData2.size() == 0)
+	{
+		cout << _fileName << " load Failed" << endl;
+		return;
+	}
+
 	_vMapData.clear();
 
 	for (int i = 0; i < stringData.size(); i++)
