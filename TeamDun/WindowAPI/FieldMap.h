@@ -16,6 +16,9 @@ private :
 	vector<vector<Tile*>>	_vMapData;
 	vector <Object*>		_vObjs;
 	vector <RECT>			_vMiniRc;
+	
+	int						_nextMapIndex[4];
+	int						_stage;
 public :
 	void LoadMap();
 
@@ -24,5 +27,7 @@ public :
 	virtual void release();
 	virtual void render(HDC hdc);
 
+	string	GetFileName()			{ return _fileName; }
+	void	SetStage(int stage)		{ _stage = stage; }
 };
 
