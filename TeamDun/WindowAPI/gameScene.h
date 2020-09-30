@@ -1,31 +1,20 @@
 #pragma once
 #include "gameNode.h"
 #include "BigWhiteSkel.h"
-
-struct Tile
-{
-	int		_x;					// X 위치
-	int		_y;					// Y 위치
-	image*	_img;				// IMAGE
-	image*	_img2;				// IMAGE2
-	image*	_collisionImage;	// 픽셀충돌 이미지
-};
+#include "FieldMap.h"
 
 class gameScene : public gameNode
 {
 private:
-	vector <vector<Tile*>>	_vMapData;
-	vector <Object*>		_vObjs;
-	vector <RECT>			_vMiniRc;
 	float					_pivX;
 	float					_pivY;
 	Player*					_p;
 
-	float					_fillTesterInit;
-	float					_fillTesterPros;
+	int						_currentMap;
+	vector<FieldMap*>		_maps;
+
 public:
 	HRESULT init();
-	void LoadMap(string fileName);
 	void release();
 	void update();
 	void render();

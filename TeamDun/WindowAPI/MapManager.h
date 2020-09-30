@@ -1,6 +1,11 @@
 #pragma once
-class MapManager
+#include "singletonBase.h"
+
+class MapManager : public singletonBase<MapManager>
 {
+public :
+	
+private :
 
 };
 
