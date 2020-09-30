@@ -37,8 +37,10 @@ private:
 
 	RECT		_collider[8];		//픽셀충돌용
 	float		_probeBottom;		//픽셀충돌용좌표
-	float		_probeTop;		//픽셀충돌용좌표
+	bool		_isJump;
+	bool		_downJump;
 
+	int			_downJmpTimer;
 public:
 
 	virtual HRESULT init();
