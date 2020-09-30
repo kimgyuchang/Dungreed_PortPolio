@@ -46,6 +46,9 @@
     <Filter Include="GameFramework\Progressbar">
       <UniqueIdentifier>{bc1fad6b-64c5-4477-8b5e-8fc16bc693dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Etc">
+      <UniqueIdentifier>{80fdcee8-ee6b-4f48-8e17-bfa6c6c2f148}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -159,19 +162,23 @@
     <ClCompile Include="gameScene.cpp">
       <Filter>MainGame\Scene\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="BigWhiteSkel.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="inventory.cpp" />
     <ClCompile Include="UIProgressBar.cpp">
       <Filter>GameFramework\UI\Component</Filter>
     </ClCompile>
     <ClCompile Include="Minotaurs.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Belial.cpp">
-      <Filter>MainGame\Object\Enemy</Filter>
+    <ClCompile Include="FieldMap.cpp">
+      <Filter>MainGame\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="inventory.cpp">
+      <Filter>MainGame\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>GameFramework\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -289,19 +296,23 @@
     <ClInclude Include="gameScene.h">
       <Filter>MainGame\Scene\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="MapManager.h" />
     <ClInclude Include="BigWhiteSkel.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="inventory.h" />
     <ClInclude Include="UIProgressBar.h">
       <Filter>GameFramework\UI\Component</Filter>
     </ClInclude>
     <ClInclude Include="Minotaurs.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Belial.h">
-      <Filter>MainGame\Object\Enemy</Filter>
+    <ClInclude Include="FieldMap.h">
+      <Filter>MainGame\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory.h">
+      <Filter>MainGame\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManager.h">
+      <Filter>GameFramework\Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

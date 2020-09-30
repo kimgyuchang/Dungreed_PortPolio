@@ -37,6 +37,7 @@ private:
 
 	RECT		_collider[8];		//픽셀충돌용
 	float		_probeBottom;		//픽셀충돌용좌표
+	float		_probeTop;		//픽셀충돌용좌표
 
 public:
 

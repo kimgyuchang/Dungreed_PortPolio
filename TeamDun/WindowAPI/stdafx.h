@@ -18,8 +18,11 @@
 #include <tchar.h>
 #include <math.h>
 #include <commdlg.h>
+#include <io.h>
+
 // C++ 런타임 헤더 파일입니다.
 #include <iostream>
+#include <filesystem>
 using namespace std;
 
 // 자주사용하는 STL
@@ -43,6 +46,7 @@ using namespace std;
 #include "CameraManager.h"
 #include "DataManager.h"
 #include "EntityManager.h"
+#include "MapManager.h"
 
 using namespace MY_UTIL;
 
@@ -58,6 +62,7 @@ using namespace MY_UTIL;
 #define CAMERAMANAGER CameraManager::getSingleton()
 #define DATAMANAGER DataManager::getSingleton()
 #define ENTITYMANAGER EntityManager::getSingleton()
+#define MAPMANAGER MapManager::getSingleton()
 #define RANDOM random::getSingleton()
 #define INIDATA iniData::getSingleton()
 
