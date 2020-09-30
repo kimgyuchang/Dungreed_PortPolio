@@ -34,6 +34,7 @@ id,name,type,image,image2,image3
 702,붉은박쥐,Monster,BatRedIdle,BatRedAttack,.
 1500,큰 해골-하얀색,Monster,BigWhiteSkelIdle,BigWhiteSkelMove,BigWhiteSkelAttack
 1501,미노타우르스,Monster,MinotaursIdle,MinotaursCharge,MinotaursAttack
+2000,벨리알,Monster,SkellBossIdle,.,.
 514,문 왼쪽,Etc,Door_Left_Idle,Door_Left,.
 515,문 오른쪽,Etc,Door_Right_Idle,Door_Right,.
 516,문 위쪽,Etc,Door_Up_Idle,Door_Up,.

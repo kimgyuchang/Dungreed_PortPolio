@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Belial.h" />
     <ClInclude Include="BigWhiteSkel.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraManager.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Belial.cpp" />
     <ClCompile Include="BigWhiteSkel.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CameraManager.cpp" />
