@@ -62,7 +62,7 @@ void FieldMap::LoadMap()
 		obj->SetY(stof(objData[i][2]) * 48);
 		obj->SetSpawnTime(stoi(objData[i][3]));
 
-		ENTITYMANAGER->getVObjs().push_back(obj);
+		_vObjs.push_back(obj);
 	}
 }
 
@@ -94,6 +94,10 @@ HRESULT FieldMap::init(string fileName)
 
 void FieldMap::update()
 {
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		_vObjs[i]->update();
+	}
 }
 
 void FieldMap::release()
@@ -110,17 +114,24 @@ void FieldMap::render(HDC hdc)
 			if (j < 0 || j >= _vMapData[i].size()) continue;
 			if (_vMapData[i][j]->_img2) CAMERAMANAGER->Render(hdc, _vMapData[i][j]->_img2, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
 			if (_vMapData[i][j]->_img) CAMERAMANAGER->Render(hdc, _vMapData[i][j]->_img, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
-
 		}
-	} // 일정 범위만큼만 렌더해준다.
-
-	for (int i = 0; i < _vMiniRc.size(); i++)
-	{
-		IMAGEMANAGER->findImage("MiniMapPixel")->render(hdc, _vMiniRc[i].left, _vMiniRc[i].top);
-	}
+	} // 타일 렌더, 일정 범위만큼만 렌더해준다.
 
 	if (INPUT->GetKey(VK_F1))
 	{
 		CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("PixelMapIg"), 0, 0);
-	}
+	} // 픽셀충돌 렌더
+
+	for (int i = 0; i < _vMiniRc.size(); i++)
+	{
+		IMAGEMANAGER->findImage("MiniMapPixel")->render(hdc, _vMiniRc[i].left, _vMiniRc[i].top);
+	} // 미니맵 렌더
+
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		_vObjs[i]->render(hdc);
+	} // 오브젝트 렌더
+
+	ENTITYMANAGER->render(hdc);
+	// 플레이어 및 불릿 등 렌더
 }

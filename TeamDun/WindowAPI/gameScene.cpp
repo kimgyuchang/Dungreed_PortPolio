@@ -51,9 +51,10 @@ void gameScene::update()
 void gameScene::render()
 {
 	IMAGEMANAGER->findImage("BasicCursor")->render(getMemDC(), _ptMouse.x, _ptMouse.y);
-	TextOut(getMemDC(), 0, 0, "EXIT : VK_BACK", strlen("EXIT : VK_BACK"));
-
+	
 	MAPMANAGER->GetMaps()[_currentMap]->render(getMemDC());
-	ENTITYMANAGER->render(getMemDC());
 	UIMANAGER->render(getMemDC());
+	
+	TextOut(getMemDC(), 0, 0, "EXIT : VK_BACK", strlen("EXIT : VK_BACK"));
+	TextOut(getMemDC(), 0, 30, MAPMANAGER->GetMaps()[_currentMap]->GetFileName().c_str(), MAPMANAGER->GetMaps()[_currentMap]->GetFileName().size());
 }
