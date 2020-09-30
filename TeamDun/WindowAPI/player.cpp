@@ -228,7 +228,7 @@ void Player::update()
 	//¿ÞÂÊÀ§
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i,_y+2);
+		COLORREF color3 = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 15);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -236,6 +236,21 @@ void Player::update()
 		if ((r == 255 && g == 0 && b == 0))
 		{
 			_leftCollision2 = true;
+			_x = i;
+
+			break;
+		}
+	}
+	for (int i = _x + 15; i > _x - 5; i--)
+	{
+		COLORREF color3 = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i,_y+2);
+		int r = GetRValue(color3);
+		int g = GetGValue(color3);
+		int b = GetBValue(color3);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+			
 			_x = i;
 
 			break;

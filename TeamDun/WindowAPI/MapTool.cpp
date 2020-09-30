@@ -539,8 +539,8 @@ void MapTool::SetMap()
 	{
 		for (int j = 0; j < _vMapData[i].size(); j++)
 		{
-			_vMapData[i][j]->_x = j * (_zoomWidth + (2 * _zoomWidth / 48)) + 0;
-			_vMapData[i][j]->_y = i * (_zoomHeight + (2 * _zoomHeight / 48)) + 0;
+			_vMapData[i][j]->_x = j * _zoomWidth;
+			_vMapData[i][j]->_y = i * _zoomHeight;
 			_vMapData[i][j]->_rc = RectMake(_vMapData[i][j]->_x, _vMapData[i][j]->_y, _zoomWidth, _zoomHeight);
 		}
 	}
