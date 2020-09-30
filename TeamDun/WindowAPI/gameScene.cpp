@@ -16,6 +16,7 @@ HRESULT gameScene::init()
 
 	CAMERAMANAGER->init(0,0,15000,15000,-500,-500,WINSIZEX/2, WINSIZEY/2);
 	_currentMap = RANDOM->range((int)MAPMANAGER->GetMaps().size());
+	MAPMANAGER->GetMaps()[_currentMap]->PixelCollisionMapGenerate();
 
 	return S_OK;
 }
@@ -36,6 +37,7 @@ void gameScene::update()
 	if (INPUT->GetKeyDown(VK_F2))
 	{
 		_currentMap = RANDOM->range((int)MAPMANAGER->GetMaps().size());
+		MAPMANAGER->GetMaps()[_currentMap]->PixelCollisionMapGenerate();
 		ENTITYMANAGER->getPlayer()->SetX(30);
 		ENTITYMANAGER->getPlayer()->SetY(30);
 	}
@@ -48,9 +50,10 @@ void gameScene::update()
 void gameScene::render()
 {
 	IMAGEMANAGER->findImage("BasicCursor")->render(getMemDC(), _ptMouse.x, _ptMouse.y);
-	TextOut(getMemDC(), 0, 0, "EXIT : VK_BACK", strlen("EXIT : VK_BACK"));
-
+	
 	MAPMANAGER->GetMaps()[_currentMap]->render(getMemDC());
-	ENTITYMANAGER->render(getMemDC());
 	UIMANAGER->render(getMemDC());
+	
+	TextOut(getMemDC(), 0, 0, "EXIT : VK_BACK", strlen("EXIT : VK_BACK"));
+	TextOut(getMemDC(), 0, 30, MAPMANAGER->GetMaps()[_currentMap]->GetFileName().c_str(), MAPMANAGER->GetMaps()[_currentMap]->GetFileName().size());
 }

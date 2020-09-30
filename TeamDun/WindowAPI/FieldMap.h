@@ -22,6 +22,8 @@ private :
 public :
 	void LoadMap();
 
+	void PixelCollisionMapGenerate();
+
 	HRESULT init(string fileName);
 	virtual void update();
 	virtual void release();
