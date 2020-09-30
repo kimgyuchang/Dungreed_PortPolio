@@ -17,6 +17,8 @@ HRESULT gameScene::init()
 	CAMERAMANAGER->init(0,0,15000,15000,-500,-500,WINSIZEX/2, WINSIZEY/2);
 
 	_currentMap = RANDOM->range((int)MAPMANAGER->GetMaps().size());
+	MAPMANAGER->GetMaps()[_currentMap]->PixelCollisionMapGenerate();
+
 	return S_OK;
 }
 
@@ -36,6 +38,7 @@ void gameScene::update()
 	if (INPUT->GetKeyDown(VK_F2))
 	{
 		_currentMap = RANDOM->range((int)MAPMANAGER->GetMaps().size());
+		MAPMANAGER->GetMaps()[_currentMap]->PixelCollisionMapGenerate();
 		ENTITYMANAGER->getPlayer()->SetX(30);
 		ENTITYMANAGER->getPlayer()->SetY(30);
 	}
