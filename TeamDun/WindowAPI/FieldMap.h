@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Door.h"
+
 struct Tile
 {
 	int		_x;					// X À§Ä¡
@@ -21,6 +23,8 @@ private :
 	int						_stage;
 public :
 	void LoadMap();
+
+	void MakeDoor(Door* door);
 
 	void PixelCollisionMapGenerate();
 

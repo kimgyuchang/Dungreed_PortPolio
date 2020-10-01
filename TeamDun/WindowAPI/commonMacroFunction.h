@@ -69,3 +69,8 @@ inline void textOut(HDC hdc, int x, int y, const char* text, COLORREF color = RG
 	SetTextColor(hdc, color);
 	TextOut(hdc, x, y, text, strlen(text));
 }
+
+enum DIRECTION
+{
+	DIR_LEFT, DIR_RIGHT, DIR_UP, DIR_DOWN
+};

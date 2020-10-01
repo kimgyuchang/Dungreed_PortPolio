@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "FieldMap.h"
- 
+
 /// <summary>
 /// 사전에 맵을 로드하여 타일과 오브젝트를 배치해넣는다.
 /// </summary>
@@ -8,7 +8,7 @@ void FieldMap::LoadMap()
 {
 	vector<vector<string>> stringData = CSVMANAGER->csvLoad("Data/MapData/" + _fileName + ".mapData");
 	vector<vector<string>> stringData2 = CSVMANAGER->csvLoad("Data/MapData/" + _fileName + "2.mapData");
-	
+
 	if (stringData.size() == 0 || stringData2.size() == 0)
 	{
 		cout << _fileName << " load Failed" << endl;
@@ -49,11 +49,29 @@ void FieldMap::LoadMap()
 	for (int i = 0; i < objData.size(); i++)
 	{
 		Object* obj;
+		// BEFORE OBJECT LOAD
 		switch (stoi(objData[i][0]))
 		{
 		case 1500:// 큰 해골
 			obj = new BigWhiteSkel(*dynamic_cast<BigWhiteSkel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
+
+		case 514: // 문 왼쪽
+			obj = new Door(*dynamic_cast<Door*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+
+		case 515: // 문 오른쪽
+			obj = new Door(*dynamic_cast<Door*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+
+		case 516: // 문 위쪽
+			obj = new Door(*dynamic_cast<Door*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+
+		case 517: // 문 아래쪽
+			obj = new Door(*dynamic_cast<Door*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+
 		default:
 			obj = new Object(*DATAMANAGER->GetObjectById(stoi(objData[i][0])));
 			break;
@@ -62,7 +80,43 @@ void FieldMap::LoadMap()
 		obj->SetY(stof(objData[i][2]) * 48);
 		obj->SetSpawnTime(stoi(objData[i][3]));
 
+
+		// AFTER OBJECT LOAD
+		switch (stoi(objData[i][0]))
+		{
+		case 514: case 515: case 516: case 517: // 문 Case
+			MakeDoor(dynamic_cast<Door*>(obj));
+			break;
+		}
+
 		_vObjs.push_back(obj);
+	}
+}
+
+void FieldMap::MakeDoor(Door* door)
+{
+	int x = (door->GetX() + door->GetImage(0)->getWidth() / 2) / 48;
+	int y = (door->GetY() + door->GetImage(0)->getHeight() / 2) / 48;
+
+	int pos[4] = { 0,0,0,0 };
+	switch (door->GetDirection())
+	{
+	case DIRECTION::DIR_LEFT:	pos[0] = -3;  pos[1] = 0, pos[2] = -2, pos[3] = 2; break;
+	case DIRECTION::DIR_RIGHT:	pos[0] = 0;  pos[1] = 3, pos[2] = -2, pos[3] = 2; break;
+	case DIRECTION::DIR_UP:		pos[0] = -2;  pos[1] = 2, pos[2] = -3, pos[3] = 0; break;
+	case DIRECTION::DIR_DOWN:	pos[0] = -2;  pos[1] = 2, pos[2] = 0, pos[3] = 3; break;
+	}
+
+	for (int i = y + pos[2]; i <= y + pos[3]; i++)
+	{
+		if (i < 0 || i >= _vMapData.size()) continue;
+		for (int j = x + pos[0]; j <= x + pos[1]; j++)
+		{
+			if (j < 0 || j >= _vMapData[i].size()) continue;
+			_vMapData[i][j]->_img = nullptr;
+			_vMapData[i][j]->_img2 = 
+			_vMapData[i][j]->_collisionImage = nullptr;
+		}
 	}
 }
 
@@ -72,12 +126,12 @@ void FieldMap::LoadMap()
 void FieldMap::PixelCollisionMapGenerate()
 {
 	Rectangle(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
-	
+
 	for (int i = 0; i < _vMapData.size(); i++)
 	{
 		for (int j = 0; j < _vMapData[i].size(); j++)
 		{
-			if (_vMapData[i][j]->_collisionImage != nullptr) 
+			if (_vMapData[i][j]->_collisionImage != nullptr)
 			{
 				_vMapData[i][j]->_collisionImage->render(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _vMapData[i][j]->_x, _vMapData[i][j]->_y); // 충돌용 배경에 충돌용 타일 배치
 			}

@@ -155,6 +155,7 @@
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="CSVManager.h" />
     <ClInclude Include="DataManager.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="FieldMap.h" />
@@ -201,6 +202,7 @@
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="CSVManager.cpp" />
     <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="FieldMap.cpp" />

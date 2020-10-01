@@ -66,7 +66,7 @@ public:
 	void FrameStretchAlphaRender(HDC hdc, image* ig, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha);
 	void Rectangle(HDC hdc, RECT rc);
 	void RectangleMake(HDC hdc, int left, int top, int width, int height);
-	void TextDraw(HDC hdc, int destX, int destY, LPCSTR lpstring, int c);
+	void TextDraw(HDC hdc, int destX, int destY, LPCSTR lpstring, int c, int r = 0, int g = 0, int b = 0);
 	
 	// ±â´É // 
 	void MovePivot(float x, float y);

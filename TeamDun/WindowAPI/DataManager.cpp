@@ -51,6 +51,26 @@ void DataManager::GetObjectData()
 		case 1500:// 큰 해골
 			obj = new BigWhiteSkel();
 			break;
+		case 514: // 문 왼쪽
+			obj = new Door();
+			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_LEFT);
+			break;
+
+		case 515: // 문 오른쪽
+			obj = new Door();
+			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_RIGHT);
+			break;
+
+		case 516: // 문 위쪽
+			obj = new Door();
+			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_UP);
+			break;
+
+		case 517: // 문 아래쪽
+			obj = new Door();
+			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_DOWN);
+			break;
+
 		default:
 			obj = new Object();
 			break;

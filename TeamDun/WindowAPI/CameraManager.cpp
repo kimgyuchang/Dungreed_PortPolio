@@ -215,7 +215,17 @@ void CameraManager::RectangleMake(HDC hdc, int left, int top, int width, int hei
 	::RectangleMake(hdc, GetRelativeX(left), GetRelativeY(top), width, height);
 }
 
-void CameraManager::TextDraw(HDC hdc, int destX, int destY, LPCSTR lpstring, int c)
+void CameraManager::TextDraw(HDC hdc, int destX, int destY, LPCSTR lpstring, int c, int r, int g, int b)
 {
+	
+	HFONT OldFont, hFont;
+	hFont = CreateFont(15, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, "NeoµÕ±Ù¸ð");
+	SetTextColor(hdc, RGB(r,g,b));
+	OldFont = (HFONT)SelectObject(hdc, hFont);
+
 	TextOut(hdc, GetRelativeX(destX), GetRelativeY(destY), lpstring, c);
+
+	SelectObject(hdc, OldFont);
+	DeleteObject(hFont);
+
 }

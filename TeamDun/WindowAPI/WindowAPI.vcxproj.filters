@@ -49,6 +49,9 @@
     <Filter Include="MainGame\Etc">
       <UniqueIdentifier>{80fdcee8-ee6b-4f48-8e17-bfa6c6c2f148}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Etc">
+      <UniqueIdentifier>{0fb2aa70-6fb3-4af5-9f3a-8ae112c893f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -179,6 +182,10 @@
     </ClCompile>
     <ClCompile Include="MapManager.cpp">
       <Filter>GameFramework\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Belial.cpp" />
+    <ClCompile Include="Door.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +320,10 @@
     </ClInclude>
     <ClInclude Include="MapManager.h">
       <Filter>GameFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Belial.h" />
+    <ClInclude Include="Door.h">
+      <Filter>MainGame\Object\Etc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
