@@ -106,10 +106,10 @@ void FieldMap::release()
 
 void FieldMap::render(HDC hdc)
 {
-	for (int i = ((CAMERAMANAGER->GetPivotY() - (WINSIZEY / 2)) / 48) - 5; i < ((CAMERAMANAGER->GetPivotY() + (WINSIZEY / 2)) / 48) + 5; i++)
+	for (int i = ((CAMERAMANAGER->GetPivotY() - (WINSIZEY / 2)) / 48) - 5; i < ((CAMERAMANAGER->GetPivotY() + (WINSIZEY)) / 48) +5; i++)
 	{
 		if (i < 0 || i >= _vMapData.size()) continue;
-		for (int j = ((CAMERAMANAGER->GetPivotX() - (WINSIZEX / 2)) / 48) - 5; j < ((CAMERAMANAGER->GetPivotX() + (WINSIZEX / 2)) / 48) + 5; j++)
+		for (int j = ((CAMERAMANAGER->GetPivotX() - (WINSIZEX / 2)) / 48) - 5; j < ((CAMERAMANAGER->GetPivotX() + (WINSIZEX)) / 48) + 5; j++)
 		{
 			if (j < 0 || j >= _vMapData[i].size()) continue;
 			if (_vMapData[i][j]->_img2) CAMERAMANAGER->Render(hdc, _vMapData[i][j]->_img2, _vMapData[i][j]->_x, _vMapData[i][j]->_y);

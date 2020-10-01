@@ -39,6 +39,9 @@ private:
 	float		_probeBottom;		//픽셀충돌용좌표
 	bool		_isJump;
 	bool		_downJump;
+	bool		_leftBack;
+	bool		_rightBack;
+	int			_jumpCount;
 
 	int			_downJmpTimer;
 public:
@@ -48,7 +51,8 @@ public:
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 	virtual void	Animation();
-	virtual void	Move();
+	virtual void	Move();				//플레이어 움직임
+	virtual void	pixelCollision();	//픽셀충돌
 
 	float getHp() { return _hp; }
 	float getDamage() { return _damage; }

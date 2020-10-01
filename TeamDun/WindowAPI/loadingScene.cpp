@@ -525,8 +525,8 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("baseCharRun", "Images/player/baseCharRun.bmp", 504, 132, 8, 2, true, RGB(255, 0, 255));
 
 	_loading->LoadNormalImage("PixelMapIg", "Images/PixelMapIg.bmp", 9600, 9600, true, RGB(255, 255, 255));
-	_loading->LoadNormalImage("Layer1Map", "Images/PixelMapIg.bmp", 9600, 9600, true, RGB(255, 255, 255));
-	_loading->LoadNormalImage("Layer2Map", "Images/PixelMapIg.bmp", 9600, 9600, true, RGB(255, 255, 255));
+	_loading->LoadNormalImage("Layer1MapIg", "Images/PixelMapIg.bmp", 9600, 9600, true, RGB(255, 255, 255));
+	_loading->LoadNormalImage("Layer2MapIg", "Images/PixelMapIg.bmp", 9600, 9600, true, RGB(255, 255, 255));
 }
 
 void loadingScene::loadingSound()
