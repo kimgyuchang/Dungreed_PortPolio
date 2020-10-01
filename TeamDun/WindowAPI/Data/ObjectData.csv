@@ -47,3 +47,4 @@ id,name,type,image,image2,image3
 1507,해골,Monster,SkelIdle,SkelWalk,SkelCorpse
 1508,씰스톤,Etc,SealStone,.,.
 703,보라박쥐,Monster,BatIdle,BatAttack,.
+2500,몬스터 스폰 트리거,Etc,SpawnMonsterPos,.,.

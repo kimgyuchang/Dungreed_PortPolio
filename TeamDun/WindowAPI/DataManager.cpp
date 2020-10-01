@@ -51,6 +51,23 @@ void DataManager::GetObjectData()
 		case 1500:// 큰 해골
 			obj = new BigWhiteSkel();
 			break;
+
+		case 1501:// 미노타우르스
+			obj = new Minotaurs();
+			break;
+
+		case 701: // 밴시
+			obj = new LittleGhost();
+			break;
+
+		case 702: // 붉은 박쥐
+			obj = new RedBat();
+			break;
+
+		case 2000 : // 벨리알
+			obj = new Belial();
+			break;
+
 		case 514: // 문 왼쪽
 			obj = new Door();
 			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_LEFT);
@@ -69,6 +86,10 @@ void DataManager::GetObjectData()
 		case 517: // 문 아래쪽
 			obj = new Door();
 			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_DOWN);
+			break;
+
+		case 2500: // 몬스터 스포너
+			obj = new MonsterSpawner();
 			break;
 
 		default:

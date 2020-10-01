@@ -24,6 +24,8 @@ HRESULT Object::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
     _frameY = 0;
     _useImage = 0;
 	_frameTimer = 0;
+    _body = RECT{ 0,0,0,0 };
+
     return S_OK;
 }
 
@@ -42,5 +44,9 @@ void Object::render(HDC hdc)
 }
 
 void Object::Animation()
+{
+}
+
+void Object::CheckCollision()
 {
 }

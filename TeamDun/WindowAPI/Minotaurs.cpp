@@ -12,16 +12,21 @@ HRESULT Minotaurs::init(int id, string name, OBJECTTYPE type, vector<string> img
 
 void Minotaurs::update()
 {
-	switch (_state)
+	Enemy::update();
+
+	if (_isSpawned)
 	{
-	case ES_IDLE:
-		break;
-	case ES_MOVE:
-		break;
-	case ES_ATTACK:
-		break;
-	default:
-		break;
+		switch (_state)
+		{
+		case ES_IDLE:
+			break;
+		case ES_MOVE:
+			break;
+		case ES_ATTACK:
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -31,7 +36,10 @@ void Minotaurs::release()
 
 void Minotaurs::render(HDC hdc)
 {
-	Enemy::render(hdc);
+	if (_isSpawned)
+	{
+		Enemy::render(hdc);
+	}
 }
 
 void Minotaurs::Move()

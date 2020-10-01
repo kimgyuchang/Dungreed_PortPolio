@@ -9,27 +9,32 @@ HRESULT Belial::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 
 void Belial::update()
 {
-	switch (_state)
+	Enemy::update();
+
+	if (_isSpawned)
 	{
-	case ES_IDLE:
-		break;
-	case ES_MOVE:
-		break;
-	case ES_ATTACK:
-		switch (_BelialPattern)
+		switch (_state)
 		{
-		case RAZER:
+		case ES_IDLE:
 			break;
-		case KNIFE:
+		case ES_MOVE:
 			break;
-		case BULLET:
+		case ES_ATTACK:
+			switch (_BelialPattern)
+			{
+			case RAZER:
+				break;
+			case KNIFE:
+				break;
+			case BULLET:
+				break;
+			default:
+				break;
+			}
 			break;
 		default:
 			break;
 		}
-		break;
-	default:
-		break;
 	}
 }
 
@@ -39,7 +44,10 @@ void Belial::release()
 
 void Belial::render(HDC hdc)
 {
-	Enemy::render(hdc);
+	if (_isSpawned)
+	{
+		Enemy::render(hdc);
+	}
 }
 
 void Belial::Move()

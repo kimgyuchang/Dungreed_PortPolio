@@ -9,7 +9,12 @@ HRESULT LittleGhost::init(int id, string name, OBJECTTYPE type, vector<string> i
 
 void LittleGhost::update()
 {
-	this->Animation();
+	Enemy::update();
+
+	if (_isSpawned)
+	{
+		this->Animation();
+	}
 }
 
 void LittleGhost::release()
@@ -18,7 +23,10 @@ void LittleGhost::release()
 
 void LittleGhost::render(HDC hdc)
 {
-	Enemy::render(hdc);
+	if (_isSpawned)
+	{
+		Enemy::render(hdc);
+	}
 }
 
 void LittleGhost::Move()
