@@ -20,7 +20,7 @@ void Door::release()
 
 void Door::render(HDC hdc)
 {
-//	Object::render(hdc);
+    Object::render(hdc);
 	string n = to_string(_x) + " " + to_string(_y) + " " + to_string(_x / 48) + " " + to_string(_y / 48);
 	CAMERAMANAGER->TextDraw(hdc, _x, _y, n.c_str(), n.length(), 255, 255, 255);
 }

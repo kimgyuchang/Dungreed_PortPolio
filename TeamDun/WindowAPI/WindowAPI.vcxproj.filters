@@ -52,6 +52,9 @@
     <Filter Include="MainGame\Object\Etc">
       <UniqueIdentifier>{0fb2aa70-6fb3-4af5-9f3a-8ae112c893f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Enemy\Boss">
+      <UniqueIdentifier>{f3993b41-f836-4cbb-a820-ae4f555d2958}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -183,9 +186,17 @@
     <ClCompile Include="MapManager.cpp">
       <Filter>GameFramework\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Belial.cpp" />
     <ClCompile Include="Door.cpp">
       <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="LittleGhost.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Skel.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Belial.cpp">
+      <Filter>MainGame\Object\Enemy\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -321,9 +332,17 @@
     <ClInclude Include="MapManager.h">
       <Filter>GameFramework\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Belial.h" />
     <ClInclude Include="Door.h">
       <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="LittleGhost.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Skel.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Belial.h">
+      <Filter>MainGame\Object\Enemy\Boss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

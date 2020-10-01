@@ -93,18 +93,21 @@ void FieldMap::LoadMap()
 	}
 }
 
+/// <summary>
+/// 문을 만들고 해당 문의 주변 타일을 처리한다 
+/// </summary>
 void FieldMap::MakeDoor(Door* door)
 {
-	int x = (door->GetX() + door->GetImage(0)->getWidth() / 2) / 48;
-	int y = (door->GetY() + door->GetImage(0)->getHeight() / 2) / 48;
+	int x = (door->GetX() + door->GetImage(0)->getWidth() / 2) / 48;	// 문의 중점 X
+	int y = (door->GetY() + door->GetImage(0)->getHeight() / 2) / 48;	// 문의 중점 Y
 
 	int pos[4] = { 0,0,0,0 };
-	switch (door->GetDirection())
+	switch (door->GetDirection()) // 방향에 따라 변경할 타일의 범위가 달라진다.
 	{
 	case DIRECTION::DIR_LEFT:	pos[0] = -3;  pos[1] = 0, pos[2] = -2, pos[3] = 2; break;
 	case DIRECTION::DIR_RIGHT:	pos[0] = 0;  pos[1] = 3, pos[2] = -2, pos[3] = 2; break;
-	case DIRECTION::DIR_UP:		pos[0] = -2;  pos[1] = 2, pos[2] = -3, pos[3] = 0; break;
-	case DIRECTION::DIR_DOWN:	pos[0] = -2;  pos[1] = 2, pos[2] = 0, pos[3] = 3; break;
+	case DIRECTION::DIR_UP:		pos[0] = -2;  pos[1] = 1, pos[2] = -2, pos[3] = 0; break;
+	case DIRECTION::DIR_DOWN:	pos[0] = -2;  pos[1] = 1, pos[2] = 0, pos[3] = 2; break;
 	}
 
 	for (int i = y + pos[2]; i <= y + pos[3]; i++)
@@ -113,11 +116,73 @@ void FieldMap::MakeDoor(Door* door)
 		for (int j = x + pos[0]; j <= x + pos[1]; j++)
 		{
 			if (j < 0 || j >= _vMapData[i].size()) continue;
+
+			// 주변 타일의 변경
 			_vMapData[i][j]->_img = nullptr;
-			_vMapData[i][j]->_img2 = 
-			_vMapData[i][j]->_collisionImage = nullptr;
+			_vMapData[i][j]->_img2 = DATAMANAGER->GetGridDataByName("Stage1_Tile43")->_image; 
+			_vMapData[i][j]->_collisionImage = IMAGEMANAGER->findImage("Green_CollisionAll");
+			
+			// 문의 방향에 따른 주변 타일 변경
+			switch (door->GetDirection())
+			{
+			case DIRECTION::DIR_LEFT: case DIRECTION::DIR_RIGHT:
+				if (i == y + pos[2] && i-1 >= 0)
+				{
+					_vMapData[i-1][j]->_img = DATAMANAGER->GetGridDataByName("Stage1_Tile19")->_image;
+					_vMapData[i-1][j]->_collisionImage = DATAMANAGER->GetGridDataByName("Stage1_Tile19")->_colImage;
+				}
+
+				if (i == y + pos[3] && i + 1 < _vMapData.size())
+				{
+					_vMapData[i+1][j]->_img = DATAMANAGER->GetGridDataByName("Stage1_Tile1")->_image;
+					_vMapData[i+1][j]->_collisionImage = DATAMANAGER->GetGridDataByName("Stage1_Tile1")->_colImage;
+				}
+				break;
+
+			case DIRECTION::DIR_UP:
+				if (j == x + pos[0] && j - 1 >= 0)
+				{
+					_vMapData[i][j - 1]->_img = DATAMANAGER->GetGridDataByName("Stage1_Tile5")->_image;
+					_vMapData[i][j - 1]->_collisionImage = DATAMANAGER->GetGridDataByName("Stage1_Tile5")->_colImage;
+				}
+
+				if (j == x + pos[1] && j + 1 <= _vMapData[i].size() - 1)
+				{
+					_vMapData[i][j + 1]->_img = DATAMANAGER->GetGridDataByName("Stage1_Tile3")->_image;
+					_vMapData[i][j + 1]->_collisionImage = DATAMANAGER->GetGridDataByName("Stage1_Tile3")->_colImage;
+				}
+
+				if (i == y + pos[2] && i - 1 >= 0)
+				{
+					_vMapData[i - 1][j]->_img = DATAMANAGER->GetGridDataByName("Stage1_Tile19")->_image;
+					_vMapData[i - 1][j]->_collisionImage = DATAMANAGER->GetGridDataByName("Stage1_Tile19")->_colImage;
+				}
+				break;
+
+			case DIRECTION:: DIR_DOWN:
+				if (j == x + pos[0] && j - 1 >= 0)
+				{
+					_vMapData[i][j-1]->_img = DATAMANAGER->GetGridDataByName("Stage1_Tile5")->_image;
+					_vMapData[i][j-1]->_collisionImage = DATAMANAGER->GetGridDataByName("Stage1_Tile5")->_colImage;
+				}
+
+				if (j == x + pos[1] && j + 1 <= _vMapData[i].size() - 1)
+				{
+					_vMapData[i][j + 1]->_img = DATAMANAGER->GetGridDataByName("Stage1_Tile3")->_image;
+					_vMapData[i][j + 1]->_collisionImage = DATAMANAGER->GetGridDataByName("Stage1_Tile3")->_colImage;
+				}
+
+				if (i == y + pos[3] && i + 1 < _vMapData.size())
+				{
+					_vMapData[i + 1][j]->_img = DATAMANAGER->GetGridDataByName("Stage1_Tile1")->_image;
+					_vMapData[i + 1][j]->_collisionImage = DATAMANAGER->GetGridDataByName("Stage1_Tile1")->_colImage;
+				}
+				break;
+			}
 		}
 	}
+
+
 }
 
 /// <summary>
@@ -134,6 +199,31 @@ void FieldMap::PixelCollisionMapGenerate()
 			if (_vMapData[i][j]->_collisionImage != nullptr)
 			{
 				_vMapData[i][j]->_collisionImage->render(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _vMapData[i][j]->_x, _vMapData[i][j]->_y); // 충돌용 배경에 충돌용 타일 배치
+			}
+		}
+	}
+}
+
+/// <summary>
+/// 맵 전체 타일 이미지에 그려 맵을 만드는 함수
+/// </summary>
+void FieldMap::GridMapGenerate()
+{
+	Rectangle(IMAGEMANAGER->findImage("Layer1MapIg")->getMemDC(), -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
+	Rectangle(IMAGEMANAGER->findImage("Layer2MapIg")->getMemDC(), -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
+
+	for (int i = 0; i < _vMapData.size(); i++)
+	{
+		for (int j = 0; j < _vMapData[i].size(); j++)
+		{
+			if (_vMapData[i][j]->_img != nullptr)
+			{
+				_vMapData[i][j]->_img->render(IMAGEMANAGER->findImage("Layer1MapIg")->getMemDC(), _vMapData[i][j]->_x, _vMapData[i][j]->_y); // 충돌용 배경에 충돌용 타일 배치
+			}
+
+			if (_vMapData[i][j]->_img2 != nullptr)
+			{
+				_vMapData[i][j]->_img2->render(IMAGEMANAGER->findImage("Layer2MapIg")->getMemDC(), _vMapData[i][j]->_x, _vMapData[i][j]->_y); // 충돌용 배경에 충돌용 타일 배치
 			}
 		}
 	}
@@ -160,6 +250,7 @@ void FieldMap::release()
 
 void FieldMap::render(HDC hdc)
 {
+	/*
 	for (int i = ((CAMERAMANAGER->GetPivotY() - (WINSIZEY / 2)) / 48) - 5; i < ((CAMERAMANAGER->GetPivotY() + (WINSIZEY)) / 48) +5; i++)
 	{
 		if (i < 0 || i >= _vMapData.size()) continue;
@@ -170,21 +261,28 @@ void FieldMap::render(HDC hdc)
 			if (_vMapData[i][j]->_img) CAMERAMANAGER->Render(hdc, _vMapData[i][j]->_img, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
 		}
 	} // 타일 렌더, 일정 범위만큼만 렌더해준다.
+	*/
+
+	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer2MapIg"), 0, 0);
+	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer1MapIg"), 0, 0);
 
 	if (INPUT->GetKey(VK_F1))
 	{
 		CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("PixelMapIg"), 0, 0);
 	} // 픽셀충돌 렌더
 
+	/*
 	for (int i = 0; i < _vMiniRc.size(); i++)
 	{
 		IMAGEMANAGER->findImage("MiniMapPixel")->render(hdc, _vMiniRc[i].left, _vMiniRc[i].top);
 	} // 미니맵 렌더
+	*/
 
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
 		_vObjs[i]->render(hdc);
 	} // 오브젝트 렌더
+	
 
 	ENTITYMANAGER->render(hdc);
 	// 플레이어 및 불릿 등 렌더

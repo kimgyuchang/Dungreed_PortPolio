@@ -14,19 +14,23 @@ struct Tile
 class FieldMap
 {
 private :
-	string					_fileName;
-	vector<vector<Tile*>>	_vMapData;
-	vector <Object*>		_vObjs;
-	vector <RECT>			_vMiniRc;
+	string					_fileName;			//파일 이름 (맵 이름)
+	vector<vector<Tile*>>	_vMapData;			//맵 그리드 이중 벡터
+	vector<Object*>			_vObjs;				//해당 방에 존재하는 오브젝트들
+	vector<RECT>			_vMiniRc;			//미니맵용 Rects
 	
-	int						_nextMapIndex[4];
-	int						_stage;
+	int						_nextMapIndex[4];	//다음 방의 Vector Index (방향별)
+	int						_stage;				//해당 방의 스테이지
+
+	bool					_isCleared;			//방의 몬스터를 모두 처리했는지 여부
 public :
 	void LoadMap();
 
 	void MakeDoor(Door* door);
 
 	void PixelCollisionMapGenerate();
+
+	void GridMapGenerate();
 
 	HRESULT init(string fileName);
 	virtual void update();
