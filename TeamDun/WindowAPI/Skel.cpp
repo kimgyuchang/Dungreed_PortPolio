@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "BigWhiteSkel.h"
+#include "Skel.h"
 
-HRESULT BigWhiteSkel::init(int id, string name, OBJECTTYPE type, vector<string> imgNames)
+HRESULT Skel::init(int id, string name, OBJECTTYPE type, vector<string> imgNames)
 {
 	Enemy::init(id, name, type, imgNames);
-	_body = RectMake(_x, _y, 99, 90);
+	_body = RectMake(_x, _y, 42, 57);
 	_state = ES_IDLE;
-	_index = _count = 0; 
+	_index = _count = 0;
 	_frameX, _frameY = 0;
 	_isLeft = false;
 
 	return S_OK;
 }
 
-void BigWhiteSkel::update()
+void Skel::update()
 {
 	switch (_state)
 	{
@@ -49,21 +49,6 @@ void BigWhiteSkel::update()
 		}
 		break;
 	case ES_ATTACK:
-		if (_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
-		{
-			if (_count % 5 == 0)
-			{
-				_state = ES_IDLE;
-			}
-		}
-		else if (!_isLeft && _frameX <= 0)
-		{
-			if (_count % 5 == 0)
-			{
-				_state = ES_IDLE;
-				_x = _x + 65;
-			}
-		}
 		break;
 	default:
 		break;
@@ -71,26 +56,26 @@ void BigWhiteSkel::update()
 	this->Animation();
 }
 
-void BigWhiteSkel::release()
+void Skel::release()
 {
 }
 
-void BigWhiteSkel::render(HDC hdc)
+void Skel::render(HDC hdc)
 {
 	Enemy::render(hdc);
 }
 
-void BigWhiteSkel::Move()
+void Skel::Move()
 {
 	Enemy::Move();
 }
 
-void BigWhiteSkel::Attack()
+void Skel::Attack()
 {
 	Enemy::Attack();
 }
 
-void BigWhiteSkel::Animation()
+void Skel::Animation()
 {
 	_count++;
 
@@ -101,28 +86,10 @@ void BigWhiteSkel::Animation()
 		if (_isLeft)
 		{
 			_frameY = 1;
-			if (_count % 5 == 0)
-			{
-				_frameX--;
-
-				if (_frameX < 0)
-				{
-					_frameX = _vImages[_useImage]->getMaxFrameX();
-				}
-			}
 		}
 		else
 		{
 			_frameY = 0;
-			if (_count % 5 == 0)
-			{
-				_frameX++;
-
-				if (_frameX > _vImages[_useImage]->getMaxFrameX())
-				{
-					_frameX = 0;
-				}
-			}
 		}
 		break;
 	case ES_MOVE:
@@ -155,32 +122,14 @@ void BigWhiteSkel::Animation()
 		}
 		break;
 	case ES_ATTACK:
-		_useImage = 2;
+		_useImage = 0;
 		if (_isLeft)
 		{
-			_frameY = 0;
-			if (_count % 5 == 0)
-			{
-				_frameX++;
-
-				if (_frameX > _vImages[_useImage]->getMaxFrameX())
-				{
-					_frameX = 0;
-				}
-			}
+			_frameY = 1;
 		}
 		else
 		{
-			_frameY = 1;
-			if (_count % 5 == 0)
-			{
-				_frameX--;
-
-				if (_frameX < 0)
-				{
-					_frameX = _vImages[_useImage]->getMaxFrameX();
-				}
-			}
+			_frameY = 0;
 		}
 		break;
 	default:

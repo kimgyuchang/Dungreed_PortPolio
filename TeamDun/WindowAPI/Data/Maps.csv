@@ -1,11 +1,12 @@
 mapName,stage
-Stage0_Start,0
 stage0_town,0
+Stage1_biupMap,1
 Stage1_Boss,1
 Stage1_BossStart,1
 Stage1_FieldLargeMap,1
 stage1_longY,1
 stage1_restaurant,1
 Stage1_SqaureMap,1
+Stage1_Start,1
+Stage1_Teeth,1
 Stage1_weaponshop,1
-qweqwert,1
