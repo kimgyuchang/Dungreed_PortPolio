@@ -203,7 +203,7 @@ void Player::Move()
 		if (INPUT->GetKeyDown(VK_SPACE) && !_downJump)
 		{
 			_isJump = true;
-			_jumpPower = 11;
+			_jumpPower = 13;
 			_y -= _jumpPower;
 			_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
 			_jumpCount++;
@@ -212,7 +212,7 @@ void Player::Move()
 		if (INPUT->GetKey('S') && _isJump)
 		{
 			_downJump = true;
-			_jumpPower = -3;
+			_jumpPower = -2;
 			_jumpCount++;
 		}
 	}

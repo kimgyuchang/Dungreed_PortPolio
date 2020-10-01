@@ -211,6 +211,7 @@ void FieldMap::GridMapGenerate()
 {
 	Rectangle(IMAGEMANAGER->findImage("Layer1MapIg")->getMemDC(), -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
 	Rectangle(IMAGEMANAGER->findImage("Layer2MapIg")->getMemDC(), -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
+	Rectangle(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), -10, -10, 10000, 10000); // 미니맵 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
 
 	for (int i = 0; i < _vMapData.size(); i++)
 	{
@@ -227,6 +228,11 @@ void FieldMap::GridMapGenerate()
 			}
 		}
 	}
+	for (int i = 0; i < _vMiniRc.size(); i++)
+	{
+		
+		IMAGEMANAGER->findImage("MiniMapPixel")->render(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), _vMiniRc[i].left, _vMiniRc[i].top);
+	} // 미니맵 렌더
 }
 
 HRESULT FieldMap::init(string fileName)
@@ -265,7 +271,8 @@ void FieldMap::render(HDC hdc)
 
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer2MapIg"), 0, 0);
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer1MapIg"), 0, 0);
-
+	
+	IMAGEMANAGER->findImage("MiniMapGroundIg")->render(hdc, 0, 0);
 	if (INPUT->GetKey(VK_F1))
 	{
 		CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("PixelMapIg"), 0, 0);
