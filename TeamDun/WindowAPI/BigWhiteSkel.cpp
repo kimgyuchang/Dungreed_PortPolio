@@ -68,7 +68,9 @@ void BigWhiteSkel::update()
 	default:
 		break;
 	}
+
 	this->Animation();
+	this->pixelCollision();
 }
 
 void BigWhiteSkel::release()
@@ -185,5 +187,179 @@ void BigWhiteSkel::Animation()
 		break;
 	default:
 		break;
+	}
+}
+
+void BigWhiteSkel::pixelCollision()
+{
+	bool isCollide = false;
+	bool _leftCollision1 = false;
+	bool _leftCollision2 = false;
+	bool _RightCollision1 = false;
+	bool _RightCollision2 = false;
+
+	COLORREF colorRightBottom1;
+	COLORREF colorRightBottom2;
+
+	_probeBottom = _y + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight();
+
+	for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
+	{
+		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _x + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() / 2, i);
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+		if ((r == 255 && g == 0 && b == 0) && !_isJump)
+		{
+			isCollide = true;
+			_jumpPower = -2;
+
+			_y = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight();
+			_jumpCount = 0;
+
+			break;
+		}
+
+		if ((r == 0 && g == 0 && b == 255) && _jumpPower < 0 && _downJump == false)
+		{
+			isCollide = true;
+			_jumpPower = -2;
+
+			_y = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight();
+			_jumpCount = 0;
+			break;
+		}
+	}
+
+	for (int i = _y + 15; i > _y - 4; i--)
+	{
+		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() / 2, i);
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+			_jumpPower = -2;
+			_y = i + 5;
+
+			break;
+		}
+	}
+	if (!isCollide)
+	{
+		_y -= _jumpPower;
+		_jumpPower -= _gravity;
+
+		_body = RectMake(_x, _y, IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth(), IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight());
+	}
+
+	for (int i = _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() - 15; i < _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() + 5; i++)
+	{
+		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 2);
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+			_RightCollision1 = true;
+
+			if (_RightCollision1 &&_RightCollision2)
+			{
+				_x = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth();
+
+			}
+			break;
+		}
+
+	}
+	for (int i = _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() - 15; i < _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() + 5; i++)
+	{
+		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 40);
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+			_RightCollision2 = true;
+
+			_x = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth();
+			break;
+		}
+
+	}
+	for (int i = _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() - 15; i < _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() + 5; i++)
+	{
+		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _y + 2);
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+
+			_x = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth();
+
+
+			break;
+		}
+	}
+
+	//¿ÞÂÊ¾Æ·¡
+	for (int i = _x + 15; i > _x - 5; i--)
+	{
+		COLORREF color3 = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 2);
+		int r = GetRValue(color3);
+		int g = GetGValue(color3);
+		int b = GetBValue(color3);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+			_leftCollision1 = true;
+
+			if (_leftCollision1 &&_leftCollision2)
+			{
+				_x = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth();
+
+			}
+
+			break;
+		}
+	}
+	//¿ÞÂÊÁß°£
+	for (int i = _x + 15; i > _x - 5; i--)
+	{
+		COLORREF color3 = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 40);
+		int r = GetRValue(color3);
+		int g = GetGValue(color3);
+		int b = GetBValue(color3);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+			_leftCollision2 = true;
+			_x = i;
+
+			break;
+		}
+	}
+	//¿ÞÂÊÀ§
+	for (int i = _x + 15; i > _x - 5; i--)
+	{
+		COLORREF color3 = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _y + 2);
+		int r = GetRValue(color3);
+		int g = GetGValue(color3);
+		int b = GetBValue(color3);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+
+			_x = i;
+
+			break;
+		}
 	}
 }
