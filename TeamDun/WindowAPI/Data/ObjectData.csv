@@ -39,3 +39,4 @@ id,name,type,image,image2,image3
 515,문 오른쪽,Etc,Door_Right_Idle,Door_Right,.
 516,문 위쪽,Etc,Door_Up_Idle,Door_Up,.
 517,문 아래쪽,Etc,Door_Down_Idle,Door_Down,.
+2500,몬스터 스폰 트리거,Etc,SpawnMonsterPos,.,.

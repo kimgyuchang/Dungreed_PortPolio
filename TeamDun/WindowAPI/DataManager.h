@@ -1,8 +1,16 @@
 #pragma once
 #include "singletonBase.h"
 #include "Object.h"
+
 #include "MapObject.h"
+#include "Door.h"
+#include "MonsterSpawner.h"
 #include "BigWhiteSkel.h"
+#include "Belial.h"
+#include "LittleGhost.h"
+#include "Minotaurs.h"
+#include "RedBat.h"
+#include "Skel.h"
 
 struct GridData
 {

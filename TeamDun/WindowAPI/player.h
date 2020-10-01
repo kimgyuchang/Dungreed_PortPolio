@@ -15,7 +15,6 @@ private:
 	bool		_isLeft;			//왼쪽인지 (아닐시 오른쪽)
 	bool		_jump;				//점프를 했는지
 	PLAYERSTATE	_state;				//캐릭터 상태
-	RECT		_player;			//플레이어
 	float		_hp;				//체력
 	float		_numberOfDashes;	//대쉬 횟수
 	float		_speed;				//이동속도

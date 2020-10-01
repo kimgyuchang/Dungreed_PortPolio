@@ -156,6 +156,8 @@
     <ClInclude Include="CSVManager.h" />
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="Door.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="EffectManager.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="FieldMap.h" />
@@ -175,6 +177,7 @@
     <ClInclude Include="MapTool.h" />
     <ClInclude Include="mapScene.h" />
     <ClInclude Include="Minotaurs.h" />
+    <ClInclude Include="MonsterSpawner.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Obstacle.h" />
@@ -205,6 +208,8 @@
     <ClCompile Include="CSVManager.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="Door.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="FieldMap.cpp" />
@@ -224,6 +229,7 @@
     <ClCompile Include="MapTool.cpp" />
     <ClCompile Include="mapScene.cpp" />
     <ClCompile Include="Minotaurs.cpp" />
+    <ClCompile Include="MonsterSpawner.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Obstacle.cpp" />

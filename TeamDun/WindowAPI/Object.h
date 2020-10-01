@@ -20,6 +20,7 @@ protected:
 	int				_frameY;		// 현재 프레임 Y
 	int				_spawnTime;		// 스폰 시간
 	int				_frameTimer;	// 프레임 타이머
+	RECT			_body;			// 충돌체
 public:
 
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
@@ -27,26 +28,28 @@ public:
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 	virtual void	Animation();
+	virtual void	CheckCollision();
 
 	// GETSET //
-	string		GetName() { return _name; }
-	vector<string> GetImgNames() { return _vImageNames; }
-	int			GetX() { return _x; }
-	int			GetY() { return _y; }
-	OBJECTTYPE	GetType() { return _type; }
-	image*		GetImage(int index) { return _vImages[index]; }
-	int			GetUseImage() { return _useImage; }
-	int			GetFrameX() { return _frameX; }
-	int			GetFrameY() { return _frameY; }
-	
+	string			GetName()			{ return _name; }
+	vector<string>	GetImgNames()		{ return _vImageNames; }
+	int				GetX()				{ return _x; }
+	int				GetY()				{ return _y; }
+	OBJECTTYPE		GetType()			{ return _type; }
+	image*			GetImage(int index) { return _vImages[index]; }
+	int				GetUseImage()		{ return _useImage; }
+	int				GetFrameX()			{ return _frameX; }
+	int				GetFrameY()			{ return _frameY; }
+	RECT			GetRect()			{ return _body; }
+	int				GetSpawnTime()		{ return _spawnTime; }
 
-	void		SetName(string name) { _name = name; }
-	void		SetX(int x) { _x = x; }
-	void		SetY(int y) { _y = y; }
-	void		SetType(OBJECTTYPE type) { _type = type; }
-	void		Setimage(int index, image* img) { _vImages[index] = img; }
-	void		SetUseImage(int index) { _useImage = index; }
-	void		SetFrameX(int x) { _frameX = x; }
-	void		SetFrameY(int y) { _frameY = y; }
-	void		SetSpawnTime(int time) { _spawnTime = time; }
+	void			SetName(string name) { _name = name; }
+	void			SetX(int x) { _x = x; }
+	void			SetY(int y) { _y = y; }
+	void			SetType(OBJECTTYPE type) { _type = type; }
+	void			Setimage(int index, image* img) { _vImages[index] = img; }
+	void			SetUseImage(int index) { _useImage = index; }
+	void			SetFrameX(int x) { _frameX = x; }
+	void			SetFrameY(int y) { _frameY = y; }
+	void			SetSpawnTime(int time) { _spawnTime = time; }
 };

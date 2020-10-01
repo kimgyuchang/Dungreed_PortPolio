@@ -9,6 +9,12 @@ HRESULT RedBat::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 
 void RedBat::update()
 {
+	Enemy::update();
+
+	if (_isSpawned)
+	{
+
+	}
 }
 
 void RedBat::release()
@@ -17,7 +23,12 @@ void RedBat::release()
 
 void RedBat::render(HDC hdc)
 {
-	// ±¸Çö
+	Enemy::render(hdc);
+	
+	if (_isSpawned)
+	{
+
+	}
 }
 
 void RedBat::Move()

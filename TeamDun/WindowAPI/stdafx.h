@@ -47,6 +47,7 @@ using namespace std;
 #include "DataManager.h"
 #include "EntityManager.h"
 #include "MapManager.h"
+#include "EffectManager.h"
 
 using namespace MY_UTIL;
 
@@ -62,6 +63,7 @@ using namespace MY_UTIL;
 #define CAMERAMANAGER CameraManager::getSingleton()
 #define DATAMANAGER DataManager::getSingleton()
 #define ENTITYMANAGER EntityManager::getSingleton()
+#define EFFECTMANAGER EffectManager::getSingleton()
 #define MAPMANAGER MapManager::getSingleton()
 #define RANDOM random::getSingleton()
 #define INIDATA iniData::getSingleton()

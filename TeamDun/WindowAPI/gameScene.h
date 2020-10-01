@@ -10,7 +10,6 @@ private:
 	float					_pivY;
 	Player*					_p;
 
-	int						_currentMap;
 	vector<FieldMap*>		_maps;
 
 public:
