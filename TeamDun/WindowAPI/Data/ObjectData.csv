@@ -15,7 +15,7 @@ id,name,type,image,image2,image3
 501,뼈 1,Etc,Bone1,.,.
 502,해골 0,Etc,Skull0,.,.
 503,해골 1,Etc,Skull1,.,.
-701,밴시,Monster,AbyssBansheeIdle,.,.
+701,아비스밴시,Monster,AbyssBansheeIdle,.,.
 1000,큰 톱니,Obstacle,gear,.,.
 1001,중간 톱니,Obstacle,Gear_Small,.,.
 1002,작은 톱니,Obstacle,Gear_Small_Small,.,.
@@ -39,3 +39,12 @@ id,name,type,image,image2,image3
 515,문 오른쪽,Etc,Door_Right_Idle,Door_Right,.
 516,문 위쪽,Etc,Door_Up_Idle,Door_Up,.
 517,문 아래쪽,Etc,Door_Down_Idle,Door_Down,.
+1502,밴시,Monster,BansheeIdle,BansheeAttack,.
+1503,폭탄박쥐,Monster,BombBat,BombBatExplosionBegin,.
+1504,서큐버스,Monster,LilithIdle,LilithMove,LilithCatch
+1505,작은유령,Monster,LittleGhost,LittleGhostAttack,.
+1506,해골강아지,Monster,SkelDogIdle,SkelDogRun,SkelDogDie
+1507,해골,Monster,SkelIdle,SkelWalk,SkelCorpse
+1508,씰스톤,Etc,SealStone,.,.
+703,보라박쥐,Monster,BatIdle,BatAttack,.
+2500,몬스터 스폰 트리거,Etc,SpawnMonsterPos,.,.

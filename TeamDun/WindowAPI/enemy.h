@@ -1,5 +1,6 @@
 #pragma once
 #include "Object.h"
+#include "Effect.h"
 
 enum ENEMYSTATE {
 	ES_IDLE, ES_MOVE, ES_ATTACK
@@ -9,7 +10,6 @@ class Enemy : public Object
 {
 protected :
 	ENEMYSTATE		_state;				// 현재 상태
-	RECT			_body;				// 충돌체
 	int				_attackCoolTime;	// 공격 쿨타임
 	int				_useBulletId;		// 사용하는 불릿 ID
 	float			_moveSpeed;			// 이동속도
@@ -17,6 +17,8 @@ protected :
 	int				_count;				// 애니메이션 용 카운트
 	int				_index;				// 애니메이션 용 인덱스
 	bool			_isLeft;			// 애니메이션이 왼쪽이냐?
+	bool			_isSpawned;			// 현재 스폰되었느냐
+	Effect*			_spawnEffect;		// 스폰 이펙트
 
 public :
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
@@ -27,13 +29,14 @@ public :
 	virtual void	Move();
 	virtual void	Attack();
 	virtual void	Animation();
+	virtual void	SpawnEnemy();
+	virtual void	SpawnAnimation();
 
 	// GETSET //
-	RECT getBody() { _body; }
-	int getAttackCoolTime() { _attackCoolTime; }
-	float getMoveSpeed() { _moveSpeed; }
+	int		GetAttackCoolTime() { return _attackCoolTime; }
+	float	GetMoveSpeed()		{ return _moveSpeed; }
+	bool	GetIsSpawned()		{ return _isSpawned; }
 
-	void setBody(RECT rc) { _body = rc; }
-	void setAttackCoolTime(int coolTime) { _attackCoolTime = coolTime; }
-	void setMoveSpeed(float speed) { _moveSpeed = speed; }
+	void	SetAttackCoolTime(int coolTime)	{ _attackCoolTime = coolTime; }
+	void	SetMoveSpeed(float speed)		{ _moveSpeed = speed; }
 };

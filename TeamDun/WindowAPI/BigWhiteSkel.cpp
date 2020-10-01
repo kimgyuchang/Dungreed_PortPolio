@@ -15,60 +15,66 @@ HRESULT BigWhiteSkel::init(int id, string name, OBJECTTYPE type, vector<string> 
 
 void BigWhiteSkel::update()
 {
-	switch (_state)
+	Enemy::update();
+
+	if (_isSpawned)
 	{
-	case ES_IDLE:
-		if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200)
+		switch (_state)
 		{
-			_state = ES_MOVE;
-		}
-		break;
-	case ES_MOVE:
-		if (ENTITYMANAGER->getPlayer()->GetX() - 70 > _x)
-		{
-			_isLeft = true;
-			_x += 3;
-		}
-		else if (ENTITYMANAGER->getPlayer()->GetX() + 70 < _x)
-		{
-			_isLeft = false;
-			_x -= 3;
-		}
-		if (ENTITYMANAGER->getPlayer()->GetX() - 70 < _x && ENTITYMANAGER->getPlayer()->GetX() + 70 > _x)
-		{
-			_state = ES_ATTACK;
-			if (_x < ENTITYMANAGER->getPlayer()->GetX() + 20)
+		case ES_IDLE:
+			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200)
+			{
+				_state = ES_MOVE;
+			}
+			break;
+		case ES_MOVE:
+			if (ENTITYMANAGER->getPlayer()->GetX() - 70 > _x)
 			{
 				_isLeft = true;
+				_x += 3;
 			}
-			else
+			else if (ENTITYMANAGER->getPlayer()->GetX() + 70 < _x)
 			{
-				_x = _x - 65;
 				_isLeft = false;
+				_x -= 3;
 			}
-		}
-		break;
-	case ES_ATTACK:
-		if (_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
-		{
-			if (_count % 5 == 0)
+			if (ENTITYMANAGER->getPlayer()->GetX() - 70 < _x && ENTITYMANAGER->getPlayer()->GetX() + 70 > _x)
 			{
-				_state = ES_IDLE;
+				_state = ES_ATTACK;
+				if (_x < ENTITYMANAGER->getPlayer()->GetX() + 20)
+				{
+					_isLeft = true;
+				}
+				else
+				{
+					_x = _x - 65;
+					_isLeft = false;
+				}
 			}
-		}
-		else if (!_isLeft && _frameX <= 0)
-		{
-			if (_count % 5 == 0)
+			break;
+		case ES_ATTACK:
+			if (_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
 			{
-				_state = ES_IDLE;
-				_x = _x + 65;
+				if (_count % 5 == 0)
+				{
+					_state = ES_IDLE;
+				}
 			}
+			else if (!_isLeft && _frameX <= 0)
+			{
+				if (_count % 5 == 0)
+				{
+					_state = ES_IDLE;
+					_x = _x + 65;
+				}
+			}
+			break;
+		default:
+			break;
 		}
-		break;
-	default:
-		break;
+		this->Animation();
+		this->pixelCollision();
 	}
-	this->Animation();
 }
 
 void BigWhiteSkel::release()
@@ -77,7 +83,10 @@ void BigWhiteSkel::release()
 
 void BigWhiteSkel::render(HDC hdc)
 {
-	Enemy::render(hdc);
+	if (_isSpawned)
+	{
+		Enemy::render(hdc);
+	}
 }
 
 void BigWhiteSkel::Move()
@@ -185,5 +194,179 @@ void BigWhiteSkel::Animation()
 		break;
 	default:
 		break;
+	}
+}
+
+void BigWhiteSkel::pixelCollision()
+{
+	bool isCollide = false;
+	bool _leftCollision1 = false;
+	bool _leftCollision2 = false;
+	bool _RightCollision1 = false;
+	bool _RightCollision2 = false;
+
+	COLORREF colorRightBottom1;
+	COLORREF colorRightBottom2;
+
+	_probeBottom = _y + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight();
+
+	for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
+	{
+		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _x + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() / 2, i);
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+		if ((r == 255 && g == 0 && b == 0) && !_isJump)
+		{
+			isCollide = true;
+			_jumpPower = -2;
+
+			_y = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight();
+			_jumpCount = 0;
+
+			break;
+		}
+
+		if ((r == 0 && g == 0 && b == 255) && _jumpPower < 0 && _downJump == false)
+		{
+			isCollide = true;
+			_jumpPower = -2;
+
+			_y = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight();
+			_jumpCount = 0;
+			break;
+		}
+	}
+
+	for (int i = _y + 15; i > _y - 4; i--)
+	{
+		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() / 2, i);
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+			_jumpPower = -2;
+			_y = i + 5;
+
+			break;
+		}
+	}
+	if (!isCollide)
+	{
+		_y -= _jumpPower;
+		_jumpPower -= _gravity;
+
+		_body = RectMake(_x, _y, IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth(), IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight());
+	}
+
+	for (int i = _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() - 15; i < _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() + 5; i++)
+	{
+		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 2);
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+			_RightCollision1 = true;
+
+			if (_RightCollision1 &&_RightCollision2)
+			{
+				_x = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth();
+
+			}
+			break;
+		}
+
+	}
+	for (int i = _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() - 15; i < _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() + 5; i++)
+	{
+		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 40);
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+			_RightCollision2 = true;
+
+			_x = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth();
+			break;
+		}
+
+	}
+	for (int i = _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() - 15; i < _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() + 5; i++)
+	{
+		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _y + 2);
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+
+			_x = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth();
+
+
+			break;
+		}
+	}
+
+	//¿ÞÂÊ¾Æ·¡
+	for (int i = _x + 15; i > _x - 5; i--)
+	{
+		COLORREF color3 = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 2);
+		int r = GetRValue(color3);
+		int g = GetGValue(color3);
+		int b = GetBValue(color3);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+			_leftCollision1 = true;
+
+			if (_leftCollision1 &&_leftCollision2)
+			{
+				_x = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth();
+
+			}
+
+			break;
+		}
+	}
+	//¿ÞÂÊÁß°£
+	for (int i = _x + 15; i > _x - 5; i--)
+	{
+		COLORREF color3 = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 40);
+		int r = GetRValue(color3);
+		int g = GetGValue(color3);
+		int b = GetBValue(color3);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+			_leftCollision2 = true;
+			_x = i;
+
+			break;
+		}
+	}
+	//¿ÞÂÊÀ§
+	for (int i = _x + 15; i > _x - 5; i--)
+	{
+		COLORREF color3 = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _y + 2);
+		int r = GetRValue(color3);
+		int g = GetGValue(color3);
+		int b = GetBValue(color3);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+
+			_x = i;
+
+			break;
+		}
 	}
 }

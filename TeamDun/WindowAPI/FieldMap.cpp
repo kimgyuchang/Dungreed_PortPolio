@@ -1,6 +1,14 @@
 #include "stdafx.h"
 #include "FieldMap.h"
 
+HRESULT FieldMap::init(string fileName)
+{
+	_fileName = fileName;
+	_spawnTimer = 0;
+	LoadMap();
+	return S_OK;
+}
+
 /// <summary>
 /// 사전에 맵을 로드하여 타일과 오브젝트를 배치해넣는다.
 /// </summary>
@@ -56,6 +64,22 @@ void FieldMap::LoadMap()
 			obj = new BigWhiteSkel(*dynamic_cast<BigWhiteSkel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
 
+		case 1501:// 미노타우르스
+			obj = new Minotaurs(*dynamic_cast<Minotaurs*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+
+		case 701: // 밴시
+			obj = new LittleGhost(*dynamic_cast<LittleGhost*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+
+		case 702: // 붉은 박쥐
+			obj = new RedBat(*dynamic_cast<RedBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+
+		case 2000: // 붉은 박쥐
+			obj = new Belial(*dynamic_cast<Belial*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+
 		case 514: // 문 왼쪽
 			obj = new Door(*dynamic_cast<Door*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
@@ -70,6 +94,11 @@ void FieldMap::LoadMap()
 
 		case 517: // 문 아래쪽
 			obj = new Door(*dynamic_cast<Door*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+
+		case 2500: // 몬스터 스포너
+			obj = new MonsterSpawner(*dynamic_cast<MonsterSpawner*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<MonsterSpawner*>(obj)->SetBelongMap(this);
 			break;
 
 		default:
@@ -235,19 +264,15 @@ void FieldMap::GridMapGenerate()
 	} // 미니맵 렌더
 }
 
-HRESULT FieldMap::init(string fileName)
-{
-	_fileName = fileName;
-	LoadMap();
-	return S_OK;
-}
-
 void FieldMap::update()
 {
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
 		_vObjs[i]->update();
 	}
+
+	SpawnMonsters();
+	EFFECTMANAGER->update();
 }
 
 void FieldMap::release()
@@ -292,5 +317,29 @@ void FieldMap::render(HDC hdc)
 	
 
 	ENTITYMANAGER->render(hdc);
+	EFFECTMANAGER->render(hdc);
 	// 플레이어 및 불릿 등 렌더
+}
+
+/// <summary>
+/// 몬스터 타입인 오브젝트들을 시간에 맞추어 스폰한다.
+/// </summary>
+void FieldMap::SpawnMonsters()
+{
+	if (_isSpawning)
+	{
+		_spawnTimer++;
+		for (int i = 0; i < _vObjs.size(); i++)
+		{
+			if (_vObjs[i]->GetType() == OBJECTTYPE::OT_MONSTER)
+			{
+				Enemy* enemy = dynamic_cast<Enemy*>(_vObjs[i]);
+				
+				if (!enemy->GetIsSpawned() && enemy->GetSpawnTime() <= _spawnTimer)
+				{
+					enemy->SpawnEnemy();
+				}
+			}
+		}
+	}
 }

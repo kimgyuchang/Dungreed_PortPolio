@@ -55,6 +55,9 @@
     <Filter Include="MainGame\Object\Enemy\Boss">
       <UniqueIdentifier>{f3993b41-f836-4cbb-a820-ae4f555d2958}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameFramework\Effect">
+      <UniqueIdentifier>{7af0614f-01d1-4ede-b108-8b3f0ac1db6a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -197,6 +200,15 @@
     </ClCompile>
     <ClCompile Include="Belial.cpp">
       <Filter>MainGame\Object\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterSpawner.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectManager.cpp">
+      <Filter>GameFramework\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>GameFramework\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -343,6 +355,15 @@
     </ClInclude>
     <ClInclude Include="Belial.h">
       <Filter>MainGame\Object\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterSpawner.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectManager.h">
+      <Filter>GameFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>GameFramework\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

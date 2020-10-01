@@ -15,45 +15,50 @@ HRESULT Skel::init(int id, string name, OBJECTTYPE type, vector<string> imgNames
 
 void Skel::update()
 {
-	switch (_state)
+	Enemy::update();
+
+	if (_isSpawned)
 	{
-	case ES_IDLE:
-		if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200)
+		switch (_state)
 		{
-			_state = ES_MOVE;
-		}
-		break;
-	case ES_MOVE:
-		if (ENTITYMANAGER->getPlayer()->GetX() - 70 > _x)
-		{
-			_isLeft = true;
-			_x += 3;
-		}
-		else if (ENTITYMANAGER->getPlayer()->GetX() + 70 < _x)
-		{
-			_isLeft = false;
-			_x -= 3;
-		}
-		if (ENTITYMANAGER->getPlayer()->GetX() - 70 < _x && ENTITYMANAGER->getPlayer()->GetX() + 70 > _x)
-		{
-			_state = ES_ATTACK;
-			if (_x < ENTITYMANAGER->getPlayer()->GetX() + 20)
+		case ES_IDLE:
+			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200)
+			{
+				_state = ES_MOVE;
+			}
+			break;
+		case ES_MOVE:
+			if (ENTITYMANAGER->getPlayer()->GetX() - 70 > _x)
 			{
 				_isLeft = true;
+				_x += 3;
 			}
-			else
+			else if (ENTITYMANAGER->getPlayer()->GetX() + 70 < _x)
 			{
-				_x = _x - 65;
 				_isLeft = false;
+				_x -= 3;
 			}
+			if (ENTITYMANAGER->getPlayer()->GetX() - 70 < _x && ENTITYMANAGER->getPlayer()->GetX() + 70 > _x)
+			{
+				_state = ES_ATTACK;
+				if (_x < ENTITYMANAGER->getPlayer()->GetX() + 20)
+				{
+					_isLeft = true;
+				}
+				else
+				{
+					_x = _x - 65;
+					_isLeft = false;
+				}
+			}
+			break;
+		case ES_ATTACK:
+			break;
+		default:
+			break;
 		}
-		break;
-	case ES_ATTACK:
-		break;
-	default:
-		break;
+		this->Animation();
 	}
-	this->Animation();
 }
 
 void Skel::release()
@@ -62,7 +67,11 @@ void Skel::release()
 
 void Skel::render(HDC hdc)
 {
-	Enemy::render(hdc);
+
+	if (_isSpawned)
+	{
+		Enemy::render(hdc);
+	}
 }
 
 void Skel::Move()

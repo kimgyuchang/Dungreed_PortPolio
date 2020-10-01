@@ -26,3 +26,11 @@ void MapManager::release()
 void MapManager::render(HDC hdc)
 {
 }
+
+void MapManager::ChangeMap(int index)
+{
+	_currentMap = index;
+	MAPMANAGER->GetMaps()[_currentMap]->PixelCollisionMapGenerate();
+	MAPMANAGER->GetMaps()[_currentMap]->GridMapGenerate();
+	EFFECTMANAGER->GetVEffect().clear();
+}
