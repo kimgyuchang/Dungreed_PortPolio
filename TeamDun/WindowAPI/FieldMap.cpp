@@ -295,6 +295,10 @@ void FieldMap::render(HDC hdc)
 	*/
 
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer2MapIg"), 0, 0);
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		_vObjs[i]->render(hdc);
+	} // ¿ÀºêÁ§Æ® ·»´õ
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer1MapIg"), 0, 0);
 	
 	IMAGEMANAGER->findImage("MiniMapGroundIg")->render(hdc, 0, 0);
@@ -310,10 +314,6 @@ void FieldMap::render(HDC hdc)
 	} // ¹Ì´Ï¸Ê ·»´õ
 	*/
 
-	for (int i = 0; i < _vObjs.size(); i++)
-	{
-		_vObjs[i]->render(hdc);
-	} // ¿ÀºêÁ§Æ® ·»´õ
 	
 
 	ENTITYMANAGER->render(hdc);
