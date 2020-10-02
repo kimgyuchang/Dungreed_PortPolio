@@ -5,15 +5,14 @@ class BigWhiteSkel : public Enemy
 {
 private:
 	RECT		_collider[8];
+	float		_probeBottom;
 	float		_gravity;
 	float		_jumpPower;
-	float		_probeBottom;
 	bool		_isJump;
 	bool		_downJump;
 	bool		_leftBack;
 	bool		_rightBack;
 	int			_jumpCount;
-
 	int			_downJmpTimer;
 
 public:
