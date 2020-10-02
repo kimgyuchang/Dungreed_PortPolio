@@ -14,5 +14,6 @@ public:
 	virtual void	Move();
 	virtual void	Attack();
 	virtual void	Animation();
+	virtual void	pixelCollision();
 };
 

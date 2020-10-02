@@ -6,8 +6,13 @@ HRESULT BigWhiteSkel::init(int id, string name, OBJECTTYPE type, vector<string> 
 	Enemy::init(id, name, type, imgNames);
 	_body = RectMake(_x, _y, 99, 90);
 	_state = ES_IDLE;
-	_index = _count = 0; 
+
+	_index = _count = _jumpCount = _downJmpTimer = 0; 
 	_frameX, _frameY = 0;
+
+	_gravity = 0.4f;
+	_jumpPower = 7.0f;
+
 	_isLeft = false;
 
 	return S_OK;
@@ -72,6 +77,7 @@ void BigWhiteSkel::update()
 		default:
 			break;
 		}
+		this->Move();
 		this->Animation();
 		this->pixelCollision();
 	}
@@ -92,6 +98,33 @@ void BigWhiteSkel::render(HDC hdc)
 void BigWhiteSkel::Move()
 {
 	Enemy::Move();
+
+	if (_y > ENTITYMANAGER->getPlayer()->GetY())
+	{
+		if (_jumpCount == 0 || _jumpCount == 1)
+		{
+			_isJump = true;
+			_jumpPower = 10;
+			_y -= _jumpPower;
+			_probeBottom = _y + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight();
+			_jumpCount++;
+		}
+		if (_y < ENTITYMANAGER->getPlayer()->GetY())
+		{
+			_downJump = true;
+			_jumpPower = -2;
+			_jumpCount++;
+		}
+		if (_downJump)
+		{
+			_downJmpTimer++;
+			if (_downJmpTimer > 20)
+			{
+				_downJmpTimer = 0;
+				_downJump = false;
+			}
+		}
+	}
 }
 
 void BigWhiteSkel::Attack()
