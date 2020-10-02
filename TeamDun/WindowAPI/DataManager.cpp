@@ -56,8 +56,12 @@ void DataManager::GetObjectData()
 			obj = new Minotaurs();
 			break;
 
-		case 701: // πÍΩ√
+		case 1505:// ¿€¿∫ ¿Ø∑…
 			obj = new LittleGhost();
+			break;
+
+		case 1507:// «ÿ∞Ò
+			obj = new Skel();
 			break;
 
 		case 702: // ∫”¿∫ π⁄¡„

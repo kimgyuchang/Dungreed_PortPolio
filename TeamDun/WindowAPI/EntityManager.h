@@ -10,6 +10,7 @@ private :
 	vector<Object*>		_vObjs;
 	vector<Bullet*>		_vBullets;
 	Player*				_p;
+	
 
 public :
 	HRESULT init();
@@ -22,5 +23,8 @@ public :
 	vector<Bullet*>&	getVBullets()	{ return _vBullets; }
 	Player*				getPlayer()		{ return _p; }
 	void				setPlayer(Player* p) { _p = p; }
+
+	void makeBullet(const char* imageName, float x, float y, float angle, float speed, float maxDis, bool isFrame);
+	void eraseBullet();
 };
 

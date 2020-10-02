@@ -33,6 +33,7 @@ HRESULT Object::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 
 void Object::update()
 {
+	//Animation();
 }
 
 void Object::release()
@@ -47,6 +48,19 @@ void Object::render(HDC hdc)
 
 void Object::Animation()
 {
+	_frameTimer++;
+	_frameY = 0;
+
+	if (_frameTimer > 5)
+	{
+		_frameTimer = 0;
+		_frameX++;
+
+		if (_frameX > _vImages[_useImage]->getMaxFrameX())
+		{
+			_frameX = 0;  //¿©±â¶û
+		}
+	}
 }
 
 void Object::CheckCollision()

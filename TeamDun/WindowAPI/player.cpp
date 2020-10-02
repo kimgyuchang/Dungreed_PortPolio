@@ -31,7 +31,10 @@ HRESULT Player::init()
 void Player::update()
 {
 
-
+	if (INPUT->GetKeyDown(VK_LBUTTON))
+	{
+		ENTITYMANAGER->makeBullet("BatBullet", _x,_y, getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _ptMouse.x, _ptMouse.y), 10,600, true);
+	}
 	if (CAMERAMANAGER->GetRelativeX(_x+ IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth()/2) >= _ptMouse.x)
 	{
 		_isLeft = true;
@@ -241,8 +244,6 @@ void Player::pixelCollision()
 	image* baseCharIg = IMAGEMANAGER->findImage("baseCharIdle");
 
 
-	COLORREF colorRightBottom1;
-	COLORREF colorRightBottom2;
 
 	for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 	{

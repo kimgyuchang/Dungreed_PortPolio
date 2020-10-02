@@ -67,17 +67,21 @@ void FieldMap::LoadMap()
 		case 1501:// πÃ≥Î≈∏øÏ∏£Ω∫
 			obj = new Minotaurs(*dynamic_cast<Minotaurs*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
-		case 701: // πÍΩ√
-			obj = new LittleGhost(*dynamic_cast<LittleGhost*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
-			break;
-
+			
 		case 702: // ∫”¿∫ π⁄¡„
 			obj = new RedBat(*dynamic_cast<RedBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
 
 		case 2000: // ∫”¿∫ π⁄¡„
 			obj = new Belial(*dynamic_cast<Belial*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+
+		case 1505:// ¿€¿∫ ¿Ø∑…
+			obj = new LittleGhost(*dynamic_cast<LittleGhost*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+
+		case 1507:// «ÿ∞Ò
+			obj = new Skel(*dynamic_cast<Skel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
 
 		case 514: // πÆ øﬁ¬ 
@@ -441,6 +445,13 @@ void FieldMap::ShotObject()
 void FieldMap::render(HDC hdc)
 {
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer2MapIg"), 0, 0);
+
+
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		_vObjs[i]->render(hdc);
+	} // ø¿∫Í¡ß∆Æ ∑ª¥ı
+
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer1MapIg"), 0, 0);
 
 	IMAGEMANAGER->findImage("MiniMapGroundIg")->render(hdc, 0, 0);
@@ -449,13 +460,17 @@ void FieldMap::render(HDC hdc)
 		CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("PixelMapIg"), 0, 0);
 	} // «»ºø√Êµπ ∑ª¥ı
 
+	/*
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
 		_vObjs[i]->render(hdc);
 	} // ø¿∫Í¡ß∆Æ ∑ª¥ı
+	*/
 
 
 	ENTITYMANAGER->render(hdc);
 	EFFECTMANAGER->render(hdc);
 	// «√∑π¿ÃæÓ π◊ ∫“∏¥ µÓ ∑ª¥ı
 }
+
+
