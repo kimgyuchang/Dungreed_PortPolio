@@ -5,7 +5,6 @@ HRESULT LittleGhost::init(int id, string name, OBJECTTYPE type, vector<string> i
 {
 	Enemy::init(id, name, type, imgNames);
 
-	_body = RectMake(_x, _y, 60, 60);
 	_state = ES_IDLE;
 
 	_index = _count = 0;
@@ -25,6 +24,8 @@ void LittleGhost::update()
 		this->Move();
 		this->Animation();
 	}
+
+	SetBodyPos();
 }
 
 void LittleGhost::release()

@@ -72,7 +72,7 @@ void FieldMap::LoadMap()
 			obj = new RedBat(*dynamic_cast<RedBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
 
-		case 2000: // ºÓÀº ¹ÚÁã
+		case 2000: // º§¸®¾Ë
 			obj = new Belial(*dynamic_cast<Belial*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
 
@@ -388,6 +388,7 @@ void FieldMap::CheckNoMonsterInMap()
 		{
 			if (_vObjs[i]->GetType() == OBJECTTYPE::OT_MONSTER)
 			{
+				cout << _vObjs[i]->GetX() << " " << _vObjs[i]->GetY() << " " << _vObjs[i]->GetName() << endl;
 				isRemainMonster = true;
 				break;
 			}

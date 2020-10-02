@@ -103,7 +103,6 @@ void BigWhiteSkel::Move()
 	{
 		if (_jumpCount == 0 || _jumpCount == 1)
 		{
-			_isJump = true;
 			_jumpPower = 10;
 			_y -= _jumpPower;
 			_probeBottom = _y + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight();
