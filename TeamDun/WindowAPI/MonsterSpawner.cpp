@@ -22,10 +22,9 @@ void MonsterSpawner::update()
 void MonsterSpawner::CheckCollision()
 {
 	RECT temp;
-	if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetRect(), &_body))
+	if (!_isOff && IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_body))
 	{
-		_isOff = true;
-		_belongMap->SetIsSpawning(true);
+		SetToSpawnMonsters();
 	}
 }
 
@@ -36,5 +35,28 @@ void MonsterSpawner::release()
 
 void MonsterSpawner::render(HDC hdc)
 {
-	Object::render(hdc);
+	if (INPUT->GetKey(VK_F5))
+	{
+		CAMERAMANAGER->Rectangle(hdc, _body);
+	}
+}
+
+/// <summary>
+/// 몬스터 스포너를 통해 몬스터를 스폰시킨다.
+/// </summary>
+void MonsterSpawner::SetToSpawnMonsters()
+{
+	SetIsOff(true);
+
+	for (int i = 0; i < _belongMap->GetObjects().size(); i++)
+	{
+		Object* obj = _belongMap->GetObjects()[i];
+		if (obj->GetId() == 2500)
+		{
+			dynamic_cast<MonsterSpawner*>(obj)->SetIsOff(true);
+		}
+	} // 해당 맵의 전체 몬스터 스포너를 off상태로 만든다.
+
+	_belongMap->SetDoorSpawning();
+	_belongMap->SetIsSpawning(true);
 }

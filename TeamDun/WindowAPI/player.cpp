@@ -177,7 +177,6 @@ void Player::Move()
 	}
 	if (INPUT->GetKeyUp('A'))
 	{
-
 		_state = PS_IDLE;
 	}
 	if (INPUT->GetKey('D'))
@@ -193,7 +192,6 @@ void Player::Move()
 	}
 	if (INPUT->GetKeyUp('D'))
 	{
-
 		_state = PS_IDLE;
 	}
 
@@ -207,7 +205,6 @@ void Player::Move()
 			_y -= _jumpPower;
 			_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
 			_jumpCount++;
-
 		}
 		if (INPUT->GetKey('S') && _isJump)
 		{
@@ -216,8 +213,6 @@ void Player::Move()
 			_jumpCount++;
 		}
 	}
-
-
 
 	if (_downJump)
 	{
@@ -241,6 +236,9 @@ void Player::pixelCollision()
 	bool _RightCollision2 = false;
 
 	_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
+	
+	image* pixelMapIg = IMAGEMANAGER->findImage("PixelMapIg");
+	image* baseCharIg = IMAGEMANAGER->findImage("baseCharIdle");
 
 
 	COLORREF colorRightBottom1;
@@ -248,7 +246,7 @@ void Player::pixelCollision()
 
 	for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 	{
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _x + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() / 2, i);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -263,7 +261,7 @@ void Player::pixelCollision()
 			//	if (_isLeft) _x += 5;
 			//	else _x -= 5;
 			//}s 
-			_y = i - IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();// 올라간다
+			_y = i - baseCharIg->getFrameHeight();// 올라간다
 			_jumpCount = 0;
 
 			break;
@@ -274,7 +272,7 @@ void Player::pixelCollision()
 			isCollide = true;		// 충돌했으면 얘를 ON
 			_jumpPower = -2;		// 떨어질때도 자연스럽게 떨어지게 하기위해 점프파워 초기화
 
-			_y = i - IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();// 올라간다
+			_y = i - baseCharIg->getFrameHeight();// 올라간다
 			_jumpCount = 0;
 			break;
 		}
@@ -282,7 +280,7 @@ void Player::pixelCollision()
 
 	for (int i = _y + 15; i > _y - 4; i--)
 	{
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _x + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() / 2, i);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -301,12 +299,12 @@ void Player::pixelCollision()
 		_y -= _jumpPower;			//중력적용
 		_jumpPower -= _gravity;
 		
-		_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+		_body = RectMake(_x, _y, baseCharIg->getFrameWidth(), baseCharIg->getFrameHeight());
 	}
 
-	for (int i = _x + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 15; i < _x + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() + 5; i++)
+	for (int i = _x + baseCharIg->getFrameWidth() - 15; i < _x + baseCharIg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 2);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -317,16 +315,16 @@ void Player::pixelCollision()
 
 			if (_RightCollision1 &&_RightCollision2)
 			{
-				_x = i - IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth();
+				_x = i - baseCharIg->getFrameWidth();
 
 			}
 			break;
 		}
 
 	}
-	for (int i = _x + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 15; i < _x + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() + 5; i++)
+	for (int i = _x + baseCharIg->getFrameWidth() - 15; i < _x + baseCharIg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 40);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 40);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -335,14 +333,14 @@ void Player::pixelCollision()
 		{
 			_RightCollision2 = true;
 
-			_x = i - IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth();
+			_x = i - baseCharIg->getFrameWidth();
 			break;
 		}
 
 	}
-	for (int i = _x + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 15; i < _x + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() + 5; i++)
+	for (int i = _x + baseCharIg->getFrameWidth() - 15; i < _x + baseCharIg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _y + 2);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _y + 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -350,7 +348,7 @@ void Player::pixelCollision()
 		if ((r == 255 && g == 0 && b == 0))
 		{
 
-			_x = i - IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth();
+			_x = i - baseCharIg->getFrameWidth();
 
 
 			break;
@@ -360,7 +358,7 @@ void Player::pixelCollision()
 	//왼쪽아래
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 2);
+		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -371,7 +369,7 @@ void Player::pixelCollision()
 
 			if (_leftCollision1 &&_leftCollision2)
 			{
-				_x = i - IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth();
+				_x = i - baseCharIg->getFrameWidth();
 
 			}
 
@@ -381,7 +379,7 @@ void Player::pixelCollision()
 	//왼쪽중간
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 40);
+		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 40);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -397,7 +395,7 @@ void Player::pixelCollision()
 	//왼쪽위
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _y + 2);
+		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _y + 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -412,4 +410,3 @@ void Player::pixelCollision()
 	}
 	///////////////////////////////////////////////////////////////////////////
 }
-

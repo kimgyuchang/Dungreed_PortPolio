@@ -208,11 +208,14 @@ void BigWhiteSkel::pixelCollision()
 	COLORREF colorRightBottom1;
 	COLORREF colorRightBottom2;
 
-	_probeBottom = _y + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight();
+	image* pixelMapIg = IMAGEMANAGER->findImage("PixelMapIg");
+	image* skelIdleImg = IMAGEMANAGER->findImage("BigWhiteSkelIdle");
+
+	_probeBottom = _y + skelIdleImg->getFrameHeight();
 
 	for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 	{
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _x + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() / 2, i);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + skelIdleImg->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -222,7 +225,7 @@ void BigWhiteSkel::pixelCollision()
 			isCollide = true;
 			_jumpPower = -2;
 
-			_y = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight();
+			_y = i - skelIdleImg->getFrameHeight();
 			_jumpCount = 0;
 
 			break;
@@ -233,7 +236,7 @@ void BigWhiteSkel::pixelCollision()
 			isCollide = true;
 			_jumpPower = -2;
 
-			_y = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight();
+			_y = i - skelIdleImg->getFrameHeight();
 			_jumpCount = 0;
 			break;
 		}
@@ -241,7 +244,7 @@ void BigWhiteSkel::pixelCollision()
 
 	for (int i = _y + 15; i > _y - 4; i--)
 	{
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() / 2, i);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + skelIdleImg->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -260,12 +263,12 @@ void BigWhiteSkel::pixelCollision()
 		_y -= _jumpPower;
 		_jumpPower -= _gravity;
 
-		_body = RectMake(_x, _y, IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth(), IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight());
+		_body = RectMake(_x, _y, skelIdleImg->getFrameWidth(), skelIdleImg->getFrameHeight());
 	}
 
-	for (int i = _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() - 15; i < _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() + 5; i++)
+	for (int i = _x + skelIdleImg->getFrameWidth() - 15; i < _x + skelIdleImg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 2);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -276,16 +279,16 @@ void BigWhiteSkel::pixelCollision()
 
 			if (_RightCollision1 &&_RightCollision2)
 			{
-				_x = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth();
+				_x = i - skelIdleImg->getFrameWidth();
 
 			}
 			break;
 		}
 
 	}
-	for (int i = _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() - 15; i < _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() + 5; i++)
+	for (int i = _x + skelIdleImg->getFrameWidth() - 15; i < _x + skelIdleImg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 40);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 40);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -294,14 +297,14 @@ void BigWhiteSkel::pixelCollision()
 		{
 			_RightCollision2 = true;
 
-			_x = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth();
+			_x = i - skelIdleImg->getFrameWidth();
 			break;
 		}
 
 	}
-	for (int i = _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() - 15; i < _x + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth() + 5; i++)
+	for (int i = _x + skelIdleImg->getFrameWidth() - 15; i < _x + skelIdleImg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _y + 2);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _y + 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -309,7 +312,7 @@ void BigWhiteSkel::pixelCollision()
 		if ((r == 255 && g == 0 && b == 0))
 		{
 
-			_x = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth();
+			_x = i - skelIdleImg->getFrameWidth();
 
 
 			break;
@@ -319,7 +322,7 @@ void BigWhiteSkel::pixelCollision()
 	//¿ÞÂÊ¾Æ·¡
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 2);
+		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -330,7 +333,7 @@ void BigWhiteSkel::pixelCollision()
 
 			if (_leftCollision1 &&_leftCollision2)
 			{
-				_x = i - IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameWidth();
+				_x = i - skelIdleImg->getFrameWidth();
 
 			}
 
@@ -340,7 +343,7 @@ void BigWhiteSkel::pixelCollision()
 	//¿ÞÂÊÁß°£
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _probeBottom - 40);
+		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 40);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -356,7 +359,7 @@ void BigWhiteSkel::pixelCollision()
 	//¿ÞÂÊÀ§
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), i, _y + 2);
+		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _y + 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);

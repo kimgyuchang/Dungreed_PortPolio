@@ -28,10 +28,10 @@ private :
 public :
 	void LoadMap();
 
+	void MakeNearTileCollision(Door* door, bool isActivate);
+
 	void MakeDoor(Door* door);
-
 	void PixelCollisionMapGenerate();
-
 	void GridMapGenerate();
 
 	HRESULT init(string fileName);
@@ -39,10 +39,18 @@ public :
 	virtual void release();
 	virtual void render(HDC hdc);
 
+	void ShotObject();
+	void SetDoorSpawning();
 	void SpawnMonsters();
+	void CheckNoMonsterInMap();
+	void EraseDeathObject();
 	
 	// GETSET //
-	string	GetFileName()					{ return _fileName; }
+	string				GetFileName()		{ return _fileName; }
+	bool				GetIsCleared()		{ return _isCleared; }
+	vector<Object*>&	GetObjects()		{ return _vObjs; }	
+
+
 	void	SetIsSpawning(bool isSpawning)	{ _isSpawning = isSpawning; }
 	void	SetStage(int stage)				{ _stage = stage; }
 };

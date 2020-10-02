@@ -23,11 +23,10 @@ void RedBat::release()
 
 void RedBat::render(HDC hdc)
 {
-	Enemy::render(hdc);
 	
 	if (_isSpawned)
 	{
-
+		Enemy::render(hdc);
 	}
 }
 

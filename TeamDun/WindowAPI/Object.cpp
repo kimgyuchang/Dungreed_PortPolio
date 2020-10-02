@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Object.h"
+#include "FieldMap.h"
 
 HRESULT Object::init(int id, string name, OBJECTTYPE type, vector<string> imgNames)
 {
@@ -25,6 +26,7 @@ HRESULT Object::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
     _useImage = 0;
 	_frameTimer = 0;
     _body = RECT{ 0,0,0,0 };
+    _isDead = false;
 
     return S_OK;
 }

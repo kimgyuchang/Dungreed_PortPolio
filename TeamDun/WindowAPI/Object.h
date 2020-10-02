@@ -1,10 +1,10 @@
 #pragma once
-
 enum OBJECTTYPE
 {
 	OT_PLAYER, OT_MONSTER, OT_NPC, OT_OBSTACLE, OT_BREAKABLE, OT_ETC
 };
 
+class FieldMap;
 class Object
 {
 protected:
@@ -21,6 +21,8 @@ protected:
 	int				_spawnTime;		// 스폰 시간
 	int				_frameTimer;	// 프레임 타이머
 	RECT			_body;			// 충돌체
+	FieldMap*		_belongMap;		// 현재 속한 맵 정보
+	bool			_isDead;		// 죽었는지(파괴되었는지) 여부
 public:
 
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
@@ -31,6 +33,7 @@ public:
 	virtual void	CheckCollision();
 
 	// GETSET //
+	int				GetId()				{ return _id; }
 	string			GetName()			{ return _name; }
 	vector<string>	GetImgNames()		{ return _vImageNames; }
 	int				GetX()				{ return _x; }
@@ -40,16 +43,22 @@ public:
 	int				GetUseImage()		{ return _useImage; }
 	int				GetFrameX()			{ return _frameX; }
 	int				GetFrameY()			{ return _frameY; }
-	RECT			GetRect()			{ return _body; }
+	RECT			GetBody()			{ return _body; }
 	int				GetSpawnTime()		{ return _spawnTime; }
+	FieldMap*		GetBelongMap()		{ return _belongMap; }
+	bool			GetIsDead()			{ return _isDead; }
 
-	void			SetName(string name) { _name = name; }
-	void			SetX(int x) { _x = x; }
-	void			SetY(int y) { _y = y; }
-	void			SetType(OBJECTTYPE type) { _type = type; }
-	void			Setimage(int index, image* img) { _vImages[index] = img; }
-	void			SetUseImage(int index) { _useImage = index; }
-	void			SetFrameX(int x) { _frameX = x; }
-	void			SetFrameY(int y) { _frameY = y; }
-	void			SetSpawnTime(int time) { _spawnTime = time; }
+	void			SetName(string name)				{ _name = name; }
+	void			SetX(int x)							{ _x = x; }
+	void			SetY(int y)							{ _y = y; }
+	void			SetType(OBJECTTYPE type)			{ _type = type; }
+	void			Setimage(int index, image* img)		{ _vImages[index] = img; }
+	void			SetUseImage(int index)				{ _useImage = index; }
+	void			SetFrameX(int x)					{ _frameX = x; }
+	void			SetFrameY(int y)					{ _frameY = y; }
+	void			SetSpawnTime(int time)				{ _spawnTime = time; }
+	void			SetBelongMap(FieldMap* map)			{ _belongMap = map; }
+	void			SetIsDead(bool dead)				{ _isDead = dead; }
+	void			SetBody(RECT rect)					{ _body = rect; }
+	void			SetBodyPos()						{ _body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight()); }
 };

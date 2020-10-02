@@ -24,6 +24,8 @@ HRESULT image::init(int width, int height)
 	_imageInfo->hOBit = (HBITMAP)SelectObject(_imageInfo->hMemDC, _imageInfo->hBit);
 	_imageInfo->width = width;
 	_imageInfo->height = height;
+	_imageInfo->frameWidth = width;
+	_imageInfo->frameHeight = height;
 	_imageInfo->maxFrameX = 0;
 	_imageInfo->maxFrameY = 0;
 	_stretchImage = nullptr;
@@ -65,6 +67,8 @@ HRESULT image::init(const char* fileName, int width, int height, bool isTrans, C
 	_imageInfo->hOBit = (HBITMAP)SelectObject(_imageInfo->hMemDC, _imageInfo->hBit);
 	_imageInfo->width = width;
 	_imageInfo->height = height;
+	_imageInfo->frameWidth = width;
+	_imageInfo->frameHeight = height;
 	_imageInfo->maxFrameX = 0;
 	_imageInfo->maxFrameY = 0;
 
@@ -110,6 +114,8 @@ HRESULT image::init(const char* fileName, float x, float y, int width, int heigh
 	_imageInfo->y = y;
 	_imageInfo->width = width;
 	_imageInfo->height = height;
+	_imageInfo->frameWidth = width;
+	_imageInfo->frameHeight = height;
 	_imageInfo->maxFrameX = 0;
 	_imageInfo->maxFrameY = 0;
 

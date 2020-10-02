@@ -98,7 +98,6 @@ void FieldMap::LoadMap()
 
 		case 2500: // 몬스터 스포너
 			obj = new MonsterSpawner(*dynamic_cast<MonsterSpawner*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
-			dynamic_cast<MonsterSpawner*>(obj)->SetBelongMap(this);
 			break;
 
 		default:
@@ -108,7 +107,8 @@ void FieldMap::LoadMap()
 		obj->SetX(stof(objData[i][1]) * 48);
 		obj->SetY(stof(objData[i][2]) * 48);
 		obj->SetSpawnTime(stoi(objData[i][3]));
-
+		obj->SetBelongMap(this);
+		obj->SetBodyPos();
 
 		// AFTER OBJECT LOAD
 		switch (stoi(objData[i][0]))
@@ -148,23 +148,23 @@ void FieldMap::MakeDoor(Door* door)
 
 			// 주변 타일의 변경
 			_vMapData[i][j]->_img = nullptr;
-			_vMapData[i][j]->_img2 = DATAMANAGER->GetGridDataByName("Stage1_Tile43")->_image; 
+			_vMapData[i][j]->_img2 = DATAMANAGER->GetGridDataByName("Stage1_Tile43")->_image;
 			_vMapData[i][j]->_collisionImage = IMAGEMANAGER->findImage("Green_CollisionAll");
-			
+
 			// 문의 방향에 따른 주변 타일 변경
 			switch (door->GetDirection())
 			{
 			case DIRECTION::DIR_LEFT: case DIRECTION::DIR_RIGHT:
-				if (i == y + pos[2] && i-1 >= 0)
+				if (i == y + pos[2] && i - 1 >= 0)
 				{
-					_vMapData[i-1][j]->_img = DATAMANAGER->GetGridDataByName("Stage1_Tile19")->_image;
-					_vMapData[i-1][j]->_collisionImage = DATAMANAGER->GetGridDataByName("Stage1_Tile19")->_colImage;
+					_vMapData[i - 1][j]->_img = DATAMANAGER->GetGridDataByName("Stage1_Tile19")->_image;
+					_vMapData[i - 1][j]->_collisionImage = DATAMANAGER->GetGridDataByName("Stage1_Tile19")->_colImage;
 				}
 
 				if (i == y + pos[3] && i + 1 < _vMapData.size())
 				{
-					_vMapData[i+1][j]->_img = DATAMANAGER->GetGridDataByName("Stage1_Tile1")->_image;
-					_vMapData[i+1][j]->_collisionImage = DATAMANAGER->GetGridDataByName("Stage1_Tile1")->_colImage;
+					_vMapData[i + 1][j]->_img = DATAMANAGER->GetGridDataByName("Stage1_Tile1")->_image;
+					_vMapData[i + 1][j]->_collisionImage = DATAMANAGER->GetGridDataByName("Stage1_Tile1")->_colImage;
 				}
 				break;
 
@@ -188,11 +188,11 @@ void FieldMap::MakeDoor(Door* door)
 				}
 				break;
 
-			case DIRECTION:: DIR_DOWN:
+			case DIRECTION::DIR_DOWN:
 				if (j == x + pos[0] && j - 1 >= 0)
 				{
-					_vMapData[i][j-1]->_img = DATAMANAGER->GetGridDataByName("Stage1_Tile5")->_image;
-					_vMapData[i][j-1]->_collisionImage = DATAMANAGER->GetGridDataByName("Stage1_Tile5")->_colImage;
+					_vMapData[i][j - 1]->_img = DATAMANAGER->GetGridDataByName("Stage1_Tile5")->_image;
+					_vMapData[i][j - 1]->_collisionImage = DATAMANAGER->GetGridDataByName("Stage1_Tile5")->_colImage;
 				}
 
 				if (j == x + pos[1] && j + 1 <= _vMapData[i].size() - 1)
@@ -210,8 +210,62 @@ void FieldMap::MakeDoor(Door* door)
 			}
 		}
 	}
+}
 
+void FieldMap::release()
+{
+	for (int i = 0; i < _vMapData.size(); i++)
+	{
+		for (int j = 0; j < _vMapData[i].size(); j++)
+		{
+			SAFE_DELETE(_vMapData[i][j]);
+		}
+	}
 
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		_vObjs[i]->release();
+		SAFE_DELETE(_vObjs[i]);
+	}
+}
+
+/// <summary>
+/// 문 생성/해제 시 주변 타일의 픽셀충돌 온오프를 한다.
+/// </summary>
+void FieldMap::MakeNearTileCollision(Door* door, bool isActivate)
+{
+	int x = (door->GetX() + door->GetImage(0)->getWidth() / 2) / 48;	// 문의 중점 X
+	int y = (door->GetY() + door->GetImage(0)->getHeight() / 2) / 48;	// 문의 중점 Y
+
+	int pos[4] = { 0,0,0,0 };
+	switch (door->GetDirection()) // 방향에 따라 변경할 타일의 범위가 달라진다.
+	{
+	case DIRECTION::DIR_LEFT:	pos[0] = -3;  pos[1] = 0, pos[2] = -2, pos[3] = 2; break;
+	case DIRECTION::DIR_RIGHT:	pos[0] = 0;  pos[1] = 3, pos[2] = -2, pos[3] = 2; break;
+	case DIRECTION::DIR_UP:		pos[0] = -2;  pos[1] = 1, pos[2] = -2, pos[3] = 0; break;
+	case DIRECTION::DIR_DOWN:	pos[0] = -2;  pos[1] = 1, pos[2] = 0, pos[3] = 2; break;
+	}
+
+	// 주변 타일들을 돌며 해당 타일들의 충돌 정보를 바꾼다.
+	for (int i = y + pos[2]; i <= y + pos[3]; i++)
+	{
+		if (i < 0 || i >= _vMapData.size()) continue;
+		for (int j = x + pos[0]; j <= x + pos[1]; j++)
+		{
+			if (j < 0 || j >= _vMapData[i].size()) continue;
+
+			if (isActivate)
+			{
+				_vMapData[i][j]->_collisionImage = IMAGEMANAGER->findImage("Red_CollisionAll");
+			}
+			else
+			{
+				_vMapData[i][j]->_collisionImage = IMAGEMANAGER->findImage("Green_CollisionAll");
+			}
+		}
+	}
+
+	PixelCollisionMapGenerate();
 }
 
 /// <summary>
@@ -259,7 +313,6 @@ void FieldMap::GridMapGenerate()
 	}
 	for (int i = 0; i < _vMiniRc.size(); i++)
 	{
-		
 		IMAGEMANAGER->findImage("MiniMapPixel")->render(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), _vMiniRc[i].left, _vMiniRc[i].top);
 	} // 미니맵 렌더
 }
@@ -272,53 +325,28 @@ void FieldMap::update()
 	}
 
 	SpawnMonsters();
+	EraseDeathObject();
+	ShotObject();
+	CheckNoMonsterInMap();
 	EFFECTMANAGER->update();
 }
 
-void FieldMap::release()
+/// <summary>
+/// 문을 활성화 상태로 만든다
+/// </summary>
+void FieldMap::SetDoorSpawning()
 {
-}
-
-void FieldMap::render(HDC hdc)
-{
-	/*
-	for (int i = ((CAMERAMANAGER->GetPivotY() - (WINSIZEY / 2)) / 48) - 5; i < ((CAMERAMANAGER->GetPivotY() + (WINSIZEY)) / 48) +5; i++)
-	{
-		if (i < 0 || i >= _vMapData.size()) continue;
-		for (int j = ((CAMERAMANAGER->GetPivotX() - (WINSIZEX / 2)) / 48) - 5; j < ((CAMERAMANAGER->GetPivotX() + (WINSIZEX)) / 48) + 5; j++)
-		{
-			if (j < 0 || j >= _vMapData[i].size()) continue;
-			if (_vMapData[i][j]->_img2) CAMERAMANAGER->Render(hdc, _vMapData[i][j]->_img2, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
-			if (_vMapData[i][j]->_img) CAMERAMANAGER->Render(hdc, _vMapData[i][j]->_img, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
-		}
-	} // 타일 렌더, 일정 범위만큼만 렌더해준다.
-	*/
-
-	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer2MapIg"), 0, 0);
-	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer1MapIg"), 0, 0);
-	
-	IMAGEMANAGER->findImage("MiniMapGroundIg")->render(hdc, 0, 0);
-	if (INPUT->GetKey(VK_F1))
-	{
-		CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("PixelMapIg"), 0, 0);
-	} // 픽셀충돌 렌더
-
-	/*
-	for (int i = 0; i < _vMiniRc.size(); i++)
-	{
-		IMAGEMANAGER->findImage("MiniMapPixel")->render(hdc, _vMiniRc[i].left, _vMiniRc[i].top);
-	} // 미니맵 렌더
-	*/
-
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
-		_vObjs[i]->render(hdc);
-	} // 오브젝트 렌더
-	
-
-	ENTITYMANAGER->render(hdc);
-	EFFECTMANAGER->render(hdc);
-	// 플레이어 및 불릿 등 렌더
+		switch (_vObjs[i]->GetId())
+		{
+		case 514: case 515: case 516: case 517:
+			dynamic_cast<Door*>(_vObjs[i])->SetIsSpawning(true);
+			_vObjs[i]->SetUseImage(1);	// 활성화 이미지로 변경
+			MakeNearTileCollision(dynamic_cast<Door*>(_vObjs[i]), true);
+			break;
+		}
+	}
 }
 
 /// <summary>
@@ -326,7 +354,7 @@ void FieldMap::render(HDC hdc)
 /// </summary>
 void FieldMap::SpawnMonsters()
 {
-	if (_isSpawning)
+	if (_isSpawning && !_isCleared)
 	{
 		_spawnTimer++;
 		for (int i = 0; i < _vObjs.size(); i++)
@@ -334,7 +362,7 @@ void FieldMap::SpawnMonsters()
 			if (_vObjs[i]->GetType() == OBJECTTYPE::OT_MONSTER)
 			{
 				Enemy* enemy = dynamic_cast<Enemy*>(_vObjs[i]);
-				
+
 				if (!enemy->GetIsSpawned() && enemy->GetSpawnTime() <= _spawnTimer)
 				{
 					enemy->SpawnEnemy();
@@ -342,4 +370,92 @@ void FieldMap::SpawnMonsters()
 			}
 		}
 	}
+}
+
+/// <summary>
+/// 맵에 몬스터가 더 없으면 문을 연다
+/// </summary>
+void FieldMap::CheckNoMonsterInMap()
+{
+	if (_isSpawning && !_isCleared)
+	{
+		bool isRemainMonster = false;
+		for (int i = 0; i < _vObjs.size(); i++)
+		{
+			if (_vObjs[i]->GetType() == OBJECTTYPE::OT_MONSTER)
+			{
+				isRemainMonster = true;
+				break;
+			}
+		}
+
+		if (!isRemainMonster) // 남은 몬스터가 없을때
+		{
+			_isCleared = true; // 몬스터를 모두 정리했다 알림
+			for (int i = 0; i < _vObjs.size(); i++)
+			{
+				switch (_vObjs[i]->GetId())
+				{
+				case 514: case 515: case 516: case 517: // 문 Case
+					dynamic_cast<Door*>(_vObjs[i])->SetIsActivated(false);
+					break;
+				}
+			}
+		}
+	}
+}
+
+/// <summary>
+/// 사망한 오브젝트를 없앤다.
+/// </summary>
+void FieldMap::EraseDeathObject()
+{
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		if (_vObjs[i]->GetIsDead())
+		{
+			_vObjs.erase(_vObjs.begin() + i);
+			i--;
+		}
+	}
+}
+
+/// <summary>
+/// 테스트용, 쏴서 오브젝트를 파괴함.
+/// </summary>
+void FieldMap::ShotObject()
+{
+	if (INPUT->GetKeyDown(VK_LBUTTON))
+	{
+		for (int i = 0; i < _vObjs.size(); i++)
+		{
+			if (PtInRect(&_vObjs[i]->GetBody(), CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y)))
+			{
+				_vObjs[i]->SetIsDead(true);
+				break;
+			}
+		}
+	}
+}
+
+void FieldMap::render(HDC hdc)
+{
+	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer2MapIg"), 0, 0);
+	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer1MapIg"), 0, 0);
+
+	IMAGEMANAGER->findImage("MiniMapGroundIg")->render(hdc, 0, 0);
+	if (INPUT->GetKey(VK_F1))
+	{
+		CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("PixelMapIg"), 0, 0);
+	} // 픽셀충돌 렌더
+
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		_vObjs[i]->render(hdc);
+	} // 오브젝트 렌더
+
+
+	ENTITYMANAGER->render(hdc);
+	EFFECTMANAGER->render(hdc);
+	// 플레이어 및 불릿 등 렌더
 }
