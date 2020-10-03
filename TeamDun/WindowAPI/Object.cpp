@@ -33,7 +33,7 @@ HRESULT Object::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 
 void Object::update()
 {
-	//Animation();
+	Animation();
 }
 
 void Object::release()
