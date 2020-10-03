@@ -7,13 +7,13 @@ HRESULT BigWhiteSkel::init(int id, string name, OBJECTTYPE type, vector<string> 
 	_body = RectMake(_x, _y, 99, 90);
 	_state = ES_IDLE;
 
-	_index = _count = _jumpCount = _downJmpTimer = 0;
+	_index = _count = _jumpCount = _downJmpTimer = _attackCoolTime = _jumpTimer = 0;
 	_frameX, _frameY = 0;
 
 	_gravity = 0.4f;
 	_jumpPower = 7.0f;
 
-	_isLeft = false;
+	_isLeft = _isAttack = false;
 
 	return S_OK;
 }
@@ -21,6 +21,13 @@ HRESULT BigWhiteSkel::init(int id, string name, OBJECTTYPE type, vector<string> 
 void BigWhiteSkel::update()
 {
 	Enemy::update();
+
+	this->Move();
+	this->Animation();
+	this->pixelCollision();
+
+	_attackCoolTime++;
+	_jumpTimer++;
 
 	if (_isSpawned)
 	{
@@ -45,15 +52,23 @@ void BigWhiteSkel::update()
 			}
 			if (ENTITYMANAGER->getPlayer()->GetX() - 70 < _x && ENTITYMANAGER->getPlayer()->GetX() + 70 > _x)
 			{
-				_state = ES_ATTACK;
-				if (_x < ENTITYMANAGER->getPlayer()->GetX() + 20)
+				if (_attackCoolTime % 50 == 0)
 				{
-					_isLeft = true;
+					_isAttack = true;
 				}
-				else
+				if (_isAttack)
 				{
-					_x = _x - 65;
-					_isLeft = false;
+					_state = ES_ATTACK;
+
+					if (_x < ENTITYMANAGER->getPlayer()->GetX() + 20)
+					{
+						_isLeft = true;
+					}
+					else
+					{
+						_x = _x - 65;
+						_isLeft = false;
+					}
 				}
 			}
 			break;
@@ -63,6 +78,7 @@ void BigWhiteSkel::update()
 				if (_count % 5 == 0)
 				{
 					_state = ES_IDLE;
+					_isAttack = false;
 				}
 			}
 			else if (!_isLeft && _frameX <= 0)
@@ -70,6 +86,7 @@ void BigWhiteSkel::update()
 				if (_count % 5 == 0)
 				{
 					_state = ES_IDLE;
+					_isAttack = false;
 					_x = _x + 65;
 				}
 			}
@@ -77,9 +94,6 @@ void BigWhiteSkel::update()
 		default:
 			break;
 		}
-		this->Move();
-		this->Animation();
-		this->pixelCollision();
 	}
 }
 
@@ -99,19 +113,22 @@ void BigWhiteSkel::Move()
 {
 	Enemy::Move();
 
-	if (_y > ENTITYMANAGER->getPlayer()->GetY())
+	if (_y > ENTITYMANAGER->getPlayer()->GetY() && abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200 && !_isAttack)
 	{
-		if (_jumpCount == 0 || _jumpCount == 1)
+		if (_jumpTimer % 40 == 0)
 		{
-			_jumpPower = 10;
-			_y -= _jumpPower;
-			_probeBottom = _y + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight();
-			_jumpCount++;
+			if (_jumpCount == 0)
+			{
+				_jumpPower = 10;
+				_y -= _jumpPower;
+				_probeBottom = _y + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight();
+				_jumpCount++;
+			}
 		}
 		if (_y < ENTITYMANAGER->getPlayer()->GetY())
 		{
 			_downJump = true;
-			_jumpPower = -2;
+			_jumpPower = -1;
 			_jumpCount++;
 		}
 		if (_downJump)
