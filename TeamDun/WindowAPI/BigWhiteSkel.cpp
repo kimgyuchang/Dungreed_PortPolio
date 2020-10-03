@@ -236,7 +236,7 @@ void BigWhiteSkel::pixelCollision()
 
 	for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + skelIdleImg->getFrameWidth() / 2, i);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x +11, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -247,7 +247,7 @@ void BigWhiteSkel::pixelCollision()
 			_isJump = false;
 			_jumpPower = -2;
 
-			_y = i - skelIdleImg->getFrameHeight();
+			_y = i - _vImages[_useImage]->getFrameHeight();
 			_jumpCount = 0;
 
 			break;
@@ -257,15 +257,78 @@ void BigWhiteSkel::pixelCollision()
 			isCollide = true;
 			_jumpPower = -2;
 
-			_y = i - skelIdleImg->getFrameHeight();
+			_y = i - _vImages[_useImage]->getFrameHeight();
 			_jumpCount = 0;
 			break;
+		}
+	}
+	if (_isLeft)
+	{
+
+		for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
+		{
+			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + skelIdleImg->getFrameWidth()-11, i);
+			int r = GetRValue(color);
+			int g = GetGValue(color);
+			int b = GetBValue(color);
+
+			if ((r == 255 && g == 0 && b == 0) && !_isJump)
+			{
+				isCollide = true;
+				_jumpPower = -2;
+
+				_y = i - skelIdleImg->getFrameHeight();
+				_jumpCount = 0;
+
+				break;
+			}
+
+			if ((r == 0 && g == 0 && b == 255) && _jumpPower < 0 && _downJump == false)
+			{
+				isCollide = true;
+				_jumpPower = -2;
+
+				_y = i - skelIdleImg->getFrameHeight();
+				_jumpCount = 0;
+				break;
+			}
+		}
+	}
+	else
+	{
+		for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
+		{
+			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + _vImages[_useImage]->getFrameWidth() - 11, i);
+			int r = GetRValue(color);
+			int g = GetGValue(color);
+			int b = GetBValue(color);
+
+			if ((r == 255 && g == 0 && b == 0) && !_isJump)
+			{
+				isCollide = true;
+				_jumpPower = -2;
+
+				_y = i - _vImages[_useImage]->getFrameHeight();
+				_jumpCount = 0;
+
+				break;
+			}
+
+			if ((r == 0 && g == 0 && b == 255) && _jumpPower < 0 && _downJump == false)
+			{
+				isCollide = true;
+				_jumpPower = -2;
+
+				_y = i - _vImages[_useImage]->getFrameHeight() +10;
+				_jumpCount = 0;
+				break;
+			}
 		}
 	}
 
 	for (int i = _y + 15; i > _y - 4; i--)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + skelIdleImg->getFrameWidth() / 2, i);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + _vImages[_useImage]->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -284,7 +347,7 @@ void BigWhiteSkel::pixelCollision()
 		_y -= _jumpPower;
 		_jumpPower -= _gravity;
 
-		_body = RectMake(_x, _y, skelIdleImg->getFrameWidth(), skelIdleImg->getFrameHeight());
+		_body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight());
 	}
 
 	for (int i = _x + skelIdleImg->getFrameWidth() - 15; i < _x + skelIdleImg->getFrameWidth() + 5; i++)
@@ -325,7 +388,7 @@ void BigWhiteSkel::pixelCollision()
 	}
 	for (int i = _x + skelIdleImg->getFrameWidth() - 15; i < _x + skelIdleImg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _y + 2);
+		COLORREF color = GetPixel(_vImages[_useImage]->getMemDC(), i, _y + 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -354,7 +417,7 @@ void BigWhiteSkel::pixelCollision()
 
 			if (_leftCollision1 &&_leftCollision2)
 			{
-				_x = i - skelIdleImg->getFrameWidth();
+				_x = i - _vImages[_useImage]->getFrameWidth();
 
 			}
 
