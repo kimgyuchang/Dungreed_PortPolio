@@ -7,13 +7,13 @@ HRESULT BigWhiteSkel::init(int id, string name, OBJECTTYPE type, vector<string> 
 	_body = RectMake(_x, _y, 99, 90);
 	_state = ES_IDLE;
 
-	_index = _count = _jumpCount = _downJmpTimer = _attackCoolTime = 0; 
+	_index = _count = _jumpCount = _downJmpTimer = 0;
 	_frameX, _frameY = 0;
 
 	_gravity = 0.4f;
 	_jumpPower = 7.0f;
 
-	_isLeft = _isJump = _isAttack = false;
+	_isLeft = false;
 
 	return S_OK;
 }
@@ -27,9 +27,8 @@ void BigWhiteSkel::update()
 		switch (_state)
 		{
 		case ES_IDLE:
-			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX() + 50) < 150 && abs(_y - ENTITYMANAGER->getPlayer()->GetY() + 50) < 150)
+			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200)
 			{
-				this->Move();
 				_state = ES_MOVE;
 			}
 			break;
@@ -46,17 +45,12 @@ void BigWhiteSkel::update()
 			}
 			if (ENTITYMANAGER->getPlayer()->GetX() - 70 < _x && ENTITYMANAGER->getPlayer()->GetX() + 70 > _x)
 			{
-				_attackCoolTime++;
-				if (_attackCoolTime % 50 == 0)
-				{
-					_state = ES_ATTACK;
-					_isAttack = true;
-				}
+				_state = ES_ATTACK;
 				if (_x < ENTITYMANAGER->getPlayer()->GetX() + 20)
 				{
 					_isLeft = true;
 				}
-				else if (_x > ENTITYMANAGER->getPlayer()->GetX() + 20)
+				else
 				{
 					_x = _x - 65;
 					_isLeft = false;
@@ -66,19 +60,24 @@ void BigWhiteSkel::update()
 		case ES_ATTACK:
 			if (_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
 			{
-				_state = ES_IDLE;
-				_isAttack = false;
+				if (_count % 5 == 0)
+				{
+					_state = ES_IDLE;
+				}
 			}
 			else if (!_isLeft && _frameX <= 0)
 			{
-				_state = ES_IDLE;
-				_x = _x + 65;
-				_isAttack = false;
+				if (_count % 5 == 0)
+				{
+					_state = ES_IDLE;
+					_x = _x + 65;
+				}
 			}
 			break;
 		default:
 			break;
 		}
+		this->Move();
 		this->Animation();
 		this->pixelCollision();
 	}
@@ -102,15 +101,27 @@ void BigWhiteSkel::Move()
 
 	if (_y > ENTITYMANAGER->getPlayer()->GetY())
 	{
-		if (_jumpCount == 0)
+		if (_jumpCount == 0 || _jumpCount == 1)
 		{
-			_isAttack = false;
-			_isJump = true;
-
 			_jumpPower = 10;
 			_y -= _jumpPower;
 			_probeBottom = _y + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight();
 			_jumpCount++;
+		}
+		if (_y < ENTITYMANAGER->getPlayer()->GetY())
+		{
+			_downJump = true;
+			_jumpPower = -2;
+			_jumpCount++;
+		}
+		if (_downJump)
+		{
+			_downJmpTimer++;
+			if (_downJmpTimer > 20)
+			{
+				_downJmpTimer = 0;
+				_downJump = false;
+			}
 		}
 	}
 }
