@@ -388,7 +388,7 @@ void FieldMap::CheckNoMonsterInMap()
 		{
 			if (_vObjs[i]->GetType() == OBJECTTYPE::OT_MONSTER)
 			{
-				cout << _vObjs[i]->GetX() << " " << _vObjs[i]->GetY() << " " << _vObjs[i]->GetName() << endl;
+				
 				isRemainMonster = true;
 				break;
 			}

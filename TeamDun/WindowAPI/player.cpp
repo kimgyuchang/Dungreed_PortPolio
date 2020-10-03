@@ -445,7 +445,7 @@ void Player::dash()
 {
 	
 		_dashTimer++;
-		
+		EFFECTMANAGER->AddEffect(_x, _y, "baseCharIdle", 3, 0, _frameY, false, 80);
 		_x += cosf(getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _dashPoint.x, _dashPoint.y)) * 20;
 		_y += -sinf(getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _dashPoint.x, _dashPoint.y)) * 20;
 		_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
@@ -473,18 +473,18 @@ void Player::dash()
 
 			
 		}
-		if (_dashTimer == 3)
+		/*if (_dashTimer == 3)
 		{
-			EFFECTMANAGER->AddEffect(_x  , _y , "monsterSpawnEffect", 2);
+			EFFECTMANAGER->AddEffect(_x  , _y , "baseCharIdle", 2 ,0, _frameY,false,100);
 		}
 		if (_dashTimer == 5)
 		{
-			EFFECTMANAGER->AddEffect(_x  , _y , "monsterSpawnEffect", 2);
+			EFFECTMANAGER->AddEffect(_x  , _y , "baseCharIdle", 2, 0, _frameY, false, 100);
 		}
 		if (_dashTimer == 7)
 		{
-			EFFECTMANAGER->AddEffect(_x  , _y , "monsterSpawnEffect", 2);
-		}
+			EFFECTMANAGER->AddEffect(_x  , _y , "baseCharIdle", 2, 0, _frameY, false, 100);
+		}*/
 		if (_dashTimer >= 10)
 		{
 			_dashTimer = 0;
