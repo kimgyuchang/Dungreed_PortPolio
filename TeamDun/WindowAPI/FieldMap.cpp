@@ -72,7 +72,7 @@ void FieldMap::LoadMap()
 			obj = new RedBat(*dynamic_cast<RedBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
 
-		case 2000: // ºÓÀº ¹ÚÁã
+		case 2000: // º§¸®¾Ë
 			obj = new Belial(*dynamic_cast<Belial*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
 
