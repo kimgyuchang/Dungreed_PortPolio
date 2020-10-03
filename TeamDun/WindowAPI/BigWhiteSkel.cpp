@@ -106,6 +106,7 @@ void BigWhiteSkel::Move()
 		{
 			_isAttack = false;
 			_isJump = true;
+
 			_jumpPower = 10;
 			_y -= _jumpPower;
 			_probeBottom = _y + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight();
@@ -308,7 +309,7 @@ void BigWhiteSkel::pixelCollision()
 	}
 	for (int i = _x + skelIdleImg->getFrameWidth() - 15; i < _x + skelIdleImg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 40);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 50);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -363,7 +364,7 @@ void BigWhiteSkel::pixelCollision()
 	//¿ÞÂÊÁß°£
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 40);
+		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 50);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);

@@ -15,8 +15,13 @@ private:
 	bool		_isLeft;			//왼쪽인지 (아닐시 오른쪽)
 	bool		_jump;				//점프를 했는지
 	PLAYERSTATE	_state;				//캐릭터 상태
-	float		_hp;				//체력
-	float		_numberOfDashes;	//대쉬 횟수
+	int			_hp;				//체력
+
+	int			_numberOfDashes;	//대쉬 횟수
+	int			_dashTimer;			//대쉬 시간
+	bool		_isDash;
+	POINT		_dashPoint;
+
 	float		_speed;				//이동속도
 	float		_gravity;
 	float		_jumpPower;
@@ -33,6 +38,7 @@ private:
 	float		_critical;			//크리티컬
 	float		_criticalDamage;	//크리티컬 데미지
 	float		_dashDamage;		//대쉬 공격력
+	float		_dashSpeed;
 
 	RECT		_collider[8];		//픽셀충돌용
 	float		_probeBottom;		//픽셀충돌용좌표
@@ -43,6 +49,9 @@ private:
 	int			_jumpCount;
 
 	int			_downJmpTimer;
+	bool		_bottomCol;
+	
+	Effect*		_dashEffect;
 public:
 
 	virtual HRESULT init();
@@ -52,8 +61,9 @@ public:
 	virtual void	Animation();
 	virtual void	Move();				//플레이어 움직임
 	virtual void	pixelCollision();	//픽셀충돌
+	virtual void	dash();
 
-	float getHp() { return _hp; }
+	int getHp() { return _hp; }
 	float getDamage() { return _damage; }
 	float getPower() { return _power; }
 	float getAtkSpeed() { return _atkSpeed; }

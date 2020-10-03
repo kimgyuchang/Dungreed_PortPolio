@@ -13,7 +13,7 @@ void RedBat::update()
 
 	if (_isSpawned)
 	{
-
+		Animation();
 	}
 }
 
@@ -42,5 +42,19 @@ void RedBat::Attack()
 
 void RedBat::Animation()
 {
-	// ±¸Çö
+	_useImage = 0;
+	_count++;
+
+	_frameY = 0;
+	if (_count % 5 == 0)
+		{
+		
+			_frameX++;
+
+			if (_frameX > _vImages[_useImage]->getMaxFrameX())
+			{
+				_frameX = 0;
+			}
+		}
+
 }
