@@ -475,15 +475,15 @@ void Player::dash()
 		}
 		if (_dashTimer == 3)
 		{
-			EFFECTMANAGER->AddEffect(_x + _vImages[0]->getFrameWidth() / 2 , _y + _vImages[0]->getFrameHeight() / 2 , "monsterSpawnEffect", 2);
+			EFFECTMANAGER->AddEffect(_x  , _y , "monsterSpawnEffect", 2);
 		}
 		if (_dashTimer == 5)
 		{
-			EFFECTMANAGER->AddEffect(_x + _vImages[0]->getFrameWidth() / 2 , _y + _vImages[0]->getFrameHeight() / 2 , "monsterSpawnEffect", 2);
+			EFFECTMANAGER->AddEffect(_x  , _y , "monsterSpawnEffect", 2);
 		}
 		if (_dashTimer == 7)
 		{
-			EFFECTMANAGER->AddEffect(_x + _vImages[0]->getFrameWidth() / 2 , _y + _vImages[0]->getFrameHeight() / 2 , "monsterSpawnEffect", 2);
+			EFFECTMANAGER->AddEffect(_x  , _y , "monsterSpawnEffect", 2);
 		}
 		if (_dashTimer >= 10)
 		{
