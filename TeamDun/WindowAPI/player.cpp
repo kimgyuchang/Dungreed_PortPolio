@@ -290,7 +290,7 @@ void Player::pixelCollision()
 			break;
 		}
 
-		if ((r == 0 && g == 0 && b == 255) && _jumpPower < 0 && _downJump == false) // 파란색 픽셀충돌용 땅에 닿았고 떨어지는 상태라면
+		if ((r == 0 && g == 0 && b == 255) && _jumpPower < 0 && _downJump == false &&_isDash==false) // 파란색 픽셀충돌용 땅에 닿았고 떨어지는 상태라면
 		{
 			isCollide = true;		// 충돌했으면 얘를 ON
 			_jumpPower = -2;		// 떨어질때도 자연스럽게 떨어지게 하기위해 점프파워 초기화
@@ -471,24 +471,19 @@ void Player::dash()
 				break;
 			}
 
-			if ((r == 0 && g == 0 && b == 255) && _jumpPower < 0 && _downJump == false) // 파란색 픽셀충돌용 땅에 닿았고 떨어지는 상태라면
-			{
-
-				_y = i - baseCharIg->getFrameHeight();// 올라간다
-				break;
-			}
+			
 		}
 		if (_dashTimer == 3)
 		{
-			EFFECTMANAGER->AddEffect(_x + _vImages[0]->getFrameWidth() / 2 - 46, _y + _vImages[0]->getFrameHeight() / 2 - 46, "monsterSpawnEffect", 2);
+			EFFECTMANAGER->AddEffect(_x + _vImages[0]->getFrameWidth() / 2 - 46, _y + _vImages[0]->getFrameHeight() / 2 - 46, "baseCharIdle", 2);
 		}
 		if (_dashTimer == 5)
 		{
-			EFFECTMANAGER->AddEffect(_x + _vImages[0]->getFrameWidth() / 2 - 46, _y + _vImages[0]->getFrameHeight() / 2 - 46, "monsterSpawnEffect", 2);
+			EFFECTMANAGER->AddEffect(_x + _vImages[0]->getFrameWidth() / 2 - 46, _y + _vImages[0]->getFrameHeight() / 2 - 46, "baseCharIdle", 2);
 		}
 		if (_dashTimer == 7)
 		{
-			EFFECTMANAGER->AddEffect(_x + _vImages[0]->getFrameWidth() / 2 - 46, _y + _vImages[0]->getFrameHeight() / 2 - 46, "monsterSpawnEffect", 2);
+			EFFECTMANAGER->AddEffect(_x + _vImages[0]->getFrameWidth() / 2 - 46, _y + _vImages[0]->getFrameHeight() / 2 - 46, "baseCharIdle", 2);
 		}
 		if (_dashTimer >= 10)
 		{
