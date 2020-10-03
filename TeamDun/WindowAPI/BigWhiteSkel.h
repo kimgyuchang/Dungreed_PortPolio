@@ -9,7 +9,7 @@ private:
 	float		_gravity;
 	float		_jumpPower;
 	bool		_isJump;
-	bool		_downJump;
+	bool		_isAttack;
 	bool		_leftBack;
 	bool		_rightBack;
 	int			_jumpCount;

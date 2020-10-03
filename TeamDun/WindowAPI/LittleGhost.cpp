@@ -45,32 +45,6 @@ void LittleGhost::Move()
 	Enemy::Move();
 	if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) > 10 && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) > 10)
 	{
-		if (_isLeft)
-		{
-			_x += 3;
-
-			if (_y < ENTITYMANAGER->getPlayer()->GetY())
-			{
-				_y += 3;
-			}
-			else
-			{
-				_y -= 3;
-			}
-		}
-		else
-		{
-			_x -= 3;
-
-			if (_y < ENTITYMANAGER->getPlayer()->GetY())
-			{
-				_y += 3;
-			}
-			else
-			{
-				_y -= 3;
-			}
-		}
 	}
 }
 
