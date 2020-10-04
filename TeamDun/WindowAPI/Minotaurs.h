@@ -7,13 +7,9 @@ private:
 	bool		_isDash;
 	bool		_isAttack;
 	int			_dashTimer;
+	int			_moveTimer;
 	int			_dashCount;
 	int			_dashPoint;
-
-	RECT		_collider[8];
-	float		_probeBottom;
-	bool		_leftBack;
-	bool		_rightBack;
 
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
