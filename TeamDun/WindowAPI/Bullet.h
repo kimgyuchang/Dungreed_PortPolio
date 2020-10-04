@@ -1,10 +1,14 @@
 #pragma once
 
-
+enum BULLETTYPE
+{
+	BT_NOMAL,BT_NOCOL
+};
 class Bullet
 {
 	
 private :
+	BULLETTYPE	_type;
 	image*		_ig;
 	RECT		_rc;
 	float		_x;
@@ -26,13 +30,14 @@ public :
 	virtual void	update();
 	virtual	void	release();
 	virtual void	render(HDC hdc);
-	void makeBullet(const char* imageName, float x, float y, float angle, float speed, float maxDis, bool isFrame);
+	void makeBullet(const char* imageName, BULLETTYPE type, float x, float y, float angle, float speed, float maxDis, bool isFrame);
 
 	void moveBullet();
 	void Animation();
 	
 
 	////GetSet
+	BULLETTYPE getType() { return _type; }
 	image* getIg() { return _ig; }
 	RECT getRc() { return _rc; }
 	float getX() { return _x; }

@@ -8,6 +8,7 @@ HRESULT Bullet::init()
 
 void Bullet::update()
 {
+	
 	moveBullet();
 	Animation();
 	_distance = getDistance(_startX, _startY, _x, _y);
@@ -31,9 +32,10 @@ void Bullet::render(HDC hdc)
 
 }
 
-void Bullet::makeBullet(const char * imageName, float x, float y, float angle, float speed, float maxDis, bool isFrame)
+void Bullet::makeBullet(const char * imageName, BULLETTYPE type, float x, float y, float angle, float speed, float maxDis, bool isFrame)
 {
 	_ig = IMAGEMANAGER->findImage(imageName);
+	_type = type;
 	_x = _startX = x;
 	_y = _startY = y;
 	_angle = angle;
@@ -46,21 +48,28 @@ void Bullet::makeBullet(const char * imageName, float x, float y, float angle, f
 	_maxDistance = maxDis;
 	if (_isFrame)
 	{
-		_rc = RectMakeCenter(_x, _y, _ig->getFrameWidth(), _ig->getFrameHeight());
-		
+		_rc = RectMake(_x, _y, _ig->getFrameWidth(), _ig->getFrameHeight());
+
 	}
 	else
 	{
-		_rc = RectMakeCenter(_x, _y, _ig->getWidth(), _ig->getHeight());
+		_rc = RectMake(_x, _y, _ig->getWidth(), _ig->getHeight());
 	}
-
 }
 
 void Bullet::moveBullet()
 {
 	_x += cosf(_angle)*_speed;
 	_y += -sinf(_angle)*_speed;
+	if (_isFrame)
+	{
+		_rc = RectMake(_x, _y, _ig->getFrameWidth(), _ig->getFrameHeight());
 
+	}
+	else
+	{
+		_rc = RectMake(_x, _y, _ig->getWidth(), _ig->getHeight());
+	}
 }
 
 void Bullet::Animation()
