@@ -11,6 +11,18 @@ void RedBat::update()
 {
 	Enemy::update();
 
+
+	if (ENTITYMANAGER->getPlayer()->GetX() - 70 > _x)
+	{
+		_isLeft = true;
+		
+	}
+	else if (ENTITYMANAGER->getPlayer()->GetX() + 70 < _x)
+	{
+		_isLeft = false;
+		
+	}
+
 	if (_isSpawned)
 	{
 		Animation();
