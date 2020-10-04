@@ -73,18 +73,20 @@ void EntityManager::eraseBullet()
 			break;
 		}
 
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(),_vBullets[i]->getX(),_vBullets[i]->getY());
+	}
+	for (int i = 0; i < _vBullets.size(); i++)
+	{
+		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _vBullets[i]->getX(), _vBullets[i]->getY());
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
 
-		if ((r == 255 && g == 0 && b == 0)) 
+		if ((r == 255 && g == 0 && b == 0))
 		{
 
 			_vBullets.erase(_vBullets.begin() + i);
 			break;
 		}
 	}
-
 	
 }

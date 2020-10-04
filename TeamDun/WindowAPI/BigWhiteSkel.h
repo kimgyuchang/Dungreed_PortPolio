@@ -4,7 +4,6 @@
 class BigWhiteSkel : public Enemy
 {
 private:
-	RECT		_collider[8];
 	float		_probeBottom;
 	float		_gravity;
 	float		_jumpPower;
@@ -15,13 +14,12 @@ private:
 	bool		_rightBack;
 	int			_jumpCount;
 	int			_downJmpTimer;
-	bool		_downJump;
-	
+
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
 	virtual void	update();
 	virtual	void	release();
-	virtual void	render(HDC hdc);
+	virtual void	render(HDC hdc);	
 
 	virtual void	Move();
 	virtual void	Attack();
