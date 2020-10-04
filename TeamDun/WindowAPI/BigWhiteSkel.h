@@ -4,7 +4,6 @@
 class BigWhiteSkel : public Enemy
 {
 private:
-	RECT		_collider[8];
 	float		_probeBottom;
 	float		_gravity;
 	float		_jumpPower;

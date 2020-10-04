@@ -7,7 +7,7 @@ HRESULT Minotaurs::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_body = RectMake(_x, _y, 156, 114);
 	_state = ES_IDLE;
 
-	_index = _count = _dashTimer = _dashCount = 0;
+	_index = _count = _dashTimer = _dashCount = _moveTimer = 0;
 	_frameX, _frameY = 0;
 
 	_moveSpeed = 15.0f;
@@ -21,13 +21,14 @@ void Minotaurs::update()
 	Enemy::update();
 
 	_dashTimer++;
+	_moveTimer++;
 
 	if (_isSpawned)
 	{
 		switch (_state)
 		{
 		case ES_IDLE:
-			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 300 && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 50)
+			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 300 && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 100)
 			{
 				_state = ES_MOVE;
 			}
@@ -37,7 +38,7 @@ void Minotaurs::update()
 			{
 				_isLeft = true;
 			}
-			else
+			else if (ENTITYMANAGER->getPlayer()->GetX() < _x)
 			{
 				_isLeft = false;
 			}
@@ -55,11 +56,13 @@ void Minotaurs::update()
 			{
 				_state = ES_IDLE;
 				_isDash = false;
+				_dashCount = 0;
 			}
 			else if (!_isLeft && _frameX <= 0)
 			{
 				_state = ES_IDLE;
 				_isDash = false;
+				_dashCount = 0;
 			}
 			break;
 		default:
@@ -86,21 +89,21 @@ void Minotaurs::render(HDC hdc)
 void Minotaurs::Move()
 {
 	Enemy::Move();
-
 	if (_state == ES_MOVE)
 	{
 		_isDash = true;
 	}
-
 	if (_isDash && _dashCount == 0)
 	{
 		if (!_isLeft)
 		{
 			_x -= _moveSpeed;
+			_dashCount++;
 		}
 		else if (_isLeft)
 		{
 			_x += _moveSpeed;
+			_dashCount++;
 		}
 	}
 }
