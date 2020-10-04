@@ -49,7 +49,7 @@ void Player::update()
 
 	if (INPUT->GetKeyDown('X'))
 	{
-		ENTITYMANAGER->makeBullet("BatBullet", _x,_y, getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _ptMouse.x, _ptMouse.y), 10,600, true);
+		ENTITYMANAGER->makeBullet("BatBullet", BT_NOCOL, _x,_y, getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _ptMouse.x, _ptMouse.y), 10,600, true);
 	}
 
 	if (CAMERAMANAGER->GetRelativeX(_x+ IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth()/2) >= _ptMouse.x)

@@ -25,7 +25,6 @@ void FieldMap::LoadMap()
 
 	if (stringData.size() == 0 || stringData2.size() == 0)
 	{
-		cout << _fileName << " load Failed" << endl;
 		return;
 	} // 해당 맵 불러오기에 실패한 경우
 

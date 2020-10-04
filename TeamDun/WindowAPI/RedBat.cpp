@@ -6,7 +6,8 @@ HRESULT RedBat::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	Enemy::init(id, name, type, imgNames);
 	_state = ES_IDLE;
 	_stateTimer = 0;
-	_isAtk = false;;
+	_isAtk = false;
+	_hp = 50;
 	return S_OK;
 }
 
@@ -54,9 +55,9 @@ void RedBat::Move()
 		break;
 	case ES_MOVE:
 		_stateTimer++;
-		
 		_x += cosf(_rndAngle*PI / 180)* 2;
 		_y += -sinf(_rndAngle*PI / 180) * 2;
+		_body = RectMake(_x, _y, IMAGEMANAGER->findImage("BatRedIdle")->getFrameWidth(), IMAGEMANAGER->findImage("BatRedIdle")->getFrameHeight());
 		if (_stateTimer == 300)
 		{
 			_rndAngle = RANDOM->range(_rndAngle+90, _rndAngle+270);
@@ -80,7 +81,7 @@ void RedBat::Attack()
 	if (!_isAtk)
 	{
 		_attackCoolTime++;
-		if (_attackCoolTime > 800)
+		if (_attackCoolTime > 650)
 		{
 			_attackCoolTime = 0;
 			_isAtk = true;	
@@ -193,7 +194,7 @@ void RedBat::Animation()
 				if (_frameX == _vImages[_useImage]->getMaxFrameX() / 2)
 				{
 
-					ENTITYMANAGER->makeBullet("BatBullet", _x, _y,
+					ENTITYMANAGER->makeBullet("BatBullet",BT_NOMAL ,_x, _y,
 						getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y),
 							CAMERAMANAGER->GetRelativeX(ENTITYMANAGER->getPlayer()->GetX()), CAMERAMANAGER->GetRelativeY(ENTITYMANAGER->getPlayer()->GetY())),
 						10, 1000, true);
@@ -219,7 +220,7 @@ void RedBat::Animation()
 				if (_frameX == _vImages[_useImage]->getMaxFrameX() / 2)
 				{
 
-					ENTITYMANAGER->makeBullet("BatBullet", _x, _y,
+					ENTITYMANAGER->makeBullet("BatBullet", BT_NOMAL, _x, _y,
 						getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y),
 							CAMERAMANAGER->GetRelativeX(ENTITYMANAGER->getPlayer()->GetX() ), CAMERAMANAGER->GetRelativeY(ENTITYMANAGER->getPlayer()->GetY())),
 						10, 1000, true);

@@ -55,10 +55,10 @@ void EntityManager::release()
 	_p->release();
 }
 
-void EntityManager::makeBullet(const char * imageName, float x, float y, float angle, float speed, float maxDis, bool isFrame)
+void EntityManager::makeBullet(const char * imageName, BULLETTYPE type, float x, float y, float angle, float speed, float maxDis, bool isFrame)
 {
 	Bullet* _bullet = new Bullet;
-	_bullet->makeBullet(imageName, x, y, angle, speed, maxDis, isFrame);
+	_bullet->makeBullet(imageName,type, x, y, angle, speed, maxDis, isFrame);
 	_vBullets.push_back(_bullet);
 
 }
@@ -69,23 +69,27 @@ void EntityManager::eraseBullet()
 	{
 		if (_vBullets[i]->getDis() >= _vBullets[i]->getMaxDis())
 		{
+			EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), "BatBulletHit", 4, 0, 0, false, 255);
 			_vBullets.erase(_vBullets.begin() + i);
 			break;
 		}
-
 	}
+	
 	for (int i = 0; i < _vBullets.size(); i++)
 	{
-		COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _vBullets[i]->getX(), _vBullets[i]->getY());
-		int r = GetRValue(color);
-		int g = GetGValue(color);
-		int b = GetBValue(color);
-
-		if ((r == 255 && g == 0 && b == 0))
+		if (_vBullets[i]->getType() == BT_NOMAL)
 		{
+			COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _vBullets[i]->getX(), _vBullets[i]->getY());
+			int r = GetRValue(color);
+			int g = GetGValue(color);
+			int b = GetBValue(color);
 
-			_vBullets.erase(_vBullets.begin() + i);
-			break;
+			if ((r == 255 && g == 0 && b == 0))
+			{
+				EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), "BatBulletHit", 4, 0, 0, false, 255);
+				_vBullets.erase(_vBullets.begin() + i);
+				break;
+			}
 		}
 	}
 	
