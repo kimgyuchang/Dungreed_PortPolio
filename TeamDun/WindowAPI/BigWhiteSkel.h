@@ -14,6 +14,8 @@ private:
 	bool		_rightBack;
 	int			_jumpCount;
 	int			_downJmpTimer;
+	int			_jumpTimer;
+	
 
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
