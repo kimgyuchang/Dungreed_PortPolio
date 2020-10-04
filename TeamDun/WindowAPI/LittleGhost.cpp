@@ -48,6 +48,7 @@ void LittleGhost::update()
 		default:
 			break;
 		}
+
 		this->Animation();
 		this->Move();
 	}

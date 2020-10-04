@@ -210,6 +210,9 @@
     <ClCompile Include="Effect.cpp">
       <Filter>GameFramework\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>MainGame\Etc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -364,6 +367,9 @@
     </ClInclude>
     <ClInclude Include="Effect.h">
       <Filter>GameFramework\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>MainGame\Etc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

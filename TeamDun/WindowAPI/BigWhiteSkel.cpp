@@ -254,8 +254,6 @@ void BigWhiteSkel::pixelCollision()
 	bool _RightCollision1 = false;
 	bool _RightCollision2 = false;
 
-	COLORREF colorRightBottom1;
-	COLORREF colorRightBottom2;
 
 	image* pixelMapIg = IMAGEMANAGER->findImage("PixelMapIg");
 	image* skelIdleImg = IMAGEMANAGER->findImage("BigWhiteSkelIdle");

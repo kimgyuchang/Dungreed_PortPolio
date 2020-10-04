@@ -1,21 +1,32 @@
 #pragma once
 #include "singletonBase.h"
-#include "FieldMap.h"
+#include "Stage.h"
 
 class MapManager : public singletonBase<MapManager>
 {
 private:
-	vector<FieldMap*>	_vMaps;
-	int					_currentMap;
+	vector<FieldMap*>	_vOriginMaps;	// 데이터로 불러온 맵들
+
+	vector<Stage*>		_vStage;		// 스테이지 데이터
+	int					_currentMap;	// 현재 맵
+	int					_currentStage;	// 현재 스테이지
 
 public:
 	HRESULT init();
 	void update();
+	void SetMapUIOnOff();
+	void ReNewMapUI();
 	void release();
 	void render(HDC hdc);
-	void ChangeMap(int index);
+	void ChangeMap(int stage, int index);
 
-	int GetCurrentMap() { return _currentMap; }
-	vector<FieldMap*>& GetMaps() { return _vMaps; }
+	// GETSET //
+	int					GetCurrentStage()	{ return _currentStage; }
+	int					GetCurrentMap()		{ return _currentMap; }
+	FieldMap*			GetPlayMap()		{ return _vStage[_currentStage]->GetMaps()[_currentMap]; }
+	vector<FieldMap*>&	GetMaps()			{ return _vOriginMaps; }
+
+	int			SetCurrentStage(int stage)	{ _currentStage = stage; }
+	int			SetCurrentMap(int map)		{ _currentMap = map; }
 };
 

@@ -5,6 +5,12 @@ HRESULT FieldMap::init(string fileName)
 {
 	_fileName = fileName;
 	_spawnTimer = 0;
+
+	_nextMapIndex[0] = -1;
+	_nextMapIndex[1] = -1;
+	_nextMapIndex[2] = -1;
+	_nextMapIndex[3] = -1;
+
 	LoadMap();
 	return S_OK;
 }
@@ -51,7 +57,10 @@ void FieldMap::LoadMap()
 		}
 		_vMapData.push_back(tileLine);
 	}
+}
 
+void FieldMap::LoadObject()
+{
 	_vObjs.clear();
 	vector<vector<string>> objData = CSVMANAGER->csvLoad("Data/MapData/" + _fileName + "_Objs.mapData");
 	for (int i = 0; i < objData.size(); i++)
@@ -67,7 +76,7 @@ void FieldMap::LoadMap()
 		case 1501:// 미노타우르스
 			obj = new Minotaurs(*dynamic_cast<Minotaurs*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-			
+
 		case 702: // 붉은 박쥐
 			obj = new RedBat(*dynamic_cast<RedBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
@@ -114,15 +123,37 @@ void FieldMap::LoadMap()
 		obj->SetBelongMap(this);
 		obj->SetBodyPos();
 
+		bool CheckRollBack = false;
 		// AFTER OBJECT LOAD
 		switch (stoi(objData[i][0]))
 		{
-		case 514: case 515: case 516: case 517: // 문 Case
-			MakeDoor(dynamic_cast<Door*>(obj));
+		case 514: // 문 왼쪽
+			if (_nextMapIndex[DIRECTION::DIR_LEFT] != -1) 
+				MakeDoor(dynamic_cast<Door*>(obj));
+			else CheckRollBack = true;
+			break;
+		case 515: // 문 오른쪽
+			if (_nextMapIndex[DIRECTION::DIR_RIGHT] != -1) 
+				MakeDoor(dynamic_cast<Door*>(obj));
+			else CheckRollBack = true;
+			break;
+		case 516: // 문 위쪽
+			if (_nextMapIndex[DIRECTION::DIR_UP] != -1) 
+				MakeDoor(dynamic_cast<Door*>(obj));
+			else CheckRollBack = true;
+			break;
+		case 517: // 문 아래쪽
+			if (_nextMapIndex[DIRECTION::DIR_DOWN] != -1) 
+				MakeDoor(dynamic_cast<Door*>(obj));
+			else CheckRollBack = true;
 			break;
 		}
 
 		_vObjs.push_back(obj);
+		if (CheckRollBack)
+		{
+			_vObjs.erase(_vObjs.end() - 1);
+		}
 	}
 }
 
@@ -131,6 +162,7 @@ void FieldMap::LoadMap()
 /// </summary>
 void FieldMap::MakeDoor(Door* door)
 {
+	
 	int x = (door->GetX() + door->GetImage(0)->getWidth() / 2) / 48;	// 문의 중점 X
 	int y = (door->GetY() + door->GetImage(0)->getHeight() / 2) / 48;	// 문의 중점 Y
 
@@ -153,7 +185,21 @@ void FieldMap::MakeDoor(Door* door)
 			// 주변 타일의 변경
 			_vMapData[i][j]->_img = nullptr;
 			_vMapData[i][j]->_img2 = DATAMANAGER->GetGridDataByName("Stage1_Tile43")->_image;
-			_vMapData[i][j]->_collisionImage = IMAGEMANAGER->findImage("Green_CollisionAll");
+			switch (door->GetDirection()) // 방향에 따른 충돌픽셀 설정
+			{
+			case DIRECTION::DIR_LEFT:
+				_vMapData[i][j]->_collisionImage = IMAGEMANAGER->findImage("Green_CollisionAll");
+				break;
+			case DIRECTION::DIR_RIGHT:
+				_vMapData[i][j]->_collisionImage = IMAGEMANAGER->findImage("Green_CollisionAll2");
+				break;
+			case DIRECTION::DIR_UP:
+				_vMapData[i][j]->_collisionImage = IMAGEMANAGER->findImage("Green_CollisionAll3");
+				break;
+			case DIRECTION::DIR_DOWN:
+				_vMapData[i][j]->_collisionImage = IMAGEMANAGER->findImage("Green_CollisionAll4");
+				break;
+			}
 
 			// 문의 방향에 따른 주변 타일 변경
 			switch (door->GetDirection())
@@ -264,7 +310,21 @@ void FieldMap::MakeNearTileCollision(Door* door, bool isActivate)
 			}
 			else
 			{
-				_vMapData[i][j]->_collisionImage = IMAGEMANAGER->findImage("Green_CollisionAll");
+				switch (door->GetDirection()) // 방향에 따른 충돌픽셀 설정
+				{
+				case DIRECTION::DIR_LEFT:
+					_vMapData[i][j]->_collisionImage = IMAGEMANAGER->findImage("Green_CollisionAll");
+					break;
+				case DIRECTION::DIR_RIGHT:
+					_vMapData[i][j]->_collisionImage = IMAGEMANAGER->findImage("Green_CollisionAll2");
+					break;
+				case DIRECTION::DIR_UP:
+					_vMapData[i][j]->_collisionImage = IMAGEMANAGER->findImage("Green_CollisionAll3");
+					break;
+				case DIRECTION::DIR_DOWN:
+					_vMapData[i][j]->_collisionImage = IMAGEMANAGER->findImage("Green_CollisionAll4");
+					break;
+				}
 			}
 		}
 	}
@@ -388,7 +448,6 @@ void FieldMap::CheckNoMonsterInMap()
 		{
 			if (_vObjs[i]->GetType() == OBJECTTYPE::OT_MONSTER)
 			{
-				
 				isRemainMonster = true;
 				break;
 			}
@@ -441,6 +500,13 @@ void FieldMap::ShotObject()
 			}
 		}
 	}
+}
+
+void FieldMap::ChangePlayerByDirection(DIRECTION dir)
+{
+	ENTITYMANAGER->getPlayer()->SetX(_mapMovePos[dir].x);
+	ENTITYMANAGER->getPlayer()->SetY(_mapMovePos[dir].y);
+	ENTITYMANAGER->getPlayer()->SetBodyPos();
 }
 
 void FieldMap::render(HDC hdc)

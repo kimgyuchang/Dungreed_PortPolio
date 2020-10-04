@@ -1181,4 +1181,7 @@ void mapScene::render()
 	UIMANAGER->render(getMemDC());
 
 	_cursorImage->render(getMemDC(), _ptMouse.x, _ptMouse.y);
+
+	string n = to_string((int)CAMERAMANAGER->GetAbsoluteX(_ptMouse.x)) + " " + to_string((int)CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
+	TextOut(getMemDC(), _ptMouse.x, _ptMouse.y, n.c_str(), n.length());
 }

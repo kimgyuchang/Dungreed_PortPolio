@@ -16,11 +16,12 @@ private:
 	int			_downJmpTimer;
 	int			_jumpTimer;
 	
+
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
 	virtual void	update();
 	virtual	void	release();
-	virtual void	render(HDC hdc);
+	virtual void	render(HDC hdc);	
 
 	virtual void	Move();
 	virtual void	Attack();
