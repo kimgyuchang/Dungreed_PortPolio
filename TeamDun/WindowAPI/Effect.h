@@ -12,10 +12,11 @@ private :
 	RECT	_body;
 	bool	_isLoop;
 	bool	_isDead;
+	int		_alpha;
 
 public :
 	
-	HRESULT init(float x, float y, string imgName, int animSpeed, int frameX = 0, int frameY = 0, bool isLoop = false);
+	HRESULT init(float x, float y, string imgName, int animSpeed, int frameX = 0, int frameY = 0, bool isLoop = false , int alpha = 255);
 	void update();
 	void release();
 	void render(HDC hdc);

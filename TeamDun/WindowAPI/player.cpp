@@ -21,11 +21,15 @@ HRESULT Player::init()
 	_jumpPower = 7.0f;
 	_jumpCount = 0;
 	_downJmpTimer = 0;
+	_dashTimer = 0;
+	_dashSpeed = 0;
 
+	_isDash = false;
 	_leftBack = false;
 	_rightBack = false;
-
 	_pixelCenter = POINT{ (long)(_x + _vImages[_useImage]->getWidth() / 2), (long)(_y + _vImages[_useImage]->getHeight() / 2) };
+	_bottomCol = false;
+	_dashEffect = nullptr;
 	return S_OK;
 	
 }
@@ -33,10 +37,21 @@ HRESULT Player::init()
 void Player::update()
 {
 
-	if (INPUT->GetKeyDown(VK_LBUTTON))
+	if (INPUT->GetKeyDown(VK_RBUTTON))
+	{
+		_isDash = true;
+		_dashPoint = _ptMouse;
+		_jumpPower = 0;
+
+		
+
+	}
+
+	if (INPUT->GetKeyDown('X'))
 	{
 		ENTITYMANAGER->makeBullet("BatBullet", _x,_y, getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _ptMouse.x, _ptMouse.y), 10,600, true);
 	}
+
 	if (CAMERAMANAGER->GetRelativeX(_x+ IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth()/2) >= _ptMouse.x)
 	{
 		_isLeft = true;
@@ -47,8 +62,16 @@ void Player::update()
 	}
 
 
-	this->Move();
+	
 	this->pixelCollision();
+	if (_isDash)
+	{
+		this->dash();
+	}
+	else
+	{	
+		this->Move();
+	}
 	
 	Animation();
 }
@@ -237,13 +260,13 @@ void Player::pixelCollision()
 	bool _leftCollision2 = false;
 	bool _RightCollision1 = false;
 	bool _RightCollision2 = false;
-
+	_bottomCol = false;
 	_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
 
 	image* pixelMapIg = IMAGEMANAGER->findImage("PixelMapIg");
 	image* baseCharIg = IMAGEMANAGER->findImage("baseCharIdle");
 
-
+	
 
 	for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 	{
@@ -255,20 +278,16 @@ void Player::pixelCollision()
 		if ((r == 255 && g == 0 && b == 0) && !_isJump) // 빨간색 픽셀충돌용 땅에 닿았다
 		{
 			isCollide = true; // 충돌했으면 얘를 ON
+			_bottomCol = true; // 아래 충돌해있다
 			_jumpPower = -2;	  // 떨어질때도 자연스럽게 떨어지게 하기위해 점프파워 초기화
 
-			//if (i == _probeBottom - 15) // 이 지점이 충돌에서 제일 높은 지점
-			//{
-			//	if (_isLeft) _x += 5;
-			//	else _x -= 5;
-			//}s 
+		
 			_y = i - baseCharIg->getFrameHeight();// 올라간다
 			_jumpCount = 0;
-
 			break;
 		}
 
-		if ((r == 0 && g == 0 && b == 255) && _jumpPower < 0 && _downJump == false) // 파란색 픽셀충돌용 땅에 닿았고 떨어지는 상태라면
+		if ((r == 0 && g == 0 && b == 255) && _jumpPower < 0 && _downJump == false &&_isDash==false) // 파란색 픽셀충돌용 땅에 닿았고 떨어지는 상태라면
 		{
 			isCollide = true;		// 충돌했으면 얘를 ON
 			_jumpPower = -2;		// 떨어질때도 자연스럽게 떨어지게 하기위해 점프파워 초기화
@@ -278,21 +297,24 @@ void Player::pixelCollision()
 			break;
 		}
 	}
-
-	for (int i = _y + 15; i > _y - 4; i--)
+	if (_bottomCol == false)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
-		int r = GetRValue(color);
-		int g = GetGValue(color);
-		int b = GetBValue(color);
 
-
-		if ((r == 255 && g == 0 && b == 0)) // 빨간색 픽셀충돌용 땅에 닿았다
+		for (int i = _y + 15; i > _y - 4; i--)
 		{
-			_jumpPower = -2;
-			_y = i + 5;
+			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
+			int r = GetRValue(color);
+			int g = GetGValue(color);
+			int b = GetBValue(color);
 
-			break;
+
+			if ((r == 255 && g == 0 && b == 0)) // 빨간색 픽셀충돌용 땅에 닿았다
+			{
+				_jumpPower = -2;
+				_y = i + 5;
+
+				break;
+			}
 		}
 	}
 	if (!isCollide) //충돌해있지 않다면
@@ -300,6 +322,10 @@ void Player::pixelCollision()
 		_y -= _jumpPower;			//중력적용
 		_jumpPower -= _gravity;
 		
+		if (_jumpPower < -20)
+		{
+			_jumpPower = -20;
+		}
 		_body = RectMake(_x, _y, baseCharIg->getFrameWidth(), baseCharIg->getFrameHeight());
 	}
 
@@ -409,7 +435,6 @@ void Player::pixelCollision()
 	}
 	///////////////////////////////////////////////////////////////////////////
 
-
 	// 포탈 검사
 	_pixelCenter = POINT{ (long)(_x + 30), (long)(_y + 30)};
 
@@ -436,4 +461,57 @@ void Player::pixelCollision()
 		MAPMANAGER->ChangeMap(MAPMANAGER->GetCurrentStage(), MAPMANAGER->GetPlayMap()->GetNextMapIndex(DIRECTION::DIR_DOWN));
 		MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_UP);
 	}
+}
+
+void Player::dash()
+{
+	
+		_dashTimer++;
+		EFFECTMANAGER->AddEffect(_x, _y, "baseCharIdle", 3, 0, _frameY, false, 80);
+		_x += cosf(getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _dashPoint.x, _dashPoint.y)) * 20;
+		_y += -sinf(getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _dashPoint.x, _dashPoint.y)) * 20;
+		_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+		_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
+
+
+		image* pixelMapIg = IMAGEMANAGER->findImage("PixelMapIg");
+		image* baseCharIg = IMAGEMANAGER->findImage("baseCharIdle");
+
+
+
+		for (int i = _probeBottom - 20; i < _probeBottom + 5; i++)
+		{
+			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
+			int r = GetRValue(color);
+			int g = GetGValue(color);
+			int b = GetBValue(color);
+
+			if ((r == 255 && g == 0 && b == 0) && !_isJump) // 빨간색 픽셀충돌용 땅에 닿았다
+			{
+
+				_y = i - baseCharIg->getFrameHeight();// 올라간다
+				break;
+			}
+
+			
+		}
+		/*if (_dashTimer == 3)
+		{
+			EFFECTMANAGER->AddEffect(_x  , _y , "baseCharIdle", 2 ,0, _frameY,false,100);
+		}
+		if (_dashTimer == 5)
+		{
+			EFFECTMANAGER->AddEffect(_x  , _y , "baseCharIdle", 2, 0, _frameY, false, 100);
+		}
+		if (_dashTimer == 7)
+		{
+			EFFECTMANAGER->AddEffect(_x  , _y , "baseCharIdle", 2, 0, _frameY, false, 100);
+		}*/
+		if (_dashTimer >= 10)
+		{
+			_dashTimer = 0;
+			_jumpPower = 0;
+			_isDash = false;
+			
+		}
 }

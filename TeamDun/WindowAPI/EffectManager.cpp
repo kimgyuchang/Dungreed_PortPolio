@@ -32,10 +32,10 @@ void EffectManager::render(HDC hdc)
 	}
 }
 
-Effect* EffectManager::AddEffect(float x, float y, string imgName, int animSpeed, int frameX, int frameY, bool isLoop)
+Effect* EffectManager::AddEffect(float x, float y, string imgName, int animSpeed, int frameX, int frameY, bool isLoop , int alpha)
 {
 	Effect* effect = new Effect();
-	effect->init(x, y, imgName, animSpeed, frameX, frameY, isLoop);
+	effect->init(x, y, imgName, animSpeed, frameX, frameY, isLoop , alpha);
 	_vEffect.push_back(effect);
 
 	return effect;

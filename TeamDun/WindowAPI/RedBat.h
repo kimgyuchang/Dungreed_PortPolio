@@ -3,6 +3,11 @@
 class RedBat : public Enemy
 {
 private:
+	int		_stateTimer;
+	int		_rndAngle;
+	bool	_isAtk;
+	bool	_leftAtk;
+	float	_probeBottom;
 
 public :
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
@@ -13,5 +18,6 @@ public :
 	virtual void	Move();
 	virtual void	Attack();
 	virtual void	Animation();
+	virtual void	PixelCollision();
 };
 

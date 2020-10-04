@@ -600,23 +600,24 @@ void image::frameAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, i
 
 	if (_isTrans)//배경색 없애고 출력
 	{
-		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height,
-			hdc, destX, destY, SRCCOPY);
+		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->width+destX, _imageInfo->height+destY,
+			hdc, 0, 0, SRCCOPY);
 
 		GdiTransparentBlt(
 			_blendImage->hMemDC,	//복사할 장소의 DC
-			0,						//복사할 좌표 시작X
-			0,						//복사할 좌표 시작Y
-			_imageInfo->width,		//복사할 이미지 가로크기
-			_imageInfo->height,		//복사할 이미지 세로크기
+			destX,						//복사할 좌표 시작X
+			destY,						//복사할 좌표 시작Y
+			_imageInfo->frameWidth,		//복사할 이미지 가로크기
+			_imageInfo->frameHeight,		//복사할 이미지 세로크기
 			_imageInfo->hMemDC,		//복사될 대상 DC
-			0, 0,					//복사될 대상의 시작지점
-			_imageInfo->width,		//복사 영역 가로크기
-			_imageInfo->height,		//복사 영역 세로크기
+			_imageInfo->currentFrameX * _imageInfo->frameWidth,		//복사될 대상의 시작지점
+			_imageInfo->currentFrameY * _imageInfo->frameHeight,	//복사될 대상의 시작지점			
+			_imageInfo->frameWidth,		//복사 영역 가로크기
+			_imageInfo->frameHeight,	//복사 영역 세로크기
 			_transColor);			//복사할때 제외할 색상 (일반적으로 마젠타 색상을 사용함)
 
 		GdiAlphaBlend(hdc, destX, destY, _imageInfo->frameWidth, _imageInfo->frameHeight,
-			_blendImage->hMemDC, _imageInfo->currentFrameX * _imageInfo->frameWidth, _imageInfo->currentFrameY * _imageInfo->frameHeight, 
+			_blendImage->hMemDC,destX, destY, 
 			_imageInfo->frameWidth, _imageInfo->frameHeight, _blendFunc);
 	}
 

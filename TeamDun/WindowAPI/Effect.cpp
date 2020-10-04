@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Effect.h"
 
-HRESULT Effect::init(float x, float y, string imgName, int animSpeed, int frameX, int frameY, bool isLoop)
+HRESULT Effect::init(float x, float y, string imgName, int animSpeed, int frameX, int frameY, bool isLoop, int alpha)
 {
 	_x = x;
 	_y = y;
@@ -11,7 +11,7 @@ HRESULT Effect::init(float x, float y, string imgName, int animSpeed, int frameX
 	_initAnimTimer = _animTimer = animSpeed;
 	_isLoop = isLoop;
 	_isDead = false;
-
+	_alpha = alpha;
 	return S_OK;
 }
 
@@ -28,12 +28,12 @@ void Effect::render(HDC hdc)
 {
 	if (_image->getMaxFrameX() == 0)
 	{
-		CAMERAMANAGER->Render(hdc, _image, _x, _y);
+		CAMERAMANAGER->AlphaRender(hdc, _image, _x, _y, _alpha);
 	}
 
 	else
 	{
-		CAMERAMANAGER->FrameRender(hdc, _image, _x, _y, _frameX, _frameY);
+		CAMERAMANAGER->FrameAlphaRender(hdc, _image, _x, _y, _frameX, _frameY, _alpha);
 	}
 }
 
