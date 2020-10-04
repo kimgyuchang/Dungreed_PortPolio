@@ -537,6 +537,7 @@ void FieldMap::render(HDC hdc)
 
 	ENTITYMANAGER->render(hdc);
 	EFFECTMANAGER->render(hdc);
+	PARTICLEMANAGER->render(hdc);
 	// 플레이어 및 불릿 등 렌더
 }
 

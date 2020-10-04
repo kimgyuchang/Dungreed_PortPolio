@@ -11,8 +11,6 @@ HRESULT Enemy::init(int id, string name, OBJECTTYPE type, vector<string> imgName
 
 void Enemy::update()
 {
-	
-
 	SpawnAnimation();
 }
 

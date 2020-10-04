@@ -58,6 +58,9 @@
     <Filter Include="GameFramework\Effect">
       <UniqueIdentifier>{7af0614f-01d1-4ede-b108-8b3f0ac1db6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameFramework\Particle">
+      <UniqueIdentifier>{16fd2b55-2479-40a6-aa0d-6605b11bb468}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -212,6 +215,15 @@
     </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>MainGame\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleManager.cpp">
+      <Filter>GameFramework\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="particle.cpp">
+      <Filter>GameFramework\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="particleGenerator.cpp">
+      <Filter>GameFramework\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -370,6 +382,18 @@
     </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>MainGame\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleManager.h">
+      <Filter>GameFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="particle.h">
+      <Filter>GameFramework\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="particleGenerator.h">
+      <Filter>GameFramework\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPooler.h">
+      <Filter>GameFramework\Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
