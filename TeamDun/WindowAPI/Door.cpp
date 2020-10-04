@@ -28,8 +28,6 @@ void Door::render(HDC hdc)
 
 void Door::Animation()
 {
-	Object::Animation();
-
 	if (_isActivated) // 활성화된 상태
 	{
 		_frameTimer++;

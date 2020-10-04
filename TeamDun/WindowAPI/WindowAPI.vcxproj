@@ -189,6 +189,7 @@
     <ClInclude Include="singletonBase.h" />
     <ClInclude Include="Skel.h" />
     <ClInclude Include="soundManager.h" />
+    <ClInclude Include="Stage.h" />
     <ClInclude Include="startScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="uibrushTool.h" />
@@ -240,6 +241,7 @@
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="Skel.cpp" />
     <ClCompile Include="soundManager.cpp" />
+    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="startScene.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

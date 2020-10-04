@@ -24,6 +24,8 @@ HRESULT Player::init()
 
 	_leftBack = false;
 	_rightBack = false;
+
+	_pixelCenter = POINT{ (long)(_x + _vImages[_useImage]->getWidth() / 2), (long)(_y + _vImages[_useImage]->getHeight() / 2) };
 	return S_OK;
 	
 }
@@ -158,9 +160,7 @@ void Player::Animation()
 				}
 			}
 		}
-
 	}
-	
 }
 
 void Player::Move()
@@ -239,7 +239,7 @@ void Player::pixelCollision()
 	bool _RightCollision2 = false;
 
 	_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
-	
+
 	image* pixelMapIg = IMAGEMANAGER->findImage("PixelMapIg");
 	image* baseCharIg = IMAGEMANAGER->findImage("baseCharIdle");
 
@@ -403,11 +403,37 @@ void Player::pixelCollision()
 
 		if ((r == 255 && g == 0 && b == 0))
 		{
-
 			_x = i;
-
 			break;
 		}
 	}
 	///////////////////////////////////////////////////////////////////////////
+
+
+	// Æ÷Å» °Ë»ç
+	_pixelCenter = POINT{ (long)(_x + 30), (long)(_y + 30)};
+
+	COLORREF _color = GetPixel(pixelMapIg->getMemDC(), _pixelCenter.x, _pixelCenter.y);
+	if (_color == RGB(0, 255, 0))
+	{
+		MAPMANAGER->ChangeMap(MAPMANAGER->GetCurrentStage(), MAPMANAGER->GetPlayMap()->GetNextMapIndex(DIRECTION::DIR_LEFT));
+		MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_RIGHT);
+	}
+
+	else if (_color == RGB(0, 200, 0))
+	{
+		MAPMANAGER->ChangeMap(MAPMANAGER->GetCurrentStage(), MAPMANAGER->GetPlayMap()->GetNextMapIndex(DIRECTION::DIR_RIGHT));
+		MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_LEFT);
+	}
+
+	else if (_color == RGB(0, 155, 0))
+	{
+		MAPMANAGER->ChangeMap(MAPMANAGER->GetCurrentStage(), MAPMANAGER->GetPlayMap()->GetNextMapIndex(DIRECTION::DIR_UP));
+		MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_DOWN);
+	}
+	else if (_color == RGB(0, 100, 0))
+	{
+		MAPMANAGER->ChangeMap(MAPMANAGER->GetCurrentStage(), MAPMANAGER->GetPlayMap()->GetNextMapIndex(DIRECTION::DIR_DOWN));
+		MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_UP);
+	}
 }

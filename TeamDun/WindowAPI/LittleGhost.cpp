@@ -21,7 +21,7 @@ void LittleGhost::update()
 
 	if (_isSpawned)
 	{
-		this->Move();
+		// this->Move();
 		this->Animation();
 	}
 

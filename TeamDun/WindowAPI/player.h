@@ -35,6 +35,7 @@ private:
 	float		_dashDamage;		//´ë½¬ °ø°Ý·Â
 
 	RECT		_collider[8];		//ÇÈ¼¿Ãæµ¹¿ë
+	POINT		_pixelCenter;		//ÇÈ¼¿Ãæµ¹¿ë ¸ö Áß¾Ó
 	float		_probeBottom;		//ÇÈ¼¿Ãæµ¹¿ëÁÂÇ¥
 	bool		_isJump;
 	bool		_downJump;
