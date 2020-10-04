@@ -180,7 +180,11 @@
     <ClInclude Include="MonsterSpawner.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjectPooler.h" />
     <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="particle.h" />
+    <ClInclude Include="particleGenerator.h" />
+    <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="random.h" />
@@ -234,6 +238,9 @@
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="particle.cpp" />
+    <ClCompile Include="particleGenerator.cpp" />
+    <ClCompile Include="ParticleManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="random.cpp" />

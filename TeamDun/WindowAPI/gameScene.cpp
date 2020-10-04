@@ -13,13 +13,13 @@ HRESULT gameScene::init()
 	ENTITYMANAGER->init();
 	ENTITYMANAGER->setPlayer(_p);
 
+	PARTICLEMANAGER->init();
 	EFFECTMANAGER->init();
 
 	_pivX = WINSIZEX / 2;
 	_pivY = WINSIZEY / 2;
 
 	CAMERAMANAGER->init(0,0,15000,15000,-300,-300,WINSIZEX/2, WINSIZEY/2);
-
 	return S_OK;
 }
 
@@ -51,6 +51,8 @@ void gameScene::release()
 	MAPMANAGER->releaseSingleton();
 	EFFECTMANAGER->release();
 	EFFECTMANAGER->releaseSingleton();
+	PARTICLEMANAGER->release();
+	PARTICLEMANAGER->releaseSingleton();
 }
 
 void gameScene::update()
@@ -61,19 +63,11 @@ void gameScene::update()
 		SCENEMANAGER->loadScene("시작화면");
 	}
 
-	/*
-	if (INPUT->GetKeyDown(VK_F2))
-	{
-		MAPMANAGER->ChangeMap(MAPMANAGER->GetCurrentStage(), RANDOM->range((int)MAPMANAGER->GetMaps().size()));
-		ENTITYMANAGER->getPlayer()->SetX(30);
-		ENTITYMANAGER->getPlayer()->SetY(30);
-	}
-	*/
-
 	MAPMANAGER->update();
 	CAMERAMANAGER->MovePivotLerp(ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY(), 5.f);
 	ENTITYMANAGER->update();
 	EFFECTMANAGER->update();
+	PARTICLEMANAGER->update();
 }
 
 void gameScene::render()
@@ -82,10 +76,10 @@ void gameScene::render()
 	UIMANAGER->render(getMemDC());
 
 	TextOut(getMemDC(), 0, 0, "EXIT : VK_BACK", strlen("EXIT : VK_BACK"));
-	//TextOut(getMemDC(), 0, 30, MAPMANAGER->GetMaps()[MAPMANAGER->GetCurrentMap()]->GetFileName().c_str(), MAPMANAGER->GetMaps()[MAPMANAGER->GetCurrentMap()]->GetFileName().size());
 
 	IMAGEMANAGER->findImage("BasicCursor")->render(getMemDC(), _ptMouse.x, _ptMouse.y);
 
 	string n = to_string((int)CAMERAMANAGER->GetAbsoluteX(_ptMouse.x)) + " " + to_string((int)CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
+
 	TextOut(getMemDC(), _ptMouse.x, _ptMouse.y, n.c_str(), n.length());
 }

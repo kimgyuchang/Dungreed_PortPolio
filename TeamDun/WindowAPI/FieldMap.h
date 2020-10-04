@@ -58,6 +58,8 @@ public :
 	void EraseDeathObject();
 	
 	// GETSET //
+	int					GetMapSizeY()					{ return _vMapData.size(); }
+	int					GetMapSizeX()					{ return _vMapData[0].size(); }
 	int					GetXIndex()						{ return _xIndex; }
 	int					GetYIndex()						{ return _yIndex; }
 	string				GetFileName()					{ return _fileName; }

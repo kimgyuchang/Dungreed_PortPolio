@@ -47,6 +47,7 @@ HRESULT MapManager::init()
 	_currentMap = 0;
 	GetPlayMap()->PixelCollisionMapGenerate();
 	GetPlayMap()->GridMapGenerate();
+	GenerateMapParticle();
 	ReNewMapUI();
 	return S_OK;
 }
@@ -74,6 +75,18 @@ void MapManager::SetMapUIOnOff()
 	{
 		UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->ToggleIsViewing();
 	}
+}
+
+void MapManager::GenerateMapParticle()
+{
+	ParticleGenerator* mapSquareGen = new ParticleGenerator();
+	mapSquareGen->initGenerator(REGULARGEN, 100000, 3, 0, 1, vector<string>{ "SqaureParticle" });
+	mapSquareGen->initPos(GetPlayMap()->GetMapSizeX() * 24, GetPlayMap()->GetMapSizeY() * 24, GetPlayMap()->GetMapSizeX() * 44, GetPlayMap()->GetMapSizeY() * 44);
+	mapSquareGen->initAlpha(150, 50, 1);
+	mapSquareGen->initTime(150, 10);
+	mapSquareGen->initScale(0.5f, 1.0f, 0);
+	mapSquareGen->initSpeed(0.5f, 0.5f, 0.3f, 0.3f, 0, 0);
+	PARTICLEMANAGER->AddGenerator(mapSquareGen);
 }
 
 void MapManager::ReNewMapUI()
@@ -155,5 +168,8 @@ void MapManager::ChangeMap(int stage, int index)
 	_vStage[stage]->GetMaps()[index]->PixelCollisionMapGenerate();
 	_vStage[stage]->GetMaps()[index]->GridMapGenerate();
 	EFFECTMANAGER->GetVEffect().clear();
+	PARTICLEMANAGER->GetParticles().clear();
+	PARTICLEMANAGER->GetGenerators().clear();
+	GenerateMapParticle();
 	ReNewMapUI();
 }

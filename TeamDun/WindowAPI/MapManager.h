@@ -15,6 +15,7 @@ public:
 	HRESULT init();
 	void update();
 	void SetMapUIOnOff();
+	void GenerateMapParticle();
 	void ReNewMapUI();
 	void release();
 	void render(HDC hdc);
