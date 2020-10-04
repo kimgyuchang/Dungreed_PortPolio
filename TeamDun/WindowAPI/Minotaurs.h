@@ -7,10 +7,9 @@ private:
 	bool		_isDash;
 	bool		_isAttack;
 	int			_dashTimer;
-	int			_moveTimer;
+	int			_attackTimer;
 	int			_dashCount;
 	int			_dashPoint;
-
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
 	virtual void	update();
