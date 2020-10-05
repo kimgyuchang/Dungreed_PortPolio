@@ -27,7 +27,7 @@ HRESULT Object::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_frameTimer = 0;
     _body = RECT{ 0,0,0,0 };
     _isDead = false;
-
+	_isRenderFrontLayer1 = true;
     return S_OK;
 }
 

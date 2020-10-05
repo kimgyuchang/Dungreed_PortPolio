@@ -171,5 +171,6 @@ void MapManager::ChangeMap(int stage, int index)
 	PARTICLEMANAGER->GetParticles().clear();
 	PARTICLEMANAGER->GetGenerators().clear();
 	GenerateMapParticle();
+	ENTITYMANAGER->getVBullets().clear();
 	ReNewMapUI();
 }
