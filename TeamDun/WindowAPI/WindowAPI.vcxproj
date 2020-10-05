@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Banshee.h" />
     <ClInclude Include="Belial.h" />
     <ClInclude Include="BigWhiteSkel.h" />
     <ClInclude Include="Bullet.h" />
@@ -206,6 +207,7 @@
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Banshee.cpp" />
     <ClCompile Include="Belial.cpp" />
     <ClCompile Include="BigWhiteSkel.cpp" />
     <ClCompile Include="Bullet.cpp" />

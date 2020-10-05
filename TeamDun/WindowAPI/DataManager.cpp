@@ -64,6 +64,10 @@ void DataManager::GetObjectData()
 			obj = new Skel();
 			break;
 
+		case 1502: // πÍΩ√
+			obj = new Banshee();
+			break;
+
 		case 702: // ∫”¿∫ π⁄¡„
 			obj = new RedBat();
 			break;
@@ -107,6 +111,9 @@ void DataManager::GetObjectData()
 			type,
 			vector<string>{objData[i][3], objData[i][4], objData[i][5] }
 		);
+
+		if (obj->GetType() == OT_OBSTACLE)
+			obj->SetRenderIndex(false);
 
 		_mObjectData[stoi(objData[i][0])] = obj;
 	}

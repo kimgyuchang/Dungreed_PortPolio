@@ -87,6 +87,10 @@ void FieldMap::LoadObject()
 		case 1505:// 작은 유령
 			obj = new LittleGhost(*dynamic_cast<LittleGhost*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
+			
+		case 1502:
+			obj = new Banshee(*dynamic_cast<Banshee*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 
 		case 1507:// 해골
 			obj = new Skel(*dynamic_cast<Skel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
@@ -145,6 +149,9 @@ void FieldMap::LoadObject()
 			if (_nextMapIndex[DIRECTION::DIR_DOWN] != -1) 
 				MakeDoor(dynamic_cast<Door*>(obj));
 			else CheckRollBack = true;
+			break;
+		case 2000 : // 벨리알
+			dynamic_cast<Belial*>(obj)->SetAfterSpawn();
 			break;
 		}
 
@@ -515,7 +522,8 @@ void FieldMap::render(HDC hdc)
 
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
-		_vObjs[i]->render(hdc);
+		if(!_vObjs[i]->GetRenderIndex())
+			_vObjs[i]->render(hdc);
 	} // 오브젝트 렌더
 
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer1MapIg"), 0, 0);
@@ -526,16 +534,15 @@ void FieldMap::render(HDC hdc)
 		CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("PixelMapIg"), 0, 0);
 	} // 픽셀충돌 렌더
 
-	/*
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
-		_vObjs[i]->render(hdc);
+		if(_vObjs[i]->GetRenderIndex())	
+			_vObjs[i]->render(hdc);
 	} // 오브젝트 렌더
-	*/
 
 
-	ENTITYMANAGER->render(hdc);
 	EFFECTMANAGER->render(hdc);
+	ENTITYMANAGER->render(hdc);
 	PARTICLEMANAGER->render(hdc);
 	// 플레이어 및 불릿 등 렌더
 }
