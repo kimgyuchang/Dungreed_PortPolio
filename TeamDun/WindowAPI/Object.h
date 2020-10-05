@@ -8,21 +8,22 @@ class FieldMap;
 class Object
 {
 protected:
-	int				_id;			// ID
-	string			_name;			// 이름
-	OBJECTTYPE		_type;			// 오브젝트 타입
-	vector<image*>	_vImages;		// 이미지들
-	vector<string>	_vImageNames;	// 이미지 이름들
-	float			_x;				// 위치 X 
-	float			_y;				// 위치 Y
-	int				_useImage;		// 사용중인 이미지
-	int				_frameX;		// 현재 프레임 X
-	int				_frameY;		// 현재 프레임 Y
-	int				_spawnTime;		// 스폰 시간
-	int				_frameTimer;	// 프레임 타이머
-	RECT			_body;			// 충돌체
-	FieldMap*		_belongMap;		// 현재 속한 맵 정보
-	bool			_isDead;		// 죽었는지(파괴되었는지) 여부
+	int				_id;					// ID
+	string			_name;					// 이름
+	OBJECTTYPE		_type;					// 오브젝트 타입
+	vector<image*>	_vImages;				// 이미지들
+	vector<string>	_vImageNames;			// 이미지 이름들
+	float			_x;						// 위치 X 
+	float			_y;						// 위치 Y
+	int				_useImage;				// 사용중인 이미지
+	int				_frameX;				// 현재 프레임 X
+	int				_frameY;				// 현재 프레임 Y
+	int				_spawnTime;				// 스폰 시간
+	int				_frameTimer;			// 프레임 타이머
+	RECT			_body;					// 충돌체
+	FieldMap*		_belongMap;				// 현재 속한 맵 정보
+	bool			_isDead;				// 죽었는지(파괴되었는지) 여부
+	bool			_isRenderFrontLayer1;	// 레이어 1 앞에 렌더할것인지
 public:
 
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
@@ -47,6 +48,7 @@ public:
 	int				GetSpawnTime()		{ return _spawnTime; }
 	FieldMap*		GetBelongMap()		{ return _belongMap; }
 	bool			GetIsDead()			{ return _isDead; }
+	bool			GetRenderIndex()	{ return _isRenderFrontLayer1; }
 
 	void			SetName(string name)				{ _name = name; }
 	void			SetX(int x)							{ _x = x; }
@@ -61,4 +63,5 @@ public:
 	void			SetIsDead(bool dead)				{ _isDead = dead; }
 	void			SetBody(RECT rect)					{ _body = rect; }
 	void			SetBodyPos()						{ _body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight()); }
+	void			SetRenderIndex(bool isFront)		{ _isRenderFrontLayer1 = isFront; }
 };

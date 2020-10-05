@@ -15,6 +15,7 @@ HRESULT MapManager::init()
 			FieldMap* map = new FieldMap();
 			map->init(mapData[i][0]);
 			map->SetStage(stoi(mapData[i][1]));
+			map->LoadMap();
 
 			if (mapData[i][2] == "NORMAL") map->SetFieldType(FIELDMAPTYPE::FMT_NORMAL);
 			else if (mapData[i][2] == "ENTER") map->SetFieldType(FIELDMAPTYPE::FMT_ENTER);
@@ -171,5 +172,6 @@ void MapManager::ChangeMap(int stage, int index)
 	PARTICLEMANAGER->GetParticles().clear();
 	PARTICLEMANAGER->GetGenerators().clear();
 	GenerateMapParticle();
+	ENTITYMANAGER->getVBullets().clear();
 	ReNewMapUI();
 }

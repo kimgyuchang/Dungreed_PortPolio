@@ -225,6 +225,9 @@
     <ClCompile Include="particleGenerator.cpp">
       <Filter>GameFramework\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="Banshee.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -394,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="ObjectPooler.h">
       <Filter>GameFramework\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Banshee.h">
+      <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

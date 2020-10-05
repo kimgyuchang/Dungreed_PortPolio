@@ -227,7 +227,7 @@ void Player::Move()
 		if (INPUT->GetKeyDown(VK_SPACE) && !_downJump)
 		{
 			_isJump = true;
-			_jumpPower = 13;
+			_jumpPower = 11;
 			_y -= _jumpPower;
 			_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
 			_jumpCount++;
@@ -507,7 +507,7 @@ void Player::dash()
 		{
 			EFFECTMANAGER->AddEffect(_x  , _y , "baseCharIdle", 2, 0, _frameY, false, 100);
 		}*/
-		if (_dashTimer >= 10)
+		if (_dashTimer >= 8)
 		{
 			_dashTimer = 0;
 			_jumpPower = 0;

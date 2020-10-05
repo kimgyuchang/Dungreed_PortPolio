@@ -11,7 +11,6 @@ HRESULT FieldMap::init(string fileName)
 	_nextMapIndex[2] = -1;
 	_nextMapIndex[3] = -1;
 
-	LoadMap();
 	return S_OK;
 }
 
@@ -29,7 +28,9 @@ void FieldMap::LoadMap()
 	} // 해당 맵 불러오기에 실패한 경우
 
 	_vMapData.clear();
-
+	_backImageEtc = nullptr;
+	_backImageMain = nullptr;
+	
 	for (int i = 0; i < stringData.size(); i++)
 	{
 		vector<Tile*> tileLine;
@@ -55,6 +56,12 @@ void FieldMap::LoadMap()
 			tileLine.push_back(tile);
 		}
 		_vMapData.push_back(tileLine);
+	}
+
+	if (_stage == 1 || _stage == 2)
+	{
+		_backImageEtc = IMAGEMANAGER->findImage("BackFloorBack1");
+		_backImageMain = IMAGEMANAGER->findImage("SubBGStage1");
 	}
 }
 
@@ -86,6 +93,10 @@ void FieldMap::LoadObject()
 
 		case 1505:// 작은 유령
 			obj = new LittleGhost(*dynamic_cast<LittleGhost*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+			
+		case 1502:
+			obj = new Banshee(*dynamic_cast<Banshee*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
 
 		case 1507:// 해골
@@ -145,6 +156,9 @@ void FieldMap::LoadObject()
 			if (_nextMapIndex[DIRECTION::DIR_DOWN] != -1) 
 				MakeDoor(dynamic_cast<Door*>(obj));
 			else CheckRollBack = true;
+			break;
+		case 2000 : // 벨리알
+			dynamic_cast<Belial*>(obj)->SetAfterSpawn();
 			break;
 		}
 
@@ -510,12 +524,24 @@ void FieldMap::ChangePlayerByDirection(DIRECTION dir)
 
 void FieldMap::render(HDC hdc)
 {
+	if (_backImageMain != nullptr) _backImageMain->loopRender(hdc, &RectMake(0, 0, WINSIZEX, WINSIZEY), CAMERAMANAGER->GetRect().left / 4, CAMERAMANAGER->GetRect().top / 4);
+	
+	int mapSizeX = _vMapData[0].size() * 48;
+	int mapSizeY = _vMapData.size() * 48;
+	
+	if (_backImageEtc != nullptr)
+	{
+		CAMERAMANAGER->StretchRender(hdc, _backImageEtc, -WINSIZEX / 2, -WINSIZEY / 2, WINSIZEX + mapSizeX, WINSIZEY / 2);
+		CAMERAMANAGER->StretchRender(hdc, _backImageEtc, -WINSIZEX / 2, 0, WINSIZEX / 2, mapSizeY);
+		CAMERAMANAGER->StretchRender(hdc, _backImageEtc, -WINSIZEX / 2, mapSizeY, WINSIZEX + mapSizeX, WINSIZEY / 2);
+		CAMERAMANAGER->StretchRender(hdc, _backImageEtc, mapSizeX, 0, WINSIZEX / 2, mapSizeY);
+	}
+
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer2MapIg"), 0, 0);
-
-
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
-		_vObjs[i]->render(hdc);
+		if(!_vObjs[i]->GetRenderIndex())
+			_vObjs[i]->render(hdc);
 	} // 오브젝트 렌더
 
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer1MapIg"), 0, 0);
@@ -526,16 +552,15 @@ void FieldMap::render(HDC hdc)
 		CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("PixelMapIg"), 0, 0);
 	} // 픽셀충돌 렌더
 
-	/*
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
-		_vObjs[i]->render(hdc);
+		if(_vObjs[i]->GetRenderIndex())	
+			_vObjs[i]->render(hdc);
 	} // 오브젝트 렌더
-	*/
 
 
-	ENTITYMANAGER->render(hdc);
 	EFFECTMANAGER->render(hdc);
+	ENTITYMANAGER->render(hdc);
 	PARTICLEMANAGER->render(hdc);
 	// 플레이어 및 불릿 등 렌더
 }
