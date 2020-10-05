@@ -22,7 +22,8 @@ private :
 	vector<vector<Tile*>>	_vMapData;			// 맵 그리드 이중 벡터
 	vector<Object*>			_vObjs;				// 해당 방에 존재하는 오브젝트들
 	vector<RECT>			_vMiniRc;			// 미니맵용 Rects
-		
+	image*					_backImageEtc;		// 기타 패턴 이미지
+	image*					_backImageMain;	// 메인 배경이미지
 	FIELDMAPTYPE			_mapType;			// 맵 타입
 	int						_nextMapIndex[4];	// 다음 방의 Vector Index (방향별)
 	POINT					_mapMovePos[4];		// 이 방으로 도착할때의 플레이어 위치
