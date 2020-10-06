@@ -43,7 +43,7 @@ HRESULT MapManager::init()
 		if (mapAllCleared) break;
 	}
 	
-	_currentStage = 1;
+	_currentStage = 2;
 	_currentMap = 0;
 	GetPlayMap()->PixelCollisionMapGenerate();
 	GetPlayMap()->GridMapGenerate();

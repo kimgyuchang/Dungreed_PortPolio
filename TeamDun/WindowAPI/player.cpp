@@ -98,6 +98,7 @@ void Player::render(HDC hdc)
 	default:
 		break;
 	}
+	//CAMERAMANAGER->Rectangle(hdc, _body);
 	//CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);
 }
 
@@ -396,7 +397,7 @@ void Player::pixelCollision()
 
 			if (_leftCollision1 &&_leftCollision2)
 			{
-				_x = i - baseCharIg->getFrameWidth();
+				_x = i;
 
 			}
 
@@ -478,7 +479,7 @@ void Player::dash()
 		image* baseCharIg = IMAGEMANAGER->findImage("baseCharIdle");
 
 
-
+		//대쉬할때만 속도가 바뀌므로 픽셀충돌 범위늘려서 따로검사
 		for (int i = _probeBottom - 20; i < _probeBottom + 5; i++)
 		{
 			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
@@ -492,21 +493,46 @@ void Player::dash()
 				_y = i - baseCharIg->getFrameHeight();// 올라간다
 				break;
 			}
+		}
+		for (int i = _y + 20; i > _y - 5; i--)
+		{
+			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
+			int r = GetRValue(color);
+			int g = GetGValue(color);
+			int b = GetBValue(color);
 
-			
+			if ((r == 255 && g == 0 && b == 0) ) 
+			{
+				_y = i;
+				break;
+			}
 		}
-		/*if (_dashTimer == 3)
+		for (int i = _x + baseCharIg->getFrameWidth() - 20; i < _x + baseCharIg->getFrameWidth() + 5; i++)
 		{
-			EFFECTMANAGER->AddEffect(_x  , _y , "baseCharIdle", 2 ,0, _frameY,false,100);
+			COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom -baseCharIg->getFrameHeight() / 2);
+			int r = GetRValue(color);
+			int g = GetGValue(color);
+			int b = GetBValue(color);
+			if ((r == 255 && g == 0 && b == 0))
+			{
+				_x = i - baseCharIg->getFrameWidth();
+				break;
+			}
 		}
-		if (_dashTimer == 5)
+		
+		for (int i = _x + 20; i > _x - 5; i--)
 		{
-			EFFECTMANAGER->AddEffect(_x  , _y , "baseCharIdle", 2, 0, _frameY, false, 100);
+			COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - baseCharIg->getFrameHeight() / 2);
+			int r = GetRValue(color3);
+			int g = GetGValue(color3);
+			int b = GetBValue(color3);
+
+			if ((r == 255 && g == 0 && b == 0))
+			{
+				_x = i;
+				break;
+			}
 		}
-		if (_dashTimer == 7)
-		{
-			EFFECTMANAGER->AddEffect(_x  , _y , "baseCharIdle", 2, 0, _frameY, false, 100);
-		}*/
 		if (_dashTimer >= 8)
 		{
 			_dashTimer = 0;
