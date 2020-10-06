@@ -7,8 +7,10 @@ HRESULT LittleGhost::init(int id, string name, OBJECTTYPE type, vector<string> i
 
 	_state = ES_IDLE;
 
-	_index = _count = _attackCoolTime = _attackTime = 0;
+	_index = _count = _attackCoolTime = _attackTime = _moveTimer = _moveCoolTime = 0;
 	_frameX, _frameY = 0;
+
+	_realMoveX, _realMoveY = 0;
 
 	_isLeft = false;
 
@@ -19,30 +21,45 @@ void LittleGhost::update()
 {
 	Enemy::update();
 
-	_attackCoolTime++;
-	_attackTime++;
-
 	if (_isSpawned)
 	{
+		if (_realMoveX < 0)
+		{
+			_isLeft = false;
+		}
+		else if (_realMoveX >= 0)
+		{
+			_isLeft = true;
+		}
+
 		switch (_state)
 		{
 		case ES_IDLE:
-			if (_attackCoolTime % 100 == 0)
+			_attackCoolTime++;
+
+			if (_attackCoolTime > 30)
 			{
 				_state = ES_MOVE;
+				_attackCoolTime = 0;
 			}
 			break;
 		case ES_MOVE:
 			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200 && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 200)
 			{
+				GetNewMoveXY();
 				_state = ES_ATTACK;
 			}
+
+			this->Move();
 			break;
 		case ES_ATTACK:
+			_attackTime++;
+
 			this->Attack();
-			if (_attackTime % 100 == 0)
+			if (_attackTime > 100)
 			{
 				_state = ES_IDLE;
+				_attackTime = 0;
 			}
 			break;
 		default:
@@ -50,7 +67,6 @@ void LittleGhost::update()
 		}
 
 		this->Animation();
-		this->Move();
 	}
 	SetBodyPos();
 }
@@ -67,20 +83,36 @@ void LittleGhost::render(HDC hdc)
 	}
 }
 
+void LittleGhost::GetNewMoveXY()
+{
+	_realMoveX = cosf(getAngle(_x, _y, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY()));
+	_realMoveY = -sinf(getAngle(_x, _y, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY()));
+}
+
 void LittleGhost::Move()
 {
 	Enemy::Move();
 
-	_x += cosf(getAngle(_x, _y, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY()));
-	_y += -sinf(getAngle(_x, _y, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY()));
+	_moveTimer++;
+
+	if (_moveTimer > 100)
+	{
+		_moveTimer = 0;
+		GetNewMoveXY();
+	}
+
+
+	_x += _realMoveX;
+	_y += _realMoveY;
+
 }
 
 void LittleGhost::Attack()
 {
 	Enemy::Attack();
 
-	_x += 2 * cosf(getAngle(_x, _y, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY()));
-	_y += 2 * -sinf(getAngle(_x, _y, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY()));
+	_x += 2.5 * _realMoveX;
+	_y += 2.5 * _realMoveY;
 }
 
 void LittleGhost::Animation()
@@ -94,8 +126,9 @@ void LittleGhost::Animation()
 		if (_isLeft)
 		{
 			_frameY = 1;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX--;
 
 				if (_frameX < 0)
@@ -107,8 +140,9 @@ void LittleGhost::Animation()
 		else
 		{
 			_frameY = 0;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX++;
 
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -123,8 +157,9 @@ void LittleGhost::Animation()
 		if (_isLeft)
 		{
 			_frameY = 0;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX++;
 
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -136,8 +171,9 @@ void LittleGhost::Animation()
 		else
 		{
 			_frameY = 1;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX--;
 
 				if (_frameX < 0)
@@ -152,8 +188,9 @@ void LittleGhost::Animation()
 		if (_isLeft)
 		{
 			_frameY = 0;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX++;
 
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -165,8 +202,9 @@ void LittleGhost::Animation()
 		else
 		{
 			_frameY = 1;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX--;
 
 				if (_frameX < 0)

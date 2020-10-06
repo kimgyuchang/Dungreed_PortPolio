@@ -7,11 +7,14 @@ HRESULT Minotaurs::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_body = RectMake(_x, _y, 156, 114);
 	_state = ES_IDLE;
 
-	_index = _count = _dashTimer = _dashCount = _attackTimer = 0;
+	_index = _count = _dashTimer = _movePoint = _attackCoolTime = _attackCount = _attackIndexFix = 0;
 	_frameX, _frameY = 0;
 
-	_moveSpeed = 5;
-	_isLeft = _isDash = _isAttack = false;
+	_moveSpeed = 10;
+	_isLeft = _isAttack = _isDash = false;
+
+	_attackAnimFrame = vector<int>{ 3,3,30,5,5,5,5 };
+
 	return S_OK;
 }
 
@@ -19,70 +22,64 @@ void Minotaurs::update()
 {
 	Enemy::update();
 
-
 	if (_isSpawned)
 	{
 		switch (_state)
 		{
 		case ES_IDLE:
-			_dashTimer++;
+			_attackCoolTime++;
+
 			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 300 && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 100)
 			{
-				if (_dashTimer > 100)
+				if (_attackCount <= 0)
 				{
-					if (_x < ENTITYMANAGER->getPlayer()->GetX()) _moveSpeed = 5;
-					if (_x >= ENTITYMANAGER->getPlayer()->GetX()) _moveSpeed = -5;
 					_state = ES_MOVE;
-					_dashTimer = 0;
 				}
+				else if (_attackCount >= 1)
+				{
+					if (_attackCoolTime > 100)
+					{
+						_state = ES_MOVE;
+						_attackCoolTime = 0;
+					}
+				}
+
+				if (_x < ENTITYMANAGER->getPlayer()->GetX()) { _moveSpeed = 10; _isLeft = true; }
+				else if (_x >= ENTITYMANAGER->getPlayer()->GetX()) { _moveSpeed = -10; _isLeft = false; }
 			}
 			break;
 		case ES_MOVE:
-			_attackTimer++;
-			if (ENTITYMANAGER->getPlayer()->GetX() > _x)
-			{
-				_isLeft = true;
-			}
-			else if (ENTITYMANAGER->getPlayer()->GetX() < _x)
-			{
-				_isLeft = false;
-			}
+
+			this->Move();
+
 			if (_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
 			{
-				if (_attackTimer > 100)
-				{
-					_state = ES_ATTACK;
-					_attackTimer = 0;
-				}
+				_state = ES_ATTACK;
+				_frameX = 0;
 			}
 			else if (!_isLeft && _frameX <= 0)
 			{
-				if (_attackTimer > 100)
-				{
-					_state = ES_ATTACK;
-					_attackTimer = 0;
-				}
+				_state = ES_ATTACK;
+				_frameX = _vImages[_useImage]->getMaxFrameX() - 1;
 			}
 			break;
 		case ES_ATTACK:
 			if (_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
 			{
 				_state = ES_IDLE;
-				_isDash = false;
-				_dashCount = 0;
+				_attackCount++;
 			}
 			else if (!_isLeft && _frameX <= 0)
 			{
 				_state = ES_IDLE;
-				_isDash = false;
-				_dashCount = 0;
+				_attackCount++;
 			}
 			break;
 		default:
 			break;
 		}
 	}
-	this->Move();
+
 	this->Animation();
 	this->pixelCollision();
 }
@@ -102,13 +99,34 @@ void Minotaurs::render(HDC hdc)
 void Minotaurs::Move()
 {
 	Enemy::Move();
-	if (_state == ES_MOVE)
-	{
-		_isDash = true;
-	}
+
+	_movePoint++;
+	_dashTimer++;
+	_isDash = true;
+
 	if (_isDash)
 	{
 		_x += _moveSpeed;
+
+		if (_dashTimer > 100)
+		{
+			_dashTimer = 0;
+			_isDash = false;
+		}
+	}
+
+	if (_movePoint > 100) // 혹은 충돌했을떄
+	{
+		_state = ES_ATTACK;
+		if (_moveSpeed > 0)
+		{
+			_frameX = 0;
+		}
+		else
+		{
+			_frameX = _vImages[_useImage]->getMaxFrameX() - 1;
+		}
+		_movePoint = 0;
 	}
 }
 
@@ -120,7 +138,9 @@ void Minotaurs::Attack()
 void Minotaurs::Animation()
 {
 	Enemy::Animation();
+
 	_count++;
+
 	switch (_state)
 	{
 	case ES_IDLE:
@@ -128,8 +148,9 @@ void Minotaurs::Animation()
 		if (_isLeft)
 		{
 			_frameY = 1;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX--;
 
 				if (_frameX < 0)
@@ -141,8 +162,9 @@ void Minotaurs::Animation()
 		else
 		{
 			_frameY = 0;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX++;
 
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -158,12 +180,12 @@ void Minotaurs::Animation()
 		{
 			_frameY = 0;
 
-
-			if (_frameX == 4 || _frameX == 5)
+			if (_frameX == 4)
 			{
-				if (_count % 5 == 0)
+				if (_count > 5)
 				{
-					_frameX = _frameX == 5 ? 4 : 5;
+					_frameX = 4;
+					_count = 0;
 
 					if (_frameX > _vImages[_useImage]->getMaxFrameX())
 					{
@@ -173,8 +195,9 @@ void Minotaurs::Animation()
 			}
 			else
 			{
-				if (_count % 5 == 0)
+				if (_count > 5)
 				{
+					_count = 0;
 					_frameX++;
 
 					if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -187,22 +210,24 @@ void Minotaurs::Animation()
 		else
 		{
 			_frameY = 1;
-			if (_frameX == 3 || _frameX == 2)
+			if (_frameX == 3)
 			{
-				if (_count % 5 == 0)
+				if (_count > 5)
 				{
-					_frameX = _frameX == 3 ? 2 : 3;
+					_count = 0;
+					_frameX = 3;
 
 					if (_frameX < 0)
 					{
-						_frameX = _vImages[_useImage]->getMaxFrameX()-1;
+						_frameX = _vImages[_useImage]->getMaxFrameX() - 1;
 					}
 				}
 			}
 			else
 			{
-				if (_count % 5 == 0)
+				if (_count > 5)
 				{
+					_count = 0;
 					_frameX--;
 
 					if (_frameX < 0)
@@ -218,8 +243,9 @@ void Minotaurs::Animation()
 		if (_isLeft)
 		{
 			_frameY = 0;
-			if (_count % 5 == 0)
+			if (_count > _attackAnimFrame[_frameX])
 			{
+				_count = 0;
 				_frameX++;
 
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -231,13 +257,15 @@ void Minotaurs::Animation()
 		else
 		{
 			_frameY = 1;
-			if (_count % 5 == 0)
+			if (_count > _attackAnimFrame[_vImages[_useImage]->getMaxFrameX() - _frameX])
 			{
+				_count = 0;
 				_frameX--;
 
 				if (_frameX < 0)
 				{
 					_frameX = _vImages[_useImage]->getMaxFrameX();
+					_attackIndexFix = 0;
 				}
 			}
 		}
@@ -249,4 +277,5 @@ void Minotaurs::Animation()
 
 void Minotaurs::pixelCollision()
 {
+
 }
