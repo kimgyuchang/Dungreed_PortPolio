@@ -84,15 +84,15 @@ public:
 	//렌더(내가 원하는 좌표에 출력해라, 일반적으로 우리는 RECT의 LT좌표에 이미지를 붙인다)
 	void render(HDC hdc, int destX = 0, int destY = 0, float angle = 0.f);
 	//렌더(원하는 좌표에 이미지를 잘라서 붙이기)
-	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
+	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, float angle = 0.f);
 	//늘이기렌더
-	void stretchRender(HDC hdc, int destX, int destY, float scaleX, float scaleY);
-	void stretchAlphaRender(HDC hdc, int destX, int destY, float scaleX, float scaleY, BYTE alpha);
+	void stretchRender(HDC hdc, int destX, int destY, float scaleX, float scaleY, float angle = 0.f);
+	void stretchAlphaRender(HDC hdc, int destX, int destY, float scaleX, float scaleY, BYTE alpha, float angle = 0.f);
 
 	//알파렌더(이미지를 알파값만큼 투명화 시켜준다)
-	void alphaRender(HDC hdc, BYTE alpha);
-	void alphaRender(HDC hdc, int destX, int destY, BYTE alpha);
-	void alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha);
+	void alphaRender(HDC hdc, BYTE alpha, float angle = 0.f);
+	void alphaRender(HDC hdc, int destX, int destY, BYTE alpha, float angle = 0.f);
+	void alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha, float angle = 0.f);
 	void frameAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha);
 	//프레임렌더
 	void frameRender(HDC hdc, int destX, int destY);

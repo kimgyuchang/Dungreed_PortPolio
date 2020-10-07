@@ -10,6 +10,7 @@ HRESULT startScene::init()
 	ShowCursor(false);
 	_img = IMAGEMANAGER->findImage("DemensionVault1");
 	_angle = 0;
+	_alpha = 0;
 	return S_OK;
 }
 
@@ -33,6 +34,8 @@ void startScene::update()
 		}
 	}
 
+	_alpha += 5;
+	if (_alpha > 255) _alpha = 0;
 	_angle += PI/32;
 	if (_angle > 2 * PI) _angle -= 2 * PI;
 }
@@ -48,4 +51,8 @@ void startScene::render()
 	IMAGEMANAGER->findImage("BasicCursor")->render(getMemDC(), _ptMouse.x, _ptMouse.y);
 
 	_img->render(getMemDC(), 100, 0, _angle);
+	_img->stretchRender(getMemDC(), 300, 0, 1.5f, 1.5f, _angle);
+	_img->stretchRender(getMemDC(), 450, 0, 0.5f, 0.5f, _angle);
+	_img->stretchAlphaRender(getMemDC(), 500, 0, 1.5f, 1.5f, _alpha, _angle);
+	_img->stretchAlphaRender(getMemDC(), 650, 0, 0.5f, 0.5f, _alpha, _angle);
 }

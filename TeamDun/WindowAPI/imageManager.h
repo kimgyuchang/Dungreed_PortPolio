@@ -40,15 +40,15 @@ public:
 //=============================================================
 //	## ÀÏ¹Ý·»´õ ##
 //=============================================================
-	void render(string strKey, HDC hdc, int destX = 0, int destY = 0);
-	void render(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
+	void render(string strKey, HDC hdc, int destX = 0, int destY = 0, float angle = 0);
+	void render(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, float angle = 0);
 
 //=============================================================
 //	## ¾ËÆÄ·»´õ ##
 //=============================================================
-	void alphaRender(string strKey, HDC hdc, BYTE alpha);
-	void alphaRender(string strKey, HDC hdc, int destX, int destY, BYTE alpha);
-	void alphaRender(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha);
+	void alphaRender(string strKey, HDC hdc, BYTE alpha, float angle = 0);
+	void alphaRender(string strKey, HDC hdc, int destX, int destY, BYTE alpha, float angle = 0);
+	void alphaRender(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha, float angle = 0);
 
 //=============================================================
 //	## ÇÁ·¹ÀÓ·»´õ ##
@@ -61,7 +61,7 @@ public:
 //=============================================================
 //	## ½ºÆ®·¹Ä¡·»´õ##
 //=============================================================
-	void stretchRender(string strKey, HDC hdc, int destX, int destY, float scaleX, float scaleY);
+	void stretchRender(string strKey, HDC hdc, int destX, int destY, float scaleX, float scaleY, float angle = 0);
 
 //=============================================================
 //	## ·çÇÁ·»´õ ##

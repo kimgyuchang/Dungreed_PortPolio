@@ -7,6 +7,7 @@ private:
 	RECT _rc;
 	RECT _rc2;
 	float _angle;
+	int _alpha;
 	image* _img;
 
 public:

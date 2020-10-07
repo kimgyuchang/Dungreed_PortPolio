@@ -354,36 +354,18 @@ void image::render(HDC hdc, int destX, int destY, float angle)
 	
 	if (_isTrans)//배경색 없애고 출력
 	{
-		if (angle != 0.f)
-		{
-			RotateHDC(hdc, angle);
+			if(angle != 0.f) RotateHDC(hdc, angle);
 			GdiTransparentBlt(
 				hdc,				//복사할 장소의 DC
 				destX,				//복사할 좌표 시작X
 				destY,				//복사할 좌표 시작Y
 				_imageInfo->width,	//복사할 이미지 가로크기
 				_imageInfo->height,	//복사할 이미지 세로크기
-				_rotateImage->hMemDC,	//복사될 대상 DC
+				angle == 0.f ? _imageInfo->hMemDC : _rotateImage->hMemDC,
 				0, 0,				//복사될 대상의 시작지점
 				_imageInfo->width,	//복사 영역 가로크기
 				_imageInfo->height,	//복사 영역 세로크기
 				_transColor);		//복사할때 제외할 색상 (일반적으로 마젠타 색상을 사용함)
-		}
-			//GdiTransparentBlt : 비트맵 이미지의 특정색상을 제외하고 복사 해주는 함수
-		else
-		{
-			GdiTransparentBlt(
-				hdc,				//복사할 장소의 DC
-				destX,				//복사할 좌표 시작X
-				destY,				//복사할 좌표 시작Y
-				_imageInfo->width,	//복사할 이미지 가로크기
-				_imageInfo->height,	//복사할 이미지 세로크기
-				_imageInfo->hMemDC,	//복사될 대상 DC
-				0, 0,				//복사될 대상의 시작지점
-				_imageInfo->width,	//복사 영역 가로크기
-				_imageInfo->height,	//복사 영역 세로크기
-				_transColor);		//복사할때 제외할 색상 (일반적으로 마젠타 색상을 사용함)
-		}
 	}
 	else//원본 이미지 그대로 출력
 	{
@@ -392,19 +374,20 @@ void image::render(HDC hdc, int destX, int destY, float angle)
 	}
 }
 
-//렌더(원하는 좌표에 이미지를 잘라서 붙이기)
-void image::render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight)
+void image::render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, float angle)
 {
+	if (_rotateImage == nullptr) initForRotateBlend();
+	
 	if (_isTrans)//배경색 없애고 출력
 	{
-		//GdiTransparentBlt : 비트맵 이미지의 특정색상을 제외하고 복사 해주는 함수
+		if (angle != 0.f) RotateHDC(hdc, angle);
 		GdiTransparentBlt(
 			hdc,				//복사할 장소의 DC
 			destX,				//복사할 좌표 시작X
 			destY,				//복사할 좌표 시작Y
 			sourWidth,			//복사할 이미지 가로크기
 			sourHeight,			//복사할 이미지 세로크기
-			_imageInfo->hMemDC,	//복사될 대상 DC
+			angle == 0.f ? _imageInfo->hMemDC : _rotateImage->hMemDC,	//복사될 대상 DC
 			sourX, sourY,		//복사될 대상의 시작지점
 			sourWidth,			//복사 영역 가로크기
 			sourHeight,			//복사 영역 세로크기
@@ -419,23 +402,24 @@ void image::render(HDC hdc, int destX, int destY, int sourX, int sourY, int sour
 	}
 }
 
-void image::stretchRender(HDC hdc, int destX, int destY, float scaleX, float scaleY)
+void image::stretchRender(HDC hdc, int destX, int destY, float scaleX, float scaleY, float angle)
 {
+	if (_rotateImage == nullptr) initForRotateBlend();
 	if (!_stretchImage) this->initForStretchBlend();
 
 	if (_isTrans) //배경색 없애고 출력
 	{
+		if (angle != 0.f) RotateHDC(hdc, angle);
 		BitBlt(_stretchImage->hMemDC, 0, 0, _imageInfo->width * scaleX, _imageInfo->height * scaleY,
 			hdc, destX, destY, SRCCOPY);
 
-		// 먼저 늘이거나 줄이고
 		StretchBlt(
 			_stretchImage->hMemDC,
 			0,
 			0,
 			_imageInfo->width * scaleX,
 			_imageInfo->height * scaleY,
-			_imageInfo->hMemDC,
+			angle == 0.f ? _imageInfo->hMemDC : _rotateImage->hMemDC,
 			0, 0,
 			_imageInfo->width,
 			_imageInfo->height,
@@ -462,28 +446,29 @@ void image::stretchRender(HDC hdc, int destX, int destY, float scaleX, float sca
 	}
 }
 
-void image::stretchAlphaRender(HDC hdc, int destX, int destY, float scaleX, float scaleY, BYTE alpha)
+void image::stretchAlphaRender(HDC hdc, int destX, int destY, float scaleX, float scaleY, BYTE alpha, float angle)
 {
+	if (_rotateImage == nullptr) initForRotateBlend();
 	if (!_stretchImage) this->initForStretchBlend();
 	if (!_blendImage) this->initForAlphaBlend();
 	_blendFunc.SourceConstantAlpha = alpha;
 
 	if (_isTrans) //배경색 없애고 출력
 	{
-
+		if (angle != 0.f) RotateHDC(hdc, angle);
 		BitBlt(_stretchImage->hMemDC, 0, 0, _imageInfo->width * scaleX, _imageInfo->height * scaleY,
 			hdc, destX, destY, SRCCOPY);
 
 		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->width * scaleX, _imageInfo->height * scaleY,
 			hdc, destX, destY, SRCCOPY);
-		// 먼저 늘이거나 줄이고
+
 		StretchBlt(
 			_stretchImage->hMemDC,
 			0,
 			0,
 			_imageInfo->width * scaleX,
 			_imageInfo->height * scaleY,
-			_imageInfo->hMemDC,
+			angle == 0.f ? _imageInfo->hMemDC : _rotateImage->hMemDC,
 			0, 0,
 			_imageInfo->width,
 			_imageInfo->height,
@@ -514,36 +499,29 @@ void image::stretchAlphaRender(HDC hdc, int destX, int destY, float scaleX, floa
 	}
 }
 
-void image::alphaRender(HDC hdc, BYTE alpha)
+void image::alphaRender(HDC hdc, BYTE alpha, float angle)
 {
-	//알파블렌드 사용할 수 있도록 초기화 해라
+	if (_rotateImage == nullptr) initForRotateBlend();
 	if (!_blendImage) this->initForAlphaBlend();
-	//알파값 초기화
 	_blendFunc.SourceConstantAlpha = alpha;
 
 	if (_isTrans)//배경색 없애고 출력
 	{
-		//1. 현재화면DC의 내용을 => 블렌드이미지에 복사
-		//2. 이미지메모리DC의 배경색을 없앤 후 => 블렌드이미지에 복사
-		//3. 블렌드이미지를 화면DC에 복사
-
-		//1
+		if (angle != 0.f) RotateHDC(hdc, angle);
 		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height,
 			hdc, 0, 0, SRCCOPY);
 
-		//2
-		//GdiTransparentBlt : 비트맵 이미지의 특정색상을 제외하고 복사 해주는 함수
 		GdiTransparentBlt(
-			_blendImage->hMemDC,	//복사할 장소의 DC
-			0,						//복사할 좌표 시작X
-			0,						//복사할 좌표 시작Y
-			_imageInfo->width,		//복사할 이미지 가로크기
-			_imageInfo->height,		//복사할 이미지 세로크기
-			_imageInfo->hMemDC,		//복사될 대상 DC
-			0, 0,					//복사될 대상의 시작지점
-			_imageInfo->width,		//복사 영역 가로크기
-			_imageInfo->height,		//복사 영역 세로크기
-			_transColor);			//복사할때 제외할 색상 (일반적으로 마젠타 색상을 사용함)
+			_blendImage->hMemDC,	
+			0,						
+			0,						
+			_imageInfo->width,		
+			_imageInfo->height,		
+			angle == 0.f ? _imageInfo->hMemDC : _rotateImage->hMemDC,
+			0, 0,					
+			_imageInfo->width,		
+			_imageInfo->height,		
+			_transColor);			
 
 		//3
 		GdiAlphaBlend(hdc, 0, 0, _imageInfo->width, _imageInfo->height,
@@ -556,27 +534,29 @@ void image::alphaRender(HDC hdc, BYTE alpha)
 	}
 }
 
-void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
+void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha, float angle)
 {
+	if (_rotateImage == nullptr) initForRotateBlend();
 	if (!_blendImage) this->initForAlphaBlend();
 	_blendFunc.SourceConstantAlpha = alpha;
 
 	if (_isTrans)//배경색 없애고 출력
 	{
+		if (angle != 0.f) RotateHDC(hdc, angle);
 		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height,
 			hdc, destX, destY, SRCCOPY);
 
 		GdiTransparentBlt(
-			_blendImage->hMemDC,	//복사할 장소의 DC
-			0,						//복사할 좌표 시작X
-			0,						//복사할 좌표 시작Y
-			_imageInfo->width,		//복사할 이미지 가로크기
-			_imageInfo->height,		//복사할 이미지 세로크기
-			_imageInfo->hMemDC,		//복사될 대상 DC
-			0, 0,					//복사될 대상의 시작지점
-			_imageInfo->width,		//복사 영역 가로크기
-			_imageInfo->height,		//복사 영역 세로크기
-			_transColor);			//복사할때 제외할 색상 (일반적으로 마젠타 색상을 사용함)
+			_blendImage->hMemDC,	
+			0,						
+			0,						
+			_imageInfo->width,		
+			_imageInfo->height,		
+			angle == 0.f ? _imageInfo->hMemDC : _rotateImage->hMemDC,
+			0, 0,					
+			_imageInfo->width,		
+			_imageInfo->height,		
+			_transColor);			
 
 		GdiAlphaBlend(hdc, destX, destY, _imageInfo->width, _imageInfo->height,
 			_blendImage->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height, _blendFunc);
@@ -589,27 +569,29 @@ void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 	}
 }
 
-void image::alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha)
+void image::alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha, float angle)
 {
+	if (_rotateImage == nullptr) initForRotateBlend();
 	if (!_blendImage) this->initForAlphaBlend();
 	_blendFunc.SourceConstantAlpha = alpha;
 
 	if (_isTrans)//배경색 없애고 출력
 	{
+		if (angle != 0.f) RotateHDC(hdc, angle);
 		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height,
 			hdc, destX, destY, SRCCOPY);
 
 		GdiTransparentBlt(
-			_blendImage->hMemDC,	//복사할 장소의 DC
-			0,						//복사할 좌표 시작X
-			0,						//복사할 좌표 시작Y
-			sourWidth,				//복사할 이미지 가로크기
-			sourHeight,				//복사할 이미지 세로크기
-			_imageInfo->hMemDC,		//복사될 대상 DC
-			sourX, sourY,			//복사될 대상의 시작지점
-			sourWidth,				//복사 영역 가로크기
-			sourHeight,				//복사 영역 세로크기
-			_transColor);			//복사할때 제외할 색상 (일반적으로 마젠타 색상을 사용함)
+			_blendImage->hMemDC,	
+			0,						
+			0,						
+			sourWidth,				
+			sourHeight,				
+			angle == 0.f ? _imageInfo->hMemDC : _rotateImage->hMemDC,
+			sourX, sourY,			
+			sourWidth,				
+			sourHeight,				
+			_transColor);			
 
 		GdiAlphaBlend(hdc, destX, destY, sourWidth, sourHeight,
 			_blendImage->hMemDC, 0, 0, sourWidth, sourHeight, _blendFunc);
@@ -1009,13 +991,13 @@ void image::RotateHDC(HDC hdc, float angle)
 HBITMAP image::GetRotatedBitmap(HDC hdc, float angle)
 {
 	HDC destDC = CreateCompatibleDC(hdc);											// 회전할 비트맵을 출력받을 DC   
-	HBITMAP hbmResult = CreateCompatibleBitmap(hdc, getWidth(), getHeight());		// 회전할 비트맵을 출력받을 메모리비트맵 핸들   
+	HBITMAP hbmResult = CreateCompatibleBitmap(hdc, getFrameWidth(), getFrameHeight());		// 회전할 비트맵을 출력받을 메모리비트맵 핸들   
 
 	HBITMAP hbmOldDest = (HBITMAP)SelectObject(destDC, hbmResult);                  // 회전할 비트맵을 출력받을 DC에, 회전할 비트맵을 출력받을 메모리비트맵 선택   
 
 	HBRUSH hbrBack = CreateSolidBrush(RGB(255, 0, 255));                            // 회전으로 인한, 공백영역을 칠할 브러시핸들 생성   
 	HBRUSH hbrOld = (HBRUSH)SelectObject(destDC, hbrBack);							// 브러시핸들 선택   
-	PatBlt(destDC, 0, 0, getWidth(), getHeight(), PATCOPY);							// 선택된 브러시로, 회전할 비트맵을 출력받을 DC에, 미리 색상을 채워 지움   
+	PatBlt(destDC, 0, 0, getFrameWidth(), getFrameHeight(), PATCOPY);							// 선택된 브러시로, 회전할 비트맵을 출력받을 DC에, 미리 색상을 채워 지움   
 	DeleteObject(SelectObject(destDC, hbrOld));                                     // 브러시 해제   
 
 	float cosine = (float)cos(angle);												// 회전이동변환 행렬에 들어갈 cos세타 값을 구함          
@@ -1028,14 +1010,14 @@ HBITMAP image::GetRotatedBitmap(HDC hdc, float angle)
 	xform.eM12 = sine;                                                              // 1행 2열 성분 설정 (회전성분)   
 	xform.eM21 = -sine;                                                             // 2행 1열 성분 설정 (회전성분)   
 	xform.eM22 = cosine;                                                            // 2행 2열 성분 설정 (회전성분)   
-	xform.eDx = (FLOAT)getWidth() / 2.0f;                                           // 3행 1열 성분 설정 (X축 이동 성분)   
-	xform.eDy = (FLOAT)getHeight() / 2.0f;                                          // 3행 2열 성분 설정 (Y축 이동 성분)   
+	xform.eDx = (FLOAT)getFrameWidth() / 2.0f;                                           // 3행 1열 성분 설정 (X축 이동 성분)   
+	xform.eDy = (FLOAT)getFrameHeight() / 2.0f;                                          // 3행 2열 성분 설정 (Y축 이동 성분)   
 
 	SetWorldTransform(destDC, &xform);
 
 	// 회전된 메모리DC에, 회전할 이미지를 출력   
 
-	BitBlt(destDC, -(getWidth()/2.0f), -(getHeight()/2.0f), getWidth(), getHeight(), getMemDC(), 0, 0, SRCCOPY);
+	BitBlt(destDC, -(getFrameWidth()/2.0f), -(getFrameHeight()/2.0f), getFrameWidth(), getFrameHeight(), getMemDC(), 0, 0, SRCCOPY);
 	
 	SelectObject(destDC, hbmOldDest);
 	DeleteObject(destDC);
