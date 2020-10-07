@@ -15,6 +15,7 @@ HRESULT MapManager::init()
 			FieldMap* map = new FieldMap();
 			map->init(mapData[i][0]);
 			map->SetStage(stoi(mapData[i][1]));
+			map->LoadMap();
 
 			if (mapData[i][2] == "NORMAL") map->SetFieldType(FIELDMAPTYPE::FMT_NORMAL);
 			else if (mapData[i][2] == "ENTER") map->SetFieldType(FIELDMAPTYPE::FMT_ENTER);
@@ -43,12 +44,7 @@ HRESULT MapManager::init()
 		if (mapAllCleared) break;
 	}
 	
-	_currentStage = 1;
-	_currentMap = 0;
-	GetPlayMap()->PixelCollisionMapGenerate();
-	GetPlayMap()->GridMapGenerate();
-	GenerateMapParticle();
-	ReNewMapUI();
+	ChangeMap(1, 0);
 	return S_OK;
 }
 
@@ -165,11 +161,14 @@ void MapManager::ChangeMap(int stage, int index)
 {
 	_currentStage = stage;
 	_currentMap = index;
-	_vStage[stage]->GetMaps()[index]->PixelCollisionMapGenerate();
-	_vStage[stage]->GetMaps()[index]->GridMapGenerate();
+	GetPlayMap()->PixelCollisionMapGenerate();
+	GetPlayMap()->GridMapGenerate();
 	EFFECTMANAGER->GetVEffect().clear();
 	PARTICLEMANAGER->GetParticles().clear();
 	PARTICLEMANAGER->GetGenerators().clear();
 	GenerateMapParticle();
+	ENTITYMANAGER->getVBullets().clear();
 	ReNewMapUI();
+
+	GetPlayMap()->DoorParticleGenerate();
 }

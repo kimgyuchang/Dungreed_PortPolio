@@ -71,7 +71,6 @@ void EntityManager::eraseBullet()
 		{
 			EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), "BatBulletHit", 4, 0, 0, false, 255);
 			_vBullets.erase(_vBullets.begin() + i);
-			break;
 		}
 	}
 	
@@ -88,7 +87,6 @@ void EntityManager::eraseBullet()
 			{
 				EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), "BatBulletHit", 4, 0, 0, false, 255);
 				_vBullets.erase(_vBullets.begin() + i);
-				break;
 			}
 		}
 	}

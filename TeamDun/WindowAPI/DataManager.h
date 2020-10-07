@@ -11,6 +11,8 @@
 #include "Minotaurs.h"
 #include "RedBat.h"
 #include "Skel.h"
+#include "Banshee.h"
+#include "SkelDog.h"
 
 struct GridData
 {

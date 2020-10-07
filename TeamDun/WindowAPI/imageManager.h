@@ -76,7 +76,6 @@ public:
 //=============================================================
 	void MakeRotateImage(string strKey);
 
-
 	imageManager() {}
 	~imageManager() {}
 };

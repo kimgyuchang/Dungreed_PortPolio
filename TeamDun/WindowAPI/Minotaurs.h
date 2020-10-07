@@ -4,12 +4,18 @@
 class Minotaurs : public Enemy
 {
 private:
+	float		_probeBottom;
 	bool		_isDash;
 	bool		_isAttack;
 	int			_dashTimer;
-	int			_attackTimer;
-	int			_dashCount;
-	int			_dashPoint;
+	int			_movePoint;
+	int			_attackCount;
+	int			_attackIndexFix;
+	int			_effectTimer;
+	int			_effect;
+	vector<int>	_attackAnimFrame;
+	Effect*		_dashEffect;
+
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
 	virtual void	update();

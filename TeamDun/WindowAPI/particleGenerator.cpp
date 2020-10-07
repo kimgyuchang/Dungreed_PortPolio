@@ -7,41 +7,43 @@ void ParticleGenerator::release()
 
 void ParticleGenerator::update()
 {
-	_genLiveTime--;	// 생성기의 수명
-	_genTime--;		// 생성기의 타이머
-
-	if (_genTime < 0) // 타이머가 0보다 작아지면 파티클을 생성한다
+	if (!_isOff)
 	{
-		switch (_generateType)
+		_genLiveTime--;	// 생성기의 수명
+		_genTime--;		// 생성기의 타이머
+
+		if (_genTime < 0) // 타이머가 0보다 작아지면 파티클을 생성한다
 		{
-		case REGULARGEN: // 일정 시간 생성 타입
-			_genTime = _initGenTime;
-			for (int i = 0; i < _multipleGenerate; i++) // _multipleGenerate개 만큼 생성한다
+			switch (_generateType)
 			{
-				initParticle(PARTICLEMANAGER->AddNewParticle());
-			}
-			break;
-		case RANDOMGEN: // 랜덤 시간 생성 타입
-			_genTime = _initGenTime + RANDOM->range(-_genTimeRandom, _genTimeRandom);
-			for (int i = 0; i < _multipleGenerate; i++)
-			{
-				initParticle(PARTICLEMANAGER->AddNewParticle());
-			}
-			break;
-		case ONETIME: // 1회성 생성 타입
-			if (!_isGenerateOnce)
-			{
+			case REGULARGEN: // 일정 시간 생성 타입
+				_genTime = _initGenTime;
+				for (int i = 0; i < _multipleGenerate; i++) // _multipleGenerate개 만큼 생성한다
+				{
+					initParticle(PARTICLEMANAGER->AddNewParticle());
+				}
+				break;
+			case RANDOMGEN: // 랜덤 시간 생성 타입
+				_genTime = _initGenTime + RANDOM->range(-_genTimeRandom, _genTimeRandom);
 				for (int i = 0; i < _multipleGenerate; i++)
 				{
 					initParticle(PARTICLEMANAGER->AddNewParticle());
 				}
-				_isGenerateOnce = true;	// 1회 생성했다는 것을 알림
-				_genLiveTime = 0; // 생성한 뒤에는 바로 사라지도록 처리한다
+				break;
+			case ONETIME: // 1회성 생성 타입
+				if (!_isGenerateOnce)
+				{
+					for (int i = 0; i < _multipleGenerate; i++)
+					{
+						initParticle(PARTICLEMANAGER->AddNewParticle());
+					}
+					_isGenerateOnce = true;	// 1회 생성했다는 것을 알림
+					_genLiveTime = 0; // 생성한 뒤에는 바로 사라지도록 처리한다
+				}
+				break;
 			}
-			break;
 		}
 	}
-
 }
 
 void ParticleGenerator::render(HDC hdc)

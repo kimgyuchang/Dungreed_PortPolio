@@ -60,8 +60,16 @@ void DataManager::GetObjectData()
 			obj = new LittleGhost();
 			break;
 
+		case 1506:// ÇØ°ñ °­¾ÆÁö
+			obj = new SkelDog();
+			break;
+
 		case 1507:// ÇØ°ñ
 			obj = new Skel();
+			break;
+
+		case 1502: // ¹ê½Ã
+			obj = new Banshee();
 			break;
 
 		case 702: // ºÓÀº ¹ÚÁã
@@ -107,6 +115,9 @@ void DataManager::GetObjectData()
 			type,
 			vector<string>{objData[i][3], objData[i][4], objData[i][5] }
 		);
+
+		if (obj->GetType() == OT_OBSTACLE)
+			obj->SetRenderIndex(false);
 
 		_mObjectData[stoi(objData[i][0])] = obj;
 	}
