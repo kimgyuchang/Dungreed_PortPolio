@@ -10,6 +10,7 @@ HRESULT Player::init()
 
 	_x = 300;
 	_y = WINSIZEY/2;
+
 	_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
 	
 	_useImage = 0;
@@ -37,40 +38,40 @@ HRESULT Player::init()
 void Player::update()
 {
 
-	if (INPUT->GetKeyDown(VK_RBUTTON))
+	if (INPUT->GetKeyDown(VK_RBUTTON))		//마우스 오른쪽 버튼을 눌렀을때
 	{
-		_isDash = true;
-		_dashPoint = _ptMouse;
-		_jumpPower = 0;
+		_isDash = true;						//대쉬를 사용되게끔 바꿔주고
+		_dashPoint = _ptMouse;				//대쉬 지점을 마우스 x,y좌표가 가르키는곳으로
+		_jumpPower = 0;						
 
 		
 
 	}
 
-	if (INPUT->GetKeyDown('X'))
+	if (INPUT->GetKeyDown('X'))				//X키를 눌렀을때
 	{
 		ENTITYMANAGER->makeBullet("BatBullet", BT_NOCOL, _x,_y, getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _ptMouse.x, _ptMouse.y), 10,600, true);
-	}
+	}   //플레이어의 x,y좌표를 받아와서 플레이어와 마우스 좌표 간의 각도를 구한후 그 거리만큼 총알이 날아가게끔
 
 	if (CAMERAMANAGER->GetRelativeX(_x+ IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth()/2) >= _ptMouse.x)
-	{
-		_isLeft = true;
+	{	//플레이어의 중점+이미지 가로길이의 반이 마우스 x좌표보다 크거나 같을때
+		_isLeft = true;		//왼쪽을 바라보게
 	}
 	else
 	{
-		_isLeft = false;
+		_isLeft = false;	//오른쪽을 바라보게
 	}
 
 
 	
 	this->pixelCollision();
-	if (_isDash)
+	if (_isDash)			//대쉬 상태
 	{
-		this->dash();
+		this->dash();		//대쉬를 해야하므로 dash함수 실행
 	}
 	else
 	{	
-		this->Move();
+		this->Move();		//대쉬 상태가 아니므로 Move함수 실행
 	}
 	
 	Animation();
@@ -136,7 +137,7 @@ void Player::Animation()
 
 				if (_frameX < 0)
 				{
-					_frameX = _vImages[_useImage]->getMaxFrameX();  //여기랑
+					_frameX = _vImages[_useImage]->getMaxFrameX();  
 				}
 			}
 		}
@@ -179,7 +180,7 @@ void Player::Animation()
 
 				if (_frameX < 0)
 				{
-					_frameX = _vImages[_useImage]->getMaxFrameX();  //여기랑
+					_frameX = _vImages[_useImage]->getMaxFrameX();   
 				}
 			}
 		}
@@ -188,22 +189,22 @@ void Player::Animation()
 
 void Player::Move()
 {
-	_isJump = false;
-	if (INPUT->GetKey('A'))
+	_isJump = false;				//처음은 점프상태가 아니기때문에
+	if (INPUT->GetKey('A'))			//A키를 눌렀을 때
 	{
-		_leftBack = false;
+		_leftBack = false;			//던그리드는 마우스 좌표로 방향을 표시
 		if (!_isLeft)
 		{
 			_rightBack = true;
 		}
 
-		_state = PS_MOVE;
-		_x -= 5;
+		_state = PS_MOVE;			//이미지 상태 이동상태로
+		_x -= 5;					
 		_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
 	}
-	if (INPUT->GetKeyUp('A'))
+	if (INPUT->GetKeyUp('A'))		//A키를 눌렀다가 뗏을때
 	{
-		_state = PS_IDLE;
+		_state = PS_IDLE;			//이미지 상태 대기상태로
 	}
 	if (INPUT->GetKey('D'))
 	{
@@ -221,32 +222,32 @@ void Player::Move()
 		_state = PS_IDLE;
 	}
 
-	if (_jumpCount == 0 || _jumpCount ==1)
+	if (_jumpCount == 0 || _jumpCount ==1)	//점프를 안했거나 한번했을때
 	{
 
-		if (INPUT->GetKeyDown(VK_SPACE) && !_downJump)
+		if (INPUT->GetKeyDown(VK_SPACE) && !_downJump)	//스페이스바를 누르고 아래로 점프한게 아닐때
 		{
 			_isJump = true;
 			_jumpPower = 13;
-			_y -= _jumpPower;
+			_y -= _jumpPower;	
 			_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
 			_jumpCount++;
 		}
-		if (INPUT->GetKey('S') && _isJump)
+		if (INPUT->GetKey('S') && _isJump)	//S키를 눌렀는데 점프상태가 아닐 때
 		{
-			_downJump = true;
+			_downJump = true;				
 			_jumpPower = -2;
 			_jumpCount++;
 		}
 	}
 
-	if (_downJump)
+	if (_downJump)							//다운 점프 상태일 때
 	{
-		_downJmpTimer++;
-		if (_downJmpTimer > 20)
+		_downJmpTimer++;					
+		if (_downJmpTimer > 20)				//다운점프 타이머가 20보다 클때
 		{
-			_downJmpTimer = 0;
-			_downJump = false;
+			_downJmpTimer = 0;				//초기화
+			_downJump = false;				//다운점프가 아닌상태로
 		}
 	}
 }
@@ -257,7 +258,7 @@ void Player::pixelCollision()
 
 	bool isCollide = false; // 충돌 했는지 여부
 	bool _leftCollision1 = false;
-	bool _leftCollision2 = false;
+	bool _leftCollision2 = false;	
 	bool _RightCollision1 = false;
 	bool _RightCollision2 = false;
 	_bottomCol = false;
@@ -320,11 +321,11 @@ void Player::pixelCollision()
 	if (!isCollide) //충돌해있지 않다면
 	{
 		_y -= _jumpPower;			//중력적용
-		_jumpPower -= _gravity;
+		_jumpPower -= _gravity;		//점프 파워만큼 중력적용
 		
-		if (_jumpPower < -20)
+		if (_jumpPower < -20)		//점프파워가 -20보다 작을때
 		{
-			_jumpPower = -20;
+			_jumpPower = -20;		//더이상 -되지않게 점프파워 값을 고정
 		}
 		_body = RectMake(_x, _y, baseCharIg->getFrameWidth(), baseCharIg->getFrameHeight());
 	}
@@ -482,8 +483,8 @@ void Player::dash()
 		for (int i = _probeBottom - 20; i < _probeBottom + 5; i++)
 		{
 			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
-			int r = GetRValue(color);
-			int g = GetGValue(color);
+			int r = GetRValue(color);		
+			int g = GetGValue(color);				//색깔 값 넣어주기
 			int b = GetBValue(color);
 
 			if ((r == 255 && g == 0 && b == 0) && !_isJump) // 빨간색 픽셀충돌용 땅에 닿았다
@@ -507,11 +508,11 @@ void Player::dash()
 		{
 			EFFECTMANAGER->AddEffect(_x  , _y , "baseCharIdle", 2, 0, _frameY, false, 100);
 		}*/
-		if (_dashTimer >= 10)
+		if (_dashTimer >= 10)	//대쉬 타이머가 10보다 커지거나 같으면
 		{
-			_dashTimer = 0;
-			_jumpPower = 0;
-			_isDash = false;
+			_dashTimer = 0;		//대쉬 타이머 초기화
+			_jumpPower = 0;		//점프 파워 초기화
+			_isDash = false;	//대쉬상태가 아님
 			
 		}
 }

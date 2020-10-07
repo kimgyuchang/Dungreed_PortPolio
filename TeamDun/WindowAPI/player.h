@@ -38,7 +38,7 @@ private:
 	float		_critical;			//크리티컬
 	float		_criticalDamage;	//크리티컬 데미지
 	float		_dashDamage;		//대쉬 공격력
-	float		_dashSpeed;
+	float		_dashSpeed;			//대쉬 속도
 
 	RECT		_collider[8];		//픽셀충돌용
 	POINT		_pixelCenter;		//픽셀충돌용 몸 중앙
@@ -62,7 +62,7 @@ public:
 	virtual void	Animation();
 	virtual void	Move();				//플레이어 움직임
 	virtual void	pixelCollision();	//픽셀충돌
-	virtual void	dash();
+	virtual void	dash();				//대쉬
 
 	int getHp() { return _hp; }
 	float getDamage() { return _damage; }
