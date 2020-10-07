@@ -90,16 +90,19 @@ public:
 	void stretchAlphaRender(HDC hdc, int destX, int destY, float scaleX, float scaleY, BYTE alpha, float angle = 0.f);
 
 	//알파렌더(이미지를 알파값만큼 투명화 시켜준다)
+
 	void alphaRender(HDC hdc, BYTE alpha, float angle = 0.f);
 	void alphaRender(HDC hdc, int destX, int destY, BYTE alpha, float angle = 0.f);
 	void alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha, float angle = 0.f);
-	void frameAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha);
-	//프레임렌더
-	void frameRender(HDC hdc, int destX, int destY);
-	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
 
-	void frameStretchRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY);
-	void frameStretchAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY , BYTE alpha);
+	void frameAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha ,float angle =0);
+
+	//프레임렌더
+	void frameRender(HDC hdc, int destX, int destY, float angle = 0);
+	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float angle = 0);
+
+	void frameStretchRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, float angle = 0);
+	void frameStretchAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY , BYTE alpha, float angle = 0);
 	
 	
 	//루프렌더
