@@ -53,10 +53,10 @@ public:
 //=============================================================
 //	## 프레임렌더 ##
 //=============================================================
-	void frameRender(string strKey, HDC hdc, int destX, int destY);
-	void frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
-	void frameAlphaRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, int alpha);
-	void frameStretchAlphaRender(string strKey ,HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha);
+	void frameRender(string strKey, HDC hdc, int destX, int destY, float angle = 0);
+	void frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float angle = 0);
+	void frameAlphaRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, int alpha,float angle = 0);
+	void frameStretchAlphaRender(string strKey ,HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha, float angle = 0);
 
 //=============================================================
 //	## 스트레치렌더##
