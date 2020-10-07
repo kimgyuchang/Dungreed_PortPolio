@@ -30,6 +30,7 @@ HRESULT image::init(int width, int height)
 	_imageInfo->maxFrameY = 0;
 	_stretchImage = nullptr;
 	_blendImage = nullptr;
+	_rotateImage = nullptr;
 
 	//파일이름
 	_fileName = NULL;
@@ -74,6 +75,7 @@ HRESULT image::init(const char* fileName, int width, int height, bool isTrans, C
 
 	_stretchImage = nullptr;
 	_blendImage = nullptr;
+	_rotateImage = nullptr;
 
 	//파일이름
 	int len = strlen(fileName);
@@ -121,6 +123,7 @@ HRESULT image::init(const char* fileName, float x, float y, int width, int heigh
 
 	_stretchImage = nullptr;
 	_blendImage = nullptr;
+	_rotateImage = nullptr;
 
 	//파일이름
 	int len = strlen(fileName);
@@ -166,6 +169,7 @@ HRESULT image::init(const char* fileName, int width, int height, int frameX, int
 
 	_stretchImage = nullptr;
 	_blendImage = nullptr;
+	_rotateImage = nullptr;
 
 	//파일이름
 	int len = strlen(fileName);
@@ -218,6 +222,7 @@ HRESULT image::init(const char* fileName, float x, float y, int width, int heigh
 
 	_stretchImage = nullptr;
 	_blendImage = nullptr;
+	_rotateImage = nullptr;
 
 	//투명키 컬러 세팅
 	_isTrans = isTrans;
@@ -283,6 +288,23 @@ HRESULT image::initForStretchBlend()
 	return S_OK;
 }
 
+HRESULT image::initForRotateBlend()
+{
+	HDC hdc = GetDC(_hWnd);
+
+	_rotateImage = new IMAGE_INFO;
+	_rotateImage->loadType = LOAD_FILE;
+	_rotateImage->hMemDC = CreateCompatibleDC(hdc);
+	_rotateImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, _imageInfo->width, _imageInfo->height);
+	_rotateImage->hOBit = (HBITMAP)SelectObject(_rotateImage->hMemDC, _rotateImage->hBit);
+	_rotateImage->width = _imageInfo->width;
+	_rotateImage->height = _imageInfo->height;
+
+	ReleaseDC(_hWnd, hdc);
+
+	return S_OK;
+}
+
 //해제
 void image::release()
 {
@@ -326,10 +348,13 @@ void image::release()
 }
 
 //렌더(내가 원하는 좌표에 출력해라, 일반적으로 우리는 RECT의 LT좌표에 이미지를 붙인다)
-void image::render(HDC hdc, int destX, int destY)
+void image::render(HDC hdc, int destX, int destY, float angle)
 {
+	if (_rotateImage == nullptr) initForRotateBlend();
+
 	if (_isTrans)//배경색 없애고 출력
 	{
+		if (angle != 0) RotateHDC(hdc, angle);
 		//GdiTransparentBlt : 비트맵 이미지의 특정색상을 제외하고 복사 해주는 함수
 		GdiTransparentBlt(
 			hdc,				//복사할 장소의 DC
@@ -337,7 +362,7 @@ void image::render(HDC hdc, int destX, int destY)
 			destY,				//복사할 좌표 시작Y
 			_imageInfo->width,	//복사할 이미지 가로크기
 			_imageInfo->height,	//복사할 이미지 세로크기
-			_imageInfo->hMemDC,	//복사될 대상 DC
+			_rotateImage->hMemDC,	//복사될 대상 DC
 			0, 0,				//복사될 대상의 시작지점
 			_imageInfo->width,	//복사 영역 가로크기
 			_imageInfo->height,	//복사 영역 세로크기
@@ -385,7 +410,7 @@ void image::stretchRender(HDC hdc, int destX, int destY, float scaleX, float sca
 
 	if (_isTrans) //배경색 없애고 출력
 	{
-		BitBlt(_stretchImage->hMemDC, 0, 0,_imageInfo->width*scaleX, _imageInfo->height*scaleY,
+		BitBlt(_stretchImage->hMemDC, 0, 0, _imageInfo->width * scaleX, _imageInfo->height * scaleY,
 			hdc, destX, destY, SRCCOPY);
 
 		// 먼저 늘이거나 줄이고
@@ -431,11 +456,11 @@ void image::stretchAlphaRender(HDC hdc, int destX, int destY, float scaleX, floa
 	if (_isTrans) //배경색 없애고 출력
 	{
 
-		BitBlt(_stretchImage->hMemDC, 0, 0, _imageInfo->width*scaleX, _imageInfo->height*scaleY,
+		BitBlt(_stretchImage->hMemDC, 0, 0, _imageInfo->width * scaleX, _imageInfo->height * scaleY,
 			hdc, destX, destY, SRCCOPY);
 
-		BitBlt(_blendImage->hMemDC, 0,0, _imageInfo->width*scaleX, _imageInfo->height*scaleY,
-			hdc, destX,destY, SRCCOPY);
+		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->width * scaleX, _imageInfo->height * scaleY,
+			hdc, destX, destY, SRCCOPY);
 		// 먼저 늘이거나 줄이고
 		StretchBlt(
 			_stretchImage->hMemDC,
@@ -462,10 +487,10 @@ void image::stretchAlphaRender(HDC hdc, int destX, int destY, float scaleX, floa
 			_imageInfo->height * scaleY,
 			_transColor);
 
-		GdiAlphaBlend(hdc, destX, destY, _imageInfo->width* scaleX, _imageInfo->height* scaleY,
-			_blendImage->hMemDC, 0,0, _imageInfo->width* scaleX, _imageInfo->height* scaleY, _blendFunc);
-	
-	
+		GdiAlphaBlend(hdc, destX, destY, _imageInfo->width * scaleX, _imageInfo->height * scaleY,
+			_blendImage->hMemDC, 0, 0, _imageInfo->width * scaleX, _imageInfo->height * scaleY, _blendFunc);
+
+
 	}
 	else//원본 이미지 그대로 출력
 	{
@@ -600,7 +625,7 @@ void image::frameAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, i
 
 	if (_isTrans)//배경색 없애고 출력
 	{
-		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->width+destX, _imageInfo->height+destY,
+		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->width + destX, _imageInfo->height + destY,
 			hdc, 0, 0, SRCCOPY);
 
 		GdiTransparentBlt(
@@ -617,7 +642,7 @@ void image::frameAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, i
 			_transColor);			//복사할때 제외할 색상 (일반적으로 마젠타 색상을 사용함)
 
 		GdiAlphaBlend(hdc, destX, destY, _imageInfo->frameWidth, _imageInfo->frameHeight,
-			_blendImage->hMemDC,destX, destY, 
+			_blendImage->hMemDC, destX, destY,
 			_imageInfo->frameWidth, _imageInfo->frameHeight, _blendFunc);
 	}
 
@@ -736,9 +761,9 @@ void image::frameStretchRender(HDC hdc, int destX, int destY, int currentFrameX,
 			_imageInfo->frameWidth * scaleX,
 			_imageInfo->frameHeight * scaleY,
 			_stretchImage->hMemDC,
-			_imageInfo->frameWidth *currentFrameX *scaleX,
-			_imageInfo->frameHeight *currentFrameY*scaleY,
-			_imageInfo->frameWidth * scaleX ,
+			_imageInfo->frameWidth * currentFrameX * scaleX,
+			_imageInfo->frameHeight * currentFrameY * scaleY,
+			_imageInfo->frameWidth * scaleX,
 			_imageInfo->frameHeight * scaleY,
 			_transColor);
 	}
@@ -769,9 +794,9 @@ void image::frameStretchAlphaRender(HDC hdc, int destX, int destY, int currentFr
 
 	if (_isTrans) //배경색 없애고 출력
 	{
-		BitBlt(_stretchImage->hMemDC, 0, 0, _imageInfo->width * scaleX+destX, _imageInfo->height * scaleY+destY,
+		BitBlt(_stretchImage->hMemDC, 0, 0, _imageInfo->width * scaleX + destX, _imageInfo->height * scaleY + destY,
 			hdc, 0, 0, SRCCOPY);
-		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->width * scaleX+destX, _imageInfo->height * scaleY+destY,
+		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->width * scaleX + destX, _imageInfo->height * scaleY + destY,
 			hdc, 0, 0, SRCCOPY);
 
 		// 먼저 늘이거나 줄이고
@@ -796,23 +821,23 @@ void image::frameStretchAlphaRender(HDC hdc, int destX, int destY, int currentFr
 			_imageInfo->frameWidth * scaleX,
 			_imageInfo->frameHeight * scaleY,
 			_stretchImage->hMemDC,
-			(_imageInfo->frameWidth *currentFrameX *scaleX)+destX,
-			(_imageInfo->frameHeight *currentFrameY*scaleY)+destY ,
+			(_imageInfo->frameWidth * currentFrameX * scaleX) + destX,
+			(_imageInfo->frameHeight * currentFrameY * scaleY) + destY,
 			_imageInfo->frameWidth * scaleX,
 			_imageInfo->frameHeight * scaleY,
 			_transColor);
 
-		GdiAlphaBlend(hdc, destX, destY, _imageInfo->frameWidth*scaleX, _imageInfo->frameHeight*scaleY,
-			_blendImage->hMemDC,  destX+(_imageInfo->frameWidth*currentFrameX*scaleX),destY+(_imageInfo->frameHeight *currentFrameY*scaleY),
-			_imageInfo->frameWidth*scaleX, _imageInfo->frameHeight*scaleY, _blendFunc);
+		GdiAlphaBlend(hdc, destX, destY, _imageInfo->frameWidth * scaleX, _imageInfo->frameHeight * scaleY,
+			_blendImage->hMemDC, destX + (_imageInfo->frameWidth * currentFrameX * scaleX), destY + (_imageInfo->frameHeight * currentFrameY * scaleY),
+			_imageInfo->frameWidth * scaleX, _imageInfo->frameHeight * scaleY, _blendFunc);
 	}
 	else // 확대와 알파를 먹인 것 (투명화는 안함)
 	{
 		StretchBlt(_blendImage->hMemDC, destX, destY, _imageInfo->frameWidth * scaleX, _imageInfo->frameHeight * scaleY,
 			_imageInfo->hMemDC, currentFrameX * _imageInfo->frameWidth * scaleX, currentFrameY * _imageInfo->frameHeight * scaleY, _imageInfo->frameWidth * scaleX, _imageInfo->frameHeight * scaleY, SRCCOPY);
-		
-		GdiAlphaBlend(hdc, destX, destY,_imageInfo->frameWidth * scaleX, _imageInfo->frameHeight * scaleY,
-			_blendImage->hMemDC, destX+(currentFrameX * _imageInfo->frameWidth * scaleX), destY+(currentFrameY * _imageInfo->frameHeight * scaleY),
+
+		GdiAlphaBlend(hdc, destX, destY, _imageInfo->frameWidth * scaleX, _imageInfo->frameHeight * scaleY,
+			_blendImage->hMemDC, destX + (currentFrameX * _imageInfo->frameWidth * scaleX), destY + (currentFrameY * _imageInfo->frameHeight * scaleY),
 			_imageInfo->frameWidth * scaleX, _imageInfo->frameHeight * scaleY, _blendFunc);
 	}
 
@@ -953,4 +978,52 @@ void image::loopAlphaRender(HDC hdc, const LPRECT drawArea, int offsetX, int off
 			alphaRender(hdc, rcDest.left, rcDest.top, rcSour.left, rcSour.top, sourWidth, sourHeight, alpha);
 		}
 	}
+}
+
+void image::RotateHDC(HDC hdc, float angle)
+{
+	HBITMAP hTempBitmap, hOldBitmap;
+
+	if (_rotateImage == nullptr) initForRotateBlend();
+
+	hTempBitmap = GetRotatedBitmap(hdc, angle);
+	hOldBitmap = (HBITMAP)SelectObject(_rotateImage->hMemDC, hTempBitmap);
+}
+
+
+HBITMAP image::GetRotatedBitmap(HDC hdc, float angle)
+{
+	HDC destDC = CreateCompatibleDC(hdc);											// 회전할 비트맵을 출력받을 DC   
+	HBITMAP hbmResult = CreateCompatibleBitmap(hdc, getWidth(), getHeight());		// 회전할 비트맵을 출력받을 메모리비트맵 핸들   
+
+	HBITMAP hbmOldDest = (HBITMAP)SelectObject(destDC, hbmResult);                  // 회전할 비트맵을 출력받을 DC에, 회전할 비트맵을 출력받을 메모리비트맵 선택   
+
+	HBRUSH hbrBack = CreateSolidBrush(RGB(255, 0, 255));                            // 회전으로 인한, 공백영역을 칠할 브러시핸들 생성   
+	HBRUSH hbrOld = (HBRUSH)SelectObject(destDC, hbrBack);							// 브러시핸들 선택   
+	PatBlt(destDC, 0, 0, getWidth(), getHeight(), PATCOPY);							// 선택된 브러시로, 회전할 비트맵을 출력받을 DC에, 미리 색상을 채워 지움   
+	DeleteObject(SelectObject(destDC, hbrOld));                                     // 브러시 해제   
+
+	float cosine = (float)cos(angle);												// 회전이동변환 행렬에 들어갈 cos세타 값을 구함          
+	float sine = (float)sin(angle);													// 회전이동변환 행렬에 들어갈 sin세타 값을 구함   
+
+	SetGraphicsMode(destDC, GM_ADVANCED);                                           // 윈도우 좌표계의 회전을 위하여, 그래픽모드를 확장모드로 변경합니다.(요구사항:윈98,NT이상)   
+	
+	XFORM xform;                                                                    // 방정식을 표현하는 3행3열의 행렬 선언   
+	xform.eM11 = cosine;                                                            // 1행 1열 성분 설정 (회전성분)   
+	xform.eM12 = sine;                                                              // 1행 2열 성분 설정 (회전성분)   
+	xform.eM21 = -sine;                                                             // 2행 1열 성분 설정 (회전성분)   
+	xform.eM22 = cosine;                                                            // 2행 2열 성분 설정 (회전성분)   
+	xform.eDx = (FLOAT)getWidth() / 2.0f;                                           // 3행 1열 성분 설정 (X축 이동 성분)   
+	xform.eDy = (FLOAT)getHeight() / 2.0f;                                          // 3행 2열 성분 설정 (Y축 이동 성분)   
+
+	SetWorldTransform(destDC, &xform);
+
+	// 회전된 메모리DC에, 회전할 이미지를 출력   
+
+	BitBlt(destDC, -(getWidth()/2.0f), -(getHeight()/2.0f), getWidth(), getHeight(), getMemDC(), 0, 0, SRCCOPY);
+	
+	SelectObject(destDC, hbmOldDest);
+	DeleteObject(destDC);
+	
+	return hbmResult;
 }

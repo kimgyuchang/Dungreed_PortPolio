@@ -51,6 +51,8 @@ public :
 	virtual void release();
 	virtual void render(HDC hdc);
 
+	void DoorParticleGenerate();
+
 	void ShotObject();
 	void ChangePlayerByDirection(DIRECTION dir);
 	void SetDoorSpawning();

@@ -91,11 +91,11 @@ void FieldMap::LoadObject()
 			obj = new Belial(*dynamic_cast<Belial*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
 
-		case 1505:// 작은 유령
+		case 1505: // 작은 유령
 			obj = new LittleGhost(*dynamic_cast<LittleGhost*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
 			
-		case 1502:
+		case 1502: // 밴시
 			obj = new Banshee(*dynamic_cast<Banshee*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
 
@@ -175,7 +175,6 @@ void FieldMap::LoadObject()
 /// </summary>
 void FieldMap::MakeDoor(Door* door)
 {
-	
 	int x = (door->GetX() + door->GetImage(0)->getWidth() / 2) / 48;	// 문의 중점 X
 	int y = (door->GetY() + door->GetImage(0)->getHeight() / 2) / 48;	// 문의 중점 Y
 
@@ -565,4 +564,15 @@ void FieldMap::render(HDC hdc)
 	// 플레이어 및 불릿 등 렌더
 }
 
-
+void FieldMap::DoorParticleGenerate()
+{
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		switch(_vObjs[i]->GetId())
+		{
+		case 514 : case 515: case 516: case 517:
+			dynamic_cast<Door*>(_vObjs[i])->SetPGenerator();
+			break;
+		}
+	}
+}

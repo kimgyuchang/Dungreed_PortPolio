@@ -53,6 +53,7 @@ private:
 	bool			_isTrans;		//배경색 없앨거냐?
 	COLORREF		_transColor;	//배경색 없앨 RGB (마젠타 = RGB(255, 0, 255))
 
+	LPIMAGE_INFO	_rotateImage;	//로테이트 이미지
 	LPIMAGE_INFO	_stretchImage;	//스트레치 이미지
 	LPIMAGE_INFO	_blendImage;	//알파블렌드 이미지
 	BLENDFUNCTION	_blendFunc;		//알파블렌드 기능
@@ -75,12 +76,13 @@ public:
 	//스트레치블렌드 초기화
 	HRESULT initForStretchBlend();
 
+	HRESULT initForRotateBlend();
 
 	//해제
 	void release();
 
 	//렌더(내가 원하는 좌표에 출력해라, 일반적으로 우리는 RECT의 LT좌표에 이미지를 붙인다)
-	void render(HDC hdc, int destX = 0, int destY = 0);
+	void render(HDC hdc, int destX = 0, int destY = 0, float angle = 0.f);
 	//렌더(원하는 좌표에 이미지를 잘라서 붙이기)
 	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
 	//늘이기렌더
@@ -99,14 +101,20 @@ public:
 	void frameStretchRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY);
 	void frameStretchAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY , BYTE alpha);
 	
-
+	
 	//루프렌더
 	void loopRender(HDC hdc, const LPRECT drawArea, int offsetX, int offsetY);
 	void loopAlphaRender(HDC hdc, const LPRECT drawArea, int offsetX, int offsetY, BYTE alpha);
 
+
+	//로테이트 렌더
+	void RotateHDC(HDC hdc, float angle);
+	HBITMAP GetRotatedBitmap(HDC hdc, float angle);
+
 	//DC 얻기
 	inline HDC getMemDC() { return _imageInfo->hMemDC; }
-	
+	inline HBITMAP getHBitMap() { return _imageInfo->hBit; }
+	inline HBITMAP getHOldBitMap() { return _imageInfo->hOBit; }
 	inline string getKey() { return _key; }
 	inline void setKey(string key) { _key = key; }
 

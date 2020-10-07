@@ -6,6 +6,9 @@ class startScene : public gameNode
 private:
 	RECT _rc;
 	RECT _rc2;
+	float _angle;
+	image* _img;
+
 public:
 	HRESULT init();
 	void release();

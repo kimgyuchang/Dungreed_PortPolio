@@ -11,7 +11,7 @@ void imageManager::release()
 	this->deleteAll();
 }
 
-image * imageManager::addImage(string strKey, int width, int height)
+image* imageManager::addImage(string strKey, int width, int height)
 {
 	//추가하려는 이미지가 존재하는지 키값으로 확인
 	image* img = findImage(strKey);
@@ -37,7 +37,7 @@ image * imageManager::addImage(string strKey, int width, int height)
 	return img;
 }
 
-image * imageManager::addImage(string strKey, const char * fileName, int width, int height, bool isTrans, COLORREF transColor)
+image* imageManager::addImage(string strKey, const char* fileName, int width, int height, bool isTrans, COLORREF transColor)
 {
 	//추가하려는 이미지가 존재하는지 키값으로 확인
 	image* img = findImage(strKey);
@@ -54,7 +54,7 @@ image * imageManager::addImage(string strKey, const char * fileName, int width, 
 		SAFE_DELETE(img);
 		return nullptr;
 	}
-	
+
 	img->setKey(strKey);
 
 	//맵이미지 리스트에 추가
@@ -64,7 +64,7 @@ image * imageManager::addImage(string strKey, const char * fileName, int width, 
 	return img;
 }
 
-image * imageManager::addImage(string strKey, const char * fileName, float x, float y, int width, int height, bool isTrans, COLORREF transColor)
+image* imageManager::addImage(string strKey, const char* fileName, float x, float y, int width, int height, bool isTrans, COLORREF transColor)
 {
 	//추가하려는 이미지가 존재하는지 키값으로 확인
 	image* img = findImage(strKey);
@@ -81,7 +81,7 @@ image * imageManager::addImage(string strKey, const char * fileName, float x, fl
 		SAFE_DELETE(img);
 		return nullptr;
 	}
-	
+
 	img->setKey(strKey);
 
 	//맵이미지 리스트에 추가
@@ -91,7 +91,7 @@ image * imageManager::addImage(string strKey, const char * fileName, float x, fl
 	return img;
 }
 
-image * imageManager::addFrameImage(string strKey, const char * fileName, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
+image* imageManager::addFrameImage(string strKey, const char* fileName, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
 {
 	//추가하려는 이미지가 존재하는지 키값으로 확인
 	image* img = findImage(strKey);
@@ -118,7 +118,7 @@ image * imageManager::addFrameImage(string strKey, const char * fileName, int wi
 	return img;
 }
 
-image * imageManager::addFrameImage(string strKey, const char * fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
+image* imageManager::addFrameImage(string strKey, const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
 {
 	//추가하려는 이미지가 존재하는지 키값으로 확인
 	image* img = findImage(strKey);
@@ -145,7 +145,7 @@ image * imageManager::addFrameImage(string strKey, const char * fileName, float 
 	return img;
 }
 
-image * imageManager::findImage(string strKey)
+image* imageManager::findImage(string strKey)
 {
 	mapImageIter key = _mImageList.find(strKey);
 
@@ -185,7 +185,7 @@ BOOL imageManager::deleteAll()
 	mapImageIter iter = _mImageList.begin();
 
 	//for (;;) => while(true)
-	for (;iter != _mImageList.end();)
+	for (; iter != _mImageList.end();)
 	{
 		if (iter->second != NULL)
 		{
@@ -328,9 +328,9 @@ void imageManager::MakeRotateImage(string strKey)
 				orig_y = (int)(ycenter + ((double)y - ycenter) * cc - ((double)x - xcenter) * ss);
 				pixel = 0;
 
-				if ((orig_y >= 0 && orig_y < img->getFrameHeight()) && (orig_x >= 0 && orig_x < img->getFrameWidth())) 
+				if ((orig_y >= 0 && orig_y < img->getFrameHeight()) && (orig_x >= 0 && orig_x < img->getFrameWidth()))
 					SetPixel(img->getMemDC(), frameX * img->getFrameWidth() + x, y, GetPixel(img->getMemDC(), orig_x, orig_y));
-			} 
+			}
 		}
 	}
 }

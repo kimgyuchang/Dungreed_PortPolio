@@ -59,6 +59,7 @@ public:
 	vector<string>	_vImageName;		// 파티클에 사용될 이미지 목록
 
 	bool			_isGenerateOnce;	// 한번 생성되었는지 여부 (ONETIME TYPE에서 사용)
+	bool			_isOff;				// 파티클 생성기의 ONOFF 여부
 
 	virtual void release();
 	virtual void update();
@@ -71,8 +72,11 @@ public:
 	void initScale(float scale = 1, float scaleRandom = 0, float scaleChanger = 0);
 	void initAlpha(float alpha = 255, float alphaRandom = 0, float alphaChanger = 0);
 	void initTime(int particleTime = 20, int particleTimeRandom = 0);
+	
+	bool GetIsOff() { return _isOff; }
 
 	void SetGenTimeRandom(int genTimeRandom) { _genTimeRandom = genTimeRandom; }
+	void SetIsOff(bool isOff) { _isOff = isOff; }
 
 	void initParticle(particle* curParticle);
 };
