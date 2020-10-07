@@ -40,11 +40,9 @@ void Player::update()
 
 	if (INPUT->GetKeyDown(VK_RBUTTON))		//마우스 오른쪽 버튼을 눌렀을때
 	{
-
-		_isDash = true;						//대쉬를 사용되게끔 바꿔주고
-		_dashPoint = _ptMouse;				//대쉬 지점을 마우스 x,y좌표가 가르키는곳으로
-		_jumpPower = 0;						
-
+		_isDash = true;
+		_dashPoint = _ptMouse;
+		_jumpPower = 0;
 	}
 
 	if (INPUT->GetKeyDown('X'))				//X키를 눌렀을때
@@ -228,7 +226,6 @@ void Player::Move()
 		if (INPUT->GetKeyDown(VK_SPACE) && !_downJump)	//스페이스바를 누르고 아래로 점프한게 아닐때
 		{
 			_isJump = true;
-
 			_jumpPower = 11;
 			_y -= _jumpPower;
 			_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
@@ -539,5 +536,6 @@ void Player::dash()
 			_dashTimer = 0;		//대쉬 타이머 초기화
 			_jumpPower = 0;		//점프 파워 초기화
 			_isDash = false;	//대쉬상태가 아님
+			
 		}
 }
