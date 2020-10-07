@@ -78,4 +78,7 @@ void startScene::render()
 	_img->stretchAlphaRender(getMemDC(), 500, 0, 1.5f, 1.5f, _alpha, _angle);
 	_img->stretchAlphaRender(getMemDC(), 650, 0, 0.5f, 0.5f, _alpha, _angle);
 	_img2->frameRender(getMemDC(), 200, 200, _xFrame, _yFrame, _angle);
+	_img2->frameAlphaRender(getMemDC(), 300, 200, _xFrame, _yFrame,_alpha, _angle);
+	_img2->frameStretchRender(getMemDC(), 400, 200, _xFrame, _yFrame,1.5,1.5, _angle);
+	_img2->frameStretchAlphaRender(getMemDC(), 200, 500, _xFrame, _yFrame,1.5,1.5,_alpha, _angle);
 }

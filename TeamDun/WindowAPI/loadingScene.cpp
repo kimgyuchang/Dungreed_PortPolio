@@ -292,9 +292,9 @@ void loadingScene::loadingImage()
 
 	// OBSTACLE //
 	
-	_loading->LoadNormalImage("gear", "Images/Object/gear.bmp", 108, 108, true, RGB(255,0,255), false);
-	_loading->LoadNormalImage("Gear_Small", "Images/Object/Gear_Small.bmp", 69, 69, true, RGB(255,0,255), false);
-	_loading->LoadNormalImage("Gear_Small_Small", "Images/Object/Gear_Small_Small.bmp", 51, 51, true, RGB(255,0,255), false);
+	_loading->LoadNormalImage("gear", "Images/Object/gear.bmp", 108, 108, true, RGB(255,0,255),false);
+	_loading->LoadNormalImage("Gear_Small", "Images/Object/Gear_Small.bmp", 69, 69, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Gear_Small_Small", "Images/Object/Gear_Small_Small.bmp", 51, 51, true, RGB(255,0,255));
 	_loading->LoadFrameImage("SpikePlatform1", "Images/1Floor/SpikePlatform1.bmp", 288, 48, 6, 1, true, RGB(255,0,255));
 	_loading->LoadNormalImage("Spike", "Images/AllFloor/Spike.bmp", 48, 48, true, RGB(255,0,255));
 
