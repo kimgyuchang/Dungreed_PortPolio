@@ -8,6 +8,8 @@ HRESULT startScene::init()
 	_rc = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 500, 200, 100);
 	_rc2 = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 300, 200, 100);
 	ShowCursor(false);
+	_img = IMAGEMANAGER->findImage("DemensionVault1");
+	_angle = 0;
 	return S_OK;
 }
 
@@ -30,6 +32,9 @@ void startScene::update()
 			SCENEMANAGER->loadScene("¸Ê¾À");
 		}
 	}
+
+	_angle += PI/32;
+	if (_angle > 2 * PI) _angle -= 2 * PI;
 }
 
 void startScene::render()
@@ -41,4 +46,6 @@ void startScene::render()
 	TextOut(getMemDC(), _rc2.left + 80, _rc2.top + 50, "MAPTOOL", strlen("MAPTOOL"));
 
 	IMAGEMANAGER->findImage("BasicCursor")->render(getMemDC(), _ptMouse.x, _ptMouse.y);
+
+	_img->render(getMemDC(), 100, 0, _angle);
 }

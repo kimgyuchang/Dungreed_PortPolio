@@ -20,7 +20,7 @@ HRESULT Player::init()
 	_gravity = 0.4f;
 	_jumpPower = 7.0f;
 	_jumpCount = 0;
-	_downJmpTimer = 0;
+	_downJumpTimer = 0;
 	_dashTimer = 0;
 	_dashSpeed = 0;
 
@@ -42,9 +42,6 @@ void Player::update()
 		_isDash = true;
 		_dashPoint = _ptMouse;
 		_jumpPower = 0;
-
-		
-
 	}
 
 	if (INPUT->GetKeyDown('X'))
@@ -243,10 +240,10 @@ void Player::Move()
 
 	if (_downJump)
 	{
-		_downJmpTimer++;
-		if (_downJmpTimer > 20)
+		_downJumpTimer++;
+		if (_downJumpTimer > 20)
 		{
-			_downJmpTimer = 0;
+			_downJumpTimer = 0;
 			_downJump = false;
 		}
 	}

@@ -9,7 +9,7 @@ private :
 	objectPool<particle>		_opParticle;	// 파티클들을 ObjectPool을 이용해 관리한다
 	vector<ParticleGenerator*>	_vGenerators;	// 파티클 생성기의 목록
 	vector<particle*>			_vParticles;	// 파티클의 목록
-
+	
 public:
 
 	virtual void init();

@@ -169,6 +169,7 @@
     <ClInclude Include="iniData.h" />
     <ClInclude Include="inputManager.h" />
     <ClInclude Include="inventory.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="LittleGhost.h" />
     <ClInclude Include="loading.h" />
     <ClInclude Include="loadingScene.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="singletonBase.h" />
     <ClInclude Include="Skel.h" />
     <ClInclude Include="SkelDog.h" />
+    <ClInclude Include="Skill.h" />
     <ClInclude Include="soundManager.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="startScene.h" />
@@ -228,6 +230,7 @@
     <ClCompile Include="iniData.cpp" />
     <ClCompile Include="inputManager.cpp" />
     <ClCompile Include="inventory.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="LittleGhost.cpp" />
     <ClCompile Include="loading.cpp" />
     <ClCompile Include="loadingScene.cpp" />
@@ -251,6 +254,7 @@
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="Skel.cpp" />
     <ClCompile Include="SkelDog.cpp" />
+    <ClCompile Include="Skill.cpp" />
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="startScene.cpp" />
