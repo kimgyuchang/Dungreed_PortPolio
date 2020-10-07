@@ -558,6 +558,7 @@ void FieldMap::render(HDC hdc)
 
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
+		
 		if(_vObjs[i]->GetRenderIndex())	
 			_vObjs[i]->render(hdc);
 	} // 오브젝트 렌더
