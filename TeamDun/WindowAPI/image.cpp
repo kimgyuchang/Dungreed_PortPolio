@@ -612,8 +612,9 @@ void image::alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int
 	}
 }
 
-void image::frameAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha)
+void image::frameAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha , float angle)
 {
+	if (_rotateImage == nullptr) initForRotateBlend();
 	//이미지 예외처리
 	_imageInfo->currentFrameX = currentFrameX;
 	_imageInfo->currentFrameY = currentFrameY;
@@ -634,13 +635,15 @@ void image::frameAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, i
 		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->width + destX, _imageInfo->height + destY,
 			hdc, 0, 0, SRCCOPY);
 
+
+		if (angle != 0)RotateHDC(hdc, angle);
 		GdiTransparentBlt(
 			_blendImage->hMemDC,	//복사할 장소의 DC
 			destX,						//복사할 좌표 시작X
 			destY,						//복사할 좌표 시작Y
 			_imageInfo->frameWidth,		//복사할 이미지 가로크기
 			_imageInfo->frameHeight,		//복사할 이미지 세로크기
-			_imageInfo->hMemDC,		//복사될 대상 DC
+			angle == 0? _imageInfo->hMemDC:_rotateImage->hMemDC,		//복사될 대상 DC
 			_imageInfo->currentFrameX * _imageInfo->frameWidth,		//복사될 대상의 시작지점
 			_imageInfo->currentFrameY * _imageInfo->frameHeight,	//복사될 대상의 시작지점			
 			_imageInfo->frameWidth,		//복사 영역 가로크기
@@ -662,16 +665,18 @@ void image::frameAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, i
 
 void image::frameRender(HDC hdc, int destX, int destY, float angle)
 {
-
+	if (_rotateImage == nullptr) initForRotateBlend();
+	
 	if (_isTrans)//배경색 없애고 출력
 	{
+		if (angle != 0)RotateHDC(hdc, angle);
 		GdiTransparentBlt(
 			hdc,						//복사할 장소의 DC
 			destX,						//복사할 좌표 시작X
 			destY,						//복사할 좌표 시작Y
 			_imageInfo->frameWidth,		//복사할 이미지 가로크기
 			_imageInfo->frameHeight,	//복사할 이미지 세로크기
-			_imageInfo->hMemDC,			//복사될 대상 DC
+			angle == 0 ? _imageInfo->hMemDC : _rotateImage->hMemDC,			//복사될 대상 DC
 			_imageInfo->currentFrameX * _imageInfo->frameWidth,		//복사될 대상의 시작지점
 			_imageInfo->currentFrameY * _imageInfo->frameHeight,	//복사될 대상의 시작지점			
 			_imageInfo->frameWidth,		//복사 영역 가로크기
@@ -690,7 +695,7 @@ void image::frameRender(HDC hdc, int destX, int destY, float angle)
 void image::frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float angle)
 {
 	if (_rotateImage == nullptr) initForRotateBlend();
-
+	
 	//이미지 예외처리
 	_imageInfo->currentFrameX = currentFrameX;
 	_imageInfo->currentFrameY = currentFrameY;
@@ -729,8 +734,9 @@ void image::frameRender(HDC hdc, int destX, int destY, int currentFrameX, int cu
 	}
 }
 
-void image::frameStretchRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY)
+void image::frameStretchRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, float angle)
 {
+	if (_rotateImage == nullptr) initForRotateBlend();
 	//이미지 예외처리
 	_imageInfo->currentFrameX = currentFrameX;
 	_imageInfo->currentFrameY = currentFrameY;
@@ -747,6 +753,7 @@ void image::frameStretchRender(HDC hdc, int destX, int destY, int currentFrameX,
 
 	if (_isTrans) //배경색 없애고 출력
 	{
+		if (angle != 0)RotateHDC(hdc, angle);
 		BitBlt(_stretchImage->hMemDC, 0, 0, _imageInfo->width * scaleX, _imageInfo->height * scaleY,
 			hdc, 0, 0, SRCCOPY);
 
@@ -757,7 +764,7 @@ void image::frameStretchRender(HDC hdc, int destX, int destY, int currentFrameX,
 			0,
 			_imageInfo->width * scaleX,
 			_imageInfo->height * scaleY,
-			_imageInfo->hMemDC,
+			angle == 0 ? _imageInfo->hMemDC : _rotateImage->hMemDC,
 			0, 0,
 			_imageInfo->width,
 			_imageInfo->height,
@@ -785,9 +792,10 @@ void image::frameStretchRender(HDC hdc, int destX, int destY, int currentFrameX,
 	}
 }
 
-void image::frameStretchAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha, float angle)
+void image::frameStretchAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha, float angle )
 {
-
+	if (_rotateImage == nullptr) initForRotateBlend();
+	
 	//이미지 예외처리
 	_imageInfo->currentFrameX = currentFrameX;
 	_imageInfo->currentFrameY = currentFrameY;
@@ -807,6 +815,7 @@ void image::frameStretchAlphaRender(HDC hdc, int destX, int destY, int currentFr
 
 	if (_isTrans) //배경색 없애고 출력
 	{
+		if (angle != 0)RotateHDC(hdc, angle);
 		BitBlt(_stretchImage->hMemDC, 0, 0, _imageInfo->width * scaleX + destX, _imageInfo->height * scaleY + destY,
 			hdc, 0, 0, SRCCOPY);
 		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->width * scaleX + destX, _imageInfo->height * scaleY + destY,
