@@ -9,7 +9,10 @@ private:
 	float _angle;
 	int _alpha;
 	image* _img;
-
+	image* _img2;
+	int _count;
+	int _xFrame;
+	int _yFrame;
 public:
 	HRESULT init();
 	void release();
