@@ -94,6 +94,10 @@ void FieldMap::LoadObject()
 		case 1505:// 작은 유령
 			obj = new LittleGhost(*dynamic_cast<LittleGhost*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
+
+		case 1506:// 해골 강아지
+			obj = new SkelDog(*dynamic_cast<SkelDog*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 			
 		case 1502:
 			obj = new Banshee(*dynamic_cast<Banshee*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));

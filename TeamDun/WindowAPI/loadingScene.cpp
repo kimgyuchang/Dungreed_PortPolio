@@ -622,7 +622,8 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("MinotaursIdle", "Images/Monster/MinotaursIdle.bmp", 936, 300, 6, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("MinotaursCharge", "Images/Monster/MinotaursCharge.bmp", 1272, 300, 8, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("MinotaursAttack", "Images/Monster/MinotaursAttack.bmp", 1176, 300, 7, 2, true, RGB(255, 0, 255));
-
+	_loading->LoadFrameImage("MinotaursBuff", "Images/Monster/MinotaursBuff.bmp", 1728, 87, 12, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("MinotaursDashEffect", "Images/Monster/MinotaursDashEffect.bmp", 2136, 216, 8, 2, true, RGB(255, 0, 255));
 
 	// BOSS //
 	_loading->LoadFrameImage("SkellBossIdle", "Images/Monster/Boss/SkellBossIdle.bmp", 2100, 285, 10, 1, true, RGB(255, 0, 255));

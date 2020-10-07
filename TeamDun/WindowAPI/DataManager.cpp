@@ -60,6 +60,10 @@ void DataManager::GetObjectData()
 			obj = new LittleGhost();
 			break;
 
+		case 1506:// ÇØ°ñ °­¾ÆÁö
+			obj = new SkelDog();
+			break;
+
 		case 1507:// ÇØ°ñ
 			obj = new Skel();
 			break;

@@ -4,16 +4,18 @@
 HRESULT Minotaurs::init(int id, string name, OBJECTTYPE type, vector<string> imgNames)
 {
 	Enemy::init(id, name, type, imgNames);
-	_body = RectMake(_x, _y, 156, 114);
+	_body = RectMake(_x, _y, 156, 150);
 	_state = ES_IDLE;
 
-	_index = _count = _dashTimer = _movePoint = _attackCoolTime = _attackCount = _attackIndexFix = 0;
+	_index = _count = _dashTimer = _movePoint = _attackCoolTime = _attackCount = _attackIndexFix = _effectTimer = _effect = 0;
 	_frameX, _frameY = 0;
 
 	_moveSpeed = 10;
+	_gravity = 10.0f;
 	_isLeft = _isAttack = _isDash = false;
 
 	_attackAnimFrame = vector<int>{ 3,3,30,5,5,5,5 };
+	_dashEffect = nullptr;
 
 	return S_OK;
 }
@@ -49,9 +51,7 @@ void Minotaurs::update()
 			}
 			break;
 		case ES_MOVE:
-
 			this->Move();
-
 			if (_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
 			{
 				_state = ES_ATTACK;
@@ -100,6 +100,24 @@ void Minotaurs::Move()
 {
 	Enemy::Move();
 
+	//ÀÌÆåÆ®
+	_effectTimer++;
+
+	if (_isLeft)
+	{
+		_effect = -100;
+	}
+	else
+	{
+		_effect = 10;
+	}
+	if (_effectTimer > 10)
+	{
+		EFFECTMANAGER->AddEffect(_x + _effect, _y + 55, "MinotaursDashEffect", 4, 0, _frameY, false, 150);
+		_effectTimer = 0;
+	}
+
+	//´ë½¬
 	_movePoint++;
 	_dashTimer++;
 	_isDash = true;
@@ -237,6 +255,7 @@ void Minotaurs::Animation()
 				}
 			}
 		}
+
 		break;
 	case ES_ATTACK:
 		_useImage = 2;
@@ -277,5 +296,222 @@ void Minotaurs::Animation()
 
 void Minotaurs::pixelCollision()
 {
+	bool isCollide = false;
+	bool _leftCollision1 = false;
+	bool _leftCollision2 = false;
+	bool _RightCollision1 = false;
+	bool _RightCollision2 = false;
 
+	image* pixelMapIg = IMAGEMANAGER->findImage("PixelMapIg");
+	image* MinotaursIdle = IMAGEMANAGER->findImage("MinotaursIdle");
+
+	_probeBottom = _y + MinotaursIdle->getFrameHeight();
+
+	for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
+	{
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + 11, i);
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+		if (r == 255 && g == 0 && b == 0)
+		{
+			isCollide = true;
+
+			_y = i - _vImages[_useImage]->getFrameHeight();
+
+			break;
+		}
+		if ((r == 0 && g == 0 && b == 255))
+		{
+			isCollide = true;
+
+			_y = i - _vImages[_useImage]->getFrameHeight();
+			break;
+		}
+	}
+	if (_isLeft)
+	{
+
+		for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
+		{
+			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + MinotaursIdle->getFrameWidth() - 11, i);
+			int r = GetRValue(color);
+			int g = GetGValue(color);
+			int b = GetBValue(color);
+
+			if ((r == 255 && g == 0 && b == 0))
+			{
+				isCollide = true;
+
+				_y = i - MinotaursIdle->getFrameHeight();
+
+				break;
+			}
+
+			if ((r == 0 && g == 0 && b == 255))
+			{
+				isCollide = true;
+
+				_y = i - MinotaursIdle->getFrameHeight();
+				break;
+			}
+		}
+	}
+	else
+	{
+		for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
+		{
+			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + _vImages[_useImage]->getFrameWidth() - 11, i);
+			int r = GetRValue(color);
+			int g = GetGValue(color);
+			int b = GetBValue(color);
+
+			if ((r == 255 && g == 0 && b == 0))
+			{
+				isCollide = true;
+
+				_y = i - _vImages[_useImage]->getFrameHeight();
+
+				break;
+			}
+
+			if ((r == 0 && g == 0 && b == 255))
+			{
+				isCollide = true;
+
+				_y = i - _vImages[_useImage]->getFrameHeight() + 10;
+				break;
+			}
+		}
+	}
+
+	for (int i = _y + 15; i > _y - 4; i--)
+	{
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + _vImages[_useImage]->getFrameWidth() / 2, i);
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+			_y = i + 5;
+
+			break;
+		}
+	}
+	if (!isCollide)
+	{
+		_y += _gravity;
+
+		_body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight());
+	}
+
+	for (int i = _x + MinotaursIdle->getFrameWidth() - 15; i < _x + MinotaursIdle->getFrameWidth() + 5; i++)
+	{
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+			_RightCollision1 = true;
+
+			if (_RightCollision1 &&_RightCollision2)
+			{
+				_x = i - MinotaursIdle->getFrameWidth();
+
+			}
+			break;
+		}
+
+	}
+	for (int i = _x + MinotaursIdle->getFrameWidth() - 15; i < _x + MinotaursIdle->getFrameWidth() + 5; i++)
+	{
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 50);
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+			_RightCollision2 = true;
+
+			_x = i - MinotaursIdle->getFrameWidth();
+			break;
+		}
+
+	}
+	for (int i = _x + MinotaursIdle->getFrameWidth() - 15; i < _x + MinotaursIdle->getFrameWidth() + 5; i++)
+	{
+		COLORREF color = GetPixel(_vImages[_useImage]->getMemDC(), i, _y + 2);
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+
+			_x = i - MinotaursIdle->getFrameWidth();
+
+
+			break;
+		}
+	}
+
+	//¿ÞÂÊ¾Æ·¡
+	for (int i = _x + 15; i > _x - 5; i--)
+	{
+		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
+		int r = GetRValue(color3);
+		int g = GetGValue(color3);
+		int b = GetBValue(color3);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+			_leftCollision1 = true;
+
+			if (_leftCollision1 &&_leftCollision2)
+			{
+				_x = i - _vImages[_useImage]->getFrameWidth();
+
+			}
+
+			break;
+		}
+	}
+	//¿ÞÂÊÁß°£
+	for (int i = _x + 15; i > _x - 5; i--)
+	{
+		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 50);
+		int r = GetRValue(color3);
+		int g = GetGValue(color3);
+		int b = GetBValue(color3);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+			_leftCollision2 = true;
+			_x = i;
+
+			break;
+		}
+	}
+	//¿ÞÂÊÀ§
+	for (int i = _x + 15; i > _x - 5; i--)
+	{
+		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _y + 2);
+		int r = GetRValue(color3);
+		int g = GetGValue(color3);
+		int b = GetBValue(color3);
+
+		if ((r == 255 && g == 0 && b == 0))
+		{
+
+			_x = i;
+
+			break;
+		}
+	}
 }

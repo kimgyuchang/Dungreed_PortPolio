@@ -228,6 +228,9 @@
     <ClCompile Include="Banshee.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="SkelDog.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -399,6 +402,9 @@
       <Filter>GameFramework\Util</Filter>
     </ClInclude>
     <ClInclude Include="Banshee.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="SkelDog.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
