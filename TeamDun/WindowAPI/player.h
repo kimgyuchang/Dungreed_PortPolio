@@ -123,7 +123,7 @@ public:
 	virtual void	Animation();
 	virtual void	Move();				//플레이어 움직임
 	virtual void	pixelCollision();	//픽셀충돌
-	virtual void	dash();
+	virtual void	dash();				//대쉬
 
 	int getHp() { return _hp; }
 	float getPower() { return _power; }
