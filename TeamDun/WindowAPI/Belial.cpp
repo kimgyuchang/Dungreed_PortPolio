@@ -10,7 +10,8 @@ HRESULT Belial::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_bulletFireTimer = 0;
 	_fireAngle = 0;
 	_bossBack = IMAGEMANAGER->findImage("SkellBossBack");
-
+	_playerY1 = 0;
+	_playerY2 = 0;
 
 	_firstSwordX = 20;
 	_firstSwordY = 200;
@@ -20,6 +21,10 @@ HRESULT Belial::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_makeSword = false;
 	_shootSword = false;
 	_shootSwordTimer = 0;
+
+	_RazerCount = 0;
+	_RazerEnd = false;
+	_RazerEndCount = 0;
 
 
 	_leftHandle.ig = IMAGEMANAGER->findImage("SkellBossLeftHandIdle");
@@ -55,16 +60,16 @@ void Belial::update()
 	Enemy::update();
 	if (INPUT->GetKeyDown('B'))
 	{
-		_state = ES_ATTACK;
-		_BelialPattern = BULLET;
-		_frameX = 0;
+		
 	}
 	if (INPUT->GetKeyDown('C'))
 	{
-		_state = ES_ATTACK;
-		_BelialPattern = KNIFE;
-		_frameX = 0;
-		_makeSword = true;
+		
+	}
+	if (INPUT->GetKeyDown('V'))
+	{
+		
+		
 	}
 	if (_isSpawned)
 	{
@@ -72,8 +77,13 @@ void Belial::update()
 		switch (_state)
 		{
 		case ES_IDLE:
-
+			_PatternTime++;
+			if (_PatternTime > 300)
+			{
+				SetPattern();
+			}
 			Move();
+
 
 			break;
 		case ES_ATTACK:
@@ -83,8 +93,10 @@ void Belial::update()
 			{
 
 			case RAZER:
+				Move();
 				break;
 			case KNIFE:
+				Move();
 				break;
 			case BULLET:
 				break;
@@ -116,13 +128,20 @@ void Belial::render(HDC hdc)
 		}
 		for (int i = 0; i < _vBossSword.size(); i++)
 		{
-			CAMERAMANAGER->FrameRender(hdc, _vBossSword[i]->ig, _vBossSword[i]->x, _vBossSword[i]->y, _vBossSword[i]->frameX, 0);
+			CAMERAMANAGER->StretchRender(hdc, _vBossSword[i]->ig, _vBossSword[i]->x,_vBossSword[i]->y,3,3,-_vBossSword[i]->angle + PI/2);	
 		}
 		
 		Enemy::render(hdc);
 		CAMERAMANAGER->FrameRender(hdc, _leftHandle.ig, _leftHandle.x, _leftHandle.y, _leftHandle.frameX, _leftHandle.frameY);
 		CAMERAMANAGER->FrameRender(hdc, _RightHandle.ig, _RightHandle.x, _RightHandle.y, _RightHandle.frameX, _RightHandle.frameY);
-
+		for (int i = 0; i < _vLeftRazer.size(); i++)
+		{
+			CAMERAMANAGER->FrameRender(hdc, _vLeftRazer[i]->ig, _vLeftRazer[i]->x, _vLeftRazer[i]->y, _leftHandle.frameX-8, 0);
+		}
+		for (int i = 0; i < _vRightRazer.size(); i++)
+		{
+			CAMERAMANAGER->FrameRender(hdc, _vRightRazer[i]->ig, _vRightRazer[i]->x, _vRightRazer[i]->y, _RightHandle.frameX - 8, 0);
+		}
 	}
 }
 
@@ -141,13 +160,74 @@ void Belial::Attack()
 	switch (_BelialPattern)
 	{
 	case RAZER:
+		
+		_RazerCount++;
+
+		if (_RazerCount == 100)
+		{
+			_playerY1 = (float)ENTITYMANAGER->getPlayer()->GetY()-50;
+			_leftHandle.state = ES_ATTACK;
+			_leftHandle.Timer = 0;
+			_leftHandle.frameX = 0;
+			_leftHandle.ig = IMAGEMANAGER->findImage("SkellBossLeftHandAttack");
+		}
+		if (_RazerCount >= 100 && _RazerCount < 150)
+		{
+			_leftHandle.y = MoveLerp(_leftHandle.y, _playerY1, 0.1f);
+		}
+		if (_RazerCount == 200)
+		{
+			_playerY2 = (float)ENTITYMANAGER->getPlayer()->GetY()-50;
+			_RightHandle.state = ES_ATTACK;
+			_RightHandle.Timer = 0;
+			_RightHandle.ig = IMAGEMANAGER->findImage("SkellBossRightHandAttack");
+			_RightHandle.frameX = 0;
+
+		}
+		if (_RazerCount > 200 && _RazerCount < 250)
+			_RightHandle.y = MoveLerp(_RightHandle.y, _playerY2, 0.1f);
+		if (_RazerCount == 300)
+		{
+			_playerY1 = (float)ENTITYMANAGER->getPlayer()->GetY()-50	;
+			_leftHandle.state = ES_ATTACK;
+			_leftHandle.Timer = 0;
+			_leftHandle.frameX = 0;
+			_leftHandle.ig = IMAGEMANAGER->findImage("SkellBossLeftHandAttack");
+			_RazerEnd = true;
+		}
+		if (_RazerCount > 300 && _RazerCount < 350)
+			_leftHandle.y = MoveLerp(_leftHandle.y, _playerY1, 0.1f);
+		if (_RazerEnd)
+		{
+			_RazerEndCount++;
+			if (_RazerEndCount > 100)
+			{
+				_RazerCount = 0;
+				_RazerEndCount = 0;
+				_state = ES_IDLE;
+				_RazerEnd = false;
+			}
+		}
+		switch (_leftHandle.state)
+		{
+		case ES_IDLE:
+			break;
+		case ES_ATTACK:
+			
+
+			break;
+		default:
+			break;
+		}
+
+
 		break;
 	case KNIFE:
 		
 		if (_makeSword)
 		{
 			SetSwordAngle();
-			SwordAniMation();
+			
 			_makeSwordTimer++;
 			if (_makeSwordTimer > 20)
 			{
@@ -176,7 +256,7 @@ void Belial::Attack()
 			{
 				if (_vBossSword[i]->speed == 0 &&_vBossSword[i]->isCol == false)
 				{
-					_vBossSword[i]->angle = getAngle(_vBossSword[i]->x + _vBossSword[i]->ig->getFrameWidth() / 2, _vBossSword[i]->y + _vBossSword[i]->ig->getFrameHeight() / 2, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY());
+					_vBossSword[i]->angle = getAngle(_vBossSword[i]->x + _vBossSword[i]->ig->getFrameWidth()*3 / 2, _vBossSword[i]->y + _vBossSword[i]->ig->getFrameHeight()*3 / 2, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY());
 					if (_vBossSword[i]->angle < 0)
 					{
 						_vBossSword[i]->angle += PI2;
@@ -185,7 +265,7 @@ void Belial::Attack()
 					{
 						_vBossSword[i]->angle -= PI2;
 					}
-					SwordAniMation();
+					
 				}
 				_vBossSword[i]->x += cosf(_vBossSword[i]->angle)*_vBossSword[i]->speed;
 				_vBossSword[i]->y += -sinf(_vBossSword[i]->angle)*_vBossSword[i]->speed;
@@ -265,6 +345,20 @@ void Belial::Animation()
 		switch (_BelialPattern)
 		{
 		case RAZER:
+			_useImage = 0;
+
+			_count++;
+
+			_frameY = 0;
+			if (_count > 3)
+			{
+				_count = 0;
+				_frameX++;
+				if (_frameX > _vImages[_useImage]->getMaxFrameX())
+				{
+					_frameX = 0;
+				}
+			}
 			break;
 		case KNIFE:
 			_useImage = 0;
@@ -278,7 +372,7 @@ void Belial::Animation()
 				_frameX++;
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
 				{
-					_frameX = _vImages[_useImage]->getMaxFrameX() - 4;
+					_frameX = 0;
 				}
 			}
 			break;
@@ -314,6 +408,7 @@ void Belial::Animation()
 		{
 			_leftHandle.Timer = 0;
 			_leftHandle.frameX++;
+			
 			if (_leftHandle.frameX > _leftHandle.ig->getMaxFrameX())
 			{
 				_leftHandle.frameX = 0;
@@ -321,13 +416,44 @@ void Belial::Animation()
 		}
 		break;
 	case ES_ATTACK:
+		_leftHandle.Timer++;
+		if (_leftHandle.Timer > 7)
+		{
+			_leftHandle.Timer = 0;
+			_leftHandle.frameX++;
+			if (_leftHandle.frameX == 8)
+			{
+				for (int i = 0; i < 8; i++)
+				{
+					Razer* razer = new Razer;
+					razer->ig = IMAGEMANAGER->findImage("SkellBossLaserBody");
+					razer->x = 200+ _leftHandle.x +razer->ig->getFrameWidth() * i;
+					razer->y = _leftHandle.y+50;
+					razer->body = RectMake(razer->x, razer->y, razer->ig->getFrameWidth(), razer->ig->getFrameHeight());
 
+					_vLeftRazer.push_back(razer);
+				}
+				EFFECTMANAGER->AddEffect(_leftHandle.x + 200 - IMAGEMANAGER->findImage("SkellBossLaserHead")->getFrameWidth(), _leftHandle.y + 60, "SkellBossLaserHead", 7);
+			}
+			if(_leftHandle.frameX == 9)
+			{
+				for (int i = 0; i < _vLeftRazer.size(); i++)
+				{
+					EFFECTMANAGER->AddEffect(_vLeftRazer[i]->x, _vLeftRazer[i]->y, "SkellBossLaserBody", 7, 2, 0);
+				}
+				_vLeftRazer.clear();
+			}
+			if (_leftHandle.frameX > _leftHandle.ig->getMaxFrameX())
+			{
+				_leftHandle.ig = IMAGEMANAGER->findImage("SkellBossLeftHandIdle");
+				_leftHandle.state = ES_IDLE;
+				_leftHandle.frameX = 0;
+			}
+		}
 		break;
 	default:
 		break;
 	}
-
-
 
 	switch (_RightHandle.state)
 	{
@@ -337,6 +463,7 @@ void Belial::Animation()
 		{
 			_RightHandle.Timer = 0;
 			_RightHandle.frameX++;
+			
 			if (_RightHandle.frameX > _RightHandle.ig->getMaxFrameX())
 			{
 				_RightHandle.frameX = 0;
@@ -345,7 +472,41 @@ void Belial::Animation()
 		break;
 
 	case ES_ATTACK:
+		_RightHandle.Timer++;
+		if (_RightHandle.Timer >7)
+		{
+			_RightHandle.Timer = 0;
+			_RightHandle.frameX++;
+			if (_RightHandle.frameX == 8)
+			{
+				for (int i = 0; i < 8; i++)
+				{
+					Razer* razer = new Razer;
+					razer->ig = IMAGEMANAGER->findImage("SkellBossLaserBody");
+					razer->x =-81+_RightHandle.x - razer->ig->getFrameWidth() * (i);
+					razer->y = _RightHandle.y + 50;
+					razer->body = RectMake(razer->x, razer->y, razer->ig->getFrameWidth(), razer->ig->getFrameHeight());
 
+					_vRightRazer.push_back(razer);
+				}
+				EFFECTMANAGER->AddEffect(_RightHandle.x , _RightHandle.y + 62, "SkellBossLaserHead", 7, 0, 1);
+			}
+			if (_RightHandle.frameX == 9)
+			{
+				for (int i = 0; i < _vRightRazer.size(); i++)
+				{
+					EFFECTMANAGER->AddEffect(_vRightRazer[i]->x, _vRightRazer[i]->y, "SkellBossLaserBody", 7, 2, 0);
+				}
+				_vRightRazer.clear();
+			}
+			
+			if (_RightHandle.frameX > _RightHandle.ig->getMaxFrameX())
+			{
+				_RightHandle.ig = IMAGEMANAGER->findImage("SkellBossRightHandIdle");
+				_RightHandle.state = ES_IDLE;
+				_RightHandle.frameX = 0;
+			}
+		}
 		break;
 	default:
 		break;
@@ -355,17 +516,45 @@ void Belial::Animation()
 void Belial::SetPattern()
 {
 	int rndPatten = RANDOM->range(0, 2);
+	switch (rndPatten)
+	{
+	case 0:
+		_state = ES_ATTACK;
+		_BelialPattern = RAZER;
+		_frameX = 0;
+		break;
+	case 1:
+		_state = ES_ATTACK;
+		_BelialPattern = KNIFE;
+		_frameX = 0;
+		_makeSword = true;
+		break;
+	case 2:
+		_state = ES_ATTACK;
+		_BelialPattern = BULLET;
+		_frameX = 0;
+		break;
+
+	default:
+		break;
+	}
 	_BelialPattern = (BELIALPATTERN)rndPatten;
+
+}
+
+float Belial::MoveLerp(float y1, float y2, float amount)
+{
+	return y1 + (y2 - y1)*amount;	
 
 }
 
 void Belial::SetSword()
 {
 	BossSword* _sword = new BossSword;
-	_sword->ig = IMAGEMANAGER->findImage("SkellBossSword");
+	_sword->ig = IMAGEMANAGER->findImage("SkellBossSword0");
 	_sword->x = _firstSwordX;
 	_sword->y = _firstSwordY;
-	_sword->body = RectMake(_sword->x, _sword->y, _sword->ig->getFrameWidth(), _sword->ig->getFrameHeight());
+	_sword->body = RectMake(_sword->x, _sword->y, _sword->ig->getFrameWidth()*3, _sword->ig->getFrameHeight()*3);
 	_sword->isDead = false;
 	_sword->isCol = false;
 	_sword->speed = 0;	
@@ -374,32 +563,13 @@ void Belial::SetSword()
 	_vBossSword.push_back(_sword);
 }
 
-void Belial::SwordAniMation()
-{
 
-	for (int i = 0; i < _vBossSword.size(); i++)
-	{
-		float a = _vBossSword[i]->angle - PI / 48;
-		if (a < 0)
-		{
-			a += PI2;
-		}
-		if (a >= PI2)
-		{
-			a -= PI2;
-		}
-
-		_vBossSword[i]->frameX  = a / (PI / 24) ;
-
-		
-	}
-}
 
 void Belial::SetSwordAngle()
 {
 	for (int i = 0; i < _vBossSword.size(); i++)
 	{
-		_vBossSword[i]->angle = getAngle(_vBossSword[i]->x + _vBossSword[i]->ig->getFrameWidth() / 2, _vBossSword[i]->y + _vBossSword[i]->ig->getFrameHeight() / 2, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY());
+		_vBossSword[i]->angle = getAngle(_vBossSword[i]->x + _vBossSword[i]->ig->getFrameWidth()*3 / 2, _vBossSword[i]->y + _vBossSword[i]->ig->getFrameHeight()*3/ 2, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY());
 		if (_vBossSword[i]->angle < 0)
 		{
 			_vBossSword[i]->angle += PI2;
@@ -416,10 +586,10 @@ void Belial::SwordPixelCollision()
 	
 	
 	image* pixelMapIg = IMAGEMANAGER->findImage("PixelMapIg");
-	image* _image = IMAGEMANAGER->findImage("SkellBossSword");
+	image* _image = IMAGEMANAGER->findImage("SkellBossSword0");
 	for (int i = 0; i < _vBossSword.size(); i++)
 	{
-		COLORREF color1 = GetPixel(pixelMapIg->getMemDC(), _vBossSword[i]->x + _image->getFrameWidth()/2+cosf(_vBossSword[i]->angle)*60 , _vBossSword[i]->y + _image->getFrameHeight() / 2-sinf(_vBossSword[i]->angle) * 60);
+		COLORREF color1 = GetPixel(pixelMapIg->getMemDC(), _vBossSword[i]->x + _image->getFrameWidth()*3/2+cosf(_vBossSword[i]->angle)*60 , _vBossSword[i]->y + _image->getFrameHeight()*3 / 2-sinf(_vBossSword[i]->angle) * 60);
 		int r1 = GetRValue(color1);
 		int g1 = GetGValue(color1);
 		int b1 = GetBValue(color1);
@@ -429,26 +599,26 @@ void Belial::SwordPixelCollision()
 			if (_vBossSword[i]->speed != 0)
 			{
 				_vBossSword[i]->speed = 0;
-				_vBossSword[i]->ig = IMAGEMANAGER->findImage("SkellBossSword");
+				_vBossSword[i]->ig = IMAGEMANAGER->findImage("SkellBossSword0");
 				_vBossSword[i]->isCol = true;
 
 				if (_vBossSword[i]->angle > PI / 4 && _vBossSword[i]->angle <= PI - PI / 4)
 				{
-					EFFECTMANAGER->AddEffect(_vBossSword[i]->x , _vBossSword[i]->y + _image->getFrameHeight() / 2, "BossSwordHitUp", 3);
+					EFFECTMANAGER->AddEffect(_vBossSword[i]->x , _vBossSword[i]->y + _image->getFrameHeight()*3 / 2, "BossSwordHitUp", 3);
 				}
 				else if (_vBossSword[i]->angle > PI - PI / 4 && _vBossSword[i]->angle <= PI + PI / 4)
 				{
 
-					EFFECTMANAGER->AddEffect(_vBossSword[i]->x + _image->getFrameWidth() / 2, _vBossSword[i]->y + _image->getFrameHeight() / 2, "BossSwordHitLeft", 3);
+					EFFECTMANAGER->AddEffect(_vBossSword[i]->x + _image->getFrameWidth()*3 / 2, _vBossSword[i]->y + _image->getFrameHeight()*3 / 2, "BossSwordHitLeft", 3);
 				}
 				else if (_vBossSword[i]->angle > PI + PI / 4 && _vBossSword[i]->angle <= PI2 - PI / 4)
 				{
 
-					EFFECTMANAGER->AddEffect(_vBossSword[i]->x+ 30, _vBossSword[i]->y + _image->getFrameHeight() / 2, "BossSwordHitDown", 3);
+					EFFECTMANAGER->AddEffect(_vBossSword[i]->x+ 30, _vBossSword[i]->y + _image->getFrameHeight()*3 / 2, "BossSwordHitDown", 3);
 				}
 				else
 				{
-					EFFECTMANAGER->AddEffect(_vBossSword[i]->x + _image->getFrameWidth() / 2, _vBossSword[i]->y + _image->getFrameHeight() / 2, "BossSwordHitRight", 3);
+					EFFECTMANAGER->AddEffect(_vBossSword[i]->x + _image->getFrameWidth()*3 / 2, _vBossSword[i]->y + _image->getFrameHeight()*3 / 2, "BossSwordHitRight", 3);
 
 				}
 				
@@ -475,4 +645,3 @@ void Belial::EraseSword()
 		}
 	}
 }
-
