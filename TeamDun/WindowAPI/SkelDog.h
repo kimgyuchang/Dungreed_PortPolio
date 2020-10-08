@@ -4,7 +4,13 @@
 class SkelDog : public Enemy
 {
 private:
-
+	float		_probeBottom;
+	float		_gravity;
+	float		_jumpPower;
+	bool		_isAttack;
+	bool		_isJump;
+	int			_jumpTimer;
+	int			_jumpCount;
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
 	virtual void	update();
