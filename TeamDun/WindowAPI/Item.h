@@ -1,5 +1,6 @@
 #pragma once
 #include "Skill.h"
+#include "Bullet.h"
 
 enum ITEMCLASS
 {
@@ -8,12 +9,12 @@ enum ITEMCLASS
 
 enum ITEMTYPE
 {
-	IT_WEAPON_ONEHAND, IT_WEAPON_TWOHAND, IT_SUBWEAPON, IT_ACCESORRY
+	IT_WEAPON_ONEHAND, IT_WEAPON_TWOHAND, IT_SUBWEAPON, IT_ACCESORRY, IT_NOTHING
 };
 
 enum WEAPONTYPE
 {
-	WT_NEAR, WT_RANGE, WT_CHARGE, WT_SPEAR, WT_KATANA, WT_NOWEAPON
+	WT_NEAR, WT_RANGE, WT_CHARGE, WT_SPEAR, WT_KATANA, WT_PISTOL, WT_NOWEAPON
 };
 
 enum OPTIONTYPE
@@ -65,7 +66,20 @@ public :
 
 class Item
 {
-private:
+protected:
+	// 공통 //
+
+	float				_x;					// 위치 X
+	float				_y;					// 위치 Y
+	
+
+	int					_buyPrice;			// 구매 가격 (판매 가격 : 구매 가격 * 0.3)
+	vector<image*>		_vImages;			// 이미지 목록
+	vector<string>		_vImageNames;		// 이미지 이름 목록
+	int					_currentImage;		// 현재 이미지
+	image*				_invenImage;		// 인벤토리용 이미지
+
+	ITEMCLASS			_itemClass;			// 아이템 등급
 	ITEMTYPE			_itemType;			// 아이템의 종류
 	WEAPONTYPE			_weaponType;		// 무기의 종류
 	Skill*				_skill;				// 스킬
@@ -77,7 +91,7 @@ private:
 	float				_atkSpeed;			// 공격 속도
 	int					_defence;			// 방어력
 
-	vector<SubOption>	_subOption;			// 서브 옵션 목록
+	vector<SubOption*>	_vSubOption;		// 서브 옵션 목록
 	bool				_useAtkSpeed;		// 공격 속도를 사용한다
 	
 	// 충전형 // 
@@ -86,18 +100,58 @@ private:
 	// 원거리 //
 	int					_initNumOfBullet;	// 초기 총알 개수
 	int					_curNumOfBullet;	// 현재 총알 개수
-	int					_reloadTime;		// 재장전 시간
+	float				_reloadTime;		// 재장전 시간
 	Bullet*				_bullet;			// 사용 총알
 	float				_accuracy;			// 조준 정확도
-	int					_buyPrice;			// 구매 가격 (판매 가격 : 구매 가격 * 0.5)
 	bool				_isBulletInfinite;	// 탄창이 무한한지
 	
+	bool				_isRenderFirst;		// 플레이어보다 먼저 렌더되는지
+
 public:
 
-	HRESULT init();
-	void update();
-	void render(HDC hdc);
-	void release();
-	void EquipUnEquip(SubOption subOption, bool isEquip);
+	virtual HRESULT init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill* skill, string name, 
+		string description, ITEMCLASS itemClass, float minAtk, float maxAtk, float atkSpeed, 
+		int defence, bool useAtkSpeed, int numOfBullet, float reloadTime, Bullet* bullet, 
+		float accuracy, int buyPrice, bool isBulletInfinite, vector<string> imageNames, string invenImage);
+
+	void AddSubOption(SubOption* option);
+	virtual void update();
+	virtual void render(HDC hdc);
+	virtual void release();
+	void EquipUnEquipItem(bool isEquip);
+	void AdaptSubOption(SubOption* subOption, bool isEquip);
+
+	// GETSET // 
+
+	int					GetBuyPrice()			{ return _buyPrice; }
+	int					GetSellPrice()			{ return _buyPrice * 0.3f; }
+	vector<image*>&		GetImages()				{ return _vImages; }
+	image*				GetImage(int index)		{ return _vImages[index]; }
+	vector<string>&		GetImageNames()			{ return _vImageNames; }
+	string				GetImageName(int index) { return _vImageNames[index]; }
+	image*				GetInvenImage()			{ return _invenImage; }
+	ITEMCLASS			GetItemClass()			{ return _itemClass; }
+	ITEMTYPE			GetitemType()			{ return _itemType; }
+	WEAPONTYPE			GetWeaponType()			{ return _weaponType; }
+	Skill*				GetSkill()				{ return _skill; }
+	int					GetId()					{ return _id; }
+	string				GetName()				{ return _name; }
+	string				GetDescription()		{ return _description; }
+	float				GetMinAtk()				{ return _minAtk; }
+	float				GetMaxAtk()				{ return _maxAtk; }
+	float				GetAtkSpeed()			{ return _atkSpeed; }
+	int					GetDefence()			{ return _defence; }
+	vector<SubOption*>& GetSubOptions()			{ return _vSubOption; }
+	bool				GetUseAtkSpeed()		{ return _useAtkSpeed; }
+	float				GetChargePercent()		{ return _chargePercent; }
+	int					GetInitNumOfBullet()	{ return _initNumOfBullet; }
+	int					GetCurNumOfBullet()		{ return _curNumOfBullet; }
+	float				GetReloadTime()			{ return _reloadTime; }
+	Bullet*				GetBullet()				{ return _bullet; }
+	float				GetAccuracy()			{ return _accuracy; }
+	bool				GetIsBulletInfinite()	{ return _isBulletInfinite; }
+	bool				GetIsRenderFirst()		{ return _isRenderFirst; }
+	
+	void				SetIsRenderFirst(bool first)	{ _isRenderFirst = first; }
 };
 

@@ -156,6 +156,7 @@
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="CSVManager.h" />
     <ClInclude Include="DataManager.h" />
+    <ClInclude Include="DemonSword.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="EffectManager.h" />
@@ -183,6 +184,7 @@
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectPooler.h" />
+    <ClInclude Include="objHeaderCollector.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="particleGenerator.h" />
@@ -217,6 +219,7 @@
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="CSVManager.cpp" />
     <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="DemonSword.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EffectManager.cpp" />

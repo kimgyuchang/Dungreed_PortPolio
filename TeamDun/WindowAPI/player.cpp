@@ -31,6 +31,11 @@ HRESULT Player::init()
 	_pixelCenter = POINT{ (long)(_x + _vImages[_useImage]->getWidth() / 2), (long)(_y + _vImages[_useImage]->getHeight() / 2) };
 	_bottomCol = false;
 	_dashEffect = nullptr;
+
+	// ¿¹½Ã¿ë
+	_weapons[0] = new DemonSword(*dynamic_cast<DemonSword*>(DATAMANAGER->GetItemById(4000)));
+	_selectedWeaponIdx = 0;
+
 	return S_OK;
 	
 }
@@ -80,6 +85,8 @@ void Player::release()
 
 void Player::render(HDC hdc)
 {
+	if (_weapons[_selectedWeaponIdx] != nullptr && _weapons[_selectedWeaponIdx]->GetIsRenderFirst()) _weapons[_selectedWeaponIdx]->render(hdc);
+
 	switch (_state)
 	{
 	case PS_IDLE:
@@ -96,6 +103,9 @@ void Player::render(HDC hdc)
 	default:
 		break;
 	}
+
+	if (_weapons[_selectedWeaponIdx] != nullptr && !_weapons[_selectedWeaponIdx]->GetIsRenderFirst()) _weapons[_selectedWeaponIdx]->render(hdc);
+
 	//CAMERAMANAGER->Rectangle(hdc, _body);
 	//CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);
 }

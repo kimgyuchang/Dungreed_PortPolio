@@ -1,0 +1,2 @@
+id,itemType,weaponType,skill,name,description,itemClass,minAtk,maxAtk,atkSpeed,defence,useAtkspeed,numOfBullet,reloadTime,bullet,accuracy,buyPrice,isBulletInfinite,imageName1,imageName2,imageName3,invenImageName,Suboption1Id,Suboption1Power,Suboption1Description,Suboption2Id,Suboption2Power,Suboption2Description,Suboption3Id,Suboption3Power,Suboption3Description
+4000,두손무기,근접,-1,마검 엘레마,전 주인이 어떻게 죽었냐고? 글쎄.. 일단 이야기를 하기 전에 내 눈을 촉촉하게 하고 싶군.,전설,35,45,1,0,1,0,0,-1,0,8000,0,DemonSword,.,.,DemonSword_inven,.,.,.,.,.,.,.,.,.
