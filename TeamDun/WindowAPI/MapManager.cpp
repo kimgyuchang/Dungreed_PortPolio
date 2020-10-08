@@ -50,6 +50,8 @@ HRESULT MapManager::init()
 	GetPlayMap()->GridMapGenerate();
 	GenerateMapParticle();
 	ReNewMapUI();
+	ChangeMap(1, 0);
+
 	return S_OK;
 }
 
@@ -166,12 +168,14 @@ void MapManager::ChangeMap(int stage, int index)
 {
 	_currentStage = stage;
 	_currentMap = index;
-	_vStage[stage]->GetMaps()[index]->PixelCollisionMapGenerate();
-	_vStage[stage]->GetMaps()[index]->GridMapGenerate();
+	GetPlayMap()->PixelCollisionMapGenerate();
+	GetPlayMap()->GridMapGenerate();
 	EFFECTMANAGER->GetVEffect().clear();
 	PARTICLEMANAGER->GetParticles().clear();
 	PARTICLEMANAGER->GetGenerators().clear();
 	GenerateMapParticle();
 	ENTITYMANAGER->getVBullets().clear();
 	ReNewMapUI();
+
+	GetPlayMap()->DoorParticleGenerate();
 }

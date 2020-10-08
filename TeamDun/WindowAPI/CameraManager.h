@@ -56,14 +56,16 @@ public:
 	void update();
 
 	// RENDER //
-	void Render(HDC hdc, image* ig, int destX, int destY);
-	void AlphaRender(HDC hdc, image * ig, int destX, int destY, BYTE alpha);
-	void StretchRender(HDC hdc, image* ig, int destX, int destY, float scaleX, float scaleY);
-	void StretchAlphaRender(HDC hdc,image* ig, int destX, int destY, float scaleX, float scaleY, BYTE alpha);
-	void FrameRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY);
-	void FrameAlphaRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, BYTE alpha);
-	void FrameStretchRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, float scaleX, float scaleY);
-	void FrameStretchAlphaRender(HDC hdc, image* ig, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha);
+
+	void Render(HDC hdc, image* ig, int destX, int destY, float angle = 0);
+	void AlphaRender(HDC hdc, image * ig, int destX, int destY, BYTE alpha, float angle = 0);
+	void StretchRender(HDC hdc, image* ig, int destX, int destY, float scaleX, float scaleY, float angle = 0);
+	void StretchAlphaRender(HDC hdc,image* ig, int destX, int destY, float scaleX, float scaleY, BYTE alpha, float angle = 0);
+	void FrameRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, float angle = 0);
+	void FrameAlphaRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, BYTE alpha, float angle = 0 );
+	void FrameStretchRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, float scaleX, float scaleY, float angle = 0);
+	void FrameStretchAlphaRender(HDC hdc, image* ig, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha, float angle = 0);
+
 	void Rectangle(HDC hdc, RECT rc);
 	void RectangleMake(HDC hdc, int left, int top, int width, int height);
 	void TextDraw(HDC hdc, int destX, int destY, LPCSTR lpstring, int c, int r = 0, int g = 0, int b = 0);

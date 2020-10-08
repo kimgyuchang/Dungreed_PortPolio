@@ -40,28 +40,28 @@ public:
 //=============================================================
 //	## ÀÏ¹Ý·»´õ ##
 //=============================================================
-	void render(string strKey, HDC hdc, int destX = 0, int destY = 0);
-	void render(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
+	void render(string strKey, HDC hdc, int destX = 0, int destY = 0, float angle = 0);
+	void render(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, float angle = 0);
 
 //=============================================================
 //	## ¾ËÆÄ·»´õ ##
 //=============================================================
-	void alphaRender(string strKey, HDC hdc, BYTE alpha);
-	void alphaRender(string strKey, HDC hdc, int destX, int destY, BYTE alpha);
-	void alphaRender(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha);
+	void alphaRender(string strKey, HDC hdc, BYTE alpha, float angle = 0);
+	void alphaRender(string strKey, HDC hdc, int destX, int destY, BYTE alpha, float angle = 0);
+	void alphaRender(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha, float angle = 0);
 
 //=============================================================
 //	## ÇÁ·¹ÀÓ·»´õ ##
 //=============================================================
-	void frameRender(string strKey, HDC hdc, int destX, int destY);
-	void frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
-	void frameAlphaRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, int alpha);
-	void frameStretchAlphaRender(string strKey ,HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha);
+	void frameRender(string strKey, HDC hdc, int destX, int destY, float angle = 0);
+	void frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float angle = 0);
+	void frameAlphaRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, int alpha,float angle = 0);
+	void frameStretchAlphaRender(string strKey ,HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha, float angle = 0);
 
 //=============================================================
 //	## ½ºÆ®·¹Ä¡·»´õ##
 //=============================================================
-	void stretchRender(string strKey, HDC hdc, int destX, int destY, float scaleX, float scaleY);
+	void stretchRender(string strKey, HDC hdc, int destX, int destY, float scaleX, float scaleY, float angle = 0);
 
 //=============================================================
 //	## ·çÇÁ·»´õ ##
@@ -75,7 +75,6 @@ public:
 //  ## È¸Àü ¸¸µé±â ##
 //=============================================================
 	void MakeRotateImage(string strKey);
-
 
 	imageManager() {}
 	~imageManager() {}

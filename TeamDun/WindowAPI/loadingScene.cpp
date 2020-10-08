@@ -76,6 +76,7 @@ void loadingScene::LoadData()
 {
 	DATAMANAGER->GetUIBrushToolGridData();
 	DATAMANAGER->GetObjectData();
+	DATAMANAGER->GetItemData();
 }
 
 /// <summary>
@@ -265,6 +266,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Door_Up_Idle", "Images/Object/Door_Up_Idle.bmp", 192, 58, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Door_Left_Idle", "Images/Object/Door_Left_Idle.bmp", 72, 240, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Door_Right_Idle", "Images/Object/Door_Right_Idle.bmp", 72, 240, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("TrainingSchool", "Images/Object/TrainingSchool.bmp", 810, 231, true, RGB(255, 0, 255));
 
 	// STAGE 1 //
 	_loading->LoadNormalImage("Door0_Closed", "Images/1Floor/Door0_Closed.bmp", 171, 195, true, RGB(255, 0, 255));
@@ -290,9 +292,10 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("YellowTresureOpened", "Images/Object/YellowTresureOpened.bmp", 117, 69, true, RGB(255,0,255));
 
 	// OBSTACLE //
-	_loading->LoadFrameImage("gear", "Images/Object/gear.bmp", 1296, 108, 12, 1, true, RGB(255,0,255), true);
-	_loading->LoadFrameImage("Gear_Small", "Images/Object/Gear_Small.bmp", 828, 69, 12, 1, true, RGB(255,0,255), true);
-	_loading->LoadFrameImage("Gear_Small_Small", "Images/Object/Gear_Small_Small.bmp", 612, 51, 12, 1, true, RGB(255,0,255), true);
+	
+	_loading->LoadNormalImage("gear", "Images/Object/gear.bmp", 108, 108, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Gear_Small", "Images/Object/Gear_Small.bmp", 69, 69, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Gear_Small_Small", "Images/Object/Gear_Small_Small.bmp", 51, 51, true, RGB(255,0,255));
 	_loading->LoadFrameImage("SpikePlatform1", "Images/1Floor/SpikePlatform1.bmp", 288, 48, 6, 1, true, RGB(255,0,255));
 	_loading->LoadNormalImage("Spike", "Images/AllFloor/Spike.bmp", 48, 48, true, RGB(255,0,255));
 
@@ -348,6 +351,8 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("DashCountBase_0", "Images/UI/DashCountBase_0.bmp", 33, 24, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("DemensionVault0", "Images/UI/DemensionVault0.bmp", 99, 99, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("DemensionVault1", "Images/UI/DemensionVault1.bmp", 99, 99, true ,RGB(255,0,255));
+	_loading->LoadFrameImage("DemensionVault1_test", "Images/UI/DemensionVault1_test.bmp", 198, 99, 2, 1, true ,RGB(255,0,255));
+	_loading->LoadFrameImage("DemensionVault1_test2", "Images/UI/DemensionVault1_test2.bmp", 792, 792, 8, 8, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("DungeonMenu 1", "Images/UI/DungeonMenu 1.bmp", 960, 120, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("DungeonMenu 2", "Images/UI/DungeonMenu 2.bmp", 12, 337, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("DungeonShopBase", "Images/UI/DungeonShopBase.bmp", 366, 564, true ,RGB(255,0,255));
@@ -648,13 +653,14 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("BossSwordHitUp", "Images/Monster/Boss/BossSwordHitUp.bmp", 765, 66, 5, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BossSwordHitLeft", "Images/Monster/Boss/BossSwordHitLeft.bmp", 330, 153, 5, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BossSwordHitRight", "Images/Monster/Boss/BossSwordHitRight.bmp", 330, 153, 5, 1, true, RGB(255, 0, 255));
-	
-
-
 
 	// BACKGROUND //
 	_loading->LoadNormalImage("BackFloorBack1", "Images/1Floor/Basic_H_Type2_4.bmp", 1, 1);
 	_loading->LoadNormalImage("SubBGStage1", "Images/1Floor/SubBGStage1.bmp", 960, 540, true, RGB(255, 0, 255));
+
+	// ITEM //
+	_loading->LoadNormalImage("DemonSword", "Images/item/DemonSword.bmp", 320, 320, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("DemonSword_inven", "Images/item/DemonSword_inven.bmp", 79, 183, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));
@@ -665,6 +671,9 @@ void loadingScene::loadingImage()
 
 	// PARTICLE //
 	_loading->LoadNormalImage("SqaureParticle", "Images/Particle/SqaureParticle.bmp", 15, 15, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SqaureParticle_2", "Images/Particle/SqaureParticle_2.bmp", 22, 22, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SqaureParticle_3", "Images/Particle/SqaureParticle_3.bmp", 28, 28, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SqaureParticle_4", "Images/Particle/SqaureParticle_4.bmp", 5, 5, true, RGB(255, 0, 255));
 
 	// MINIMAP //
 	_loading->LoadNormalImage("MiniMapPixel", "Images/MiniMapPixel.bmp", 5, 5);

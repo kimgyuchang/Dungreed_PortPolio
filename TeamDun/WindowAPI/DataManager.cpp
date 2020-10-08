@@ -76,7 +76,7 @@ void DataManager::GetObjectData()
 			obj = new RedBat();
 			break;
 
-		case 2000 : // 벨리알
+		case 2000: // 벨리알
 			obj = new Belial();
 			break;
 
@@ -134,5 +134,125 @@ void DataManager::GetObjectData()
 		);
 
 		_mMapObjectData[stoi(mapObjData[i][0])] = obj;
+	}
+}
+
+void DataManager::GetItemData()
+{
+	vector<vector<string>> itemData = CSVMANAGER->csvLoad("Data/ItemData.csv");
+
+	for (int i = 0; i < itemData.size(); i++)
+	{
+		Item* item;
+		switch (stoi(itemData[i][0]))
+		{
+		case 4000: // 마검 엘레마
+			item = new DemonSword();
+			break;
+
+		default:
+			item = new Item();
+			break;
+		}
+
+		// 아이템 타입
+		ITEMTYPE itemType = ITEMTYPE::IT_NOTHING;
+		if (itemData[i][1] == "한손무기") itemType = ITEMTYPE::IT_WEAPON_ONEHAND;
+		else if (itemData[i][1] == "두손무기") itemType = ITEMTYPE::IT_WEAPON_TWOHAND;
+		else if (itemData[i][1] == "서브무기") itemType = ITEMTYPE::IT_SUBWEAPON;
+		else if (itemData[i][1] == "악세서리") itemType = ITEMTYPE::IT_ACCESORRY;
+		else itemType = ITEMTYPE::IT_NOTHING;
+
+		// 무기 타입
+		WEAPONTYPE weaponType = WEAPONTYPE::WT_NOWEAPON;
+		if (itemData[i][2] == "근접") weaponType == WEAPONTYPE::WT_NEAR;
+		else if (itemData[i][2] == "원거리") weaponType == WEAPONTYPE::WT_RANGE;
+		else if (itemData[i][2] == "충전형") weaponType == WEAPONTYPE::WT_CHARGE;
+		else if (itemData[i][2] == "창") weaponType == WEAPONTYPE::WT_SPEAR;
+		else if (itemData[i][2] == "권총") weaponType == WEAPONTYPE::WT_PISTOL;
+		else if (itemData[i][2] == "카타나") weaponType == WEAPONTYPE::WT_KATANA;
+		else weaponType == WEAPONTYPE::WT_NOWEAPON;
+
+		ITEMCLASS itemClass = ITEMCLASS::IC_NORMAL;
+		if (itemData[i][6] == "일반") itemClass = ITEMCLASS::IC_NORMAL;
+		else if (itemData[i][6] == "고급") itemClass = ITEMCLASS::IC_ADVANCED;
+		else if (itemData[i][6] == "희귀") itemClass = ITEMCLASS::IC_RARE;
+		else if (itemData[i][6] == "전설") itemClass = ITEMCLASS::IC_LEGENDARY;
+
+		Skill* skill;
+		switch (stoi(itemData[i][3]))
+		{
+			// 위쪽으로 스킬 추가 (ID를 통해)
+		default :
+			skill = nullptr;
+			break;
+		}
+
+		Bullet* bullet;
+		switch (stoi(itemData[i][14]))
+		{
+			// 위쪽으로 불릿 추가 (ID를 통해) 
+		default :
+			bullet = nullptr;
+			break;
+		}
+
+		item->init(stoi(itemData[i][0]), itemType, weaponType, skill,
+			itemData[i][4], itemData[i][5], itemClass, stof(itemData[i][7]), stof(itemData[i][8]),
+			stof(itemData[i][9]), stoi(itemData[i][10]), stoi(itemData[i][11]),
+			stoi(itemData[i][12]), stof(itemData[i][13]), bullet, stof(itemData[i][15]), stoi(itemData[i][16]),
+			stoi(itemData[i][17]), vector<string>{itemData[i][18], itemData[i][19], itemData[i][20]}, itemData[i][21]
+		);
+
+		for (int j = 0; j < 3; j++)
+		{
+			if (itemData[i][22 + (j * 3)] != ".")
+			{
+				SubOption* option = new SubOption;
+
+				string optionId = itemData[i][22 + (j * 3)];
+				if (optionId == "POWER") option->_optionId = OPTIONTYPE::POWER;
+				else if (optionId == "ATKSPEED") option->_optionId = OPTIONTYPE::ATKSPEED;
+				else if (optionId == "DASHATK") option->_optionId = OPTIONTYPE::DASHATK;
+				else if (optionId == "DEFENCE") option->_optionId = OPTIONTYPE::DEFENCE;
+				else if (optionId == "BLOCK") option->_optionId = OPTIONTYPE::BLOCK;
+				else if (optionId == "CRITICALPERCENT") option->_optionId = OPTIONTYPE::CRITICALPERCENT;
+				else if (optionId == "CRITICALDAMAGE") option->_optionId = OPTIONTYPE::CRITICALDAMAGE;
+				else if (optionId == "MINDAMAGE") option->_optionId = OPTIONTYPE::MINDAMAGE;
+				else if (optionId == "MAXDAMAGE") option->_optionId = OPTIONTYPE::MAXDAMAGE;
+				else if (optionId == "FINALDAMAGEPERCENT") option->_optionId = OPTIONTYPE::FINALDAMAGEPERCENT;
+				else if (optionId == "FINALDAMAGE") option->_optionId = OPTIONTYPE::FINALDAMAGE;
+				else if (optionId == "TOUGHNESS") option->_optionId = OPTIONTYPE::TOUGHNESS;
+				else if (optionId == "TRUEDAMAGE") option->_optionId = OPTIONTYPE::TRUEDAMAGE;
+				else if (optionId == "MAXHP") option->_optionId = OPTIONTYPE::MAXHP;
+				else if (optionId == "MAXHPPERCENT") option->_optionId = OPTIONTYPE::MAXHPPERCENT;
+				else if (optionId == "EVADE") option->_optionId = OPTIONTYPE::EVADE;
+				else if (optionId == "MOVESPEED") option->_optionId = OPTIONTYPE::MOVESPEED;
+				else if (optionId == "JUMPPOWER") option->_optionId = OPTIONTYPE::JUMPPOWER;
+				else if (optionId == "GOLDDROP") option->_optionId = OPTIONTYPE::GOLDDROP;
+				else if (optionId == "RELOADSPEED") option->_optionId = OPTIONTYPE::RELOADSPEED;
+				else if (optionId == "DASHCOUNT") option->_optionId = OPTIONTYPE::DASHCOUNT;
+				else if (optionId == "ACCURACY") option->_optionId = OPTIONTYPE::ACCURACY;
+				else if (optionId == "IMMUNEFIRE") option->_optionId = OPTIONTYPE::IMMUNEFIRE;
+				else if (optionId == "IMMUNEICE") option->_optionId = OPTIONTYPE::IMMUNEICE;
+				else if (optionId == "IMMUNEELEC") option->_optionId = OPTIONTYPE::IMMUNEELEC;
+				else if (optionId == "IMMUNEPOSION") option->_optionId = OPTIONTYPE::IMMUNEPOSION;
+				else if (optionId == "TOFIRE") option->_optionId = OPTIONTYPE::TOFIRE;
+				else if (optionId == "TOICE") option->_optionId = OPTIONTYPE::TOICE;
+				else if (optionId == "TOELEC") option->_optionId = OPTIONTYPE::TOELEC;
+				else if (optionId == "TOPOSION") option->_optionId = OPTIONTYPE::TOPOSION;
+				else if (optionId == "FIREDAMAGE") option->_optionId = OPTIONTYPE::FIREDAMAGE;
+				else if (optionId == "ICEDAMAGE") option->_optionId = OPTIONTYPE::ICEDAMAGE;
+				else if (optionId == "ELECDAMAGE") option->_optionId = OPTIONTYPE::ELECDAMAGE;
+				else if (optionId == "POSIONDAMAGE") option->_optionId = OPTIONTYPE::POSIONDAMAGE;
+				else if (optionId == "ETC") option->_optionId = OPTIONTYPE::ETC;
+
+				option->_optionPower = stof(itemData[i][23 + (j * 3)]);
+				option->_description = itemData[i][24 + (j * 3)];
+				item->AddSubOption(option);
+			}
+		}
+
+		_mMapItemData[stoi(itemData[i][0])] = item;
 	}
 }

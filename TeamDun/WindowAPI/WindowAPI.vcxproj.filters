@@ -61,6 +61,24 @@
     <Filter Include="GameFramework\Particle">
       <UniqueIdentifier>{16fd2b55-2479-40a6-aa0d-6605b11bb468}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Item">
+      <UniqueIdentifier>{16b0e334-cd91-4090-a66a-601592388992}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Item\Items">
+      <UniqueIdentifier>{8255f9ee-6c1b-4a0e-b89b-f92bf7dfebcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Item\Items\Weapon">
+      <UniqueIdentifier>{f91e67e5-b9bf-447b-ab8a-6adf3a46e498}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Item\Items\Weapon\Melee">
+      <UniqueIdentifier>{ba7a914a-499f-40d4-88a4-471111f0220c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Item\Items\Weapon\Range">
+      <UniqueIdentifier>{b3fa7407-9721-4212-8275-94ba34d34817}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Item\Items\Accessory">
+      <UniqueIdentifier>{5067d7d1-c817-4eee-9b98-8ab27f78db21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -230,6 +248,15 @@
     </ClCompile>
     <ClCompile Include="SkelDog.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>MainGame\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>MainGame\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="DemonSword.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -406,6 +433,18 @@
     </ClInclude>
     <ClInclude Include="SkelDog.h">
       <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>MainGame\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>MainGame\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="objHeaderCollector.h">
+      <Filter>GameFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="DemonSword.h">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
