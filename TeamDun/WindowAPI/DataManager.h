@@ -2,17 +2,7 @@
 #include "singletonBase.h"
 #include "Object.h"
 
-#include "MapObject.h"
-#include "Door.h"
-#include "MonsterSpawner.h"
-#include "BigWhiteSkel.h"
-#include "Belial.h"
-#include "LittleGhost.h"
-#include "Minotaurs.h"
-#include "RedBat.h"
-#include "Skel.h"
-#include "Banshee.h"
-#include "SkelDog.h"
+#include "objHeaderCollector.h"
 
 struct GridData
 {
@@ -31,16 +21,21 @@ private :
 	map<int, GridData*>		_mGridData;			// 그리드 데이터 맵
 	map<int, Object*>		_mObjectData;		// 오브젝트 맵
 	map<int, MapObject*>	_mMapObjectData;	// 맵 오브젝트 맵
+	map<int, Item*>			_mMapItemData;		// 아이템 맵
 
 public :
 	// 데이터 불러오기 //
 	void GetUIBrushToolGridData();
 	void GetObjectData();
+	void GetItemData();
 
 	// GETSET //
 	map<int, GridData*>&	GetGridData()					{ return _mGridData; }
 	GridData*				GetGridDataByName(string name)	{ return _mGridDataByName[name]; }
 	map<int, MapObject*>&	GetMapObjectData()				{ return _mMapObjectData; }
 	Object*					GetObjectById(int id)			{ return _mObjectData[id]; }
+	map<int, Item*>&		GetMapItemData()				{return _mMapItemData; }
+	Item*					GetItemById(int id)				{ return _mMapItemData[id]; }
+
 };
 

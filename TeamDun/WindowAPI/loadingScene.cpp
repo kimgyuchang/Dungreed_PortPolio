@@ -76,6 +76,7 @@ void loadingScene::LoadData()
 {
 	DATAMANAGER->GetUIBrushToolGridData();
 	DATAMANAGER->GetObjectData();
+	DATAMANAGER->GetItemData();
 }
 
 /// <summary>
@@ -292,9 +293,9 @@ void loadingScene::loadingImage()
 
 	// OBSTACLE //
 	
-	_loading->LoadNormalImage("gear", "Images/Object/gear.bmp", 108, 108, true, RGB(255,0,255), false);
-	_loading->LoadNormalImage("Gear_Small", "Images/Object/Gear_Small.bmp", 69, 69, true, RGB(255,0,255), false);
-	_loading->LoadNormalImage("Gear_Small_Small", "Images/Object/Gear_Small_Small.bmp", 51, 51, true, RGB(255,0,255), false);
+	_loading->LoadNormalImage("gear", "Images/Object/gear.bmp", 108, 108, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Gear_Small", "Images/Object/Gear_Small.bmp", 69, 69, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Gear_Small_Small", "Images/Object/Gear_Small_Small.bmp", 51, 51, true, RGB(255,0,255));
 	_loading->LoadFrameImage("SpikePlatform1", "Images/1Floor/SpikePlatform1.bmp", 288, 48, 6, 1, true, RGB(255,0,255));
 	_loading->LoadNormalImage("Spike", "Images/AllFloor/Spike.bmp", 48, 48, true, RGB(255,0,255));
 
@@ -652,13 +653,14 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("BossSwordHitUp", "Images/Monster/Boss/BossSwordHitUp.bmp", 765, 66, 5, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BossSwordHitLeft", "Images/Monster/Boss/BossSwordHitLeft.bmp", 330, 153, 5, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BossSwordHitRight", "Images/Monster/Boss/BossSwordHitRight.bmp", 330, 153, 5, 1, true, RGB(255, 0, 255));
-	
-
-
 
 	// BACKGROUND //
 	_loading->LoadNormalImage("BackFloorBack1", "Images/1Floor/Basic_H_Type2_4.bmp", 1, 1);
 	_loading->LoadNormalImage("SubBGStage1", "Images/1Floor/SubBGStage1.bmp", 960, 540, true, RGB(255, 0, 255));
+
+	// ITEM //
+	_loading->LoadNormalImage("DemonSword", "Images/item/DemonSword.bmp", 320, 320, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("DemonSword_inven", "Images/item/DemonSword_inven.bmp", 79, 183, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));
