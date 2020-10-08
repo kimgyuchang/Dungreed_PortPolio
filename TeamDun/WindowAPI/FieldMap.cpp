@@ -505,14 +505,17 @@ void FieldMap::EraseDeathObject()
 /// </summary>
 void FieldMap::ShotObject()
 {
-	if (INPUT->GetKeyDown(VK_LBUTTON))
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown(VK_LBUTTON))
 	{
 		for (int i = 0; i < _vObjs.size(); i++)
 		{
-			if (PtInRect(&_vObjs[i]->GetBody(), CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y)))
+			if (_vObjs[i]->GetType() == OBJECTTYPE::OT_MONSTER || _vObjs[i]->GetType() == OBJECTTYPE::OT_BREAKABLE)
 			{
-				_vObjs[i]->SetIsDead(true);
-				break;
+				if (PtInRect(&_vObjs[i]->GetBody(), CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y)))
+				{
+					_vObjs[i]->SetIsDead(true);
+					break;
+				}
 			}
 		}
 	}

@@ -50,7 +50,7 @@ using namespace std;
 #include "EffectManager.h"
 #include "ParticleManager.h"
 
-using namespace MY_UTIL;
+using namespace UTIL;
 
 //=============================================================
 //	## 싱글톤을 추가한다 ##

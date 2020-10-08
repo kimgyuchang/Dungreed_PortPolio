@@ -177,6 +177,7 @@ public:
 	inline int getMaxFrameX() { return _imageInfo->maxFrameX; }
 	inline int getMaxFrameY() { return _imageInfo->maxFrameY; }
 
+	inline string getFileName() { return _fileName; }
 	inline LPIMAGE_INFO getRotateImage() { return _rotateImage; }
 };
 

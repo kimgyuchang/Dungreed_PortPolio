@@ -57,6 +57,8 @@ public:
 
 	// RENDER //
 
+	void LineMake(HDC hdc, int startX, int startY, int endX, int endY);
+
 	void Render(HDC hdc, image* ig, int destX, int destY, float angle = 0);
 	void AlphaRender(HDC hdc, image * ig, int destX, int destY, BYTE alpha, float angle = 0);
 	void StretchRender(HDC hdc, image* ig, int destX, int destY, float scaleX, float scaleY, float angle = 0);

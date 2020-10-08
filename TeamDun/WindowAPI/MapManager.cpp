@@ -102,6 +102,7 @@ void MapManager::ReNewMapUI()
 			UIImage* line = new UIImage();
 			line->init("map_" + to_string(i) + "_lineLeft", (map->GetXIndex() - xIndex) * 100 + 500 - 42, (map->GetYIndex() - yIndex) * 100 + 200 + 36, 42, 8, "Room_Line_LR", false, 0, 0, 1.0f, 1.0f, 125);
 			frame->AddFrame(line);
+			line->SetUseOutsideLimit(true);
 		}
 
 		if (map->GetNextMapIndex(DIRECTION::DIR_RIGHT) != -1)
@@ -109,6 +110,7 @@ void MapManager::ReNewMapUI()
 			UIImage* line = new UIImage();
 			line->init("map_" + to_string(i) + "_lineRight", (map->GetXIndex() - xIndex) * 100 + 500 + 72, (map->GetYIndex() - yIndex) * 100 + 200 + 36, 42, 8, "Room_Line_LR", false, 0, 0, 1.0f, 1.0f, 125);
 			frame->AddFrame(line);
+			line->SetUseOutsideLimit(true);
 		}
 
 		if (map->GetNextMapIndex(DIRECTION::DIR_UP) != -1)
@@ -116,6 +118,7 @@ void MapManager::ReNewMapUI()
 			UIImage* line = new UIImage();
 			line->init("map_" + to_string(i) + "_lineUp", (map->GetXIndex() - xIndex) * 100 + 500 + 36, (map->GetYIndex() - yIndex) * 100 + 200 - 42, 8, 42, "Room_Line_UD", false, 0, 0, 1.0f, 1.0f, 125);
 			frame->AddFrame(line);
+			line->SetUseOutsideLimit(true);
 		}
 
 		if (map->GetNextMapIndex(DIRECTION::DIR_DOWN) != -1)
@@ -123,6 +126,7 @@ void MapManager::ReNewMapUI()
 			UIImage* line = new UIImage();
 			line->init("map_" + to_string(i) + "_lineDown", (map->GetXIndex() - xIndex) * 100 + 500 + 36, (map->GetYIndex() - yIndex) * 100 + 200 + 72, 8, 42, "Room_Line_UD", false, 0, 0, 1.0f, 1.0f, 125);
 			frame->AddFrame(line);
+			line->SetUseOutsideLimit(true);
 		}
 	}
 
@@ -142,9 +146,19 @@ void MapManager::ReNewMapUI()
 			cntMap->init("map_" + to_string(i), (map->GetXIndex() - xIndex) * 100 + 500, (map->GetYIndex() - yIndex) * 100 + 200, 72, 72, "Room");
 		}
 
+		cntMap->SetUseOutsideLimit(true);
 		frame->AddFrame(cntMap);
 	}
 
+	UIFrame* scrollContainer = new UIFrame();
+	scrollContainer->init("container", 200, 400, IMAGEMANAGER->findImage("OptionSoundBar")->getWidth(), IMAGEMANAGER->findImage("OptionSoundBar")->getHeight(), "OptionSoundBar", 1.0f, 1.0f);
+	frame->AddFrame(scrollContainer);
+
+	UIScroll* mouseCenter = new UIScroll();
+	mouseCenter->init("scroll", 0, 0, IMAGEMANAGER->findImage("Mouse_WheelClick")->getWidth(), IMAGEMANAGER->findImage("Mouse_WheelClick")->getHeight(), "Mouse_WheelClick");
+	mouseCenter->SetTarget(frame);
+	mouseCenter->SetIsVertical(false);
+	scrollContainer->AddFrame(mouseCenter);
 }
 // allMapFrame // mapFrame
 

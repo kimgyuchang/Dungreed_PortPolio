@@ -165,6 +165,14 @@ void CameraManager::Shaker()
 	}
 }
 
+
+//선 그리기
+void CameraManager::LineMake(HDC hdc, int startX, int startY, int endX, int endY)
+{
+	MoveToEx(hdc, GetRelativeX(startX), GetRelativeY(startY), NULL);
+	LineTo(hdc, GetRelativeX(endX), GetRelativeY(endY));
+}
+
 void CameraManager::Render(HDC hdc, image* ig, int destX, int destY, float angle)
 {
 	ig->render(hdc, GetRelativeX(destX), GetRelativeY(destY), angle);

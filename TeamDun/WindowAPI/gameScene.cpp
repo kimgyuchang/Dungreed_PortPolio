@@ -39,7 +39,6 @@ void gameScene::initUI()
 	mapFrame->init("mapFrame", 130, 180, IMAGEMANAGER->findImage("MapBase_1_1")->getWidth(), IMAGEMANAGER->findImage("MapBase_1_1")->getHeight(), "MapBase_1_1", 1.5f, 1.4f);
 	mapFrame->SetUseOutsideLimit(true);
 	allMapFrame->AddFrame(mapFrame);
-	
 	allMapFrame->SetIsViewing(false);
 }
 
@@ -68,6 +67,7 @@ void gameScene::update()
 	ENTITYMANAGER->update();
 	EFFECTMANAGER->update();
 	PARTICLEMANAGER->update();
+	UIMANAGER->update();
 }
 
 void gameScene::render()

@@ -9,9 +9,10 @@ class UIScroll : public UIFrame // UIFrame을 상속받아 UIFrame의 기능들도 모두 이
 private :
 	UIFrame*	_target;		// Scroll이 움직일 타겟 UI
 	float		_scrollPercent;	// Scroll이 얼마만큼 내려왔는지 비율
+	bool		_isVertical;	// Scroll이 세로면
 
 	void CalculateScrollBarPercent();
-
+	
 public :
 
 	virtual	HRESULT init(string name, float x, float y, float sizeX, float sizeY, string imageName);
@@ -22,7 +23,7 @@ public :
 
 	void SetTarget(UIFrame* target) { _target = target; }
 	void SetScroll(float percent) { _scrollPercent = percent; }
-
+	void SetIsVertical(bool vertical) { _isVertical = vertical; }
 	void MoveScrollBar();
 };
 
