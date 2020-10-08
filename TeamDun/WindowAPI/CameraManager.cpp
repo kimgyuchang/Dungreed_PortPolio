@@ -66,15 +66,15 @@ void CameraManager::MovePivot(float x, float y)
 }
 
 // MOVEPIVOTLERP :: 부드럽게 움직이게 한다
+	
 void CameraManager::MovePivotLerp(float x, float y, float lerpSpeed)
 {
-	
+
 	MovePivot(
-		(x - _pivotX) / lerpSpeed + _pivotX, 
+		(x - _pivotX) / lerpSpeed + _pivotX,
 		(y - _pivotY) / lerpSpeed + _pivotY
 	);
 }
-
 void CameraManager::MovePivotRegular(float x, float y, float moveSpeed)
 {
 	int yDis = abs(y - _pivotY);

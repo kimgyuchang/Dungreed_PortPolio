@@ -44,6 +44,7 @@ HRESULT MapManager::init()
 		if (mapAllCleared) break;
 	}
 	
+<<<<<<< HEAD
 	_currentStage = 1;
 	_currentMap = 0;
 	GetPlayMap()->PixelCollisionMapGenerate();
@@ -52,6 +53,9 @@ HRESULT MapManager::init()
 	ReNewMapUI();
 	ChangeMap(1, 0);
 
+=======
+	ChangeMap(2, 0);
+>>>>>>> AhnSem
 	return S_OK;
 }
 
