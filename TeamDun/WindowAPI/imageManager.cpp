@@ -207,81 +207,81 @@ BOOL imageManager::deleteAll()
 //=============================================================
 //	## 일반렌더 ##
 //=============================================================
-void imageManager::render(string strKey, HDC hdc, int destX, int destY)
+void imageManager::render(string strKey, HDC hdc, int destX, int destY, float angle)
 {
 	//이미지 찾아서 그냥 이미지클래스의 함수를 실행한다
 	image* img = findImage(strKey);
-	if (img) img->render(hdc, destX, destY);
+	if (img) img->render(hdc, destX, destY, angle);
 }
 
-void imageManager::render(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight)
+void imageManager::render(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, float angle)
 {
 	//이미지 찾아서 그냥 이미지클래스의 함수를 실행한다
 	image* img = findImage(strKey);
-	if (img) img->render(hdc, destX, destY, sourX, sourY, sourWidth, sourHeight);
+	if (img) img->render(hdc, destX, destY, sourX, sourY, sourWidth, sourHeight, angle);
 }
 
 //=============================================================
 //	## 알파렌더 ##
 //=============================================================
-void imageManager::alphaRender(string strKey, HDC hdc, BYTE alpha)
+void imageManager::alphaRender(string strKey, HDC hdc, BYTE alpha, float angle)
 {
 	//이미지 찾아서 그냥 이미지클래스의 함수를 실행한다
 	image* img = findImage(strKey);
-	if (img) img->alphaRender(hdc, alpha);
+	if (img) img->alphaRender(hdc, alpha, angle);
 }
 
-void imageManager::alphaRender(string strKey, HDC hdc, int destX, int destY, BYTE alpha)
+void imageManager::alphaRender(string strKey, HDC hdc, int destX, int destY, BYTE alpha, float angle)
 {
 	//이미지 찾아서 그냥 이미지클래스의 함수를 실행한다
 	image* img = findImage(strKey);
-	if (img) img->alphaRender(hdc, destX, destY, alpha);
+	if (img) img->alphaRender(hdc, destX, destY, alpha, angle);
 }
 
-void imageManager::alphaRender(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha)
+void imageManager::alphaRender(string strKey, HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha, float angle)
 {
 	//이미지 찾아서 그냥 이미지클래스의 함수를 실행한다
 	image* img = findImage(strKey);
-	if (img) img->alphaRender(hdc, destX, destY, sourX, sourY, sourWidth, sourHeight, alpha);
+	if (img) img->alphaRender(hdc, destX, destY, sourX, sourY, sourWidth, sourHeight, alpha, angle);
 }
 
-void imageManager::stretchRender(string strKey, HDC hdc, int destX, int destY, float scaleX, float scaleY)
+void imageManager::stretchRender(string strKey, HDC hdc, int destX, int destY, float scaleX, float scaleY, float angle)
 {
 	image* img = findImage(strKey);
-	if (img) img->stretchRender(hdc, destX, destY, scaleX, scaleY);
+	if (img) img->stretchRender(hdc, destX, destY, scaleX, scaleY, angle);
 }
 
 //=============================================================
 //	## 프레임렌더 ##
 //=============================================================
-void imageManager::frameRender(string strKey, HDC hdc, int destX, int destY)
+void imageManager::frameRender(string strKey, HDC hdc, int destX, int destY, float angle)
 {
 	//이미지 찾아서 그냥 이미지클래스의 함수를 실행한다
 	image* img = findImage(strKey);
-	if (img) img->frameRender(hdc, destX, destY);
+	if (img) img->frameRender(hdc, destX, destY, angle);
 }
 
-void imageManager::frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY)
+void imageManager::frameRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float angle)
 {
 	//이미지 찾아서 그냥 이미지클래스의 함수를 실행한다
 	image* img = findImage(strKey);
-	if (img) img->frameRender(hdc, destX, destY, currentFrameX, currentFrameY);
+	if (img) img->frameRender(hdc, destX, destY, currentFrameX, currentFrameY , angle);
 }
 
 //=============================================================
 //	## 프레임알파렌더 ##
 //=============================================================
-void imageManager::frameAlphaRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, int alpha)
+void imageManager::frameAlphaRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, int alpha,float angle)
 {
 	//이미지 찾아서 그냥 이미지클래스의 함수를 실행한다
 	image* img = findImage(strKey);
-	if (img) img->frameAlphaRender(hdc, destX, destY, currentFrameX, currentFrameY, alpha);
+	if (img) img->frameAlphaRender(hdc, destX, destY, currentFrameX, currentFrameY, alpha , angle);
 }
 
-void imageManager::frameStretchAlphaRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha)
+void imageManager::frameStretchAlphaRender(string strKey, HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, float scaleX, float scaleY, BYTE alpha, float angle)
 {
 	image* img = findImage(strKey);
-	if (img) img->frameStretchAlphaRender(hdc, destX, destY, currentFrameX, currentFrameY, scaleX, scaleY, alpha);
+	if (img) img->frameStretchAlphaRender(hdc, destX, destY, currentFrameX, currentFrameY, scaleX, scaleY, alpha ,angle);
 }
 
 //=============================================================

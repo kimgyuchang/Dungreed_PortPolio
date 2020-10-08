@@ -40,6 +40,7 @@ void BigWhiteSkel::update()
 			}
 			break;
 		case ES_MOVE:
+			_body = RectMake(_x, _y, 99, 90);
 			if (ENTITYMANAGER->getPlayer()->GetX() - 70 > _x)
 			{
 				_isLeft = true;
@@ -112,6 +113,8 @@ void BigWhiteSkel::render(HDC hdc)
 void BigWhiteSkel::Move()
 {
 	Enemy::Move();
+
+	_body = RectMake(_x, _y, 99, 90);
 
 	if (_y > ENTITYMANAGER->getPlayer()->GetY() && abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200 && !_isAttack)
 	{

@@ -100,6 +100,8 @@ void Minotaurs::Move()
 {
 	Enemy::Move();
 
+	_body = RectMake(_x, _y, 156, 150);
+
 	//ÀÌÆåÆ®
 	_effectTimer++;
 
@@ -113,7 +115,7 @@ void Minotaurs::Move()
 	}
 	if (_effectTimer > 10)
 	{
-		EFFECTMANAGER->AddEffect(_x + _effect, _y + 55, "MinotaursDashEffect", 4, 0, _frameY, false, 150);
+		EFFECTMANAGER->AddEffect(_x + _effect, _y + 45, "MinotaursDashEffect", 4, 0, _frameY, false, 150);
 		_effectTimer = 0;
 	}
 
