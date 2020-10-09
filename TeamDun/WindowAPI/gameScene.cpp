@@ -29,21 +29,9 @@ HRESULT gameScene::init()
 
 void gameScene::initUI()
 {
-	// UIFrame
+	DungeonMapUIInit();
 
-	UIImage* allMapFrame = new UIImage();
-	allMapFrame->init("allMapFrame", 0, 0, WINSIZEX, WINSIZEY, "ScreenCover", false, 0, 0, 1, 1, 80);
-	UIMANAGER->GetGameFrame()->AddFrame(allMapFrame);
-
-	UIFrame* mapUpperImg = new UIFrame();
-	mapUpperImg->init("mapUpperImg", 0, 0, IMAGEMANAGER->findImage("MapBase_1_0")->getWidth(), IMAGEMANAGER->findImage("MapBase_1_0")->getHeight(), "MapBase_1_0", 1.0f, 1.0f);
-	allMapFrame->AddFrame(mapUpperImg);
-
-	UIFrame* mapFrame = new UIFrame();
-	mapFrame->init("mapFrame", 130, 180, IMAGEMANAGER->findImage("MapBase_1_1")->getWidth(), IMAGEMANAGER->findImage("MapBase_1_1")->getHeight(), "MapBase_1_1", 1.5f, 1.4f);
-	mapFrame->SetUseOutsideLimit(true);
-	allMapFrame->AddFrame(mapFrame);
-
+	// WarDrobe Frame //
 	UIFrame* warDrobeFrame = new UIFrame();
 	warDrobeFrame->init("warDrobeFrame", 0, 0, IMAGEMANAGER->findImage("ScreenCover")->getWidth(), IMAGEMANAGER->findImage("ScreenCover")->getHeight(), "ScreenCover");
 	UIMANAGER->GetGameFrame()->AddFrame(warDrobeFrame);
@@ -138,7 +126,33 @@ void gameScene::initUI()
 	CharExplanationText->init("CharExplanationText", 50, 200, 400, 50, "", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
 	costumeExplanationFrame->AddFrame(CharExplanationText);
 
+	InventoryUIInit();
+}
+
+void gameScene::DungeonMapUIInit()
+{
+	// DungeonMap Frame //
+	UIImage* allMapFrame = new UIImage();
+	allMapFrame->init("allMapFrame", 0, 0, WINSIZEX, WINSIZEY, "ScreenCover", false, 0, 0, 1, 1, 80);
+	UIMANAGER->GetGameFrame()->AddFrame(allMapFrame);
+
+	UIFrame* mapUpperImg = new UIFrame();
+	mapUpperImg->init("mapUpperImg", 0, 0, IMAGEMANAGER->findImage("MapBase_1_0")->getWidth(), IMAGEMANAGER->findImage("MapBase_1_0")->getHeight(), "MapBase_1_0", 1.0f, 1.0f);
+	allMapFrame->AddFrame(mapUpperImg);
+
+	UIFrame* mapFrame = new UIFrame();
+	mapFrame->init("mapFrame", 130, 180, IMAGEMANAGER->findImage("MapBase_1_1")->getWidth(), IMAGEMANAGER->findImage("MapBase_1_1")->getHeight(), "MapBase_1_1", 1.5f, 1.4f);
+	mapFrame->SetUseOutsideLimit(true);
+	allMapFrame->AddFrame(mapFrame);
+
 	allMapFrame->SetIsViewing(false);
+}
+
+void gameScene::InventoryUIInit()
+{
+	UIFrame* InventoryFrame = new UIFrame();
+	
+
 }
 
 void gameScene::release()

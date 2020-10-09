@@ -13,6 +13,8 @@ private:
 public:
 	HRESULT init();
 	void initUI();
+	void DungeonMapUIInit();
+	void InventoryUIInit();
 	void release();
 	void update();
 	void render();
