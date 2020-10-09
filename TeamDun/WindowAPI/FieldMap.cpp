@@ -91,6 +91,10 @@ void FieldMap::LoadObject()
 			obj = new Belial(*dynamic_cast<Belial*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
 
+		case 1504: // 서큐버스
+			obj = new Lilith(*dynamic_cast<Lilith*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+
 		case 1505: // 작은 유령
 			obj = new LittleGhost(*dynamic_cast<LittleGhost*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;

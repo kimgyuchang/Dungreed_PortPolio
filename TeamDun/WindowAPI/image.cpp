@@ -636,7 +636,7 @@ void image::frameAlphaRender(HDC hdc, int destX, int destY, int currentFrameX, i
 			hdc, 0, 0, SRCCOPY);
 
 
-		if (angle != 0)RotateHDC(hdc, angle);
+		if (angle != 0) RotateHDC(hdc, angle, currentFrameX, currentFrameY);
 		GdiTransparentBlt(
 			_blendImage->hMemDC,	//복사할 장소의 DC
 			destX,						//복사할 좌표 시작X
@@ -753,7 +753,7 @@ void image::frameStretchRender(HDC hdc, int destX, int destY, int currentFrameX,
 
 	if (_isTrans) //배경색 없애고 출력
 	{
-		if (angle != 0)RotateHDC(hdc, angle);
+		if (angle != 0) RotateHDC(hdc, angle, currentFrameX, currentFrameY);
 		BitBlt(_stretchImage->hMemDC, 0, 0, _imageInfo->width * scaleX, _imageInfo->height * scaleY,
 			hdc, 0, 0, SRCCOPY);
 
@@ -815,13 +815,13 @@ void image::frameStretchAlphaRender(HDC hdc, int destX, int destY, int currentFr
 
 	if (_isTrans) //배경색 없애고 출력
 	{
-		if (angle != 0)RotateHDC(hdc, angle);
-		BitBlt(_stretchImage->hMemDC, 0, 0, _imageInfo->width * scaleX + destX, _imageInfo->height * scaleY + destY,
-			hdc, 0, 0, SRCCOPY);
-		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->width * scaleX + destX, _imageInfo->height * scaleY + destY,
-			hdc, 0, 0, SRCCOPY);
-
 		if (angle != 0.f) RotateHDC(hdc, angle, currentFrameX, currentFrameY);
+		
+		BitBlt(_stretchImage->hMemDC, destX, destY, _imageInfo->width * scaleX , _imageInfo->height * scaleY,
+			hdc, destX, destY, SRCCOPY);
+		BitBlt(_blendImage->hMemDC, destX, destY, _imageInfo->width * scaleX , _imageInfo->height * scaleY,
+			hdc, destX, destY, SRCCOPY);
+
 
 		// 먼저 늘이거나 줄이고
 		StretchBlt(
@@ -845,14 +845,14 @@ void image::frameStretchAlphaRender(HDC hdc, int destX, int destY, int currentFr
 			_imageInfo->frameWidth * scaleX,
 			_imageInfo->frameHeight * scaleY,
 			_stretchImage->hMemDC,
-			(_imageInfo->frameWidth * currentFrameX * scaleX) + destX,
-			(_imageInfo->frameHeight * currentFrameY * scaleY) + destY,
+			(_imageInfo->frameWidth * currentFrameX * scaleX)+destX ,
+			(_imageInfo->frameHeight * currentFrameY * scaleY)+destY ,
 			_imageInfo->frameWidth * scaleX,
 			_imageInfo->frameHeight * scaleY,
 			_transColor);
 
 		GdiAlphaBlend(hdc, destX, destY, _imageInfo->frameWidth * scaleX, _imageInfo->frameHeight * scaleY,
-			_blendImage->hMemDC, destX + (_imageInfo->frameWidth * currentFrameX * scaleX), destY + (_imageInfo->frameHeight * currentFrameY * scaleY),
+			_blendImage->hMemDC,destX,destY,
 			_imageInfo->frameWidth * scaleX, _imageInfo->frameHeight * scaleY, _blendFunc);
 	}
 	else // 확대와 알파를 먹인 것 (투명화는 안함)

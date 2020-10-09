@@ -2,6 +2,7 @@
 #include "Object.h"
 #include "inventory.h"
 #include "Item.h"
+
 //캐릭터 상태
 enum PLAYERSTATE
 {

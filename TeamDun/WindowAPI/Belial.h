@@ -33,31 +33,51 @@ struct BossSword
 	int frameY;
 	
 };
+
+struct Razer
+{
+	image* ig;
+	float x;
+	float y;
+	int frameX;
+	int frameY;
+	RECT body;
+};
 class Belial : public Enemy
 {
 private:
-	image*		_bossBack;
-	BELIALPATTERN _BelialPattern;
-	float		 _angle;
-	float		_PatternTime;
-	float		_fireAngle;
-	int			_bulletFireTimer;
-	int			_bulletEndTimer;
-	
-	
+	image*			_bossBack;
+	BELIALPATTERN	_BelialPattern;
+	float			_angle;
+	int				_PatternTime;
+	float			_fireAngle;
+	int				_bulletFireTimer;
+	int				_bulletEndTimer;
+
+
+	//레이저패턴 변수
+	bool			_RazerEnd;
+	int				_RazerEndCount;
+	int				_RazerCount;
+	float			_playerY1;
+	float			_playerY2;
+	vector<Razer*>	_vLeftRazer;
+	vector<Razer*>	_vRightRazer;
+
+	//칼패턴 변수
 	vector<BossSword*> _vBossSword;
-	bool _makeSword;
-	bool _shootSword;
-	float _firstSwordX;
-	float _firstSwordY;
-	int _makeSwordTimer;
-	int _swordCount;
-	int _shootSwordTimer;
-	int _swordEndCount;
+	bool			_makeSword;
+	bool			_shootSword;
+	float			_firstSwordX;
+	float			_firstSwordY;
+	int				_makeSwordTimer;
+	int				_swordCount;
+	int				_shootSwordTimer;
+	int				_swordEndCount;
 
 
-	bossHands _leftHandle;
-	bossHands _RightHandle;
+	bossHands		_leftHandle;
+	bossHands		_RightHandle;
 
 
 public:
@@ -73,9 +93,11 @@ public:
 	virtual void	Animation();
 	virtual void	SetPattern();
 
+
+	float MoveLerp(float y1, float y2, float amount);
 	//KNIFE Pattern
 	virtual void	SetSword();
-	virtual void	SwordAniMation();
+	
 	virtual void	SetSwordAngle();
 	virtual void	SwordPixelCollision();
 	virtual void	EraseSword();

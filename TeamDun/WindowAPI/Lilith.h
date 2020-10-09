@@ -1,16 +1,13 @@
 #pragma once
-#include "enemy.h"
+#include "Enemy.h"
 
-class SkelDog : public Enemy
+class Lilith : public Enemy
 {
 private:
-	float		_probeBottom;
-	float		_gravity;
-	float		_jumpPower;
-	bool		_isAttack;
-	bool		_isJump;
-	int			_jumpTimer;
-	int			_jumpCount;
+	float _probeBottom;
+	int _attackTimer;
+	bool _isAttack;
+
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
 	virtual void	update();
@@ -20,6 +17,5 @@ public:
 	virtual void	Move();
 	virtual void	Attack();
 	virtual void	Animation();
-	virtual void	pixelCollision();
 };
 

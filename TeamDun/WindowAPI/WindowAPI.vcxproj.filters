@@ -258,6 +258,9 @@
     <ClCompile Include="DemonSword.cpp">
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
     </ClCompile>
+    <ClCompile Include="Lilith.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -445,6 +448,9 @@
     </ClInclude>
     <ClInclude Include="DemonSword.h">
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="Lilith.h">
+      <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
