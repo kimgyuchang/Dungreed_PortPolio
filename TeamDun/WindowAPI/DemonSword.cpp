@@ -76,7 +76,7 @@ void DemonSword::Activate()
 	_renderAngle = 0;
 
 	DemonSlash* slash = new DemonSlash();
-	slash->init(_renderPosX, _renderPosY, _slashImage, _angle);
+	slash->init(GetAngleCheckPosX() - _slashImage->getFrameWidth()/2 * 3, GetAngleCheckPosY() - _slashImage->getFrameHeight()/2 * 3, _isLeftAttack ? 0 : 1, _slashImage, _angle);
 	slash->_parent = this;
 	_vSlashes.push_back(slash);
 }
@@ -94,12 +94,13 @@ void DemonSword::SlashUpdater()
 	}
 }
 
-void DemonSlash::init(float x, float y, image* img, int angle)
+void DemonSlash::init(float x, float y, int frameY, image* img, int angle)
 {
 	_x = x;
 	_y = y;
 	_angle = angle;
 	_image = img;
+	_frameY = frameY;
 	_animTimer = 0;
 	_radius = 150;
 	_frameX = 0;
@@ -132,12 +133,11 @@ void DemonSlash::animation()
 
 void DemonSlash::render(HDC hdc)
 {
-	CAMERAMANAGER->FrameStretchRender(hdc, _image, _x, _y, _frameX, 0, 3.0f, 3.0f, _angle);
+	CAMERAMANAGER->FrameStretchRender(hdc, _image, _x, _y, _frameX, _frameY, 3.0f, 3.0f, _angle);
 	CAMERAMANAGER->TextDraw(hdc, _parent->GetAngleCheckPosX(), _parent->GetAngleCheckPosY(), "HERE", strlen("HERE"));
 
 	CAMERAMANAGER->LineMake(hdc, _parent->GetAngleCheckPosX(), _parent->GetAngleCheckPosY(), _parent->GetAngleCheckPosX() + cos(_angle - PI * 0.2) * _radius, _parent->GetAngleCheckPosY() - sin(_angle - PI * 0.2) * _radius);
 	CAMERAMANAGER->LineMake(hdc, _parent->GetAngleCheckPosX(), _parent->GetAngleCheckPosY(), _parent->GetAngleCheckPosX() + cos(_angle + PI * 0.2) * _radius, _parent->GetAngleCheckPosY() - sin(_angle + PI * 0.2) * _radius);
-
 }
 
 void DemonSlash::SetCollide()

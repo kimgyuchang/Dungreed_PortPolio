@@ -9,12 +9,13 @@ public :
 	float _radius;
 	image* _image;
 	int _frameX;
+	int _frameY;
 	int _animTimer;
 	float _angle;
 	bool _isDead;
 	Item* _parent;
 
-	void init(float x, float y, image* img, int angle);
+	void init(float x, float y, int frameY, image* img, int angle);
 	void update();
 	void animation();
 	void render(HDC hdc);
