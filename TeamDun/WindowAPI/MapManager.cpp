@@ -51,7 +51,6 @@ HRESULT MapManager::init()
 	GenerateMapParticle();
 	ReNewMapUI();
 	ChangeMap(1, 0);
-	ChangeMap(2, 0);
 
 	return S_OK;
 }
