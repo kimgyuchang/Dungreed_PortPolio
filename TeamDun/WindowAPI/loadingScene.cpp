@@ -611,11 +611,11 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("RedGiantBat", "Images/Monster/RedGiantBat.bmp", 1239, 210, 7, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("RedGiantBatAttack", "Images/Monster/RedGiantBatAttack.bmp", 1770, 234, 10, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("LilithIdle", "Images/Monster/LilithIdle.bmp", 936, 156, 12, 2, true, RGB(255, 0, 255));
-	_loading->LoadFrameImage("LilithCatch", "Images/Monster/LilithCatch.bmp", 78, 156, 1, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("LilithCatch", "Images/Monster/LilithCatch.bmp", 78, 156, 2, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("LilithMove", "Images/Monster/LilithMove.bmp", 468, 156, 6, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("LittleGhost", "Images/Monster/LittleGhost.bmp", 360, 120, 6, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("LittleGhostAttack", "Images/Monster/LittleGhostAttack.bmp", 180, 120, 3, 2, true, RGB(255, 0, 255));
-	_loading->LoadFrameImage("SkelIdle", "Images/Monster/SkelIdle.bmp", 42, 114, 1, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("SkelIdle", "Images/Monster/SkelIdle.bmp", 42, 114, 2, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("SkelWalk", "Images/Monster/SkelWalk.bmp", 252, 114, 6, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("SkelCorpse", "Images/Monster/SkelCorpse.bmp", 33, 24, 1, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("SkelDogIdle", "Images/Monster/SkelDogIdle.bmp", 300, 108, 5, 2, true, RGB(255, 0, 255));

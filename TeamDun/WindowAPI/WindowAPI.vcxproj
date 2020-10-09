@@ -171,6 +171,7 @@
     <ClInclude Include="inputManager.h" />
     <ClInclude Include="inventory.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="Lilith.h" />
     <ClInclude Include="LittleGhost.h" />
     <ClInclude Include="loading.h" />
     <ClInclude Include="loadingScene.h" />
@@ -234,6 +235,7 @@
     <ClCompile Include="inputManager.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Lilith.cpp" />
     <ClCompile Include="LittleGhost.cpp" />
     <ClCompile Include="loading.cpp" />
     <ClCompile Include="loadingScene.cpp" />

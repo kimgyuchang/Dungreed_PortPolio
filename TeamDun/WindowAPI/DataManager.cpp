@@ -55,6 +55,10 @@ void DataManager::GetObjectData()
 		case 1501:// 미노타우르스
 			obj = new Minotaurs();
 			break;
+			
+		case 1504:// 서큐버스
+			obj = new Lilith();
+			break;
 
 		case 1505:// 작은 유령
 			obj = new LittleGhost();
