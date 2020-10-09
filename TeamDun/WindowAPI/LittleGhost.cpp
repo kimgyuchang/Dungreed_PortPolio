@@ -80,6 +80,7 @@ void LittleGhost::render(HDC hdc)
 	if (_isSpawned)
 	{
 		Enemy::render(hdc);
+		CAMERAMANAGER->Rectangle(hdc, _body);
 	}
 }
 

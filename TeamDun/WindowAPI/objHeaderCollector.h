@@ -16,3 +16,5 @@
 #include "DemonSword.h"
 #include "RedGiantBat.h"
 #include "PurpleGiantBat.h"
+#include "Lilith.h"
+

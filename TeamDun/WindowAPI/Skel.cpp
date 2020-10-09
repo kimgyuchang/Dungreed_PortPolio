@@ -17,18 +17,18 @@ void Skel::update()
 {
 	Enemy::update();
 
-	if (_isSpawned)
+	if (_isSpawned)		//만약 스폰되었으면
 	{
-		switch (_state)
+		switch (_state)		//현재상태
 		{
-		case ES_IDLE:
-			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200)
+		case ES_IDLE:		//기본상태
+			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200)		//만약 스켈레톤과 플레이어의 겹친 부분이 200보다작으면
 			{
-				_state = ES_MOVE;
+				_state = ES_MOVE;										//움직이는 상태로
 			}
 			break;
-		case ES_MOVE:
-			if (ENTITYMANAGER->getPlayer()->GetX() - 70 > _x)
+		case ES_MOVE:	    //움직이는 상태
+			if (ENTITYMANAGER->getPlayer()->GetX() - 70 > _x)			//만약 플레이어가 스켈레톤보다 
 			{
 				_isLeft = true;
 				_x += 3;
@@ -67,10 +67,10 @@ void Skel::release()
 
 void Skel::render(HDC hdc)
 {
-
 	if (_isSpawned)
 	{
 		Enemy::render(hdc);
+		CAMERAMANAGER->Rectangle(hdc, _body);
 	}
 }
 
