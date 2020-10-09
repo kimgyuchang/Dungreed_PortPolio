@@ -658,9 +658,9 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("SubBGStage1", "Images/1Floor/SubBGStage1.bmp", 960, 540, true, RGB(255, 0, 255));
 
 	// ITEM //
-	_loading->LoadFrameImage("DemonSword", "Images/item/DemonSword.bmp", 320, 640, 1, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("DemonSword", "Images/item/DemonSword.bmp", 107, 213, 1, 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("DemonSword_inven", "Images/item/DemonSword_inven.bmp", 79, 183, true, RGB(255, 0, 255));
-	_loading->LoadFrameImage("DemonSword_Slash", "Images/item/DemonSword_Slash.bmp", 770, 220, 7, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("DemonSword_Slash", "Images/item/DemonSword_Slash.bmp", 924, 264, 7, 2, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));

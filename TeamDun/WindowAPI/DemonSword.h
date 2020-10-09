@@ -15,7 +15,7 @@ public :
 	bool _isDead;
 	Item* _parent;
 
-	void init(float x, float y, int frameY, image* img, int angle);
+	void init(float x, float y, int frameY, image* img, float angle);
 	void update();
 	void animation();
 	void render(HDC hdc);
@@ -39,5 +39,6 @@ public :
 	void AttackAnim();
 	virtual void Activate();
 	void SlashUpdater();
+	virtual void SetBaseRenderPos();
 };
 

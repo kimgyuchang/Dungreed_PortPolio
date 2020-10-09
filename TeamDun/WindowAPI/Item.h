@@ -129,7 +129,7 @@ public:
 	void AdaptSubOption(SubOption* subOption, bool isEquip);
 	
 
-	void SetBaseRenderPos();
+	virtual void SetBaseRenderPos();
 
 	// GETSET // 
 
