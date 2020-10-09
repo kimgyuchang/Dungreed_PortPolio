@@ -55,28 +55,36 @@ void EntityManager::release()
 	_p->release();
 }
 
-void EntityManager::makeBullet(const char * imageName, BULLETTYPE type, float x, float y, float angle, float speed, float maxDis, bool isFrame)
+Bullet* EntityManager::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle, float speed, float maxDis, bool isFrame)
 {
 	Bullet* _bullet = new Bullet;
-	_bullet->makeBullet(imageName,type, x, y, angle, speed, maxDis, isFrame);
+	_bullet->makeBullet(imageName, effectIgName,type, x, y, angle, speed, maxDis, isFrame);
 	_vBullets.push_back(_bullet);
-
+	return _bullet;
 }
 
 void EntityManager::eraseBullet()
 {
+
+	image* batBulletIg = IMAGEMANAGER->findImage("BatBullet");
+	image* BansheeBulletIg = IMAGEMANAGER->findImage("BansheeBulletIdle");
+
+
+
 	for (int i = 0; i < _vBullets.size(); i++)
 	{
 		if (_vBullets[i]->getDis() >= _vBullets[i]->getMaxDis())
 		{
-			EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), "BatBulletHit", 4, 0, 0, false, 255);
+			EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), _vBullets[i]->getEffectIgName(), 4, 0, 0, false, 255);
+			_vBullets[i]->SetIsDead(true);
 			_vBullets.erase(_vBullets.begin() + i);
 		}
 	}
 	
+	//총알 레이어 1벽과 충돌체크
 	for (int i = 0; i < _vBullets.size(); i++)
 	{
-		if (_vBullets[i]->getType() == BT_NOMAL)
+		if (_vBullets[i]->getType() == BT_NOMAL|| _vBullets[i]->getType() == BT_PLAYER)
 		{
 			COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _vBullets[i]->getX(), _vBullets[i]->getY());
 			int r = GetRValue(color);
@@ -85,7 +93,9 @@ void EntityManager::eraseBullet()
 
 			if ((r == 255 && g == 0 && b == 0))
 			{
-				EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), "BatBulletHit", 4, 0, 0, false, 255);
+				
+				EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), _vBullets[i]->getEffectIgName(), 4, 0, 0, false, 255);
+				_vBullets[i]->SetIsDead(true);
 				_vBullets.erase(_vBullets.begin() + i);
 			}
 		}

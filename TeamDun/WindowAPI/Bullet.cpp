@@ -32,9 +32,10 @@ void Bullet::render(HDC hdc)
 
 }
 
-void Bullet::makeBullet(const char * imageName, BULLETTYPE type, float x, float y, float angle, float speed, float maxDis, bool isFrame)
+void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle, float speed, float maxDis, bool isFrame)
 {
 	_ig = IMAGEMANAGER->findImage(imageName);
+	_effectIgName = effectIgName;
 	_type = type;
 	_x = _startX = x;
 	_y = _startY = y;
@@ -46,6 +47,8 @@ void Bullet::makeBullet(const char * imageName, BULLETTYPE type, float x, float 
 	_frameTimer = 0;
 	_distance = getDistance(_startX, _startY, _x, _y);
 	_maxDistance = maxDis;
+
+	_isDead = false;
 	if (_isFrame)
 	{
 		_rc = RectMake(_x, _y, _ig->getFrameWidth(), _ig->getFrameHeight());

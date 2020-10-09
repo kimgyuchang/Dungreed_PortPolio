@@ -52,7 +52,7 @@ void Player::update()
 
 	if (INPUT->GetKeyDown('X'))				//X키를 눌렀을때
 	{
-		ENTITYMANAGER->makeBullet("BatBullet", BT_NOCOL, _x,_y, getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _ptMouse.x, _ptMouse.y), 10,600, true);
+		ENTITYMANAGER->makeBullet("BatBullet","BatBulletHit", BT_NOCOL, _x,_y, getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _ptMouse.x, _ptMouse.y), 10,600, true);
 	}   //플레이어의 x,y좌표를 받아와서 플레이어와 마우스 좌표 간의 각도를 구한후 그 거리만큼 총알이 날아가게끔
 
 	if (CAMERAMANAGER->GetRelativeX(_x+ IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth()/2) >= _ptMouse.x)

@@ -102,7 +102,12 @@ void FieldMap::LoadObject()
 		case 1502: // ¹ê½Ã
 			obj = new Banshee(*dynamic_cast<Banshee*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
+		case 1509: //»¡°£ Å«¹ÚÁã
+			obj = new RedGiantBat(*dynamic_cast<RedGiantBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+		case 1510: //º¸¶ó Å«¹ÚÁã
+			obj = new PurpleGiantBat(*dynamic_cast<PurpleGiantBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 		case 1507:// ÇØ°ñ
 			obj = new Skel(*dynamic_cast<Skel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;

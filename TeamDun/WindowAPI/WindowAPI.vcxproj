@@ -191,8 +191,10 @@
     <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="progressBar.h" />
+    <ClInclude Include="PurpleGiantBat.h" />
     <ClInclude Include="random.h" />
     <ClInclude Include="RedBat.h" />
+    <ClInclude Include="RedGiantBat.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="singletonBase.h" />
     <ClInclude Include="Skel.h" />
@@ -252,8 +254,10 @@
     <ClCompile Include="ParticleManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="progressBar.cpp" />
+    <ClCompile Include="PurpleGiantBat.cpp" />
     <ClCompile Include="random.cpp" />
     <ClCompile Include="RedBat.cpp" />
+    <ClCompile Include="RedGiantBat.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="Skel.cpp" />
     <ClCompile Include="SkelDog.cpp" />

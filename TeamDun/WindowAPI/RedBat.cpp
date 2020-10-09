@@ -194,7 +194,7 @@ void RedBat::Animation()
 				if (_frameX == _vImages[_useImage]->getMaxFrameX() / 2)
 				{
 
-					ENTITYMANAGER->makeBullet("BatBullet",BT_NOMAL ,_x, _y,
+					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit",BT_NOMAL ,_x, _y,
 						getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y),
 							CAMERAMANAGER->GetRelativeX(ENTITYMANAGER->getPlayer()->GetX()), CAMERAMANAGER->GetRelativeY(ENTITYMANAGER->getPlayer()->GetY())),
 						10, 1000, true);
@@ -220,7 +220,7 @@ void RedBat::Animation()
 				if (_frameX == _vImages[_useImage]->getMaxFrameX() / 2)
 				{
 
-					ENTITYMANAGER->makeBullet("BatBullet", BT_NOMAL, _x, _y,
+					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x, _y,
 						getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y),
 							CAMERAMANAGER->GetRelativeX(ENTITYMANAGER->getPlayer()->GetX() ), CAMERAMANAGER->GetRelativeY(ENTITYMANAGER->getPlayer()->GetY())),
 						10, 1000, true);

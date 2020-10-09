@@ -258,6 +258,12 @@
     <ClCompile Include="DemonSword.cpp">
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
     </ClCompile>
+    <ClCompile Include="RedGiantBat.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="PurpleGiantBat.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -445,6 +451,12 @@
     </ClInclude>
     <ClInclude Include="DemonSword.h">
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="RedGiantBat.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="PurpleGiantBat.h">
+      <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

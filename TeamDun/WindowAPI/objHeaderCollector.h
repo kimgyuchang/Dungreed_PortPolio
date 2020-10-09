@@ -14,3 +14,5 @@
 #include "Banshee.h"
 #include "SkelDog.h"
 #include "DemonSword.h"
+#include "RedGiantBat.h"
+#include "PurpleGiantBat.h"
