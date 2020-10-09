@@ -644,11 +644,12 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("SkellBossLaserHead", "Images/Monster/Boss/SkellBossLaserHead.bmp", 567, 264, 7, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("SkellBossLeftHandAttack", "Images/Monster/Boss/SkellBossLeftHandAttack.bmp", 3510, 213, 18, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("SkellBossLeftHandIdle", "Images/Monster/Boss/SkellBossLeftHandIdle.bmp", 1710, 189, 10, 1, true, RGB(255, 0, 255));
-	_loading->LoadFrameImage("SkellBossRightHandAttack	", "Images/Monster/Boss/SkellBossRightHandAttack.bmp", 3510, 213, 18, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("SkellBossRightHandAttack", "Images/Monster/Boss/SkellBossRightHandAttack.bmp", 3510, 213, 18, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("SkellBossRightHandIdle", "Images/Monster/Boss/SkellBossRightHandIdle.bmp", 1710, 189, 10, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("SkellBossParticle", "Images/Monster/Boss/SkellBossParticle.bmp", 720, 90, 8, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("SkellBossSword", "Images/Monster/Boss/SkellBossSword.bmp", 13344, 278, 48, 1, true, RGB(255, 0, 255));
-	_loading->LoadFrameImage("SkellBossSwordFire", "Images/Monster/Boss/SkellBossSwordFire.bmp", 13344, 278, 48, 1, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SkellBossSword0", "Images/Monster/Boss/SkellBossSword0.bmp", 92, 92, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SkellBossSwordFire", "Images/Monster/Boss/SkellBossSwordFire.bmp", 92, 92, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BossSwordHitDown", "Images/Monster/Boss/BossSwordHitDown.bmp", 765, 66, 5, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BossSwordHitUp", "Images/Monster/Boss/BossSwordHitUp.bmp", 765, 66, 5, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BossSwordHitLeft", "Images/Monster/Boss/BossSwordHitLeft.bmp", 330, 153, 5, 1, true, RGB(255, 0, 255));
@@ -706,6 +707,17 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("MiniMapGroundIg", "Images/PixelMapIg.bmp", 9600, 9600, true, RGB(255, 255, 255));
 	_loading->LoadNormalImage("Layer1MapIg", "Images/PixelMapIg.bmp", 9600, 9600, true, RGB(255, 255, 255));
 	_loading->LoadNormalImage("Layer2MapIg", "Images/PixelMapIg.bmp", 9600, 9600, true, RGB(255, 255, 255));
+
+	// COUSTUME //
+	_loading->LoadNormalImage("adventurer", "Images/Costume/adventurer.bmp", 51, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("sheeting", "Images/Costume/sheeting.bmp", 51, 66, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("gunman", "Images/Costume/gunman.bmp", 63, 69, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("alice", "Images/Costume/alice.bmp", 51, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("redlotus", "Images/Costume/redlotus.bmp", 57, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("lkinabear", "Images/Costume/lkinabear.bmp", 57, 66, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("riderH", "Images/Costume/riderH.bmp", 78, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("criminal", "Images/Costume/criminal.bmp", 45, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("pick", "Images/Costume/pick.bmp", 54, 66, true, RGB(255, 0, 255));
 }
 
 void loadingScene::loadingSound()
