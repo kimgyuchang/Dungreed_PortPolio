@@ -10,10 +10,12 @@ HRESULT BigWhiteSkel::init(int id, string name, OBJECTTYPE type, vector<string> 
 	_index = _count = _jumpCount = _downJmpTimer = _attackCoolTime = _jumpTimer = 0;
 	_frameX, _frameY = 0;
 
-	_gravity = 0.4f;
+	_gravity = 0.5f;
 	_jumpPower = 7.0f;
 
-	_isLeft = _isAttack = false;
+	_isLeft = _isAttack = _isJump = false;
+
+	_attackAnimFrame = vector<int>{ 40,3,5,5,5,5,5,5,5,5,5,5 };
 
 	return S_OK;
 }
@@ -26,15 +28,14 @@ void BigWhiteSkel::update()
 	this->Animation();
 	this->pixelCollision();
 
-	_attackCoolTime++;
-	_jumpTimer++;
+	_count++;
 
 	if (_isSpawned)
 	{
 		switch (_state)
 		{
 		case ES_IDLE:
-			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200)
+			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200 && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 100)
 			{
 				_state = ES_MOVE;
 			}
@@ -46,28 +47,34 @@ void BigWhiteSkel::update()
 				_isLeft = true;
 				_x += 3;
 			}
-			else if (ENTITYMANAGER->getPlayer()->GetX() + 70 < _x)
+			else if (ENTITYMANAGER->getPlayer()->GetX() + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() + 70 < _x)
 			{
 				_isLeft = false;
 				_x -= 3;
 			}
-			if (ENTITYMANAGER->getPlayer()->GetX() - 70 < _x && ENTITYMANAGER->getPlayer()->GetX() + 70 > _x)
+			if (ENTITYMANAGER->getPlayer()->GetX() - 70 <= _x && ENTITYMANAGER->getPlayer()->GetX() + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() + 70 >= _x)
 			{
-				if (_attackCoolTime % 50 == 0)
+				_attackCoolTime++;
+
+				if (_attackCoolTime > 50)
 				{
+					_attackCoolTime = 0;
 					_isAttack = true;
+				}
+				else
+				{
+					_isAttack = false;
 				}
 				if (_isAttack)
 				{
 					_state = ES_ATTACK;
 
-					if (_x < ENTITYMANAGER->getPlayer()->GetX() + 20)
+					if (_x < ENTITYMANAGER->getPlayer()->GetX() + (IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() / 2))
 					{
 						_isLeft = true;
 					}
-					else
+					else if (_x >= ENTITYMANAGER->getPlayer()->GetX() + (IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() / 2))
 					{
-						_x = _x - 65;
 						_isLeft = false;
 					}
 				}
@@ -76,20 +83,13 @@ void BigWhiteSkel::update()
 		case ES_ATTACK:
 			if (_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
 			{
-				if (_count % 5 == 0)
-				{
-					_state = ES_IDLE;
-					_isAttack = false;
-				}
+				_state = ES_IDLE;
+				_isAttack = false;
 			}
 			else if (!_isLeft && _frameX <= 0)
 			{
-				if (_count % 5 == 0)
-				{
-					_state = ES_IDLE;
-					_isAttack = false;
-					_x = _x + 65;
-				}
+				_state = ES_IDLE;
+				_isAttack = false;
 			}
 			break;
 		default:
@@ -114,12 +114,14 @@ void BigWhiteSkel::Move()
 {
 	Enemy::Move();
 
+	_jumpTimer++;
 	_body = RectMake(_x, _y, 99, 90);
 
 	if (_y > ENTITYMANAGER->getPlayer()->GetY() && abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200 && !_isAttack)
 	{
-		if (_jumpTimer % 40 == 0)
+		if (_jumpTimer > 40)
 		{
+			_jumpTimer = 0;
 			if (_jumpCount == 0)
 			{
 				_jumpPower = 10;
@@ -128,7 +130,7 @@ void BigWhiteSkel::Move()
 				_jumpCount++;
 			}
 		}
-		if (_y < ENTITYMANAGER->getPlayer()->GetY())
+		if (_y + IMAGEMANAGER->findImage("BigWhiteSkelIdle")->getFrameHeight() <= ENTITYMANAGER->getPlayer()->GetY())
 		{
 			_downJump = true;
 			_jumpPower = -1;
@@ -137,7 +139,7 @@ void BigWhiteSkel::Move()
 		if (_downJump)
 		{
 			_downJmpTimer++;
-			if (_downJmpTimer > 20)
+			if (_downJmpTimer > 30)
 			{
 				_downJmpTimer = 0;
 				_downJump = false;
@@ -153,8 +155,6 @@ void BigWhiteSkel::Attack()
 
 void BigWhiteSkel::Animation()
 {
-	_count++;
-
 	switch (_state)
 	{
 	case ES_IDLE:
@@ -162,8 +162,9 @@ void BigWhiteSkel::Animation()
 		if (_isLeft)
 		{
 			_frameY = 1;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX--;
 
 				if (_frameX < 0)
@@ -175,8 +176,9 @@ void BigWhiteSkel::Animation()
 		else
 		{
 			_frameY = 0;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX++;
 
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -191,8 +193,9 @@ void BigWhiteSkel::Animation()
 		if (_isLeft)
 		{
 			_frameY = 0;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX++;
 
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -204,8 +207,9 @@ void BigWhiteSkel::Animation()
 		else
 		{
 			_frameY = 1;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX--;
 
 				if (_frameX < 0)
@@ -220,8 +224,9 @@ void BigWhiteSkel::Animation()
 		if (_isLeft)
 		{
 			_frameY = 0;
-			if (_count % 5 == 0)
+			if (_count > _attackAnimFrame[_frameX])
 			{
+				_count = 0;
 				_frameX++;
 
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -233,8 +238,9 @@ void BigWhiteSkel::Animation()
 		else
 		{
 			_frameY = 1;
-			if (_count % 5 == 0)
+			if (_count > _attackAnimFrame[_vImages[_useImage]->getMaxFrameX() - _frameX])
 			{
+				_count = 0;
 				_frameX--;
 
 				if (_frameX < 0)

@@ -68,8 +68,12 @@ void DataManager::GetObjectData()
 			obj = new SkelDog();
 			break;
 
-		case 1507:// ÇØ°ñ
-			obj = new Skel();
+		case 1507:// Ä® ÇØ°ñ
+			obj = new SwordSkel();
+			break;
+
+		case 1508:// È° ÇØ°ñ
+			obj = new BowSkel();
 			break;
 
 		case 1502: // ¹ê½Ã

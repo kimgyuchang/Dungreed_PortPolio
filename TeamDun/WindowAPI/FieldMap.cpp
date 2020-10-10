@@ -102,13 +102,17 @@ void FieldMap::LoadObject()
 		case 1506:// ÇØ°ñ °­¾ÆÁö
 			obj = new SkelDog(*dynamic_cast<SkelDog*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
+
+		case 1507:// Ä® ÇØ°ñ
+			obj = new SwordSkel(*dynamic_cast<SwordSkel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+			
+		case 1508:// È° ÇØ°ñ
+			obj = new BowSkel(*dynamic_cast<BowSkel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 			
 		case 1502: // ¹ê½Ã
 			obj = new Banshee(*dynamic_cast<Banshee*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
-			break;
-
-		case 1507:// ÇØ°ñ
-			obj = new Skel(*dynamic_cast<Skel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
 
 		case 514: // ¹® ¿ÞÂÊ

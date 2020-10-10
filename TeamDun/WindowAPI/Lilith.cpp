@@ -18,8 +18,6 @@ void Lilith::update()
 	Enemy::update();
 
 	this->Animation();
-	this->Move();
-	this->Attack();
 
 	if (cosf(getAngle(_x, _y, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY())) < 0)
 	{
@@ -35,11 +33,13 @@ void Lilith::update()
 		switch (_state)
 		{
 		case ES_IDLE:
+			this->Move();
 			break;
 
 		case ES_MOVE:
 			if (_x >= ENTITYMANAGER->getPlayer()->GetX() && _x <= ENTITYMANAGER->getPlayer()->GetX() + 56 && _y >= ENTITYMANAGER->getPlayer()->GetY() && _y <= ENTITYMANAGER->getPlayer()->GetY())
 			{
+				this->Attack();
 				_state = ES_ATTACK;
 				_isAttack = true;
 				_x = ENTITYMANAGER->getPlayer()->GetX() - 10;
@@ -86,6 +86,11 @@ void Lilith::Move()
 void Lilith::Attack()
 {
 	Enemy::Attack();
+
+	if (_isAttack)
+	{
+		ENTITYMANAGER->getPlayer()->SetMoveSpeed(0);
+	}
 }
 
 void Lilith::Animation()
@@ -100,8 +105,9 @@ void Lilith::Animation()
 		if (_isLeft)
 		{
 			_frameY = 1;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX--;
 
 				if (_frameX < 0)
@@ -113,8 +119,9 @@ void Lilith::Animation()
 		else
 		{
 			_frameY = 0;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX++;
 
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -129,8 +136,9 @@ void Lilith::Animation()
 		if (_isLeft)
 		{
 			_frameY = 0;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX++;
 
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -142,8 +150,9 @@ void Lilith::Animation()
 		else
 		{
 			_frameY = 1;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX--;
 
 				if (_frameX < 0)
@@ -158,8 +167,9 @@ void Lilith::Animation()
 		if (_isLeft)
 		{
 			_frameY = 0;
-			if (_count % 5 == 0)
+			if (_count > 15)
 			{
+				_count = 0;
 				_frameX++;
 
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -171,8 +181,9 @@ void Lilith::Animation()
 		else
 		{
 			_frameY = 1;
-			if (_count % 5 == 0)
+			if (_count > 15)
 			{
+				_count = 0;
 				_frameX--;
 
 				if (_frameX < 0)

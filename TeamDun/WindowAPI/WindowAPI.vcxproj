@@ -151,6 +151,7 @@
     <ClInclude Include="Banshee.h" />
     <ClInclude Include="Belial.h" />
     <ClInclude Include="BigWhiteSkel.h" />
+    <ClInclude Include="BowSkel.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="commonMacroFunction.h" />
@@ -196,13 +197,13 @@
     <ClInclude Include="RedBat.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="singletonBase.h" />
-    <ClInclude Include="Skel.h" />
     <ClInclude Include="SkelDog.h" />
     <ClInclude Include="Skill.h" />
     <ClInclude Include="soundManager.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="startScene.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="SwordSkel.h" />
     <ClInclude Include="uibrushTool.h" />
     <ClInclude Include="UIFrame.h" />
     <ClInclude Include="UIImage.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="Banshee.cpp" />
     <ClCompile Include="Belial.cpp" />
     <ClCompile Include="BigWhiteSkel.cpp" />
+    <ClCompile Include="BowSkel.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="CSVManager.cpp" />
@@ -257,7 +259,6 @@
     <ClCompile Include="random.cpp" />
     <ClCompile Include="RedBat.cpp" />
     <ClCompile Include="sceneManager.cpp" />
-    <ClCompile Include="Skel.cpp" />
     <ClCompile Include="SkelDog.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="soundManager.cpp" />
@@ -269,6 +270,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SwordSkel.cpp" />
     <ClCompile Include="uibrushTool.cpp" />
     <ClCompile Include="UIFrame.cpp" />
     <ClCompile Include="UIImage.cpp" />

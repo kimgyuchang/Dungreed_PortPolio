@@ -5,9 +5,9 @@
 class gameScene : public gameNode
 {
 private:
-	float					_pivX;
-	float					_pivY;
-	Player*					_p;
+	float				_pivX;
+	float				_pivY;
+	Player*				_p;
 public:
 	HRESULT init();
 	void initUI();

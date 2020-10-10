@@ -216,9 +216,6 @@
     <ClCompile Include="LittleGhost.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Skel.cpp">
-      <Filter>MainGame\Object\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Belial.cpp">
       <Filter>MainGame\Object\Enemy\Boss</Filter>
     </ClCompile>
@@ -259,6 +256,12 @@
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
     </ClCompile>
     <ClCompile Include="Lilith.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SwordSkel.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BowSkel.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
@@ -401,9 +404,6 @@
     <ClInclude Include="LittleGhost.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Skel.h">
-      <Filter>MainGame\Object\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Belial.h">
       <Filter>MainGame\Object\Enemy\Boss</Filter>
     </ClInclude>
@@ -450,6 +450,12 @@
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
     </ClInclude>
     <ClInclude Include="Lilith.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="SwordSkel.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BowSkel.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>

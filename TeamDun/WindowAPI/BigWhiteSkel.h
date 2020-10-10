@@ -15,7 +15,7 @@ private:
 	int			_jumpCount;
 	int			_downJmpTimer;
 	int			_jumpTimer;
-	
+	vector<int>	_attackAnimFrame;
 
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
