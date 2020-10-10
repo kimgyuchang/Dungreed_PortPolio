@@ -258,17 +258,16 @@
     <ClCompile Include="Lilith.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="SwordSkel.cpp">
-      <Filter>MainGame\Object\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="BowSkel.cpp">
-=======
     <ClCompile Include="PurpleGiantBat.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="RedGiantBat.cpp">
->>>>>>> 739acea55f7908d0d4452a6b5225537164d34834
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BowSkel.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SwordSkel.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
@@ -459,17 +458,16 @@
     <ClInclude Include="Lilith.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="SwordSkel.h">
-      <Filter>MainGame\Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="BowSkel.h">
-=======
     <ClInclude Include="PurpleGiantBat.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="RedGiantBat.h">
->>>>>>> 739acea55f7908d0d4452a6b5225537164d34834
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BowSkel.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="SwordSkel.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
