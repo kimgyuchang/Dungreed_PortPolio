@@ -54,6 +54,8 @@ HRESULT MapManager::init()
 
 void MapManager::update()
 {
+
+
 	if (INPUT->GetKeyDown(VK_F2))
 	{
 		ChangeMap(_currentStage, RANDOM->range((int)_vStage[_currentStage]->GetMaps().size()));
@@ -67,6 +69,10 @@ void MapManager::update()
 
 	_vStage[_currentStage]->GetMaps()[_currentMap]->update();
 	SetMapUIOnOff();
+
+
+
+
 }
 
 void MapManager::SetMapUIOnOff()

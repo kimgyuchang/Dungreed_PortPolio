@@ -77,7 +77,7 @@ void EntityManager::eraseBullet()
 		{
 			EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), _vBullets[i]->getEffectIgName(), 4, 0, 0, false, 255);
 			_vBullets[i]->SetIsDead(true);
-			_vBullets.erase(_vBullets.begin() + i);
+			
 		}
 	}
 	
@@ -96,9 +96,18 @@ void EntityManager::eraseBullet()
 				
 				EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), _vBullets[i]->getEffectIgName(), 4, 0, 0, false, 255);
 				_vBullets[i]->SetIsDead(true);
-				_vBullets.erase(_vBullets.begin() + i);
+				
 			}
 		}
 	}
 	
+
+
+	for (int i = 0; i < _vBullets.size(); i++)
+	{
+		if (_vBullets[i]->getIsDead() == true)
+		{
+			_vBullets.erase(_vBullets.begin() + i);
+		}
+	}
 }

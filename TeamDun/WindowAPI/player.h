@@ -96,6 +96,7 @@ private:
 	// 애니메이션 //
 	// - 내부적 수치
 	int				_animCount;				// 프레임 돌릴 카운트(속도조절)
+	int				_dustEffectCount;
 
 	// 장착 //
 	Inventory*		_inven;					// 인벤토리
@@ -134,6 +135,7 @@ public:
 	virtual void	Move();				//플레이어 움직임
 	virtual void	pixelCollision();	//픽셀충돌
 	virtual void	dash();				//대쉬
+	
 
 	// GETSET //
 	PLAYERSTATE		GetState()				{ return _state; }

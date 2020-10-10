@@ -11,12 +11,14 @@ private:
 	bool	_leftAtk;
 	bool    _ReadyBullet;
 	bool	_bulletStop;
+
 	int		_ReadyBulletTime;
 	int		_bulletCount;
 	int		_shootCount;
 	float	_probeBottom;
 	int		_hp;
 	float	_angle;
+
 	vector<Bullet*> _vBatBullet;
 
 
@@ -29,6 +31,6 @@ public:
 
 	virtual void	Attack();
 	virtual void	Animation();
-
+	virtual void	SetIsDead(bool isDead);
 };
 

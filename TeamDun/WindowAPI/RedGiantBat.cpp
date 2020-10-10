@@ -52,6 +52,8 @@ void RedGiantBat::update()
 				_vBatBullet.erase(_vBatBullet.begin() + i);
 			}
 		}
+
+		
 	}
 }
 
@@ -136,6 +138,7 @@ void RedGiantBat::Attack()
 			}
 		}
 	}
+	
 	
 }
 
@@ -242,5 +245,22 @@ void RedGiantBat::Animation()
 		break;
 	}
 
+}
+
+void RedGiantBat::SetIsDead(bool isDead)
+{
+	_isDead = isDead;
+	if (_isDead == true)
+	{
+		for (int i = 0; i < _vBatBullet.size(); i++)
+		{
+			if (_vBatBullet[i]->getSpeed() == 0)
+			{
+				EFFECTMANAGER->AddEffect(_vBatBullet[i]->getX(), _vBatBullet[i]->getY(), _vBatBullet[i]->getEffectIgName(), 4, 0, 0, false, 255);
+				_vBatBullet[i]->SetIsDead(true);
+
+			}
+		}
+	}
 }
 

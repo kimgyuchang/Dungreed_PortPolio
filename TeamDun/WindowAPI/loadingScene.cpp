@@ -679,6 +679,8 @@ void loadingScene::loadingImage()
 
 	// MINIMAP //
 	_loading->LoadNormalImage("MiniMapPixel", "Images/MiniMapPixel.bmp", 5, 5);
+	_loading->LoadNormalImage("MiniMapEnemy", "Images/MiniMapEnemy.bmp", 7, 7);
+	_loading->LoadNormalImage("MiniMapPlayer", "Images/MiniMapPlayer.bmp", 7, 7);
 
 	// COLLISIONIMAGE //
 	_loading->LoadNormalImage("Half", "Images/GridPixelCollision/Half.bmp", 48, 96, true, RGB(255, 0, 255));
@@ -703,8 +705,10 @@ void loadingScene::loadingImage()
 	
 	// PLAYER //
 	_loading->LoadFrameImage("baseCharIdle", "Images/player/baseCharIdle.bmp", 285, 132, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("baseCharEffect", "Images/player/baseCharEffect.bmp", 285, 132, 5, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("baseCharRun", "Images/player/baseCharRun.bmp", 504, 132, 8, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("AliceZone", "Images/player/AliceZone.bmp", 630, 315, 2, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("RunEffect", "Images/player/RunEffect.bmp", 240, 96, 5, 2, true, RGB(255, 0, 255));
 
 	_loading->LoadNormalImage("PixelMapIg", "Images/PixelMapIg.bmp", 9600, 9600, true, RGB(255, 255, 255));
 	_loading->LoadNormalImage("MiniMapGroundIg", "Images/PixelMapIg.bmp", 9600, 9600, true, RGB(255, 255, 255));

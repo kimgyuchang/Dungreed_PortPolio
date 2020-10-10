@@ -22,6 +22,7 @@ private :
 	vector<vector<Tile*>>	_vMapData;			// 맵 그리드 이중 벡터
 	vector<Object*>			_vObjs;				// 해당 방에 존재하는 오브젝트들
 	vector<RECT>			_vMiniRc;			// 미니맵용 Rects
+	vector<RECT>			_vMiniObjRc;		// 미니맵용 오브젝트 Rects
 	image*					_backImageEtc;		// 기타 패턴 이미지
 	image*					_backImageMain;	// 메인 배경이미지
 	FIELDMAPTYPE			_mapType;			// 맵 타입
@@ -29,12 +30,10 @@ private :
 	POINT					_mapMovePos[4];		// 이 방으로 도착할때의 플레이어 위치
 	int						_stage;				// 해당 방의 스테이지
 												   
-	bool					_isCleared;			// 방의 몬스터를 모두 처리했는지 여부
-												
+	bool					_isCleared;			// 방의 몬스터를 모두 처리했는지 여부	
 	bool					_isSpawning;		// 스폰 중
-	int						_spawnTimer;		// 몬스터 스폰용 타이머
-
 	bool					_mapGenVisited;		// 맵 제작시 플러드필 체크용 
+	int						_spawnTimer;		// 몬스터 스폰용 타이머
 public :
 	void LoadMap();
 
@@ -73,6 +72,7 @@ public :
 	POINT				GetMovePos(DIRECTION dir)		{ return _mapMovePos[(int)dir]; }		
 	int					GetNextMapIndex(DIRECTION dir)	{ return _nextMapIndex[(int)dir]; }
 	bool				GetMapGenVisited()				{ return _mapGenVisited; }
+
 	void	SetXIndex(int index)						{ _xIndex = index; }
 	void	SetYIndex(int index)						{ _yIndex = index; }
 	void	SetIsSpawning(bool isSpawning)				{ _isSpawning = isSpawning; }

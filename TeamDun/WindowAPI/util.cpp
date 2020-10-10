@@ -87,13 +87,17 @@ bool UTIL::interactRectArc(RECT& rect, POINT center, float radius, float minAngl
 			{
 				if (angle >= minAngle && angle <= maxAngle)
 				{
+				}
+				else
+				{
+
 					return true;
 				}
 			}
 
 			else
 			{
-				if (angle >= maxAngle || angle <= minAngle)
+				if (angle >= maxAngle && angle <= minAngle)
 				{
 					return true;
 				}
