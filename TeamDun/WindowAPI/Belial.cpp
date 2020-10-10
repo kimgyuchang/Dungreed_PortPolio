@@ -58,19 +58,7 @@ void Belial::SetAfterSpawn()
 void Belial::update()
 {
 	Enemy::update();
-	if (INPUT->GetKeyDown('B'))
-	{
-		
-	}
-	if (INPUT->GetKeyDown('C'))
-	{
-		
-	}
-	if (INPUT->GetKeyDown('V'))
-	{
-		
-		
-	}
+	
 	if (_isSpawned)
 	{
 		Animation();
@@ -301,10 +289,10 @@ void Belial::Attack()
 		_bulletFireTimer++;
 		_bulletEndTimer++;
 		if (_bulletFireTimer > 12)
-		{
+		{	
 			_fireAngle += PI / 24;
 			for (int i = 0; i < 4; i++)
-				ENTITYMANAGER->makeBullet("BatBullet", BT_NOMAL, _x + 110, _y + 270, _fireAngle + i * PI / 2, 4, 1000, true);
+				ENTITYMANAGER->makeBullet("BatBullet","BatBulletHit", BT_NOMAL, _x + 110, _y + 270, _fireAngle + i * PI / 2, 4, 1000, true);
 			_bulletFireTimer = 0;
 		}
 		if (_bulletEndTimer > 300)

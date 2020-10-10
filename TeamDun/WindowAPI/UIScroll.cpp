@@ -10,6 +10,7 @@ HRESULT UIScroll::init(string name, float x, float y, float sizeX, float sizeY, 
 
 	_target = nullptr;
 	_scrollPercent = 0.f;
+	_isVertical = true;
 
 	return S_OK;
 }
@@ -21,7 +22,7 @@ void UIScroll::update()
 
 	for (int i = 0; i < _vChildFrames.size(); i++)
 	{
-		_vChildFrames[i]->update();
+		_vChildFrames[i]->update();	
 	}
 
 	CheckIsOutside();
@@ -32,37 +33,79 @@ void UIScroll::update()
 /// </summary>
 void UIScroll::MoveScrollBar()
 {
-	if (PtInRect(&_parent->GetRect(), _ptMouse)) // 부모 UI와 마우스가 겹친 상태에서
+	if (_isVertical)
 	{
-		float prevY = _y;
-		if (_mouseWheel == 1) // 마우스 휠을 올리면
+		if (PtInRect(&_parent->GetRect(), _ptMouse)) // 부모 UI와 마우스가 겹친 상태에서
 		{
-			_y = _y - (_parent->GetSizeY() * 0.03f); // 스크롤을 전체 사이즈의 0.03만큼 올린다
-			if (_y < _parent->GetY())
+			float prevY = _y;
+			if (_mouseWheel == 1) // 마우스 휠을 올리면
 			{
-				_y = _parent->GetY();
-			} // 범위 제약
+				_y = _y - (_parent->GetSizeY() * 0.03f); // 스크롤을 전체 사이즈의 0.03만큼 올린다
+				if (_y < _parent->GetY())
+				{
+					_y = _parent->GetY();
+				} // 범위 제약
 
-			SetIntersectRect();
-			CalculateScrollBarPercent();
+				SetIntersectRect();
+				CalculateScrollBarPercent();
+			}
+
+			else if (_mouseWheel == -1) // 마우스 휠을 내리면
+			{
+				_y = _y + (_parent->GetSizeY() * 0.03f); // 스크롤을 전체 사이즈의 0.03만큼 내린다
+				if (_y + _image->getHeight() > _parent->GetSizeY() + _parent->GetY())
+				{
+					_y = _parent->GetSizeY() + _parent->GetY() - _image->getHeight();
+				} // 범위 제약
+				SetIntersectRect();
+				CalculateScrollBarPercent();
+			}
+
+			if (prevY != _y) // 만약 스크롤이 움직였다면
+			{
+				for (int i = 0; i < _vChildFrames.size(); i++)
+				{
+					MoveFrameChild(0, _y - prevY); // 자식들도 움직인다
+				}
+			}
 		}
-
-		else if (_mouseWheel == -1) // 마우스 휠을 내리면
+	}
+	
+	else
+	{
+		if (PtInRect(&_parent->GetRect(), _ptMouse)) // 부모 UI와 마우스가 겹친 상태에서
 		{
-			_y = _y + (_parent->GetSizeY() * 0.03f); // 스크롤을 전체 사이즈의 0.03만큼 내린다
-			if (_y + _image->getHeight() > _parent->GetSizeY() + _parent->GetY())
+			float prevX = _x;
+			if (_mouseWheel == 1) // 마우스 휠을 올리면
 			{
-				_y = _parent->GetSizeY() + _parent->GetY() - _image->getHeight();
-			} // 범위 제약
-			SetIntersectRect();
-			CalculateScrollBarPercent();
-		}
+				_x = _x - (_parent->GetSizeX() * 0.03f); // 스크롤을 전체 사이즈의 0.03만큼 올린다
 
-		if (prevY != _y) // 만약 스크롤이 움직였다면
-		{
-			for (int i = 0; i < _vChildFrames.size(); i++)
+				if (_x < _parent->GetX())
+				{
+					_x = _parent->GetX();
+				} // 범위 제약
+
+				SetIntersectRect();
+				CalculateScrollBarPercent();
+			}
+
+			else if (_mouseWheel == -1) // 마우스 휠을 내리면
 			{
-				MoveFrameChild(0, _y - prevY); // 자식들도 움직인다
+				_x = _x + (_parent->GetSizeX() * 0.03f); // 스크롤을 전체 사이즈의 0.03만큼 내린다
+				if (_x + _image->getWidth() > _parent->GetSizeX() + _parent->GetX())
+				{
+					_x = _parent->GetSizeX() + _parent->GetX() - _image->getWidth();
+				} // 범위 제약
+				SetIntersectRect();
+				CalculateScrollBarPercent();
+			}
+
+			if (prevX != _x) // 만약 스크롤이 움직였다면
+			{
+				for (int i = 0; i < _vChildFrames.size(); i++)
+				{
+					MoveFrameChild(_x - prevX, 0); // 자식들도 움직인다
+				}
 			}
 		}
 	}
@@ -73,27 +116,55 @@ void UIScroll::MoveScrollBar()
 /// </summary>
 void UIScroll::CalculateScrollBarPercent()
 {
-	float _prevScrollPercent = _scrollPercent;
-	_scrollPercent = (_y - _parent->GetY()) / (_parent->GetSizeY() - _image->getHeight()); // 비율 계산
-	
-	float maxY = INT_MIN;
-	float minY = INT_MAX;
-	for (int i = 0; i < _target->GetVChildFrames().size(); i++)
+	if (_isVertical) 
 	{
-		if (_target->GetVChildFrames()[i] == this) continue; // 예외처리
+		float _prevScrollPercent = _scrollPercent;
+		_scrollPercent = (_y - _parent->GetY()) / (_parent->GetSizeY() - _image->getHeight()); // 비율 계산
 
-		UIFrame* tempFrame = _target->GetVChildFrames()[i];
-		if (tempFrame->GetY() > maxY) maxY = tempFrame->GetY(); // 가장 아래 위치의 UI
-		if (tempFrame->GetY() < minY) minY = tempFrame->GetY(); // 가장 위 위치의 UI
+		float maxY = INT_MIN;
+		float minY = INT_MAX;
+		for (int i = 0; i < _target->GetVChildFrames().size(); i++)
+		{
+			if (_target->GetVChildFrames()[i] == this) continue; // 예외처리
+
+			UIFrame* tempFrame = _target->GetVChildFrames()[i];
+			if (tempFrame->GetY() > maxY) maxY = tempFrame->GetY(); // 가장 아래 위치의 UI
+			if (tempFrame->GetY() < minY) minY = tempFrame->GetY(); // 가장 위 위치의 UI
+		}
+
+		// maxY - minY = 자식 UI의 총 거리
+		float moveY = _scrollPercent * (maxY - minY) - _prevScrollPercent * (maxY - minY); // 이전의 스크롤 위치와 현재 스크롤 위치를 계산해서 얼마만큼 target의 자식들을 이동시켜야 하는지 결정한다.
+
+		for (int i = 0; i < _target->GetVChildFrames().size() - 1; i++) // 여기 -1은 왜 있는지 기억안남 (문제 없으면 지울 예정)
+		{
+			if (_target->GetVChildFrames()[i] == this) continue; // 예외처리
+			_target->GetVChildFrames()[i]->MoveFrameChild(0, -moveY); // 이동거리만큼 반대방향으로 자식들을 움직임 (스크롤 내림 -> 자식 올라감)
+		}
 	}
-
-	// maxY - minY = 자식 UI의 총 거리
-	float moveY = _scrollPercent * (maxY - minY) - _prevScrollPercent * (maxY - minY); // 이전의 스크롤 위치와 현재 스크롤 위치를 계산해서 얼마만큼 target의 자식들을 이동시켜야 하는지 결정한다.
-
-	for (int i = 0; i < _target->GetVChildFrames().size() - 1; i++) // 여기 -1은 왜 있는지 기억안남 (문제 없으면 지울 예정)
+	
+	else
 	{
-		if (_target->GetVChildFrames()[i] == this) continue; // 예외처리
-		_target->GetVChildFrames()[i]->MoveFrameChild(0, -moveY); // 이동거리만큼 반대방향으로 자식들을 움직임 (스크롤 내림 -> 자식 올라감)
+		float _prevScrollPercent = _scrollPercent;
+		_scrollPercent = (_x - _parent->GetX()) / (_parent->GetSizeX() - _image->getWidth());
+
+		float maxX = INT_MIN;
+		float minX = INT_MAX;
+		for (int i = 0; i < _target->GetVChildFrames().size(); i++)
+		{
+			if (_target->GetVChildFrames()[i] == this) continue;
+
+			UIFrame* tempFrame = _target->GetVChildFrames()[i];
+			if (tempFrame->GetX() > maxX) maxX = tempFrame->GetX();
+			if (tempFrame->GetX() < minX) minX = tempFrame->GetX();
+		}
+
+		float moveX = _scrollPercent * (maxX - minX) - _prevScrollPercent * (maxX - minX);
+
+		for (int i = 0; i < _target->GetVChildFrames().size() - 1; i++)
+		{
+			if (_target->GetVChildFrames()[i] == this) continue; 
+			_target->GetVChildFrames()[i]->MoveFrameChild(-moveX, 0);
+		}
 	}
 }
 

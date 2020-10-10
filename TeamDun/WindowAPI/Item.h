@@ -67,18 +67,23 @@ public :
 class Item
 {
 protected:
-	// 공통 //
-
-	float				_x;					// 위치 X
-	float				_y;					// 위치 Y
 	
-
-	int					_buyPrice;			// 구매 가격 (판매 가격 : 구매 가격 * 0.3)
+	// 렌더 //
 	vector<image*>		_vImages;			// 이미지 목록
 	vector<string>		_vImageNames;		// 이미지 이름 목록
 	int					_currentImage;		// 현재 이미지
 	image*				_invenImage;		// 인벤토리용 이미지
+	float				_renderPosX;		// 위치 X
+	float				_renderPosY;		// 위치 Y
+	float				_angleCheckPosX;	// 각도체크용 중점 X
+	float				_angleCheckPosY;	// 각도체크용 중점 Y
+	float				_angle;				// 각도
+	float				_renderAngle;		// 실질적 렌더용 앵글
+	int					_xFrame;			// 이미지 XFrame
+	int					_yFrame;			// 이미지 yFrame
+	bool				_isAttacking;		// 공격 중인지
 
+	// 공통 //
 	ITEMCLASS			_itemClass;			// 아이템 등급
 	ITEMTYPE			_itemType;			// 아이템의 종류
 	WEAPONTYPE			_weaponType;		// 무기의 종류
@@ -90,6 +95,7 @@ protected:
 	float				_maxAtk;			// 최대 공격력
 	float				_atkSpeed;			// 공격 속도
 	int					_defence;			// 방어력
+	int					_buyPrice;			// 구매 가격 (판매 가격 : 구매 가격 * 0.3)
 
 	vector<SubOption*>	_vSubOption;		// 서브 옵션 목록
 	bool				_useAtkSpeed;		// 공격 속도를 사용한다
@@ -118,8 +124,12 @@ public:
 	virtual void update();
 	virtual void render(HDC hdc);
 	virtual void release();
+	virtual void Activate();
 	void EquipUnEquipItem(bool isEquip);
 	void AdaptSubOption(SubOption* subOption, bool isEquip);
+	
+
+	virtual void SetBaseRenderPos();
 
 	// GETSET // 
 
@@ -151,7 +161,8 @@ public:
 	float				GetAccuracy()			{ return _accuracy; }
 	bool				GetIsBulletInfinite()	{ return _isBulletInfinite; }
 	bool				GetIsRenderFirst()		{ return _isRenderFirst; }
-	
+	float				GetAngleCheckPosX()		{ return _angleCheckPosX; }
+	float				GetAngleCheckPosY()		{ return _angleCheckPosY; }
 	void				SetIsRenderFirst(bool first)	{ _isRenderFirst = first; }
 };
 

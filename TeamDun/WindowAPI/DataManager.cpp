@@ -79,7 +79,12 @@ void DataManager::GetObjectData()
 		case 1502: // ¹ê½Ã
 			obj = new Banshee();
 			break;
-
+		case 1509://»¡°£Å«¹ÚÁã
+			obj = new RedGiantBat();
+			break;
+		case 1510:
+			obj = new PurpleGiantBat();
+			break;
 		case 702: // ºÓÀº ¹ÚÁã
 			obj = new RedBat();
 			break;

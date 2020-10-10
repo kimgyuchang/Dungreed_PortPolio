@@ -11,7 +11,6 @@
 HRESULT UIImage::init(string name, float x, float y, float sizeX, float sizeY, string imageName, bool useFrameImage, int frameX, int frameY, float scaleX, float scaleY, int alpha)
 {
 	UIFrame::init(name, x, y, sizeX, sizeY, imageName, scaleX, scaleY);
-	
 
 	_useFrameImage = useFrameImage;
 	_frameX = frameX;
@@ -38,19 +37,42 @@ void UIImage::render(HDC hdc)
 			{
 				if (_useFrameImage) // 프레임 이미지 사용시
 				{
-					if (_scaleX == 1 && _scaleY == 1)
-						_image->frameAlphaRender(hdc, _x, _y, _frameX, _frameY, _alpha);
+					if (_alpha == 255)
+					{
+						if (_scaleX == 1 && _scaleY == 1)
+							_image->frameRender(hdc, _x, _y, _frameX, _frameY);
+						else
+							_image->frameStretchRender(hdc, _x, _y, _frameX, _frameY, _scaleX, _scaleY);
+					}
 
 					else
-						_image->frameStretchAlphaRender(hdc, _x, _y, _frameX, _frameY, _scaleX, _scaleY, _alpha);
+					{
+						if (_scaleX == 1 && _scaleY == 1)
+							_image->frameAlphaRender(hdc, _x, _y, _frameX, _frameY, _alpha);
+
+						else
+							_image->frameStretchAlphaRender(hdc, _x, _y, _frameX, _frameY, _scaleX, _scaleY, _alpha);
+					}
 				}
 
 				else // 미사용시
 				{
-					if (_scaleX == 1 && _scaleY == 1)
-						_image->alphaRender(hdc, _x, _y, _alpha);
+					if (_alpha == 255)
+					{
+						if (_scaleX == 1 && _scaleY == 1)
+							_image->render(hdc, _x, _y);
+						else
+							_image->stretchRender(hdc, _x, _y, _scaleX, _scaleY);
+					}
+
 					else
-						_image->stretchAlphaRender(hdc, _x, _y, _scaleX, _scaleY, _alpha);
+					{
+						if (_scaleX == 1 && _scaleY == 1)
+							_image->alphaRender(hdc, _x, _y, _alpha);
+
+						else
+							_image->stretchAlphaRender(hdc, _x, _y, _scaleX, _scaleY, _alpha);
+					}
 				}
 			}
 

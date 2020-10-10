@@ -13,6 +13,13 @@
 #include "Banshee.h"
 #include "SkelDog.h"
 #include "DemonSword.h"
+<<<<<<< HEAD
 #include "Lilith.h"
 #include "SwordSkel.h"
 #include "BowSkel.h"
+=======
+#include "RedGiantBat.h"
+#include "PurpleGiantBat.h"
+#include "Lilith.h"
+
+>>>>>>> 739acea55f7908d0d4452a6b5225537164d34834

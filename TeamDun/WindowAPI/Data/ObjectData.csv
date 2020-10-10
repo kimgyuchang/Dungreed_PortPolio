@@ -49,3 +49,5 @@ id,name,type,image,image2,image3
 9,씰스톤,Etc,SealStone,.,.
 703,보라박쥐,Monster,BatIdle,BatAttack,.
 2500,몬스터 스폰 트리거,Etc,SpawnMonsterPos,.,.
+1509,빨간큰박쥐,Monster,RedGiantBat,RedGiantBatAttack,.
+1510,보라큰박쥐,Monster,GiantBat,GiantBatAttack,.

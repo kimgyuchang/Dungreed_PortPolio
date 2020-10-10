@@ -19,6 +19,10 @@ HRESULT gameScene::init()
 	_pivX = WINSIZEX / 2;
 	_pivY = WINSIZEY / 2;
 
+	_vCharName = vector<string>{ "모험가", "판금의 용사", "석양의 총잡이", "앨리스", "홍련", "이키나곰", "라이더 H", "범죄자 실루엣", "곡괭이의 왕", "뚱뚱보", "마검사", "인간 라슬리", "마스터 셰프" };
+	_CharExplanation = vector<string>{ "던전은 탐사하기 위해 온 초보 모험가","판금 갑옷을 두른, 든든한 용사","황야를 가로지르는 외로운 총잡이",
+	"토끼는 보이지 않고, 멋진 표적이 가득해!","저 너머로...개화하고 싶지 않은가, 그대?","시..시..시니컬이라구! 흥!",
+	"뼈를 깎더라도,\n어디에서든 달리고 싶다.","범행 동기도 가지각색.\n범행 물품도 천차만별.","세상을 지배할 뻔한 살아있는 전설" };
 	CAMERAMANAGER->init(0, 0, 15000, 15000, -300, -300, WINSIZEX / 2, WINSIZEY / 2);
 	return S_OK;
 }
@@ -88,7 +92,6 @@ void gameScene::initUI()
 		UIFrame* costumeFrame = new UIFrame();
 		costumeFrame->init("CostumeOver" + to_string(i), 220 * i + 10, 15, IMAGEMANAGER->findImage("CostumeOver")->getWidth(), IMAGEMANAGER->findImage("CostumeOver")->getHeight(), "CostumeOver");
 		baseFrame->AddFrame(costumeFrame);
-		costumeFrame->SetIsViewing(false);
 	}
 
 	UIFrame* adventurer = new UIFrame();
@@ -127,6 +130,14 @@ void gameScene::initUI()
 	pick->init("pick", 75, 180, IMAGEMANAGER->findImage("pick")->getWidth(), IMAGEMANAGER->findImage("pick")->getHeight(), "pick");
 	warDrobeFrame->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(8))->AddFrame(pick);
 
+	UIText* charNameText = new UIText();
+	charNameText->init("charNameText", 50, 100, 400, 50, "", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE, RGB(255, 255, 255));
+	costumeExplanationFrame->AddFrame(charNameText);
+
+	UIText* CharExplanationText = new UIText();
+	CharExplanationText->init("CharExplanationText", 50, 200, 400, 50, "", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
+	costumeExplanationFrame->AddFrame(CharExplanationText);
+
 	allMapFrame->SetIsViewing(false);
 }
 
@@ -155,16 +166,27 @@ void gameScene::update()
 	ENTITYMANAGER->update();
 	EFFECTMANAGER->update();
 	PARTICLEMANAGER->update();
+	UIMANAGER->update();
 
 	if (INPUT->GetKeyDown('P'))
 	{
-		UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->SetIsViewing(true);
+		UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->ToggleIsViewing();
+		for (int i = 0; i < 13; i++)
+		{
+			UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(false);
+		}
 	}
-	if (INPUT->GetKeyUp('P'))
+	for (int i = 0; i < 13; i++)
 	{
-		UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->SetIsViewing(false);
+		if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->GetRect(), _ptMouse))
+		{
+			UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(true);
+			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("charNameText"))->SetText(_vCharName[i]);
+			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharExplanationText"))->SetText(_CharExplanation[i]);
+		}
+		else
+			UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(false);
 	}
-
 }
 
 void gameScene::render()

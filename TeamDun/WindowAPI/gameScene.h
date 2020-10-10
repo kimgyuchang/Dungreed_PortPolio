@@ -5,9 +5,11 @@
 class gameScene : public gameNode
 {
 private:
-	float				_pivX;
-	float				_pivY;
-	Player*				_p;
+	float					_pivX;
+	float					_pivY;
+	Player*					_p;
+	vector<string>			_vCharName;
+	vector<string>			_CharExplanation;
 public:
 	HRESULT init();
 	void initUI();

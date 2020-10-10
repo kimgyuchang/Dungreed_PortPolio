@@ -114,7 +114,12 @@ void FieldMap::LoadObject()
 		case 1502: // ¹ê½Ã
 			obj = new Banshee(*dynamic_cast<Banshee*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
+		case 1509: //»¡°£ Å«¹ÚÁã
+			obj = new RedGiantBat(*dynamic_cast<RedGiantBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+		case 1510: //º¸¶ó Å«¹ÚÁã
+			obj = new PurpleGiantBat(*dynamic_cast<PurpleGiantBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 		case 514: // ¹® ¿ÞÂÊ
 			obj = new Door(*dynamic_cast<Door*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
@@ -513,14 +518,17 @@ void FieldMap::EraseDeathObject()
 /// </summary>
 void FieldMap::ShotObject()
 {
-	if (INPUT->GetKeyDown(VK_LBUTTON))
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown(VK_LBUTTON))
 	{
 		for (int i = 0; i < _vObjs.size(); i++)
 		{
-			if (PtInRect(&_vObjs[i]->GetBody(), CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y)))
+			if (_vObjs[i]->GetType() == OBJECTTYPE::OT_MONSTER || _vObjs[i]->GetType() == OBJECTTYPE::OT_BREAKABLE)
 			{
-				_vObjs[i]->SetIsDead(true);
-				break;
+				if (PtInRect(&_vObjs[i]->GetBody(), CAMERAMANAGER->GetAbsolutePoint(_ptMouse.x, _ptMouse.y)))
+				{
+					_vObjs[i]->SetIsDead(true);
+					break;
+				}
 			}
 		}
 	}

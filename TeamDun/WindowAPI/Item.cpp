@@ -6,8 +6,8 @@ HRESULT Item::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill* skil
 	int defence, bool useAtkSpeed, int numOfBullet, float reloadTime, Bullet* bullet, float accuracy,
 	int buyPrice, bool isBulletInfinite, vector<string> imageNames, string invenImage)
 {
-	_x = _y = 0;
-	
+	_renderPosX = _renderPosY = 0;
+
 	_id = id;
 	_itemType = itemType;
 	_weaponType = weaponType;
@@ -39,7 +39,12 @@ HRESULT Item::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill* skil
 	_invenImage = IMAGEMANAGER->findImage(invenImage);
 	_currentImage = 0;
 	_chargePercent = 0;
-	
+	_xFrame = 0;
+	_yFrame = 0;
+	_renderAngle = _angle = 0;
+	_angleCheckPosX = _angleCheckPosY = 0;
+	_renderPosX = _renderPosY = 0;
+	_isAttacking = false;
 	_isRenderFirst = false;
 	return S_OK;
 }
@@ -58,6 +63,10 @@ void Item::render(HDC hdc)
 }
 
 void Item::release()
+{
+}
+
+void Item::Activate()
 {
 }
 
@@ -84,7 +93,7 @@ void Item::AdaptSubOption(SubOption* subOption, bool isEquip)
 
 	switch (subOption->_optionId)
 	{
-	case POWER : 
+	case POWER:
 		p->SetPower(p->GetPower() + value);
 		break;
 	case ATKSPEED:
@@ -191,5 +200,22 @@ void Item::AdaptSubOption(SubOption* subOption, bool isEquip)
 		break;
 	default:
 		break;
+	}
+}
+
+void Item::SetBaseRenderPos()
+{
+	bool playerIsLeft = ENTITYMANAGER->getPlayer()->GetIsLeft();
+	_yFrame = playerIsLeft ? 0 : 1;
+
+	_angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 40 : 20);
+	_angleCheckPosY = ENTITYMANAGER->getPlayer()->GetY() + 45;
+	_renderPosX = _angleCheckPosX - _vImages[_currentImage]->getFrameWidth() / 2;
+	_renderPosY = _angleCheckPosY - _vImages[_currentImage]->getFrameHeight() / 2;
+	if (!_isAttacking)
+	{
+		_angle = -getAngle(CAMERAMANAGER->GetAbsoluteX(_ptMouse.x), CAMERAMANAGER->GetAbsoluteY(_ptMouse.y), _angleCheckPosX, _angleCheckPosY);
+		if (_angle > PI * 2) _angle -= PI * 2;
+		if (_angle < 0) _angle += PI * 2;
 	}
 }

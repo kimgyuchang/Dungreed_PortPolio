@@ -1,7 +1,8 @@
 #pragma once
 #include "enemy.h"
-class Banshee : public Enemy
+class PurpleGiantBat : public Enemy
 {
+
 private:
 	int		_stateTimer;
 	int		_rndAngle;
@@ -9,6 +10,7 @@ private:
 	bool	_leftAtk;
 	float	_probeBottom;
 	int		_hp;
+	float	_fireAngle;
 
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
@@ -16,8 +18,9 @@ public:
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 
+
 	virtual void	Attack();
 	virtual void	Animation();
 
-};
 
+};

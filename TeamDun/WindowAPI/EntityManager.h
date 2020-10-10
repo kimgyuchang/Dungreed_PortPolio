@@ -24,7 +24,7 @@ public :
 	Player*				getPlayer()		{ return _p; }
 	void				setPlayer(Player* p) { _p = p; }
 
-	void makeBullet(const char* imageName,BULLETTYPE type, float x, float y, float angle, float speed, float maxDis, bool isFrame);
+	Bullet* makeBullet(const char* imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle, float speed, float maxDis, bool isFrame);
 	void eraseBullet();
 };
 

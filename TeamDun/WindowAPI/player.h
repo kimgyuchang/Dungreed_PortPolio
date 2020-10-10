@@ -63,6 +63,7 @@ private:
 	float			_finalDamagePercent;	// 최종 데미지 추가량 (비율)
 	float			_reloadSpeed;			// 재장전 속도 추가량
 	float			_fireAccuracy;			// 조준 정확도
+	float			_realAttackSpeed;		// 공격속도(프레임)
 
 	// - 내부적 수치 (방어)
 	float			_defence;				// 방어율 (변환)
@@ -114,11 +115,19 @@ private:
 	int				_needExperience;		// 필요 경험치
 	float			_goldDrop;				// 돈 드랍양
 
-	
+
+	// 각 캐릭터별 특성 //
+
+	// 앨리스 //
+	image*			_aliceZone;
+	float			_aliceZoneRadius;
+	bool			_aliceZoneIn;
+
 public:
 
 	virtual HRESULT init();
 	virtual void	update();
+	void CheckAliceZone();
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 	virtual void	Animation();
@@ -191,6 +200,7 @@ public:
 	int				GetLevel()				{ return _level; }
 	int				GetExperience()			{ return _experience; }
 	int				GetNeedExperience()		{ return _needExperience; }
+	float			GetRealAttackSpeed()	{ return _realAttackSpeed; }
 	float			GetGoldDrop()			{ return _goldDrop; }
 
 	void			SetState(PLAYERSTATE state)					  { _state = state; }
