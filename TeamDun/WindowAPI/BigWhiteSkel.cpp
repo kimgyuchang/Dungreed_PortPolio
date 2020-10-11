@@ -4,7 +4,7 @@
 HRESULT BigWhiteSkel::init(int id, string name, OBJECTTYPE type, vector<string> imgNames)
 {
 	Enemy::init(id, name, type, imgNames);
-	_body = RectMake(_x, _y, 99, 90);
+	_body = RectMake(_x, _y, 99, 120);
 	_state = ES_IDLE;
 
 	_index = _count = _jumpCount = _downJmpTimer = _attackCoolTime = _jumpTimer = 0;
@@ -28,8 +28,6 @@ void BigWhiteSkel::update()
 	this->Animation();
 	this->pixelCollision();
 
-	_count++;
-
 	if (_isSpawned)
 	{
 		switch (_state)
@@ -41,13 +39,13 @@ void BigWhiteSkel::update()
 			}
 			break;
 		case ES_MOVE:
-			_body = RectMake(_x, _y, 99, 90);
-			if (ENTITYMANAGER->getPlayer()->GetX() - 70 > _x)
+			_body = RectMake(_x, _y, 99, 120);
+			if (ENTITYMANAGER->getPlayer()->GetX() - 70 > _x && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 100)
 			{
 				_isLeft = true;
 				_x += 3;
 			}
-			else if (ENTITYMANAGER->getPlayer()->GetX() + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() + 70 < _x)
+			else if (ENTITYMANAGER->getPlayer()->GetX() + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() < _x)
 			{
 				_isLeft = false;
 				_x -= 3;
@@ -56,41 +54,28 @@ void BigWhiteSkel::update()
 			{
 				_attackCoolTime++;
 
-				if (_attackCoolTime > 50)
+				if (_attackCoolTime > 100)
 				{
 					_attackCoolTime = 0;
 					_isAttack = true;
+					_state = ES_ATTACK;
+					if (_isLeft)
+					{
+						_frameX = 0;
+					}
+					else
+					{
+						_x = _x - 95;
+						_frameX = 11;
+					}
 				}
 				else
 				{
 					_isAttack = false;
 				}
-				if (_isAttack)
-				{
-					_state = ES_ATTACK;
-
-					if (_x < ENTITYMANAGER->getPlayer()->GetX() + (IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() / 2))
-					{
-						_isLeft = true;
-					}
-					else if (_x >= ENTITYMANAGER->getPlayer()->GetX() + (IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() / 2))
-					{
-						_isLeft = false;
-					}
-				}
 			}
 			break;
 		case ES_ATTACK:
-			if (_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
-			{
-				_state = ES_IDLE;
-				_isAttack = false;
-			}
-			else if (!_isLeft && _frameX <= 0)
-			{
-				_state = ES_IDLE;
-				_isAttack = false;
-			}
 			break;
 		default:
 			break;
@@ -107,7 +92,6 @@ void BigWhiteSkel::render(HDC hdc)
 	if (_isSpawned)
 	{
 		Enemy::render(hdc);
-		if(INPUT->GetKey(VK_F6)) CAMERAMANAGER->Rectangle(hdc, _body);
 	}
 }
 
@@ -116,7 +100,7 @@ void BigWhiteSkel::Move()
 	Enemy::Move();
 
 	_jumpTimer++;
-	_body = RectMake(_x, _y, 99, 90);
+	_body = RectMake(_x, _y, 99, 120);
 
 	if (_y > ENTITYMANAGER->getPlayer()->GetY() && abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200 && !_isAttack)
 	{
@@ -156,6 +140,7 @@ void BigWhiteSkel::Attack()
 
 void BigWhiteSkel::Animation()
 {
+	_count++;
 	switch (_state)
 	{
 	case ES_IDLE:
@@ -230,14 +215,17 @@ void BigWhiteSkel::Animation()
 				_count = 0;
 				_frameX++;
 
-				if (_frameX > _vImages[_useImage]->getMaxFrameX())
+				if (_frameX > _vImages[_useImage]->getMaxFrameX() - 1)
 				{
+					_state = ES_MOVE;
+					_isAttack = false;
 					_frameX = 0;
 				}
 			}
 		}
 		else
 		{
+			_body = RectMake(_x + 95, _y, 99, 120);
 			_frameY = 1;
 			if (_count > _attackAnimFrame[_vImages[_useImage]->getMaxFrameX() - _frameX])
 			{
@@ -246,7 +234,10 @@ void BigWhiteSkel::Animation()
 
 				if (_frameX < 0)
 				{
-					_frameX = _vImages[_useImage]->getMaxFrameX();
+					_state = ES_MOVE;
+					_isAttack = false;
+					_frameX = 0;
+					_x = _x + 95;
 				}
 			}
 		}

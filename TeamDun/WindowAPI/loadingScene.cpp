@@ -500,6 +500,25 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("paintIcon", "Images/UI/ICON/paint.bmp", 45, 46, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("eraseIcon", "Images/UI/ICON/eraseIcon.bmp", 40, 40, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Exit", "Images/UI/ICON/Exit.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_Block", "Images/UI/ICON/Stat_Block.bmp", 63, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_Critical", "Images/UI/ICON/Stat_Critical.bmp", 63, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_CriticalDmg", "Images/UI/ICON/Stat_CriticalDmg.bmp", 63, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_Dash", "Images/UI/ICON/Stat_Dash.bmp", 63, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_Def", "Images/UI/ICON/Stat_Def.bmp", 63, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_Evade", "Images/UI/ICON/Stat_Evade.bmp", 63, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_MoveSpeed", "Images/UI/ICON/Stat_MoveSpeed.bmp", 63, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_Power", "Images/UI/ICON/Stat_Power.bmp", 63, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_Reload", "Images/UI/ICON/Stat_Reload.bmp", 63, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_Tough", "Images/UI/ICON/Stat_Tough.bmp", 63, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_TrueDamage", "Images/UI/ICON/Stat_TrueDamage.bmp", 63, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_AtkSpeed", "Images/UI/ICON/Stat_AtkSpeed.bmp", 63, 63, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_Burn", "Images/UI/ICON/Stat_Burn.bmp", 51, 51, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_Cold", "Images/UI/ICON/Stat_Cold.bmp", 51, 51, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_Poison", "Images/UI/ICON/Stat_Poison.bmp", 51, 51, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_Shock", "Images/UI/ICON/Stat_Shock.bmp", 51, 51, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Stat_Stun", "Images/UI/ICON/Stat_Stun.bmp", 51, 51, true, RGB(255, 0, 255));
+
+
 
 	_loading->LoadNormalImage("gameStart1", "Images/UI/gameStart1.bmp", 158, 47, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("gameStart0", "Images/UI/gameStart0.bmp", 158, 47, true, RGB(255, 0, 255));
