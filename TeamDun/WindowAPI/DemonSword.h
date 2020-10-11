@@ -7,19 +7,17 @@ public :
 	float _x;
 	float _y;
 	float _radius;
-	image* _image;
-	int _frameX;
 	int _frameY;
-	int _animTimer;
 	float _angle;
-	bool _isDead;
 	Item* _parent;
+	Effect* _effect;
 
-	void init(float x, float y, int frameY, image* img, float angle);
+	void init(float x, float y, int frameY, string imgName, float angle);
 	void update();
-	void animation();
 	void render(HDC hdc);
 	void SetCollide();
+
+	Effect* GetEffect() { return _effect; }
 };
 
 class DemonSword : public Item
@@ -39,6 +37,7 @@ public :
 	void AttackAnim();
 	virtual void Activate();
 	void SlashUpdater();
+	virtual void ChangeMap();
 	virtual void SetBaseRenderPos();
 };
 

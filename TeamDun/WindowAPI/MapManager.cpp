@@ -43,11 +43,8 @@ HRESULT MapManager::init()
 
 		if (mapAllCleared) break;
 	}
-	
-
 
 	ChangeMap(1, 0);
-
 
 	return S_OK;
 }
@@ -170,7 +167,6 @@ void MapManager::ReNewMapUI()
 	mouseCenter->SetIsVertical(false);
 	scrollContainer->AddFrame(mouseCenter);
 }
-// allMapFrame // mapFrame
 
 void MapManager::release()
 {
@@ -193,6 +189,8 @@ void MapManager::ChangeMap(int stage, int index)
 	GenerateMapParticle();
 	ENTITYMANAGER->getVBullets().clear();
 	ReNewMapUI();
+
+	ENTITYMANAGER->getPlayer()->GetWeapon(ENTITYMANAGER->getPlayer()->GetSelectedWeaponIdx())->ChangeMap();
 
 	GetPlayMap()->DoorParticleGenerate();
 }

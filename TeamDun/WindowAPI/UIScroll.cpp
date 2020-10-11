@@ -125,6 +125,7 @@ void UIScroll::CalculateScrollBarPercent()
 		float minY = INT_MAX;
 		for (int i = 0; i < _target->GetVChildFrames().size(); i++)
 		{
+
 			if (_target->GetVChildFrames()[i] == this) continue; // 예외처리
 
 			UIFrame* tempFrame = _target->GetVChildFrames()[i];

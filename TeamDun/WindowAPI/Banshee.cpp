@@ -184,7 +184,7 @@ void Banshee::Animation()
 				}
 				if (_frameX < 0)
 				{
-
+					_frameX = 0;
 					_state = ES_IDLE;
 					_isAtk = false;
 				}

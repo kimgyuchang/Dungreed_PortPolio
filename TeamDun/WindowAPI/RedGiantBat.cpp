@@ -11,6 +11,7 @@ HRESULT RedGiantBat::init(int id, string name, OBJECTTYPE type, vector<string> i
 	_bulletStop = false;
 	_ReadyBulletTime = 0;
 	_bulletCount = 0;
+	_body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight());
 	_hp = 50;
 	_angle = 0;
 	return S_OK;
@@ -254,12 +255,10 @@ void RedGiantBat::SetIsDead(bool isDead)
 	{
 		for (int i = 0; i < _vBatBullet.size(); i++)
 		{
-			if (_vBatBullet[i]->getSpeed() == 0)
-			{
-				EFFECTMANAGER->AddEffect(_vBatBullet[i]->getX(), _vBatBullet[i]->getY(), _vBatBullet[i]->getEffectIgName(), 4, 0, 0, false, 255);
-				_vBatBullet[i]->SetIsDead(true);
+			
+			EFFECTMANAGER->AddEffect(_vBatBullet[i]->getX(), _vBatBullet[i]->getY(), _vBatBullet[i]->getEffectIgName(), 4, 0, 0, false, 255);
+			_vBatBullet[i]->SetIsDead(true);
 
-			}
 		}
 	}
 }

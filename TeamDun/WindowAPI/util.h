@@ -26,7 +26,8 @@ namespace UTIL
 	float getLerpByAmount(float start, float end, float amount);
 	float getLerpByAlpha(float start, float end, float alpha, LERPTYPE lerpType);
 	bool IsPointInCircle(POINT center, float radius, POINT pt);
-	bool interactRectArc(RECT& rect, POINT center, float radius, float minAngle, float maxAngle);
+	float SetAngleInBoundary(float& angle);
+	bool interactRectArc(RECT& rect, POINT center, float radius, float minAngle, float maxAngle, bool useCout = false);
 	bool interactRectCircle(RECT& rect, POINT pt, float distance);
 };
 

@@ -125,11 +125,13 @@ public:
 	virtual void render(HDC hdc);
 	virtual void release();
 	virtual void Activate();
-	void EquipUnEquipItem(bool isEquip);
+	void EquipUnEquipStatus(bool isEquip);
 	void AdaptSubOption(SubOption* subOption, bool isEquip);
 	
 
 	virtual void SetBaseRenderPos();
+
+	virtual void ChangeMap();
 
 	// GETSET // 
 

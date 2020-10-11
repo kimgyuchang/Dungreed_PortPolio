@@ -528,7 +528,7 @@ void FieldMap::EraseDeathObject()
 /// </summary>
 void FieldMap::ShotObject()
 {
-	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown(VK_LBUTTON))
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetIsLButtonClicked())
 	{
 		for (int i = 0; i < _vObjs.size(); i++)
 		{
@@ -595,8 +595,16 @@ void FieldMap::render(HDC hdc)
 	// «√∑π¿ÃæÓ π◊ ∫“∏¥ µÓ ∑ª¥ı
 
 	//πÃ¥œ∏ ø° «√∑π¿ÃæÓ ∑ª¥ı
+	if (_fileName == "stage0_town")
+	{
+		IMAGEMANAGER->findImage("MiniMapPlayer")->render(hdc,
+			1000 + (float)3 / 48 * ENTITYMANAGER->getPlayer()->GetX(), 10 + (float)3 / 48 * ENTITYMANAGER->getPlayer()->GetY());
+	}
+	else
+	{
 	IMAGEMANAGER->findImage("MiniMapPlayer")->render(hdc, 
 		1000+(float)5 / 48 * ENTITYMANAGER->getPlayer()->GetX(),10+ (float)5 /48 * ENTITYMANAGER->getPlayer()->GetY());
+	}
 	//πÃ¥œ∏ ø° ∏ÛΩ∫≈Õ ∑ª¥ı
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
