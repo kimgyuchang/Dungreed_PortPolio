@@ -3,16 +3,20 @@
 
 HRESULT gameScene::init()
 {
+	INPUT->init();
+
 	UIMANAGER->init();
 	initUI();
 
-	MAPMANAGER->init();
 	_p = new Player();
-	_p->init();
 
 	ENTITYMANAGER->init();
 	ENTITYMANAGER->setPlayer(_p);
+	_p->init();
 
+	MAPMANAGER->init();
+
+	
 	PARTICLEMANAGER->init();
 	EFFECTMANAGER->init();
 
@@ -150,9 +154,70 @@ void gameScene::DungeonMapUIInit()
 
 void gameScene::InventoryUIInit()
 {
+	// Inventory Frame //
 	UIFrame* InventoryFrame = new UIFrame();
-	
+	InventoryFrame->init("InventoryFrame", 1000, 170, IMAGEMANAGER->findImage("InventoryBase_2")->getWidth(), IMAGEMANAGER->findImage("InventoryBase_2")->getHeight(), "InventoryBase_2");
+	UIMANAGER->GetGameFrame()->AddFrame(InventoryFrame);
 
+	UIFrame* weaponImageFrame = new UIFrame();
+	weaponImageFrame->init("curWeapon_1", 48, 105, 57, 57, "");
+	InventoryFrame->AddFrame(weaponImageFrame);
+
+	UIFrame* weaponImageSubFrame = new UIFrame();
+	weaponImageSubFrame->init("curWeaponSub_1", 114, 105, 57, 57, "");
+	InventoryFrame->AddFrame(weaponImageSubFrame);
+
+	UIFrame* weaponImageFrame2 = new UIFrame();
+	weaponImageFrame2->init("curWeapon_2", 210, 105, 57, 57, "");
+	InventoryFrame->AddFrame(weaponImageFrame2);
+
+	UIFrame* weaponImageSubFrame2 = new UIFrame();
+	weaponImageSubFrame2->init("curWeaponSub_2", 276, 105, 57, 57, "");
+	InventoryFrame->AddFrame(weaponImageSubFrame2);
+
+	int accesorySize = 4;
+	for (int i = 0; i < accesorySize; i++)
+	{
+		UIFrame* accesory = new UIFrame();
+		accesory->init("accesoryFrame_" + to_string(i), (i * (IMAGEMANAGER->findImage("accessory")->getWidth() + 8)) + 65 - (accesorySize - 4) * (IMAGEMANAGER->findImage("accessory")->getWidth() / 2 + 4)
+			, 190, IMAGEMANAGER->findImage("accessory")->getWidth(), IMAGEMANAGER->findImage("accessory")->getHeight(), "accessory");
+		InventoryFrame->AddFrame(accesory);
+
+		UIFrame* itemImageFrame = new UIFrame();
+		itemImageFrame->init("itemImageFrame", 0, 0, 57, 57, "");
+		accesory->AddFrame(itemImageFrame);
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			UIFrame* itemFrame = new UIFrame();
+			itemFrame->init("itemFrame_" + to_string(i * 5 + j), (j * (IMAGEMANAGER->findImage("IconGray")->getWidth() + 8) + 32), 280 + (i * (IMAGEMANAGER->findImage("IconGray")->getHeight() + 8)), IMAGEMANAGER->findImage("IconGray")->getWidth(), IMAGEMANAGER->findImage("IconGray")->getHeight(), "IconGray");
+			InventoryFrame->AddFrame(itemFrame);
+
+			UIFrame* itemImageFrame = new UIFrame();
+			itemImageFrame->init("itemImageFrame", 0, 0, 57, 57, "");
+			itemFrame->AddFrame(itemImageFrame);
+		}
+	}
+
+	UIText* moneyText = new UIText();
+	moneyText->init("moneyText", 10, 502, 300, 100, "0", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_RIGHT, RGB(255, 255, 255));
+	InventoryFrame->AddFrame(moneyText);
+
+	InventoryFrame->SetIsViewing(false);
+
+
+	UIText* accessFullText = new UIText();
+	accessFullText->init("isFullText", 350, 200, 800, 200, "인벤토리 기능을 실행할 수 없습니다.", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(200, 30, 30));
+	UIMANAGER->GetGameFrame()->AddFrame(accessFullText);
+	accessFullText->SetIsViewing(false);
+
+	UIText* accessEqualText = new UIText();
+	accessEqualText->init("isEqualText", 350, 200, 800, 200, "같은 아이템은 장착할 수 없습니다.", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(200, 30, 30));
+	UIMANAGER->GetGameFrame()->AddFrame(accessEqualText);
+	accessEqualText->SetIsViewing(false);
 }
 
 void gameScene::release()
@@ -169,6 +234,8 @@ void gameScene::release()
 
 void gameScene::update()
 {
+	INPUT->update();
+
 	if (INPUT->GetKeyDown(VK_BACK))
 	{
 		UIMANAGER->_GameFrame->GetVChildFrames().clear();
@@ -190,6 +257,12 @@ void gameScene::update()
 			UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(false);
 		}
 	}
+
+	if (INPUT->GetKeyDown('V'))
+	{
+		UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->ToggleIsViewing();
+	}
+
 	for (int i = 0; i < 13; i++)
 	{
 		if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->GetRect(), _ptMouse))

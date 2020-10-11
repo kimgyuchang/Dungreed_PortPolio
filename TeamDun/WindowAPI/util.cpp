@@ -63,25 +63,31 @@ bool UTIL::IsPointInCircle(POINT center, float radius, POINT pt)
 	return true;
 }
 
-bool UTIL::interactRectArc(RECT& rect, POINT center, float radius, float minAngle, float maxAngle)
+float UTIL::SetAngleInBoundary(float& angle)
 {
-	if (minAngle < 0) minAngle += 2 * PI;
-	if (maxAngle < 0) maxAngle += 2 * PI;
-	if (minAngle > 2 * PI) minAngle -= 2 * PI;
-	if (maxAngle > 2 * PI) maxAngle -= 2 * PI;
-		
+	while (angle < 0) angle += 2 * PI;
+	while (angle >= 2 * PI) angle -= 2 * PI;
+	return angle;
+}
+
+bool UTIL::interactRectArc(RECT& rect, POINT center, float radius, float minAngle, float maxAngle, bool useCout)
+{
+	SetAngleInBoundary(maxAngle);
+	SetAngleInBoundary(minAngle);
+
+	if(useCout) cout << minAngle << " " << maxAngle << endl;
+
 	POINT rectPoints[4] = { POINT{rect.left, rect.top}, POINT{rect.left, rect.bottom}, POINT{rect.right, rect.top}, POINT{rect.right, rect.bottom} };
 	
 	for (int i = 0; i < 4; i++)
 	{
 		float distance = abs(getDistance(rectPoints[i].x, rectPoints[i].y, center.x, center.y));
 		if (distance > radius) continue;
+
 		else
 		{
 			float angle = getAngle(center.x, center.y, rectPoints[i].x, rectPoints[i].y);
-			
-			if (angle >= 2 * PI) angle -= 2 * PI;
-			else if (angle < 0) angle += 2 * PI;
+			SetAngleInBoundary(angle);
 
 			if (minAngle <= maxAngle)
 			{
@@ -90,15 +96,14 @@ bool UTIL::interactRectArc(RECT& rect, POINT center, float radius, float minAngl
 					return true;
 				}
 			}
-
+			
 			else
 			{
-				if (angle >= maxAngle || angle <= minAngle)
+				if (angle <= maxAngle || angle >= minAngle)
 				{
 					return true;
 				}
 			}
-
 		}
 	}
 	return false;

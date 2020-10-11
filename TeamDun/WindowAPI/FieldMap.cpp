@@ -509,7 +509,7 @@ void FieldMap::EraseDeathObject()
 /// </summary>
 void FieldMap::ShotObject()
 {
-	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown(VK_LBUTTON))
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetIsLButtonClicked())
 	{
 		for (int i = 0; i < _vObjs.size(); i++)
 		{

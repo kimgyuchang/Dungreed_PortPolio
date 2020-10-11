@@ -43,7 +43,7 @@ HRESULT MapManager::init()
 
 		if (mapAllCleared) break;
 	}
-	
+
 	_currentStage = 1;
 	_currentMap = 0;
 	GetPlayMap()->PixelCollisionMapGenerate();
@@ -167,7 +167,6 @@ void MapManager::ReNewMapUI()
 	mouseCenter->SetIsVertical(false);
 	scrollContainer->AddFrame(mouseCenter);
 }
-// allMapFrame // mapFrame
 
 void MapManager::release()
 {
@@ -190,6 +189,8 @@ void MapManager::ChangeMap(int stage, int index)
 	GenerateMapParticle();
 	ENTITYMANAGER->getVBullets().clear();
 	ReNewMapUI();
+
+	ENTITYMANAGER->getPlayer()->GetWeapon(ENTITYMANAGER->getPlayer()->GetSelectedWeaponIdx())->ChangeMap();
 
 	GetPlayMap()->DoorParticleGenerate();
 }

@@ -386,7 +386,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("AbilityTItle", "Images/UI/AbilityTItle.bmp", 960, 96, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("accessory", "Images/UI/accessory.bmp", 57, 57, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("accessorySelect", "Images/UI/accessorySelect.bmp", 57, 57, true ,RGB(255,0,255));
-	_loading->LoadNormalImage("InventoryBase_2", "Images/UI/InventoryBase_2.bmp", 369, 564, true ,RGB(255,0,255));
+	_loading->LoadNormalImage("InventoryBase_2", "Images/UI/InventoryBase_2.bmp", 380, 564, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("Item_0", "Images/UI/Item_0.bmp", 351, 438, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("Item_1", "Images/UI/Item_1.bmp", 351, 438, true ,RGB(255,0,255));
 	_loading->LoadNormalImage("Item_2", "Images/UI/Item_2.bmp", 351, 438, true ,RGB(255,0,255));
@@ -659,8 +659,14 @@ void loadingScene::loadingImage()
 
 	// ITEM //
 	_loading->LoadFrameImage("DemonSword", "Images/item/DemonSword.bmp", 107, 213, 1, 2, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("DemonSword_inven", "Images/item/DemonSword_inven.bmp", 79, 183, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("DemonSword_inven", "Images/item/DemonSword_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("DemonSword_Slash", "Images/item/DemonSword_Slash.bmp", 924, 264, 7, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Colt", "Images/item/Colt.bmp", 107, 213, 1, 2, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Colt_inven", "Images/item/Colt_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("MainGauche", "Images/item/MainGauche.bmp", 57, 114, 1, 2, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("MainGauche_inven", "Images/item/MainGauche_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SilverEaring_inven", "Images/item/SilverEaring_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SilverRing_inven", "Images/item/SilverRing_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));

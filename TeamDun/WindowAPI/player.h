@@ -103,6 +103,7 @@ private:
 	Item*			_subWeapons[2];			// 보조무기
 	vector<Item*>	_vAccessories;			// 악세서리들
 	int				_selectedWeaponIdx;		// 장착한 무기 인덱스
+	int				_accesoryCount;			// 악세서리 최대 개수
 
 	// 기타 //						 
 	// - 표면적 수치
@@ -127,6 +128,7 @@ public:
 
 	virtual HRESULT init();
 	virtual void	update();
+	void SwitchWeapon();
 	void CheckAliceZone();
 	virtual	void	release();
 	virtual void	render(HDC hdc);
@@ -194,6 +196,7 @@ public:
 	Item*			GetWeapon(int num)		{ return _weapons[num]; }
 	Item*			GetSubWeapon(int num)	{ return _subWeapons[num]; }
 	vector<Item*>&	GetVAccessories()		{ return _vAccessories; }
+	Item*			GetAccessory(int num)	{ return _vAccessories[num]; }
 	int				GetSelectedWeaponIdx()	{ return _selectedWeaponIdx; }
 	int				GetSatiety()			{ return _satiety; }
 	int				GetMoney()				{ return _money; }
@@ -202,6 +205,7 @@ public:
 	int				GetNeedExperience()		{ return _needExperience; }
 	float			GetRealAttackSpeed()	{ return _realAttackSpeed; }
 	float			GetGoldDrop()			{ return _goldDrop; }
+	int				GetAccesoryCount()	    { return _accesoryCount; }
 
 	void			SetState(PLAYERSTATE state)					  { _state = state; }
 	void			SetIsLeft(bool isLeft) 						  { _isLeft = isLeft; }
@@ -268,4 +272,5 @@ public:
 	void			SetExperience(int experience) 				  { _experience = experience; }
 	void			SetNeedExperience(int needExperience) 		  { _needExperience = needExperience; }
 	void			SetGoldDrop(float goldDrop) 				  { _goldDrop = goldDrop; }
+	void			SetAccesoryCount(int accesoryCount)           { _accesoryCount = accesoryCount; }
 };
