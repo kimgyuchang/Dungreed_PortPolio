@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Effect.h"
 
-HRESULT Effect::init(float x, float y, string imgName, int animSpeed, int frameX, int frameY, bool isLoop, int alpha)
+HRESULT Effect::init(float x, float y, string imgName, int animSpeed, int frameX, int frameY, bool isLoop, int alpha, float angle, float scaleX, float scaleY)
 {
 	_x = x;
 	_y = y;
@@ -12,6 +12,10 @@ HRESULT Effect::init(float x, float y, string imgName, int animSpeed, int frameX
 	_isLoop = isLoop;
 	_isDead = false;
 	_alpha = alpha;
+	_angle = angle;
+	_scaleX = scaleX;
+	_scaleY = scaleY;
+
 	return S_OK;
 }
 
@@ -28,12 +32,14 @@ void Effect::render(HDC hdc)
 {
 	if (_image->getMaxFrameX() == 0)
 	{
-		CAMERAMANAGER->AlphaRender(hdc, _image, _x, _y, _alpha);
+		if (_scaleX != 1 || _scaleY != 1) CAMERAMANAGER->StretchAlphaRender(hdc, _image, _x, _y, _scaleX, _scaleY, _alpha, _angle);
+		else CAMERAMANAGER->AlphaRender(hdc, _image, _x, _y, _alpha, _angle);
 	}
 
 	else
 	{
-		CAMERAMANAGER->FrameAlphaRender(hdc, _image, _x, _y, _frameX, _frameY, _alpha);
+		if (_scaleX != 1 || _scaleY != 1) CAMERAMANAGER->FrameStretchAlphaRender(hdc, _image, _x, _y, _frameX, _frameY, _scaleX, _scaleY, _alpha, _angle);
+		else CAMERAMANAGER->FrameAlphaRender(hdc, _image, _x, _y, _frameX, _frameY, _alpha, _angle);
 	}
 }
 

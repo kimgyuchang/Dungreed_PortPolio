@@ -45,7 +45,12 @@ HRESULT Item::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill* skil
 	_angleCheckPosX = _angleCheckPosY = 0;
 	_renderPosX = _renderPosY = 0;
 	_isAttacking = false;
-	_isRenderFirst = false;
+
+	if (_itemType == ITEMTYPE::IT_SUBWEAPON)
+		_isRenderFirst = true;
+	else
+		_isRenderFirst = false;
+
 	return S_OK;
 }
 
@@ -56,10 +61,13 @@ void Item::AddSubOption(SubOption* option)
 
 void Item::update()
 {
+	SetBaseRenderPos();
 }
 
 void Item::render(HDC hdc)
 {
+	if(_itemType != ITEMTYPE::IT_NOTHING && _itemType != ITEMTYPE::IT_ACCESORRY)
+		CAMERAMANAGER->FrameRender(hdc, _vImages[_currentImage], _renderPosX, _renderPosY, _xFrame, _yFrame, _angle);
 }
 
 void Item::release()
@@ -70,9 +78,10 @@ void Item::Activate()
 {
 }
 
-void Item::EquipUnEquipItem(bool isEquip)
+void Item::EquipUnEquipStatus(bool isEquip)
 {
 	Player* p = ENTITYMANAGER->getPlayer();
+	
 	int statusChanger = isEquip ? 1 : -1;
 	p->SetMinDamage(p->GetMinDamage() + statusChanger * _minAtk);
 	p->SetMaxDamage(p->GetMaxDamage() + statusChanger * _maxAtk);
@@ -208,14 +217,21 @@ void Item::SetBaseRenderPos()
 	bool playerIsLeft = ENTITYMANAGER->getPlayer()->GetIsLeft();
 	_yFrame = playerIsLeft ? 0 : 1;
 
-	_angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 40 : 20);
+	if(_itemType == ITEMTYPE::IT_WEAPON_ONEHAND) _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 20 : 40);
+	else if(_itemType == ITEMTYPE::IT_SUBWEAPON) _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 40 : 20);
+	else _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 40 : 20);
+
 	_angleCheckPosY = ENTITYMANAGER->getPlayer()->GetY() + 45;
 	_renderPosX = _angleCheckPosX - _vImages[_currentImage]->getFrameWidth() / 2;
 	_renderPosY = _angleCheckPosY - _vImages[_currentImage]->getFrameHeight() / 2;
 	if (!_isAttacking)
 	{
-		_angle = -getAngle(CAMERAMANAGER->GetAbsoluteX(_ptMouse.x), CAMERAMANAGER->GetAbsoluteY(_ptMouse.y), _angleCheckPosX, _angleCheckPosY);
+		_angle = getAngle(_angleCheckPosX, CAMERAMANAGER->GetAbsoluteY(_ptMouse.y), CAMERAMANAGER->GetAbsoluteX(_ptMouse.x), _angleCheckPosY);
 		if (_angle > PI * 2) _angle -= PI * 2;
 		if (_angle < 0) _angle += PI * 2;
 	}
+}
+
+void Item::ChangeMap()
+{
 }

@@ -42,7 +42,12 @@ void FieldMap::LoadMap()
 			{
 				tile->_img = IMAGEMANAGER->findImage(stringData[i][j]);
 				RECT rc;
-				rc = RectMake(10 + j * 5, 10 + i * 5, 5, 5); // 한칸당 5픽셀이기 때문에 늘리고싶으면 이미지도 같이 바꿔야합니다
+				if(_fileName == "stage0_town")
+					rc = RectMake(1000 + j * 3, 10 + i * 3, 3, 3); // 한칸당 5픽셀이기 때문에 늘리고싶으면 이미지도 같이 바꿔야합니다
+				else 
+				{
+				rc = RectMake(1000 + j * 5, 10 + i * 5, 5, 5); // 한칸당 5픽셀이기 때문에 늘리고싶으면 이미지도 같이 바꿔야합니다
+				}
 				_vMiniRc.push_back(rc);
 			}
 			if (stringData2[i][j] == "-1") tile->_img2 = nullptr;
@@ -102,15 +107,24 @@ void FieldMap::LoadObject()
 		case 1506:// 해골 강아지
 			obj = new SkelDog(*dynamic_cast<SkelDog*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
+
+		case 1507:// 칼 해골
+			obj = new SwordSkel(*dynamic_cast<SwordSkel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+			
+		case 1508:// 활 해골
+			obj = new BowSkel(*dynamic_cast<BowSkel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 			
 		case 1502: // 밴시
 			obj = new Banshee(*dynamic_cast<Banshee*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
-		case 1507:// 해골
-			obj = new Skel(*dynamic_cast<Skel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+		case 1509: //빨간 큰박쥐
+			obj = new RedGiantBat(*dynamic_cast<RedGiantBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
+		case 1510: //보라 큰박쥐
+			obj = new PurpleGiantBat(*dynamic_cast<PurpleGiantBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 		case 514: // 문 왼쪽
 			obj = new Door(*dynamic_cast<Door*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
@@ -413,6 +427,10 @@ void FieldMap::update()
 	ShotObject();
 	CheckNoMonsterInMap();
 	EFFECTMANAGER->update();
+	
+	
+
+
 }
 
 /// <summary>
@@ -498,6 +516,7 @@ void FieldMap::EraseDeathObject()
 	{
 		if (_vObjs[i]->GetIsDead())
 		{
+			
 			_vObjs.erase(_vObjs.begin() + i);
 			i--;
 		}
@@ -509,7 +528,7 @@ void FieldMap::EraseDeathObject()
 /// </summary>
 void FieldMap::ShotObject()
 {
-	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetKeyDown(VK_LBUTTON))
+	if (INPUT->GetKey(VK_CONTROL) && INPUT->GetIsLButtonClicked())
 	{
 		for (int i = 0; i < _vObjs.size(); i++)
 		{
@@ -574,6 +593,30 @@ void FieldMap::render(HDC hdc)
 	ENTITYMANAGER->render(hdc);
 	PARTICLEMANAGER->render(hdc);
 	// 플레이어 및 불릿 등 렌더
+
+	//미니맵에 플레이어 렌더
+	if (_fileName == "stage0_town")
+	{
+		IMAGEMANAGER->findImage("MiniMapPlayer")->render(hdc,
+			1000 + (float)3 / 48 * ENTITYMANAGER->getPlayer()->GetX(), 10 + (float)3 / 48 * ENTITYMANAGER->getPlayer()->GetY());
+	}
+	else
+	{
+	IMAGEMANAGER->findImage("MiniMapPlayer")->render(hdc, 
+		1000+(float)5 / 48 * ENTITYMANAGER->getPlayer()->GetX(),10+ (float)5 /48 * ENTITYMANAGER->getPlayer()->GetY());
+	}
+	//미니맵에 몬스터 렌더
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		Enemy* enemy = dynamic_cast<Enemy*>(_vObjs[i]);
+
+		if (_vObjs[i]->GetType() == OT_MONSTER && enemy->GetIsSpawned())
+		{
+			IMAGEMANAGER->findImage("MiniMapEnemy")->render(hdc,
+				1000 + (float)5 / 48 * (_vObjs[i]->GetX()+_vObjs[i]->GetImage(0)->getFrameWidth()/2),
+				10 + (float)5 / 48 * (_vObjs[i]->GetY() + _vObjs[i]->GetImage(0)->getFrameHeight() / 2));
+		}
+	}
 }
 
 void FieldMap::DoorParticleGenerate()

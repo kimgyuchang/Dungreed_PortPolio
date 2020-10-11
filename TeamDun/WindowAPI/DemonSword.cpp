@@ -25,9 +25,8 @@ void DemonSword::update()
 
 void DemonSword::render(HDC hdc)
 {
-	CAMERAMANAGER->FrameRender(hdc, _vImages[_currentImage], _renderPosX, _renderPosY, _xFrame, _yFrame, _angle + _renderAngle);
+	CAMERAMANAGER->FrameStretchRender(hdc, _vImages[_currentImage], _renderPosX, _renderPosY, _xFrame, _yFrame, 3.0f, 3.0f, _angle + _renderAngle);
 	for (int i = 0; i < _vSlashes.size(); i++) _vSlashes[i]->render(hdc);
-	CAMERAMANAGER->TextDraw(hdc, _renderPosX, _renderPosY, to_string(_angle).c_str(), to_string(_angle).length());
 }
 
 void DemonSword::release()
@@ -76,7 +75,8 @@ void DemonSword::Activate()
 	_renderAngle = 0;
 
 	DemonSlash* slash = new DemonSlash();
-	slash->init(GetAngleCheckPosX() - _slashImage->getFrameWidth()/2 * 3, GetAngleCheckPosY() - _slashImage->getFrameHeight()/2 * 3, _isLeftAttack ? 0 : 1, _slashImage, _angle);
+	
+	slash->init(GetAngleCheckPosX() - _slashImage->getFrameWidth()/2 * 3, GetAngleCheckPosY() - _slashImage->getFrameHeight()/2 * 3, _isLeftAttack ? 0 : 1, "DemonSword_Slash", -(_angle + (_isLeftAttack ? PI : -PI )));
 	slash->_parent = this;
 	_vSlashes.push_back(slash);
 }
@@ -86,7 +86,7 @@ void DemonSword::SlashUpdater()
 	for (int i = 0; i < _vSlashes.size(); i++)
 	{
 		_vSlashes[i]->update();
-		if (_vSlashes[i]->_isDead)
+		if (_vSlashes[i]->GetEffect()->GetIsDead())
 		{
 			_vSlashes.erase(_vSlashes.begin() + i);
 			i--;
@@ -94,62 +94,58 @@ void DemonSword::SlashUpdater()
 	}
 }
 
-void DemonSlash::init(float x, float y, int frameY, image* img, int angle)
+void DemonSword::ChangeMap()
+{
+	_vSlashes.clear();
+}
+
+void DemonSword::SetBaseRenderPos()
+{
+	bool playerIsLeft = ENTITYMANAGER->getPlayer()->GetIsLeft();
+	_yFrame = playerIsLeft ? 0 : 1;
+
+	_angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 40 : 20);
+	_angleCheckPosY = ENTITYMANAGER->getPlayer()->GetY() + 45;
+	_renderPosX = _angleCheckPosX - _vImages[_currentImage]->getFrameWidth() / 2 * 3;
+	_renderPosY = _angleCheckPosY - _vImages[_currentImage]->getFrameHeight() / 2 * 3;
+	if (!_isAttacking)
+	{
+		_angle = getAngle(CAMERAMANAGER->GetAbsoluteX(_ptMouse.x), _angleCheckPosY, _angleCheckPosX, CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
+		SetAngleInBoundary(_angle);
+	}
+}
+
+void DemonSlash::init(float x, float y, int frameY, string imgName, float angle)
 {
 	_x = x;
 	_y = y;
-	_angle = angle;
-	_image = img;
+	_angle = SetAngleInBoundary(angle);
+
 	_frameY = frameY;
-	_animTimer = 0;
-	_radius = 150;
-	_frameX = 0;
-	_isDead = false;
+	_radius = 180;
+
+	_effect = EFFECTMANAGER->AddEffect(_x, _y, imgName, 6, 0, _frameY, false, 255, -_angle, 3.0f, 3.0f);
 }
 
 void DemonSlash::update()
 {
-	animation();
 	SetCollide();
-}
-
-void DemonSlash::animation()
-{
-	if (!_isDead)
-	{
-		_animTimer++;
-		if (_animTimer > 5)
-		{
-			_animTimer = 0;
-			_frameX++;
-
-			if (_frameX >= _image->getMaxFrameX())
-			{
-				_isDead = true;
-			}
-		}
-	}
 }
 
 void DemonSlash::render(HDC hdc)
 {
-	CAMERAMANAGER->FrameStretchRender(hdc, _image, _x, _y, _frameX, _frameY, 3.0f, 3.0f, _angle);
-	CAMERAMANAGER->TextDraw(hdc, _parent->GetAngleCheckPosX(), _parent->GetAngleCheckPosY(), "HERE", strlen("HERE"));
-
-	CAMERAMANAGER->LineMake(hdc, _parent->GetAngleCheckPosX(), _parent->GetAngleCheckPosY(), _parent->GetAngleCheckPosX() + cos(_angle - PI * 0.2) * _radius, _parent->GetAngleCheckPosY() - sin(_angle - PI * 0.2) * _radius);
-	CAMERAMANAGER->LineMake(hdc, _parent->GetAngleCheckPosX(), _parent->GetAngleCheckPosY(), _parent->GetAngleCheckPosX() + cos(_angle + PI * 0.2) * _radius, _parent->GetAngleCheckPosY() - sin(_angle + PI * 0.2) * _radius);
 }
 
 void DemonSlash::SetCollide()
 {
-	if (_frameX == 0 && _animTimer == 1)
+	if (_effect->GetFrameX() == 0 && _effect->GetAnimTimer() == 0)
 	{
 		vector<Object*> _vObjs = MAPMANAGER->GetPlayMap()->GetObjects();
 		for (int i = 0; i < _vObjs.size(); i++)
 		{
 			if (_vObjs[i]->GetType() == OBJECTTYPE::OT_MONSTER || _vObjs[i]->GetType() == OBJECTTYPE::OT_BREAKABLE)
 			{
-				if (UTIL::interactRectArc(_vObjs[i]->GetBody(), POINT{ (LONG)_parent->GetAngleCheckPosX(), (LONG)_parent->GetAngleCheckPosY() }, _radius, _angle - PI * 0.2, _angle + PI * 0.2))
+				if (UTIL::interactRectArc(_vObjs[i]->GetBody(), POINT{ (LONG)_parent->GetAngleCheckPosX(), (LONG)_parent->GetAngleCheckPosY() }, _radius, _angle - PI * 0.2f, _angle + PI * 0.2f))
 				{
 					_vObjs[i]->SetIsDead(true);
 				}

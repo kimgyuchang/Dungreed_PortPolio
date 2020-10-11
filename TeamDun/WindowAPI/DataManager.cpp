@@ -68,14 +68,23 @@ void DataManager::GetObjectData()
 			obj = new SkelDog();
 			break;
 
-		case 1507:// ÇØ°ñ
-			obj = new Skel();
+		case 1507:// Ä® ÇØ°ñ
+			obj = new SwordSkel();
+			break;
+
+		case 1508:// È° ÇØ°ñ
+			obj = new BowSkel();
 			break;
 
 		case 1502: // ¹ê½Ã
 			obj = new Banshee();
 			break;
-
+		case 1509://»¡°£Å«¹ÚÁã
+			obj = new RedGiantBat();
+			break;
+		case 1510:
+			obj = new PurpleGiantBat();
+			break;
 		case 702: // ºÓÀº ¹ÚÁã
 			obj = new RedBat();
 			break;
@@ -215,41 +224,41 @@ void DataManager::GetItemData()
 				SubOption* option = new SubOption;
 
 				string optionId = itemData[i][22 + (j * 3)];
-				if (optionId == "POWER") option->_optionId = OPTIONTYPE::POWER;
+				if (optionId == "ACCURACY") option->_optionId = OPTIONTYPE::ACCURACY;
 				else if (optionId == "ATKSPEED") option->_optionId = OPTIONTYPE::ATKSPEED;
-				else if (optionId == "DASHATK") option->_optionId = OPTIONTYPE::DASHATK;
-				else if (optionId == "DEFENCE") option->_optionId = OPTIONTYPE::DEFENCE;
 				else if (optionId == "BLOCK") option->_optionId = OPTIONTYPE::BLOCK;
 				else if (optionId == "CRITICALPERCENT") option->_optionId = OPTIONTYPE::CRITICALPERCENT;
 				else if (optionId == "CRITICALDAMAGE") option->_optionId = OPTIONTYPE::CRITICALDAMAGE;
-				else if (optionId == "MINDAMAGE") option->_optionId = OPTIONTYPE::MINDAMAGE;
-				else if (optionId == "MAXDAMAGE") option->_optionId = OPTIONTYPE::MAXDAMAGE;
-				else if (optionId == "FINALDAMAGEPERCENT") option->_optionId = OPTIONTYPE::FINALDAMAGEPERCENT;
-				else if (optionId == "FINALDAMAGE") option->_optionId = OPTIONTYPE::FINALDAMAGE;
-				else if (optionId == "TOUGHNESS") option->_optionId = OPTIONTYPE::TOUGHNESS;
-				else if (optionId == "TRUEDAMAGE") option->_optionId = OPTIONTYPE::TRUEDAMAGE;
-				else if (optionId == "MAXHP") option->_optionId = OPTIONTYPE::MAXHP;
-				else if (optionId == "MAXHPPERCENT") option->_optionId = OPTIONTYPE::MAXHPPERCENT;
-				else if (optionId == "EVADE") option->_optionId = OPTIONTYPE::EVADE;
-				else if (optionId == "MOVESPEED") option->_optionId = OPTIONTYPE::MOVESPEED;
-				else if (optionId == "JUMPPOWER") option->_optionId = OPTIONTYPE::JUMPPOWER;
-				else if (optionId == "GOLDDROP") option->_optionId = OPTIONTYPE::GOLDDROP;
-				else if (optionId == "RELOADSPEED") option->_optionId = OPTIONTYPE::RELOADSPEED;
+				else if (optionId == "DASHATK") option->_optionId = OPTIONTYPE::DASHATK;
 				else if (optionId == "DASHCOUNT") option->_optionId = OPTIONTYPE::DASHCOUNT;
-				else if (optionId == "ACCURACY") option->_optionId = OPTIONTYPE::ACCURACY;
+				else if (optionId == "DEFENCE") option->_optionId = OPTIONTYPE::DEFENCE;
+				else if (optionId == "ETC") option->_optionId = OPTIONTYPE::ETC;
+				else if (optionId == "ELECDAMAGE") option->_optionId = OPTIONTYPE::ELECDAMAGE;
+				else if (optionId == "EVADE") option->_optionId = OPTIONTYPE::EVADE;
+				else if (optionId == "FINALDAMAGE") option->_optionId = OPTIONTYPE::FINALDAMAGE;
+				else if (optionId == "FINALDAMAGEPERCENT") option->_optionId = OPTIONTYPE::FINALDAMAGEPERCENT;
+				else if (optionId == "FIREDAMAGE") option->_optionId = OPTIONTYPE::FIREDAMAGE;
+				else if (optionId == "GOLDDROP") option->_optionId = OPTIONTYPE::GOLDDROP;
+				else if (optionId == "ICEDAMAGE") option->_optionId = OPTIONTYPE::ICEDAMAGE;
+				else if (optionId == "IMMUNEELEC") option->_optionId = OPTIONTYPE::IMMUNEELEC;
 				else if (optionId == "IMMUNEFIRE") option->_optionId = OPTIONTYPE::IMMUNEFIRE;
 				else if (optionId == "IMMUNEICE") option->_optionId = OPTIONTYPE::IMMUNEICE;
-				else if (optionId == "IMMUNEELEC") option->_optionId = OPTIONTYPE::IMMUNEELEC;
 				else if (optionId == "IMMUNEPOSION") option->_optionId = OPTIONTYPE::IMMUNEPOSION;
+				else if (optionId == "JUMPPOWER") option->_optionId = OPTIONTYPE::JUMPPOWER;
+				else if (optionId == "MAXDAMAGE") option->_optionId = OPTIONTYPE::MAXDAMAGE;
+				else if (optionId == "MAXHP") option->_optionId = OPTIONTYPE::MAXHP;
+				else if (optionId == "MAXHPPERCENT") option->_optionId = OPTIONTYPE::MAXHPPERCENT;
+				else if (optionId == "MINDAMAGE") option->_optionId = OPTIONTYPE::MINDAMAGE;
+				else if (optionId == "MOVESPEED") option->_optionId = OPTIONTYPE::MOVESPEED;
+				else if (optionId == "POSIONDAMAGE") option->_optionId = OPTIONTYPE::POSIONDAMAGE;
+				else if (optionId == "POWER") option->_optionId = OPTIONTYPE::POWER;
+				else if (optionId == "RELOADSPEED") option->_optionId = OPTIONTYPE::RELOADSPEED;
+				else if (optionId == "TOUGHNESS") option->_optionId = OPTIONTYPE::TOUGHNESS;
+				else if (optionId == "TOELEC") option->_optionId = OPTIONTYPE::TOELEC;
 				else if (optionId == "TOFIRE") option->_optionId = OPTIONTYPE::TOFIRE;
 				else if (optionId == "TOICE") option->_optionId = OPTIONTYPE::TOICE;
-				else if (optionId == "TOELEC") option->_optionId = OPTIONTYPE::TOELEC;
 				else if (optionId == "TOPOSION") option->_optionId = OPTIONTYPE::TOPOSION;
-				else if (optionId == "FIREDAMAGE") option->_optionId = OPTIONTYPE::FIREDAMAGE;
-				else if (optionId == "ICEDAMAGE") option->_optionId = OPTIONTYPE::ICEDAMAGE;
-				else if (optionId == "ELECDAMAGE") option->_optionId = OPTIONTYPE::ELECDAMAGE;
-				else if (optionId == "POSIONDAMAGE") option->_optionId = OPTIONTYPE::POSIONDAMAGE;
-				else if (optionId == "ETC") option->_optionId = OPTIONTYPE::ETC;
+				else if (optionId == "TRUEDAMAGE") option->_optionId = OPTIONTYPE::TRUEDAMAGE;
 
 				option->_optionPower = stof(itemData[i][23 + (j * 3)]);
 				option->_description = itemData[i][24 + (j * 3)];

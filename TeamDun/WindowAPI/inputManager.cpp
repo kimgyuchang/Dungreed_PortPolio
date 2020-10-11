@@ -12,12 +12,19 @@ HRESULT inputManager::init()
 
 	_clickTimer = 0;
 	_isOnceClicked = false;
-
+	_isLButtonClicked = false;
+	_isRButtonClicked = false;
 	return S_OK;
 }
 
 void inputManager::update()
 {
+	_isLButtonClicked = false;
+	_isRButtonClicked = false;
+
+	if (GetKeyDown(VK_LBUTTON)) _isLButtonClicked = true;
+	if (GetKeyDown(VK_RBUTTON)) _isRButtonClicked = true;
+
 	if (_isOnceClicked)
 	{
 		_clickTimer++;
@@ -33,6 +40,8 @@ void inputManager::update()
 		_mouseWheel = 0;
 	}
 	_prevMouseWheel = _mouseWheel;
+
+
 }
 
 void inputManager::release()

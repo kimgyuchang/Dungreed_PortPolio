@@ -16,6 +16,9 @@ private:
 	int	_clickTimer;
 	int _prevMouseWheel;
 
+	bool _isLButtonClicked;
+	bool _isRButtonClicked;
+
 public:
 	//입력매니져 초기화
 	HRESULT init();
@@ -34,6 +37,8 @@ public:
 
 	bool GetIsOnceClicked() { return _isOnceClicked; }
 	int GetClickTimer() { return _clickTimer; }
+	bool GetIsLButtonClicked() { return _isLButtonClicked; }
+	bool GetIsRButtonClicked() { return _isRButtonClicked; }
 	void SetIsOnceClicked(bool isOnceClicked) { _isOnceClicked = isOnceClicked; }
 	void SetClickTimer(int clickTimer) { _clickTimer = clickTimer; }
 	inputManager() {}
