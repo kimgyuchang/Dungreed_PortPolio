@@ -5,7 +5,7 @@
 // 글자의 크기
 enum WORDSIZE
 {
-	WS_BIG, WS_MIDDLE, WS_SMALL, WS_SMALLEST
+	WS_BIG, WS_MIDDLE, WS_SMALL, WS_SMALLEST, WS_MIDDLESMALL,
 };
 
 // 글자가 애니메이션으로 나오는 속도
