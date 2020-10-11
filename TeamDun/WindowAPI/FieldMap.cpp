@@ -595,8 +595,16 @@ void FieldMap::render(HDC hdc)
 	// 플레이어 및 불릿 등 렌더
 
 	//미니맵에 플레이어 렌더
+	if (_fileName == "stage0_town")
+	{
+		IMAGEMANAGER->findImage("MiniMapPlayer")->render(hdc,
+			1000 + (float)3 / 48 * ENTITYMANAGER->getPlayer()->GetX(), 10 + (float)3 / 48 * ENTITYMANAGER->getPlayer()->GetY());
+	}
+	else
+	{
 	IMAGEMANAGER->findImage("MiniMapPlayer")->render(hdc, 
 		1000+(float)5 / 48 * ENTITYMANAGER->getPlayer()->GetX(),10+ (float)5 /48 * ENTITYMANAGER->getPlayer()->GetY());
+	}
 	//미니맵에 몬스터 렌더
 	for (int i = 0; i < _vObjs.size(); i++)
 	{

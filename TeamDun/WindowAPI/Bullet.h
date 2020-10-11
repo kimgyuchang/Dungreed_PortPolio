@@ -20,6 +20,7 @@ private :
 	float		_startY;
 	float		_angle;
 	float		_speed;
+	float		_igAngle;
 	int			_frameX;
 	int			_frameY;
 	int			_frameTimer;
@@ -34,7 +35,7 @@ public :
 	virtual void	update();
 	virtual	void	release();
 	virtual void	render(HDC hdc);
-	void makeBullet(const char* imageName,string effectIgName, BULLETTYPE type, float x, float y, float angle, float speed, float maxDis, bool isFrame);
+	void makeBullet(const char* imageName,string effectIgName, BULLETTYPE type, float x, float y, float angle, float speed, float maxDis, bool isFrame ,float igAngle =0);
 
 	void moveBullet();
 	void Animation();

@@ -4,13 +4,16 @@
 HRESULT BowSkel::init(int id, string name, OBJECTTYPE type, vector<string> imgNames)
 {
 	Enemy::init(id, name, type, imgNames);
-	_body = RectMake(_x, _y, 42, 57);
-	_frameX = _frameY = 0;
-	_count = _index = 0;
-
+	_body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight());
 	_state = ES_IDLE;
-
-	_isLeft = _isAttack = false;
+	_stateTimer = 0;
+	_isAtk = false;
+	_hp = 50;
+	_skelBow.bowIg = IMAGEMANAGER->findImage("SkelBow");
+	_skelBow.frameX = 0;
+	_skelBow.frameY = 0;
+	_skelBow.angle = 0.f;
+	return S_OK;
 
 	return S_OK;
 }
@@ -19,16 +22,17 @@ void BowSkel::update()
 {
 	Enemy::update();
 
-	switch (_state)
+	if (_isSpawned)
 	{
-	case ES_IDLE:
-		break;
-	case ES_MOVE:
-		break;
-	case ES_ATTACK:
-		break;
-	default:
-		break;
+		if (getDistance(_x, _y, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY()) < 600)
+		{
+			_skelBow.angle = getAngle(_x, _y, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY());
+		}
+		Animation();
+		
+		Attack();
+		if (ENTITYMANAGER->getPlayer()->GetX() - 70 > _x)  _isLeft = true;
+		else if (ENTITYMANAGER->getPlayer()->GetX() + 70 < _x)  _isLeft = false;
 	}
 }
 
@@ -42,71 +46,78 @@ void BowSkel::render(HDC hdc)
 	if (_isSpawned)
 	{
 		Enemy::render(hdc);
+		CAMERAMANAGER->FrameRender(hdc,_skelBow.bowIg, _x, _y + 20,_skelBow.frameX,_skelBow.frameY, -_skelBow.angle);
 	}
 }
 
-void BowSkel::Move()
-{
-	if (_isSpawned)
-	{
-		Enemy::Move();
-	}
-}
 
 void BowSkel::Attack()
 {
-	Enemy::Attack();
+	if (!_isAtk)
+	{
+		_attackCoolTime++;
+		if (_attackCoolTime > 500)
+		{
+			_attackCoolTime = 0;
+			_isAtk = true;
+			if (_isLeft)
+			{
+				_frameX = 0;
+				_leftAtk = true;
+			}
+			else
+			{
+				_frameX = _vImages[_useImage]->getMaxFrameX();
+				_leftAtk = false;
+			}
+			_state = ES_ATTACK;
+		}
+	}
 }
 
 void BowSkel::Animation()
 {
-	Enemy::Animation();
-
-	_count++;
-
 	switch (_state)
 	{
 	case ES_IDLE:
 		_useImage = 0;
-		if (_isLeft)
-		{
-			_frameY = 1;
-			if (_count % 5 == 0)
-			{
-				_frameX--;
+		
 
-				if (_frameX < 0)
-				{
-					_frameX = _vImages[_useImage]->getMaxFrameX();
-				}
-			}
-		}
-		else
-		{
-			_frameY = 0;
-			if (_count % 5 == 0)
-			{
-				_frameX++;
-
-				if (_frameX > _vImages[_useImage]->getMaxFrameX())
-				{
-					_frameX = 0;
-				}
-			}
-		}
 		break;
 
-	case ES_MOVE:
-		break;
-
+		
 	case ES_ATTACK:
-		_useImage = 2;
-		_frameX = 0;
+
+
+
+
+		_count++;
+
 		_frameY = 0;
+		if (_count % 10 == 0)
+		{
+
+			_skelBow.frameX++;
+			if (_skelBow.frameX == 3)
+			{
+				ENTITYMANAGER->makeBullet("SkelArrow", "BatBulletHit", BT_NOMAL, _x, _y+20,
+					_skelBow.angle,
+					10, 1000, true ,-_skelBow.angle);
+			}
+			if (_skelBow.frameX > _skelBow.bowIg->getMaxFrameX())
+			{
+				_skelBow.frameX = 0;
+
+				_state = ES_IDLE;
+				_isAtk = false;
+			}
+		}
+
+
+		break;
+	default:
 		break;
 	}
 }
 
-void BowSkel::pixelCollision()
-{
-}
+

@@ -167,7 +167,7 @@ void Player::Animation()
 		break;
 	case PS_MOVE:
 		_useImage = 1;
-		if (_isJump == false && _bottomCol)
+		if (_isJump == false && (_jumpPower == 0 || _jumpPower == -2))
 		{
 			_dustEffectCount++;
 			if (_dustEffectCount % 20 == 0)
