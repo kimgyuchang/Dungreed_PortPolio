@@ -107,7 +107,7 @@ void BigWhiteSkel::render(HDC hdc)
 	if (_isSpawned)
 	{
 		Enemy::render(hdc);
-		CAMERAMANAGER->Rectangle(hdc, _body);
+		if(INPUT->GetKey(VK_F6)) CAMERAMANAGER->Rectangle(hdc, _body);
 	}
 }
 
