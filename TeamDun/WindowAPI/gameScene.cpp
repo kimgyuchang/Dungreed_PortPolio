@@ -142,11 +142,11 @@ void gameScene::initUI()
 	warDrobeFrame->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(8))->AddFrame(pick);
 
 	UIFrame* fasto = new UIFrame();
-	fasto->init("fasto",75,180, IMAGEMANAGER->findImage("fasto")->getWidth(), IMAGEMANAGER->findImage("fasto")->getHeight(), "fasto");
+	fasto->init("fasto",75,185, IMAGEMANAGER->findImage("fasto")->getWidth(), IMAGEMANAGER->findImage("fasto")->getHeight(), "fasto");
 	warDrobeFrame->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(9))->AddFrame(fasto);
 
 	UIFrame* horseman = new UIFrame();
-	horseman->init("horseman", 75, 180, IMAGEMANAGER->findImage("horseman")->getWidth(), IMAGEMANAGER->findImage("horseman")->getHeight(), "horseman");
+	horseman->init("horseman", 75, 175, IMAGEMANAGER->findImage("horseman")->getWidth(), IMAGEMANAGER->findImage("horseman")->getHeight(), "horseman");
 	warDrobeFrame->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(10))->AddFrame(horseman);
 
 	UIFrame* humanlasley = new UIFrame();
@@ -154,7 +154,7 @@ void gameScene::initUI()
 	warDrobeFrame->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(11))->AddFrame(humanlasley);
 
 	UIFrame* masterchef = new UIFrame();
-	masterchef->init("masterchef", 75, 180, IMAGEMANAGER->findImage("masterchef")->getWidth(), IMAGEMANAGER->findImage("masterchef")->getHeight(), "masterchef");
+	masterchef->init("masterchef", 70, 170, IMAGEMANAGER->findImage("masterchef")->getWidth(), IMAGEMANAGER->findImage("masterchef")->getHeight(), "masterchef");
 	warDrobeFrame->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(12))->AddFrame(masterchef);
 
 	
@@ -309,12 +309,12 @@ void gameScene::update()
 	if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetRect(), _ptMouse) && INPUT->GetKey(VK_LBUTTON))
 	{
 		_scrollTimer++;
-		if (_scrollTimer == 10)
+		if (_scrollTimer == 1)
 		{
 			_mouseLocation = _ptMouse.x;
 		}
 		
-		else if(_scrollTimer > 10)
+		else if(_scrollTimer > 1)
 		{
 			for (int i = 0; i < 13; i++)
 			{
