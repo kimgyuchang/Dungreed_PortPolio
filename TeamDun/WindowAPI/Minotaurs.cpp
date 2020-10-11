@@ -52,12 +52,12 @@ void Minotaurs::update()
 			break;
 		case ES_MOVE:
 			this->Move();
-			if (_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
+			if (!_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
 			{
 				_state = ES_ATTACK;
 				_frameX = 0;
 			}
-			else if (!_isLeft && _frameX <= 0)
+			else if (_isLeft && _frameX <= 0)
 			{
 				_state = ES_ATTACK;
 				_frameX = _vImages[_useImage]->getMaxFrameX() - 1;
@@ -165,7 +165,7 @@ void Minotaurs::Animation()
 	{
 	case ES_IDLE:
 		_useImage = 0;
-		if (_isLeft)
+		if (!_isLeft)
 		{
 			_frameY = 1;
 			if (_count > 5)
@@ -432,7 +432,7 @@ void Minotaurs::pixelCollision()
 	}
 	for (int i = _x + MinotaursIdle->getFrameWidth() - 15; i < _x + MinotaursIdle->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 50);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 40);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -487,7 +487,7 @@ void Minotaurs::pixelCollision()
 	//¿ÞÂÊÁß°£
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 50);
+		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 40);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);

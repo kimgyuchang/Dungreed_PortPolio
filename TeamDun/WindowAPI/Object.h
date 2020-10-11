@@ -24,6 +24,7 @@ protected:
 	FieldMap*		_belongMap;				// 현재 속한 맵 정보
 	bool			_isDead;				// 죽었는지(파괴되었는지) 여부
 	bool			_isRenderFrontLayer1;	// 레이어 1 앞에 렌더할것인지
+	
 public:
 
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
@@ -60,7 +61,7 @@ public:
 	void			SetFrameY(int y)					{ _frameY = y; }
 	void			SetSpawnTime(int time)				{ _spawnTime = time; }
 	void			SetBelongMap(FieldMap* map)			{ _belongMap = map; }
-	void			SetIsDead(bool dead)				{ _isDead = dead; }
+	virtual void			SetIsDead(bool dead)				{ _isDead = dead; }
 	void			SetBody(RECT rect)					{ _body = rect; }
 	void			SetBodyPos()						{ _body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight()); }
 	void			SetRenderIndex(bool isFront)		{ _isRenderFrontLayer1 = isFront; }

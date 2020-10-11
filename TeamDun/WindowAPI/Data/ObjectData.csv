@@ -44,7 +44,10 @@ id,name,type,image,image2,image3
 1504,¼­Å¥¹ö½º,Monster,LilithIdle,LilithMove,LilithCatch
 1505,ÀÛÀºÀ¯·É,Monster,LittleGhost,LittleGhostAttack,.
 1506,ÇØ°ñ°­¾ÆÁö,Monster,SkelDogIdle,SkelDogRun,SkelDogDie
-1507,ÇØ°ñ,Monster,SkelIdle,SkelWalk,SkelCorpse
-1508,¾Á½ºÅæ,Etc,SealStone,.,.
+1507,Ä®ÇØ°ñ,Monster,SwordSkelWalk,SwordSkelIdle,SwordSkelDie
+1508,È°ÇØ°ñ,Monster,BowSkelIdle,BowSkelDie,.
+9,¾Á½ºÅæ,Etc,SealStone,.,.
 703,º¸¶ó¹ÚÁã,Monster,BatIdle,BatAttack,.
 2500,¸ó½ºÅÍ ½ºÆù Æ®¸®°Å,Etc,SpawnMonsterPos,.,.
+1509,»¡°£Å«¹ÚÁã,Monster,RedGiantBat,RedGiantBatAttack,.
+1510,º¸¶óÅ«¹ÚÁã,Monster,GiantBat,GiantBatAttack,.

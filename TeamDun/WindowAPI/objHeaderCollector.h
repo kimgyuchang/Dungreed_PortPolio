@@ -10,8 +10,12 @@
 #include "LittleGhost.h"
 #include "Minotaurs.h"
 #include "RedBat.h"
-#include "Skel.h"
 #include "Banshee.h"
 #include "SkelDog.h"
 #include "DemonSword.h"
+#include "SwordSkel.h"
+#include "BowSkel.h"
+#include "RedGiantBat.h"
+#include "PurpleGiantBat.h"
 #include "Lilith.h"
+

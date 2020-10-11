@@ -68,14 +68,23 @@ void DataManager::GetObjectData()
 			obj = new SkelDog();
 			break;
 
-		case 1507:// ÇØ°ñ
-			obj = new Skel();
+		case 1507:// Ä® ÇØ°ñ
+			obj = new SwordSkel();
+			break;
+
+		case 1508:// È° ÇØ°ñ
+			obj = new BowSkel();
 			break;
 
 		case 1502: // ¹ê½Ã
 			obj = new Banshee();
 			break;
-
+		case 1509://»¡°£Å«¹ÚÁã
+			obj = new RedGiantBat();
+			break;
+		case 1510:
+			obj = new PurpleGiantBat();
+			break;
 		case 702: // ºÓÀº ¹ÚÁã
 			obj = new RedBat();
 			break;

@@ -22,19 +22,20 @@ void Bullet::render(HDC hdc)
 {
 	if (_isFrame)
 	{
-		CAMERAMANAGER->FrameRender(hdc, _ig, _x, _y, _frameX, _frameY);
+		CAMERAMANAGER->FrameRender(hdc, _ig, _x, _y, _frameX, _frameY,_igAngle);
 
 	}
 	else
 	{
-		CAMERAMANAGER->Render(hdc, _ig, _x, _y);
+		CAMERAMANAGER->Render(hdc, _ig, _x, _y ,_igAngle);
 	}
 
 }
 
-void Bullet::makeBullet(const char * imageName, BULLETTYPE type, float x, float y, float angle, float speed, float maxDis, bool isFrame)
+void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle, float speed, float maxDis, bool isFrame ,float igAngle)
 {
 	_ig = IMAGEMANAGER->findImage(imageName);
+	_effectIgName = effectIgName;
 	_type = type;
 	_x = _startX = x;
 	_y = _startY = y;
@@ -46,6 +47,9 @@ void Bullet::makeBullet(const char * imageName, BULLETTYPE type, float x, float 
 	_frameTimer = 0;
 	_distance = getDistance(_startX, _startY, _x, _y);
 	_maxDistance = maxDis;
+	_igAngle = igAngle;
+
+	_isDead = false;
 	if (_isFrame)
 	{
 		_rc = RectMake(_x, _y, _ig->getFrameWidth(), _ig->getFrameHeight());

@@ -26,6 +26,7 @@ HRESULT Player::init()
 	_dashSpeed = 0;
 	_atkSpeed = 1.f;
 	_realAttackSpeed = _atkSpeed * 60;
+	_dustEffectCount = 0;
 	_isDash = false;
 	_leftBack = false;
 	_rightBack = false;
@@ -46,7 +47,7 @@ HRESULT Player::init()
 
 	_inven = new Inventory();
 	_inven->init();
-	
+
 	_inven->AddItem(new DemonSword(*dynamic_cast<DemonSword*>(DATAMANAGER->GetItemById(4000))));
 	_inven->AddItem(new DemonSword(*dynamic_cast<DemonSword*>(DATAMANAGER->GetItemById(4000))));
 	_inven->AddItem(new DemonSword(*dynamic_cast<DemonSword*>(DATAMANAGER->GetItemById(4000))));
@@ -70,7 +71,7 @@ HRESULT Player::init()
 void Player::update()
 {
 	if (!UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->GetIsViewing())
-	// 인벤토리창 OFF
+		// 인벤토리창 OFF
 	{
 		if (INPUT->GetIsRButtonClicked())		//마우스 오른쪽 버튼을 눌렀을때
 		{
@@ -81,7 +82,7 @@ void Player::update()
 
 		if (INPUT->GetKeyDown('X'))				//X키를 눌렀을때
 		{
-			ENTITYMANAGER->makeBullet("BatBullet", BT_NOCOL, _x, _y, getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _ptMouse.x, _ptMouse.y), 10, 600, true);
+			ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOCOL, _x, _y, getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _ptMouse.x, _ptMouse.y), 10, 600, true);
 		}   //플레이어의 x,y좌표를 받아와서 플레이어와 마우스 좌표 간의 각도를 구한후 그 거리만큼 총알이 날아가게끔
 
 		if (CAMERAMANAGER->GetRelativeX(_x + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() / 2) >= _ptMouse.x)
@@ -162,7 +163,7 @@ void Player::CheckAliceZone()
 	{
 		if (objs[i]->GetType() == OBJECTTYPE::OT_MONSTER && dynamic_cast<Enemy*>(objs[i])->GetIsSpawned())
 		{
-			if (UTIL::interactRectCircle(objs[i]->GetBody(), POINT{ (long)(_x + _vImages[_useImage]->getFrameWidth() / 2), (long)(_y + _vImages[_useImage]->getFrameHeight() / 2) }, _aliceZoneRadius))
+			if (UTIL::interactRectArc(objs[i]->GetBody(), POINT{ (long)(_x + _vImages[_useImage]->getFrameWidth() / 2), (long)(_y + _vImages[_useImage]->getFrameHeight() / 2) }, _aliceZoneRadius, -PI / 4, PI / 4))
 			{
 				_aliceZoneIn = true;
 				zoneInHere = true;
@@ -192,7 +193,7 @@ void Player::render(HDC hdc)
 	if (_subWeapons[_selectedWeaponIdx] != nullptr && _subWeapons[_selectedWeaponIdx]->GetIsRenderFirst()) _subWeapons[_selectedWeaponIdx]->render(hdc);
 	for (int i = 0; i < _vAccessories.size(); i++)
 	{
-		if(_vAccessories[i]->GetIsRenderFirst()) _vAccessories[i]->render(hdc);
+		if (_vAccessories[i]->GetIsRenderFirst()) _vAccessories[i]->render(hdc);
 	}
 
 	switch (_state)
@@ -236,7 +237,22 @@ void Player::Animation()
 		break;
 	case PS_MOVE:
 		_useImage = 1;
+		if (_isJump == false && (_jumpPower == 0 || _jumpPower == -2))
+		{
+			_dustEffectCount++;
+			if (_dustEffectCount % 20 == 0)
+			{
+				if (_isLeft)
+				{
+					EFFECTMANAGER->AddEffect(_x + 40, _y + 20, "RunEffect", 5, 0, 1, false, 255);
+				}
+				else
+				{
+					EFFECTMANAGER->AddEffect(_x - 40, _y + 20, "RunEffect", 5, 0, 0, false, 255);
+				}
 
+			}
+		}
 		break;
 	case PS_DIE:
 		break;
@@ -353,7 +369,7 @@ void Player::Move()
 			_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
 			_jumpCount++;
 		}
-		if (INPUT->GetKey('S') && _isJump)	//S키를 눌렀는데 점프상태가 아닐 때
+		if (INPUT->GetKey('S') && _isJump)	//S키를 눌렀는데 점프상태일 때
 		{
 			_downJump = true;
 			_jumpPower = -2;
@@ -441,7 +457,7 @@ void Player::pixelCollision()
 	if (!isCollide) //충돌해있지 않다면
 	{
 		_y -= _jumpPower;			//중력적용
-		_jumpPower -= _gravity;		//점프 파워만큼 중력적용
+		_jumpPower -= _gravity;
 
 		if (_jumpPower < -20)		//점프파워가 -20보다 작을때
 		{
@@ -587,7 +603,7 @@ void Player::pixelCollision()
 void Player::dash()
 {
 	_dashTimer++;
-	EFFECTMANAGER->AddEffect(_x, _y, "baseCharIdle", 3, 0, _frameY, false, 80);
+
 	_x += cosf(getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _dashPoint.x, _dashPoint.y)) * 20;
 	_y += -sinf(getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _dashPoint.x, _dashPoint.y)) * 20;
 	_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
@@ -652,7 +668,23 @@ void Player::dash()
 			break;
 		}
 	}
-	if (_dashTimer >= 8)
+	if (_dashTimer == 3)
+	{
+		EFFECTMANAGER->AddEffect(_x, _y, "baseCharEffect", 3, 0, _frameY, false, 150);
+	}
+	if (_dashTimer == 5)
+	{
+		EFFECTMANAGER->AddEffect(_x, _y, "baseCharEffect", 3, 0, _frameY, false, 150);
+	}
+	if (_dashTimer == 6)
+	{
+		EFFECTMANAGER->AddEffect(_x, _y, "baseCharEffect", 3, 0, _frameY, false, 150);
+	}
+	if (_dashTimer == 7)
+	{
+		EFFECTMANAGER->AddEffect(_x, _y, "baseCharEffect", 3, 0, _frameY, false, 150);
+	}
+	if (_dashTimer >= 9)
 	{
 		_dashTimer = 0;		//대쉬 타이머 초기화
 		_jumpPower = 0;		//점프 파워 초기화
@@ -660,3 +692,5 @@ void Player::dash()
 
 	}
 }
+
+
