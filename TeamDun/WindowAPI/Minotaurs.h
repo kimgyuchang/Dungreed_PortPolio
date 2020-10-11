@@ -14,6 +14,7 @@ private:
 	int			_effectTimer;
 	int			_effect;
 	vector<int>	_attackAnimFrame;
+	vector<int>	_MoveAnimFrame;
 	Effect*		_dashEffect;
 
 public:

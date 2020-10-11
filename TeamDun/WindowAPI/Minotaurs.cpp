@@ -7,7 +7,11 @@ HRESULT Minotaurs::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_body = RectMake(_x, _y, 156, 150);
 	_state = ES_IDLE;
 
-	_index = _count = _dashTimer = _movePoint = _attackCoolTime = _attackCount = _attackIndexFix = _effectTimer = _effect = 0;
+	_dashTimer = _movePoint = 0;
+	_attackCoolTime = _attackCount = _attackIndexFix = 0;
+
+	_index = _count = 0;
+	_effectTimer = _effect = 0;
 	_frameX, _frameY = 0;
 
 	_moveSpeed = 10;
@@ -15,6 +19,7 @@ HRESULT Minotaurs::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_isLeft = _isAttack = _isDash = false;
 
 	_attackAnimFrame = vector<int>{ 3,3,30,5,5,5,5 };
+	_MoveAnimFrame = vector<int>{ 3,3,3,30,5,5,5,5 };
 	_dashEffect = nullptr;
 
 	return S_OK;
