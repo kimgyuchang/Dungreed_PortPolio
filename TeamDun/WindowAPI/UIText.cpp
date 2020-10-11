@@ -67,6 +67,10 @@ void UIText::render(HDC hdc)
 			case WS_SMALLEST:
 				hFont = CreateFont(10, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
 					VARIABLE_PITCH | FF_ROMAN, "Neo둥근모");
+				break;
+			case WS_MIDDLESMALL:
+				hFont = CreateFont(18, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
+					VARIABLE_PITCH | FF_ROMAN, "Neo둥근모");
 			} // 폰트를 결정
 			break;
 		}
