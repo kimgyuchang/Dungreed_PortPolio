@@ -76,14 +76,17 @@ private:
 	bool			_immuneIce;				// 냉기 면역
 	bool			_immuneElectric;		// 감전 면역
 	bool			_immunePosion;			// 중독 면역
+	bool			_immuneStun;
 	int				_toFire;				// 공격 시 화염 확률
 	int				_toIce;					// 공격 시 냉기 확률
 	int				_toElectric;			// 공격 시 감전 확률
 	int				_toPosion;				// 공격 시 중독 확률
-	int				_fireDamage;			// 화염 공격력
-	int				_iceDamage;				// 냉기 공격력
-	int				_elecDamage;			// 감전 공격력
-	int				_posionDamage;			// 중독 공격력
+	int				_toStun;				// 공격 시 스턴 확률
+	int				_fireDamage;			// 화염 공격력 (화염 공격력)
+	int				_iceDamage;				// 냉기 공격력 (냉기 시간)
+	int				_elecDamage;			// 감전 공격력 (감전 시간)
+	int				_posionDamage;			// 중독 공격력 (중독 공격력)
+	int				_stunDamage;			// 스턴 공격력 (스턴 시간)
 
 	// 픽셀충돌 전용 //					 
 	RECT			_collider[8];			// 픽셀충돌용
@@ -128,15 +131,16 @@ private:
 public:
 
 	virtual HRESULT init();
-	virtual void	update();
-	void SwitchWeapon();
-	void CheckAliceZone();
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 	virtual void	Animation();
 	virtual void	Move();				//플레이어 움직임
 	virtual void	pixelCollision();	//픽셀충돌
 	virtual void	dash();				//대쉬
+	void UpdateCharPage();
+	virtual void	update();
+	void SwitchWeapon();
+	void CheckAliceZone();
 	
 
 	// GETSET //

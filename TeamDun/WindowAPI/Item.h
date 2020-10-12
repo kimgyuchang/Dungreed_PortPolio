@@ -166,5 +166,7 @@ public:
 	float				GetAngleCheckPosX()		{ return _angleCheckPosX; }
 	float				GetAngleCheckPosY()		{ return _angleCheckPosY; }
 	void				SetIsRenderFirst(bool first)	{ _isRenderFirst = first; }
+	void				SetisAttacking(bool attack)		{ _isAttacking = attack; }
+	void				SetRenderAngle(float angle)		{ _renderAngle = angle; }
 };
 
