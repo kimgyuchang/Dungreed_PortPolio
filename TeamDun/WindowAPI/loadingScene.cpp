@@ -469,7 +469,8 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("X", "Images/UI/X.bmp", 39, 39, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("예시", "Images/UI/예시.bmp", 960, 540, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("ScreenCover", "Images/UI/ScreenCover.bmp", 200, 200, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("ToolTipCover", "Images/UI/ToolTipCover.bmp", 50, 50, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ToolTipCover", "Images/UI/ToolTipCover.bmp", 100, 100, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ToolTipSkillCover", "Images/UI/ToolTipSkillCover.bmp", 30, 30, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Room_Line_LR", "Images/UI/Room_Line_LR.bmp", 42, 8, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Room_Line_UD", "Images/UI/Room_Line_UD.bmp", 8, 42, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Room_Selected", "Images/UI/Room_Selected.bmp", 72, 72, true, RGB(255, 0, 255));

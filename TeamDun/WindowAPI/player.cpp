@@ -702,6 +702,9 @@ void Player::dash()
 	}
 }
 
+/// <summary>
+/// 캐릭터 페이지가 켜져있을때 계속해서 업데이트해준다.
+/// </summary>
 void Player::UpdateCharPage()
 {
 	UIFrame* charFrame = UIMANAGER->GetGameFrame()->GetChild("charFrame");
@@ -729,6 +732,9 @@ void Player::UpdateCharPage()
 	}
 }
 
+/// <summary>
+/// 캐릭터 페이지의 툴팁을 온오프하고 내용물을 바꾼다.
+/// </summary>
 void Player::CharPageToolTipOn()
 {
 	UIFrame* charFrame = UIMANAGER->GetGameFrame()->GetChild("charFrame");
@@ -745,12 +751,15 @@ void Player::CharPageToolTipOn()
 	}
 }
 
+/// <summary>
+/// 몇번째 스탯인가에 따라 툴팁 내용을 알맞게 수정한다.
+/// </summary>
 void Player::ReInitTooltip(int n)
 {
 	switch (n)
 	{
 	case 0:
-		_vToolTips[0].init("powerImg", "무기공격력 (위력)", "\"위력\"은 무기 공격력을 기반으로 추가 피해량에 영향을 줍니다.", "현재 위력: " + to_string(_power) + "데미지 보너스", 7.0f, 4.0f);
+		_vToolTips[0].init("powerImg", "무기공격력 (위력)", "\"위력\"은 무기 공격력을 기반으로 추가 피해량에 영향을 줍니다.", "현재 위력: " + to_string(_power) + "(데미지 보너스)", 7.0f, 4.0f);
 		break;
 	case 1:
 		_vToolTips[1].init("defImg", "방어력", "받는 피해를 경감시켜줍니다.", "피해감소량: " + to_string_with_precision(_realDefence, 1) + "%", 7.0f, 3.5f);
@@ -819,6 +828,9 @@ void Player::ReInitTooltip(int n)
 	}
 }
 
+/// <summary>
+/// 툴팁의 내용물을 바꾸고, 위치를 알맞게 수정한다.
+/// </summary>
 void Player::SetToolTipFrame(float x, float y, int index)
 {
 	UIFrame* toolTipFrame = UIMANAGER->GetGameFrame()->GetChild("charFrame")->GetChild("toolTipFrame");

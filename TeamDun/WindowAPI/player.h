@@ -219,14 +219,17 @@ public:
 	bool			GetImmuneIce()			{ return _immuneIce; }
 	bool			GetImmuneElec()			{ return _immuneElectric; }
 	bool			GetImmunePosion()		{ return _immunePosion; }
+	bool			GetImmuneStun()			{ return _immuneStun; }
 	int				GetToFire()				{ return _toFire; }
 	int				GetToIce()				{ return _toIce; }
 	int				GetToElec()				{ return _toElectric; }
 	int				GetToPosion()			{ return _toPosion; }
+	int				GetToStun()				{ return _toStun; }
 	int				GetFireDamage()			{ return _fireDamage; }
 	int				GetIceDamage()			{ return _iceDamage; }
 	int				GetElecDamage()			{ return _elecDamage; }
 	int				GetPosionDamage()		{ return _posionDamage; }
+	int				GetStunDamage()			{ return _stunDamage; }
 	int				GetAnimCount()			{ return _animCount; }
 	Inventory*		GetInventory()			{ return _inven; }
 	Item*			GetWeapon(int num)		{ return _weapons[num]; }
@@ -288,14 +291,17 @@ public:
 	void			SetImmuneIce(bool immuneIce) 				  { _immuneIce = immuneIce; }
 	void			SetImmuneElec(bool immuneElec)				  { _immuneElectric = immuneElec; }
 	void			SetImmunePosion(bool immunePosion)  		  { _immunePosion = immunePosion; }
+	void			SetImmuneStun(bool immuneStun)				  { _immuneStun = immuneStun; }
 	void			SetToFire(int toFire) 						  { _toFire = toFire; }
 	void			SetToIce(int toIce) 						  { _toIce = toIce; }
 	void			SetToElec(int toElec)						  { _toElectric = toElec; }
 	void			SetToPosion(int toPosion)					  { _toPosion = toPosion; }
+	void			SetToStun(int toStun)						  { _toStun = toStun; }
 	void			SetFireDamage(int fireDamage)				  { _fireDamage = fireDamage; }
 	void			SetIceDamage(int iceDamage) 				  { _iceDamage = iceDamage; }
 	void			SetElecDamage(int elecDamage) 				  { _elecDamage = elecDamage; }
 	void			SetPosionDamage(int posionDamage)  			  { _posionDamage = _posionDamage; }
+	void			SetStunDamage(int stunDamage)				  { _stunDamage = stunDamage; }
 	void			SetAnimCount(int animCount) 				  { _animCount = animCount; }
 	void			SetInventory(Inventory* inven) 				  { _inven = inven; }
 	void			SetWeapon(int num, Item* item) 				  { _weapons[num] = item; }
@@ -310,5 +316,3 @@ public:
 	void			SetGoldDrop(float goldDrop) 				  { _goldDrop = goldDrop; }
 	void			SetAccesoryCount(int accesoryCount)           { _accesoryCount = accesoryCount; }
 };
-
-void CharPageToolTipOn();

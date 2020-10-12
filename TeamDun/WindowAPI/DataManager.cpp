@@ -178,13 +178,13 @@ void DataManager::GetItemData()
 
 		// 무기 타입
 		WEAPONTYPE weaponType = WEAPONTYPE::WT_NOWEAPON;
-		if (itemData[i][2] == "근접") weaponType == WEAPONTYPE::WT_NEAR;
-		else if (itemData[i][2] == "원거리") weaponType == WEAPONTYPE::WT_RANGE;
-		else if (itemData[i][2] == "충전형") weaponType == WEAPONTYPE::WT_CHARGE;
-		else if (itemData[i][2] == "창") weaponType == WEAPONTYPE::WT_SPEAR;
-		else if (itemData[i][2] == "권총") weaponType == WEAPONTYPE::WT_PISTOL;
-		else if (itemData[i][2] == "카타나") weaponType == WEAPONTYPE::WT_KATANA;
-		else weaponType == WEAPONTYPE::WT_NOWEAPON;
+		if (itemData[i][2] == "근접") weaponType = WEAPONTYPE::WT_NEAR;
+		else if (itemData[i][2] == "원거리") weaponType = WEAPONTYPE::WT_RANGE;
+		else if (itemData[i][2] == "충전형") weaponType = WEAPONTYPE::WT_CHARGE;
+		else if (itemData[i][2] == "창") weaponType = WEAPONTYPE::WT_SPEAR;
+		else if (itemData[i][2] == "권총") weaponType = WEAPONTYPE::WT_PISTOL;
+		else if (itemData[i][2] == "카타나") weaponType = WEAPONTYPE::WT_KATANA;
+		else weaponType = WEAPONTYPE::WT_NOWEAPON;
 
 		ITEMCLASS itemClass = ITEMCLASS::IC_NORMAL;
 		if (itemData[i][6] == "일반") itemClass = ITEMCLASS::IC_NORMAL;

@@ -57,20 +57,21 @@ void UIText::render(HDC hdc)
 					VARIABLE_PITCH | FF_ROMAN, "NeoµÕ±Ù¸ð"); 
 				break;
 			case WS_MIDDLE: 
-				hFont = CreateFont(30, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
+				hFont = CreateFont(28, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
 					VARIABLE_PITCH | FF_ROMAN, "NeoµÕ±Ù¸ð"); 
 				break;
-			case WS_SMALL: 
+			case WS_MIDDLESMALL:
 				hFont = CreateFont(20, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
+					VARIABLE_PITCH | FF_ROMAN, "NeoµÕ±Ù¸ð");
+				break;
+			case WS_SMALL: 
+				hFont = CreateFont(17, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
 					VARIABLE_PITCH | FF_ROMAN, "NeoµÕ±Ù¸ð"); 
 				break;
 			case WS_SMALLEST:
-				hFont = CreateFont(10, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
+				hFont = CreateFont(13, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
 					VARIABLE_PITCH | FF_ROMAN, "NeoµÕ±Ù¸ð");
 				break;
-			case WS_MIDDLESMALL:
-				hFont = CreateFont(18, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
-					VARIABLE_PITCH | FF_ROMAN, "NeoµÕ±Ù¸ð");
 			} // ÆùÆ®¸¦ °áÁ¤
 			break;
 		}

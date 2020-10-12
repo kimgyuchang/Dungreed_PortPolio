@@ -267,6 +267,14 @@ void gameScene::InventoryUIInit()
 	accessEqualText->init("isEqualText", 350, 200, 800, 200, "같은 아이템은 장착할 수 없습니다.", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(200, 30, 30));
 	UIMANAGER->GetGameFrame()->AddFrame(accessEqualText);
 	accessEqualText->SetIsViewing(false);
+
+	
+	/////////// TOOLTIP /////////////
+	
+	UIImage* uiToolTip = new UIImage();
+	uiToolTip->init("itemToolTip", 0, 0, 300, 500, "ToolTipCover", false, 0, 0, 3.0f, 5.0f, 130);
+	InventoryFrame->AddFrame(uiToolTip);
+
 }
 
 void gameScene::InitCharUI()
@@ -424,11 +432,11 @@ void gameScene::InitCharUI()
 	tooltipFrame->AddFrame(tooltipTitle);
 
 	UIText* tooltipDiscript = new UIText();
-	tooltipDiscript->init("discription", 10, 60, 270, 150, "", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
+	tooltipDiscript->init("discription", 10, 60, 270, 150, "", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
 	tooltipFrame->AddFrame(tooltipDiscript);
 
 	UIText* tooltipGray = new UIText();
-	tooltipGray->init("additional", 10, 130, 270, 150, "", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(170, 170, 170));
+	tooltipGray->init("additional", 10, 130, 270, 150, "", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_LEFT, RGB(170, 170, 170));
 	tooltipFrame->AddFrame(tooltipGray);
 
 	charFrame->SetIsViewing(false);
