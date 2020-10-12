@@ -244,6 +244,7 @@ void DataManager::GetItemData()
 				else if (optionId == "IMMUNEFIRE") option->_optionId = OPTIONTYPE::IMMUNEFIRE;
 				else if (optionId == "IMMUNEICE") option->_optionId = OPTIONTYPE::IMMUNEICE;
 				else if (optionId == "IMMUNEPOSION") option->_optionId = OPTIONTYPE::IMMUNEPOSION;
+				else if (optionId == "IMMUNESTUN") option->_optionId = OPTIONTYPE::IMMUNESTUN;
 				else if (optionId == "JUMPPOWER") option->_optionId = OPTIONTYPE::JUMPPOWER;
 				else if (optionId == "MAXDAMAGE") option->_optionId = OPTIONTYPE::MAXDAMAGE;
 				else if (optionId == "MAXHP") option->_optionId = OPTIONTYPE::MAXHP;
@@ -253,11 +254,13 @@ void DataManager::GetItemData()
 				else if (optionId == "POSIONDAMAGE") option->_optionId = OPTIONTYPE::POSIONDAMAGE;
 				else if (optionId == "POWER") option->_optionId = OPTIONTYPE::POWER;
 				else if (optionId == "RELOADSPEED") option->_optionId = OPTIONTYPE::RELOADSPEED;
+				else if (optionId == "STUNDAMAGE") option->_optionId = OPTIONTYPE::STUNDAMAGE;
 				else if (optionId == "TOUGHNESS") option->_optionId = OPTIONTYPE::TOUGHNESS;
 				else if (optionId == "TOELEC") option->_optionId = OPTIONTYPE::TOELEC;
 				else if (optionId == "TOFIRE") option->_optionId = OPTIONTYPE::TOFIRE;
 				else if (optionId == "TOICE") option->_optionId = OPTIONTYPE::TOICE;
 				else if (optionId == "TOPOSION") option->_optionId = OPTIONTYPE::TOPOSION;
+				else if (optionId == "TOSTUN") option->_optionId = OPTIONTYPE::TOSTUN;
 				else if (optionId == "TRUEDAMAGE") option->_optionId = OPTIONTYPE::TRUEDAMAGE;
 
 				option->_optionPower = stof(itemData[i][23 + (j * 3)]);

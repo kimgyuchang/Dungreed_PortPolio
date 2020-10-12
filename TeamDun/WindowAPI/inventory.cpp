@@ -502,7 +502,7 @@ void Inventory::InitToolTipItem(Item* item)
 
 	// 이름
 	UIText* itemName = new UIText();
-	itemName->init("itemName", 0, 10, 300, 200, item->GetName(), FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE, RGB(nameR, nameG, nameB));
+	itemName->init("itemName", 0, 10, 400, 200, item->GetName(), FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE, RGB(nameR, nameG, nameB));
 	uiToolTip->AddFrame(itemName);
 
 	// 이미지 프레임
@@ -554,14 +554,18 @@ void Inventory::InitToolTipItem(Item* item)
 	for (int i = 0; i < item->GetSubOptions().size(); i++)
 	{
 		SubOption* option = item->GetSubOptions()[i];
+		
+		int optionR = 255, optionG = 255, optionB = 255;
+		if (option->_optionPower < 0) optionR = 255, optionG = 0, optionB = 0;
+		if (option->_optionPower > 0) optionR = 0, optionG = 255, optionB = 0;
 
 		UIText* startText = new UIText();
 		startText->init("▶" + to_string(i), 15, 120 + i * 15, 30, 30, "▶", FONT::PIX, WORDSIZE::WS_SMALLEST);
 		uiToolTip->AddFrame(startText);
 
 		UIText* descript = new UIText();
-		descript->init("descript" + to_string(i), 30, 120 + i * 15, 300, 30, OptionString(option), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT,
-			(option->_optionPower > 0 ? RGB(0, 255, 0) : RGB(255, 0, 0)));
+		descript->init("descript" + to_string(i), 30, 122 + i * 15, 370, 30, OptionString(option), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT,
+			RGB(optionR, optionG, optionB));
 		uiToolTip->AddFrame(descript);
 	}
 
