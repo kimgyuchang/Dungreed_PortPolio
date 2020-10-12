@@ -71,7 +71,7 @@ public:
 	void Rectangle(HDC hdc, RECT rc);
 	void RectangleMake(HDC hdc, int left, int top, int width, int height);
 	void TextDraw(HDC hdc, int destX, int destY, LPCSTR lpstring, int c, int r = 0, int g = 0, int b = 0);
-	
+	void TextInit(HDC hdc, float x, float y, float xSize, float ySize, string text, FONT font, WORDSIZE size, WORDSORT sort = WORDSORT::WSORT_LEFT, COLORREF color = RGB(255, 255, 255));
 	// ±â´É // 
 	void MovePivot(float x, float y);
 	void MovePivotLerp(float x, float y, float lerpSpeed = 10.f);

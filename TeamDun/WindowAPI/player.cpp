@@ -7,7 +7,6 @@ HRESULT Player::init()
 	this->_vImages.push_back(IMAGEMANAGER->findImage("baseCharIdle"));//0
 	this->_vImages.push_back(IMAGEMANAGER->findImage("baseCharRun")); //1
 
-
 	_x = 300;
 	_y = WINSIZEY / 2;
 
@@ -15,7 +14,9 @@ HRESULT Player::init()
 
 	_useImage = 0;
 	_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
-
+	_minDamage = 10;
+	_maxDamage = 30;
+	_power = 10;
 	_frameX = 0;
 	_frameY = 0;
 	_gravity = 0.4f;
@@ -199,13 +200,13 @@ void Player::render(HDC hdc)
 	switch (_state)
 	{
 	case PS_IDLE:
-		CAMERAMANAGER->FrameRender(hdc, IMAGEMANAGER->findImage("baseCharIdle"), _x, _y, _frameX, _frameY);
+		CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);
 		break;
 	case PS_JUMP:
-		CAMERAMANAGER->FrameRender(hdc, IMAGEMANAGER->findImage("baseCharIdle"), _x, _y, _frameX, _frameY);
+		CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);
 		break;
 	case PS_MOVE:
-		CAMERAMANAGER->FrameRender(hdc, IMAGEMANAGER->findImage("baseCharRun"), _x, _y, _frameX, _frameY);
+		CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);
 		break;
 	case PS_DIE:
 		break;
@@ -668,6 +669,10 @@ void Player::dash()
 			break;
 		}
 	}
+	if (_dashTimer == 1)
+	{
+		EFFECTMANAGER->AddEffect(_x, _y, "baseCharEffect", 3, 0, _frameY, false, 150);
+	}
 	if (_dashTimer == 3)
 	{
 		EFFECTMANAGER->AddEffect(_x, _y, "baseCharEffect", 3, 0, _frameY, false, 150);
@@ -684,7 +689,8 @@ void Player::dash()
 	{
 		EFFECTMANAGER->AddEffect(_x, _y, "baseCharEffect", 3, 0, _frameY, false, 150);
 	}
-	if (_dashTimer >= 9)
+	
+	if (_dashTimer >= 10)
 	{
 		_dashTimer = 0;		//대쉬 타이머 초기화
 		_jumpPower = 0;		//점프 파워 초기화

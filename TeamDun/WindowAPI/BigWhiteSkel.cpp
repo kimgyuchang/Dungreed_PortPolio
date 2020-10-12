@@ -14,7 +14,7 @@ HRESULT BigWhiteSkel::init(int id, string name, OBJECTTYPE type, vector<string> 
 	_jumpPower = 7.0f;
 
 	_isLeft = _isAttack = _isJump = false;
-
+	_HP = 50;
 	_attackAnimFrame = vector<int>{ 40,3,5,5,5,5,5,5,5,5,5,5 };
 
 	return S_OK;
@@ -107,7 +107,7 @@ void BigWhiteSkel::render(HDC hdc)
 	if (_isSpawned)
 	{
 		Enemy::render(hdc);
-		CAMERAMANAGER->Rectangle(hdc, _body);
+		//CAMERAMANAGER->Rectangle(hdc, _body);
 	}
 }
 

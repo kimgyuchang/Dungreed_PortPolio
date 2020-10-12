@@ -56,7 +56,7 @@ void BowSkel::Attack()
 	if (!_isAtk)
 	{
 		_attackCoolTime++;
-		if (_attackCoolTime > 500)
+		if (_attackCoolTime > 300)
 		{
 			_attackCoolTime = 0;
 			_isAtk = true;
@@ -77,6 +77,14 @@ void BowSkel::Attack()
 
 void BowSkel::Animation()
 {
+	if (_isLeft)
+	{
+		_frameY = 0;
+	}
+	else
+	{
+		_frameY = 1;
+	}
 	switch (_state)
 	{
 	case ES_IDLE:
@@ -89,11 +97,11 @@ void BowSkel::Animation()
 	case ES_ATTACK:
 
 
-
+		
 
 		_count++;
 
-		_frameY = 0;
+		
 		if (_count % 10 == 0)
 		{
 
@@ -101,8 +109,7 @@ void BowSkel::Animation()
 			if (_skelBow.frameX == 3)
 			{
 				ENTITYMANAGER->makeBullet("SkelArrow", "BatBulletHit", BT_NOMAL, _x, _y+20,
-					_skelBow.angle,
-					10, 1000, true ,-_skelBow.angle);
+					_skelBow.angle,10, 1000, true ,-_skelBow.angle);
 			}
 			if (_skelBow.frameX > _skelBow.bowIg->getMaxFrameX())
 			{

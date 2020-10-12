@@ -147,7 +147,7 @@ void DemonSlash::SetCollide()
 			{
 				if (UTIL::interactRectArc(_vObjs[i]->GetBody(), POINT{ (LONG)_parent->GetAngleCheckPosX(), (LONG)_parent->GetAngleCheckPosY() }, _radius, _angle - PI * 0.2f, _angle + PI * 0.2f))
 				{
-					_vObjs[i]->SetIsDead(true);
+					_vObjs[i]->GetDamage();
 				}
 			}
 		}

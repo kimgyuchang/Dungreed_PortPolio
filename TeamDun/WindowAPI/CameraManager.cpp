@@ -237,3 +237,70 @@ void CameraManager::TextDraw(HDC hdc, int destX, int destY, LPCSTR lpstring, int
 	DeleteObject(hFont);
 
 }
+
+void CameraManager::TextInit(HDC hdc, float x, float y, float xSize, float ySize, string text, FONT font, WORDSIZE size, WORDSORT sort, COLORREF color)
+{
+	HFONT hFont;
+	HFONT OldFont;
+
+	RECT rc = RectMake(GetRelativeX(x), GetRelativeY(y), xSize, ySize);
+	string fontName = "";
+	POINT framePt;
+	switch (font) // 폰트 종류에 따라
+	{
+	case PIX:
+		switch (size) // 폰트 크기에 따라
+		{
+		case WS_BIG:
+			hFont = CreateFont(40, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
+				VARIABLE_PITCH | FF_ROMAN, "Neo둥근모");
+			break;
+		case WS_MIDDLE:
+			hFont = CreateFont(30, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
+				VARIABLE_PITCH | FF_ROMAN, "Neo둥근모");
+			break;
+		case WS_SMALL:
+			hFont = CreateFont(20, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
+				VARIABLE_PITCH | FF_ROMAN, "Neo둥근모");
+			break;
+		case WS_SMALLEST:
+			hFont = CreateFont(10, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
+				VARIABLE_PITCH | FF_ROMAN, "Neo둥근모");
+			break;
+		case WS_MIDDLESMALL:
+			hFont = CreateFont(18, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
+				VARIABLE_PITCH | FF_ROMAN, "Neo둥근모");
+		} // 폰트를 결정
+		break;
+	}
+	
+	float curX = GetRelativeX(x);
+	SetTextColor(hdc, color);
+	OldFont = (HFONT)SelectObject(hdc, hFont);
+	
+	
+	
+	switch (sort) // 정렬 방식에 따라
+	{
+	case WSORT_LEFT: // 좌측 정렬
+		DrawText(hdc, text.substr(0, text.length()).c_str(), -1, &rc, DT_LEFT | DT_WORDBREAK); // 좌측정렬 & 멀티라인
+		break;
+	
+	case WSORT_MIDDLE: // 가운데 정렬
+		DrawText(hdc, text.substr(0, text.length()).c_str(), -1, &rc, DT_CENTER | DT_WORDBREAK); // 가운데정렬 & 멀티라인
+		break;
+	
+	case WSORT_RIGHT: // 우측 정렬
+		DrawText(hdc, text.substr(0, text.length()).c_str(), -1, &rc, DT_RIGHT | DT_WORDBREAK); // 우측정렬 & 멀티라인
+		break;
+	}
+	
+	
+	
+	SelectObject(hdc, OldFont);
+	DeleteObject(hFont);
+	
+
+	
+}
+
