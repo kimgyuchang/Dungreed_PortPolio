@@ -3,6 +3,27 @@
 #include "inventory.h"
 #include "Item.h"
 
+class CharToolTip
+{
+public :
+	string frameName;
+	string title;
+	string description;
+	string additionalDescription;
+	float scaleX;
+	float scaleY;
+
+	void init(string fn, string t, string des, string add, float xSize, float ySize)
+	{
+		frameName = fn;
+		title = t;
+		description = des;
+		additionalDescription = add;
+		scaleX = xSize;
+		scaleY = ySize;
+	}
+};
+
 //캐릭터 상태
 enum PLAYERSTATE
 {
@@ -43,7 +64,7 @@ private:
 	int				_power;					// 위력
 	int				_trueDamage;			// 고정 데미지
 	float			_atkSpeed;				// 공격속도
-	float			_realCriticalPercent;	// 크리티컬
+	float			_criticalPercent;		// 크리티컬
 	float			_criticalDamage;		// 크리티컬 데미지
 	float			_dashDamage;			// 대쉬 공격력
 	float			_reloadTime;			// 재장전에 걸리는 시간
@@ -51,23 +72,23 @@ private:
 	// - 표면적 수치 (방어) 					
 	int				_initHp;				// 초기 체력
 	int				_hp;					// 체력
-	float			_realDefence;			// 방어력
-	float			_realEvasion;			// 회피
+	float			_defence;				// 방어율 
+	float			_evasion;				// 회피율 
 	float			_toughness;				// 강인함
 	float			_block;					// 막기
 	
 	// - 내부적 수치 (공격)
 	float			_angle;					// 조준 각도   
-	float			_criticalPercent;		// 크리티컬 (변환)
+	float			_realCriticalPercent;	// 크리티컬 (변환)
 	int				_finalDamage;			// 최종 데미지 추가량
 	float			_finalDamagePercent;	// 최종 데미지 추가량 (비율)
 	float			_reloadSpeed;			// 재장전 속도 추가량
 	float			_fireAccuracy;			// 조준 정확도
 	float			_realAttackSpeed;		// 공격속도(프레임)
-
+	
 	// - 내부적 수치 (방어)
-	float			_defence;				// 방어율 (변환)
-	float			_evasion;				// 회피율 (변환)
+	float			_realEvasion;			// 회피 (변환)
+	float			_realDefence;			// 방어력 (변환)
 	int				_maxHp;					// 최대 체력 추가량
 	float			_maxHpPercent;			// 최대 최력 추가량 (비율)
 
@@ -120,6 +141,9 @@ private:
 	int				_needExperience;		// 필요 경험치
 	float			_goldDrop;				// 돈 드랍양
 
+	// UI //
+	vector<CharToolTip>		_vToolTips;		// 툴팁 프레임 목록
+	vector<string>			_vToolTipsName; // 툴팁 프레임 이름 목록
 
 	// 각 캐릭터별 특성 //
 
@@ -138,6 +162,12 @@ public:
 	virtual void	pixelCollision();	//픽셀충돌
 	virtual void	dash();				//대쉬
 	void UpdateCharPage();
+
+	void CharPageToolTipOn();
+
+	void ReInitTooltip(int n);
+	void SetToolTipFrame(float x, float y, int index);
+
 	virtual void	update();
 	void SwitchWeapon();
 	void CheckAliceZone();
@@ -280,3 +310,5 @@ public:
 	void			SetGoldDrop(float goldDrop) 				  { _goldDrop = goldDrop; }
 	void			SetAccesoryCount(int accesoryCount)           { _accesoryCount = accesoryCount; }
 };
+
+void CharPageToolTipOn();

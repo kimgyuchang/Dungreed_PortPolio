@@ -40,6 +40,13 @@ HRESULT Player::init()
 
 	_accesoryCount = 4;
 
+	// UI
+
+	for (int i = 0; i < 17; i++) _vToolTips.push_back(CharToolTip());
+	_vToolTipsName = vector<string>{ "powerImg", "defImg", "toughImg", "blockImg", "criImg", "criDmgImg", "evadeImg",
+		"moveSpeedImg", "atkSpeedImg", "reloadImg", "dashImg", "trueDamageImg", "burnImg",
+		"poisonImg", "coldImg", "elecImg", "stunImg" };
+
 	// 예시용
 	_selectedWeaponIdx = 0;
 
@@ -701,21 +708,125 @@ void Player::UpdateCharPage()
 	if (charFrame->GetIsViewing())
 	{
 		dynamic_cast<UIText*>(charFrame->GetChild("powerText"))->SetText(to_string(_minDamage) + " ~ " + to_string(_maxDamage) + " (" + to_string(_power) + ") ");
-		dynamic_cast<UIText*>(charFrame->GetChild("defText"))->SetText(to_string(_defence));
-		dynamic_cast<UIText*>(charFrame->GetChild("toughText"))->SetText(to_string(_toughness));
-		dynamic_cast<UIText*>(charFrame->GetChild("blockText"))->SetText(to_string(_block));
-		dynamic_cast<UIText*>(charFrame->GetChild("criText"))->SetText(to_string(_criticalPercent));
-		dynamic_cast<UIText*>(charFrame->GetChild("criDmgText"))->SetText(to_string(_criticalDamage));
-		dynamic_cast<UIText*>(charFrame->GetChild("evadeText"))->SetText(to_string(_evasion));
-		dynamic_cast<UIText*>(charFrame->GetChild("moveSpeedText"))->SetText(to_string(_moveSpeed));
-		dynamic_cast<UIText*>(charFrame->GetChild("atkSpeedText"))->SetText(to_string(_atkSpeed));
-		dynamic_cast<UIText*>(charFrame->GetChild("reloadText"))->SetText(to_string(_reloadTime));
-		dynamic_cast<UIText*>(charFrame->GetChild("dashText"))->SetText(to_string(_dashDamage));
-		dynamic_cast<UIText*>(charFrame->GetChild("trueDamageText"))->SetText(to_string(_trueDamage));
-		dynamic_cast<UIText*>(charFrame->GetChild("burnText"))->SetText(to_string(_fireDamage));
-		dynamic_cast<UIText*>(charFrame->GetChild("poisonText"))->SetText(to_string(_posionDamage));
-		dynamic_cast<UIText*>(charFrame->GetChild("coldText"))->SetText(to_string(_iceDamage));
-		dynamic_cast<UIText*>(charFrame->GetChild("elecText"))->SetText(to_string(_elecDamage));
-		dynamic_cast<UIText*>(charFrame->GetChild("stunText"))->SetText(to_string(_stunDamage));
+		dynamic_cast<UIText*>(charFrame->GetChild("defText"))->SetText(to_string_with_precision(_defence, 0));
+		dynamic_cast<UIText*>(charFrame->GetChild("toughText"))->SetText(to_string_with_precision(_toughness, 0));
+		dynamic_cast<UIText*>(charFrame->GetChild("blockText"))->SetText(to_string_with_precision(_block, 0));
+		dynamic_cast<UIText*>(charFrame->GetChild("criText"))->SetText(to_string_with_precision(_criticalPercent, 0));
+		dynamic_cast<UIText*>(charFrame->GetChild("criDmgText"))->SetText(to_string_with_precision(_criticalDamage, 0));
+		dynamic_cast<UIText*>(charFrame->GetChild("evadeText"))->SetText(to_string_with_precision(_evasion, 0));
+		dynamic_cast<UIText*>(charFrame->GetChild("moveSpeedText"))->SetText(to_string_with_precision(_moveSpeed,2));
+		dynamic_cast<UIText*>(charFrame->GetChild("atkSpeedText"))->SetText(to_string_with_precision(_atkSpeed, 2));
+		dynamic_cast<UIText*>(charFrame->GetChild("reloadText"))->SetText(to_string_with_precision(_reloadTime,1));
+		dynamic_cast<UIText*>(charFrame->GetChild("dashText"))->SetText(to_string_with_precision(_dashDamage, 0));
+		dynamic_cast<UIText*>(charFrame->GetChild("trueDamageText"))->SetText(to_string_with_precision(_trueDamage, 0));
+		dynamic_cast<UIText*>(charFrame->GetChild("burnText"))->SetText(to_string_with_precision(_fireDamage, 0));
+		dynamic_cast<UIText*>(charFrame->GetChild("poisonText"))->SetText(to_string_with_precision(_posionDamage, 0));
+		dynamic_cast<UIText*>(charFrame->GetChild("coldText"))->SetText(to_string_with_precision(_iceDamage, 0));
+		dynamic_cast<UIText*>(charFrame->GetChild("elecText"))->SetText(to_string_with_precision(_elecDamage, 0));
+		dynamic_cast<UIText*>(charFrame->GetChild("stunText"))->SetText(to_string_with_precision(_stunDamage, 0));
+	
+		CharPageToolTipOn();
 	}
+}
+
+void Player::CharPageToolTipOn()
+{
+	UIFrame* charFrame = UIMANAGER->GetGameFrame()->GetChild("charFrame");
+	charFrame->GetChild("toolTipFrame")->SetIsViewing(false);
+
+	for (int i = 0; i < _vToolTipsName.size(); i++)
+	{
+		if (PtInRect(&charFrame->GetChild(_vToolTipsName[i])->GetRect(), _ptMouse))
+		{
+			ReInitTooltip(i);
+			SetToolTipFrame(_ptMouse.x - charFrame->GetChild("toolTipFrame")->GetX(), _ptMouse.y - charFrame->GetChild("toolTipFrame")->GetY(), i);
+			charFrame->GetChild("toolTipFrame")->SetIsViewing(true);
+		}
+	}
+}
+
+void Player::ReInitTooltip(int n)
+{
+	switch (n)
+	{
+	case 0:
+		_vToolTips[0].init("powerImg", "무기공격력 (위력)", "\"위력\"은 무기 공격력을 기반으로 추가 피해량에 영향을 줍니다.", "현재 위력: " + to_string(_power) + "데미지 보너스", 7.0f, 4.0f);
+		break;
+	case 1:
+		_vToolTips[1].init("defImg", "방어력", "받는 피해를 경감시켜줍니다.", "피해감소량: " + to_string_with_precision(_realDefence, 1) + "%", 7.0f, 3.5f);
+		break;
+
+	case 2:
+		_vToolTips[2].init("toughImg", "강인함", "강인함 수치에 따라 고정값의 피해를 경감시켜줍니다.", "", 7.0f, 2.8f);
+		break;
+
+	case 3:
+		_vToolTips[3].init("blockImg", "막기", "적의 공격을 막을 수 있는 확률을 증가시킵니다.", "막기 확률: " + to_string_with_precision(_block, 0) + "%", 7.0f, 3.5f);
+		break;
+
+	case 4:
+		_vToolTips[4].init("criImg", "크리티컬", "적에게 치명적인 피해를 입힐 수 있는 기회가 늘어납니다.", "크리티컬 확률: " + to_string_with_precision(_realCriticalPercent, 1) + "%", 7.0f, 3.5f);
+		break;
+
+	case 5 :
+		_vToolTips[5].init("criDmgImg", "크리티컬 데미지", "크리티컬 추가 피해량을 나타냅니다.", "", 7.0f, 2.8f);
+		break;
+
+	case 6:
+		_vToolTips[6].init("evadeImg", "회피", "적의 공격을 회피할 수 있는 확률을 증가시킵니다.", "회피 확률: " + to_string_with_precision(_realEvasion, 1) + "%", 7.0f, 2.8f);
+		break;
+
+	case 7:
+		_vToolTips[7].init("moveSpeedImg", "이동속도", "더 빠르게 움직이게 해줍니다.", "", 7.0f, 2.8f);
+		break;
+
+	case 8:
+		_vToolTips[8].init("atkSpeedImg", "공격속도", "1초에 공격할 수 있는 횟수를 나타냅니다.", "", 7.0f, 2.8f);
+		break;
+
+	case 9:
+		_vToolTips[9].init("reloadImg", "재장전속도", "재장전 시 걸리는 속도를 나타냅니다.", "", 7.0f, 2.8f);
+		break;
+
+	case 10:
+		_vToolTips[10].init("dashImg", "대쉬 공격력", "대쉬 공격력은 무기 공격력의 %로 계산됩니다.", "", 7.0f, 2.8f);
+		break;
+
+	case 11:
+		_vToolTips[11].init("trueDamageImg", "고정 데미지", "적의 방어력 등을 무시하고 고정된 피해를 입힙니다", "", 7.0f, 2.8f);
+		break;
+
+	case 12:
+		_vToolTips[12].init("burnImg", "화상 피해 강화", "적을 불태워 짧은시간동안 데미지를 줍니다.", "", 7.0f, 2.8f);
+		break;
+
+	case 13:
+		_vToolTips[13].init("poisonImg", "중독 피해 강화", "적을 중독시켜 긴 시간동안 데미지를 줍니다.", "", 7.0f, 2.8f);
+		break;
+
+	case 14:
+		_vToolTips[14].init("coldImg", "추위 피해 강화", "적을 느리게 만듭니다.", "", 7.0f, 2.8f);
+		break;
+
+	case 15:
+		_vToolTips[15].init("elecImg", "감전 피해 강화", "적의 방어력을 무효화 시킵니다.", "", 7.0f, 2.8f);
+		break;
+
+	case 16:
+		_vToolTips[16].init("stunImg", "기절 피해 강화", "적을 일시적으로 행동불능으로 만듭니다.", "", 7.0f, 2.8f);
+		break;
+
+	}
+}
+
+void Player::SetToolTipFrame(float x, float y, int index)
+{
+	UIFrame* toolTipFrame = UIMANAGER->GetGameFrame()->GetChild("charFrame")->GetChild("toolTipFrame");
+	toolTipFrame->MoveFrameChild(x, y);
+	toolTipFrame->SetScaleX(_vToolTips[index].scaleX);
+	toolTipFrame->SetScaleY(_vToolTips[index].scaleY);
+
+	dynamic_cast<UIText*>(toolTipFrame->GetChild("title"))->SetText(_vToolTips[index].title);
+	dynamic_cast<UIText*>(toolTipFrame->GetChild("discription"))->SetText(_vToolTips[index].description);
+	dynamic_cast<UIText*>(toolTipFrame->GetChild("additional"))->SetText(_vToolTips[index].additionalDescription);
 }

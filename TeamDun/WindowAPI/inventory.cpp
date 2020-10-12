@@ -80,19 +80,19 @@ void Inventory::EquipItem()
 						{
 						case ITEMTYPE::IT_WEAPON_ONEHAND:
 							if (_p->GetWeapon(0) == nullptr)
-							{
+							{ // 0¹ø¿¡ Âø¿ë
 								_p->SetWeapon(0, item);
 								if (_p->GetSelectedWeaponIdx() != 0) item->EquipUnEquipStatus(false);
 								_vInvenItems.erase(_vInvenItems.begin() + i);
 							}
 							else if (_p->GetWeapon(1) == nullptr)
-							{
+							{ // 1¹ø¿¡ Âø¿ë
 								_p->SetWeapon(1, item);
 								if (_p->GetSelectedWeaponIdx() != 1) item->EquipUnEquipStatus(false);
 								_vInvenItems.erase(_vInvenItems.begin() + i);
 							}
 							else
-							{
+							{ // 0¹ø°ú switch
 								_p->GetWeapon(0)->EquipUnEquipStatus(false);
 								if (_p->GetSelectedWeaponIdx() != 0) item->EquipUnEquipStatus(false);
 								SwitchItem(0, item, i);
@@ -101,27 +101,27 @@ void Inventory::EquipItem()
 
 						case ITEMTYPE::IT_WEAPON_TWOHAND:
 							if (_p->GetWeapon(0) == nullptr)
-							{
+							{ // 0¹ø¿¡ Âø¿ë
 								_p->SetWeapon(0, item);
 								if (_p->GetSelectedWeaponIdx() != 0) item->EquipUnEquipStatus(false);
 								_vInvenItems.erase(_vInvenItems.begin() + i);
 							}
 
 							else if (_p->GetWeapon(1) == nullptr)
-							{
+							{ // 1¹ø¿¡ Âø¿ë
 								_p->SetWeapon(1, item);
 								if (_p->GetSelectedWeaponIdx() != 1) item->EquipUnEquipStatus(false);
 								_vInvenItems.erase(_vInvenItems.begin() + i);
 							}
 
 							else if (_vInvenItems.size() >= 15)
-							{
+							{ // ¹ÌÂø¿ë
 								OnInvenFullText();
 								item->EquipUnEquipStatus(false);
 							}
 							else
-							{
-								_p->GetWeapon(0)->EquipUnEquipStatus(false);
+							{ // 0¹ø°ú switch
+								if (_p->GetSelectedWeaponIdx() == 0) _p->GetWeapon(0)->EquipUnEquipStatus(false);
 								if (_p->GetSelectedWeaponIdx() != 0) item->EquipUnEquipStatus(false);
 								SwitchItem(0, item, i);
 								if (_p->GetSubWeapon(0) != nullptr)

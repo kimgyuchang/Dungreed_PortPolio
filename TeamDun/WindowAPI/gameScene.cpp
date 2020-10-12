@@ -186,7 +186,7 @@ void gameScene::DungeonMapUIInit()
 {
 	// DungeonMap Frame //
 	UIImage* allMapFrame = new UIImage();
-	allMapFrame->init("allMapFrame", 0, 0, WINSIZEX, WINSIZEY, "ScreenCover", false, 0, 0, 1, 1, 80);
+	allMapFrame->init("allMapFrame", 0, 0, WINSIZEX, WINSIZEY, "ScreenCover", false, 0, 0, 6, 6, 80);
 	UIMANAGER->GetGameFrame()->AddFrame(allMapFrame);
 
 	UIFrame* mapUpperImg = new UIFrame();
@@ -280,7 +280,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(statusText);
 
 	UIFrame* powerImg = new UIFrame();
-	powerImg->init("powerImg", 20, 60, 63 * 0.8f, 63 * 0.8f, "Stat_Power", 0.8f, 0.8f);
+	powerImg->init("powerImg", 20, 60, 63, 63, "Stat_Power", 0.8f, 0.8f);
 	charFrame->AddFrame(powerImg);
 
 	UIText* powerText = new UIText();
@@ -288,7 +288,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(powerText);
 
 	UIFrame* defImg = new UIFrame();
-	defImg->init("defImg", 20, 120, 63 * 0.8f, 63 * 0.8f, "Stat_Def", 0.8f, 0.8f);
+	defImg->init("defImg", 20, 120, 63, 63, "Stat_Def", 0.8f, 0.8f);
 	charFrame->AddFrame(defImg);
 
 	UIText* defText = new UIText();
@@ -296,7 +296,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(defText);
 
 	UIFrame* toughImg = new UIFrame();
-	toughImg->init("toughImg", 125, 120, 63 * 0.8f, 63 * 0.8f, "Stat_Tough", 0.8f, 0.8f);
+	toughImg->init("toughImg", 125, 120, 63, 63, "Stat_Tough", 0.8f, 0.8f);
 	charFrame->AddFrame(toughImg);	
 
 	UIText* toughText = new UIText();
@@ -304,7 +304,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(toughText);
 
 	UIFrame* blockImg = new UIFrame();
-	blockImg->init("blockImg", 230, 120, 63 * 0.8f, 63 * 0.8f, "Stat_Block", 0.8f, 0.8f);
+	blockImg->init("blockImg", 230, 120, 63, 63, "Stat_Block", 0.8f, 0.8f);
 	charFrame->AddFrame(blockImg);
 
 	UIText* blockText = new UIText();
@@ -312,7 +312,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(blockText);
 
 	UIFrame* criImg = new UIFrame();
-	criImg->init("criImg", 20, 180, 63 * 0.8f, 63 * 0.8f, "Stat_Critical", 0.8f, 0.8f);
+	criImg->init("criImg", 20, 180, 63, 63, "Stat_Critical", 0.8f, 0.8f);
 	charFrame->AddFrame(criImg);
 
 	UIText* criText = new UIText();
@@ -320,7 +320,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(criText);
 
 	UIFrame* criDmgImg = new UIFrame();
-	criDmgImg->init("criDmgImg", 125, 180, 63 * 0.8f, 63 * 0.8f, "Stat_CriticalDmg", 0.8f, 0.8f);
+	criDmgImg->init("criDmgImg", 125, 180, 63, 63 , "Stat_CriticalDmg", 0.8f, 0.8f);
 	charFrame->AddFrame(criDmgImg);
 
 	UIText* criDmgText = new UIText();
@@ -328,7 +328,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(criDmgText);
 
 	UIFrame* evadeImg = new UIFrame();
-	evadeImg->init("evadeImg", 230, 180, 63 * 0.8f, 63 * 0.8f, "Stat_Evade", 0.8f, 0.8f);
+	evadeImg->init("evadeImg", 230, 180, 63, 63, "Stat_Evade", 0.8f, 0.8f);
 	charFrame->AddFrame(evadeImg);
 
 	UIText* evadeText = new UIText();
@@ -336,7 +336,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(evadeText);
 
 	UIFrame* moveSpeedImg = new UIFrame();
-	moveSpeedImg->init("moveSpeedImg", 20, 240, 63 * 0.8f, 63 * 0.8f, "Stat_MoveSpeed", 0.8f, 0.8f);
+	moveSpeedImg->init("moveSpeedImg", 20, 240, 63, 63, "Stat_MoveSpeed", 0.8f, 0.8f);
 	charFrame->AddFrame(moveSpeedImg);
 
 	UIText* moveSpeedText = new UIText();
@@ -344,7 +344,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(moveSpeedText);
 
 	UIFrame* atkSpeedImg = new UIFrame();
-	atkSpeedImg->init("atkSpeedImg", 125, 240, 63 * 0.8f, 63 * 0.8f, "Stat_AtkSpeed", 0.8f, 0.8f);
+	atkSpeedImg->init("atkSpeedImg", 125, 240, 63, 63, "Stat_AtkSpeed", 0.8f, 0.8f);
 	charFrame->AddFrame(atkSpeedImg);
 
 	UIText* atkSpeedText = new UIText();
@@ -352,7 +352,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(atkSpeedText);
 
 	UIFrame* reloadImg= new UIFrame();
-	reloadImg->init("reloadImg", 230, 240, 63 * 0.8f, 63 * 0.8f, "Stat_Reload", 0.8f, 0.8f);
+	reloadImg->init("reloadImg", 230, 240, 63, 63, "Stat_Reload", 0.8f, 0.8f);
 	charFrame->AddFrame(reloadImg);
 
 	UIText* reloadText = new UIText();
@@ -360,7 +360,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(reloadText);
 
 	UIFrame* dashImg = new UIFrame();
-	dashImg->init("dashImg", 20, 300, 63 * 0.8f, 63 * 0.8f, "Stat_Dash", 0.8f, 0.8f);
+	dashImg->init("dashImg", 20, 300, 63, 63, "Stat_Dash", 0.8f, 0.8f);
 	charFrame->AddFrame(dashImg);
 
 	UIText* dashText = new UIText();
@@ -368,7 +368,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(dashText);
 
 	UIFrame* trueDamageImg = new UIFrame();
-	trueDamageImg->init("trueDamageImg", 125, 300, 63 * 0.8f, 63 * 0.8f, "Stat_TrueDamage", 0.8f, 0.8f);
+	trueDamageImg->init("trueDamageImg", 125, 300, 63, 63, "Stat_TrueDamage", 0.8f, 0.8f);
 	charFrame->AddFrame(trueDamageImg);
 
 	UIText* trueDamageText = new UIText();
@@ -376,7 +376,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(trueDamageText);
 
 	UIFrame* burnImg = new UIFrame();
-	burnImg->init("burnImg", 335, 120, 51 * 0.8f, 51 * 0.8f, "Stat_Burn", 0.8f, 0.8f);
+	burnImg->init("burnImg", 335, 120, 51, 51, "Stat_Burn", 0.8f, 0.8f);
 	charFrame->AddFrame(burnImg);
 	
 	UIText* burnText = new UIText();
@@ -384,7 +384,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(burnText);
 
 	UIFrame* poisonImg = new UIFrame();
-	poisonImg->init("poisonImg", 335, 170, 51 * 0.8f, 51 * 0.8f, "Stat_Poison", 0.8f, 0.8f);
+	poisonImg->init("poisonImg", 335, 170, 51, 51, "Stat_Poison", 0.8f, 0.8f);
 	charFrame->AddFrame(poisonImg);
 	
 	UIText* poisonText = new UIText();
@@ -392,7 +392,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(poisonText);
 
 	UIFrame* coldImg = new UIFrame();
-	coldImg->init("coldImg", 335, 220, 51 * 0.8f, 51 * 0.8f, "Stat_Cold", 0.8f, 0.8f);
+	coldImg->init("coldImg", 335, 220, 51, 51, "Stat_Cold", 0.8f, 0.8f);
 	charFrame->AddFrame(coldImg);
 	
 	UIText* coldText = new UIText();
@@ -400,7 +400,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(coldText);
 
 	UIFrame* elecImg = new UIFrame();
-	elecImg->init("elecImg", 335, 270, 51 * 0.8f, 51 * 0.8f, "Stat_Shock", 0.8f, 0.8f);
+	elecImg->init("elecImg", 335, 270, 51, 51, "Stat_Shock", 0.8f, 0.8f);
 	charFrame->AddFrame(elecImg);	
 	
 	UIText* elecText = new UIText();
@@ -408,12 +408,28 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(elecText);
 
 	UIFrame* stunImg = new UIFrame();
-	stunImg->init("stunImg", 335, 320, 51 * 0.8f, 51 * 0.8f, "Stat_Stun", 0.8f, 0.8f);
+	stunImg->init("stunImg", 335, 320, 51, 51, "Stat_Stun", 0.8f, 0.8f);
 	charFrame->AddFrame(stunImg);
 	
 	UIText* stunText = new UIText();
 	stunText->init("stunText", 387, 332, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
 	charFrame->AddFrame(stunText);
+
+	UIImage* tooltipFrame = new UIImage();
+	tooltipFrame->init("toolTipFrame", 0, 0, 50, 50, "ToolTipCover", false, 0, 0, 1.0f, 1.0f, 80);
+	charFrame->AddFrame(tooltipFrame);
+
+	UIText* tooltipTitle = new UIText();
+	tooltipTitle->init("title", 10, 10, 270, 120, "", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_LEFT, RGB(255, 238, 184));
+	tooltipFrame->AddFrame(tooltipTitle);
+
+	UIText* tooltipDiscript = new UIText();
+	tooltipDiscript->init("discription", 10, 60, 270, 150, "", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
+	tooltipFrame->AddFrame(tooltipDiscript);
+
+	UIText* tooltipGray = new UIText();
+	tooltipGray->init("additional", 10, 130, 270, 150, "", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(170, 170, 170));
+	tooltipFrame->AddFrame(tooltipGray);
 
 	charFrame->SetIsViewing(false);
 }

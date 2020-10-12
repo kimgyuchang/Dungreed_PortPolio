@@ -29,5 +29,6 @@ namespace UTIL
 	float SetAngleInBoundary(float& angle);
 	bool interactRectArc(RECT& rect, POINT center, float radius, float minAngle, float maxAngle, bool useCout = false);
 	bool interactRectCircle(RECT& rect, POINT pt, float distance);
+	string to_string_with_precision(const float a_value, const int n);
 };
 
