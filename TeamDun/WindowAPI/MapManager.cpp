@@ -66,10 +66,6 @@ void MapManager::update()
 
 	_vStage[_currentStage]->GetMaps()[_currentMap]->update();
 	SetMapUIOnOff();
-
-
-
-
 }
 
 void MapManager::SetMapUIOnOff()
@@ -190,7 +186,8 @@ void MapManager::ChangeMap(int stage, int index)
 	ENTITYMANAGER->getVBullets().clear();
 	ReNewMapUI();
 
-	ENTITYMANAGER->getPlayer()->GetWeapon(ENTITYMANAGER->getPlayer()->GetSelectedWeaponIdx())->ChangeMap();
+	if(ENTITYMANAGER->getPlayer()->GetWeapon(ENTITYMANAGER->getPlayer()->GetSelectedWeaponIdx()) != nullptr)
+		ENTITYMANAGER->getPlayer()->GetWeapon(ENTITYMANAGER->getPlayer()->GetSelectedWeaponIdx())->ChangeMap();
 
 	GetPlayMap()->DoorParticleGenerate();
 }

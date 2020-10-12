@@ -3,7 +3,6 @@
 
 HRESULT Player::init()
 {
-
 	this->_vImages.push_back(IMAGEMANAGER->findImage("baseCharIdle"));//0
 	this->_vImages.push_back(IMAGEMANAGER->findImage("baseCharRun")); //1
 
@@ -24,7 +23,7 @@ HRESULT Player::init()
 	_downJumpTimer = 0;
 	_dashTimer = 0;
 	_dashSpeed = 0;
-	_atkSpeed = 1.f;
+	_atkSpeed = 0.f;
 	_realAttackSpeed = _atkSpeed * 60;
 	_dustEffectCount = 0;
 	_isDash = false;
@@ -42,7 +41,6 @@ HRESULT Player::init()
 	_accesoryCount = 4;
 
 	// 예시용
-	_weapons[0] = new DemonSword(*dynamic_cast<DemonSword*>(DATAMANAGER->GetItemById(4000)));
 	_selectedWeaponIdx = 0;
 
 	_inven = new Inventory();
@@ -105,15 +103,7 @@ void Player::update()
 			this->Move();		//대쉬 상태가 아니므로 Move함수 실행
 		}
 
-		SwitchWeapon();
 
-		CheckAliceZone();
-		if (_weapons[_selectedWeaponIdx] != nullptr) _weapons[_selectedWeaponIdx]->update();
-		if (_subWeapons[_selectedWeaponIdx] != nullptr) _subWeapons[_selectedWeaponIdx]->update();
-		for (int i = 0; i < _vAccessories.size(); i++)
-		{
-			_vAccessories[i]->update();
-		}
 
 		_realAttackSpeed--;
 		if (INPUT->GetKey(VK_LBUTTON))
@@ -131,24 +121,37 @@ void Player::update()
 	{
 		_inven->update();
 		this->pixelCollision();
-
-		SwitchWeapon();
-
-		if (_weapons[_selectedWeaponIdx] != nullptr) _weapons[_selectedWeaponIdx]->update();
-		if (_subWeapons[_selectedWeaponIdx] != nullptr) _subWeapons[_selectedWeaponIdx]->update();
-		for (int i = 0; i < _vAccessories.size(); i++)
-		{
-			_vAccessories[i]->update();
-		}
-
-		_money++;
 	}
+
+	SwitchWeapon();
+	if (_weapons[_selectedWeaponIdx] != nullptr) _weapons[_selectedWeaponIdx]->update();
+	if (_subWeapons[_selectedWeaponIdx] != nullptr) _subWeapons[_selectedWeaponIdx]->update();
+	for (int i = 0; i < _vAccessories.size(); i++)
+	{
+		_vAccessories[i]->update();
+	}
+
+	CheckAliceZone();
+	UpdateCharPage();
 }
 
 void Player::SwitchWeapon()
 {
 	if (_mouseWheel != 0)
 	{
+		if (_weapons[_selectedWeaponIdx] != nullptr)
+		{
+			_weapons[_selectedWeaponIdx]->SetisAttacking(false);
+			_weapons[_selectedWeaponIdx]->SetRenderAngle(0);
+		}
+		if (_subWeapons[_selectedWeaponIdx] != nullptr)
+		{
+			_subWeapons[_selectedWeaponIdx]->SetisAttacking(false);
+			_subWeapons[_selectedWeaponIdx]->SetRenderAngle(0);
+		}
+	
+		_realAttackSpeed = 0;
+
 		_selectedWeaponIdx = _selectedWeaponIdx == 0 ? 1 : 0;
 		_inven->SwitchWeapon(_selectedWeaponIdx);
 	}
@@ -179,7 +182,6 @@ void Player::CheckAliceZone()
 	{
 		_aliceZoneIn = false;
 	}
-
 }
 
 void Player::release()
@@ -693,4 +695,27 @@ void Player::dash()
 	}
 }
 
-
+void Player::UpdateCharPage()
+{
+	UIFrame* charFrame = UIMANAGER->GetGameFrame()->GetChild("charFrame");
+	if (charFrame->GetIsViewing())
+	{
+		dynamic_cast<UIText*>(charFrame->GetChild("powerText"))->SetText(to_string(_minDamage) + " ~ " + to_string(_maxDamage) + " (" + to_string(_power) + ") ");
+		dynamic_cast<UIText*>(charFrame->GetChild("defText"))->SetText(to_string(_defence));
+		dynamic_cast<UIText*>(charFrame->GetChild("toughText"))->SetText(to_string(_toughness));
+		dynamic_cast<UIText*>(charFrame->GetChild("blockText"))->SetText(to_string(_block));
+		dynamic_cast<UIText*>(charFrame->GetChild("criText"))->SetText(to_string(_criticalPercent));
+		dynamic_cast<UIText*>(charFrame->GetChild("criDmgText"))->SetText(to_string(_criticalDamage));
+		dynamic_cast<UIText*>(charFrame->GetChild("evadeText"))->SetText(to_string(_evasion));
+		dynamic_cast<UIText*>(charFrame->GetChild("moveSpeedText"))->SetText(to_string(_moveSpeed));
+		dynamic_cast<UIText*>(charFrame->GetChild("atkSpeedText"))->SetText(to_string(_atkSpeed));
+		dynamic_cast<UIText*>(charFrame->GetChild("reloadText"))->SetText(to_string(_reloadTime));
+		dynamic_cast<UIText*>(charFrame->GetChild("dashText"))->SetText(to_string(_dashDamage));
+		dynamic_cast<UIText*>(charFrame->GetChild("trueDamageText"))->SetText(to_string(_trueDamage));
+		dynamic_cast<UIText*>(charFrame->GetChild("burnText"))->SetText(to_string(_fireDamage));
+		dynamic_cast<UIText*>(charFrame->GetChild("poisonText"))->SetText(to_string(_posionDamage));
+		dynamic_cast<UIText*>(charFrame->GetChild("coldText"))->SetText(to_string(_iceDamage));
+		dynamic_cast<UIText*>(charFrame->GetChild("elecText"))->SetText(to_string(_elecDamage));
+		dynamic_cast<UIText*>(charFrame->GetChild("stunText"))->SetText(to_string(_stunDamage));
+	}
+}

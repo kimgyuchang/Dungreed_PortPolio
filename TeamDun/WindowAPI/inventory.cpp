@@ -463,8 +463,8 @@ void Inventory::SwitchWeapon(int selectedWeapon)
 			_p->GetWeapon(0)->EquipUnEquipStatus(true);
 		if (_p->GetSubWeapon(0) != nullptr)
 			_p->GetSubWeapon(0)->EquipUnEquipStatus(true);
-		if (_p->GetWeapon(0) != nullptr)
-			_p->GetWeapon(0)->EquipUnEquipStatus(false);
+		if (_p->GetWeapon(1) != nullptr)
+			_p->GetWeapon(1)->EquipUnEquipStatus(false);
 		if (_p->GetSubWeapon(1) != nullptr)
 			_p->GetSubWeapon(1)->EquipUnEquipStatus(false);
 	}
@@ -475,8 +475,8 @@ void Inventory::SwitchWeapon(int selectedWeapon)
 			_p->GetWeapon(0)->EquipUnEquipStatus(false);
 		if (_p->GetSubWeapon(0) != nullptr)
 			_p->GetSubWeapon(0)->EquipUnEquipStatus(false);
-		if (_p->GetWeapon(0) != nullptr)
-			_p->GetWeapon(0)->EquipUnEquipStatus(true);
+		if (_p->GetWeapon(1) != nullptr)
+			_p->GetWeapon(1)->EquipUnEquipStatus(true);
 		if (_p->GetSubWeapon(1) != nullptr)
 			_p->GetSubWeapon(1)->EquipUnEquipStatus(true);
 	}
