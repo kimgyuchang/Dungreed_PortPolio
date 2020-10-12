@@ -71,7 +71,9 @@ void UIImage::render(HDC hdc)
 							_image->alphaRender(hdc, _x, _y, _alpha);
 
 						else
+						{
 							_image->stretchAlphaRender(hdc, _x, _y, _scaleX, _scaleY, _alpha);
+						}
 					}
 				}
 			}

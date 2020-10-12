@@ -84,4 +84,6 @@ public:
 	void SetIsMoveToDrag(bool drag) { _isMoveToDrag = drag; }
 	void SetImage(image* target) { _image = target; }
 	void SetRenderBeforeParent(bool rbp) { _renderBeforeParent = rbp; }
+	void SetScaleX(float x) { _scaleX = x; }
+	void SetScaleY(float y) { _scaleY = y; }
 };

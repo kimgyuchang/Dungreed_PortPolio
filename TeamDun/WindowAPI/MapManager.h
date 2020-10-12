@@ -10,12 +10,17 @@ private:
 	vector<Stage*>		_vStage;		// 스테이지 데이터
 	int					_currentMap;	// 현재 맵
 	int					_currentStage;	// 현재 스테이지
+	
+	// MAP UI 관련 //
+	int					_moveClickTimer;
+	POINT				_recentMousePos;
 
 public:
 	HRESULT init();
 	void update();
 	void SetMapUIOnOff();
 	void GenerateMapParticle();
+	void DungeonMapUIMover();
 	void ReNewMapUI();
 	void release();
 	void render(HDC hdc);

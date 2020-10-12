@@ -179,13 +179,14 @@ void gameScene::initUI()
 	costumeExplanationFrame->AddFrame(_CharSecondStat);
 
 	InventoryUIInit();
+	InitCharUI();
 }
 
 void gameScene::DungeonMapUIInit()
 {
 	// DungeonMap Frame //
 	UIImage* allMapFrame = new UIImage();
-	allMapFrame->init("allMapFrame", 0, 0, WINSIZEX, WINSIZEY, "ScreenCover", false, 0, 0, 1, 1, 80);
+	allMapFrame->init("allMapFrame", 0, 0, WINSIZEX, WINSIZEY, "ScreenCover", false, 0, 0, 6, 6, 80);
 	UIMANAGER->GetGameFrame()->AddFrame(allMapFrame);
 
 	UIFrame* mapUpperImg = new UIFrame();
@@ -266,6 +267,179 @@ void gameScene::InventoryUIInit()
 	accessEqualText->init("isEqualText", 350, 200, 800, 200, "같은 아이템은 장착할 수 없습니다.", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(200, 30, 30));
 	UIMANAGER->GetGameFrame()->AddFrame(accessEqualText);
 	accessEqualText->SetIsViewing(false);
+
+	
+	/////////// TOOLTIP /////////////
+	
+	UIImage* uiToolTip = new UIImage();
+	uiToolTip->init("itemToolTip", 0, 0, 400, 500, "ToolTipCover", false, 0, 0, 4.0f, 5.0f, 130);
+	InventoryFrame->AddFrame(uiToolTip);
+
+}
+
+void gameScene::InitCharUI()
+{
+	UIFrame* charFrame = new UIFrame();
+	charFrame->init("charFrame", 50, 250, IMAGEMANAGER->findImage("Base")->getWidth() * 2.0f, IMAGEMANAGER->findImage("Base")->getHeight() * 2.0f, "Base", 2.0f, 2.0f);
+	UIMANAGER->GetGameFrame()->AddFrame(charFrame);
+
+	UIText* statusText = new UIText();
+	statusText->init("statusText", 80, 20, 300, 100, "STATUS", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE);
+	charFrame->AddFrame(statusText);
+
+	UIFrame* powerImg = new UIFrame();
+	powerImg->init("powerImg", 20, 60, 63, 63, "Stat_Power", 0.8f, 0.8f);
+	charFrame->AddFrame(powerImg);
+
+	UIText* powerText = new UIText();
+	powerText->init("powerText", 80, 77, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(powerText);
+
+	UIFrame* defImg = new UIFrame();
+	defImg->init("defImg", 20, 120, 63, 63, "Stat_Def", 0.8f, 0.8f);
+	charFrame->AddFrame(defImg);
+
+	UIText* defText = new UIText();
+	defText->init("defText", 80, 137, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(defText);
+
+	UIFrame* toughImg = new UIFrame();
+	toughImg->init("toughImg", 125, 120, 63, 63, "Stat_Tough", 0.8f, 0.8f);
+	charFrame->AddFrame(toughImg);	
+
+	UIText* toughText = new UIText();
+	toughText->init("toughText", 185, 137, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(toughText);
+
+	UIFrame* blockImg = new UIFrame();
+	blockImg->init("blockImg", 230, 120, 63, 63, "Stat_Block", 0.8f, 0.8f);
+	charFrame->AddFrame(blockImg);
+
+	UIText* blockText = new UIText();
+	blockText->init("blockText", 290, 137, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(blockText);
+
+	UIFrame* criImg = new UIFrame();
+	criImg->init("criImg", 20, 180, 63, 63, "Stat_Critical", 0.8f, 0.8f);
+	charFrame->AddFrame(criImg);
+
+	UIText* criText = new UIText();
+	criText->init("criText", 80, 197, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(criText);
+
+	UIFrame* criDmgImg = new UIFrame();
+	criDmgImg->init("criDmgImg", 125, 180, 63, 63 , "Stat_CriticalDmg", 0.8f, 0.8f);
+	charFrame->AddFrame(criDmgImg);
+
+	UIText* criDmgText = new UIText();
+	criDmgText->init("criDmgText", 185, 197, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(criDmgText);
+
+	UIFrame* evadeImg = new UIFrame();
+	evadeImg->init("evadeImg", 230, 180, 63, 63, "Stat_Evade", 0.8f, 0.8f);
+	charFrame->AddFrame(evadeImg);
+
+	UIText* evadeText = new UIText();
+	evadeText->init("evadeText", 290, 197, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(evadeText);
+
+	UIFrame* moveSpeedImg = new UIFrame();
+	moveSpeedImg->init("moveSpeedImg", 20, 240, 63, 63, "Stat_MoveSpeed", 0.8f, 0.8f);
+	charFrame->AddFrame(moveSpeedImg);
+
+	UIText* moveSpeedText = new UIText();
+	moveSpeedText->init("moveSpeedText", 80, 257, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(moveSpeedText);
+
+	UIFrame* atkSpeedImg = new UIFrame();
+	atkSpeedImg->init("atkSpeedImg", 125, 240, 63, 63, "Stat_AtkSpeed", 0.8f, 0.8f);
+	charFrame->AddFrame(atkSpeedImg);
+
+	UIText* atkSpeedText = new UIText();
+	atkSpeedText->init("atkSpeedText", 185, 257, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(atkSpeedText);
+
+	UIFrame* reloadImg= new UIFrame();
+	reloadImg->init("reloadImg", 230, 240, 63, 63, "Stat_Reload", 0.8f, 0.8f);
+	charFrame->AddFrame(reloadImg);
+
+	UIText* reloadText = new UIText();
+	reloadText->init("reloadText", 290, 257, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(reloadText);
+
+	UIFrame* dashImg = new UIFrame();
+	dashImg->init("dashImg", 20, 300, 63, 63, "Stat_Dash", 0.8f, 0.8f);
+	charFrame->AddFrame(dashImg);
+
+	UIText* dashText = new UIText();
+	dashText->init("dashText", 80, 317, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(dashText);
+
+	UIFrame* trueDamageImg = new UIFrame();
+	trueDamageImg->init("trueDamageImg", 125, 300, 63, 63, "Stat_TrueDamage", 0.8f, 0.8f);
+	charFrame->AddFrame(trueDamageImg);
+
+	UIText* trueDamageText = new UIText();
+	trueDamageText->init("trueDamageText", 185, 317, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(trueDamageText);
+
+	UIFrame* burnImg = new UIFrame();
+	burnImg->init("burnImg", 335, 120, 51, 51, "Stat_Burn", 0.8f, 0.8f);
+	charFrame->AddFrame(burnImg);
+	
+	UIText* burnText = new UIText();
+	burnText->init("burnText", 387, 132, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(burnText);
+
+	UIFrame* poisonImg = new UIFrame();
+	poisonImg->init("poisonImg", 335, 170, 51, 51, "Stat_Poison", 0.8f, 0.8f);
+	charFrame->AddFrame(poisonImg);
+	
+	UIText* poisonText = new UIText();
+	poisonText->init("poisonText", 387, 182, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(poisonText);
+
+	UIFrame* coldImg = new UIFrame();
+	coldImg->init("coldImg", 335, 220, 51, 51, "Stat_Cold", 0.8f, 0.8f);
+	charFrame->AddFrame(coldImg);
+	
+	UIText* coldText = new UIText();
+	coldText->init("coldText", 387, 232, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(coldText);
+
+	UIFrame* elecImg = new UIFrame();
+	elecImg->init("elecImg", 335, 270, 51, 51, "Stat_Shock", 0.8f, 0.8f);
+	charFrame->AddFrame(elecImg);	
+	
+	UIText* elecText = new UIText();
+	elecText->init("elecText", 387, 282, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(elecText);
+
+	UIFrame* stunImg = new UIFrame();
+	stunImg->init("stunImg", 335, 320, 51, 51, "Stat_Stun", 0.8f, 0.8f);
+	charFrame->AddFrame(stunImg);
+	
+	UIText* stunText = new UIText();
+	stunText->init("stunText", 387, 332, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
+	charFrame->AddFrame(stunText);
+
+	UIImage* tooltipFrame = new UIImage();
+	tooltipFrame->init("toolTipFrame", 0, 0, 50, 50, "ToolTipCover", false, 0, 0, 1.0f, 1.0f, 80);
+	charFrame->AddFrame(tooltipFrame);
+
+	UIText* tooltipTitle = new UIText();
+	tooltipTitle->init("title", 10, 10, 270, 120, "", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_LEFT, RGB(255, 238, 184));
+	tooltipFrame->AddFrame(tooltipTitle);
+
+	UIText* tooltipDiscript = new UIText();
+	tooltipDiscript->init("discription", 10, 60, 270, 150, "", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
+	tooltipFrame->AddFrame(tooltipDiscript);
+
+	UIText* tooltipGray = new UIText();
+	tooltipGray->init("additional", 10, 130, 270, 150, "", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_LEFT, RGB(170, 170, 170));
+	tooltipFrame->AddFrame(tooltipGray);
+
+	charFrame->SetIsViewing(false);
 }
 
 void gameScene::release()
@@ -335,6 +509,11 @@ void gameScene::update()
 	if (INPUT->GetKeyDown('V'))
 	{
 		UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->ToggleIsViewing();
+	}
+
+	if (INPUT->GetKeyDown('C'))
+	{
+		UIMANAGER->GetGameFrame()->GetChild("charFrame")->ToggleIsViewing();
 	}
 
 	for (int i = 0; i < 13; i++)

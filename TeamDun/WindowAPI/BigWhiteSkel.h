@@ -15,6 +15,7 @@ private:
 	int			_jumpCount;
 	int			_downJmpTimer;
 	int			_jumpTimer;
+	int			_idleTimer;
 	vector<int>	_attackAnimFrame;
 
 public:

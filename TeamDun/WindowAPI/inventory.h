@@ -17,6 +17,8 @@ private :
 	bool	_leftClicked;
 	int		_clickedTarget;
 	int		_leftClickTimer;
+	float	_toolTipFinalY;
+	Item*	_curToolTipItem;	// 현재 툴팁에서 보여지는 아이템
 
 	Player* _p;
 
@@ -38,5 +40,8 @@ public :
 	void OnInvenEqualText();
 	void CheckInvenText();
 	void SwitchWeapon(int selectedWeapon);
+	void InitToolTipItem(Item* item);
+	string OptionString(SubOption* option);
+	void ShowToolTip();
 };
 

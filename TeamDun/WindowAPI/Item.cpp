@@ -36,6 +36,7 @@ HRESULT Item::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill* skil
 		}
 	}
 
+	_invenImageName = invenImage;
 	_invenImage = IMAGEMANAGER->findImage(invenImage);
 	_currentImage = 0;
 	_chargePercent = 0;
@@ -180,6 +181,8 @@ void Item::AdaptSubOption(SubOption* subOption, bool isEquip)
 	case IMMUNEPOSION:
 		p->SetImmunePosion(value == 1 ? true : false);
 		break;
+	case IMMUNESTUN:
+		p->SetImmuneStun(value == 1 ? true : false);
 	case TOFIRE:
 		p->SetToFire(p->GetToFire() + value);
 		break;
@@ -191,6 +194,9 @@ void Item::AdaptSubOption(SubOption* subOption, bool isEquip)
 		break;
 	case TOPOSION:
 		p->SetToPosion(p->GetToPosion() + value);
+		break;
+	case TOSTUN:
+		p->SetToStun(p->GetToStun() + value);
 		break;
 	case FIREDAMAGE:
 		p->SetFireDamage(p->GetFireDamage() + value);
@@ -204,6 +210,8 @@ void Item::AdaptSubOption(SubOption* subOption, bool isEquip)
 	case POSIONDAMAGE:
 		p->SetPosionDamage(p->GetPosionDamage() + value);
 		break;
+	case STUNDAMAGE:
+		p->SetStunDamage(p->GetStunDamage() + value);
 	case ETC:
 		// 이런저런 ~~ 저런저런 ~~
 		break;
