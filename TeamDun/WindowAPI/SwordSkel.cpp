@@ -7,14 +7,23 @@ HRESULT SwordSkel::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_body = RectMake(_x, _y, 42, 57);
 	_frameX = _frameY = 0;
 
-	_count = _index = _jumpTimer = _downJmpTimer = 0;
+	_count = _index = _jumpTimer = _downJmpTimer = _attackCoolTime = _attackTimer = _effectTimer = _effect = 0;
 	_gravity = 0.5;
 	_jumpPower = 10.0f;
 	_moveSpeed = 3;
 
-	_isJump = _downJump = _isAttack = false;
+	_swordX = _x;
+	_swordY = _y;
+
+	_isJump = _downJump = _isAttack = _isLeft = false;
+
+	_skelSword.swordIg = IMAGEMANAGER->findImage("SkelSword");
+	_skelSword.frameX = 0;
+	_skelSword.frameY = 0;
+	_skelSword.angle = PI;
 
 	_state = ES_IDLE;
+	_effectGenerated = false;
 
 	return S_OK;
 }
@@ -22,40 +31,87 @@ HRESULT SwordSkel::init(int id, string name, OBJECTTYPE type, vector<string> img
 void SwordSkel::update()
 {
 	Enemy::update();
-
-	this->Move();
-	this->Animation();
-	this->pixelCollision();
-
-	switch (_state)
+	_swordX = _x;
+	_swordY = _y;
+	if (_isSpawned)
 	{
-	case ES_IDLE:
-		if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 300 && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 300)
+		this->Animation();
+		this->pixelCollision();
+
+		switch (_state)
 		{
-			_moveSpeed = 3;
-			_state = ES_MOVE;
+		case ES_IDLE:
+			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 150 && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 250)
+			{
+				if (_isLeft)
+				{
+					_skelSword.angle = 0;
+				}
+				if (!_isLeft)
+				{
+					_skelSword.angle = PI;
+				}
+				_moveSpeed = 3;
+				_state = ES_MOVE;
+			}
+			break;
+		case ES_MOVE:
+			this->Move();
+			if (ENTITYMANAGER->getPlayer()->GetX() > _x && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 250)
+			{
+				_skelSword.angle = 0;
+				_isLeft = true;
+				_x += _moveSpeed;
+			}
+			if (ENTITYMANAGER->getPlayer()->GetX() <= _x && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 250)
+			{
+				_skelSword.angle = PI;
+				_isLeft = false;
+				_x -= _moveSpeed;
+			}
+			if (ENTITYMANAGER->getPlayer()->GetX() - 50 < _x  &&
+				ENTITYMANAGER->getPlayer()->GetX() + 50 + IMAGEMANAGER->findImage("SwordSkelIdle")->getFrameWidth() > _x)
+			{
+				_attackCoolTime++;
+				_isAttack = true;
+				_skelSword.angle = PI / 2;
+				if (_attackCoolTime > 50)
+				{
+					_state = ES_ATTACK;
+					_attackCoolTime = 0;
+				}
+			}
+			break;
+		case ES_ATTACK:
+			this->Attack();
+			_attackTimer++;
+			_swordX = _x - 10;
+			_swordY = _y - 5;
+			if (_isLeft)
+			{
+				if (_attackTimer < 5)
+				{
+					_skelSword.angle -= 0.70f;
+				}
+
+			}
+			if (!_isLeft)
+			{
+				if (_attackTimer < 5)
+				{
+					_skelSword.angle += 0.70f;
+				}
+			}
+			if (_attackTimer > 50)
+			{
+				_state = ES_IDLE;
+				_attackTimer = 0;
+				_effectGenerated = false;
+			}
+			break;
+		default:
+			break;
 		}
-		break;
-	case ES_MOVE:
-		_body = RectMake(_x, _y, 42, 57);
-		if (ENTITYMANAGER->getPlayer()->GetX() - 70 > _x && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 100)
-		{
-			_isLeft = true;
-			_x += _moveSpeed;
-		}
-		else if (ENTITYMANAGER->getPlayer()->GetX() + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() + 70 < _x)
-		{
-			_isLeft = false;
-			_x -= _moveSpeed;
-		}
-		if (ENTITYMANAGER->getPlayer()->GetX() - 70 <= _x && ENTITYMANAGER->getPlayer()->GetX() + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() + 70 >= _x)
-		{
-		}
-		break;
-	case ES_ATTACK:
-		break;
-	default:
-		break;
 	}
 }
 
@@ -69,30 +125,40 @@ void SwordSkel::render(HDC hdc)
 	if (_isSpawned)
 	{
 		Enemy::render(hdc);
+		if (_isLeft)
+		{
+			CAMERAMANAGER->FrameRender(hdc, _skelSword.swordIg, _swordX, _swordY, _skelSword.frameX, _skelSword.frameY, -_skelSword.angle);
+		}
+		else
+		{
+			_swordX = _x - 45;
+			CAMERAMANAGER->FrameRender(hdc, _skelSword.swordIg, _swordX, _swordY, _skelSword.frameX, _skelSword.frameY, -_skelSword.angle);
+		}
 	}
 }
 
 void SwordSkel::Move()
 {
 	Enemy::Move();
-
-	_jumpTimer++;
 	_body = RectMake(_x, _y, 42, 57);
-
-	if (abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 300 && abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 300 && !_isAttack)
+	_jumpTimer++;
+	if (abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 250 && abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 150 && !_isAttack)
 	{
-		if (_jumpTimer > 70)
+		if (_y - 20 > ENTITYMANAGER->getPlayer()->GetY())
 		{
-			_jumpTimer = 0;
-			if (_jumpCount == 0)
+			if (_jumpTimer > 50)
 			{
-				_jumpPower = 10;
-				_y -= _jumpPower;
-				_probeBottom = _y + IMAGEMANAGER->findImage("SwordSkelIdle")->getFrameHeight();
-				_jumpCount++;
+				_jumpTimer = 0;
+				if (_jumpCount == 0)
+				{
+					_jumpPower = 10;
+					_y -= _jumpPower;
+					_probeBottom = _y + IMAGEMANAGER->findImage("SwordSkelIdle")->getFrameHeight();
+					_jumpCount++;
+				}
 			}
 		}
-		if (_y + IMAGEMANAGER->findImage("SwordSkelIdle")->getFrameHeight() <= ENTITYMANAGER->getPlayer()->GetY() && !_isAttack)
+		if (_y + IMAGEMANAGER->findImage("SwordSkelIdle")->getFrameHeight() < ENTITYMANAGER->getPlayer()->GetY() && !_isAttack)
 		{
 			_downJump = true;
 			_jumpPower = -1;
@@ -101,7 +167,7 @@ void SwordSkel::Move()
 		if (_downJump)
 		{
 			_downJmpTimer++;
-			if (_downJmpTimer > 30)
+			if (_downJmpTimer > 50)
 			{
 				_downJmpTimer = 0;
 				_downJump = false;
@@ -113,6 +179,31 @@ void SwordSkel::Move()
 void SwordSkel::Attack()
 {
 	Enemy::Attack();
+
+	//ÀÌÆåÆ®
+	_effectTimer++;
+
+	if (_isLeft)
+	{
+		_effect = 70;
+	}
+	else
+	{
+		_effect = -90;
+	}
+	if (_effectTimer > 10 && !_effectGenerated)
+	{
+		if (_isLeft)
+		{
+			EFFECTMANAGER->AddEffect(_swordX + _effect, _swordY - 20, "SkelSwordEffect", 10, 0, 0, false, 200, 0, 1.3, 1.3);
+		}
+		if (!_isLeft)
+		{
+			EFFECTMANAGER->AddEffect(_swordX + _effect, _swordY - 20, "SkelSwordEffect", 10, 0, 0, false, 200, PI, 1.3, 1.3);
+		}
+
+		_effectGenerated = true;
+	}
 }
 
 void SwordSkel::Animation()
@@ -127,13 +218,13 @@ void SwordSkel::Animation()
 		_useImage = 1;
 		if (_isLeft)
 		{
-			_frameY = 1;
-			_frameX = 1;
+			_frameY = 0;
+			_frameX = 0;
 		}
 		else
 		{
-			_frameY = 0;
-			_frameX = 0;
+			_frameY = 1;
+			_frameX = 1;
 		}
 		break;
 	case ES_MOVE:
@@ -141,8 +232,9 @@ void SwordSkel::Animation()
 		if (_isLeft)
 		{
 			_frameY = 0;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX++;
 
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -154,8 +246,9 @@ void SwordSkel::Animation()
 		else
 		{
 			_frameY = 1;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX--;
 
 				if (_frameX < 0)
@@ -170,8 +263,9 @@ void SwordSkel::Animation()
 		if (_isLeft)
 		{
 			_frameY = 0;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX++;
 
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -183,8 +277,9 @@ void SwordSkel::Animation()
 		else
 		{
 			_frameY = 1;
-			if (_count % 5 == 0)
+			if (_count > 5)
 			{
+				_count = 0;
 				_frameX--;
 
 				if (_frameX < 0)

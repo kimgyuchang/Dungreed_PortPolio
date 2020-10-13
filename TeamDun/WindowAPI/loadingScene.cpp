@@ -625,11 +625,13 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("LilithMove", "Images/Monster/LilithMove.bmp", 468, 156, 6, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("LittleGhost", "Images/Monster/LittleGhost.bmp", 360, 120, 6, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("LittleGhostAttack", "Images/Monster/LittleGhostAttack.bmp", 180, 120, 3, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("SkelSwordEffect", "Images/Monster/SkelSwordEffect.bmp", 222, 80, 3, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("SwordSkelIdle", "Images/Monster/SwordSkelIdle.bmp", 84, 114, 2, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("SwordSkelWalk", "Images/Monster/SwordSkelWalk.bmp", 252, 114, 6, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("SwordSkelCorpse", "Images/Monster/SwordSkelCorpse.bmp", 33, 24, 1, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BowSkelIdle", "Images/Monster/BowSkelIdle.bmp", 84, 114, 2, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BowSkelCorpse", "Images/Monster/BowSkelCorpse.bmp", 33, 24, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("SkelSword", "Images/Monster/SkelSword.bmp", 90, 90, 1, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("SkelBow", "Images/Monster/SkelBow.bmp", 342, 51, 6, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("SkelArrow", "Images/Monster/SkelArrow.bmp", 39, 39, 1, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("SkelArrowEffect", "Images/Monster/SkelArrowEffect.bmp", 720, 168, 6, 1, true, RGB(255, 0, 255));
@@ -675,6 +677,8 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("SubBGStage1", "Images/1Floor/SubBGStage1.bmp", 960, 540, true, RGB(255, 0, 255));
 
 	// ITEM //
+	_loading->LoadFrameImage("BasicShortSword_New", "Images/item/BasicShortSword_New.bmp", 90, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BasicShortSword_inven", "Images/item/BasicShortSword_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("DemonSword", "Images/item/DemonSword.bmp", 107, 213, 1, 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("DemonSword_inven", "Images/item/DemonSword_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("DemonSword_Slash", "Images/item/DemonSword_Slash.bmp", 924, 264, 7, 2, true, RGB(255, 0, 255));

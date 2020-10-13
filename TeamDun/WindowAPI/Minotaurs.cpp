@@ -69,6 +69,7 @@ void Minotaurs::update()
 			}
 			break;
 		case ES_ATTACK:
+			_body = RectMake(_x, _y, 156, 150);
 			if (_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
 			{
 				_state = ES_IDLE;
