@@ -79,6 +79,12 @@
     <Filter Include="MainGame\Item\Items\Accessory">
       <UniqueIdentifier>{5067d7d1-c817-4eee-9b98-8ab27f78db21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\NPC">
+      <UniqueIdentifier>{1d504029-2af5-45ef-ab9a-3fe9438d1334}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Object\NPC\NPCs">
+      <UniqueIdentifier>{cff3bb23-612a-4565-bbc8-12cd65a0417a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -127,9 +133,6 @@
       <Filter>MainGame\Object</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>MainGame\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="NPC.cpp">
       <Filter>MainGame\Object</Filter>
     </ClCompile>
     <ClCompile Include="MapObject.cpp">
@@ -270,6 +273,15 @@
     <ClCompile Include="SwordSkel.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="cameraText.cpp">
+      <Filter>GameFramework\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC.cpp">
+      <Filter>MainGame\Object\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Shop.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -318,9 +330,6 @@
       <Filter>MainGame\Object</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>MainGame\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="NPC.h">
       <Filter>MainGame\Object</Filter>
     </ClInclude>
     <ClInclude Include="MapObject.h">
@@ -469,6 +478,15 @@
     </ClInclude>
     <ClInclude Include="SwordSkel.h">
       <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="cameraText.h">
+      <Filter>GameFramework\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>MainGame\Object\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Shop.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

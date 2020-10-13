@@ -1173,14 +1173,15 @@ void mapScene::render()
 
 	Grid* targetGrid = _mapTool->mouseCollisionCheck();
 	if (_targetImage && targetGrid) CAMERAMANAGER->StretchAlphaRender(getMemDC(), _targetImage, targetGrid->_rc.left, targetGrid->_rc.top, _mapTool->getZoomWidth() / 48, _mapTool->getZoomHeight() / 48, 100);
+	
+	UIMANAGER->render(getMemDC());
+
+	_cursorImage->render(getMemDC(), _ptMouse.x, _ptMouse.y);
 	if (_targetObject)
 	{
 		if (_targetObject->_image->getMaxFrameX() == 0) _targetObject->_image->stretchAlphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, _mapTool->getZoomWidth() / 48, _mapTool->getZoomHeight() / 48, 100);
 		else _targetObject->_image->frameStretchAlphaRender(getMemDC(), _ptMouse.x, _ptMouse.y, 0, 0, _mapTool->getZoomWidth() / 48, _mapTool->getZoomHeight() / 48, 100);
 	}
-	UIMANAGER->render(getMemDC());
-
-	_cursorImage->render(getMemDC(), _ptMouse.x, _ptMouse.y);
 
 	string n = to_string((int)CAMERAMANAGER->GetAbsoluteX(_ptMouse.x)) + " " + to_string((int)CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
 	TextOut(getMemDC(), _ptMouse.x, _ptMouse.y, n.c_str(), n.length());

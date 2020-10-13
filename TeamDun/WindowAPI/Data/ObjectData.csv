@@ -8,6 +8,8 @@ id,name,type,image,image2,image3
 6,금색상자,NPC,YellowTresureClosed,YellowTresureOpened,.
 7,스테이지1문열림,NPC,Door0_Open,.,.
 8,스테이지1문닫힘,NPC,Door0_Closed,.,.
+9,씰스톤,Etc,SealStone,.,.
+10,거인상점주인,NPC,NPC_Giant,.,.
 100,큰 박스,Breakable,BigBox0,.,.
 101,박스,Breakable,Box0,.,.
 102,오크통,Breakable,OakDrum0,.,.
@@ -15,11 +17,6 @@ id,name,type,image,image2,image3
 501,뼈 1,Etc,Bone1,.,.
 502,해골 0,Etc,Skull0,.,.
 503,해골 1,Etc,Skull1,.,.
-701,아비스밴시,Monster,AbyssBansheeIdle,.,.
-1000,큰 톱니,Obstacle,gear,.,.
-1001,중간 톱니,Obstacle,Gear_Small,.,.
-1002,작은 톱니,Obstacle,Gear_Small_Small,.,.
-1003,가시함정,Obstacle,SpikePlatform1,.,.
 504,횃불,Etc,Torch0,.,.
 505,돌 1,Etc,Stone_1,.,.
 506,돌 2,Etc,Stone_2,.,.
@@ -29,16 +26,27 @@ id,name,type,image,image2,image3
 510,고문책상 1,Etc,TortureTable_1,.,.
 511,고문파편 0,Etc,TortureTable1_0,.,.
 512,고문파편 1,Etc,TortureTable1_1,.,.
-1004,가시,Obstacle,Spike,.,.
 513,던전사인,Etc,DungeonSign,.,.
-702,붉은박쥐,Monster,BatRedIdle,BatRedAttack,.
-1500,큰 해골-하얀색,Monster,BigWhiteSkelIdle,BigWhiteSkelMove,BigWhiteSkelAttack
-1501,미노타우르스,Monster,MinotaursIdle,MinotaursCharge,MinotaursAttack
-2000,벨리알,Monster,SkellBossIdle,SkellBossAttack,.
 514,문 왼쪽,Etc,Door_Left_Idle,Door_Left,.
 515,문 오른쪽,Etc,Door_Right_Idle,Door_Right,.
 516,문 위쪽,Etc,Door_Up_Idle,Door_Up,.
 517,문 아래쪽,Etc,Door_Down_Idle,Door_Down,.
+518,촛불OFF0,Etc,CandleOff0,.,.
+519,촛불OFF1,Etc,CandleOff1,.,.
+520,촛불OFF2,Etc,CandleOff2,.,.
+521,촛불ON0,Etc,CandleOn00,.,.
+522,촛불ON1,Etc,CandleOn10,.,.
+523,촛불ON2,Etc,CandleOn20,.,.
+701,아비스밴시,Monster,AbyssBansheeIdle,.,.
+702,붉은박쥐,Monster,BatRedIdle,BatRedAttack,.
+703,보라박쥐,Monster,BatIdle,BatAttack,.
+1000,큰 톱니,Obstacle,gear,.,.
+1001,중간 톱니,Obstacle,Gear_Small,.,.
+1002,작은 톱니,Obstacle,Gear_Small_Small,.,.
+1003,가시함정,Obstacle,SpikePlatform1,.,.
+1004,가시,Obstacle,Spike,.,.
+1500,큰 해골-하얀색,Monster,BigWhiteSkelIdle,BigWhiteSkelMove,BigWhiteSkelAttack
+1501,미노타우르스,Monster,MinotaursIdle,MinotaursCharge,MinotaursAttack
 1502,밴시,Monster,BansheeIdle,BansheeAttack,.
 1503,폭탄박쥐,Monster,BombBat,BombBatExplosionBegin,.
 1504,서큐버스,Monster,LilithIdle,LilithMove,LilithCatch
@@ -46,8 +54,7 @@ id,name,type,image,image2,image3
 1506,해골강아지,Monster,SkelDogIdle,SkelDogRun,SkelDogDie
 1507,칼해골,Monster,SwordSkelWalk,SwordSkelIdle,SwordSkelDie
 1508,활해골,Monster,BowSkelIdle,BowSkelDie,.
-9,씰스톤,Etc,SealStone,.,.
-703,보라박쥐,Monster,BatIdle,BatAttack,.
-2500,몬스터 스폰 트리거,Etc,SpawnMonsterPos,.,.
 1509,빨간큰박쥐,Monster,RedGiantBat,RedGiantBatAttack,.
 1510,보라큰박쥐,Monster,GiantBat,GiantBatAttack,.
+2000,벨리알,Monster,SkellBossIdle,SkellBossAttack,.
+2500,몬스터 스폰 트리거,Etc,SpawnMonsterPos,.,.

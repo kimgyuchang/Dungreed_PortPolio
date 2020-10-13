@@ -51,8 +51,6 @@ HRESULT MapManager::init()
 
 void MapManager::update()
 {
-
-
 	if (INPUT->GetKeyDown(VK_F2))
 	{
 		ChangeMap(_currentStage, RANDOM->range((int)_vStage[_currentStage]->GetMaps().size()));
@@ -65,21 +63,24 @@ void MapManager::update()
 	}
 
 	_vStage[_currentStage]->GetMaps()[_currentMap]->update();
+	DungeonMapUIMover();
 	SetMapUIOnOff();
-
-
-
-
 }
 
+/// <summary>
+/// 던전 지도 UI를 OnOff
+/// </summary>
 void MapManager::SetMapUIOnOff()
 {
-	if (INPUT->GetKeyDown('M'))
+	if (INPUT->GetKeyDown(VK_TAB))
 	{
 		UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->ToggleIsViewing();
 	}
 }
 
+/// <summary>
+/// 맵 전체에 생성되는 파티클을 추가
+/// </summary>
 void MapManager::GenerateMapParticle()
 {
 	ParticleGenerator* mapSquareGen = new ParticleGenerator();
@@ -92,6 +93,43 @@ void MapManager::GenerateMapParticle()
 	PARTICLEMANAGER->AddGenerator(mapSquareGen);
 }
 
+void MapManager::DungeonMapUIMover()
+{
+	UIFrame* mapFrame = UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetChild("mapFrame");
+
+	if (mapFrame->GetIsViewing())
+	{
+		if (INPUT->GetKey(VK_LBUTTON))
+		{
+			if (PtInRect(&mapFrame->GetRect(), _ptMouse))
+			{
+				_moveClickTimer++;
+				if (_moveClickTimer == 2)
+				{
+					_recentMousePos = _ptMouse;
+				}
+
+				else if (_moveClickTimer >= 2)
+				{
+					for (int i = 0; i < mapFrame->GetVChildFrames().size(); i++)
+					{
+						mapFrame->GetVChildFrames()[i]->MoveFrameChild(_ptMouse.x - _recentMousePos.x, _ptMouse.y - _recentMousePos.y);
+					}
+					_recentMousePos = _ptMouse;
+				}
+			}
+		}
+	}
+
+	if (INPUT->GetIsLButtonUp())
+	{
+		_moveClickTimer = 0;
+	}
+}
+
+/// <summary>
+/// 던전 지도 UI 재생성
+/// </summary>
 void MapManager::ReNewMapUI()
 {
 	UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetChild("mapFrame");
@@ -156,16 +194,6 @@ void MapManager::ReNewMapUI()
 		cntMap->SetUseOutsideLimit(true);
 		frame->AddFrame(cntMap);
 	}
-
-	UIFrame* scrollContainer = new UIFrame();
-	scrollContainer->init("container", 200, 400, IMAGEMANAGER->findImage("OptionSoundBar")->getWidth(), IMAGEMANAGER->findImage("OptionSoundBar")->getHeight(), "OptionSoundBar", 1.0f, 1.0f);
-	frame->AddFrame(scrollContainer);
-
-	UIScroll* mouseCenter = new UIScroll();
-	mouseCenter->init("scroll", 0, 0, IMAGEMANAGER->findImage("Mouse_WheelClick")->getWidth(), IMAGEMANAGER->findImage("Mouse_WheelClick")->getHeight(), "Mouse_WheelClick");
-	mouseCenter->SetTarget(frame);
-	mouseCenter->SetIsVertical(false);
-	scrollContainer->AddFrame(mouseCenter);
 }
 
 void MapManager::release()
@@ -177,6 +205,9 @@ void MapManager::render(HDC hdc)
 	_vStage[_currentStage]->GetMaps()[_currentMap]->render(hdc);
 }
 
+/// <summary>
+/// 맵을 이동하는데에 사용
+/// </summary>
 void MapManager::ChangeMap(int stage, int index)
 {
 	_currentStage = stage;
@@ -190,7 +221,8 @@ void MapManager::ChangeMap(int stage, int index)
 	ENTITYMANAGER->getVBullets().clear();
 	ReNewMapUI();
 
-	ENTITYMANAGER->getPlayer()->GetWeapon(ENTITYMANAGER->getPlayer()->GetSelectedWeaponIdx())->ChangeMap();
+	if (ENTITYMANAGER->getPlayer()->GetWeapon(ENTITYMANAGER->getPlayer()->GetSelectedWeaponIdx()) != nullptr)
+		ENTITYMANAGER->getPlayer()->GetWeapon(ENTITYMANAGER->getPlayer()->GetSelectedWeaponIdx())->ChangeMap();
 
 	GetPlayMap()->DoorParticleGenerate();
 }

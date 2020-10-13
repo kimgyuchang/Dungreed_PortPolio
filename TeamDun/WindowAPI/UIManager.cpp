@@ -48,6 +48,7 @@ void UIManager::update()
 void UIManager::render(HDC hdc)
 {
 	_GameFrame->render(hdc);
+	
 }
 
 /// <summary>

@@ -45,14 +45,17 @@ enum OPTIONTYPE
 	IMMUNEICE,			 // 냉기 면역
 	IMMUNEELEC,			 // 감전 면역
 	IMMUNEPOSION,		 // 중독 면역
+	IMMUNESTUN,
 	TOFIRE,				 // 화염상태화
 	TOICE,				 // 냉기상태화
 	TOELEC,				 // 감전상태화
 	TOPOSION,			 // 중독상태화
+	TOSTUN,
 	FIREDAMAGE,			 // 화염 속성 데미지
 	ICEDAMAGE,			 // 냉기 속성 데미지
 	ELECDAMAGE,			 // 감전 속성 데미지
 	POSIONDAMAGE,		 // 중독 속성 데미지
+	STUNDAMAGE,
 	ETC					 // 그 외 (수치가 아닌 케이스, DESCRIPTION으로 설명, 효과는 각자 구현 필요)
 };
 
@@ -73,6 +76,7 @@ protected:
 	vector<string>		_vImageNames;		// 이미지 이름 목록
 	int					_currentImage;		// 현재 이미지
 	image*				_invenImage;		// 인벤토리용 이미지
+	string				_invenImageName;	// 인벤토리용 이미지 이름
 	float				_renderPosX;		// 위치 X
 	float				_renderPosY;		// 위치 Y
 	float				_angleCheckPosX;	// 각도체크용 중점 X
@@ -165,6 +169,10 @@ public:
 	bool				GetIsRenderFirst()		{ return _isRenderFirst; }
 	float				GetAngleCheckPosX()		{ return _angleCheckPosX; }
 	float				GetAngleCheckPosY()		{ return _angleCheckPosY; }
+	string				GetInvenImageName()		{ return _invenImageName; }
 	void				SetIsRenderFirst(bool first)	{ _isRenderFirst = first; }
+	void				SetisAttacking(bool attack)		{ _isAttacking = attack; }
+	void				SetRenderAngle(float angle)		{ _renderAngle = angle; }
+	
 };
 

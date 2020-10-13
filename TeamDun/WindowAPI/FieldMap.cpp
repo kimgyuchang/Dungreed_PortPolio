@@ -144,7 +144,9 @@ void FieldMap::LoadObject()
 		case 2500: // 몬스터 스포너
 			obj = new MonsterSpawner(*dynamic_cast<MonsterSpawner*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
+		case 10 :
+			obj = new Shop(*dynamic_cast<Shop*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 		default:
 			obj = new Object(*DATAMANAGER->GetObjectById(stoi(objData[i][0])));
 			break;
@@ -371,7 +373,8 @@ void FieldMap::MakeNearTileCollision(Door* door, bool isActivate)
 /// </summary>
 void FieldMap::PixelCollisionMapGenerate()
 {
-	Rectangle(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
+	HDC pixelMapDC = IMAGEMANAGER->findImage("PixelMapIg")->getMemDC();
+	Rectangle(pixelMapDC, -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
 
 	for (int i = 0; i < _vMapData.size(); i++)
 	{
@@ -379,7 +382,7 @@ void FieldMap::PixelCollisionMapGenerate()
 		{
 			if (_vMapData[i][j]->_collisionImage != nullptr)
 			{
-				_vMapData[i][j]->_collisionImage->render(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _vMapData[i][j]->_x, _vMapData[i][j]->_y); // 충돌용 배경에 충돌용 타일 배치
+				_vMapData[i][j]->_collisionImage->render(pixelMapDC, _vMapData[i][j]->_x, _vMapData[i][j]->_y); // 충돌용 배경에 충돌용 타일 배치
 			}
 		}
 	}
@@ -390,6 +393,8 @@ void FieldMap::PixelCollisionMapGenerate()
 /// </summary>
 void FieldMap::GridMapGenerate()
 {
+	HDC pixelMapDC = IMAGEMANAGER->findImage("PixelMapIg")->getMemDC();
+
 	Rectangle(IMAGEMANAGER->findImage("Layer1MapIg")->getMemDC(), -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
 	Rectangle(IMAGEMANAGER->findImage("Layer2MapIg")->getMemDC(), -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
 	Rectangle(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), -10, -10, 10000, 10000); // 미니맵 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
@@ -409,10 +414,23 @@ void FieldMap::GridMapGenerate()
 			}
 		}
 	}
+
 	for (int i = 0; i < _vMiniRc.size(); i++)
 	{
 		IMAGEMANAGER->findImage("MiniMapPixel")->render(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), _vMiniRc[i].left, _vMiniRc[i].top);
 	} // 미니맵 렌더
+	
+	for (int i = 0; i < _vMapData.size(); i++)
+	{
+		for (int j = 0; j < _vMapData[i].size(); j++)
+		{
+			COLORREF color = GetPixel(pixelMapDC, j * 48, i * 48);
+			if (color == RGB(0, 255, 0) || color == RGB(0, 200, 0) || color == RGB(0, 155, 0) || color == RGB(0, 100, 0))
+			{
+				IMAGEMANAGER->findImage("MiniMapDoor")->render(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), 1000 + j * 5, 10 + i * 5);
+			}
+		}
+	}
 }
 
 void FieldMap::update()
@@ -427,10 +445,6 @@ void FieldMap::update()
 	ShotObject();
 	CheckNoMonsterInMap();
 	EFFECTMANAGER->update();
-	
-	
-
-
 }
 
 /// <summary>
@@ -569,13 +583,14 @@ void FieldMap::render(HDC hdc)
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer2MapIg"), 0, 0);
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
-		if(!_vObjs[i]->GetRenderIndex())
+		if(!_vObjs[i]->GetRenderIndex() == 0)
 			_vObjs[i]->render(hdc);
-	} // 오브젝트 렌더
+	} // 오브젝트 렌더 0 렌더
 
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer1MapIg"), 0, 0);
 
 	IMAGEMANAGER->findImage("MiniMapGroundIg")->render(hdc, 0, 0);
+
 	if (INPUT->GetKey(VK_F1))
 	{
 		CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("PixelMapIg"), 0, 0);
@@ -583,16 +598,21 @@ void FieldMap::render(HDC hdc)
 
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
-		
-		if(_vObjs[i]->GetRenderIndex())	
+		if(_vObjs[i]->GetRenderIndex() == 1)	
 			_vObjs[i]->render(hdc);
-	} // 오브젝트 렌더
-
+	} // 오브젝트 렌더 1 렌더
 
 	EFFECTMANAGER->render(hdc);
 	ENTITYMANAGER->render(hdc);
 	PARTICLEMANAGER->render(hdc);
 	// 플레이어 및 불릿 등 렌더
+
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		if (_vObjs[i]->GetRenderIndex() == 2)
+			_vObjs[i]->render(hdc);
+	} // 오브젝트 렌더 2 렌더
+
 
 	//미니맵에 플레이어 렌더
 	if (_fileName == "stage0_town")
@@ -613,7 +633,7 @@ void FieldMap::render(HDC hdc)
 		if (_vObjs[i]->GetType() == OT_MONSTER && enemy->GetIsSpawned())
 		{
 			IMAGEMANAGER->findImage("MiniMapEnemy")->render(hdc,
-				1000 + (float)5 / 48 * (_vObjs[i]->GetX()+_vObjs[i]->GetImage(0)->getFrameWidth()/2),
+				1000 + (float)5 / 48 * (_vObjs[i]->GetX()+_vObjs[i]->GetImage(0)->getFrameWidth() / 2),
 				10 + (float)5 / 48 * (_vObjs[i]->GetY() + _vObjs[i]->GetImage(0)->getFrameHeight() / 2));
 		}
 	}

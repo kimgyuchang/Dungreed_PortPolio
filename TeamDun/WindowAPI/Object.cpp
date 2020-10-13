@@ -27,7 +27,7 @@ HRESULT Object::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_frameTimer = 0;
     _body = RECT{ 0,0,0,0 };
     _isDead = false;
-	_isRenderFrontLayer1 = true;
+	_renderOrder = 1;
     return S_OK;
 }
 
@@ -65,4 +65,13 @@ void Object::Animation()
 
 void Object::CheckCollision()
 {
+
+}
+
+void Object::GetDamage()
+{
+	if (_HP <= 0)
+	{
+		SetIsDead(true);
+	}
 }

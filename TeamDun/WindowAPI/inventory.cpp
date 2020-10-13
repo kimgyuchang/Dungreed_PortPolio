@@ -21,6 +21,7 @@ void Inventory::update()
 		UpdateMoney();
 		EquipItem();
 		UnEquipItem();
+		ShowToolTip();
 	}
 }
 
@@ -80,19 +81,19 @@ void Inventory::EquipItem()
 						{
 						case ITEMTYPE::IT_WEAPON_ONEHAND:
 							if (_p->GetWeapon(0) == nullptr)
-							{
+							{ // 0번에 착용
 								_p->SetWeapon(0, item);
 								if (_p->GetSelectedWeaponIdx() != 0) item->EquipUnEquipStatus(false);
 								_vInvenItems.erase(_vInvenItems.begin() + i);
 							}
 							else if (_p->GetWeapon(1) == nullptr)
-							{
+							{ // 1번에 착용
 								_p->SetWeapon(1, item);
 								if (_p->GetSelectedWeaponIdx() != 1) item->EquipUnEquipStatus(false);
 								_vInvenItems.erase(_vInvenItems.begin() + i);
 							}
 							else
-							{
+							{ // 0번과 switch
 								_p->GetWeapon(0)->EquipUnEquipStatus(false);
 								if (_p->GetSelectedWeaponIdx() != 0) item->EquipUnEquipStatus(false);
 								SwitchItem(0, item, i);
@@ -101,27 +102,27 @@ void Inventory::EquipItem()
 
 						case ITEMTYPE::IT_WEAPON_TWOHAND:
 							if (_p->GetWeapon(0) == nullptr)
-							{
+							{ // 0번에 착용
 								_p->SetWeapon(0, item);
 								if (_p->GetSelectedWeaponIdx() != 0) item->EquipUnEquipStatus(false);
 								_vInvenItems.erase(_vInvenItems.begin() + i);
 							}
 
 							else if (_p->GetWeapon(1) == nullptr)
-							{
+							{ // 1번에 착용
 								_p->SetWeapon(1, item);
 								if (_p->GetSelectedWeaponIdx() != 1) item->EquipUnEquipStatus(false);
 								_vInvenItems.erase(_vInvenItems.begin() + i);
 							}
 
 							else if (_vInvenItems.size() >= 15)
-							{
+							{ // 미착용
 								OnInvenFullText();
 								item->EquipUnEquipStatus(false);
 							}
 							else
-							{
-								_p->GetWeapon(0)->EquipUnEquipStatus(false);
+							{ // 0번과 switch
+								if (_p->GetSelectedWeaponIdx() == 0) _p->GetWeapon(0)->EquipUnEquipStatus(false);
 								if (_p->GetSelectedWeaponIdx() != 0) item->EquipUnEquipStatus(false);
 								SwitchItem(0, item, i);
 								if (_p->GetSubWeapon(0) != nullptr)
@@ -289,7 +290,7 @@ void Inventory::UnEquipItem()
 				else
 				{
 					AddItem(_p->GetWeapon(0));
-					if(_p->GetSelectedWeaponIdx() == 0)	_p->GetWeapon(0)->EquipUnEquipStatus(false);
+					if (_p->GetSelectedWeaponIdx() == 0)	_p->GetWeapon(0)->EquipUnEquipStatus(false);
 					_p->SetWeapon(0, nullptr);
 					if (_p->GetSubWeapon(0) != nullptr)
 					{
@@ -463,8 +464,8 @@ void Inventory::SwitchWeapon(int selectedWeapon)
 			_p->GetWeapon(0)->EquipUnEquipStatus(true);
 		if (_p->GetSubWeapon(0) != nullptr)
 			_p->GetSubWeapon(0)->EquipUnEquipStatus(true);
-		if (_p->GetWeapon(0) != nullptr)
-			_p->GetWeapon(0)->EquipUnEquipStatus(false);
+		if (_p->GetWeapon(1) != nullptr)
+			_p->GetWeapon(1)->EquipUnEquipStatus(false);
 		if (_p->GetSubWeapon(1) != nullptr)
 			_p->GetSubWeapon(1)->EquipUnEquipStatus(false);
 	}
@@ -475,9 +476,368 @@ void Inventory::SwitchWeapon(int selectedWeapon)
 			_p->GetWeapon(0)->EquipUnEquipStatus(false);
 		if (_p->GetSubWeapon(0) != nullptr)
 			_p->GetSubWeapon(0)->EquipUnEquipStatus(false);
-		if (_p->GetWeapon(0) != nullptr)
-			_p->GetWeapon(0)->EquipUnEquipStatus(true);
+		if (_p->GetWeapon(1) != nullptr)
+			_p->GetWeapon(1)->EquipUnEquipStatus(true);
 		if (_p->GetSubWeapon(1) != nullptr)
 			_p->GetSubWeapon(1)->EquipUnEquipStatus(true);
+	}
+}
+
+void Inventory::InitToolTipItem(Item* item)
+{
+	_curToolTipItem = item;
+
+	UIImage* uiToolTip = dynamic_cast<UIImage*>(UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->GetChild("itemToolTip"));
+	uiToolTip->GetVChildFrames().clear();
+
+	// 이름 색
+	int nameR = 255, nameG = 255, nameB = 255;
+	switch (item->GetItemClass())
+	{
+	case ITEMCLASS::IC_NORMAL: nameR = 255, nameG = 255, nameB = 255; break;
+	case ITEMCLASS::IC_ADVANCED: nameR = 112, nameG = 146, nameB = 190; break;
+	case ITEMCLASS::IC_RARE: nameR = 232, nameG = 239, nameB = 90; break;
+	case ITEMCLASS::IC_LEGENDARY: nameR = 237, nameG = 9, nameB = 138; break;
+	}
+
+	// 이름
+	UIText* itemName = new UIText();
+	itemName->init("itemName", 0, 10, 400, 200, item->GetName(), FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE, RGB(nameR, nameG, nameB));
+	uiToolTip->AddFrame(itemName);
+
+	// 이미지 프레임
+	UIFrame* imgFrame = new UIFrame();
+	imgFrame->init("imgFrame", 10, 50, IMAGEMANAGER->findImage("IconWhite")->getWidth(), IMAGEMANAGER->findImage("IconWhite")->getHeight(), "IconWhite");
+	uiToolTip->AddFrame(imgFrame);
+
+	// 아이템 이미지
+	UIFrame* itemImage = new UIFrame();
+	itemImage->init("itemImage", 0, 0, item->GetInvenImage()->getWidth(), item->GetInvenImage()->getHeight(), item->GetInvenImageName());
+	imgFrame->AddFrame(itemImage);
+
+	// 공격력
+	if (item->GetMinAtk() != 0 && item->GetMaxAtk() != 0)
+	{
+		UIText* attack = new UIText();
+		attack->init("attack", 75, 50, 80, 80, "공격력 : ", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
+		uiToolTip->AddFrame(attack);
+
+		UIText* attackValue = new UIText();
+		attackValue->init("attackValue", 155, 50, 200, 80, to_string_with_precision(item->GetMinAtk(), 0) + " ~ " + to_string_with_precision(item->GetMaxAtk(), 0), FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_LEFT, RGB(230, 230, 0));
+		uiToolTip->AddFrame(attackValue);
+	}
+
+	// 공격속도
+	if (item->GetAtkSpeed() != 0)
+	{
+		UIText* attackSpd = new UIText();
+		attackSpd->init("attackSpd", 75, 70, 200, 80, "초당 공격 횟수 : ", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
+		uiToolTip->AddFrame(attackSpd);
+
+		UIText* attackSpdValue = new UIText();
+		attackSpdValue->init("attackSpdValue", 225, 70, 200, 80, to_string_with_precision(item->GetAtkSpeed(), 2), FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_LEFT, RGB(230, 230, 0));
+		uiToolTip->AddFrame(attackSpdValue);
+	}
+
+	// 방어력
+	if (item->GetDefence() != 0)
+	{
+		UIText* def = new UIText();
+		def->init("def", 75, 90, 200, 80, "방어력 : ", FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
+		uiToolTip->AddFrame(def);
+
+		UIText* defValue = new UIText();
+		defValue->init("defValue", 155, 90, 200, 80, to_string_with_precision(item->GetDefence(), 0), FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_LEFT, RGB(230, 230, 0));
+		uiToolTip->AddFrame(defValue);
+	}
+
+	for (int i = 0; i < item->GetSubOptions().size(); i++)
+	{
+		SubOption* option = item->GetSubOptions()[i];
+		
+		int optionR = 255, optionG = 255, optionB = 255;
+		if (option->_optionPower < 0) optionR = 255, optionG = 0, optionB = 0;
+		if (option->_optionPower > 0) optionR = 0, optionG = 255, optionB = 0;
+
+		UIText* startText = new UIText();
+		startText->init("▶" + to_string(i), 15, 120 + i * 15, 30, 30, "▶", FONT::PIX, WORDSIZE::WS_SMALLEST);
+		uiToolTip->AddFrame(startText);
+
+		UIText* descript = new UIText();
+		descript->init("descript" + to_string(i), 30, 122 + i * 15, 370, 30, OptionString(option), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT,
+			RGB(optionR, optionG, optionB));
+		uiToolTip->AddFrame(descript);
+	}
+
+	_toolTipFinalY = item->GetSubOptions().size() * 20 + 122;
+
+	string itemClassString = "일반 아이템";
+	switch (item->GetItemClass())
+	{
+	case ITEMCLASS::IC_NORMAL: itemClassString = "일반 아이템"; break;
+	case ITEMCLASS::IC_ADVANCED: itemClassString = "고급 아이템";  break;
+	case ITEMCLASS::IC_RARE: itemClassString = "희귀 아이템"; break;
+	case ITEMCLASS::IC_LEGENDARY: itemClassString = "전설 아이템"; break;
+	}
+
+	UIText* itemClass = new UIText();
+	itemClass->init("itemClass", 10, _toolTipFinalY + 5, 150, 30, itemClassString, FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT, RGB(120, 120, 120));
+	uiToolTip->AddFrame(itemClass);
+
+	string itemKindString = "양손무기";
+	switch (item->GetitemType())
+	{
+	case ITEMTYPE::IT_WEAPON_ONEHAND: itemKindString = "한손무기"; break;
+	case ITEMTYPE::IT_WEAPON_TWOHAND: itemKindString = "양손무기"; break;
+	case ITEMTYPE::IT_SUBWEAPON: itemKindString = "보조장비"; break;
+	case ITEMTYPE::IT_ACCESORRY: itemKindString = "악세서리"; break;
+	}
+
+	UIText* itemKind = new UIText();
+	itemKind->init("itemKind", 10, _toolTipFinalY + 20, 150, 30, itemKindString, FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT, RGB(120, 120, 120));
+	uiToolTip->AddFrame(itemKind);
+	_toolTipFinalY += 15;
+
+	string weaponkindString = "";
+	switch (item->GetWeaponType())
+	{
+	case WEAPONTYPE::WT_CHARGE: weaponkindString = "#충전형"; break;
+	case WEAPONTYPE::WT_KATANA: weaponkindString = "#카타나"; break;
+	case WEAPONTYPE::WT_PISTOL: weaponkindString = "#권총"; break;
+	case WEAPONTYPE::WT_SPEAR: weaponkindString = "#창"; break;
+	}
+
+	if (weaponkindString != "")
+	{
+		UIText* tag = new UIText();
+		tag->init("tag", 10, _toolTipFinalY + 25, 100, 30, weaponkindString, FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT, RGB(162, 210, 148));
+		uiToolTip->AddFrame(tag);
+		_toolTipFinalY += 20;
+	}
+
+	if (item->GetSkill() != nullptr)
+	{
+		UIImage* skillFrame = new UIImage();
+		skillFrame->init("skillFrame", 10, _toolTipFinalY + 25, 280, 55, "ToolTipSkillCover", false, 0, 0, 280 / 30.f, 55 / 30.f, 80);
+		uiToolTip->AddFrame(skillFrame);
+		UIFrame* skillImage = new UIFrame();
+		skillImage->init("skillImage", 2, 2, 51, 51, item->GetSkill()->GetImageName(), 51.f / 57, 51.f / 57);
+		skillFrame->AddFrame(skillImage);
+		UIText* skillName = new UIText();
+		skillName->init("skillName", 55, 2, 300, 80, item->GetSkill()->GetName(), FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_LEFT, RGB(230, 230, 0));
+		skillFrame->AddFrame(skillName);
+		UIText* skillDescription = new UIText();
+		skillDescription->init("skillDescription", 55, 22, 220, 120, item->GetSkill()->GetDescription(), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT);
+		skillFrame->AddFrame(skillDescription);
+		UIText* skillCoolTime = new UIText();
+		skillCoolTime->init("skillCoolTime", 257, 39, 20, 30, to_string_with_precision(item->GetSkill()->GetCoolTime(),1), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_RIGHT, RGB(221, 173, 103));
+		skillFrame->AddFrame(skillCoolTime);
+		_toolTipFinalY += 45;
+	}
+
+	UIText* description = new UIText();
+	description->init("description", 10, _toolTipFinalY + 45, 280, 200, item->GetDescription(), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT, RGB(208, 247, 252));
+	uiToolTip->AddFrame(description);
+	_toolTipFinalY += (item->GetDescription().length() / 22) * 10 + 70;
+
+	uiToolTip->SetScaleY(_toolTipFinalY / 100.f);
+}
+
+string Inventory::OptionString(SubOption* option)
+{
+	string optionResult = "";
+
+	if (option->_optionPower != 0)
+	{
+		optionResult += (option->_optionPower >= 0 ? "+" : "") + to_string_with_precision(option->_optionPower, 0);
+
+		switch (option->_optionId)
+		{
+		case POWER:
+			optionResult += " 위력";
+			break;
+		case ATKSPEED:
+			optionResult += "% 공격속도";
+			break;
+		case DASHATK:
+			optionResult += "% 대쉬 공격력";
+			break;
+		case DEFENCE:
+			optionResult += " 방어력";
+			break;
+		case BLOCK:
+			optionResult += " 막기";
+			break;
+		case CRITICALPERCENT:
+			optionResult += " 크리티컬";
+			break;
+		case CRITICALDAMAGE:
+			optionResult += " 크리티컬 데미지";
+			break;
+		case MINDAMAGE:
+			optionResult += " 최소 데미지";
+			break;
+		case MAXDAMAGE:
+			optionResult += " 최대 데미지";
+			break;
+		case FINALDAMAGEPERCENT:
+			optionResult += "% 최종 데미지";
+			break;
+		case FINALDAMAGE:
+			optionResult += " 최종 데미지";
+			break;
+		case TOUGHNESS:
+			optionResult += " 강인함";
+			break;
+		case TRUEDAMAGE:
+			optionResult += " 고정 데미지";
+			break;
+		case MAXHP:
+			optionResult += " 최대 체력";
+			break;
+		case MAXHPPERCENT:
+			optionResult += "% 최대 체력";
+			break;
+		case EVADE:
+			optionResult += " 회피";
+			break;
+		case MOVESPEED:
+			optionResult += "% 이동속도";
+			break;
+		case JUMPPOWER:
+			optionResult += " 점프력";
+			break;
+		case GOLDDROP:
+			optionResult += "% 골드 드랍";
+			break;
+		case RELOADSPEED:
+			optionResult += "% 재장전 속도";
+			break;
+		case DASHCOUNT:
+			optionResult += " 대쉬 횟수";
+			break;
+		case ACCURACY:
+			optionResult += " 조준 정확도";
+			break;
+		case FIREDAMAGE:
+			optionResult += " 화상 피해";
+			break;
+		case ICEDAMAGE:
+			optionResult += " 냉기 피해";
+			break;
+		case ELECDAMAGE:
+			optionResult += " 감전 피해";
+			break;
+		case POSIONDAMAGE:
+			optionResult += " 중독 피해";
+			break;
+		case STUNDAMAGE:
+			optionResult += " 기절 피해";
+		default:
+			break;
+		}
+	}
+
+	switch (option->_optionId)
+	{
+	case IMMUNEFIRE:
+		optionResult += "화상 면역";
+		break;
+	case IMMUNEICE:
+		optionResult += "냉기 면역";
+		break;
+	case IMMUNEELEC:
+		optionResult += "감전 면역";
+		break;
+	case IMMUNEPOSION:
+		optionResult += "중독 면역";
+		break;
+	case IMMUNESTUN:
+		optionResult += "기절 면역";
+		break;
+	case TOFIRE:
+		optionResult += "화상 부여";
+		break;
+	case TOICE:
+		optionResult += "냉기 부여";
+		break;
+	case TOELEC:
+		optionResult += "감전 부여";
+		break;
+	case TOPOSION:
+		optionResult += "중독 부여";
+		break;
+	case TOSTUN:
+		optionResult += "기절 부여";
+	}
+
+	if(option->_description != ".")
+		optionResult += option->_description;
+
+	return optionResult;
+}
+
+void Inventory::ShowToolTip()
+{
+	Item* item = nullptr;
+	bool isEquipped = true;
+
+	UIImage* uiToolTip = dynamic_cast<UIImage*>(UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->GetChild("itemToolTip"));
+
+	for (int i = 0; i < _vInvenItems.size(); i++)
+	{
+		UIFrame* curFrame = _InvenFrame->GetChild("itemFrame_" + to_string(i));
+		if (PtInRect(&curFrame->GetRect(), _ptMouse))
+		{
+			item = _vInvenItems[i];
+			isEquipped = false;
+			break;
+		}
+	}
+
+	for (int i = 0; i < _p->GetVAccessories().size(); i++)
+	{
+		UIFrame* curFrame = _InvenFrame->GetChild("accesoryFrame_" + to_string(i));
+		if (PtInRect(&curFrame->GetRect(), _ptMouse))
+		{
+			item = _p->GetAccessory(i);
+			break;
+		}
+	}
+	if (PtInRect(&_InvenFrame->GetChild("curWeapon_1")->GetRect(), _ptMouse))
+	{
+		if (_p->GetWeapon(0) != nullptr)
+			item = _p->GetWeapon(0);
+	}
+	else if (PtInRect(&_InvenFrame->GetChild("curWeapon_2")->GetRect(), _ptMouse))
+	{
+		if (_p->GetWeapon(1) != nullptr)
+			item = _p->GetWeapon(1);
+	}
+	else if (PtInRect(&_InvenFrame->GetChild("curWeaponSub_1")->GetRect(), _ptMouse))
+	{
+		if (_p->GetSubWeapon(0) != nullptr)
+			item = _p->GetSubWeapon(0);
+	}
+	else if (PtInRect(&_InvenFrame->GetChild("curWeaponSub_2")->GetRect(), _ptMouse))
+	{
+		if (_p->GetSubWeapon(1) != nullptr)
+			item = _p->GetSubWeapon(1);
+	}
+
+	if (item != nullptr)
+	{
+		if (item != _curToolTipItem)
+		{
+			InitToolTipItem(item);
+		}
+
+		uiToolTip->MoveFrameChild((_ptMouse.x - 300) - uiToolTip->GetX(), (_ptMouse.y - (isEquipped ? 0 : _toolTipFinalY)) - uiToolTip->GetY());
+		uiToolTip->SetIsViewing(true);
+	}
+
+	else
+	{
+		uiToolTip->SetIsViewing(false);
 	}
 }

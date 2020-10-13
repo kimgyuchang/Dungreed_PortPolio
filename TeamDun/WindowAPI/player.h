@@ -3,6 +3,27 @@
 #include "inventory.h"
 #include "Item.h"
 
+class CharToolTip
+{
+public :
+	string frameName;
+	string title;
+	string description;
+	string additionalDescription;
+	float scaleX;
+	float scaleY;
+
+	void init(string fn, string t, string des, string add, float xSize, float ySize)
+	{
+		frameName = fn;
+		title = t;
+		description = des;
+		additionalDescription = add;
+		scaleX = xSize;
+		scaleY = ySize;
+	}
+};
+
 //캐릭터 상태
 enum PLAYERSTATE
 {
@@ -43,7 +64,7 @@ private:
 	int				_power;					// 위력
 	int				_trueDamage;			// 고정 데미지
 	float			_atkSpeed;				// 공격속도
-	float			_realCriticalPercent;	// 크리티컬
+	float			_criticalPercent;		// 크리티컬
 	float			_criticalDamage;		// 크리티컬 데미지
 	float			_dashDamage;			// 대쉬 공격력
 	float			_reloadTime;			// 재장전에 걸리는 시간
@@ -51,23 +72,23 @@ private:
 	// - 표면적 수치 (방어) 					
 	int				_initHp;				// 초기 체력
 	int				_hp;					// 체력
-	float			_realDefence;			// 방어력
-	float			_realEvasion;			// 회피
+	float			_defence;				// 방어율 
+	float			_evasion;				// 회피율 
 	float			_toughness;				// 강인함
 	float			_block;					// 막기
 	
 	// - 내부적 수치 (공격)
 	float			_angle;					// 조준 각도   
-	float			_criticalPercent;		// 크리티컬 (변환)
+	float			_realCriticalPercent;	// 크리티컬 (변환)
 	int				_finalDamage;			// 최종 데미지 추가량
 	float			_finalDamagePercent;	// 최종 데미지 추가량 (비율)
 	float			_reloadSpeed;			// 재장전 속도 추가량
 	float			_fireAccuracy;			// 조준 정확도
 	float			_realAttackSpeed;		// 공격속도(프레임)
-
+	
 	// - 내부적 수치 (방어)
-	float			_defence;				// 방어율 (변환)
-	float			_evasion;				// 회피율 (변환)
+	float			_realEvasion;			// 회피 (변환)
+	float			_realDefence;			// 방어력 (변환)
 	int				_maxHp;					// 최대 체력 추가량
 	float			_maxHpPercent;			// 최대 최력 추가량 (비율)
 
@@ -76,14 +97,17 @@ private:
 	bool			_immuneIce;				// 냉기 면역
 	bool			_immuneElectric;		// 감전 면역
 	bool			_immunePosion;			// 중독 면역
+	bool			_immuneStun;
 	int				_toFire;				// 공격 시 화염 확률
 	int				_toIce;					// 공격 시 냉기 확률
 	int				_toElectric;			// 공격 시 감전 확률
 	int				_toPosion;				// 공격 시 중독 확률
-	int				_fireDamage;			// 화염 공격력
-	int				_iceDamage;				// 냉기 공격력
-	int				_elecDamage;			// 감전 공격력
-	int				_posionDamage;			// 중독 공격력
+	int				_toStun;				// 공격 시 스턴 확률
+	int				_fireDamage;			// 화염 공격력 (화염 공격력)
+	int				_iceDamage;				// 냉기 공격력 (냉기 시간)
+	int				_elecDamage;			// 감전 공격력 (감전 시간)
+	int				_posionDamage;			// 중독 공격력 (중독 공격력)
+	int				_stunDamage;			// 스턴 공격력 (스턴 시간)
 
 	// 픽셀충돌 전용 //					 
 	RECT			_collider[8];			// 픽셀충돌용
@@ -117,6 +141,9 @@ private:
 	int				_needExperience;		// 필요 경험치
 	float			_goldDrop;				// 돈 드랍양
 
+	// UI //
+	vector<CharToolTip>		_vToolTips;		// 툴팁 프레임 목록
+	vector<string>			_vToolTipsName; // 툴팁 프레임 이름 목록
 
 	// 각 캐릭터별 특성 //
 
@@ -128,15 +155,22 @@ private:
 public:
 
 	virtual HRESULT init();
-	virtual void	update();
-	void SwitchWeapon();
-	void CheckAliceZone();
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 	virtual void	Animation();
 	virtual void	Move();				//플레이어 움직임
 	virtual void	pixelCollision();	//픽셀충돌
 	virtual void	dash();				//대쉬
+	void UpdateCharPage();
+
+	void CharPageToolTipOn();
+
+	void ReInitTooltip(int n);
+	void SetToolTipFrame(float x, float y, int index);
+
+	virtual void	update();
+	void SwitchWeapon();
+	void CheckAliceZone();
 	
 
 	// GETSET //
@@ -185,14 +219,17 @@ public:
 	bool			GetImmuneIce()			{ return _immuneIce; }
 	bool			GetImmuneElec()			{ return _immuneElectric; }
 	bool			GetImmunePosion()		{ return _immunePosion; }
+	bool			GetImmuneStun()			{ return _immuneStun; }
 	int				GetToFire()				{ return _toFire; }
 	int				GetToIce()				{ return _toIce; }
 	int				GetToElec()				{ return _toElectric; }
 	int				GetToPosion()			{ return _toPosion; }
+	int				GetToStun()				{ return _toStun; }
 	int				GetFireDamage()			{ return _fireDamage; }
 	int				GetIceDamage()			{ return _iceDamage; }
 	int				GetElecDamage()			{ return _elecDamage; }
 	int				GetPosionDamage()		{ return _posionDamage; }
+	int				GetStunDamage()			{ return _stunDamage; }
 	int				GetAnimCount()			{ return _animCount; }
 	Inventory*		GetInventory()			{ return _inven; }
 	Item*			GetWeapon(int num)		{ return _weapons[num]; }
@@ -254,14 +291,17 @@ public:
 	void			SetImmuneIce(bool immuneIce) 				  { _immuneIce = immuneIce; }
 	void			SetImmuneElec(bool immuneElec)				  { _immuneElectric = immuneElec; }
 	void			SetImmunePosion(bool immunePosion)  		  { _immunePosion = immunePosion; }
+	void			SetImmuneStun(bool immuneStun)				  { _immuneStun = immuneStun; }
 	void			SetToFire(int toFire) 						  { _toFire = toFire; }
 	void			SetToIce(int toIce) 						  { _toIce = toIce; }
 	void			SetToElec(int toElec)						  { _toElectric = toElec; }
 	void			SetToPosion(int toPosion)					  { _toPosion = toPosion; }
+	void			SetToStun(int toStun)						  { _toStun = toStun; }
 	void			SetFireDamage(int fireDamage)				  { _fireDamage = fireDamage; }
 	void			SetIceDamage(int iceDamage) 				  { _iceDamage = iceDamage; }
 	void			SetElecDamage(int elecDamage) 				  { _elecDamage = elecDamage; }
 	void			SetPosionDamage(int posionDamage)  			  { _posionDamage = _posionDamage; }
+	void			SetStunDamage(int stunDamage)				  { _stunDamage = stunDamage; }
 	void			SetAnimCount(int animCount) 				  { _animCount = animCount; }
 	void			SetInventory(Inventory* inven) 				  { _inven = inven; }
 	void			SetWeapon(int num, Item* item) 				  { _weapons[num] = item; }
