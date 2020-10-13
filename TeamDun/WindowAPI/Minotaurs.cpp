@@ -13,11 +13,11 @@ HRESULT Minotaurs::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_index = _count = 0;
 	_effectTimer = _effect = 0;
 	_frameX, _frameY = 0;
-	_HP = 100;
+	_initHp = _HP = 80;
 	_moveSpeed = 10;
 	_gravity = 10.0f;
 	_isLeft = _isAttack = _isDash = false;
-
+	_Damage = 14;
 	_attackAnimFrame = vector<int>{ 3,3,30,5,5,5,5 };
 	_MoveAnimFrame = vector<int>{ 3,3,3,30,5,5,5,5 };
 	_dashEffect = nullptr;
@@ -83,10 +83,10 @@ void Minotaurs::update()
 		default:
 			break;
 		}
+		this->Animation();
+		this->pixelCollision();
 	}
 
-	this->Animation();
-	this->pixelCollision();
 }
 
 void Minotaurs::release()
@@ -387,7 +387,7 @@ void Minotaurs::pixelCollision()
 			{
 				isCollide = true;
 
-				_y = i - _vImages[_useImage]->getFrameHeight() + 10;
+				_y = i - _vImages[_useImage]->getFrameHeight() ;
 				break;
 			}
 		}
@@ -403,7 +403,7 @@ void Minotaurs::pixelCollision()
 
 		if ((r == 255 && g == 0 && b == 0))
 		{
-			_y = i + 5;
+			_y = i;
 
 			break;
 		}

@@ -26,6 +26,7 @@ private :
 	int			_frameTimer;
 	float		_distance;
 	float		_maxDistance;
+	float		_damage;
 
 	bool		_isFrame;
 	bool		_isDead;
@@ -35,7 +36,7 @@ public :
 	virtual void	update();
 	virtual	void	release();
 	virtual void	render(HDC hdc);
-	void makeBullet(const char* imageName,string effectIgName, BULLETTYPE type, float x, float y, float angle, float speed, float maxDis, bool isFrame ,float igAngle =0);
+	void makeBullet(const char* imageName,string effectIgName, BULLETTYPE type, float x, float y, float angle,float damage, float speed, float maxDis, bool isFrame ,float igAngle =0);
 
 	void moveBullet();
 	void Animation();
@@ -55,6 +56,7 @@ public :
 	int	  getFrameX() { return _frameX; }
 	int	  getFrameY() { return _frameY; }
 	int	  getFrameTimer() { return _frameTimer; }
+	float getDamage() { return _damage; }
 	float getDis() { return _distance; }
 	float getMaxDis() { return _maxDistance; }
 	bool getIsDead() { return _isDead; }
@@ -75,4 +77,5 @@ public :
 	void SetDis(float distance) { _distance= distance; }
 	void SetMaxDis(float maxDistance) {  _maxDistance = maxDistance; }
 	void SetIsDead(bool isDead) { _isDead = isDead; }
+	void SetDamage(float damage) { _damage = damage; }
 };

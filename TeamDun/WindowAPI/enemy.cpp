@@ -12,17 +12,7 @@ HRESULT Enemy::init(int id, string name, OBJECTTYPE type, vector<string> imgName
 void Enemy::update()
 {
 	SpawnAnimation();
-	for (int i = 0; i < _vDamageView.size(); i++)
-	{
-		_vDamageView[i]->count++;
-
-
-		if (_vDamageView[i]->count > 50)
-		{
-			_vDamageView.erase(_vDamageView.begin() + i);
-		}
-	}
-
+	
 }
 
 void Enemy::release()
@@ -55,6 +45,7 @@ void Enemy::Animation()
 
 void Enemy::SpawnAnimation()
 {
+
 	if (_spawnEffect != nullptr)
 	{
 		if (_spawnEffect->GetIsDead())
@@ -67,17 +58,24 @@ void Enemy::SpawnAnimation()
 
 void Enemy::GetDamage()
 {
-	int damage = RANDOM->range(ENTITYMANAGER->getPlayer()->GetMinDamage(), ENTITYMANAGER->getPlayer()->GetMaxDamage());
-	damage = damage + damage * ENTITYMANAGER->getPlayer()->GetPower() / 100 - _realDefence;
-	
-	_HP -= damage;
-
-	if (_HP <= 0)
+	if (_isSpawned)
 	{
-		SetIsDead(true);
+
+		Player* p = ENTITYMANAGER->getPlayer();
+		int damage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
+
+		damage = damage + damage * p->GetPower() / 100 - _realDefence;
+
+		
+		_HP -= damage;
+
+		if (_HP <= 0)
+		{
+			SetIsDead(true);
+		}
+		
+		EFFECTMANAGER->AddCameraText(_x + _vImages[0]->getFrameWidth() / 2, _y, 100, 100, to_string(damage), PIX, WS_MIDDLE, WSORT_LEFT, RGB(255, 255, 255));
 	}
-	
-	EFFECTMANAGER->AddCameraText(_x, _y, 100, 100, to_string(damage), PIX, WS_MIDDLE, WSORT_LEFT, RGB(255, 255, 255));
 }
 
 void Enemy::SpawnEnemy()

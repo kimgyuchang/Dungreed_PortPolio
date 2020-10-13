@@ -37,8 +37,17 @@ void cameraText::render(HDC hdc)
 void cameraText::deleteText()
 {
 	_count++;
-	_y--;
-	if (_count > 50)
+	_x += 0.7f;
+	if (_count < 50)
+	{	
+		_y--;
+	}
+	else
+	{
+		_y+=0.5f;
+	}
+
+	if (_count > 70)
 	{
 		_count = 0;
 		_isDead = true;

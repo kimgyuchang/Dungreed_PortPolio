@@ -68,4 +68,5 @@ public:
 	void			SetBody(RECT rect)					{ _body = rect; }
 	void			SetBodyPos()						{ _body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight()); }
 	void			SetRenderIndex(bool isFront)		{ _isRenderFrontLayer1 = isFront; }
+
 };

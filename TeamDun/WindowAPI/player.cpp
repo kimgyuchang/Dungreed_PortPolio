@@ -13,9 +13,6 @@ HRESULT Player::init()
 
 	_useImage = 0;
 	_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
-	_minDamage = 10;
-	_maxDamage = 30;
-	_power = 10;
 	_frameX = 0;
 	_frameY = 0;
 	_gravity = 0.4f;
@@ -33,8 +30,11 @@ HRESULT Player::init()
 	_pixelCenter = POINT{ (long)(_x + _vImages[_useImage]->getWidth() / 2), (long)(_y + _vImages[_useImage]->getHeight() / 2) };
 	_bottomCol = false;
 	_dashEffect = nullptr;
+	_evasion = 0;
+	_defence = -10;
 	_money = 10000;
-
+	_isHit = false;
+	_hitCount = 0;
 	_aliceZone = IMAGEMANAGER->findImage("AliceZone");
 	_aliceZoneRadius = 144;
 	_aliceZoneIn = false;
@@ -88,7 +88,7 @@ void Player::update()
 
 		if (INPUT->GetKeyDown('X'))				//X키를 눌렀을때
 		{
-			ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOCOL, _x, _y, getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _ptMouse.x, _ptMouse.y), 10, 600, true);
+			ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_PLAYERNOCOL, _x, _y, getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _ptMouse.x, _ptMouse.y), 10, 10, 600, true);
 		}   //플레이어의 x,y좌표를 받아와서 플레이어와 마우스 좌표 간의 각도를 구한후 그 거리만큼 총알이 날아가게끔
 
 		if (CAMERAMANAGER->GetRelativeX(_x + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() / 2) >= _ptMouse.x)
@@ -141,6 +141,10 @@ void Player::update()
 
 	CheckAliceZone();
 	UpdateCharPage();
+	invincibility();
+	SetRealStat();
+
+
 }
 
 void Player::SwitchWeapon()
@@ -157,7 +161,7 @@ void Player::SwitchWeapon()
 			_subWeapons[_selectedWeaponIdx]->SetisAttacking(false);
 			_subWeapons[_selectedWeaponIdx]->SetRenderAngle(0);
 		}
-	
+
 		_realAttackSpeed = 0;
 
 		_selectedWeaponIdx = _selectedWeaponIdx == 0 ? 1 : 0;
@@ -206,21 +210,13 @@ void Player::render(HDC hdc)
 		if (_vAccessories[i]->GetIsRenderFirst()) _vAccessories[i]->render(hdc);
 	}
 
-	switch (_state)
+	if (_isHit)
 	{
-	case PS_IDLE:
+		CAMERAMANAGER->FrameAlphaRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY, _hitAlpha);
+	}
+	else
+	{
 		CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);
-		break;
-	case PS_JUMP:
-		CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);
-		break;
-	case PS_MOVE:
-		CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);
-		break;
-	case PS_DIE:
-		break;
-	default:
-		break;
 	}
 
 	if (_weapons[_selectedWeaponIdx] != nullptr && !_weapons[_selectedWeaponIdx]->GetIsRenderFirst()) _weapons[_selectedWeaponIdx]->render(hdc);
@@ -698,12 +694,41 @@ void Player::dash()
 	{
 		EFFECTMANAGER->AddEffect(_x, _y, "baseCharEffect", 3, 0, _frameY, false, 150);
 	}
-	
+
 	if (_dashTimer >= 10)
 	{
 		_dashTimer = 0;		//대쉬 타이머 초기화
 		_jumpPower = 0;		//점프 파워 초기화
 		_isDash = false;	//대쉬상태가 아님
+
+	}
+}
+
+void Player::GetDamage()
+{
+
+
+}
+
+void Player::invincibility()
+{
+	if (_isHit)
+	{
+		_hitCount++;
+		if (_hitCount % 3 == 0)
+		{
+			_hitAlpha = 255;
+		}
+		else
+		{
+			_hitAlpha = 10;
+		}
+
+		if (_hitCount > 30)
+		{
+			_isHit = false;
+			_hitCount = 0;
+		}
 
 	}
 }
@@ -723,9 +748,9 @@ void Player::UpdateCharPage()
 		dynamic_cast<UIText*>(charFrame->GetChild("criText"))->SetText(to_string_with_precision(_criticalPercent, 0));
 		dynamic_cast<UIText*>(charFrame->GetChild("criDmgText"))->SetText(to_string_with_precision(_criticalDamage, 0));
 		dynamic_cast<UIText*>(charFrame->GetChild("evadeText"))->SetText(to_string_with_precision(_evasion, 0));
-		dynamic_cast<UIText*>(charFrame->GetChild("moveSpeedText"))->SetText(to_string_with_precision(_moveSpeed,2));
+		dynamic_cast<UIText*>(charFrame->GetChild("moveSpeedText"))->SetText(to_string_with_precision(_moveSpeed, 2));
 		dynamic_cast<UIText*>(charFrame->GetChild("atkSpeedText"))->SetText(to_string_with_precision(_atkSpeed, 2));
-		dynamic_cast<UIText*>(charFrame->GetChild("reloadText"))->SetText(to_string_with_precision(_reloadTime,1));
+		dynamic_cast<UIText*>(charFrame->GetChild("reloadText"))->SetText(to_string_with_precision(_reloadTime, 1));
 		dynamic_cast<UIText*>(charFrame->GetChild("dashText"))->SetText(to_string_with_precision(_dashDamage, 0));
 		dynamic_cast<UIText*>(charFrame->GetChild("trueDamageText"))->SetText(to_string_with_precision(_trueDamage, 0));
 		dynamic_cast<UIText*>(charFrame->GetChild("burnText"))->SetText(to_string_with_precision(_fireDamage, 0));
@@ -733,9 +758,29 @@ void Player::UpdateCharPage()
 		dynamic_cast<UIText*>(charFrame->GetChild("coldText"))->SetText(to_string_with_precision(_iceDamage, 0));
 		dynamic_cast<UIText*>(charFrame->GetChild("elecText"))->SetText(to_string_with_precision(_elecDamage, 0));
 		dynamic_cast<UIText*>(charFrame->GetChild("stunText"))->SetText(to_string_with_precision(_stunDamage, 0));
-	
+
 		CharPageToolTipOn();
 	}
+}
+
+void Player::SetRealStat()
+{
+	_realEvasion = sqrt(_evasion * 36);
+	if (_evasion < 0)
+	{
+		_realEvasion = 0;
+	}
+
+
+	if (_defence >= 0)
+	{
+		_realDefence = sqrt(_defence * 36);
+	}
+	else
+	{
+		_realDefence = -sqrt(abs(_defence) * 36);
+	}
+
 }
 
 /// <summary>
@@ -783,7 +828,7 @@ void Player::ReInitTooltip(int n)
 		_vToolTips[4].init("criImg", "크리티컬", "적에게 치명적인 피해를 입힐 수 있는 기회가 늘어납니다.", "크리티컬 확률: " + to_string_with_precision(_realCriticalPercent, 1) + "%", 3.0f, 1.7f);
 		break;
 
-	case 5 :
+	case 5:
 		_vToolTips[5].init("criDmgImg", "크리티컬 데미지", "크리티컬 추가 피해량을 나타냅니다.", "", 3.0f, 1.3f);
 		break;
 

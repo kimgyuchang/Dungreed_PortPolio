@@ -11,7 +11,7 @@ HRESULT SwordSkel::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_gravity = 0.5;
 	_jumpPower = 10.0f;
 	_moveSpeed = 3;
-
+	_initHp = _HP = 50;
 	_isJump = _downJump = _isAttack = false;
 
 	_state = ES_IDLE;
@@ -298,7 +298,7 @@ void SwordSkel::pixelCollision()
 				isCollide = true;
 				_jumpPower = -2;
 
-				_y = i - _vImages[_useImage]->getFrameHeight() + 10;
+				_y = i - _vImages[_useImage]->getFrameHeight();
 				_jumpCount = 0;
 				break;
 			}
@@ -316,7 +316,7 @@ void SwordSkel::pixelCollision()
 		if ((r == 255 && g == 0 && b == 0))
 		{
 			_jumpPower = -2;
-			_y = i + 5;
+			_y = i+5;
 
 			break;
 		}

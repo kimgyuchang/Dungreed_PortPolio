@@ -12,10 +12,11 @@ HRESULT BigWhiteSkel::init(int id, string name, OBJECTTYPE type, vector<string> 
 
 	_gravity = 0.5f;
 	_jumpPower = 7.0f;
-
 	_isLeft = _isAttack = _isJump = false;
-	_HP = 50;
+	_initHp = _HP = 50;
 	_attackAnimFrame = vector<int>{ 40,3,5,5,5,5,5,5,5,5,5,5 };
+
+	_Damage = 12;
 
 	return S_OK;
 }
@@ -24,17 +25,17 @@ void BigWhiteSkel::update()
 {
 	Enemy::update();
 
-	this->Move();
-	this->Animation();
-	this->pixelCollision();
 
 	if (_isSpawned)
 	{
+		this->Move();
+		this->Animation();
+		this->pixelCollision();
 		switch (_state)
 		{
 		case ES_IDLE:
 			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200 && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 100)
-			{
+			{	
 				_state = ES_MOVE;
 			}
 			break;
@@ -349,7 +350,7 @@ void BigWhiteSkel::pixelCollision()
 				isCollide = true;
 				_jumpPower = -2;
 
-				_y = i - _vImages[_useImage]->getFrameHeight() +10;
+				_y = i - _vImages[_useImage]->getFrameHeight();
 				_jumpCount = 0;
 				break;
 			}
@@ -367,7 +368,7 @@ void BigWhiteSkel::pixelCollision()
 		if ((r == 255 && g == 0 && b == 0))
 		{
 			_jumpPower = -2;
-			_y = i + 5;
+			_y = i +5;
 
 			break;
 		}
