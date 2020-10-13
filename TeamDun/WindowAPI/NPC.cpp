@@ -13,6 +13,7 @@ HRESULT NPC::init(int id, string name, OBJECTTYPE type, vector<string> imgNames)
 void NPC::update()
 {
 	CollisionInteraction();
+	PressActivateKey();
 	Animation();
 }
 
@@ -29,6 +30,14 @@ void NPC::CollisionInteraction()
 	else
 	{
 		_isInteracting = false;
+	}
+}
+
+void NPC::PressActivateKey()
+{
+	if (_isInteracting && INPUT->GetKeyDown('F'))
+	{
+		Activate();
 	}
 }
 
@@ -57,4 +66,8 @@ void NPC::Animation()
 
 		if (_frameX >= _vImages[_useImage]->getMaxFrameX()) _frameX = 0;
 	}
+}
+
+void NPC::Activate()
+{
 }

@@ -76,8 +76,11 @@ HRESULT Player::init()
 
 void Player::update()
 {
-	if (!UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->GetIsViewing())
-		// 인벤토리창 OFF
+	if (!UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->GetIsViewing() &&
+		!UIMANAGER->GetGameFrame()->GetChild("DungeonShopBase")->GetIsViewing() &&
+		!UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetIsViewing()
+		)
+		// 잡다한 UI가 OFF일때
 	{
 		if (INPUT->GetIsRButtonClicked())		//마우스 오른쪽 버튼을 눌렀을때
 		{
@@ -125,7 +128,7 @@ void Player::update()
 		Animation();
 	}
 
-	else // 인벤토리창 ON
+	else // 잡다한 UI가 ON
 	{
 		_inven->update();
 		this->pixelCollision();

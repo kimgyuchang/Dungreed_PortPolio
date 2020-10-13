@@ -15,21 +15,28 @@ HRESULT gameScene::init()
 	_p->init();
 
 	MAPMANAGER->init();
-
-	
 	PARTICLEMANAGER->init();
 	EFFECTMANAGER->init();
 
 	_pivX = WINSIZEX / 2;
 	_pivY = WINSIZEY / 2;
+	_scrollTimer = 0;
+	_mouseLocation = 0;
 
-	_vCharName = vector<string>{ "모험가", "판금의 용사", "석양의 총잡이", "앨리스", "홍련", "이키나곰", 
-							     "라이더 H", "범죄자 실루엣", "곡괭이의 왕", "뚱뚱보", "마검사", "인간 라슬리", "마스터 셰프" };
+	InitWardrobeString();
+	CAMERAMANAGER->init(0, 0, 15000, 15000, -300, -300, WINSIZEX / 2, WINSIZEY / 2);
+	return S_OK;
+}
+
+void gameScene::InitWardrobeString()
+{
+	_vCharName = vector<string>{ "모험가", "판금의 용사", "석양의 총잡이", "앨리스", "홍련", "이키나곰",
+								 "라이더 H", "범죄자 실루엣", "곡괭이의 왕", "뚱뚱보", "마검사", "인간 라슬리", "마스터 셰프" };
 	_CharExplanation = vector<string>{ "던전은 탐사하기 위해 온 초보 모험가","판금 갑옷을 두른, 든든한 용사","황야를 가로지르는 외로운 총잡이",
 									   "토끼는 보이지 않고, 멋진 표적이 가득해!","저 너머로...개화하고 싶지 않은가, 그대?","시..시..시니컬이라구! 흥!",
 									   "뼈를 깎더라도,\n어디에서든 달리고 싶다.","범행 동기도 가지각색.\n범행 물품도 천차만별.","세상을 지배할 뻔한 살아있는 전설",
 									   "잘 달리지는 못하지만,\n 휘두르는 건 무척 잘할거에요.","부활이 꼭 재생을 의미하는 것은 아니듯이.",
-									   "마검에 사로잡히기 전 그의 모습이다.","우주 어딘가 유명한 레스토랑의 주방장. 총 쏘는 솜씨도 일품이라고 한다."};
+									   "마검에 사로잡히기 전 그의 모습이다.","우주 어딘가 유명한 레스토랑의 주방장. 총 쏘는 솜씨도 일품이라고 한다." };
 	_CharAbility = vector<string>{ "","","▶ 권총 전문가: 권총 태그가 붙은 무기를 사용하면 위력이 50 상승합니다",
 									  "▶ 원시: 일정 반경 안에 적이 있다면 위력이 -20 감소합니다.",
 									  "▶ 표식: 적을 공격하면 위력을 6올려주는 표식을 남깁니다.(최대 10개)",
@@ -40,20 +47,22 @@ HRESULT gameScene::init()
 									  "▶ 부활의 저주: 체력이 40으로 고정됩니다. 쓰러지면 2회 부활할 수 있습니다.",
 									  "▶ 흡수: 보스를 처지할 때마다 최대 체력 증가, 최대 체력 -45 감소합니다.",
 									  "▶ 보호막 생성" };
-	_CharFirstStat = vector<string>{ "","▶ +10 방어력","▶ -15 최대 체력","▶ -30 최대 체력","▶ -15 최대 체력","▶ -20 위력","▶ +22% 이동속도","","▶ +1 대쉬 횟수","▶ -20% 이동속도","","","▶ 조준 정확도 +33"};
-	_CharSecondStat = vector<string>{"","▶ -10 최대 체력","▶ -15 방어력","▶ +40 위력","▶ -5 회피","▶ -5 방어력","▶ -2 강인함","▶ -12 회피","▶ -25 크리티컬","▶ -10% 공격속도","","","▶ +33 최대 체력"};
+	_CharFirstStat = vector<string>{ "","▶ +10 방어력","▶ -15 최대 체력","▶ -30 최대 체력","▶ -15 최대 체력","▶ -20 위력","▶ +22% 이동속도","","▶ +1 대쉬 횟수","▶ -20% 이동속도","","","▶ 조준 정확도 +33" };
+	_CharSecondStat = vector<string>{ "","▶ -10 최대 체력","▶ -15 방어력","▶ +40 위력","▶ -5 회피","▶ -5 방어력","▶ -2 강인함","▶ -12 회피","▶ -25 크리티컬","▶ -10% 공격속도","","","▶ +33 최대 체력" };
 
-	_scrollTimer = 0;
-	_mouseLocation = 0;
-
-	CAMERAMANAGER->init(0, 0, 15000, 15000, -300, -300, WINSIZEX / 2, WINSIZEY / 2);
-	return S_OK;
 }
 
 void gameScene::initUI()
 {
 	DungeonMapUIInit();
+	WardrobeUIInit();
+	InventoryUIInit();
+	CharUIInit();
+	ShopUIInit();
+}
 
+void gameScene::WardrobeUIInit()
+{
 	// WarDrobe Frame //
 	UIFrame* warDrobeFrame = new UIFrame();
 	warDrobeFrame->init("warDrobeFrame", 0, 0, IMAGEMANAGER->findImage("ScreenCover")->getWidth(), IMAGEMANAGER->findImage("ScreenCover")->getHeight(), "ScreenCover");
@@ -142,7 +151,7 @@ void gameScene::initUI()
 	warDrobeFrame->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(8))->AddFrame(pick);
 
 	UIFrame* fasto = new UIFrame();
-	fasto->init("fasto",75,185, IMAGEMANAGER->findImage("fasto")->getWidth(), IMAGEMANAGER->findImage("fasto")->getHeight(), "fasto");
+	fasto->init("fasto", 75, 185, IMAGEMANAGER->findImage("fasto")->getWidth(), IMAGEMANAGER->findImage("fasto")->getHeight(), "fasto");
 	warDrobeFrame->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(9))->AddFrame(fasto);
 
 	UIFrame* horseman = new UIFrame();
@@ -157,7 +166,7 @@ void gameScene::initUI()
 	masterchef->init("masterchef", 70, 170, IMAGEMANAGER->findImage("masterchef")->getWidth(), IMAGEMANAGER->findImage("masterchef")->getHeight(), "masterchef");
 	warDrobeFrame->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(12))->AddFrame(masterchef);
 
-	
+
 	UIText* charNameText = new UIText();
 	charNameText->init("charNameText", 50, 100, 400, 50, "", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE, RGB(255, 204, 0));
 	costumeExplanationFrame->AddFrame(charNameText);
@@ -170,17 +179,14 @@ void gameScene::initUI()
 	CharAbilityText->init("CharAbilityText", 550, 150, 1000, 50, "", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(0, 255, 0));
 	costumeExplanationFrame->AddFrame(CharAbilityText);
 
-	UIText* _CharFirstStat = new UIText();
-	_CharFirstStat->init("CharFirstStat", 550, 200, 1000, 50, "", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(255, 255,255));
-	costumeExplanationFrame->AddFrame(_CharFirstStat);
+	UIText* CharFirstStat = new UIText();
+	CharFirstStat->init("CharFirstStat", 550, 200, 1000, 50, "", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
+	costumeExplanationFrame->AddFrame(CharFirstStat);
 
-	UIText* _CharSecondStat = new UIText();
-	_CharSecondStat->init("CharSecondStat", 550, 250, 1000, 50, "", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
-	costumeExplanationFrame->AddFrame(_CharSecondStat);
+	UIText* CharSecondStat = new UIText();
+	CharSecondStat->init("CharSecondStat", 550, 250, 1000, 50, "", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
+	costumeExplanationFrame->AddFrame(CharSecondStat);
 
-	InventoryUIInit();
-	InitCharUI();
-	initShopUI();
 }
 
 void gameScene::DungeonMapUIInit()
@@ -207,6 +213,7 @@ void gameScene::InventoryUIInit()
 	// Inventory Frame //
 	UIFrame* InventoryFrame = new UIFrame();
 	InventoryFrame->init("InventoryFrame", 1000, 170, IMAGEMANAGER->findImage("InventoryBase_2")->getWidth(), IMAGEMANAGER->findImage("InventoryBase_2")->getHeight(), "InventoryBase_2");
+	InventoryFrame->SetUseOutsideLimit(false);
 	UIMANAGER->GetGameFrame()->AddFrame(InventoryFrame);
 
 	UIFrame* weaponImageFrame = new UIFrame();
@@ -253,11 +260,10 @@ void gameScene::InventoryUIInit()
 	}
 
 	UIText* moneyText = new UIText();
-	moneyText->init("moneyText", 10, 502, 300, 100, "0", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_RIGHT, RGB(255, 255, 255));
+	moneyText->init("moneyText", 5, 505, 300, 100, "0", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_RIGHT, RGB(255, 255, 255));
 	InventoryFrame->AddFrame(moneyText);
-
+	
 	InventoryFrame->SetIsViewing(false);
-
 
 	UIText* accessFullText = new UIText();
 	accessFullText->init("isFullText", 350, 200, 800, 200, "인벤토리 기능을 실행할 수 없습니다.", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, RGB(200, 30, 30));
@@ -269,23 +275,51 @@ void gameScene::InventoryUIInit()
 	UIMANAGER->GetGameFrame()->AddFrame(accessEqualText);
 	accessEqualText->SetIsViewing(false);
 
-	
+
 	/////////// TOOLTIP /////////////
-	
+
 	UIImage* uiToolTip = new UIImage();
 	uiToolTip->init("itemToolTip", 0, 0, 400, 500, "ToolTipCover", false, 0, 0, 4.0f, 5.0f, 130);
+	uiToolTip->SetUseOutsideLimit(false);
 	InventoryFrame->AddFrame(uiToolTip);
 
 }
 
-void gameScene::initShopUI()
+void gameScene::ShopUIInit()
 {
 	UIFrame* shopBase = new UIFrame();
-	shopBase->init("DungeonShopBase", 50, 500, IMAGEMANAGER->findImage("DungeonShopBase")->getWidth(), IMAGEMANAGER->findImage("DungeonShopBase")->getHeight(), "DungeonShopBase");
-	//UIMANAGER->GetGameFrame()->AddFrame(shopBase);
+	shopBase->init("DungeonShopBase", 0, 100, IMAGEMANAGER->findImage("DungeonShopBase")->getWidth(), IMAGEMANAGER->findImage("DungeonShopBase")->getHeight(), "DungeonShopBase");
+	UIMANAGER->GetGameFrame()->AddFrame(shopBase);
+
+	UIFrame* checkSell = new UIFrame();
+	checkSell->init("CheckSell", WINSIZEX / 2 - IMAGEMANAGER->findImage("BaseType2")->getWidth() / 2 * 1.5f, WINSIZEY / 2 - IMAGEMANAGER->findImage("BaseType2")->getHeight() / 2, IMAGEMANAGER->findImage("BaseType2")->getWidth(), IMAGEMANAGER->findImage("BaseType2")->getHeight(), "BaseType2", 1.5f, 1.0f);
+	UIMANAGER->GetGameFrame()->AddFrame(checkSell);
+
+	UIText* checkText = new UIText();
+	checkText->init("text", 20, 15, 300, 200, "", FONT::PIX, WORDSIZE::WS_MIDDLE);
+	checkSell->AddFrame(checkText);
+
+	UIFrame* checkOK = new UIFrame();
+	checkOK->init("yes", 110, 138, 113, 45, "YesOrNo", 0.9f, 0.9f);
+	checkSell->AddFrame(checkOK);
+
+	UIText* YES = new UIText();
+	YES->init("text", 0, 10, 113 * 0.9f, 30, "예", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_MIDDLE);
+	checkOK->AddFrame(YES);
+
+	UIFrame* checkNo = new UIFrame();
+	checkNo->init("no", 215, 138, 113, 45, "YesOrNo", 0.9f, 0.9f);
+	checkSell->AddFrame(checkNo);
+
+	UIText* NO = new UIText();
+	NO->init("text", 0, 10, 113 * 0.9f, 30, "아니오", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_MIDDLE);
+	checkNo->AddFrame(NO);
+
+	checkSell->SetIsViewing(false);
+	shopBase->SetIsViewing(false);
 }
 
-void gameScene::InitCharUI()
+void gameScene::CharUIInit()
 {
 	UIFrame* charFrame = new UIFrame();
 	charFrame->init("charFrame", 50, 250, IMAGEMANAGER->findImage("Base")->getWidth() * 2.0f, IMAGEMANAGER->findImage("Base")->getHeight() * 2.0f, "Base", 2.0f, 2.0f);
@@ -313,7 +347,7 @@ void gameScene::InitCharUI()
 
 	UIFrame* toughImg = new UIFrame();
 	toughImg->init("toughImg", 125, 120, 63, 63, "Stat_Tough", 0.8f, 0.8f);
-	charFrame->AddFrame(toughImg);	
+	charFrame->AddFrame(toughImg);
 
 	UIText* toughText = new UIText();
 	toughText->init("toughText", 185, 137, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
@@ -336,7 +370,7 @@ void gameScene::InitCharUI()
 	charFrame->AddFrame(criText);
 
 	UIFrame* criDmgImg = new UIFrame();
-	criDmgImg->init("criDmgImg", 125, 180, 63, 63 , "Stat_CriticalDmg", 0.8f, 0.8f);
+	criDmgImg->init("criDmgImg", 125, 180, 63, 63, "Stat_CriticalDmg", 0.8f, 0.8f);
 	charFrame->AddFrame(criDmgImg);
 
 	UIText* criDmgText = new UIText();
@@ -367,7 +401,7 @@ void gameScene::InitCharUI()
 	atkSpeedText->init("atkSpeedText", 185, 257, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
 	charFrame->AddFrame(atkSpeedText);
 
-	UIFrame* reloadImg= new UIFrame();
+	UIFrame* reloadImg = new UIFrame();
 	reloadImg->init("reloadImg", 230, 240, 63, 63, "Stat_Reload", 0.8f, 0.8f);
 	charFrame->AddFrame(reloadImg);
 
@@ -394,7 +428,7 @@ void gameScene::InitCharUI()
 	UIFrame* burnImg = new UIFrame();
 	burnImg->init("burnImg", 335, 120, 51, 51, "Stat_Burn", 0.8f, 0.8f);
 	charFrame->AddFrame(burnImg);
-	
+
 	UIText* burnText = new UIText();
 	burnText->init("burnText", 387, 132, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
 	charFrame->AddFrame(burnText);
@@ -402,7 +436,7 @@ void gameScene::InitCharUI()
 	UIFrame* poisonImg = new UIFrame();
 	poisonImg->init("poisonImg", 335, 170, 51, 51, "Stat_Poison", 0.8f, 0.8f);
 	charFrame->AddFrame(poisonImg);
-	
+
 	UIText* poisonText = new UIText();
 	poisonText->init("poisonText", 387, 182, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
 	charFrame->AddFrame(poisonText);
@@ -410,15 +444,15 @@ void gameScene::InitCharUI()
 	UIFrame* coldImg = new UIFrame();
 	coldImg->init("coldImg", 335, 220, 51, 51, "Stat_Cold", 0.8f, 0.8f);
 	charFrame->AddFrame(coldImg);
-	
+
 	UIText* coldText = new UIText();
 	coldText->init("coldText", 387, 232, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
 	charFrame->AddFrame(coldText);
 
 	UIFrame* elecImg = new UIFrame();
 	elecImg->init("elecImg", 335, 270, 51, 51, "Stat_Shock", 0.8f, 0.8f);
-	charFrame->AddFrame(elecImg);	
-	
+	charFrame->AddFrame(elecImg);
+
 	UIText* elecText = new UIText();
 	elecText->init("elecText", 387, 282, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
 	charFrame->AddFrame(elecText);
@@ -426,7 +460,7 @@ void gameScene::InitCharUI()
 	UIFrame* stunImg = new UIFrame();
 	stunImg->init("stunImg", 335, 320, 51, 51, "Stat_Stun", 0.8f, 0.8f);
 	charFrame->AddFrame(stunImg);
-	
+
 	UIText* stunText = new UIText();
 	stunText->init("stunText", 387, 332, 120, 50, "0", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT);
 	charFrame->AddFrame(stunText);
@@ -462,22 +496,8 @@ void gameScene::release()
 	PARTICLEMANAGER->releaseSingleton();
 }
 
-void gameScene::update()
+void gameScene::UpdateWardrobeUI()
 {
-	INPUT->update();
-
-	if (INPUT->GetKeyDown(VK_BACK))
-	{
-		UIMANAGER->_GameFrame->GetVChildFrames().clear();
-		SCENEMANAGER->loadScene("시작화면");
-	}
-
-	MAPMANAGER->update();
-	CAMERAMANAGER->MovePivotLerp(ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY(), 5.f);
-	ENTITYMANAGER->update();
-	EFFECTMANAGER->update();
-	PARTICLEMANAGER->update();
-	UIMANAGER->update();
 
 	if (INPUT->GetKeyDown('P'))
 	{
@@ -495,14 +515,14 @@ void gameScene::update()
 		{
 			_mouseLocation = _ptMouse.x;
 		}
-		
-		else if(_scrollTimer > 1)
+
+		else if (_scrollTimer > 1)
 		{
 			for (int i = 0; i < 13; i++)
 			{
-				UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeBack" + to_string(i))->MoveFrameChild(_ptMouse.x-_mouseLocation, 0);
-				UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->MoveFrameChild(_ptMouse.x-_mouseLocation, 0);
-				UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->MoveFrameChild(_ptMouse.x-_mouseLocation, 0);
+				UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeBack" + to_string(i))->MoveFrameChild(_ptMouse.x - _mouseLocation, 0);
+				UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->MoveFrameChild(_ptMouse.x - _mouseLocation, 0);
+				UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->MoveFrameChild(_ptMouse.x - _mouseLocation, 0);
 			}
 			_mouseLocation = _ptMouse.x;
 		}
@@ -512,16 +532,6 @@ void gameScene::update()
 	{
 		_scrollTimer = 0;
 		_mouseLocation = 0;
-	}
-
-	if (INPUT->GetKeyDown('V'))
-	{
-		UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->ToggleIsViewing();
-	}
-
-	if (INPUT->GetKeyDown('C'))
-	{
-		UIMANAGER->GetGameFrame()->GetChild("charFrame")->ToggleIsViewing();
 	}
 
 	for (int i = 0; i < 13; i++)
@@ -537,6 +547,36 @@ void gameScene::update()
 		}
 		else
 			UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(false);
+	}
+}
+
+void gameScene::update()
+{
+	INPUT->update();
+
+	if (INPUT->GetKeyDown(VK_BACK))
+	{
+		UIMANAGER->_GameFrame->GetVChildFrames().clear();
+		SCENEMANAGER->loadScene("시작화면");
+	}
+
+	MAPMANAGER->update();
+	CAMERAMANAGER->MovePivotLerp(ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY(), 5.f);
+	ENTITYMANAGER->update();
+	EFFECTMANAGER->update();
+	PARTICLEMANAGER->update();
+	UIMANAGER->update();
+
+	UpdateWardrobeUI();
+
+	if (INPUT->GetKeyDown('V'))
+	{
+		UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->ToggleIsViewing();
+	}
+
+	if (INPUT->GetKeyDown('C'))
+	{
+		UIMANAGER->GetGameFrame()->GetChild("charFrame")->ToggleIsViewing();
 	}
 }
 

@@ -15,7 +15,10 @@ public :
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 	virtual void	Animation();
+	virtual void	Activate();
+
 	void CollisionInteraction();
+	void PressActivateKey();
 	// GETSET //
 	RECT GetInteractRect() { return _interactRect; }
 	void SetInteractRect(RECT rect) { _interactRect = rect; }
