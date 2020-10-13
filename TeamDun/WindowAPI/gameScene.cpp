@@ -500,7 +500,7 @@ void gameScene::update()
 		}
 	}
 
-	if (INPUT->GetKeyUp(VK_LBUTTON))
+	if (INPUT->GetIsLButtonUp())
 	{
 		_scrollTimer = 0;
 		_mouseLocation = 0;
@@ -545,3 +545,4 @@ void gameScene::render()
 
 	TextOut(getMemDC(), _ptMouse.x, _ptMouse.y, n.c_str(), n.length());
 }
+

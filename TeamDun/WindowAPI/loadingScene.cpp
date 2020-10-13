@@ -272,6 +272,12 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Door0_Closed", "Images/1Floor/Door0_Closed.bmp", 171, 195, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Door0_Open", "Images/1Floor/Door0_Open.bmp", 171, 195, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("Torch0", "Images/1Floor/Torch0.bmp", 528, 75, 8, 1, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("CandleOff0", "Images/1Floor/CandleOff0.bmp", 15, 27, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("CandleOff1", "Images/1Floor/CandleOff1.bmp", 15, 21, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("CandleOff2", "Images/1Floor/CandleOff2.bmp", 36, 36, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("CandleOn00", "Images/1Floor/CandleOn00.bmp", 90, 45, 6, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("CandleOn10", "Images/1Floor/CandleOn10.bmp", 90, 33, 6, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("CandleOn20", "Images/1Floor/CandleOn20.bmp", 216, 51, 6, 1, true, RGB(255, 0, 255));
 
 	// NPC //
 	_loading->LoadFrameImage("StrawberryFountain0", "Images/Object/StrawberryFountain0.bmp", 384, 96, 4, 1, true, RGB(255, 0, 255));
@@ -290,6 +296,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("StashOpened", "Images/Object/StashOpened.bmp", 84, 48, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("YellowTresureClosed", "Images/Object/YellowTresureClosed.bmp", 117, 69, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("YellowTresureOpened", "Images/Object/YellowTresureOpened.bmp", 117, 69, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_Giant", "Images/NPC/NPC_Giant.bmp", 588, 144, 4, 1, true, RGB(255, 0, 255));
 
 	// OBSTACLE //
 
@@ -519,8 +526,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Stat_Poison", "Images/UI/ICON/Stat_Poison.bmp", 51, 51, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Stat_Shock", "Images/UI/ICON/Stat_Shock.bmp", 51, 51, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Stat_Stun", "Images/UI/ICON/Stat_Stun.bmp", 51, 51, true, RGB(255, 0, 255));
-
-
+	_loading->LoadNormalImage("Keyboard_F", "Images/UI/ICON/Keyboard_F.bmp", 39, 42, true, RGB(255, 0, 255));
 
 	_loading->LoadNormalImage("gameStart1", "Images/UI/gameStart1.bmp", 158, 47, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("gameStart0", "Images/UI/gameStart0.bmp", 158, 47, true, RGB(255, 0, 255));

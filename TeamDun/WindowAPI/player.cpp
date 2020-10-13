@@ -704,7 +704,6 @@ void Player::dash()
 		_dashTimer = 0;		//대쉬 타이머 초기화
 		_jumpPower = 0;		//점프 파워 초기화
 		_isDash = false;	//대쉬상태가 아님
-
 	}
 }
 

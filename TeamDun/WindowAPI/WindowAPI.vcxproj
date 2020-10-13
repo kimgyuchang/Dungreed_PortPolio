@@ -199,6 +199,7 @@
     <ClInclude Include="RedBat.h" />
     <ClInclude Include="RedGiantBat.h" />
     <ClInclude Include="sceneManager.h" />
+    <ClInclude Include="Shop.h" />
     <ClInclude Include="singletonBase.h" />
     <ClInclude Include="SkelDog.h" />
     <ClInclude Include="Skill.h" />
@@ -265,6 +266,7 @@
     <ClCompile Include="RedBat.cpp" />
     <ClCompile Include="RedGiantBat.cpp" />
     <ClCompile Include="sceneManager.cpp" />
+    <ClCompile Include="Shop.cpp" />
     <ClCompile Include="SkelDog.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="soundManager.cpp" />

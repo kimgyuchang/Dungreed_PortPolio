@@ -144,7 +144,9 @@ void FieldMap::LoadObject()
 		case 2500: // 몬스터 스포너
 			obj = new MonsterSpawner(*dynamic_cast<MonsterSpawner*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
+		case 10 :
+			obj = new Shop(*dynamic_cast<Shop*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 		default:
 			obj = new Object(*DATAMANAGER->GetObjectById(stoi(objData[i][0])));
 			break;
@@ -581,9 +583,9 @@ void FieldMap::render(HDC hdc)
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer2MapIg"), 0, 0);
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
-		if(!_vObjs[i]->GetRenderIndex())
+		if(!_vObjs[i]->GetRenderIndex() == 0)
 			_vObjs[i]->render(hdc);
-	} // 오브젝트 렌더
+	} // 오브젝트 렌더 0 렌더
 
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer1MapIg"), 0, 0);
 
@@ -596,16 +598,21 @@ void FieldMap::render(HDC hdc)
 
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
-		
-		if(_vObjs[i]->GetRenderIndex())	
+		if(_vObjs[i]->GetRenderIndex() == 1)	
 			_vObjs[i]->render(hdc);
-	} // 오브젝트 렌더
-
+	} // 오브젝트 렌더 1 렌더
 
 	EFFECTMANAGER->render(hdc);
 	ENTITYMANAGER->render(hdc);
 	PARTICLEMANAGER->render(hdc);
 	// 플레이어 및 불릿 등 렌더
+
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		if (_vObjs[i]->GetRenderIndex() == 2)
+			_vObjs[i]->render(hdc);
+	} // 오브젝트 렌더 2 렌더
+
 
 	//미니맵에 플레이어 렌더
 	if (_fileName == "stage0_town")
@@ -626,7 +633,7 @@ void FieldMap::render(HDC hdc)
 		if (_vObjs[i]->GetType() == OT_MONSTER && enemy->GetIsSpawned())
 		{
 			IMAGEMANAGER->findImage("MiniMapEnemy")->render(hdc,
-				1000 + (float)5 / 48 * (_vObjs[i]->GetX()+_vObjs[i]->GetImage(0)->getFrameWidth()/2),
+				1000 + (float)5 / 48 * (_vObjs[i]->GetX()+_vObjs[i]->GetImage(0)->getFrameWidth() / 2),
 				10 + (float)5 / 48 * (_vObjs[i]->GetY() + _vObjs[i]->GetImage(0)->getFrameHeight() / 2));
 		}
 	}

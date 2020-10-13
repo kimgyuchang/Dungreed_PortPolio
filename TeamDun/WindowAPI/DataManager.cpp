@@ -112,11 +112,12 @@ void DataManager::GetObjectData()
 			obj = new Door();
 			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_DOWN);
 			break;
-
 		case 2500: // 몬스터 스포너
 			obj = new MonsterSpawner();
 			break;
-
+		case 10 : // 상점 주인
+			obj = new Shop();
+			break;
 		default:
 			obj = new Object();
 			break;
