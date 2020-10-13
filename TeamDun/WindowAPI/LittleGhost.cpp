@@ -219,7 +219,3 @@ void LittleGhost::Animation()
 		break;
 	}
 }
-
-void LittleGhost::pixelCollision()
-{
-}

@@ -24,12 +24,10 @@ void BigWhiteSkel::update()
 {
 	Enemy::update();
 
-	this->Move();
-	this->Animation();
-	this->pixelCollision();
-
 	if (_isSpawned)
 	{
+
+
 		switch (_state)
 		{
 		case ES_IDLE:
@@ -63,7 +61,7 @@ void BigWhiteSkel::update()
 					{
 						_frameX = 0;
 					}
-					else
+					if (!_isLeft)
 					{
 						_x = _x - 95;
 						_frameX = 11;
@@ -80,6 +78,10 @@ void BigWhiteSkel::update()
 		default:
 			break;
 		}
+
+		this->Move();
+		this->Animation();
+		this->pixelCollision();
 	}
 }
 
@@ -223,6 +225,7 @@ void BigWhiteSkel::Animation()
 					_state = ES_MOVE;
 					_isAttack = false;
 					_frameX = 0;
+					_useImage = 1;
 				}
 			}
 		}
@@ -241,6 +244,7 @@ void BigWhiteSkel::Animation()
 					_isAttack = false;
 					_frameX = 0;
 					_x = _x + 95;
+					_useImage = 1;
 				}
 			}
 		}
@@ -349,7 +353,7 @@ void BigWhiteSkel::pixelCollision()
 				isCollide = true;
 				_jumpPower = -2;
 
-				_y = i - _vImages[_useImage]->getFrameHeight() +10;
+				_y = i - _vImages[_useImage]->getFrameHeight();
 				_jumpCount = 0;
 				break;
 			}

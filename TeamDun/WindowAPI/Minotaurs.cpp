@@ -388,7 +388,7 @@ void Minotaurs::pixelCollision()
 			{
 				isCollide = true;
 
-				_y = i - _vImages[_useImage]->getFrameHeight() + 10;
+				_y = i - _vImages[_useImage]->getFrameHeight();
 				break;
 			}
 		}

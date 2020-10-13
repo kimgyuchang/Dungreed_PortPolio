@@ -335,7 +335,7 @@ void SkelDog::pixelCollision()
 				isCollide = true;
 				_jumpPower = -2;
 
-				_y = i - _vImages[_useImage]->getFrameHeight() + 10;
+				_y = i - _vImages[_useImage]->getFrameHeight();
 				_jumpCount = 0;
 				break;
 			}
@@ -349,12 +349,10 @@ void SkelDog::pixelCollision()
 		int g = GetGValue(color);
 		int b = GetBValue(color);
 
-
 		if ((r == 255 && g == 0 && b == 0))
 		{
 			_jumpPower = -2;
 			_y = i + 5;
-
 			break;
 		}
 	}
@@ -362,7 +360,6 @@ void SkelDog::pixelCollision()
 	{
 		_y -= _jumpPower;
 		_jumpPower -= _gravity;
-
 		_body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight());
 	}
 
@@ -396,11 +393,9 @@ void SkelDog::pixelCollision()
 		if ((r == 255 && g == 0 && b == 0))
 		{
 			_RightCollision2 = true;
-
 			_x = i - SkelDogIdle->getFrameWidth();
 			break;
 		}
-
 	}
 	for (int i = _x + SkelDogIdle->getFrameWidth() - 15; i < _x + SkelDogIdle->getFrameWidth() + 5; i++)
 	{
@@ -411,10 +406,7 @@ void SkelDog::pixelCollision()
 
 		if ((r == 255 && g == 0 && b == 0))
 		{
-
 			_x = i - SkelDogIdle->getFrameWidth();
-
-
 			break;
 		}
 	}
@@ -434,9 +426,7 @@ void SkelDog::pixelCollision()
 			if (_leftCollision1 &&_leftCollision2)
 			{
 				_x = i - _vImages[_useImage]->getFrameWidth();
-
 			}
-
 			break;
 		}
 	}
@@ -466,7 +456,6 @@ void SkelDog::pixelCollision()
 
 		if ((r == 255 && g == 0 && b == 0))
 		{
-
 			_x = i;
 
 			break;

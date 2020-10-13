@@ -257,7 +257,6 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("TortureTable_1", "Images/AllFloor/TortureTable_1.bmp", 135, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("TortureTable1_0", "Images/AllFloor/TortureTable1_0.bmp", 33, 18, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("TortureTable1_1", "Images/AllFloor/TortureTable1_1.bmp", 42, 18, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("DungeonSign", "Images/villageFloor/DungeonSign.bmp", 60, 66, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("Door_Down", "Images/Object/Door_Down.bmp", 4416, 58, 23, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("Door_Up", "Images/Object/Door_Up.bmp", 4416, 58, 23, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("Door_Left", "Images/Object/Door_Left.bmp", 1656, 240, 23, 1, true, RGB(255, 0, 255));
@@ -631,6 +630,34 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("dirtFloor26", "Images/villageFloor/townBridge/Grass_H_StairR.bmp", 48, 48, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("dirtFloor27", "Images/villageFloor/townBridge/Grass_H_StairL2.bmp", 48, 48, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("dirtFloor28", "Images/villageFloor/townBridge/Grass_H_StairR2.bmp", 48, 48, true, RGB(255, 0, 255));
+
+	// TOWN IMAGE //
+	_loading->LoadNormalImage("StreetLight", "Images/villageFloor/StreetLight.bmp", 93, 171, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Target", "Images/villageFloor/Target.bmp", 219, 72, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("TrainingSchool", "Images/villageFloor/TrainingSchool.bmp", 810, 231, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Grass0", "Images/villageFloor/Grass0.bmp", 132, 30, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Grass1", "Images/villageFloor/Grass1.bmp", 132, 24, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Grass2", "Images/villageFloor/Grass2.bmp", 285, 75, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("DungeonSignLeft", "Images/villageFloor/DungeonSignLeft.bmp", 60, 66, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("DungeonSignRight", "Images/villageFloor/DungeonSignRight.bmp", 60, 66, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Well", "Images/villageFloor/Well.bmp", 147, 147, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Wagon", "Images/villageFloor/Wagon.bmp", 216, 87, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("TreeHouse", "Images/villageFloor/TreeHouse.bmp", 411, 387, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("StreetLight_1", "Images/villageFloor/StreetLight_1.bmp", 39, 141, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("StreetLight_2", "Images/villageFloor/StreetLight_2.bmp", 39, 141, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Fence", "Images/villageFloor/Fence.bmp", 588, 162, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BlackSmith", "Images/villageFloor/BlackSmith.bmp", 492, 390, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BlackSmithDisplay", "Images/villageFloor/BlackSmithDisplay.bmp", 567, 78, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Boutique", "Images/villageFloor/Boutique.bmp", 747, 471, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("FirearmsCase", "Images/villageFloor/FirearmsCase.bmp", 135, 72, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Gunsmith", "Images/villageFloor/Gunsmith.bmp", 653, 359, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("PrayStatue", "Images/villageFloor/PrayStatue.bmp", 54, 93, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Shop", "Images/villageFloor/Shop.bmp", 564, 356, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Tree0", "Images/villageFloor/Tree0.bmp", 156, 183, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Tree1", "Images/villageFloor/Tree1.bmp", 201, 231, true, RGB(255, 0, 255));
+
+	// TOWN NPC //
+	_loading->LoadFrameImage("NPC_Trainee", "Images/villageFloor/image/NPC_Trainee.bmp", 462, 66, 7, 1, true, RGB(255, 0, 255));
 
 	// MONSTER //
 	_loading->LoadFrameImage("SealStone", "Images/Monster/SealStone.bmp", 768, 96, 8, 1, true, RGB(255, 0, 255));
