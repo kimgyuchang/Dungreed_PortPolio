@@ -24,7 +24,7 @@ protected:
 	RECT			_body;					// 충돌체
 	FieldMap*		_belongMap;				// 현재 속한 맵 정보
 	bool			_isDead;				// 죽었는지(파괴되었는지) 여부
-	bool			_isRenderFrontLayer1;	// 레이어 1 앞에 렌더할것인지
+	int				_renderOrder;			// 렌더 순서 할것인지
 	
 public:
 
@@ -51,7 +51,7 @@ public:
 	int				GetSpawnTime()		{ return _spawnTime; }
 	FieldMap*		GetBelongMap()		{ return _belongMap; }
 	bool			GetIsDead()			{ return _isDead; }
-	bool			GetRenderIndex()	{ return _isRenderFrontLayer1; }
+	int				GetRenderIndex()	{ return _renderOrder; }
 
 	void			SetHp(int hp)						{ _HP = hp; }
 	void			SetName(string name)				{ _name = name; }
@@ -64,9 +64,10 @@ public:
 	void			SetFrameY(int y)					{ _frameY = y; }
 	void			SetSpawnTime(int time)				{ _spawnTime = time; }
 	void			SetBelongMap(FieldMap* map)			{ _belongMap = map; }
-	virtual void			SetIsDead(bool dead)				{ _isDead = dead; }
+	virtual void	SetIsDead(bool dead)				{ _isDead = dead; }
 	void			SetBody(RECT rect)					{ _body = rect; }
 	void			SetBodyPos()						{ _body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight()); }
-	void			SetRenderIndex(bool isFront)		{ _isRenderFrontLayer1 = isFront; }
+
+	void			SetRenderIndex(int isFront)			{ _renderOrder = isFront; }
 
 };

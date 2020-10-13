@@ -18,6 +18,7 @@ private:
 
 	bool _isLButtonClicked;
 	bool _isRButtonClicked;
+	bool _isLButtonUp;
 
 public:
 	//입력매니져 초기화
@@ -35,6 +36,7 @@ public:
 	//토글키냐? (참고로 유니티에는 이기능은 없음)
 	bool GetToggleKey(int key);
 
+	bool GetIsLButtonUp() { return _isLButtonUp; }
 	bool GetIsOnceClicked() { return _isOnceClicked; }
 	int GetClickTimer() { return _clickTimer; }
 	bool GetIsLButtonClicked() { return _isLButtonClicked; }

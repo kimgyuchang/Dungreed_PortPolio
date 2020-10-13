@@ -121,7 +121,7 @@ void MapManager::DungeonMapUIMover()
 		}
 	}
 
-	if (INPUT->GetKeyUp(VK_LBUTTON))
+	if (INPUT->GetIsLButtonUp())
 	{
 		_moveClickTimer = 0;
 	}

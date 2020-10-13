@@ -21,9 +21,11 @@ void inputManager::update()
 {
 	_isLButtonClicked = false;
 	_isRButtonClicked = false;
+	_isLButtonUp = false;
 
 	if (GetKeyDown(VK_LBUTTON)) _isLButtonClicked = true;
 	if (GetKeyDown(VK_RBUTTON)) _isRButtonClicked = true;
+	if (GetKeyUp(VK_LBUTTON)) _isLButtonUp = true;
 
 	if (_isOnceClicked)
 	{
