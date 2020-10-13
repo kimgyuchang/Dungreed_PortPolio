@@ -73,7 +73,7 @@ using namespace UTIL;
 //=============================================================
 //	## 디파인문 ## (윈도우창 초기화)
 //=============================================================
-#define WINNAME (LPTSTR)(TEXT("Dungreed"))
+#define WINNAME (LPTSTR)(TEXT("Dungreed 경일게임아카데미 프로그래밍 22기 홍승기 이신홍 안샘 김정연"))
 #define WINSTARTX	0
 #define WINSTARTY	0
 #define WINSIZEX	1440

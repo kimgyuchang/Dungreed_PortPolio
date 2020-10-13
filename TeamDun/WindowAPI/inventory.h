@@ -8,6 +8,7 @@ class Inventory
 private :
 	vector<Item*> _vInvenItems;
 	UIFrame* _InvenFrame;
+	UIFrame* _shopFrame;
 
 	int		_invenFullTextTimer;
 	bool	_invenFullTextOn;
@@ -43,5 +44,9 @@ public :
 	void InitToolTipItem(Item* item);
 	string OptionString(SubOption* option);
 	void ShowToolTip();
-};
 
+	// GETSET //
+	vector<Item*>& GetVItemList() { return _vInvenItems; }
+	Item* GetCurToolTipItem() { return _curToolTipItem; }
+	void SetCurToolTipItem(Item* item) { _curToolTipItem = item; }
+};
