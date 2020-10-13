@@ -21,6 +21,7 @@ public:
 	void initUI();
 	void DungeonMapUIInit();
 	void InventoryUIInit();
+	void initShopUI();
 	void InitCharUI();
 	void release();
 	void update();

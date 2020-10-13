@@ -180,6 +180,7 @@ void gameScene::initUI()
 
 	InventoryUIInit();
 	InitCharUI();
+	initShopUI();
 }
 
 void gameScene::DungeonMapUIInit()
@@ -275,6 +276,13 @@ void gameScene::InventoryUIInit()
 	uiToolTip->init("itemToolTip", 0, 0, 400, 500, "ToolTipCover", false, 0, 0, 4.0f, 5.0f, 130);
 	InventoryFrame->AddFrame(uiToolTip);
 
+}
+
+void gameScene::initShopUI()
+{
+	UIFrame* shopBase = new UIFrame();
+	shopBase->init("DungeonShopBase", 50, 500, IMAGEMANAGER->findImage("DungeonShopBase")->getWidth(), IMAGEMANAGER->findImage("DungeonShopBase")->getHeight(), "DungeonShopBase");
+	//UIMANAGER->GetGameFrame()->AddFrame(shopBase);
 }
 
 void gameScene::InitCharUI()
