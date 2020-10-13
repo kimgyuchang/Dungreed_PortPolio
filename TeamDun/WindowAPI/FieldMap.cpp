@@ -371,7 +371,8 @@ void FieldMap::MakeNearTileCollision(Door* door, bool isActivate)
 /// </summary>
 void FieldMap::PixelCollisionMapGenerate()
 {
-	Rectangle(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
+	HDC pixelMapDC = IMAGEMANAGER->findImage("PixelMapIg")->getMemDC();
+	Rectangle(pixelMapDC, -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
 
 	for (int i = 0; i < _vMapData.size(); i++)
 	{
@@ -379,7 +380,7 @@ void FieldMap::PixelCollisionMapGenerate()
 		{
 			if (_vMapData[i][j]->_collisionImage != nullptr)
 			{
-				_vMapData[i][j]->_collisionImage->render(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _vMapData[i][j]->_x, _vMapData[i][j]->_y); // 충돌용 배경에 충돌용 타일 배치
+				_vMapData[i][j]->_collisionImage->render(pixelMapDC, _vMapData[i][j]->_x, _vMapData[i][j]->_y); // 충돌용 배경에 충돌용 타일 배치
 			}
 		}
 	}
@@ -390,6 +391,8 @@ void FieldMap::PixelCollisionMapGenerate()
 /// </summary>
 void FieldMap::GridMapGenerate()
 {
+	HDC pixelMapDC = IMAGEMANAGER->findImage("PixelMapIg")->getMemDC();
+
 	Rectangle(IMAGEMANAGER->findImage("Layer1MapIg")->getMemDC(), -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
 	Rectangle(IMAGEMANAGER->findImage("Layer2MapIg")->getMemDC(), -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
 	Rectangle(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), -10, -10, 10000, 10000); // 미니맵 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
@@ -409,10 +412,23 @@ void FieldMap::GridMapGenerate()
 			}
 		}
 	}
+
 	for (int i = 0; i < _vMiniRc.size(); i++)
 	{
 		IMAGEMANAGER->findImage("MiniMapPixel")->render(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), _vMiniRc[i].left, _vMiniRc[i].top);
 	} // 미니맵 렌더
+	
+	for (int i = 0; i < _vMapData.size(); i++)
+	{
+		for (int j = 0; j < _vMapData[i].size(); j++)
+		{
+			COLORREF color = GetPixel(pixelMapDC, j * 48, i * 48);
+			if (color == RGB(0, 255, 0) || color == RGB(0, 200, 0) || color == RGB(0, 155, 0) || color == RGB(0, 100, 0))
+			{
+				IMAGEMANAGER->findImage("MiniMapDoor")->render(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), 1000 + j * 5, 10 + i * 5);
+			}
+		}
+	}
 }
 
 void FieldMap::update()
@@ -427,10 +443,6 @@ void FieldMap::update()
 	ShotObject();
 	CheckNoMonsterInMap();
 	EFFECTMANAGER->update();
-	
-	
-
-
 }
 
 /// <summary>
@@ -576,6 +588,7 @@ void FieldMap::render(HDC hdc)
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer1MapIg"), 0, 0);
 
 	IMAGEMANAGER->findImage("MiniMapGroundIg")->render(hdc, 0, 0);
+
 	if (INPUT->GetKey(VK_F1))
 	{
 		CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("PixelMapIg"), 0, 0);

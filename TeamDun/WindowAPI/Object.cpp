@@ -65,4 +65,13 @@ void Object::Animation()
 
 void Object::CheckCollision()
 {
+
+}
+
+void Object::GetDamage()
+{
+	if (_HP <= 0)
+	{
+		SetIsDead(true);
+	}
 }

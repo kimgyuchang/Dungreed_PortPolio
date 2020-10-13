@@ -468,7 +468,9 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("WeaponSelect1", "Images/UI/WeaponSelect1.bmp", 141, 90, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("X", "Images/UI/X.bmp", 39, 39, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("예시", "Images/UI/예시.bmp", 960, 540, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("ScreenCover", "Images/UI/ScreenCover.bmp", 1440, 800, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ScreenCover", "Images/UI/ScreenCover.bmp", 200, 200, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ToolTipCover", "Images/UI/ToolTipCover.bmp", 100, 100, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ToolTipSkillCover", "Images/UI/ToolTipSkillCover.bmp", 30, 30, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Room_Line_LR", "Images/UI/Room_Line_LR.bmp", 42, 8, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Room_Line_UD", "Images/UI/Room_Line_UD.bmp", 8, 42, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Room_Selected", "Images/UI/Room_Selected.bmp", 72, 72, true, RGB(255, 0, 255));
@@ -723,6 +725,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("MiniMapPixel", "Images/MiniMapPixel.bmp", 5, 5);
 	_loading->LoadNormalImage("MiniMapEnemy", "Images/MiniMapEnemy.bmp", 7, 7);
 	_loading->LoadNormalImage("MiniMapPlayer", "Images/MiniMapPlayer.bmp", 9,9);
+	_loading->LoadNormalImage("MiniMapDoor", "Images/MiniMapDoor.bmp", 5,5);
 
 	// COLLISIONIMAGE //
 	_loading->LoadNormalImage("Half", "Images/GridPixelCollision/Half.bmp", 48, 96, true, RGB(255, 0, 255));
@@ -762,7 +765,7 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("bearIdle", "Images/player/bearIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("baseCharEffect", "Images/player/baseCharEffect.bmp", 285, 132, 5, 2, true, RGB(255, 0, 255));
 	// RUN //
-	_loading->LoadFrameImage("basecharRun", "Images/player/baseCharRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("baseCharRun", "Images/player/baseCharRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("sheetingRun", "Images/player/sheetingRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("gunmanRun", "Images/player/gunmanRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("aliceRun", "Images/player/aliceRun.bmp", 468, 150, 6, 2, true, RGB(255, 0, 255));

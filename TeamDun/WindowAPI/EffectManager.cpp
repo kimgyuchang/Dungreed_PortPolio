@@ -12,8 +12,12 @@ void EffectManager::update()
 	{
 		_vEffect[i]->update();
 	}
-
+	for (int i = 0; i < _vCameraText.size(); i++)
+	{
+		_vCameraText[i]->update();
+	}
 	DeleteEffect();
+	DeleteText();
 }
 
 void EffectManager::release()
@@ -22,6 +26,10 @@ void EffectManager::release()
 	{
 		_vEffect[i]->release();
 	}
+	for (int i = 0; i < _vCameraText.size(); i++)
+	{
+		_vCameraText[i]->release();
+	}
 }
 
 void EffectManager::render(HDC hdc)
@@ -29,6 +37,11 @@ void EffectManager::render(HDC hdc)
 	for (int i = 0; i < _vEffect.size(); i++)
 	{
 		_vEffect[i]->render(hdc);
+	}
+
+	for (int i = 0; i < _vCameraText.size(); i++)
+	{
+		_vCameraText[i]->render(hdc);
 	}
 }
 
@@ -41,6 +54,14 @@ Effect* EffectManager::AddEffect(float x, float y, string imgName, int animSpeed
 	return effect;
 }
 
+cameraText * EffectManager::AddCameraText(float x, float y, float xSize, float ySize, string text, FONT font, WORDSIZE size, WORDSORT sort, COLORREF color)
+{
+	cameraText* ctext = new cameraText();
+	ctext->init(x, y, xSize, ySize, text, font, size, sort, color);
+	_vCameraText.push_back(ctext);
+	return ctext;
+}
+
 void EffectManager::DeleteEffect()
 {
 	for (int i = 0; i < _vEffect.size(); i++)
@@ -48,6 +69,19 @@ void EffectManager::DeleteEffect()
 		if (_vEffect[i]->GetIsDead())
 		{
 			_vEffect.erase(_vEffect.begin() + i);
+			i--;
+		}
+	}
+	
+}
+
+void EffectManager::DeleteText()
+{
+	for (int i = 0; i < _vCameraText.size(); i++)
+	{
+		if (_vCameraText[i]->getIsDead())
+		{
+			_vCameraText.erase(_vCameraText.begin() + i);
 			i--;
 		}
 	}

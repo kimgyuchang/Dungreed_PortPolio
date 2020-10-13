@@ -12,6 +12,17 @@ HRESULT Enemy::init(int id, string name, OBJECTTYPE type, vector<string> imgName
 void Enemy::update()
 {
 	SpawnAnimation();
+	for (int i = 0; i < _vDamageView.size(); i++)
+	{
+		_vDamageView[i]->count++;
+
+
+		if (_vDamageView[i]->count > 50)
+		{
+			_vDamageView.erase(_vDamageView.begin() + i);
+		}
+	}
+
 }
 
 void Enemy::release()
@@ -22,6 +33,9 @@ void Enemy::release()
 void Enemy::render(HDC hdc)
 {
 	Object::render(hdc);
+
+	
+	
 }
 
 void Enemy::Move()
@@ -49,6 +63,21 @@ void Enemy::SpawnAnimation()
 			_spawnEffect = nullptr;
 		}
 	}
+}
+
+void Enemy::GetDamage()
+{
+	int damage = RANDOM->range(ENTITYMANAGER->getPlayer()->GetMinDamage(), ENTITYMANAGER->getPlayer()->GetMaxDamage());
+	damage = damage + damage * ENTITYMANAGER->getPlayer()->GetPower() / 100 - _realDefence;
+	
+	_HP -= damage;
+
+	if (_HP <= 0)
+	{
+		SetIsDead(true);
+	}
+	
+	EFFECTMANAGER->AddCameraText(_x, _y, 100, 100, to_string(damage), PIX, WS_MIDDLE, WSORT_LEFT, RGB(255, 255, 255));
 }
 
 void Enemy::SpawnEnemy()

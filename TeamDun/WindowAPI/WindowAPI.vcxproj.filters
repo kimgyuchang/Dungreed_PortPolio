@@ -270,6 +270,9 @@
     <ClCompile Include="SwordSkel.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="cameraText.cpp">
+      <Filter>GameFramework\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -469,6 +472,9 @@
     </ClInclude>
     <ClInclude Include="SwordSkel.h">
       <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="cameraText.h">
+      <Filter>GameFramework\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

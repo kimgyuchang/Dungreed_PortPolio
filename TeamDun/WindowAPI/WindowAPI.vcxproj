@@ -154,6 +154,7 @@
     <ClInclude Include="BowSkel.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraManager.h" />
+    <ClInclude Include="cameraText.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="CSVManager.h" />
     <ClInclude Include="DataManager.h" />
@@ -222,6 +223,7 @@
     <ClCompile Include="BowSkel.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CameraManager.cpp" />
+    <ClCompile Include="cameraText.cpp" />
     <ClCompile Include="CSVManager.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="DemonSword.cpp" />
