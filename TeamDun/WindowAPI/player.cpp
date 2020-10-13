@@ -3,17 +3,17 @@
 
 HRESULT Player::init()
 {
-	this->_vImages.push_back(IMAGEMANAGER->findImage("baseCharIdle"));//0
-	this->_vImages.push_back(IMAGEMANAGER->findImage("baseCharRun")); //1
+	this->_vImages.push_back(IMAGEMANAGER->findImage("basecharIdle"));//0
+	this->_vImages.push_back(IMAGEMANAGER->findImage("basecharRun")); //1
 
 
 	_x = 300;
 	_y = WINSIZEY / 2;
 
-	_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+	_body = RectMake(_x, _y, IMAGEMANAGER->findImage("basecharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("basecharIdle")->getFrameHeight());
 
 	_useImage = 0;
-	_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
+	_probeBottom = _y + IMAGEMANAGER->findImage("basecharIdle")->getFrameHeight();
 
 	_frameX = 0;
 	_frameY = 0;
@@ -83,7 +83,7 @@ void Player::update()
 			ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOCOL, _x, _y, getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _ptMouse.x, _ptMouse.y), 10, 600, true);
 		}   //플레이어의 x,y좌표를 받아와서 플레이어와 마우스 좌표 간의 각도를 구한후 그 거리만큼 총알이 날아가게끔
 
-		if (CAMERAMANAGER->GetRelativeX(_x + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() / 2) >= _ptMouse.x)
+		if (CAMERAMANAGER->GetRelativeX(_x + IMAGEMANAGER->findImage("basecharIdle")->getFrameWidth() / 2) >= _ptMouse.x)
 		{	//플레이어의 중점+이미지 가로길이의 반이 마우스 x좌표보다 크거나 같을때
 			_isLeft = true;		//왼쪽을 바라보게
 		}
@@ -201,13 +201,13 @@ void Player::render(HDC hdc)
 	switch (_state)
 	{
 	case PS_IDLE:
-		CAMERAMANAGER->FrameRender(hdc, IMAGEMANAGER->findImage("baseCharIdle"), _x, _y, _frameX, _frameY);
+		CAMERAMANAGER->FrameRender(hdc, IMAGEMANAGER->findImage("basecharIdle"), _x, _y, _frameX, _frameY);
 		break;
 	case PS_JUMP:
-		CAMERAMANAGER->FrameRender(hdc, IMAGEMANAGER->findImage("baseCharIdle"), _x, _y, _frameX, _frameY);
+		CAMERAMANAGER->FrameRender(hdc, IMAGEMANAGER->findImage("basecharIdle"), _x, _y, _frameX, _frameY);
 		break;
 	case PS_MOVE:
-		CAMERAMANAGER->FrameRender(hdc, IMAGEMANAGER->findImage("baseCharRun"), _x, _y, _frameX, _frameY);
+		CAMERAMANAGER->FrameRender(hdc, IMAGEMANAGER->findImage("basecharRun"), _x, _y, _frameX, _frameY);
 		break;
 	case PS_DIE:
 		break;
@@ -338,7 +338,7 @@ void Player::Move()
 
 		_state = PS_MOVE;			//이미지 상태 이동상태로
 		_x -= 5;
-		_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+		_body = RectMake(_x, _y, IMAGEMANAGER->findImage("basecharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("basecharIdle")->getFrameHeight());
 	}
 	if (INPUT->GetKeyUp('A'))		//A키를 눌렀다가 뗏을때
 	{
@@ -353,7 +353,7 @@ void Player::Move()
 		_rightBack = false;
 		_state = PS_MOVE;
 		_x += 5;
-		_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+		_body = RectMake(_x, _y, IMAGEMANAGER->findImage("basecharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("basecharIdle")->getFrameHeight());
 	}
 	if (INPUT->GetKeyUp('D'))
 	{
@@ -368,7 +368,7 @@ void Player::Move()
 			_isJump = true;
 			_jumpPower = 11;
 			_y -= _jumpPower;
-			_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
+			_probeBottom = _y + IMAGEMANAGER->findImage("basecharIdle")->getFrameHeight();
 			_jumpCount++;
 		}
 		if (INPUT->GetKey('S') && _isJump)	//S키를 눌렀는데 점프상태일 때
@@ -400,10 +400,10 @@ void Player::pixelCollision()
 	bool _RightCollision1 = false;
 	bool _RightCollision2 = false;
 	_bottomCol = false;
-	_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
+	_probeBottom = _y + IMAGEMANAGER->findImage("basecharIdle")->getFrameHeight();
 
 	image* pixelMapIg = IMAGEMANAGER->findImage("PixelMapIg");
-	image* baseCharIg = IMAGEMANAGER->findImage("baseCharIdle");
+	image* baseCharIg = IMAGEMANAGER->findImage("basecharIdle");
 
 
 
@@ -608,12 +608,12 @@ void Player::dash()
 
 	_x += cosf(getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _dashPoint.x, _dashPoint.y)) * 20;
 	_y += -sinf(getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _dashPoint.x, _dashPoint.y)) * 20;
-	_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
-	_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
+	_body = RectMake(_x, _y, IMAGEMANAGER->findImage("basecharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("basecharIdle")->getFrameHeight());
+	_probeBottom = _y + IMAGEMANAGER->findImage("basecharIdle")->getFrameHeight();
 
 
 	image* pixelMapIg = IMAGEMANAGER->findImage("PixelMapIg");
-	image* baseCharIg = IMAGEMANAGER->findImage("baseCharIdle");
+	image* baseCharIg = IMAGEMANAGER->findImage("basecharIdle");
 
 
 	//대쉬할때만 속도가 바뀌므로 픽셀충돌 범위늘려서 따로검사

@@ -745,10 +745,54 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Green_CollisionAll3", "Images/GridPixelCollision/Green_CollisionAll3.bmp", 48, 48, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Green_CollisionAll4", "Images/GridPixelCollision/Green_CollisionAll4.bmp", 48, 48, true, RGB(255, 0, 255));
 
-	// PLAYER //
-	_loading->LoadFrameImage("baseCharIdle", "Images/player/baseCharIdle.bmp", 285, 132, 5, 2, true, RGB(255, 0, 255));
+	// PLAYER IDLE //
+	_loading->LoadFrameImage("baseCharIdle", "Images/player/baseCharIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("sheetingIdle", "Images/player/sheetingIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("gunmanIdle", "Images/player/gunmanIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("aliceIdle", "Images/player/aliceIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("redlotusIdle", "Images/player/redlotusIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("lkinabearIdle", "Images/player/lkinabearIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("riderHIdle", "Images/player/riderHIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("criminalldle", "Images/player/criminalldle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("pickIdle", "Images/player/pickIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("fastoIdle", "Images/player/fastoIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("horsemanIdle", "Images/player/horsemanIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("humanlasleyIdle", "Images/player/humanlasleyIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("masterchefIdle", "Images/player/masterchefIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("bearIdle", "Images/player/bearIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("baseCharEffect", "Images/player/baseCharEffect.bmp", 285, 132, 5, 2, true, RGB(255, 0, 255));
-	_loading->LoadFrameImage("baseCharRun", "Images/player/baseCharRun.bmp", 504, 132, 8, 2, true, RGB(255, 0, 255));
+	// RUN //
+	_loading->LoadFrameImage("basecharRun", "Images/player/baseCharRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("sheetingRun", "Images/player/sheetingRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("gunmanRun", "Images/player/gunmanRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("aliceRun", "Images/player/aliceRun.bmp", 468, 150, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("redlotusRun", "Images/player/redlotusRun.bmp", 468, 150, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("lkinabearRun", "Images/player/lkinabearRun.bmp", 468, 150, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("riderHRun", "Images/player/riderHRun.bmp", 468, 150, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("criminalRun", "Images/player/criminalRun.bmp", 468, 150, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("pickRun", "Images/player/pickRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("fastoRun", "Images/player/fastoRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("horsemanRun", "Images/player/horsemanRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("humanlasleyRun", "Images/player/humanlasleyRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("masterchefRun", "Images/player/masterchefRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("bearRun", "Images/player/bearRun.bmp", 468, 150, 6, 2, true, RGB(255, 0, 255));
+	// DIE //
+	_loading->LoadFrameImage("baseCharDie", "Images/player/baseCharDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("sheetingDie", "Images/player/sheetingDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("gunmanDie", "Images/player/gunmanDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("aliceDie", "Images/player/aliceDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("redlotusDie", "Images/player/redlotusDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("lkinabearDie", "Images/player/lkinabearDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("riderHDie", "Images/player/riderHDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("criminalDie", "Images/player/criminalDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("pickDie", "Images/player/pickDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("fastoDie", "Images/player/fastoDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("horsemanDie", "Images/player/horsemanDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("humanlaselyDie", "Images/player/humanlaselyDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("masterchefDie", "Images/player/masterchefDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
+
+
+
 	_loading->LoadFrameImage("AliceZone", "Images/player/AliceZone.bmp", 630, 315, 2, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("RunEffect", "Images/player/RunEffect.bmp", 240, 96, 5, 2, true, RGB(255, 0, 255));
 
