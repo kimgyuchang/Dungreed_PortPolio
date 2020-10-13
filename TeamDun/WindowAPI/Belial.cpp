@@ -27,6 +27,10 @@ HRESULT Belial::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_RazerEndCount = 0;
 
 
+	_initHp = _HP = 800;
+	_Damage = 10;
+
+
 	_leftHandle.ig = IMAGEMANAGER->findImage("SkellBossLeftHandIdle");
 	_leftHandle.frameX = 0;
 	_leftHandle.frameY = 0;
@@ -292,7 +296,9 @@ void Belial::Attack()
 		{	
 			_fireAngle += PI / 24;
 			for (int i = 0; i < 4; i++)
-				ENTITYMANAGER->makeBullet("BatBullet","BatBulletHit", BT_NOMAL, _x + 110, _y + 270, _fireAngle + i * PI / 2, 4, 1000, true);
+			{
+				ENTITYMANAGER->makeBullet("BossBullet","BossBulletEffect", BT_NOMAL, _x + 110, _y + 270, _fireAngle + i * PI / 2,_Damage, 4, 1000, true);
+			}
 			_bulletFireTimer = 0;
 		}
 		if (_bulletEndTimer > 300)

@@ -12,6 +12,9 @@ HRESULT SwordSkel::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_jumpPower = 10.0f;
 	_moveSpeed = 3;
 
+	_initHp = _HP = 50;
+
+
 	_swordX = _x;
 	_swordY = _y;
 
@@ -21,6 +24,7 @@ HRESULT SwordSkel::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_skelSword.frameX = 0;
 	_skelSword.frameY = 0;
 	_skelSword.angle = PI;
+
 
 	_state = ES_IDLE;
 	_effectGenerated = false;
@@ -393,7 +397,7 @@ void SwordSkel::pixelCollision()
 				isCollide = true;
 				_jumpPower = -2;
 
-				_y = i - _vImages[_useImage]->getFrameHeight() + 10;
+				_y = i - _vImages[_useImage]->getFrameHeight();
 				_jumpCount = 0;
 				break;
 			}
@@ -411,7 +415,7 @@ void SwordSkel::pixelCollision()
 		if ((r == 255 && g == 0 && b == 0))
 		{
 			_jumpPower = -2;
-			_y = i + 5;
+			_y = i+5;
 
 			break;
 		}
@@ -424,7 +428,7 @@ void SwordSkel::pixelCollision()
 		_body = RectMake(_x, _y, 42, 57);
 	}
 
-	for (int i = _x + SwordSkelIdle->getFrameWidth() - 15; i < _x + SwordSkelIdle->getFrameWidth() + 5; i++)
+	for (int i = _x + SwordSkelIdle->getFrameWidth() - 4; i < _x + SwordSkelIdle->getFrameWidth() + 5; i++)
 	{
 		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
 		int r = GetRValue(color);
@@ -444,7 +448,7 @@ void SwordSkel::pixelCollision()
 		}
 
 	}
-	for (int i = _x + SwordSkelIdle->getFrameWidth() - 15; i < _x + SwordSkelIdle->getFrameWidth() + 5; i++)
+	for (int i = _x + SwordSkelIdle->getFrameWidth() - 4; i < _x + SwordSkelIdle->getFrameWidth() + 5; i++)
 	{
 		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 50);
 		int r = GetRValue(color);
@@ -460,7 +464,7 @@ void SwordSkel::pixelCollision()
 		}
 
 	}
-	for (int i = _x + SwordSkelIdle->getFrameWidth() - 15; i < _x + SwordSkelIdle->getFrameWidth() + 5; i++)
+	for (int i = _x + SwordSkelIdle->getFrameWidth() - 4; i < _x + SwordSkelIdle->getFrameWidth() + 5; i++)
 	{
 		COLORREF color = GetPixel(_vImages[_useImage]->getMemDC(), i, _y + 2);
 		int r = GetRValue(color);
@@ -478,7 +482,7 @@ void SwordSkel::pixelCollision()
 	}
 
 	//¿ÞÂÊ¾Æ·¡
-	for (int i = _x + 15; i > _x - 5; i--)
+	for (int i = _x + 4; i > _x - 5; i--)
 	{
 		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
 		int r = GetRValue(color3);
@@ -499,7 +503,7 @@ void SwordSkel::pixelCollision()
 		}
 	}
 	//¿ÞÂÊÁß°£
-	for (int i = _x + 15; i > _x - 5; i--)
+	for (int i = _x + 4; i > _x - 5; i--)
 	{
 		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 50);
 		int r = GetRValue(color3);
@@ -515,7 +519,7 @@ void SwordSkel::pixelCollision()
 		}
 	}
 	//¿ÞÂÊÀ§
-	for (int i = _x + 15; i > _x - 5; i--)
+	for (int i = _x + 4; i > _x - 5; i--)
 	{
 		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _y + 2);
 		int r = GetRValue(color3);

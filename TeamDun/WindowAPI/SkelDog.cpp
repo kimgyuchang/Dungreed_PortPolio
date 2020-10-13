@@ -9,7 +9,7 @@ HRESULT SkelDog::init(int id, string name, OBJECTTYPE type, vector<string> imgNa
 	_frameX, _frameY = 0;
 
 	_count = _index = _attackCoolTime = _jumpTimer = _jumpCount = 0;
-
+	_initHp = _HP = 30;
 	_gravity = 0.4f;
 	_jumpPower = 7.0f;
 
@@ -336,6 +336,7 @@ void SkelDog::pixelCollision()
 				_jumpPower = -2;
 
 				_y = i - _vImages[_useImage]->getFrameHeight();
+
 				_jumpCount = 0;
 				break;
 			}

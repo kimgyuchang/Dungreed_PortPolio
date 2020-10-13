@@ -43,6 +43,9 @@ protected:
 	float					_scaleY;			// 확대 스케일 Y
 	bool					_renderBeforeParent;// 부모보다 먼저 렌더될 것인지 (부모에 가려짐)
 
+	// 디버깅 관련 //
+	bool					_useDebug;
+
 public:
 	virtual HRESULT init(string name, float x, float y, float sizeX, float sizeY, string imageName, float scaleX = 1, float scaleY = 1);
 	virtual void render(HDC hdc);
@@ -71,6 +74,8 @@ public:
 	RECT GetRect() { return _interactRect; }
 	vector<UIFrame*>& GetVChildFrames() { return _vChildFrames; }
 	image* GetImage() { return _image; }
+	float GetScaleX() { return _scaleX; }
+	float GetScaleY() { return _scaleY; }
 
 	bool GetIsOutside() { return _isOutside; }
 	bool GetIsViewing() { return _isViewing; }
@@ -86,4 +91,5 @@ public:
 	void SetRenderBeforeParent(bool rbp) { _renderBeforeParent = rbp; }
 	void SetScaleX(float x) { _scaleX = x; }
 	void SetScaleY(float y) { _scaleY = y; }
+	void SetUseDebug(bool useDebug) { _useDebug = useDebug; }
 };

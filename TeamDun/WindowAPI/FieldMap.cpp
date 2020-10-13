@@ -146,6 +146,8 @@ void FieldMap::LoadObject()
 			break;
 		case 10 :
 			obj = new Shop(*dynamic_cast<Shop*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Shop*>(obj)->SetShopItem();
+			dynamic_cast<Shop*>(obj)->ReNewUI();
 			break;
 		default:
 			obj = new Object(*DATAMANAGER->GetObjectById(stoi(objData[i][0])));

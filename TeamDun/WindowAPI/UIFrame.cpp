@@ -208,6 +208,7 @@ void UIFrame::MoveFrameToXY(float x, float y)
 
 void UIFrame::render(HDC hdc)
 {
+
 	if (_isViewing) // 보이는 상태이며
 	{
 		if (_isChild && _useOutsideLimit && _isOutside) {} // 자식이며, 범위제한을 사용했고 부모의 범위를 넘었다면 그리지 않음.

@@ -6,8 +6,9 @@ HRESULT Banshee::init(int id, string name, OBJECTTYPE type, vector<string> imgNa
 	Enemy::init(id, name, type, imgNames);
 	_state = ES_IDLE;
 	_stateTimer = 0;
+	_Damage = 8;
 	_isAtk = false;
-	_hp = 50;
+	_initHp = _HP = 50;
 	return S_OK;
 }
 
@@ -156,7 +157,7 @@ void Banshee::Animation()
 				{
 
 					for (int i = 0; i < 12; i++)
-						ENTITYMANAGER->makeBullet("BansheeBulletIdle", "BansheeBulletHit", BT_NOCOL, _x, _y, PI / 6 * i,
+						ENTITYMANAGER->makeBullet("BansheeBulletIdle", "BansheeBulletHit", BT_NOCOL, _x, _y, PI / 6 * i,_Damage,
 							4, 1000, true);
 				}
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -180,7 +181,7 @@ void Banshee::Animation()
 				if (_frameX == _vImages[_useImage]->getMaxFrameX() / 2)
 				{
 					for(int i = 0 ;i < 12 ; i++)
-					ENTITYMANAGER->makeBullet("BansheeBulletIdle", "BansheeBulletHit", BT_NOCOL , _x , _y,PI/6*i , 4, 1000 , true);
+					ENTITYMANAGER->makeBullet("BansheeBulletIdle", "BansheeBulletHit", BT_NOCOL , _x , _y,PI/6*i ,_Damage, 4, 1000 , true);
 				}
 				if (_frameX < 0)
 				{
