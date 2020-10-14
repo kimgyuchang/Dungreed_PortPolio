@@ -144,8 +144,9 @@ void FieldMap::LoadObject()
 		case 2500: // 몬스터 스포너
 			obj = new MonsterSpawner(*dynamic_cast<MonsterSpawner*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-		case 10 :
+		case 10 : // 상점
 			obj = new Shop(*dynamic_cast<Shop*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Shop*>(obj)->initSecond();
 			dynamic_cast<Shop*>(obj)->SetShopItem();
 			dynamic_cast<Shop*>(obj)->ReNewUI();
 			break;

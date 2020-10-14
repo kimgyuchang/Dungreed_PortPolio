@@ -59,6 +59,45 @@ void gameScene::initUI()
 	InventoryUIInit();
 	CharUIInit();
 	ShopUIInit();
+	ConversationUIInit();
+}
+
+void gameScene::ConversationUIInit()
+{
+	UIFrame* convFrame = new UIFrame();
+	convFrame->init("convFrame", 0, 530, 1440, 800, "ConversationUI");
+	UIMANAGER->GetGameFrame()->AddFrame(convFrame);
+	
+	UIText* name = new UIText();
+	name->init("name", 30, 30, 800, 100, "", FONT::PIX, WORDSIZE::WS_BIGGEST, WORDSORT::WSORT_LEFT, RGB(241, 182, 158));
+	convFrame->AddFrame(name);
+
+	UIText* text = new UIText();
+	text->init("text", 30, 100, 1380, 250, "", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_LEFT, RGB(255, 255, 255), true, WORDANIMATIONSPEED::WAS_FAST);
+	convFrame->AddFrame(text);
+
+	UIFrame* selectFrame = new UIFrame();
+	selectFrame->init("selectFrame", 1150, 390, 266, 125, "SelectUI", 1.0f, 1.0f);
+	UIMANAGER->GetGameFrame()->AddFrame(selectFrame);
+
+	UIFrame* selectedFrame = new UIFrame();
+	selectedFrame->init("selected1", 17, 19, 232, 44, "SelectedFrame");
+	selectFrame->AddFrame(selectedFrame);
+
+	UIFrame* selectedFrame2 = new UIFrame();
+	selectedFrame2->init("selected2", 17, 63, 232, 44, "SelectedFrame");
+	selectFrame->AddFrame(selectedFrame2);
+
+	UIText* selectOne = new UIText();
+	selectOne->init("text", 0, 10, 232, 24, "", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE);
+	selectedFrame->AddFrame(selectOne);
+
+	UIText* selectTwo = new UIText();
+	selectTwo->init("text", 0, 10, 232, 24, "", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE);
+	selectedFrame2->AddFrame(selectTwo);
+
+	convFrame->SetIsViewing(false);
+	selectFrame->SetIsViewing(false);
 }
 
 void gameScene::WardrobeUIInit()

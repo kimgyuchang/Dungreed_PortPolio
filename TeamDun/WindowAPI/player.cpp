@@ -78,7 +78,9 @@ void Player::update()
 {
 	if (!UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->GetIsViewing() &&
 		!UIMANAGER->GetGameFrame()->GetChild("DungeonShopBase")->GetIsViewing() &&
-		!UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetIsViewing()
+		!UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetIsViewing() &&
+		!UIMANAGER->GetGameFrame()->GetChild("selectFrame")->GetIsViewing() &&
+		!UIMANAGER->GetGameFrame()->GetChild("convFrame")->GetIsViewing()
 		)
 		// 잡다한 UI가 OFF일때
 	{
