@@ -266,6 +266,8 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Door_Left_Idle", "Images/Object/Door_Left_Idle.bmp", 72, 240, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Door_Right_Idle", "Images/Object/Door_Right_Idle.bmp", 72, 240, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("TrainingSchool", "Images/Object/TrainingSchool.bmp", 810, 231, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("GoldCoin", "Images/Object/GoldCoin.bmp", 168, 21, 8, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Bullion", "Images/Object/Bullion.bmp", 420, 27, 7, 1, true, RGB(255, 0, 255));
 
 	// STAGE 1 //
 	_loading->LoadNormalImage("Door0_Closed", "Images/1Floor/Door0_Closed.bmp", 171, 195, true, RGB(255, 0, 255));
@@ -493,7 +495,6 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("FrontCloud", "Images/villageFloor/FrontCloud.bmp", 2556, 800, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MidCloud0", "Images/villageFloor/MidCloud0.bmp", 2556, 800, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BackCloud", "Images/villageFloor/BackCloud.bmp", 2844, 800, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("MainLogo", "Images/UI/MainLogo.bmp", 693, 333, true, RGB(255, 0, 255));
 
 	// ICON //
 	_loading->LoadNormalImage("brushCursor", "Images/UI/ICON/Brush.bmp", 35, 35, true, RGB(255, 0, 255));

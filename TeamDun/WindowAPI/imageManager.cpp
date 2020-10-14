@@ -44,7 +44,7 @@ image* imageManager::addImage(string strKey, const char* fileName, int width, in
 
 	//추가하려는 이미지가 이미 존재한다면
 	//새로 만들지 않고 해당 이미지만 리턴시킨다
-	if (img) return img;
+	//if (img) return img;
 
 	//해당 이미지가 없으니 새로 생성후 초기화 하자
 	img = new image;
@@ -59,6 +59,7 @@ image* imageManager::addImage(string strKey, const char* fileName, int width, in
 
 	//맵이미지 리스트에 추가
 	//_mImageList.insert(pair<string, image*>(strKey, img));
+	_mImageList.erase(strKey);
 	_mImageList.insert(make_pair(strKey, img));
 
 	return img;

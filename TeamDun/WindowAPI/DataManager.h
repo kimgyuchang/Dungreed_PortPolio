@@ -36,6 +36,5 @@ public :
 	Object*					GetObjectById(int id)			{ return _mObjectData[id]; }
 	map<int, Item*>&		GetMapItemData()				{return _mMapItemData; }
 	Item*					GetItemById(int id)				{ return _mMapItemData[id]; }
-
 };
 

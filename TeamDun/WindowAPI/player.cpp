@@ -418,7 +418,7 @@ void Player::pixelCollision()
 
 	for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + baseCharIg->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -450,7 +450,7 @@ void Player::pixelCollision()
 
 		for (int i = _y + 15; i > _y - 4; i--)
 		{
-			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
+			COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + baseCharIg->getFrameWidth() / 2, i);
 			int r = GetRValue(color);
 			int g = GetGValue(color);
 			int b = GetBValue(color);
@@ -479,7 +479,7 @@ void Player::pixelCollision()
 
 	for (int i = _x + baseCharIg->getFrameWidth() - 15; i < _x + baseCharIg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -499,7 +499,7 @@ void Player::pixelCollision()
 	}
 	for (int i = _x + baseCharIg->getFrameWidth() - 15; i < _x + baseCharIg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 40);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 40);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -515,7 +515,7 @@ void Player::pixelCollision()
 	}
 	for (int i = _x + baseCharIg->getFrameWidth() - 15; i < _x + baseCharIg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _y + 2);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _y + 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -533,7 +533,7 @@ void Player::pixelCollision()
 	//왼쪽아래
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -554,7 +554,7 @@ void Player::pixelCollision()
 	//왼쪽중간
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 40);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 40);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -570,7 +570,7 @@ void Player::pixelCollision()
 	//왼쪽위
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _y + 2);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _y + 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -586,7 +586,7 @@ void Player::pixelCollision()
 	// 포탈 검사
 	_pixelCenter = POINT{ (long)(_x + 30), (long)(_y + 30) };
 
-	COLORREF _color = GetPixel(pixelMapIg->getMemDC(), _pixelCenter.x, _pixelCenter.y);
+	COLORREF _color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _pixelCenter.x, _pixelCenter.y);
 	if (_color == RGB(0, 255, 0))
 	{
 		MAPMANAGER->ChangeMap(MAPMANAGER->GetCurrentStage(), MAPMANAGER->GetPlayMap()->GetNextMapIndex(DIRECTION::DIR_LEFT));
@@ -628,7 +628,7 @@ void Player::dash()
 	//대쉬할때만 속도가 바뀌므로 픽셀충돌 범위늘려서 따로검사
 	for (int i = _probeBottom - 20; i < _probeBottom + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + baseCharIg->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);				//색깔 값 넣어주기
 		int b = GetBValue(color);
@@ -642,7 +642,7 @@ void Player::dash()
 	}
 	for (int i = _y + 20; i > _y - 5; i--)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + baseCharIg->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -655,7 +655,7 @@ void Player::dash()
 	}
 	for (int i = _x + baseCharIg->getFrameWidth() - 20; i < _x + baseCharIg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - baseCharIg->getFrameHeight() / 2);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - baseCharIg->getFrameHeight() / 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -668,7 +668,7 @@ void Player::dash()
 
 	for (int i = _x + 20; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - baseCharIg->getFrameHeight() / 2);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - baseCharIg->getFrameHeight() / 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);

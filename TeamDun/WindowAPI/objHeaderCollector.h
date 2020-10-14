@@ -19,3 +19,5 @@
 #include "PurpleGiantBat.h"
 #include "Lilith.h"
 #include "Shop.h"
+#include "Coin.h"
+#include "Treasure.h"

@@ -51,31 +51,24 @@ void DataManager::GetObjectData()
 		case 1500:// 큰 해골
 			obj = new BigWhiteSkel();
 			break;
-
 		case 1501:// 미노타우르스
 			obj = new Minotaurs();
 			break;
-			
 		case 1504:// 서큐버스
 			obj = new Lilith();
 			break;
-
 		case 1505:// 작은 유령
 			obj = new LittleGhost();
 			break;
-
 		case 1506:// 해골 강아지
 			obj = new SkelDog();
 			break;
-
 		case 1507:// 칼 해골
 			obj = new SwordSkel();
 			break;
-
 		case 1508:// 활 해골
 			obj = new BowSkel();
 			break;
-
 		case 1502: // 밴시
 			obj = new Banshee();
 			break;
@@ -88,26 +81,21 @@ void DataManager::GetObjectData()
 		case 702: // 붉은 박쥐
 			obj = new RedBat();
 			break;
-
 		case 2000: // 벨리알
 			obj = new Belial();
 			break;
-
 		case 514: // 문 왼쪽
 			obj = new Door();
 			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_LEFT);
 			break;
-
 		case 515: // 문 오른쪽
 			obj = new Door();
 			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_RIGHT);
 			break;
-
 		case 516: // 문 위쪽
 			obj = new Door();
 			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_UP);
 			break;
-
 		case 517: // 문 아래쪽
 			obj = new Door();
 			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_DOWN);
@@ -117,6 +105,29 @@ void DataManager::GetObjectData()
 			break;
 		case 10 : // 상점 주인
 			obj = new Shop();
+			break;
+		case 2 : // 전설상자
+			obj = new Treasure();
+			dynamic_cast<Treasure*>(obj)->SetTreasureType(TREASURETYPE::TST_LEGENDARY);
+			break;
+		case 3 : // 레어상자
+			obj = new Treasure();
+			dynamic_cast<Treasure*>(obj)->SetTreasureType(TREASURETYPE::TST_BLUE);
+			break;
+		case 4: // 회색상자
+			obj = new Treasure();
+			dynamic_cast<Treasure*>(obj)->SetTreasureType(TREASURETYPE::TST_GRAY);
+			break;
+		case 5: // 갈색상자
+			obj = new Treasure();
+			dynamic_cast<Treasure*>(obj)->SetTreasureType(TREASURETYPE::TST_BROWN);
+			break;
+		case 6: // 금색상자
+			obj = new Treasure();
+			dynamic_cast<Treasure*>(obj)->SetTreasureType(TREASURETYPE::TST_GOLD);
+			break;
+		case 524:
+			obj = new Coin();
 			break;
 		default:
 			obj = new Object();

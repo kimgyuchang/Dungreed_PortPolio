@@ -38,6 +38,7 @@ id,name,type,image,image2,image3
 521,ระบาON0,Etc,CandleOn00,.,.
 522,ระบาON1,Etc,CandleOn10,.,.
 523,ระบาON2,Etc,CandleOn20,.,.
+524,ฤฺภฮ,Etc,Bullion,GoldCoin,.
 701,พฦบ๑ฝบน๊ฝร,Monster,AbyssBansheeIdle,.,.
 702,บำภบนฺมใ,Monster,BatRedIdle,BatRedAttack,.
 703,บธถ๓นฺมใ,Monster,BatIdle,BatAttack,.

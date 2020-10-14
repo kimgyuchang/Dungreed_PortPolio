@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "util.h"
+#include "image.h"
+#include "MapManager.h"
 
 float UTIL::getDistance(float startX, float startY, float endX, float endY)
 {
@@ -75,10 +77,10 @@ bool UTIL::interactRectArc(RECT& rect, POINT center, float radius, float minAngl
 	SetAngleInBoundary(maxAngle);
 	SetAngleInBoundary(minAngle);
 
-	if(useCout) cout << minAngle << " " << maxAngle << endl;
+	if (useCout) cout << minAngle << " " << maxAngle << endl;
 
 	POINT rectPoints[4] = { POINT{rect.left, rect.top}, POINT{rect.left, rect.bottom}, POINT{rect.right, rect.top}, POINT{rect.right, rect.bottom} };
-	
+
 	for (int i = 0; i < 4; i++)
 	{
 		float distance = abs(getDistance(rectPoints[i].x, rectPoints[i].y, center.x, center.y));
@@ -96,7 +98,7 @@ bool UTIL::interactRectArc(RECT& rect, POINT center, float radius, float minAngl
 					return true;
 				}
 			}
-			
+
 			else
 			{
 				if (angle <= maxAngle || angle >= minAngle)
@@ -132,8 +134,8 @@ bool UTIL::interactRectCircle(RECT& rect, POINT center, float radius)
 	{
 		if (IsPointInCircle(center, radius, POINT{ rect.left, rect.top })) return true;
 		if (IsPointInCircle(center, radius, POINT{ rect.left, rect.bottom })) return true;
-		if (IsPointInCircle(center, radius, POINT{ rect.right, rect.top})) return true;
-		if (IsPointInCircle(center, radius, POINT{ rect.right, rect.bottom})) return true;
+		if (IsPointInCircle(center, radius, POINT{ rect.right, rect.top })) return true;
+		if (IsPointInCircle(center, radius, POINT{ rect.right, rect.bottom })) return true;
 	}
 
 	return false;
@@ -145,4 +147,24 @@ string UTIL::to_string_with_precision(const float a_value, const int n = 6)
 	out.precision(n);
 	out << std::fixed << a_value;
 	return out.str();
+}
+
+void UTIL::SetFastPixel(image* img, PixelGetter* getter)
+{
+	HBITMAP bm = img->getHBitMap();
+	::GetObject(bm, sizeof(BITMAP), &getter->bmInfo);
+	delete(getter->pData);
+	getter->pData = new BYTE[getter->bmInfo.bmWidthBytes * getter->bmInfo.bmHeight];
+	GetBitmapBits(bm, getter->bmInfo.bmWidthBytes * getter->bmInfo.bmHeight, getter->pData);
+}
+
+COLORREF UTIL::GetFastPixel(PixelGetter* getter, int x, int y)
+{
+	RGBQUAD* pRgb = (RGBQUAD*)getter->pData;
+
+  	BYTE r = pRgb[x + (y * getter->bmInfo.bmWidth)].rgbRed;
+	BYTE g = pRgb[x + (y * getter->bmInfo.bmWidth)].rgbGreen;
+	BYTE b = pRgb[x + (y * getter->bmInfo.bmWidth)].rgbBlue;
+	
+	return RGB(r, g, b);
 }

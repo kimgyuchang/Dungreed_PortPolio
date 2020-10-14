@@ -3,7 +3,6 @@
 
 HRESULT gameScene::init()
 {
-
 	INPUT->init();
 	UIMANAGER->init();
 	initUI();

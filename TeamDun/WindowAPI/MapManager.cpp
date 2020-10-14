@@ -44,8 +44,8 @@ HRESULT MapManager::init()
 		if (mapAllCleared) break;
 	}
 
-	ChangeMap(1, 13);
-
+	_pixelGetter = new PixelGetter();
+	ChangeMap(1, 8);
 	return S_OK;
 }
 
