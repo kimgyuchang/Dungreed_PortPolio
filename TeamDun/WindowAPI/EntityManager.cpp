@@ -118,26 +118,30 @@ void EntityManager::HitBullet()
 	RECT temp;
 	for (int i = 0; i < _vBullets.size(); i++)
 	{
-		if (IntersectRect(&temp, &_p->GetBody(), &_vBullets[i]->getRc()))
+		if (_vBullets[i]->getType() == BT_NOCOL || _vBullets[i]->getType() == BT_NOMAL)
 		{
-			_vBullets[i]->SetIsDead(true);
 
-			if (_p->GetIsHit() == false)
+			if (IntersectRect(&temp, &_p->GetBody(), &_vBullets[i]->getRc()))
 			{
-				float damage;
-				float block;
-				float evasion;
-				
-				damage = _vBullets[i]->getDamage() * _p->GetRealDefence()/100;
-				evasion = RANDOM->range(100);
-				block = RANDOM->range(100);
-				if (_p->GetRealEvasion() <= evasion)
+				_vBullets[i]->SetIsDead(true);
+
+				if (_p->GetIsHit() == false)
 				{
-					if (_p->GetBlock() <= block)
+					float damage;
+					float block;
+					float evasion;
+					
+					damage = _vBullets[i]->getDamage() * _p->GetRealDefence()/100;
+					evasion = RANDOM->range(100);
+					block = RANDOM->range(100);
+					if (_p->GetRealEvasion() <= evasion)
 					{
-						_p->SetIsHit(true);
-						_p->SetHitCount(0);
-						_p->SetHp(_p->GetHP() - damage);
+						if (_p->GetBlock() <= block)
+						{
+							_p->SetIsHit(true);
+							_p->SetHitCount(0);
+							_p->SetHp(_p->GetHP() - damage);
+						}
 					}
 				}
 			}

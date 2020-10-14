@@ -433,7 +433,7 @@ void SkelDog::pixelCollision()
 
 			if (_leftCollision1 &&_leftCollision2)
 			{
-				_x = i - _vImages[_useImage]->getFrameWidth();
+				_x = i;
 
 			}
 
