@@ -67,5 +67,7 @@ public:
 	virtual void	SetIsDead(bool dead)				{ _isDead = dead; }
 	void			SetBody(RECT rect)					{ _body = rect; }
 	void			SetBodyPos()						{ _body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight()); }
+
 	void			SetRenderIndex(int isFront)			{ _renderOrder = isFront; }
+
 };

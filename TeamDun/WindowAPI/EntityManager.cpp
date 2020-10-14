@@ -23,6 +23,7 @@ void EntityManager::update()
 	}
 	eraseBullet();
 	_p->update();
+	HitBullet();
 }
 
 void EntityManager::render(HDC hdc)
@@ -55,10 +56,10 @@ void EntityManager::release()
 	_p->release();
 }
 
-Bullet* EntityManager::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle, float speed, float maxDis, bool isFrame ,float igAngle)
+Bullet* EntityManager::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle,float damage, float speed, float maxDis, bool isFrame ,float igAngle)
 {
 	Bullet* _bullet = new Bullet;
-	_bullet->makeBullet(imageName, effectIgName,type, x, y, angle, speed, maxDis, isFrame , igAngle);
+	_bullet->makeBullet(imageName, effectIgName,type, x, y, angle,damage, speed, maxDis, isFrame , igAngle);
 	_vBullets.push_back(_bullet);
 	return _bullet;
 }
@@ -108,6 +109,42 @@ void EntityManager::eraseBullet()
 		if (_vBullets[i]->getIsDead() == true)
 		{
 			_vBullets.erase(_vBullets.begin() + i);
+		}
+	}
+}
+
+void EntityManager::HitBullet()
+{
+	RECT temp;
+	for (int i = 0; i < _vBullets.size(); i++)
+	{
+		if (_vBullets[i]->getType() == BT_NOCOL || _vBullets[i]->getType() == BT_NOMAL)
+		{
+
+			if (IntersectRect(&temp, &_p->GetBody(), &_vBullets[i]->getRc()))
+			{
+				_vBullets[i]->SetIsDead(true);
+
+				if (_p->GetIsHit() == false)
+				{
+					float damage;
+					float block;
+					float evasion;
+					
+					damage = _vBullets[i]->getDamage() * _p->GetRealDefence()/100;
+					evasion = RANDOM->range(100);
+					block = RANDOM->range(100);
+					if (_p->GetRealEvasion() <= evasion)
+					{
+						if (_p->GetBlock() <= block)
+						{
+							_p->SetIsHit(true);
+							_p->SetHitCount(0);
+							_p->SetHp(_p->GetHP() - damage);
+						}
+					}
+				}
+			}
 		}
 	}
 }

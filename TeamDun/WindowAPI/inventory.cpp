@@ -5,6 +5,8 @@
 HRESULT Inventory::init()
 {
 	_InvenFrame = UIMANAGER->GetGameFrame()->GetChild("InventoryFrame");
+	_shopFrame = UIMANAGER->GetGameFrame()->GetChild("DungeonShopBase");
+
 	_invenFullTextOn = false;
 	_invenFullTextTimer = 0;
 
@@ -38,33 +40,11 @@ void Inventory::UpdateMoney()
 	dynamic_cast<UIText*>(_InvenFrame->GetChild("moneyText"))->SetText(to_string(_p->GetMoney()));
 }
 
-
 void Inventory::EquipItem()
 {
-	if (_leftClicked) _leftClickTimer++;
-	if (_leftClickTimer > 15)
+	if (INPUT->GetIsRButtonClicked())
 	{
-		_leftClickTimer = 0;
-		_leftClicked = false;
-	}
-
-	if (INPUT->GetIsLButtonClicked())
-	{
-		if (!_leftClicked)
-		{
-			for (int i = 0; i < 15; i++)
-			{
-				UIFrame* curFrame = _InvenFrame->GetChild("itemFrame_" + to_string(i))->GetChild("itemImageFrame");
-
-				if (PtInRect(&curFrame->GetRect(), _ptMouse))
-				{
-					_leftClicked = true;
-					_leftClickTimer = 0;
-				}
-			}
-		}
-
-		else
+		if (!_shopFrame->GetIsViewing())
 		{
 			for (int i = 0; i < 15; i++)
 			{
@@ -252,33 +232,9 @@ void Inventory::SwitchItem(int num, Item* item, int index)
 
 void Inventory::UnEquipItem()
 {
-	if (INPUT->GetIsLButtonClicked())
+	if (INPUT->GetIsRButtonClicked())
 	{
-		if (!_leftClicked)
-		{
-			if (PtInRect(&_InvenFrame->GetChild("curWeapon_1")->GetRect(), _ptMouse) ||
-				PtInRect(&_InvenFrame->GetChild("curWeapon_2")->GetRect(), _ptMouse) ||
-				PtInRect(&_InvenFrame->GetChild("curWeaponSub_1")->GetRect(), _ptMouse) ||
-				PtInRect(&_InvenFrame->GetChild("curWeaponSub_2")->GetRect(), _ptMouse))
-			{
-				_leftClicked = true;
-				_leftClickTimer = 0;
-			}
-
-			else
-			{
-				for (int i = 0; i < _p->GetAccesoryCount(); i++)
-				{
-					if (PtInRect(&_InvenFrame->GetChild("accesoryFrame_" + to_string(i))->GetRect(), _ptMouse))
-					{
-						_leftClicked = true;
-						_leftClickTimer = 0;
-					}
-				}
-			}
-		}
-
-		else
+		if (!_shopFrame->GetIsViewing())
 		{
 			if (PtInRect(&_InvenFrame->GetChild("curWeapon_1")->GetRect(), _ptMouse) && _p->GetWeapon(0) != nullptr)
 			{
@@ -551,10 +507,11 @@ void Inventory::InitToolTipItem(Item* item)
 		uiToolTip->AddFrame(defValue);
 	}
 
+	// 추가 옵션
 	for (int i = 0; i < item->GetSubOptions().size(); i++)
 	{
 		SubOption* option = item->GetSubOptions()[i];
-		
+
 		int optionR = 255, optionG = 255, optionB = 255;
 		if (option->_optionPower < 0) optionR = 255, optionG = 0, optionB = 0;
 		if (option->_optionPower > 0) optionR = 0, optionG = 255, optionB = 0;
@@ -571,6 +528,7 @@ void Inventory::InitToolTipItem(Item* item)
 
 	_toolTipFinalY = item->GetSubOptions().size() * 20 + 122;
 
+	// 아이템 클래스
 	string itemClassString = "일반 아이템";
 	switch (item->GetItemClass())
 	{
@@ -584,6 +542,7 @@ void Inventory::InitToolTipItem(Item* item)
 	itemClass->init("itemClass", 10, _toolTipFinalY + 5, 150, 30, itemClassString, FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT, RGB(120, 120, 120));
 	uiToolTip->AddFrame(itemClass);
 
+	// 아이템 종류
 	string itemKindString = "양손무기";
 	switch (item->GetitemType())
 	{
@@ -598,6 +557,7 @@ void Inventory::InitToolTipItem(Item* item)
 	uiToolTip->AddFrame(itemKind);
 	_toolTipFinalY += 15;
 
+	// 비고
 	string weaponkindString = "";
 	switch (item->GetWeaponType())
 	{
@@ -615,6 +575,7 @@ void Inventory::InitToolTipItem(Item* item)
 		_toolTipFinalY += 20;
 	}
 
+	// 스킬
 	if (item->GetSkill() != nullptr)
 	{
 		UIImage* skillFrame = new UIImage();
@@ -630,16 +591,29 @@ void Inventory::InitToolTipItem(Item* item)
 		skillDescription->init("skillDescription", 55, 22, 220, 120, item->GetSkill()->GetDescription(), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT);
 		skillFrame->AddFrame(skillDescription);
 		UIText* skillCoolTime = new UIText();
-		skillCoolTime->init("skillCoolTime", 257, 39, 20, 30, to_string_with_precision(item->GetSkill()->GetCoolTime(),1), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_RIGHT, RGB(221, 173, 103));
+		skillCoolTime->init("skillCoolTime", 257, 39, 20, 30, to_string_with_precision(item->GetSkill()->GetCoolTime(), 1), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_RIGHT, RGB(221, 173, 103));
 		skillFrame->AddFrame(skillCoolTime);
 		_toolTipFinalY += 45;
 	}
 
+	// 설명
 	UIText* description = new UIText();
-	description->init("description", 10, _toolTipFinalY + 45, 280, 200, item->GetDescription(), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT, RGB(208, 247, 252));
+	description->init("description", 10, _toolTipFinalY + 45, 350, 200, item->GetDescription(), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT, RGB(208, 247, 252));
 	uiToolTip->AddFrame(description);
 	_toolTipFinalY += (item->GetDescription().length() / 22) * 10 + 70;
 
+	if (_shopFrame->GetIsViewing())
+	{
+		UIFrame* moneyImg = new UIFrame();
+		moneyImg->init("moneyImg", 352, _toolTipFinalY - 2, 19, 19, "moneyUI");
+		uiToolTip->AddFrame(moneyImg);
+
+		UIText* sellMoney = new UIText();
+		sellMoney->init("sellMoney", 250, _toolTipFinalY, 100, 50, to_string_with_precision(item->GetSellPrice(), 0), FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_RIGHT);
+		uiToolTip->AddFrame(sellMoney);
+	}
+
+	_toolTipFinalY += 30;
 	uiToolTip->SetScaleY(_toolTipFinalY / 100.f);
 }
 
@@ -771,7 +745,7 @@ string Inventory::OptionString(SubOption* option)
 		optionResult += "기절 부여";
 	}
 
-	if(option->_description != ".")
+	if (option->_description != ".")
 		optionResult += option->_description;
 
 	return optionResult;

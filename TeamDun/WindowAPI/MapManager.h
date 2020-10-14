@@ -2,6 +2,14 @@
 #include "singletonBase.h"
 #include "Stage.h"
 
+class PixelGetter 
+{
+
+public :
+	BYTE* pData;
+	BITMAP bmInfo;
+};
+
 class MapManager : public singletonBase<MapManager>
 {
 private:
@@ -14,6 +22,7 @@ private:
 	// MAP UI ฐüทร //
 	int					_moveClickTimer;
 	POINT				_recentMousePos;
+	PixelGetter*		_pixelGetter;
 
 public:
 	HRESULT init();
@@ -31,7 +40,7 @@ public:
 	int					GetCurrentMap()		{ return _currentMap; }
 	FieldMap*			GetPlayMap()		{ return _vStage[_currentStage]->GetMaps()[_currentMap]; }
 	vector<FieldMap*>&	GetMaps()			{ return _vOriginMaps; }
-
+	PixelGetter*		GetPixelGetter()	{ return _pixelGetter; }
 	int			SetCurrentStage(int stage)	{ _currentStage = stage; }
 	int			SetCurrentMap(int map)		{ _currentMap = map; }
 };

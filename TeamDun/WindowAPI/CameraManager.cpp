@@ -244,6 +244,7 @@ void CameraManager::TextInit(HDC hdc, float x, float y, float xSize, float ySize
 	HFONT OldFont;
 
 	RECT rc = RectMake(GetRelativeX(x), GetRelativeY(y), xSize, ySize);
+
 	string fontName = "";
 	POINT framePt;
 	switch (font) // 폰트 종류에 따라

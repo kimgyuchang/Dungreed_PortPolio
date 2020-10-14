@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "util.h"
+#include "image.h"
+#include "MapManager.h"
 
 float UTIL::getDistance(float startX, float startY, float endX, float endY)
 {
@@ -70,14 +72,20 @@ float UTIL::SetAngleInBoundary(float& angle)
 	return angle;
 }
 
-bool UTIL::interactRectArc(RECT& rect, POINT center, float radius, float minAngle, float maxAngle, bool useCout)
+bool UTIL::interactRectArc(RECT& rect, POINT center, float radius, float minAngle, float maxAngle, float checkDistance, bool useCout)
 {
 	SetAngleInBoundary(maxAngle);
 	SetAngleInBoundary(minAngle);
 
-	if(useCout) cout << minAngle << " " << maxAngle << endl;
 
+	if (checkDistance > radius / 2)
+	{
+		checkDistance = radius / 2;
+	}
+	if(useCout) cout << minAngle << " " << maxAngle << endl;
 	POINT rectPoints[4] = { POINT{rect.left, rect.top}, POINT{rect.left, rect.bottom}, POINT{rect.right, rect.top}, POINT{rect.right, rect.bottom} };
+	
+	vector<POINT> vPoint;
 	
 	for (int i = 0; i < 4; i++)
 	{
@@ -96,12 +104,51 @@ bool UTIL::interactRectArc(RECT& rect, POINT center, float radius, float minAngl
 					return true;
 				}
 			}
-			
+
 			else
 			{
 				if (angle <= maxAngle || angle >= minAngle)
 				{
 					return true;
+				}
+			}
+		}
+	}
+	
+	for (int i = rect.left; i < rect.right+ checkDistance; i += checkDistance)
+	{
+		if (i > rect.right)
+		{
+			i = rect.right;
+		}
+		for (int j = rect.top; j < rect.bottom+ checkDistance; j += checkDistance)
+		{
+			if (j > rect.bottom)
+			{
+				j = rect.bottom;
+			}
+			float distance = abs(getDistance(i, j, center.x, center.y));
+			if (distance > radius) continue;
+
+			else
+			{
+				float angle = getAngle(center.x, center.y, i, j);
+				SetAngleInBoundary(angle);
+
+				if (minAngle <= maxAngle)
+				{
+					if (angle >= minAngle && angle <= maxAngle)
+					{
+						return true;
+					}
+				}
+
+				else
+				{
+					if (angle <= maxAngle  ||angle >= minAngle)
+					{
+						return true;
+					}
 				}
 			}
 		}
@@ -132,8 +179,8 @@ bool UTIL::interactRectCircle(RECT& rect, POINT center, float radius)
 	{
 		if (IsPointInCircle(center, radius, POINT{ rect.left, rect.top })) return true;
 		if (IsPointInCircle(center, radius, POINT{ rect.left, rect.bottom })) return true;
-		if (IsPointInCircle(center, radius, POINT{ rect.right, rect.top})) return true;
-		if (IsPointInCircle(center, radius, POINT{ rect.right, rect.bottom})) return true;
+		if (IsPointInCircle(center, radius, POINT{ rect.right, rect.top })) return true;
+		if (IsPointInCircle(center, radius, POINT{ rect.right, rect.bottom })) return true;
 	}
 
 	return false;
@@ -145,4 +192,24 @@ string UTIL::to_string_with_precision(const float a_value, const int n = 6)
 	out.precision(n);
 	out << std::fixed << a_value;
 	return out.str();
+}
+
+void UTIL::SetFastPixel(image* img, PixelGetter* getter)
+{
+	HBITMAP bm = img->getHBitMap();
+	::GetObject(bm, sizeof(BITMAP), &getter->bmInfo);
+	delete(getter->pData);
+	getter->pData = new BYTE[getter->bmInfo.bmWidthBytes * getter->bmInfo.bmHeight];
+	GetBitmapBits(bm, getter->bmInfo.bmWidthBytes * getter->bmInfo.bmHeight, getter->pData);
+}
+
+COLORREF UTIL::GetFastPixel(PixelGetter* getter, int x, int y)
+{
+	RGBQUAD* pRgb = (RGBQUAD*)getter->pData;
+
+  	BYTE r = pRgb[x + (y * getter->bmInfo.bmWidth)].rgbRed;
+	BYTE g = pRgb[x + (y * getter->bmInfo.bmWidth)].rgbGreen;
+	BYTE b = pRgb[x + (y * getter->bmInfo.bmWidth)].rgbBlue;
+	
+	return RGB(r, g, b);
 }

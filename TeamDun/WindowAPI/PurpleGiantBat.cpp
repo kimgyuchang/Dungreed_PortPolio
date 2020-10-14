@@ -7,8 +7,10 @@ HRESULT PurpleGiantBat::init(int id, string name, OBJECTTYPE type, vector<string
 	_state = ES_IDLE;
 	_stateTimer = 0;
 	_isAtk = false;
-	_hp = 50;
+	_initHp = _HP = 80;
 	_fireAngle = 0;
+	_attackCoolTime = 200 + RANDOM->range(150);
+	_Damage = 11;
 	return S_OK;
 }
 
@@ -54,10 +56,10 @@ void PurpleGiantBat::Attack()
 {
 	if (!_isAtk)
 	{
-		_attackCoolTime++;
-		if (_attackCoolTime > 300)
+		_attackCoolTime--;
+		if (_attackCoolTime < 0)
 		{
-			_attackCoolTime = 0;
+			_attackCoolTime = 200 + RANDOM->range(150);
 			_isAtk = true;
 			_useImage = 1;
 			if (_isLeft)
@@ -169,39 +171,39 @@ void PurpleGiantBat::Animation()
 				if (_frameX == 2)
 				{
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x+_vImages[_useImage]->getFrameWidth()/2-20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle - PI/12,
+						_fireAngle - PI/12,_Damage,
 						8, 1000, true);
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle,
+						_fireAngle, _Damage,
 						8, 1000, true);
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle+ PI / 12,
+						_fireAngle+ PI / 12, _Damage,
 						8, 1000, true);
 					
 				} 
 				if (_frameX == 3)
 				{
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle - PI / 12,
+						_fireAngle - PI / 12, _Damage,
 						8, 1000, true);
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle,
+						_fireAngle, _Damage,
 						8, 1000, true);
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle + PI / 12,
+						_fireAngle + PI / 12, _Damage,
 						8, 1000, true);
 
 				}
 				if (_frameX == 4)
 				{
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle - PI / 12,
+						_fireAngle - PI / 12, _Damage,
 						8, 1000, true);
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle,
+						_fireAngle, _Damage,
 						8, 1000, true);
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle + PI / 12,
+						_fireAngle + PI / 12, _Damage,
 						8, 1000, true);
 
 				}
@@ -226,39 +228,39 @@ void PurpleGiantBat::Animation()
 				if (_frameX == _vImages[_useImage]->getMaxFrameX()-2)
 				{
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle - PI / 12,
+						_fireAngle - PI / 12, _Damage,
 						8, 1000, true);
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle,
+						_fireAngle, _Damage,
 						8, 1000, true);
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle + PI / 12,
+						_fireAngle + PI / 12, _Damage,
 						8, 1000, true);
 
 				}
 				if (_frameX == _vImages[_useImage]->getMaxFrameX() - 3)
 				{
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle - PI / 12,
+						_fireAngle - PI / 12, _Damage,
 						8, 1000, true);
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle,
+						_fireAngle, _Damage,
 						8, 1000, true);
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle + PI / 12,
+						_fireAngle + PI / 12, _Damage,
 						8, 1000, true);
 
 				}
 				if (_frameX == _vImages[_useImage]->getMaxFrameX() - 4)
 				{
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle - PI / 12,
+						_fireAngle - PI / 12, _Damage,
 						8, 1000, true);
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle,
+						_fireAngle, _Damage,
 						8, 1000, true);
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle + PI / 12,
+						_fireAngle + PI / 12, _Damage,
 						8, 1000, true);
 
 				}

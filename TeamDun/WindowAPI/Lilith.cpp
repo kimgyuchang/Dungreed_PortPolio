@@ -5,11 +5,11 @@ HRESULT Lilith::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 {
 	Enemy::init(id, name, type, imgNames);
 	_body = RectMake(_x, _y, 78, 78);
-
+	_initHp = _HP = 50;
 	_state = ES_IDLE;
 	_count = _attackTimer = _attackCoolTime = 0;
 	_isLeft = _isAttack = false;
-
+	_Damage = 4;
 	return S_OK;
 }
 
@@ -23,7 +23,7 @@ void Lilith::update()
 	{
 		_isLeft = true;
 	}
-	else if (cosf(getAngle(_x, _y, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY())) >= 0)
+	if (cosf(getAngle(_x, _y, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY())) >= 0)
 	{
 		_isLeft = false;
 	}
@@ -37,7 +37,8 @@ void Lilith::update()
 			break;
 
 		case ES_MOVE:
-			if (_x >= ENTITYMANAGER->getPlayer()->GetX() && _x <= ENTITYMANAGER->getPlayer()->GetX() + 56 && _y >= ENTITYMANAGER->getPlayer()->GetY() && _y <= ENTITYMANAGER->getPlayer()->GetY())
+			if (_x >= ENTITYMANAGER->getPlayer()->GetX() && _x <= ENTITYMANAGER->getPlayer()->GetX() + 56 &&
+				_y >= ENTITYMANAGER->getPlayer()->GetY() && _y <= ENTITYMANAGER->getPlayer()->GetY())
 			{
 				this->Attack();
 				_state = ES_ATTACK;

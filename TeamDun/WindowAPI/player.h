@@ -42,6 +42,10 @@ private:
 	bool			_downJump;				// 아래점프중인지
 	bool			_isDash;
 
+	// 피격관련
+	bool			_isHit;					// 플레이어가 데미지를 입었는지
+	int				_hitCount;				// 히트후 무적시간 세는용
+	int				_hitAlpha;				//	히트시 먹일 알파값
 	// 이동 관련 //					   
 	// - 표면적 수치
 	float			_moveSpeed;				// 이동속도
@@ -72,8 +76,8 @@ private:
 	// - 표면적 수치 (방어) 					
 	int				_initHp;				// 초기 체력
 	int				_hp;					// 체력
-	float			_defence;				// 방어율 
-	float			_evasion;				// 회피율 
+	float			_defence;				// 방어
+	float			_evasion;				// 회피 
 	float			_toughness;				// 강인함
 	float			_block;					// 막기
 	
@@ -155,20 +159,22 @@ private:
 public:
 
 	virtual HRESULT init();
+	virtual void	update();
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 	virtual void	Animation();
 	virtual void	Move();				//플레이어 움직임
 	virtual void	pixelCollision();	//픽셀충돌
 	virtual void	dash();				//대쉬
+	virtual void	GetDamage();
+	void invincibility();				//히트시 무적
 	void UpdateCharPage();
-
+	void SetRealStat();
 	void CharPageToolTipOn();
 
 	void ReInitTooltip(int n);
 	void SetToolTipFrame(float x, float y, int index);
 
-	virtual void	update();
 	void SwitchWeapon();
 	void CheckAliceZone();
 	
@@ -180,6 +186,7 @@ public:
 	bool			GetIsJump()				{ return _isJump; }
 	bool			GetDownJump()			{ return _downJump; }
 	bool			GetIsDash()				{ return _isDash; }
+	bool			GetIsHit()				{ return _isHit; }
 	float			GetMoveSpeed()			{ return _moveSpeed; }
 	float			GetJumpPower()			{ return _jumpPower; }
 	int				GetDashCount()			{ return _dashCount; }
@@ -245,13 +252,15 @@ public:
 	float			GetRealAttackSpeed()	{ return _realAttackSpeed; }
 	float			GetGoldDrop()			{ return _goldDrop; }
 	int				GetAccesoryCount()	    { return _accesoryCount; }
-
+	
+	void			SetHitCount(int hitCount)					  { _hitCount = hitCount; }
 	void			SetState(PLAYERSTATE state)					  { _state = state; }
 	void			SetIsLeft(bool isLeft) 						  { _isLeft = isLeft; }
 	void			SetJump(bool jump) 							  { _jump = jump; }
 	void			SetIsJump(bool isJump)						  { _isJump = isJump; }
 	void			SetDownJump(bool downJump) 					  { _downJump = downJump; }
 	void			SetIsDash(bool isDash) 						  { _isDash = isDash; }
+	void			SetIsHit(bool isHit)						  { _isHit = isHit; }
 	void			SetMoveSpeed(float moveSpeed) 				  { _moveSpeed = moveSpeed; }
 	void			SetJumpPower(float jumpPower) 				  { _jumpPower = jumpPower; }
 	void			SetDashCount(int dashCount) 				  { _dashCount = dashCount; }

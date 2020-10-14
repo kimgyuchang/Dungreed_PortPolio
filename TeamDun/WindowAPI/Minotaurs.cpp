@@ -8,16 +8,16 @@ HRESULT Minotaurs::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_state = ES_IDLE;
 
 	_dashTimer = _movePoint = 0;
-	_attackCoolTime = _attackCount = _attackIndexFix = 0;
-
+	_attackCount = _attackIndexFix = 0;
+	_attackCoolTime = 80 + RANDOM->range(40);
 	_index = _count = 0;
 	_effectTimer = _effect = 0;
 	_frameX, _frameY = 0;
-	_HP = 100;
+	_initHp = _HP = 80;
 	_moveSpeed = 10;
 	_gravity = 10.0f;
 	_isLeft = _isAttack = _isDash = false;
-
+	_Damage = 14;
 	_attackAnimFrame = vector<int>{ 3,3,30,5,5,5,5 };
 	_MoveAnimFrame = vector<int>{ 3,3,3,30,5,5,5,5 };
 	_dashEffect = nullptr;
@@ -34,7 +34,7 @@ void Minotaurs::update()
 		switch (_state)
 		{
 		case ES_IDLE:
-			_attackCoolTime++;
+			_attackCoolTime--;
 
 			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 300 && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 100)
 			{
@@ -44,10 +44,10 @@ void Minotaurs::update()
 				}
 				else if (_attackCount >= 1)
 				{
-					if (_attackCoolTime > 100)
+					if (_attackCoolTime < 0)
 					{
 						_state = ES_MOVE;
-						_attackCoolTime = 0;
+						_attackCoolTime = 80 + RANDOM->range(40);
 					}
 				}
 
@@ -69,6 +69,7 @@ void Minotaurs::update()
 			}
 			break;
 		case ES_ATTACK:
+			_body = RectMake(_x, _y, 156, 150);
 			if (_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
 			{
 				_state = ES_IDLE;
@@ -83,10 +84,10 @@ void Minotaurs::update()
 		default:
 			break;
 		}
+		this->Animation();
+		this->pixelCollision();
 	}
 
-	this->Animation();
-	this->pixelCollision();
 }
 
 void Minotaurs::release()
@@ -386,8 +387,9 @@ void Minotaurs::pixelCollision()
 			if ((r == 0 && g == 0 && b == 255))
 			{
 				isCollide = true;
+				
+				_y = i - _vImages[_useImage]->getFrameHeight();
 
-				_y = i - _vImages[_useImage]->getFrameHeight() + 10;
 				break;
 			}
 		}
@@ -403,7 +405,7 @@ void Minotaurs::pixelCollision()
 
 		if ((r == 255 && g == 0 && b == 0))
 		{
-			_y = i + 5;
+			_y = i;
 
 			break;
 		}
