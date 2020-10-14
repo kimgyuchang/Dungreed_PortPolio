@@ -5,6 +5,8 @@
 class gameScene : public gameNode
 {
 private:
+	bool					_clicked;
+	int						_clickTimer;
 	float					_pivX;
 	float					_pivY;
 	Player*					_p;
@@ -31,5 +33,6 @@ public:
 	void UpdateWardrobeUI();
 	void update();
 	void render();
+	void doubleClick();
 };
 
