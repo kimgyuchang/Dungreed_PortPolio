@@ -53,12 +53,14 @@ void BigWhiteSkel::update()
 				{
 					_isLeft = true;
 					_x += 3;
+					_body = RectMake(_x, _y, 99, 120);
 				}
 
 				else
 				{
 					_isLeft = false;
 					_x -= 3;
+					_body = RectMake(_x, _y, 99, 120);
 				}
 			}
 
@@ -233,6 +235,32 @@ void BigWhiteSkel::Animation()
 				_count = 0;
 				_frameX++;
 
+				if (_frameX == 3)
+				{
+
+					if (UTIL::interactRectArc(ENTITYMANAGER->getPlayer()->GetBody(), POINT{(LONG)_x+100 , (LONG)_y+70 }, _vImages[2]->getFrameWidth()-_vImages[1]->getFrameWidth()+20, 0, PI / 2, 10))
+					{
+						if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
+						{
+							float damage;
+							float block;
+							float evasion;
+
+							damage = _Damage * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100;
+							evasion = RANDOM->range(100);
+							block = RANDOM->range(100);
+							if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
+							{
+								if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
+								{
+									ENTITYMANAGER->getPlayer()->SetIsHit(true);
+									ENTITYMANAGER->getPlayer()->SetHitCount(0);
+									ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
+								}
+							}
+						}
+					}
+				}
 				if (_frameX > _vImages[_useImage]->getMaxFrameX() - 1)
 				{
 					_state = ES_MOVE;
@@ -250,7 +278,32 @@ void BigWhiteSkel::Animation()
 			{
 				_count = 0;
 				_frameX--;
+				if (_frameX == 9)
+				{
 
+					if (UTIL::interactRectArc(ENTITYMANAGER->getPlayer()->GetBody(), POINT{(LONG) _x + 100 , (LONG)_y + 70 }, _vImages[2]->getFrameWidth() - _vImages[1]->getFrameWidth() + 20, PI/2, PI , 10))
+					{
+						if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
+						{
+							float damage;
+							float block;
+							float evasion;
+
+							damage = _Damage * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100;
+							evasion = RANDOM->range(100);
+							block = RANDOM->range(100);
+							if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
+							{
+								if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
+								{
+									ENTITYMANAGER->getPlayer()->SetIsHit(true);
+									ENTITYMANAGER->getPlayer()->SetHitCount(0);
+									ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
+								}
+							}
+						}
+					}
+				}
 				if (_frameX < 0)
 				{
 					_state = ES_MOVE;

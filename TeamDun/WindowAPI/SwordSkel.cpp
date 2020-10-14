@@ -67,7 +67,7 @@ void SwordSkel::update()
 				_isLeft = true;
 				_x += _moveSpeed;
 			}
-			if (ENTITYMANAGER->getPlayer()->GetX() <= _x && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 250)
+			if (ENTITYMANAGER->getPlayer()->GetX()+70 <= _x && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 250)
 			{
 				_skelSword.angle = PI;
 				_isLeft = false;
@@ -87,23 +87,76 @@ void SwordSkel::update()
 			}
 			break;
 		case ES_ATTACK:
+
 			this->Attack();
 			_attackTimer++;
 			_swordX = _x - 10;
 			_swordY = _y - 5;
 			if (_isLeft)
 			{
+				if (_attackTimer == 3)
+				{
+
+					if (UTIL::interactRectArc(ENTITYMANAGER->getPlayer()->GetBody(), POINT{ _swordX ,_swordY },_skelSword.swordIg->getWidth() ,0 ,PI/2 ,10))
+					{
+						if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
+						{
+							float damage;
+							float block;
+							float evasion;
+
+							damage = _Damage * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100;
+							evasion = RANDOM->range(100);
+							block = RANDOM->range(100);
+							if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
+							{
+								if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
+								{
+									ENTITYMANAGER->getPlayer()->SetIsHit(true);
+									ENTITYMANAGER->getPlayer()->SetHitCount(0);
+									ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
+								}
+							}
+						}
+					}
+				}
 				if (_attackTimer < 5)
 				{
-					_skelSword.angle -= 0.70f;
+					_skelSword.angle -= 0.7f;
 				}
 
 			}
 			if (!_isLeft)
 			{
+				if (_attackTimer == 3)
+				{
+
+					if (UTIL::interactRectArc(ENTITYMANAGER->getPlayer()->GetBody(), POINT{ _swordX ,_swordY }, _skelSword.swordIg->getWidth(), PI / 2, PI, 10))
+					{
+						if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
+						{
+							float damage;
+							float block;
+							float evasion;
+
+							damage = 15 * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100;
+							evasion = RANDOM->range(100);
+							block = RANDOM->range(100);
+							if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
+							{
+								if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
+								{
+									ENTITYMANAGER->getPlayer()->SetIsHit(true);
+									ENTITYMANAGER->getPlayer()->SetHitCount(0);
+									ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
+								}
+							}
+						}
+					}
+				}
 				if (_attackTimer < 5)
 				{
-					_skelSword.angle += 0.70f;
+					_skelSword.angle += 0.7f;	
 				}
 			}
 			if (_attackTimer > 50)

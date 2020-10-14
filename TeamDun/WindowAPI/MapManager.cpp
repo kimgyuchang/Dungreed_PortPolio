@@ -44,7 +44,7 @@ HRESULT MapManager::init()
 		if (mapAllCleared) break;
 	}
 
-	ChangeMap(1, 13);
+	ChangeMap(1, 0);
 
 	return S_OK;
 }

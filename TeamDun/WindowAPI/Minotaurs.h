@@ -13,6 +13,10 @@ private:
 	int			_attackIndexFix;
 	int			_effectTimer;
 	int			_effect;
+	
+
+	int			_MoveTimer;
+	int			_MoveMaxTimer;
 	vector<int>	_attackAnimFrame;
 	vector<int>	_MoveAnimFrame;
 	Effect*		_dashEffect;

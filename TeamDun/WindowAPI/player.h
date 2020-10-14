@@ -41,7 +41,7 @@ private:
 	bool			_isJump;				// 점프중인지
 	bool			_downJump;				// 아래점프중인지
 	bool			_isDash;
-
+	bool			_stun;					//스턴상태인지
 	// 피격관련
 	bool			_isHit;					// 플레이어가 데미지를 입었는지
 	int				_hitCount;				// 히트후 무적시간 세는용

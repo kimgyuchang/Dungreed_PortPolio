@@ -59,12 +59,14 @@ void SkelDog::update()
 				{
 					_isLeft = true;
 					_x += 4;
+					_body = RectMake(_x, _y, 60, 54);
 				}
 
 				else
 				{
 					_isLeft = false;
 					_x -= 4;
+					_body = RectMake(_x, _y, 60, 54);
 				}
 			}
 
@@ -94,6 +96,33 @@ void SkelDog::update()
 			}
 			break;
 		case ES_ATTACK:
+			RECT temp;
+			//충돌처리
+		
+			if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_body))
+			{
+				if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
+				{
+					float damage;
+					float block;
+					float evasion;
+
+					damage = _Damage * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100;
+					evasion = RANDOM->range(100);
+					block = RANDOM->range(100);
+					if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
+					{
+						if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
+						{
+							ENTITYMANAGER->getPlayer()->SetIsHit(true);
+							ENTITYMANAGER->getPlayer()->SetHitCount(0);
+							ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
+						}
+					}
+				}
+			}
+
+
 			if (_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
 			{
 				if (_count % 5 == 0)

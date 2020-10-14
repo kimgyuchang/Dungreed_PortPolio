@@ -10,7 +10,6 @@ HRESULT Player::init()
 	_y = WINSIZEY / 2;
 
 	_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
-
 	_useImage = 0;
 	_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
 	_frameX = 0;
@@ -24,6 +23,7 @@ HRESULT Player::init()
 	_atkSpeed = 0.f;
 	_realAttackSpeed = _atkSpeed * 60;
 	_dustEffectCount = 0;
+	_stun = false;
 	_isDash = false;
 	_leftBack = false;
 	_rightBack = false;
@@ -100,7 +100,6 @@ void Player::update()
 		{	//플레이어의 중점+이미지 가로길이의 반이 마우스 x좌표보다 크거나 같을때
 			_isLeft = true;		//왼쪽을 바라보게
 		}
-
 		else
 		{
 			_isLeft = false;	//오른쪽을 바라보게
