@@ -40,10 +40,8 @@ void Inventory::UpdateMoney()
 	dynamic_cast<UIText*>(_InvenFrame->GetChild("moneyText"))->SetText(to_string(_p->GetMoney()));
 }
 
-
 void Inventory::EquipItem()
 {
-
 	if (INPUT->GetIsRButtonClicked())
 	{
 		if (!_shopFrame->GetIsViewing())

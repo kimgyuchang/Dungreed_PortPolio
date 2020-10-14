@@ -126,11 +126,6 @@ void startScene::render()
 	_QuitIg->render(getMemDC(), _rc3.left, _rc3.top);
 	IMAGEMANAGER->findImage("BasicCursor")->render(getMemDC(), _ptMouse.x, _ptMouse.y);
 
-	
-
-
-
-
 	/*_img->render(getMemDC(), 100, 0, _angle);
 	_img->alphaRender(getMemDC(), 200, 0, _alpha, _angle);
 	_img->stretchRender(getMemDC(), 300, 0, 1.5f, 1.5f, _angle);

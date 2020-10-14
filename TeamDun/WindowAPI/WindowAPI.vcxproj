@@ -155,11 +155,14 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="cameraText.h" />
+    <ClInclude Include="Coin.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="CSVManager.h" />
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="DemonSword.h" />
     <ClInclude Include="Door.h" />
+    <ClInclude Include="DropItem.h" />
+    <ClInclude Include="DropObjs.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="EffectManager.h" />
     <ClInclude Include="Enemy.h" />
@@ -208,6 +211,7 @@
     <ClInclude Include="startScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SwordSkel.h" />
+    <ClInclude Include="Treasure.h" />
     <ClInclude Include="uibrushTool.h" />
     <ClInclude Include="UIFrame.h" />
     <ClInclude Include="UIImage.h" />
@@ -225,10 +229,13 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="cameraText.cpp" />
+    <ClCompile Include="Coin.cpp" />
     <ClCompile Include="CSVManager.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="DemonSword.cpp" />
     <ClCompile Include="Door.cpp" />
+    <ClCompile Include="DropItem.cpp" />
+    <ClCompile Include="DropObjs.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -279,6 +286,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="SwordSkel.cpp" />
+    <ClCompile Include="Treasure.cpp" />
     <ClCompile Include="uibrushTool.cpp" />
     <ClCompile Include="UIFrame.cpp" />
     <ClCompile Include="UIImage.cpp" />

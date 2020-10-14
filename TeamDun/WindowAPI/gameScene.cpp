@@ -3,7 +3,6 @@
 
 HRESULT gameScene::init()
 {
-
 	INPUT->init();
 	UIMANAGER->init();
 	initUI();
@@ -15,6 +14,7 @@ HRESULT gameScene::init()
 	_p->init();
 
 	MAPMANAGER->init();
+
 	PARTICLEMANAGER->init();
 	EFFECTMANAGER->init();
 
@@ -60,6 +60,28 @@ void gameScene::initUI()
 	CharUIInit();
 	ShopUIInit();
 	ConversationUIInit();
+	GetItemUIInit();
+}
+
+void gameScene::GetItemUIInit()
+{
+	UIImage* getFrame = new UIImage();
+	getFrame->init("itemGetFrame", WINSIZEX/2 - 250, WINSIZEY - 220, 500, 150, "ScreenCover", false, 0, 0, 2.5f, 0.75f, 180);
+	UIMANAGER->GetGameFrame()->AddFrame(getFrame);
+
+	UIFrame* itemImage = new UIFrame();
+	itemImage->init("image", 30, 30, IMAGEMANAGER->findImage("DemonSword_Drop")->getFrameWidth() * 3.0f, IMAGEMANAGER->findImage("DemonSword_Drop")->getFrameHeight() * 3.0f, "DemonSword_Drop", 3.0f, 3.0f);
+	getFrame->AddFrame(itemImage);
+
+	UIText* itemGet = new UIText();
+	itemGet->init("getText", 200, 20, 300, 50, "¾ÆÀÌÅÛ È¹µæ", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE);
+	getFrame->AddFrame(itemGet);
+
+	UIText* name = new UIText();
+	name->init("name", 200, 70, 300, 50, "¸¶°Ë ¿¤¸®»ç", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_MIDDLE);
+	getFrame->AddFrame(name);
+
+	getFrame->SetIsViewing(false);
 }
 
 void gameScene::ConversationUIInit()
@@ -260,7 +282,7 @@ void gameScene::InventoryUIInit()
 	InventoryFrame->AddFrame(weaponImageFrame);
 
 	UIFrame* weaponImageSubFrame = new UIFrame();
-	weaponImageSubFrame->init("curWeaponSub_1", 114, 105, 57, 57, "");
+	weaponImageSubFrame->init("curWeaponSub_1", 110, 105, 57, 57, "");
 	InventoryFrame->AddFrame(weaponImageSubFrame);
 
 	UIFrame* weaponImageFrame2 = new UIFrame();
@@ -268,7 +290,7 @@ void gameScene::InventoryUIInit()
 	InventoryFrame->AddFrame(weaponImageFrame2);
 
 	UIFrame* weaponImageSubFrame2 = new UIFrame();
-	weaponImageSubFrame2->init("curWeaponSub_2", 276, 105, 57, 57, "");
+	weaponImageSubFrame2->init("curWeaponSub_2", 268, 105, 57, 57, "");
 	InventoryFrame->AddFrame(weaponImageSubFrame2);
 
 	int accesorySize = 4;
@@ -587,6 +609,73 @@ void gameScene::UpdateWardrobeUI()
 		else
 			UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(false);
 	}
+	for (int i = 0; i < 13; i++)
+	{
+		if (UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetIsViewing() == true)
+		{
+			if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->GetRect(), _ptMouse) && INPUT->GetIsRButtonClicked())
+			{
+				switch (i)
+				{
+				case 0:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("baseCharIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("baseCharRun"));
+					break;
+				case 1:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("sheetingIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("sheetingRun"));
+					break;
+				case 2:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("gunmanIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("gunmanRun"));
+					break;
+				case 3:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("aliceIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("aliceRun"));
+					break;
+				case 4:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("redlotusIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("redlotusRun"));
+					break;
+				case 5:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("lkinabearIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("lkinabearRun"));
+					break;
+				case 6:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("riderHIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("riderHRun"));
+					break;
+				case 7:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("criminalldle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("criminalRun"));
+					break;
+				case 8:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("pickIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("pickRun"));
+					break;
+				case 9:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("fastoIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("fastoRun"));
+					break;
+				case 10:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("horsemanIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("horsemanRun"));
+					break;
+				case 11:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("humanlasleyIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("humanlasleyRun"));
+					break;
+				case 12:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("masterchefIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("masterchefRun"));
+					break;
+
+				default:
+					break;
+				}
+			}
+		}
+	}
 }
 
 void gameScene::update()
@@ -631,5 +720,34 @@ void gameScene::render()
 	string n = to_string((int)CAMERAMANAGER->GetAbsoluteX(_ptMouse.x)) + " " + to_string((int)CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
 
 	TextOut(getMemDC(), _ptMouse.x, _ptMouse.y, n.c_str(), n.length());
+}
+
+void gameScene::doubleClick()
+{
+	if (_clicked)
+	{
+		_clickTimer++;
+		if (_clickTimer > 10)
+		{
+			_clickTimer = 0;
+			_clicked = false;
+		}
+	}
+	if (INPUT->GetIsLButtonClicked())
+	{
+		if (!_clicked)
+		{
+			for (int i = 0; i < 13; i++)
+			{
+				UIFrame* clickFrame = UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i));
+
+				if (PtInRect(&clickFrame->GetRect(), _ptMouse))
+				{
+					_clickTimer = 0;
+					_clicked = false;
+				}
+			}
+		}
+	}
 }
 

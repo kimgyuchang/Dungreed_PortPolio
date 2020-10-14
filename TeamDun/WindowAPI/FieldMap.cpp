@@ -151,6 +151,26 @@ void FieldMap::LoadObject()
 			dynamic_cast<Shop*>(obj)->SetShopItem();
 			dynamic_cast<Shop*>(obj)->ReNewUI();
 			break;
+		case 2: // 전설상자
+			obj = new Treasure(*dynamic_cast<Treasure*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Treasure*>(obj)->initSecond();
+			break;
+		case 3: // 레어상자
+			obj = new Treasure(*dynamic_cast<Treasure*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Treasure*>(obj)->initSecond();
+			break;
+		case 4: // 회색상자
+			obj = new Treasure(*dynamic_cast<Treasure*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Treasure*>(obj)->initSecond();
+			break;
+		case 5: // 갈색상자
+			obj = new Treasure(*dynamic_cast<Treasure*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Treasure*>(obj)->initSecond();
+			break;
+		case 6: // 금색상자
+			obj = new Treasure(*dynamic_cast<Treasure*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Treasure*>(obj)->initSecond();
+			break;
 		default:
 			obj = new Object(*DATAMANAGER->GetObjectById(stoi(objData[i][0])));
 			break;
@@ -377,6 +397,9 @@ void FieldMap::MakeNearTileCollision(Door* door, bool isActivate)
 /// </summary>
 void FieldMap::PixelCollisionMapGenerate()
 {
+	IMAGEMANAGER->addImage("PixelMapIg", "Images/PixelMapIg.bmp", _vMapData[0].size() * 48, _vMapData.size() * 48, true, RGB(255,255,255));
+
+	image* pixelMapImg = IMAGEMANAGER->findImage("PixelMapIg");
 	HDC pixelMapDC = IMAGEMANAGER->findImage("PixelMapIg")->getMemDC();
 	Rectangle(pixelMapDC, -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
 
@@ -390,6 +413,9 @@ void FieldMap::PixelCollisionMapGenerate()
 			}
 		}
 	}
+	
+
+	SetFastPixel(IMAGEMANAGER->findImage("PixelMapIg"), MAPMANAGER->GetPixelGetter());
 }
 
 /// <summary>
