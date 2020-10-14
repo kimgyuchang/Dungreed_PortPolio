@@ -59,6 +59,28 @@ void gameScene::initUI()
 	CharUIInit();
 	ShopUIInit();
 	ConversationUIInit();
+	GetItemUIInit();
+}
+
+void gameScene::GetItemUIInit()
+{
+	UIImage* getFrame = new UIImage();
+	getFrame->init("itemGetFrame", WINSIZEX/2 - 250, WINSIZEY - 220, 500, 150, "ScreenCover", false, 0, 0, 2.5f, 0.75f, 180);
+	UIMANAGER->GetGameFrame()->AddFrame(getFrame);
+
+	UIFrame* itemImage = new UIFrame();
+	itemImage->init("image", 30, 30, IMAGEMANAGER->findImage("DemonSword_Drop")->getFrameWidth() * 3.0f, IMAGEMANAGER->findImage("DemonSword_Drop")->getFrameHeight() * 3.0f, "DemonSword_Drop", 3.0f, 3.0f);
+	getFrame->AddFrame(itemImage);
+
+	UIText* itemGet = new UIText();
+	itemGet->init("getText", 200, 20, 300, 50, "¾ÆÀÌÅÛ È¹µæ", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE);
+	getFrame->AddFrame(itemGet);
+
+	UIText* name = new UIText();
+	name->init("name", 200, 70, 300, 50, "¸¶°Ë ¿¤¸®»ç", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_MIDDLE);
+	getFrame->AddFrame(name);
+
+	getFrame->SetIsViewing(false);
 }
 
 void gameScene::ConversationUIInit()
@@ -259,7 +281,7 @@ void gameScene::InventoryUIInit()
 	InventoryFrame->AddFrame(weaponImageFrame);
 
 	UIFrame* weaponImageSubFrame = new UIFrame();
-	weaponImageSubFrame->init("curWeaponSub_1", 114, 105, 57, 57, "");
+	weaponImageSubFrame->init("curWeaponSub_1", 110, 105, 57, 57, "");
 	InventoryFrame->AddFrame(weaponImageSubFrame);
 
 	UIFrame* weaponImageFrame2 = new UIFrame();
@@ -267,7 +289,7 @@ void gameScene::InventoryUIInit()
 	InventoryFrame->AddFrame(weaponImageFrame2);
 
 	UIFrame* weaponImageSubFrame2 = new UIFrame();
-	weaponImageSubFrame2->init("curWeaponSub_2", 276, 105, 57, 57, "");
+	weaponImageSubFrame2->init("curWeaponSub_2", 268, 105, 57, 57, "");
 	InventoryFrame->AddFrame(weaponImageSubFrame2);
 
 	int accesorySize = 4;

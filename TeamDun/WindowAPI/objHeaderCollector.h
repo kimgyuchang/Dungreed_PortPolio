@@ -20,4 +20,5 @@
 #include "Lilith.h"
 #include "Shop.h"
 #include "Coin.h"
+#include "DropItem.h"
 #include "Treasure.h"

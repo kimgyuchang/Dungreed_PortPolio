@@ -168,6 +168,9 @@ void DataManager::GetItemData()
 
 	for (int i = 0; i < itemData.size(); i++)
 	{
+		if (i == 0) _itemMinId = stoi(itemData[i][0]);
+		if (i == itemData.size() - 1) _itemMaxId = stoi(itemData[i][0]);
+
 		Item* item;
 		switch (stoi(itemData[i][0]))
 		{
@@ -226,16 +229,16 @@ void DataManager::GetItemData()
 			itemData[i][4], itemData[i][5], itemClass, stof(itemData[i][7]), stof(itemData[i][8]),
 			stof(itemData[i][9]), stoi(itemData[i][10]), stoi(itemData[i][11]),
 			stoi(itemData[i][12]), stof(itemData[i][13]), bullet, stof(itemData[i][15]), stoi(itemData[i][16]),
-			stoi(itemData[i][17]), vector<string>{itemData[i][18], itemData[i][19], itemData[i][20]}, itemData[i][21]
+			stoi(itemData[i][17]), vector<string>{itemData[i][18], itemData[i][19], itemData[i][20]}, itemData[i][21], itemData[i][22]
 		);
 
 		for (int j = 0; j < 3; j++)
 		{
-			if (itemData[i][22 + (j * 3)] != ".")
+			if (itemData[i][23 + (j * 3)] != ".")
 			{
 				SubOption* option = new SubOption;
 
-				string optionId = itemData[i][22 + (j * 3)];
+				string optionId = itemData[i][23 + (j * 3)];
 				if (optionId == "ACCURACY") option->_optionId = OPTIONTYPE::ACCURACY;
 				else if (optionId == "ATKSPEED") option->_optionId = OPTIONTYPE::ATKSPEED;
 				else if (optionId == "BLOCK") option->_optionId = OPTIONTYPE::BLOCK;
@@ -275,8 +278,8 @@ void DataManager::GetItemData()
 				else if (optionId == "TOSTUN") option->_optionId = OPTIONTYPE::TOSTUN;
 				else if (optionId == "TRUEDAMAGE") option->_optionId = OPTIONTYPE::TRUEDAMAGE;
 
-				option->_optionPower = stof(itemData[i][23 + (j * 3)]);
-				option->_description = itemData[i][24 + (j * 3)];
+				option->_optionPower = stof(itemData[i][24 + (j * 3)]);
+				option->_description = itemData[i][25 + (j * 3)];
 				item->AddSubOption(option);
 			}
 		}

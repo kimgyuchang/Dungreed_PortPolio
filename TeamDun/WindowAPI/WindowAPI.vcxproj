@@ -161,6 +161,8 @@
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="DemonSword.h" />
     <ClInclude Include="Door.h" />
+    <ClInclude Include="DropItem.h" />
+    <ClInclude Include="DropObjs.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="EffectManager.h" />
     <ClInclude Include="Enemy.h" />
@@ -232,6 +234,8 @@
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="DemonSword.cpp" />
     <ClCompile Include="Door.cpp" />
+    <ClCompile Include="DropItem.cpp" />
+    <ClCompile Include="DropObjs.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="Enemy.cpp" />

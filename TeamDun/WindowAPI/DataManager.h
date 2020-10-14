@@ -23,6 +23,9 @@ private :
 	map<int, MapObject*>	_mMapObjectData;	// 맵 오브젝트 맵
 	map<int, Item*>			_mMapItemData;		// 아이템 맵
 
+	int	_itemMaxId;
+	int _itemMinId;
+
 public :
 	// 데이터 불러오기 //
 	void GetUIBrushToolGridData();
@@ -36,5 +39,8 @@ public :
 	Object*					GetObjectById(int id)			{ return _mObjectData[id]; }
 	map<int, Item*>&		GetMapItemData()				{return _mMapItemData; }
 	Item*					GetItemById(int id)				{ return _mMapItemData[id]; }
+
+	int						GetItemMaxId()					{ return _itemMaxId; }
+	int						GetItemMinId()					{ return _itemMinId; }
 };
 

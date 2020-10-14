@@ -9,7 +9,8 @@ HRESULT Player::init()
 	_x = 300;
 	_y = WINSIZEY / 2;
 
-	_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+	_body = RectMake(_x + 10, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 20, IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+
 
 	_useImage = 0;
 	_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
@@ -71,7 +72,6 @@ HRESULT Player::init()
 	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4004)));
 
 	return S_OK;
-
 }
 
 void Player::update()
@@ -106,7 +106,6 @@ void Player::update()
 			_isLeft = false;	//오른쪽을 바라보게
 		}
 
-		this->pixelCollision();
 		if (_isDash)			//대쉬 상태
 		{
 			this->dash();		//대쉬를 해야하므로 dash함수 실행
@@ -115,8 +114,6 @@ void Player::update()
 		{
 			this->Move();		//대쉬 상태가 아니므로 Move함수 실행
 		}
-
-
 
 		_realAttackSpeed--;
 		if (INPUT->GetKey(VK_LBUTTON))
@@ -133,7 +130,6 @@ void Player::update()
 	else // 잡다한 UI가 ON
 	{
 		_inven->update();
-		this->pixelCollision();
 	}
 
 	SwitchWeapon();
@@ -149,6 +145,7 @@ void Player::update()
 	invincibility();
 	SetRealStat();
 
+	this->pixelCollision();
 
 }
 
@@ -183,7 +180,7 @@ void Player::CheckAliceZone()
 	{
 		if (objs[i]->GetType() == OBJECTTYPE::OT_MONSTER && dynamic_cast<Enemy*>(objs[i])->GetIsSpawned())
 		{
-			if (UTIL::interactRectArc(objs[i]->GetBody(), POINT{ (long)(_x + _vImages[_useImage]->getFrameWidth() / 2), (long)(_y + _vImages[_useImage]->getFrameHeight() / 2) }, _aliceZoneRadius, -PI / 4, PI / 4, _aliceZoneRadius/2))
+			if (UTIL::interactRectCircle(objs[i]->GetBody(), POINT{ (long)(_x + _vImages[_useImage]->getFrameWidth() / 2), (long)(_y + _vImages[_useImage]->getFrameHeight() / 2) }, _aliceZoneRadius))
 			{
 				_aliceZoneIn = true;
 				zoneInHere = true;
@@ -347,7 +344,8 @@ void Player::Move()
 
 		_state = PS_MOVE;			//이미지 상태 이동상태로
 		_x -= 5;
-		_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+		_body = RectMake(_x + 10, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 20, IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+
 	}
 	if (INPUT->GetKeyUp('A'))		//A키를 눌렀다가 뗏을때
 	{
@@ -362,7 +360,8 @@ void Player::Move()
 		_rightBack = false;
 		_state = PS_MOVE;
 		_x += 5;
-		_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+		_body = RectMake(_x + 10, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 20, IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+
 	}
 	if (INPUT->GetKeyUp('D'))
 	{
@@ -474,7 +473,8 @@ void Player::pixelCollision()
 		{
 			_jumpPower = -20;		//더이상 -되지않게 점프파워 값을 고정
 		}
-		_body = RectMake(_x, _y, baseCharIg->getFrameWidth(), baseCharIg->getFrameHeight());
+		_body = RectMake(_x + 10, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 20, IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+
 	}
 
 	for (int i = _x + baseCharIg->getFrameWidth() - 15; i < _x + baseCharIg->getFrameWidth() + 5; i++)
@@ -617,7 +617,8 @@ void Player::dash()
 
 	_x += cosf(getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _dashPoint.x, _dashPoint.y)) * 20;
 	_y += -sinf(getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _dashPoint.x, _dashPoint.y)) * 20;
-	_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+	_body = RectMake(_x + 10, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 20, IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+
 	_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
 
 
@@ -628,7 +629,7 @@ void Player::dash()
 	//대쉬할때만 속도가 바뀌므로 픽셀충돌 범위늘려서 따로검사
 	for (int i = _probeBottom - 20; i < _probeBottom + 5; i++)
 	{
-		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + baseCharIg->getFrameWidth() / 2, i);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);				//색깔 값 넣어주기
 		int b = GetBValue(color);
@@ -642,7 +643,7 @@ void Player::dash()
 	}
 	for (int i = _y + 20; i > _y - 5; i--)
 	{
-		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + baseCharIg->getFrameWidth() / 2, i);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -655,7 +656,7 @@ void Player::dash()
 	}
 	for (int i = _x + baseCharIg->getFrameWidth() - 20; i < _x + baseCharIg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - baseCharIg->getFrameHeight() / 2);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - baseCharIg->getFrameHeight() / 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -668,7 +669,7 @@ void Player::dash()
 
 	for (int i = _x + 20; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - baseCharIg->getFrameHeight() / 2);
+		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - baseCharIg->getFrameHeight() / 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);

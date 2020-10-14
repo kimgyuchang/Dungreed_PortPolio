@@ -20,6 +20,7 @@ public:
 	HRESULT init();
 	void InitWardrobeString();
 	void initUI();
+	void GetItemUIInit();
 	void ConversationUIInit();
 	void WardrobeUIInit();
 	void DungeonMapUIInit();

@@ -288,6 +288,12 @@
     <ClCompile Include="Coin.cpp">
       <Filter>MainGame\Object\Etc</Filter>
     </ClCompile>
+    <ClCompile Include="DropObjs.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="DropItem.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -498,6 +504,12 @@
       <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClInclude>
     <ClInclude Include="Coin.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="DropObjs.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="DropItem.h">
       <Filter>MainGame\Object\Etc</Filter>
     </ClInclude>
   </ItemGroup>
