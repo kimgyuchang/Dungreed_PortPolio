@@ -157,9 +157,9 @@ void Shop::ReNewUI()
 
 	UIImage* uiToolTip = new UIImage();
 	uiToolTip->init("itemToolTip", 0, 0, 400, 500, "ToolTipCover", false, 0, 0, 4.0f, 5.0f, 130);
-	uiToolTip->SetIsViewing(false);
-
 	_shopBase->AddFrame(uiToolTip);
+	
+	uiToolTip->SetIsViewing(false);
 }
 
 /// <summary>

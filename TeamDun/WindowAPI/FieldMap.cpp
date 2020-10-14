@@ -5,6 +5,7 @@ HRESULT FieldMap::init(string fileName)
 {
 	_fileName = fileName;
 	_spawnTimer = 0;
+	_visited = false;
 
 	_nextMapIndex[0] = -1;
 	_nextMapIndex[1] = -1;
