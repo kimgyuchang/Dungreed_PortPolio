@@ -7,11 +7,11 @@ HRESULT SwordSkel::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_body = RectMake(_x, _y, 42, 57);
 	_frameX = _frameY = 0;
 
-	_count = _index = _jumpTimer = _downJmpTimer = _attackCoolTime = _attackTimer = _effectTimer = _effect = 0;
+	_count = _index = _jumpTimer = _downJmpTimer = _attackTimer = _effectTimer = _effect = 0;
+	_attackCoolTime = 40 + RANDOM->range(20);
 	_gravity = 0.5;
 	_jumpPower = 10.0f;
 	_moveSpeed = 3;
-
 	_initHp = _HP = 50;
 
 
@@ -73,16 +73,16 @@ void SwordSkel::update()
 				_isLeft = false;
 				_x -= _moveSpeed;
 			}
-			if (ENTITYMANAGER->getPlayer()->GetX() - 50 < _x  &&
+			if (ENTITYMANAGER->getPlayer()->GetX() - 50 < _x &&
 				ENTITYMANAGER->getPlayer()->GetX() + 50 + IMAGEMANAGER->findImage("SwordSkelIdle")->getFrameWidth() > _x)
 			{
-				_attackCoolTime++;
+				_attackCoolTime--;
 				_isAttack = true;
 				_skelSword.angle = PI / 2;
-				if (_attackCoolTime > 50)
+				if (_attackCoolTime < 0)
 				{
 					_state = ES_ATTACK;
-					_attackCoolTime = 0;
+					_attackCoolTime = _attackCoolTime = 40 + RANDOM->range(20);
 				}
 			}
 			break;
@@ -342,7 +342,6 @@ void SwordSkel::pixelCollision()
 	}
 	if (_isLeft)
 	{
-
 		for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 		{
 			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + SwordSkelIdle->getFrameWidth() - 11, i);
@@ -415,7 +414,7 @@ void SwordSkel::pixelCollision()
 		if ((r == 255 && g == 0 && b == 0))
 		{
 			_jumpPower = -2;
-			_y = i+5;
+			_y = i + 5;
 
 			break;
 		}
@@ -439,7 +438,7 @@ void SwordSkel::pixelCollision()
 		{
 			_RightCollision1 = true;
 
-			if (_RightCollision1 &&_RightCollision2)
+			if (_RightCollision1 && _RightCollision2)
 			{
 				_x = i - SwordSkelIdle->getFrameWidth();
 
@@ -493,7 +492,7 @@ void SwordSkel::pixelCollision()
 		{
 			_leftCollision1 = true;
 
-			if (_leftCollision1 &&_leftCollision2)
+			if (_leftCollision1 && _leftCollision2)
 			{
 				_x = i - _vImages[_useImage]->getFrameWidth();
 

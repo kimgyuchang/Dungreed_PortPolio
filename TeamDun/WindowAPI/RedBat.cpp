@@ -8,6 +8,7 @@ HRESULT RedBat::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_stateTimer = 0;
 	_isAtk = false;
 	_initHp = _HP = 30;
+	_attackCoolTime = 300 + RANDOM->range(200);
 
 	_Damage = 10;
 	return S_OK;
@@ -83,10 +84,10 @@ void RedBat::Attack()
 {
 	if (!_isAtk)
 	{
-		_attackCoolTime++;
-		if (_attackCoolTime > 650)
+		_attackCoolTime--;
+		if (_attackCoolTime < 0)
 		{
-			_attackCoolTime = 0;
+			_attackCoolTime = 300 + RANDOM->range(200);
 			_isAtk = true;	
 			_useImage = 1;
 			if (_isLeft)

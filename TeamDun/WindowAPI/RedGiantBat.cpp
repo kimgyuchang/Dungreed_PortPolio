@@ -14,7 +14,7 @@ HRESULT RedGiantBat::init(int id, string name, OBJECTTYPE type, vector<string> i
 	_initHp = _HP = 80;
 	_Damage = 10;
 	_body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight());
-	
+	_attackCoolTime = 150 + RANDOM->range(100);
 	_angle = 0;
 	return S_OK;
 }
@@ -77,11 +77,11 @@ void RedGiantBat::Attack()
 {
 	if (!_isAtk && !_bulletStop)
 	{
-		_attackCoolTime++;
+		_attackCoolTime--;
 
-		if (_attackCoolTime > 200)
+		if (_attackCoolTime < 0)
 		{
-			_attackCoolTime = 0;
+			_attackCoolTime = 150 + RANDOM->range(100);
 			_isAtk = true;
 			_ReadyBullet = true;
 		}

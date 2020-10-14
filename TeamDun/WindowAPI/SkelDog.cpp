@@ -8,13 +8,15 @@ HRESULT SkelDog::init(int id, string name, OBJECTTYPE type, vector<string> imgNa
 	_state = ES_IDLE;
 	_frameX, _frameY = 0;
 
-	_count = _index = _attackCoolTime = _jumpTimer = _jumpCount = 0;
+	_count = _index = _jumpCount = 0;
 	_initHp = _HP = 30;
 	_gravity = 0.4f;
 	_jumpPower = 7.0f;
-
+	_attackCoolTime = RANDOM->range(50) + 30;
 	_isAttack = _isJump = false;
-
+	_jumpTimer = 80 + RANDOM->range(50);
+	_randomXPos = RANDOM->range(-100, 100);
+	_randomXPosTimer = RANDOM->range(30) + 70;
 	return S_OK;
 }
 
@@ -27,8 +29,7 @@ void SkelDog::update()
 	this->Animation();
 	this->pixelCollision();
 
-	_attackCoolTime++;
-	_jumpTimer++;
+	_jumpTimer--;
 
 	if (_isSpawned)
 	{
@@ -40,24 +41,43 @@ void SkelDog::update()
 				_state = ES_MOVE;
 			}
 			break;
+
 		case ES_MOVE:
+
 			_body = RectMake(_x, _y, 60, 54);
-			if (ENTITYMANAGER->getPlayer()->GetX() - 70 > _x)
+			_randomXPosTimer--;
+
+			if (abs(ENTITYMANAGER->getPlayer()->GetX() + _randomXPos - _x) < 10 || _randomXPosTimer < 0) // 랜덤 좌표와 거리 10 이하면 랜덤 좌표 재지정
 			{
-				_isLeft = true;
-				_x += 4;
+				_randomXPos = RANDOM->range(-200, 200);
+				_randomXPosTimer = RANDOM->range(30) + 70;
 			}
-			else if (ENTITYMANAGER->getPlayer()->GetX() + 70 < _x)
+
+			else // 거리 10 이상 -> 부호에 따라 좌우 및 이동 지정
 			{
-				_isLeft = false;
-				_x -= 4;
+				if (ENTITYMANAGER->getPlayer()->GetX() + _randomXPos - _x > 0) 
+				{
+					_isLeft = true;
+					_x += 4;
+				}
+
+				else
+				{
+					_isLeft = false;
+					_x -= 4;
+				}
 			}
+
 			if (ENTITYMANAGER->getPlayer()->GetX() - 70 < _x && ENTITYMANAGER->getPlayer()->GetX() + 70 > _x)
 			{
-				if (_attackCoolTime % 50 == 0)
+				_attackCoolTime--;
+
+				if (_attackCoolTime < 0)
 				{
 					_isAttack = true;
+					_attackCoolTime = RANDOM->range(50) + 40;
 				}
+
 				if (_isAttack)
 				{
 					_state = ES_ATTACK;
@@ -121,11 +141,11 @@ void SkelDog::Attack()
 {
 	Enemy::Attack();
 
-	if (abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 100 && abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200 && _isAttack)
+	if (abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 200 && abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200 && _isAttack)
 	{
-		if (_jumpTimer > 100)
+		if (_jumpTimer < 0)
 		{
-			_jumpTimer = 0;
+			_jumpTimer = 50 + RANDOM->range(30);
 			if (_jumpCount == 0)
 			{
 				_jumpPower = 10;
@@ -378,7 +398,6 @@ void SkelDog::pixelCollision()
 			if (_RightCollision1 &&_RightCollision2)
 			{
 				_x = i - SkelDogIdle->getFrameWidth();
-
 			}
 			break;
 		}
@@ -426,7 +445,7 @@ void SkelDog::pixelCollision()
 
 			if (_leftCollision1 &&_leftCollision2)
 			{
-				_x = i - _vImages[_useImage]->getFrameWidth();
+				_x = i + 5 ;
 			}
 			break;
 		}
@@ -442,7 +461,7 @@ void SkelDog::pixelCollision()
 		if ((r == 255 && g == 0 && b == 0))
 		{
 			_leftCollision2 = true;
-			_x = i;
+			_x = i + 5;
 
 			break;
 		}
@@ -457,7 +476,7 @@ void SkelDog::pixelCollision()
 
 		if ((r == 255 && g == 0 && b == 0))
 		{
-			_x = i;
+			_x = i + 5;
 
 			break;
 		}

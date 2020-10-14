@@ -8,8 +8,8 @@ HRESULT Minotaurs::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_state = ES_IDLE;
 
 	_dashTimer = _movePoint = 0;
-	_attackCoolTime = _attackCount = _attackIndexFix = 0;
-
+	_attackCount = _attackIndexFix = 0;
+	_attackCoolTime = 80 + RANDOM->range(40);
 	_index = _count = 0;
 	_effectTimer = _effect = 0;
 	_frameX, _frameY = 0;
@@ -34,7 +34,7 @@ void Minotaurs::update()
 		switch (_state)
 		{
 		case ES_IDLE:
-			_attackCoolTime++;
+			_attackCoolTime--;
 
 			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 300 && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 100)
 			{
@@ -44,10 +44,10 @@ void Minotaurs::update()
 				}
 				else if (_attackCount >= 1)
 				{
-					if (_attackCoolTime > 100)
+					if (_attackCoolTime < 0)
 					{
 						_state = ES_MOVE;
-						_attackCoolTime = 0;
+						_attackCoolTime = 80 + RANDOM->range(40);
 					}
 				}
 

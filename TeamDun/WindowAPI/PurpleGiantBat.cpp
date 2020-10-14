@@ -9,7 +9,7 @@ HRESULT PurpleGiantBat::init(int id, string name, OBJECTTYPE type, vector<string
 	_isAtk = false;
 	_initHp = _HP = 80;
 	_fireAngle = 0;
-
+	_attackCoolTime = 200 + RANDOM->range(150);
 	_Damage = 11;
 	return S_OK;
 }
@@ -56,10 +56,10 @@ void PurpleGiantBat::Attack()
 {
 	if (!_isAtk)
 	{
-		_attackCoolTime++;
-		if (_attackCoolTime > 300)
+		_attackCoolTime--;
+		if (_attackCoolTime < 0)
 		{
-			_attackCoolTime = 0;
+			_attackCoolTime = 200 + RANDOM->range(150);
 			_isAtk = true;
 			_useImage = 1;
 			if (_isLeft)
