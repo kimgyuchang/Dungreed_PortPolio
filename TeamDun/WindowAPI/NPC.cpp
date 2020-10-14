@@ -5,9 +5,23 @@ HRESULT NPC::init(int id, string name, OBJECTTYPE type, vector<string> imgNames)
 {
 	Object::init(id, name, type, imgNames);
 	_isInteracting = false;
-	_interactionImage = IMAGEMANAGER->findImage("Keyboard_F");
-	
+	_isActivating = false;
+
 	return S_OK;
+}
+
+/// <summary>
+/// DATAMANAGER에서 불러온 후 init 가능한 것들만 init한다.
+/// </summary>
+void NPC::initSecond()
+{
+	_interactionImage = IMAGEMANAGER->findImage("Keyboard_F");
+	_convFrame = UIMANAGER->GetGameFrame()->GetChild("convFrame");
+	_selectFrame = UIMANAGER->GetGameFrame()->GetChild("selectFrame");
+}
+
+void NPC::release()
+{
 }
 
 void NPC::update()
@@ -33,16 +47,68 @@ void NPC::CollisionInteraction()
 	}
 }
 
+/// <summary>
+/// 키를 통해 상호작용을 시작한다.
+/// </summary>
 void NPC::PressActivateKey()
 {
 	if (_isInteracting && INPUT->GetKeyDown('F'))
+	{
+		ShowConversation();
+	}
+}
+
+/// <summary>
+/// 대화를 On/Off한다.
+/// </summary>
+void NPC::ShowConversation()
+{
+	if (_useConv && !_isActivating)
+	{
+		SetConvUI();
+		_convFrame->ToggleIsViewing();
+
+		if(_useSelect) _selectFrame->ToggleIsViewing();
+	}
+
+	else
 	{
 		Activate();
 	}
 }
 
-void NPC::release()
+/// <summary>
+/// 대화창의 텍스트 내용물들을 수정한다.
+/// </summary>
+void NPC::SetConvUI()
 {
+	dynamic_cast<UIText*>(_convFrame->GetChild("name"))->SetText(_npcName);
+	dynamic_cast<UIText*>(_convFrame->GetChild("text"))->SetText(_vConvTexts[RANDOM->range((int)_vConvTexts.size())]);
+	dynamic_cast<UIText*>(_convFrame->GetChild("text"))->SetCntPos(0);
+
+	if (_useSelect)
+	{
+		dynamic_cast<UIText*>(_selectFrame->GetChild("selected1")->GetChild("text"))->SetText(_vSelectTexts[0]);
+		dynamic_cast<UIText*>(_selectFrame->GetChild("selected2")->GetChild("text"))->SetText(_vSelectTexts[1]);
+		_selectFrame->GetChild("selected1")->SetImage(nullptr);
+		_selectFrame->GetChild("selected2")->SetImage(nullptr);
+	}
+}
+
+/// <summary>
+/// 대화를 진행한다. 이때 선택지를 누르는 것에 대한 반응도 추가된다.
+/// </summary>
+void NPC::Conversation()
+{
+	// 각자 구현 필요
+}
+
+/// <summary>
+/// 본격적인 상호작용의 진행
+/// </summary>
+void NPC::Activate()
+{
+	// 각자 구현 필요
 }
 
 void NPC::render(HDC hdc)
@@ -66,8 +132,4 @@ void NPC::Animation()
 
 		if (_frameX >= _vImages[_useImage]->getMaxFrameX()) _frameX = 0;
 	}
-}
-
-void NPC::Activate()
-{
 }

@@ -23,10 +23,12 @@ protected :
 public :
 
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
+	void Conversation();
 	virtual void	update();
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 	virtual void	Animation();
+	virtual void	initSecond();
 	virtual void	Activate();
 	void InitToolTipItem(Item* item);
 	string OptionString(SubOption* option);

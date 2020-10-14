@@ -52,6 +52,10 @@ void UIText::render(HDC hdc)
 		case PIX:
 			switch (_wordSize) // 폰트 크기에 따라
 			{
+			case WS_BIGGEST:
+				hFont = CreateFont(55, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
+					VARIABLE_PITCH | FF_ROMAN, "Neo둥근모");
+				break;
 			case WS_BIG: 
 				hFont = CreateFont(40, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
 					VARIABLE_PITCH | FF_ROMAN, "Neo둥근모"); 
