@@ -72,15 +72,21 @@ float UTIL::SetAngleInBoundary(float& angle)
 	return angle;
 }
 
-bool UTIL::interactRectArc(RECT& rect, POINT center, float radius, float minAngle, float maxAngle, bool useCout)
+bool UTIL::interactRectArc(RECT& rect, POINT center, float radius, float minAngle, float maxAngle, float checkDistance, bool useCout)
 {
 	SetAngleInBoundary(maxAngle);
 	SetAngleInBoundary(minAngle);
 
-	if (useCout) cout << minAngle << " " << maxAngle << endl;
 
+	if (checkDistance > radius / 2)
+	{
+		checkDistance = radius / 2;
+	}
+	if(useCout) cout << minAngle << " " << maxAngle << endl;
 	POINT rectPoints[4] = { POINT{rect.left, rect.top}, POINT{rect.left, rect.bottom}, POINT{rect.right, rect.top}, POINT{rect.right, rect.bottom} };
-
+	
+	vector<POINT> vPoint;
+	
 	for (int i = 0; i < 4; i++)
 	{
 		float distance = abs(getDistance(rectPoints[i].x, rectPoints[i].y, center.x, center.y));
@@ -104,6 +110,45 @@ bool UTIL::interactRectArc(RECT& rect, POINT center, float radius, float minAngl
 				if (angle <= maxAngle || angle >= minAngle)
 				{
 					return true;
+				}
+			}
+		}
+	}
+	
+	for (int i = rect.left; i < rect.right+ checkDistance; i += checkDistance)
+	{
+		if (i > rect.right)
+		{
+			i = rect.right;
+		}
+		for (int j = rect.top; j < rect.bottom+ checkDistance; j += checkDistance)
+		{
+			if (j > rect.bottom)
+			{
+				j = rect.bottom;
+			}
+			float distance = abs(getDistance(i, j, center.x, center.y));
+			if (distance > radius) continue;
+
+			else
+			{
+				float angle = getAngle(center.x, center.y, i, j);
+				SetAngleInBoundary(angle);
+
+				if (minAngle <= maxAngle)
+				{
+					if (angle >= minAngle && angle <= maxAngle)
+					{
+						return true;
+					}
+				}
+
+				else
+				{
+					if (angle <= maxAngle  ||angle >= minAngle)
+					{
+						return true;
+					}
 				}
 			}
 		}
