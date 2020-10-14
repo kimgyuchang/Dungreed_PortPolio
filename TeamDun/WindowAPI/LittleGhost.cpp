@@ -7,13 +7,13 @@ HRESULT LittleGhost::init(int id, string name, OBJECTTYPE type, vector<string> i
 
 	_state = ES_IDLE;
 
-	_index = _count = _attackCoolTime = _attackTime = _moveTimer = _moveCoolTime = 0;
+	_index = _count = _attackTime = _moveTimer = _moveCoolTime = 0;
 	_frameX, _frameY = 0;
 	_initHp = _HP = 15;
 	_realMoveX, _realMoveY = 0;
 	_Damage = 5;
 	_isLeft = false;
-
+	_attackCoolTime = RANDOM->range(20) + 20;
 	return S_OK;
 }
 
@@ -35,12 +35,12 @@ void LittleGhost::update()
 		switch (_state)
 		{
 		case ES_IDLE:
-			_attackCoolTime++;
+			_attackCoolTime--;
 
-			if (_attackCoolTime > 30)
+			if (_attackCoolTime < 0)
 			{
 				_state = ES_MOVE;
-				_attackCoolTime = 0;
+				_attackCoolTime = RANDOM->range(20) + 20;
 			}
 			break;
 		case ES_MOVE:
@@ -218,8 +218,4 @@ void LittleGhost::Animation()
 	default:
 		break;
 	}
-}
-
-void LittleGhost::pixelCollision()
-{
 }

@@ -5,7 +5,7 @@
 // 글자의 크기
 enum WORDSIZE
 {
-	WS_BIG, WS_MIDDLE, WS_SMALL, WS_SMALLEST, WS_MIDDLESMALL,
+	WS_BIGGEST, WS_BIG, WS_MIDDLE, WS_SMALL, WS_SMALLEST, WS_MIDDLESMALL,
 };
 
 // 글자가 애니메이션으로 나오는 속도
@@ -50,7 +50,7 @@ public:
 	WORDSIZE GetWordSize() { return _wordSize; }
 
 	void SetText(string text) { _text = text; }
-	
+	void SetCntPos(int n) { _cntPos = n; }
 	virtual void init(string name, float x, float y, float xSize, float ySize, string text, FONT font, WORDSIZE size, WORDSORT sort = WORDSORT::WSORT_LEFT, COLORREF color = RGB(255,255,255), bool isAnimation = false, WORDANIMATIONSPEED speed = WORDANIMATIONSPEED::WAS_MIDDLE);
 	virtual void render(HDC hdc);
 };

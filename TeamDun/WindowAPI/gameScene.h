@@ -18,11 +18,16 @@ private:
 	int						_mouseLocation;		//현재 마우스좌표를 저장할 변수
 public:
 	HRESULT init();
+	void InitWardrobeString();
 	void initUI();
+	void ConversationUIInit();
+	void WardrobeUIInit();
 	void DungeonMapUIInit();
 	void InventoryUIInit();
-	void InitCharUI();
+	void ShopUIInit();
+	void CharUIInit();
 	void release();
+	void UpdateWardrobeUI();
 	void update();
 	void render();
 };

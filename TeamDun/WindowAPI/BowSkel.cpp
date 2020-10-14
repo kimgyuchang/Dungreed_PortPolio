@@ -13,6 +13,7 @@ HRESULT BowSkel::init(int id, string name, OBJECTTYPE type, vector<string> imgNa
 	_skelBow.frameX = 0;
 	_skelBow.frameY = 0;
 	_skelBow.angle = 0.f;
+	_attackCoolTime = 150 + RANDOM->range(200);
 
 	_Damage = 10;
 	return S_OK;
@@ -55,10 +56,10 @@ void BowSkel::Attack()
 {
 	if (!_isAtk)
 	{
-		_attackCoolTime++;
-		if (_attackCoolTime > 300)
+		_attackCoolTime--;
+		if (_attackCoolTime < 0)
 		{
-			_attackCoolTime = 0;
+			_attackCoolTime = 150 + RANDOM->range(200);
 			_isAtk = true;
 			if (_isLeft)
 			{

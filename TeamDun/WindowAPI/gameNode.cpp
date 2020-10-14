@@ -83,7 +83,7 @@ LRESULT gameNode::MainProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 		switch (wParam)
 		{
 		case VK_ESCAPE:
-			PostMessage(hWnd, WM_DESTROY, 0, 0);
+			//PostMessage(hWnd, WM_DESTROY, 0, 0); // ESCÁ¾·á
 			break;
 		}
 		break;

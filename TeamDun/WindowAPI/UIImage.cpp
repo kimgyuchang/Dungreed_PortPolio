@@ -85,7 +85,6 @@ void UIImage::render(HDC hdc)
 				if(!_vChildFrames[i]->GetRenderBeforeParent())
 					_vChildFrames[i]->render(hdc);
 			}
-			
 		}
 	}
 }

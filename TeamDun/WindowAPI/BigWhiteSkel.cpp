@@ -7,15 +7,16 @@ HRESULT BigWhiteSkel::init(int id, string name, OBJECTTYPE type, vector<string> 
 	_body = RectMake(_x, _y, 99, 120);
 	_state = ES_IDLE;
 
-	_index = _count = _jumpCount = _downJmpTimer = _attackCoolTime = _jumpTimer = 0;
+	_index = _count = _jumpCount = _downJmpTimer = _jumpTimer = 0;
 	_frameX, _frameY = 0;
-
+	_attackCoolTime = RANDOM->range(40) + 80;
 	_gravity = 0.5f;
 	_jumpPower = 7.0f;
 	_isLeft = _isAttack = _isJump = false;
 	_initHp = _HP = 50;
 	_attackAnimFrame = vector<int>{ 40,3,5,5,5,5,5,5,5,5,5,5 };
-
+	_randomXPosTimer = RANDOM->range(30) + 70;
+	_randomXPos = RANDOM->range(-200, 200);
 	_Damage = 12;
 
 	return S_OK;
@@ -25,46 +26,56 @@ void BigWhiteSkel::update()
 {
 	Enemy::update();
 
-
 	if (_isSpawned)
 	{
-		this->Move();
-		this->Animation();
-		this->pixelCollision();
 		switch (_state)
 		{
 		case ES_IDLE:
 			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200 && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 100)
-			{	
+			{
 				_state = ES_MOVE;
 			}
 			break;
 		case ES_MOVE:
 			_body = RectMake(_x, _y, 99, 120);
-			if (ENTITYMANAGER->getPlayer()->GetX() - 70 > _x && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 100)
+
+			_randomXPosTimer--;
+
+			if (abs(ENTITYMANAGER->getPlayer()->GetX() + _randomXPos - _x) < 10 || _randomXPosTimer < 0) // 랜덤 좌표와 거리 10 이하면 랜덤 좌표 재지정
 			{
-				_isLeft = true;
-				_x += 3;
+				_randomXPos = RANDOM->range(-200, 200);
+				_randomXPosTimer = RANDOM->range(30) + 70;
 			}
-			else if (ENTITYMANAGER->getPlayer()->GetX() + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() < _x)
+
+			else // 거리 10 이상 -> 부호에 따라 좌우 및 이동 지정
 			{
-				_isLeft = false;
-				_x -= 3;
+				if (ENTITYMANAGER->getPlayer()->GetX() + _randomXPos - _x > 0)
+				{
+					_isLeft = true;
+					_x += 3;
+				}
+
+				else
+				{
+					_isLeft = false;
+					_x -= 3;
+				}
 			}
+
 			if (ENTITYMANAGER->getPlayer()->GetX() - 70 <= _x && ENTITYMANAGER->getPlayer()->GetX() + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() + 70 >= _x)
 			{
-				_attackCoolTime++;
+				_attackCoolTime--;
 
-				if (_attackCoolTime > 100)
+				if (_attackCoolTime < 0)
 				{
-					_attackCoolTime = 0;
+					_attackCoolTime = RANDOM->range(40) + 80;
 					_isAttack = true;
 					_state = ES_ATTACK;
 					if (_isLeft)
 					{
 						_frameX = 0;
 					}
-					else
+					if (!_isLeft)
 					{
 						_x = _x - 95;
 						_frameX = 11;
@@ -81,6 +92,10 @@ void BigWhiteSkel::update()
 		default:
 			break;
 		}
+
+		this->Move();
+		this->Animation();
+		this->pixelCollision();
 	}
 }
 
@@ -95,7 +110,6 @@ void BigWhiteSkel::render(HDC hdc)
 		Enemy::render(hdc);
 
 		//CAMERAMANAGER->Rectangle(hdc, _body);
-
 	}
 }
 
@@ -224,6 +238,7 @@ void BigWhiteSkel::Animation()
 					_state = ES_MOVE;
 					_isAttack = false;
 					_frameX = 0;
+					_useImage = 1;
 				}
 			}
 		}
@@ -242,6 +257,7 @@ void BigWhiteSkel::Animation()
 					_isAttack = false;
 					_frameX = 0;
 					_x = _x + 95;
+					_useImage = 1;
 				}
 			}
 		}
@@ -259,7 +275,6 @@ void BigWhiteSkel::pixelCollision()
 	bool _RightCollision1 = false;
 	bool _RightCollision2 = false;
 
-
 	image* pixelMapIg = IMAGEMANAGER->findImage("PixelMapIg");
 	image* skelIdleImg = IMAGEMANAGER->findImage("BigWhiteSkelIdle");
 
@@ -267,7 +282,7 @@ void BigWhiteSkel::pixelCollision()
 
 	for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x +11, i);
+		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + 11, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -278,7 +293,7 @@ void BigWhiteSkel::pixelCollision()
 			_isJump = false;
 			_jumpPower = -2;
 
-			_y = i - _vImages[_useImage]->getFrameHeight();
+			_y = i - skelIdleImg->getFrameHeight();
 			_jumpCount = 0;
 
 			break;
@@ -288,7 +303,7 @@ void BigWhiteSkel::pixelCollision()
 			isCollide = true;
 			_jumpPower = -2;
 
-			_y = i - _vImages[_useImage]->getFrameHeight();
+			_y = i - skelIdleImg->getFrameHeight();
 			_jumpCount = 0;
 			break;
 		}
@@ -298,7 +313,7 @@ void BigWhiteSkel::pixelCollision()
 
 		for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 		{
-			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + skelIdleImg->getFrameWidth()-11, i);
+			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + skelIdleImg->getFrameWidth() - 11, i);
 			int r = GetRValue(color);
 			int g = GetGValue(color);
 			int b = GetBValue(color);
@@ -339,7 +354,7 @@ void BigWhiteSkel::pixelCollision()
 				isCollide = true;
 				_jumpPower = -2;
 
-				_y = i - _vImages[_useImage]->getFrameHeight();
+				_y = i - skelIdleImg->getFrameHeight();
 				_jumpCount = 0;
 
 				break;
@@ -350,7 +365,7 @@ void BigWhiteSkel::pixelCollision()
 				isCollide = true;
 				_jumpPower = -2;
 
-				_y = i - _vImages[_useImage]->getFrameHeight();
+				_y = i - skelIdleImg->getFrameHeight();
 				_jumpCount = 0;
 				break;
 			}
@@ -368,7 +383,7 @@ void BigWhiteSkel::pixelCollision()
 		if ((r == 255 && g == 0 && b == 0))
 		{
 			_jumpPower = -2;
-			_y = i +5;
+			_y = i + 5;
 
 			break;
 		}
@@ -378,7 +393,7 @@ void BigWhiteSkel::pixelCollision()
 		_y -= _jumpPower;
 		_jumpPower -= _gravity;
 
-		_body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight());
+		_body = RectMake(_x, _y, skelIdleImg->getFrameWidth(), skelIdleImg->getFrameHeight());
 	}
 
 	for (int i = _x + skelIdleImg->getFrameWidth() - 15; i < _x + skelIdleImg->getFrameWidth() + 5; i++)
@@ -392,7 +407,7 @@ void BigWhiteSkel::pixelCollision()
 		{
 			_RightCollision1 = true;
 
-			if (_RightCollision1 &&_RightCollision2)
+			if (_RightCollision1 && _RightCollision2)
 			{
 				_x = i - skelIdleImg->getFrameWidth();
 
@@ -429,7 +444,6 @@ void BigWhiteSkel::pixelCollision()
 
 			_x = i - skelIdleImg->getFrameWidth();
 
-
 			break;
 		}
 	}
@@ -446,9 +460,9 @@ void BigWhiteSkel::pixelCollision()
 		{
 			_leftCollision1 = true;
 
-			if (_leftCollision1 &&_leftCollision2)
+			if (_leftCollision1 && _leftCollision2)
 			{
-				_x = i - _vImages[_useImage]->getFrameWidth();
+				_x = i - skelIdleImg->getFrameWidth();
 
 			}
 
