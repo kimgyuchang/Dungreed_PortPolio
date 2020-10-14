@@ -218,7 +218,7 @@ void Player::render(HDC hdc)
 		CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);
 		break;
 	case PS_DIE:
-		break;
+		break;	
 	default:
 		break;
 	}
