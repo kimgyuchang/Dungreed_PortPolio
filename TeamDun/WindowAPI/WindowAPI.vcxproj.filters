@@ -303,6 +303,9 @@
     <ClCompile Include="Treasure.cpp">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClCompile>
+    <ClCompile Include="Colt.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Range</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -529,6 +532,9 @@
     </ClInclude>
     <ClInclude Include="Treasure.h">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Colt.h">
+      <Filter>MainGame\Item\Items\Weapon\Range</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

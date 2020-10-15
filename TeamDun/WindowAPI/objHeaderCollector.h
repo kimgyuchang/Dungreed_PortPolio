@@ -25,3 +25,4 @@
 #include "DropItem.h"
 #include "Treasure.h"
 #include "Portal.h"
+#include "Colt.h"

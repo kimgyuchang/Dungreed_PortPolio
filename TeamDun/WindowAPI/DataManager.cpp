@@ -183,7 +183,9 @@ void DataManager::GetItemData()
 		case 4000: // 마검 엘레마
 			item = new DemonSword();
 			break;
-
+		case 4001: // 더콜트
+			item = new Colt();
+			break;
 		default:
 			item = new Item();
 			break;

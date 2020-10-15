@@ -41,6 +41,7 @@ private:
 	bool			_isJump;				// 점프중인지
 	bool			_downJump;				// 아래점프중인지
 	bool			_isDash;
+	bool			_isPlayerDead;
 	// 피격관련
 	bool			_isStun;				//스턴상태인지
 	int				_stunCount;
@@ -55,6 +56,8 @@ private:
 	float			_moveSpeed;				// 이동속도
 	float			_jumpPower;				// 점프력
 	int				_dashCount;				// 대쉬 횟수
+	int				_dashRestoreCount;		// 대쉬 복구카운트
+	int				_dashRestoreTime;		// 대쉬 복구시간
 	int				_maxDashCount;			// 최대 대쉬 횟수
 	// - 내부적 수치
 	float			_gravity;				// 중력
