@@ -254,7 +254,7 @@ void RedBat::PixelCollision()
 	
 	for (int i = _probeBottom - 2; i < _probeBottom + 1; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + RedBatIg->getFrameWidth()/2, i);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + RedBatIg->getFrameWidth()/2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -278,7 +278,7 @@ void RedBat::PixelCollision()
 	
 	for (int i = _y + 2; i > _y -1; i--)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + RedBatIg->getFrameWidth()/2, i);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + RedBatIg->getFrameWidth()/2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -300,7 +300,7 @@ void RedBat::PixelCollision()
 
 	for (int i = _x + RedBatIg->getFrameWidth() - 2; i < _x + RedBatIg->getFrameWidth() + 1; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _y + RedBatIg->getFrameHeight()/2);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _y + RedBatIg->getFrameHeight()/2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -323,7 +323,7 @@ void RedBat::PixelCollision()
 	}
 	for (int i = _x + 2; i > _x - 1; i--)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _y + RedBatIg->getFrameHeight() / 2);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _y + RedBatIg->getFrameHeight() / 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);

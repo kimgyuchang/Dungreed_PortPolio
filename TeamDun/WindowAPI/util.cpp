@@ -196,20 +196,25 @@ string UTIL::to_string_with_precision(const float a_value, const int n = 6)
 
 void UTIL::SetFastPixel(image* img, PixelGetter* getter)
 {
-	HBITMAP bm = img->getHBitMap();
+	HBITMAP bm = img->getHBitMap(); 
 	::GetObject(bm, sizeof(BITMAP), &getter->bmInfo);
 	delete(getter->pData);
 	getter->pData = new BYTE[getter->bmInfo.bmWidthBytes * getter->bmInfo.bmHeight];
 	GetBitmapBits(bm, getter->bmInfo.bmWidthBytes * getter->bmInfo.bmHeight, getter->pData);
+	getter->mapSize = getter->bmInfo.bmWidthBytes * getter->bmInfo.bmHeight;
+	getter->byteSize = getter->bmInfo.bmWidthBytes / getter->bmInfo.bmWidth;
 }
 
 COLORREF UTIL::GetFastPixel(PixelGetter* getter, int x, int y)
 {
 	RGBQUAD* pRgb = (RGBQUAD*)getter->pData;
 
-  	BYTE r = pRgb[x + (y * getter->bmInfo.bmWidth)].rgbRed;
-	BYTE g = pRgb[x + (y * getter->bmInfo.bmWidth)].rgbGreen;
-	BYTE b = pRgb[x + (y * getter->bmInfo.bmWidth)].rgbBlue;
+	float pos = x + (y * getter->bmInfo.bmWidth);
+	if (pos * getter->byteSize >= getter->mapSize || pos < 0) return RGB(255, 255, 255);
+
+  	BYTE r = pRgb[(int)pos].rgbRed;
+	BYTE g = pRgb[(int)pos].rgbGreen;
+	BYTE b = pRgb[(int)pos].rgbBlue;
 	
 	return RGB(r, g, b);
 }

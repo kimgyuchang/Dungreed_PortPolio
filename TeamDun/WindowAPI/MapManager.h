@@ -8,6 +8,8 @@ class PixelGetter
 public :
 	BYTE* pData;
 	BITMAP bmInfo;
+	int mapSize;
+	int byteSize;
 };
 
 class MapManager : public singletonBase<MapManager>
