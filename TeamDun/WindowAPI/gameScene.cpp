@@ -66,7 +66,7 @@ void gameScene::initUI()
 void gameScene::GetItemUIInit()
 {
 	UIImage* getFrame = new UIImage();
-	getFrame->init("itemGetFrame", WINSIZEX/2 - 250, WINSIZEY - 220, 500, 150, "ScreenCover", false, 0, 0, 2.5f, 0.75f, 180);
+	getFrame->init("itemGetFrame", WINSIZEX / 2 - 250, WINSIZEY - 220, 500, 150, "ScreenCover", false, 0, 0, 2.5f, 0.75f, 180);
 	UIMANAGER->GetGameFrame()->AddFrame(getFrame);
 
 	UIFrame* itemImage = new UIFrame();
@@ -89,7 +89,7 @@ void gameScene::ConversationUIInit()
 	UIFrame* convFrame = new UIFrame();
 	convFrame->init("convFrame", 0, 530, 1440, 800, "ConversationUI");
 	UIMANAGER->GetGameFrame()->AddFrame(convFrame);
-	
+
 	UIText* name = new UIText();
 	name->init("name", 30, 30, 800, 100, "", FONT::PIX, WORDSIZE::WS_BIGGEST, WORDSORT::WSORT_LEFT, RGB(241, 182, 158));
 	convFrame->AddFrame(name);
@@ -323,7 +323,7 @@ void gameScene::InventoryUIInit()
 	UIText* moneyText = new UIText();
 	moneyText->init("moneyText", 5, 505, 300, 100, "0", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_RIGHT, RGB(255, 255, 255));
 	InventoryFrame->AddFrame(moneyText);
-	
+
 	InventoryFrame->SetIsViewing(false);
 
 	UIText* accessFullText = new UIText();
@@ -569,49 +569,49 @@ void gameScene::UpdateWardrobeUI()
 		}
 	}
 
-	if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetRect(), _ptMouse) && INPUT->GetKey(VK_LBUTTON))
+	if (UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetIsViewing() == true)
 	{
-		_scrollTimer++;
-		if (_scrollTimer == 1)
+		if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetRect(), _ptMouse) && INPUT->GetKey(VK_LBUTTON))
 		{
-			_mouseLocation = _ptMouse.x;
-		}
-
-		else if (_scrollTimer > 1)
-		{
-			for (int i = 0; i < 13; i++)
+			_scrollTimer++;
+			if (_scrollTimer == 1)
 			{
-				UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeBack" + to_string(i))->MoveFrameChild(_ptMouse.x - _mouseLocation, 0);
-				UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->MoveFrameChild(_ptMouse.x - _mouseLocation, 0);
-				UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->MoveFrameChild(_ptMouse.x - _mouseLocation, 0);
+				_mouseLocation = _ptMouse.x;
 			}
-			_mouseLocation = _ptMouse.x;
+
+			else if (_scrollTimer > 1)
+			{
+				for (int i = 0; i < 13; i++)
+				{
+					UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeBack" + to_string(i))->MoveFrameChild(_ptMouse.x - _mouseLocation, 0);
+					UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->MoveFrameChild(_ptMouse.x - _mouseLocation, 0);
+					UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->MoveFrameChild(_ptMouse.x - _mouseLocation, 0);
+				}
+				_mouseLocation = _ptMouse.x;
+			}
 		}
-	}
 
-	if (INPUT->GetIsLButtonUp())
-	{
-		_scrollTimer = 0;
-		_mouseLocation = 0;
-	}
-
-	for (int i = 0; i < 13; i++)
-	{
-		if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->GetRect(), _ptMouse))
+		if (INPUT->GetIsLButtonUp())
 		{
-			UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(true);
-			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("charNameText"))->SetText(_vCharName[i]);
-			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharExplanationText"))->SetText(_CharExplanation[i]);
-			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharAbilityText"))->SetText(_CharAbility[i]);
-			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharFirstStat"))->SetText(_CharFirstStat[i]);
-			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharSecondStat"))->SetText(_CharSecondStat[i]);
+			_scrollTimer = 0;
+			_mouseLocation = 0;
 		}
-		else
-			UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(false);
-	}
-	for (int i = 0; i < 13; i++)
-	{
-		if (UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetIsViewing() == true)
+
+		for (int i = 0; i < 13; i++)
+		{
+			if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->GetRect(), _ptMouse))
+			{
+				UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(true);
+				dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("charNameText"))->SetText(_vCharName[i]);
+				dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharExplanationText"))->SetText(_CharExplanation[i]);
+				dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharAbilityText"))->SetText(_CharAbility[i]);
+				dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharFirstStat"))->SetText(_CharFirstStat[i]);
+				dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharSecondStat"))->SetText(_CharSecondStat[i]);
+			}
+			else
+				UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(false);
+		}
+		for (int i = 0; i < 13; i++)
 		{
 			if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->GetRect(), _ptMouse) && INPUT->GetIsRButtonClicked())
 			{
