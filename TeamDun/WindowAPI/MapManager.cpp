@@ -46,6 +46,7 @@ HRESULT MapManager::init()
 
 	_pixelGetter = new PixelGetter();
 	ChangeMap(1, 8);
+
 	return S_OK;
 }
 
