@@ -296,6 +296,38 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("YellowTresureClosed", "Images/Object/YellowTresureClosed.bmp", 117, 69, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("YellowTresureOpened", "Images/Object/YellowTresureOpened.bmp", 117, 69, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("NPC_Giant", "Images/NPC/NPC_Giant.bmp", 588, 144, 4, 1, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("DungeonInn", "Images/NPC/DungeonInn.bmp", 594, 276, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_NeighboringVillager", "Images/NPC/NPC_NeighboringVillager.bmp", 324, 63, 9 , 1, true, RGB(255, 0, 255));
+
+	// FOOD //
+	_loading->LoadNormalImage("01_Bread", "Images/food/01_Bread.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("02_FriedEgg", "Images/food/02_FriedEgg.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("03_GrilledMushroom", "Images/food/03_GrilledMushroom.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("04_TamatoSoup", "Images/food/04_TamatoSoup.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("05_OnionSoup", "Images/food/05_OnionSoup.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("06_PeaSoup", "Images/food/06_PeaSoup.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("07_VegetableSalsaSoup", "Images/food/07_VegetableSalsaSoup.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("08_Lemonade", "Images/food/08_Lemonade.bmp", 75, 114, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("09_DeluxeBurger", "Images/food/09_DeluxeBurger.bmp", 219, 114, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("10_ChocolateCookie", "Images/food/10_ChocolateCookie.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("11_HotChickenStew", "Images/food/11_HotChickenStew.bmp", 219, 105, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("12_RaspberryCookie", "Images/food/12_RaspberryCookie.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("13_GriffonEggOmelette", "Images/food/13_GriffonEggOmelette.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("14_GarlicMeatball", "Images/food/14_GarlicMeatball.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("15_Bibimbap", "Images/food/15_Bibimbap.bmp", 192, 108, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("16_MinotaursSteak", "Images/food/16_MinotaursSteak.bmp", 219, 96, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("17_SpecialtyCookedMeat", "Images/food/17_SpecialtyCookedMeat.bmp", 219, 96, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("18_StrawberryPie", "Images/food/18_StrawberryPie.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("19_SeasoningSmallBird", "Images/food/19_SeasoningSmallBird.bmp", 231, 111, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("20_Beer", "Images/food/20_Beer.bmp", 114, 111, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("21_CombinationPizza", "Images/food/21_CombinationPizza.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("22_SmokedSalmon", "Images/food/22_SmokedSalmon.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("23_FriedShrimp", "Images/food/23_FriedShrimp.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("24_GrilledEel", "Images/food/24_GrilledEel.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("25_CinnamonRoll", "Images/food/25_CinnamonRoll.bmp", 219, 96, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("26_SparklingWater", "Images/food/26_SparklingWater.bmp", 75, 114, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("98_HotMeatball", "Images/food/98_HotMeatball.bmp", 219, 90, true, RGB(255, 0, 255));
+
 
 	// OBSTACLE //
 
@@ -435,12 +467,9 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("RestaurantLifeBaseBack", "Images/UI/RestaurantLifeBaseBack.bmp", 165, 48, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("RestaurantMenu", "Images/UI/RestaurantMenu.bmp", 297, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("RestaurantMenu_Selected", "Images/UI/RestaurantMenu_Selected.bmp", 297, 57, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("RestaurantMenu_Withoutmoney", "Images/UI/RestaurantMenu_Withoutmoney.bmp", 297, 57, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("RestaurantMenu_Withoutmoney_Selected", "Images/UI/RestaurantMenu_Withoutmoney_Selected.bmp", 297, 57, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("RestaurantTabl_Withoutmoney_Selected", "Images/UI/RestaurantMenu_Withoutmoney_Selected.bmp", 297, 57, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("RestaurantTable0", "Images/UI/RestaurantTable0.bmp", 573, 390, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("RestaurantTable1", "Images/UI/RestaurantTable1.bmp", 573, 390, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("RestaurantTable2", "Images/UI/RestaurantTable2.bmp", 573, 390, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("RestaurantMenu_Withoutmoney", "Images/UI/RestaurantMenu_Withoutmoney.bmp", 297, 114, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("RestaurantMenu_Withoutmoney_Selected", "Images/UI/RestaurantMenu_Withoutmoney_Selected.bmp", 297, 114, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("RestaurantTable", "Images/UI/RestaurantTable.bmp", 1719, 390, 3, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("Right", "Images/UI/Right.bmp", 270, 48, 5, 1, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Room", "Images/UI/Room.bmp", 72, 72, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("ScroolBarBase", "Images/UI/ScroolBarBase.bmp", 21, 9, true, RGB(255, 0, 255));
@@ -660,7 +689,21 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Tree1", "Images/villageFloor/Tree1.bmp", 201, 231, true, RGB(255, 0, 255));
 
 	// TOWN NPC //
-	_loading->LoadFrameImage("NPC_Trainee", "Images/villageFloor/image/NPC_Trainee.bmp", 462, 66, 7, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_Trainee", "Images/villageFloor/NPC/image/NPC_Trainee.bmp", 462, 66, 7, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_AthenaIdle", "Images/villageFloor/NPC/image/NPC_AthenaIdle.bmp", 450, 156, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_AthenaMove", "Images/villageFloor/NPC/image/NPC_AthenaMove.bmp", 450, 156, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_ButlerIdle", "Images/villageFloor/NPC/image/NPC_ButlerIdle.bmp", 180, 138, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_ButlerMove", "Images/villageFloor/NPC/image/NPC_ButlerMove.bmp", 216, 138, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_DeerFarmIdle", "Images/villageFloor/NPC/image/NPC_DeerFarmIdle.bmp", 450, 192, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_DeerFarmMove", "Images/villageFloor/NPC/image/NPC_DeerFarmMove.bmp", 450, 192, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_Jpage", "Images/villageFloor/NPC/image/NPC_Jpage.bmp", 2700, 111, 20, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_JukToIdle", "Images/villageFloor/NPC/image/NPC_JukToIdle.bmp", 1260, 222, 10, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_JukToMove", "Images/villageFloor/NPC/image/NPC_JukToMove.bmp", 882, 222, 7, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_KnightIdle", "Images/villageFloor/NPC/image/NPC_KnightIdle.bmp", 306, 132, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_KnightMove", "Images/villageFloor/NPC/image/NPC_KnightMove.bmp", 306, 132, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("PistolMan", "Images/villageFloor/NPC/image/PistolMan.bmp", 306, 108, 6, 1, true, RGB(255, 0, 255));
+
+	_loading->LoadFrameImage("DungeonEat", "Images/villageFloor/NPC/DungeonEat.bmp", 9828, 255, 28, 1, true, RGB(255, 0, 255));
 
 	// MONSTER //
 	_loading->LoadFrameImage("SealStone", "Images/Monster/SealStone.bmp", 768, 96, 8, 1, true, RGB(255, 0, 255));
@@ -737,6 +780,9 @@ void loadingScene::loadingImage()
 	// BACKGROUND //
 	_loading->LoadNormalImage("BackFloorBack1", "Images/1Floor/Basic_H_Type2_4.bmp", 1, 1);
 	_loading->LoadNormalImage("SubBGStage1", "Images/1Floor/SubBGStage1.bmp", 960, 540, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("TownBG_Day", "Images/1Floor/TownBG_Day.bmp", 960, 426, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("TownLayer_Day", "Images/1Floor/TownLayer_Day.bmp", 960, 285, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Sky_Day", "Images/1Floor/Sky_Day.bmp", 960, 540, true, RGB(255, 0, 255));
 
 	// ITEM //
 	_loading->LoadFrameImage("BasicShortSword_New", "Images/item/BasicShortSword_New.bmp", 90, 90, true, RGB(255, 0, 255));

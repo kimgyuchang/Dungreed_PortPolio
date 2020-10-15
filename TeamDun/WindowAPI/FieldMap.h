@@ -24,7 +24,10 @@ private :
 	vector<RECT>			_vMiniRc;			// 미니맵용 Rects
 	vector<RECT>			_vMiniObjRc;		// 미니맵용 오브젝트 Rects
 	image*					_backImageEtc;		// 기타 패턴 이미지
-	image*					_backImageMain;	// 메인 배경이미지
+	image*					_backImageMain;		// 메인 배경이미지
+	image*					_townBackgroundImg;	// 타운 백그라운드 이미지
+	image*					_townMountainImg;	// 타운 산 이미지
+	image*					_townGrassImg;		// 타운 풀 이미지
 	FIELDMAPTYPE			_mapType;			// 맵 타입
 	int						_nextMapIndex[4];	// 다음 방의 Vector Index (방향별)
 	POINT					_mapMovePos[4];		// 이 방으로 도착할때의 플레이어 위치
