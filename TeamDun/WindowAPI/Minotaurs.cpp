@@ -108,7 +108,7 @@ void Minotaurs::render(HDC hdc)
 
 void Minotaurs::Move()
 {
-	cout << _movePoint << endl;
+	
 	Enemy::Move();
 
 	_body = RectMake(_x, _y, 156, 150);
@@ -135,30 +135,13 @@ void Minotaurs::Move()
 	
 	_x += _moveSpeed;
 
-
+	//충돌처리
 	RECT temp;
 	if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_body))
 	{
-		if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
-		{
-			float damage;
-			float block;
-			float evasion;
-
-			damage = 20 * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100; // 대쉬시 충돌하면 기본 20데미지에서 계산
-			evasion = RANDOM->range(100);
-			block = RANDOM->range(100);
-			if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
-			{
-				if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
-				{
-					ENTITYMANAGER->getPlayer()->SetIsHit(true);
-					ENTITYMANAGER->getPlayer()->SetHitCount(0);
-					ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
-				}
-			}
-		}
+		ENTITYMANAGER->getPlayer()->GetHitDamage(20);
 		_movePoint = 101;
+		ENTITYMANAGER->getPlayer()->SetIsStun(true);
 	}
 
 	if (_movePoint > 100) // 혹은 충돌했을떄
@@ -303,25 +286,7 @@ void Minotaurs::Animation()
 						RECT temp;
 						if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_body))
 						{
-							if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
-							{
-								float damage;
-								float block;
-								float evasion;
-
-								damage = _Damage * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100; // 대쉬시 충돌하면 기본 20데미지에서 계산
-								evasion = RANDOM->range(100);
-								block = RANDOM->range(100);
-								if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
-								{
-									if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
-									{
-										ENTITYMANAGER->getPlayer()->SetIsHit(true);
-										ENTITYMANAGER->getPlayer()->SetHitCount(0);
-										ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
-									}
-								}
-							}
+							ENTITYMANAGER->getPlayer()->GetHitDamage(_Damage);
 						}
 					}
 					if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -345,25 +310,7 @@ void Minotaurs::Animation()
 						RECT temp;
 						if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_body))
 						{
-							if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
-							{
-								float damage;
-								float block;
-								float evasion;
-
-								damage = _Damage * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100; // 대쉬시 충돌하면 기본 20데미지에서 계산
-								evasion = RANDOM->range(100);
-								block = RANDOM->range(100);
-								if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
-								{
-									if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
-									{
-										ENTITYMANAGER->getPlayer()->SetIsHit(true);
-										ENTITYMANAGER->getPlayer()->SetHitCount(0);
-										ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
-									}
-								}
-							}
+							ENTITYMANAGER->getPlayer()->GetHitDamage(_Damage);
 						}
 					}
 					if (_frameX < 0)

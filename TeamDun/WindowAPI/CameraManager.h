@@ -61,6 +61,7 @@ public:
 
 	void Render(HDC hdc, image* ig, int destX, int destY, float angle = 0);
 	void AlphaRender(HDC hdc, image * ig, int destX, int destY, BYTE alpha, float angle = 0);
+	void alphaRender(HDC hdc,image* ig, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha, float angle = 0.f);
 	void StretchRender(HDC hdc, image* ig, int destX, int destY, float scaleX, float scaleY, float angle = 0);
 	void StretchAlphaRender(HDC hdc,image* ig, int destX, int destY, float scaleX, float scaleY, BYTE alpha, float angle = 0);
 	void FrameRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, float angle = 0);

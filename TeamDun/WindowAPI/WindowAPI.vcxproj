@@ -210,6 +210,7 @@
     <ClInclude Include="Skill.h" />
     <ClInclude Include="soundManager.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="StageDoor.h" />
     <ClInclude Include="startScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SwordSkel.h" />
@@ -223,6 +224,7 @@
     <ClInclude Include="UIScroll.h" />
     <ClInclude Include="UIText.h" />
     <ClInclude Include="util.h" />
+    <ClInclude Include="WormVillage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Banshee.cpp" />
@@ -283,6 +285,7 @@
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="StageDoor.cpp" />
     <ClCompile Include="startScene.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -302,6 +305,7 @@
     <ClCompile Include="UIText.cpp" />
     <ClCompile Include="util.cpp" />
     <ClCompile Include="winMain.cpp" />
+    <ClCompile Include="WormVillage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

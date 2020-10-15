@@ -208,6 +208,13 @@ void CameraManager::AlphaRender(HDC hdc, image* ig, int destX, int destY, BYTE a
 	ig->alphaRender(hdc, GetRelativeX(destX), GetRelativeY(destY), alpha, angle);
 }
 
+void CameraManager::alphaRender(HDC hdc, image* ig, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha, float angle)
+{
+	ig->alphaRender(hdc, GetRelativeX(destX), GetRelativeY(destY), sourX,sourY,sourWidth,sourHeight , alpha, angle);
+}
+
+
+
 void CameraManager::FrameAlphaRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, BYTE alpha , float angle)
 {
 	ig->frameAlphaRender(hdc, GetRelativeX(destX), GetRelativeY(destY), frameX, frameY, alpha, angle);

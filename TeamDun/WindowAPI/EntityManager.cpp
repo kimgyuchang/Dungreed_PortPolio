@@ -7,52 +7,36 @@ HRESULT EntityManager::init()
 	{
 		_vBullets[i]->init();
 	}
+	
+	_wormVillage = new WormVillage(*dynamic_cast<WormVillage*>(DATAMANAGER->GetObjectById(2501)));
+
 	return S_OK;
 }
 
 void EntityManager::update()
 {
-	for (int i = 0; i < _vObjs.size(); i++)
-	{
-		_vObjs[i]->update();
-	}
-	
-	for (int i = 0; i < _vBullets.size(); i++)
-	{
-		_vBullets[i]->update();
-	}
+	for (int i = 0; i < _vObjs.size(); i++) _vObjs[i]->update();
+	for (int i = 0; i < _vBullets.size(); i++) _vBullets[i]->update();
 	eraseBullet();
+	
+	_wormVillage->update();
 	_p->update();
 	HitBullet();
 }
 
 void EntityManager::render(HDC hdc)
 {
-	for (int i = 0; i < _vObjs.size(); i++)
-	{
-		_vObjs[i]->render(hdc);
-	}
-
-	for (int i = 0; i < _vBullets.size(); i++)
-	{
-		_vBullets[i]->render(hdc);
-	}
-
+	_wormVillage->render(hdc);
+	for (int i = 0; i < _vObjs.size(); i++) _vObjs[i]->render(hdc);
+	for (int i = 0; i < _vBullets.size(); i++) _vBullets[i]->render(hdc);
 	_p->render(hdc);
 }
 
 void EntityManager::release()
 {
-	for (int i = 0; i < _vObjs.size(); i++)		
-	{
-		_vObjs[i]->release();
-	}
-
-	for (int i = 0; i < _vBullets.size(); i++)
-	{
-		_vBullets[i]->release();
-	}
-
+	for (int i = 0; i < _vObjs.size(); i++)	_vObjs[i]->release();
+	for (int i = 0; i < _vBullets.size(); i++) _vBullets[i]->release();
+	_wormVillage->release();
 	_p->release();
 }
 
@@ -124,26 +108,7 @@ void EntityManager::HitBullet()
 			if (IntersectRect(&temp, &_p->GetBody(), &_vBullets[i]->getRc()))
 			{
 				_vBullets[i]->SetIsDead(true);
-
-				if (_p->GetIsHit() == false)
-				{
-					float damage;
-					float block;
-					float evasion;
-					
-					damage = _vBullets[i]->getDamage() * _p->GetRealDefence()/100;
-					evasion = RANDOM->range(100);
-					block = RANDOM->range(100);
-					if (_p->GetRealEvasion() <= evasion)
-					{
-						if (_p->GetBlock() <= block)
-						{
-							_p->SetIsHit(true);
-							_p->SetHitCount(0);
-							_p->SetHp(_p->GetHP() - damage);
-						}
-					}
-				}
+				_p->GetHitDamage(_vBullets[i]->getDamage());
 			}
 		}
 	}

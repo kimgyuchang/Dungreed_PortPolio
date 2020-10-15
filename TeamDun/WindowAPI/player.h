@@ -41,8 +41,12 @@ private:
 	bool			_isJump;				// 점프중인지
 	bool			_downJump;				// 아래점프중인지
 	bool			_isDash;
-	bool			_stun;					//스턴상태인지
 	// 피격관련
+	bool			_isStun;				//스턴상태인지
+	int				_stunCount;
+	int				_stunAniCout;
+	int				_stunFrameX;
+	int				_stunFrameY;
 	bool			_isHit;					// 플레이어가 데미지를 입었는지
 	int				_hitCount;				// 히트후 무적시간 세는용
 	int				_hitAlpha;				//	히트시 먹일 알파값
@@ -75,7 +79,7 @@ private:
 
 	// - 표면적 수치 (방어) 					
 	int				_initHp;				// 초기 체력
-	int				_hp;					// 체력
+	int				_hp;					
 	float			_defence;				// 방어
 	float			_evasion;				// 회피 
 	float			_toughness;				// 강인함
@@ -182,6 +186,7 @@ public:
 	void ReInitTooltip(int n);
 	void SetToolTipFrame(float x, float y, int index);
 
+	void GetHitDamage(int damage);
 
 	void SwitchWeapon();
 	void CheckAliceZone();
@@ -195,6 +200,7 @@ public:
 	bool			GetDownJump()			{ return _downJump; }
 	bool			GetIsDash()				{ return _isDash; }
 	bool			GetIsHit()				{ return _isHit; }
+	bool			GetIsStun()				{ return _isStun; }
 	float			GetMoveSpeed()			{ return _moveSpeed; }
 	float			GetJumpPower()			{ return _jumpPower; }
 	int				GetDashCount()			{ return _dashCount; }
@@ -215,7 +221,7 @@ public:
 	float			GetDashDamage()			{ return _dashDamage; }
 	float			GetReloadTime()			{ return _reloadTime; }
 	int				GetInitHp()				{ return _initHp; }
-	int				GetHp()					{ return _hp; }
+	int				Gethp()				    { return _hp; }
 	float			GetRealDefence()		{ return _realDefence; }
 	float			GetRealEvasion()		{ return _realEvasion; }
 	float			GetToughness()			{ return _toughness; }
@@ -263,6 +269,7 @@ public:
 	int				GetMaxDashCount()		{ return _maxDashCount; }
 	int				GetMaxSatiety()			{ return _maxSatiety; }
 	
+
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
 	void			SetState(PLAYERSTATE state)						{ _state = state; }
 	void			SetIsLeft(bool isLeft) 							{ _isLeft = isLeft; }
@@ -336,4 +343,5 @@ public:
 	void			SetAccesoryCount(int accesoryCount)				{ _accesoryCount = accesoryCount; }
 	void			SetMaxDashCount(int dashCount)					{ _maxDashCount = dashCount; }
 	void			SetMaxSatiety(int satiety)						{ _maxSatiety = satiety; }
+	void			SetIsStun(bool isStun)							{ _isStun = isStun; }
 };

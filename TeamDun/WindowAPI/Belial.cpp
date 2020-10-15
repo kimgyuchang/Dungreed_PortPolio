@@ -454,25 +454,7 @@ void Belial::Animation()
 		{
 			if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_vLeftRazer[i]->body))
 			{
-				if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
-				{
-					float damage;
-					float block;
-					float evasion;
-
-					damage = 15 * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100;
-					evasion = RANDOM->range(100);
-					block = RANDOM->range(100);
-					if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
-					{
-						if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
-						{
-							ENTITYMANAGER->getPlayer()->SetIsHit(true);
-							ENTITYMANAGER->getPlayer()->SetHitCount(0);
-							ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
-						}
-					}
-				}
+				ENTITYMANAGER->getPlayer()->GetHitDamage(15);
 
 
 			}
@@ -541,25 +523,7 @@ void Belial::Animation()
 		{
 			if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_vRightRazer[i]->body))
 			{
-				if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
-				{
-					float damage;
-					float block;
-					float evasion;
-
-					damage = 15 * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100;
-					evasion = RANDOM->range(100);
-					block = RANDOM->range(100);
-					if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
-					{
-						if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
-						{
-							ENTITYMANAGER->getPlayer()->SetIsHit(true);
-							ENTITYMANAGER->getPlayer()->SetHitCount(0);
-							ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
-						}
-					}
-				}
+				ENTITYMANAGER->getPlayer()->GetHitDamage(15);
 
 
 			}

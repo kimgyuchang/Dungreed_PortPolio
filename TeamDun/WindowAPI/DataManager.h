@@ -31,6 +31,7 @@ public :
 	void GetUIBrushToolGridData();
 	void GetObjectData();
 	void GetItemData();
+	Item* GetItemById(int id);
 
 	// GETSET //
 	map<int, GridData*>&	GetGridData()					{ return _mGridData; }
@@ -38,7 +39,6 @@ public :
 	map<int, MapObject*>&	GetMapObjectData()				{ return _mMapObjectData; }
 	Object*					GetObjectById(int id)			{ return _mObjectData[id]; }
 	map<int, Item*>&		GetMapItemData()				{return _mMapItemData; }
-	Item*					GetItemById(int id)				{ return _mMapItemData[id]; }
 
 	int						GetItemMaxId()					{ return _itemMaxId; }
 	int						GetItemMinId()					{ return _itemMinId; }

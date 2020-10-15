@@ -298,6 +298,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("YellowTresureClosed", "Images/Object/YellowTresureClosed.bmp", 117, 69, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("YellowTresureOpened", "Images/Object/YellowTresureOpened.bmp", 117, 69, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("NPC_Giant", "Images/NPC/NPC_Giant.bmp", 588, 144, 4, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("DungeonIngurgitate", "Images/NPC/DungeonIngurgitate.bmp", 19125, 255, 51, 1, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("DungeonInn", "Images/NPC/DungeonInn.bmp", 594, 276, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("NPC_NeighboringVillager", "Images/NPC/NPC_NeighboringVillager.bmp", 270, 69, 6, 1, true, RGB(255, 0, 255));
 
@@ -329,7 +330,6 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("25_CinnamonRoll", "Images/food/25_CinnamonRoll.bmp", 219, 96, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("26_SparklingWater", "Images/food/26_SparklingWater.bmp", 75, 114, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("98_HotMeatball", "Images/food/98_HotMeatball.bmp", 219, 90, true, RGB(255, 0, 255));
-
 
 	// OBSTACLE //
 
@@ -534,6 +534,9 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("FrontCloud", "Images/villageFloor/FrontCloud.bmp", 2556, 800, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MidCloud0", "Images/villageFloor/MidCloud0.bmp", 2556, 800, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BackCloud", "Images/villageFloor/BackCloud.bmp", 2844, 800, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("hit", "Images/UI/hit.bmp", 1440, 800, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("HpBar1", "Images/HpBar1.bmp", 75, 20, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("HpBar2", "Images/HpBar2.bmp", 75,20, true, RGB(255, 0, 255));
 
 	// ICON //
 	_loading->LoadNormalImage("brushCursor", "Images/UI/ICON/Brush.bmp", 35, 35, true, RGB(255, 0, 255));
@@ -910,6 +913,7 @@ void loadingScene::loadingImage()
 
 	_loading->LoadFrameImage("AliceZone", "Images/player/AliceZone.bmp", 630, 315, 2, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("RunEffect", "Images/player/RunEffect.bmp", 240, 96, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("stun", "Images/player/stun.bmp", 234, 27, 6, 1, true, RGB(255, 0, 255));
 
 	_loading->LoadNormalImage("PixelMapIg", "Images/PixelMapIg.bmp", 9600, 9600, true, RGB(255, 255, 255));
 	_loading->LoadNormalImage("MiniMapGroundIg", "Images/PixelMapIg.bmp", 9600, 9600, true, RGB(255, 255, 255));

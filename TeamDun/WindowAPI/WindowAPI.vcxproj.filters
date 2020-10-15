@@ -303,6 +303,12 @@
     <ClCompile Include="Treasure.cpp">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClCompile>
+    <ClCompile Include="StageDoor.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="WormVillage.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -529,6 +535,12 @@
     </ClInclude>
     <ClInclude Include="Treasure.h">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="StageDoor.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="WormVillage.h">
+      <Filter>MainGame\Object\Etc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

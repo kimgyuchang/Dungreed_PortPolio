@@ -99,25 +99,7 @@ void SwordSkel::update()
 
 					if (UTIL::interactRectArc(ENTITYMANAGER->getPlayer()->GetBody(), POINT{ _swordX ,_swordY },_skelSword.swordIg->getWidth() ,0 ,PI/2 ,10))
 					{
-						if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
-						{
-							float damage;
-							float block;
-							float evasion;
-
-							damage = _Damage * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100;
-							evasion = RANDOM->range(100);
-							block = RANDOM->range(100);
-							if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
-							{
-								if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
-								{
-									ENTITYMANAGER->getPlayer()->SetIsHit(true);
-									ENTITYMANAGER->getPlayer()->SetHitCount(0);
-									ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
-								}
-							}
-						}
+						ENTITYMANAGER->getPlayer()->GetHitDamage(_Damage);
 					}
 				}
 				if (_attackTimer < 5)
@@ -133,25 +115,7 @@ void SwordSkel::update()
 
 					if (UTIL::interactRectArc(ENTITYMANAGER->getPlayer()->GetBody(), POINT{ _swordX ,_swordY }, _skelSword.swordIg->getWidth(), PI / 2, PI, 10))
 					{
-						if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
-						{
-							float damage;
-							float block;
-							float evasion;
-
-							damage = 15 * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100;
-							evasion = RANDOM->range(100);
-							block = RANDOM->range(100);
-							if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
-							{
-								if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
-								{
-									ENTITYMANAGER->getPlayer()->SetIsHit(true);
-									ENTITYMANAGER->getPlayer()->SetHitCount(0);
-									ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
-								}
-							}
-						}
+						ENTITYMANAGER->getPlayer()->GetHitDamage(_Damage);
 					}
 				}
 				if (_attackTimer < 5)

@@ -10,7 +10,7 @@ private :
 	vector<Object*>		_vObjs;
 	vector<Bullet*>		_vBullets;
 	Player*				_p;
-	
+	WormVillage*		_wormVillage;
 
 public :
 	HRESULT init();
@@ -22,11 +22,11 @@ public :
 	vector<Object*>&	getVObjs()		{ return _vObjs; }
 	vector<Bullet*>&	getVBullets()	{ return _vBullets; }
 	Player*				getPlayer()		{ return _p; }
+	WormVillage*		GetWormVillage() { return _wormVillage; }
 	void				setPlayer(Player* p) { _p = p; }
-
+	
 	Bullet* makeBullet(const char* imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle,float damage, float speed, float maxDis, bool isFrame ,float igAngle = 0);
 	void eraseBullet();
-
 	void HitBullet();
 };
 

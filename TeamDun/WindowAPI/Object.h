@@ -27,7 +27,6 @@ protected:
 	int				_renderOrder;			// 렌더 순서 할것인지
 	
 public:
-
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
 	virtual void	update();
 	virtual	void	release();
@@ -70,5 +69,4 @@ public:
 	void			SetBodyPos()						{ _body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight()); }
 
 	void			SetRenderIndex(int isFront)			{ _renderOrder = isFront; }
-
 };
