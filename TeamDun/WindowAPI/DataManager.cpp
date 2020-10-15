@@ -106,6 +106,9 @@ void DataManager::GetObjectData()
 		case 10 : // 상점 주인
 			obj = new Shop();
 			break;
+		case 0 : // 포탈
+			obj = new Portal();
+			break;
 		case 2 : // 전설상자
 			obj = new Treasure();
 			dynamic_cast<Treasure*>(obj)->SetTreasureType(TREASURETYPE::TST_LEGENDARY);

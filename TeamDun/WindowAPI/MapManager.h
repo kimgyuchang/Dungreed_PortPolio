@@ -25,6 +25,10 @@ private:
 	int					_moveClickTimer;
 	POINT				_recentMousePos;
 	PixelGetter*		_pixelGetter;
+	bool				_portalOn;
+	bool				_portalAnimOn;
+	UIFrame*			_mapFrame;
+	Portal*				_currentPortal;
 
 public:
 	HRESULT init();
@@ -32,6 +36,7 @@ public:
 	void SetMapUIOnOff();
 	void GenerateMapParticle();
 	void DungeonMapUIMover();
+	void UsePortalMap();
 	void ReNewMapUI();
 	void release();
 	void render(HDC hdc);
@@ -43,7 +48,16 @@ public:
 	FieldMap*			GetPlayMap()		{ return _vStage[_currentStage]->GetMaps()[_currentMap]; }
 	vector<FieldMap*>&	GetMaps()			{ return _vOriginMaps; }
 	PixelGetter*		GetPixelGetter()	{ return _pixelGetter; }
-	int			SetCurrentStage(int stage)	{ _currentStage = stage; }
-	int			SetCurrentMap(int map)		{ _currentMap = map; }
+	bool				GetPortalOn()		{ return _portalOn; }
+	bool				GetPortalAnimOn()	{ return _portalAnimOn; }
+	Portal*				GetCurrentPortal()	{ return _currentPortal; }
+
+
+	void		SetCurrentStage(int stage)	{ _currentStage = stage; }
+	void 		SetCurrentMap(int map)		{ _currentMap = map; }
+	void		SetPortalOn(bool on)		{ _portalOn = on; }
+	void		SetCurrentPortal(Portal* p) { _currentPortal = p; }
+	void		SetPortalAnimOn(bool on)	{ _portalAnimOn = on; }
 };
+
 

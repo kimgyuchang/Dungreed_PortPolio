@@ -13,6 +13,7 @@ enum FIELDMAPTYPE
 {
 	FMT_ENTER, FMT_END, FMT_RESTAURANT, FMT_SHOP, FMT_TEMPLE, FMT_NORMAL
 };
+class Portal;
 class FieldMap
 {
 private :
@@ -36,6 +37,8 @@ private :
 	bool					_visited;			// 방문했는지 여부
 	int						_spawnTimer;		// 몬스터 스폰용 타이머
 	
+	Portal*					_portal;			// 이 맵의 포탈
+
 public :
 	void LoadMap();
 
@@ -75,6 +78,7 @@ public :
 	int					GetNextMapIndex(DIRECTION dir)	{ return _nextMapIndex[(int)dir]; }
 	bool				GetMapGenVisited()				{ return _mapGenVisited; }
 	bool				GetVisited()					{ return _visited; }
+	Portal*				GetPortal()						{ return _portal; }
 
 	void	SetXIndex(int index)						{ _xIndex = index; }
 	void	SetYIndex(int index)						{ _yIndex = index; }
@@ -85,4 +89,5 @@ public :
 	void	SetMovePos(DIRECTION dir, POINT pos)		{ _mapMovePos[(int)dir] = pos; }
 	void	SetMapGenVisited(bool visit)				{ _mapGenVisited = visit; }
 	void	SetVisited(bool visit)						{ _visited = visit; }
+	void	SetPortal(Portal* portal)					{ _portal = portal; }
 };

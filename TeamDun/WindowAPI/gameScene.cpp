@@ -118,6 +118,30 @@ void gameScene::MainGameFrameInit()
 	hpFrameBar1->init("hpBarFrame2", 63, 0, 159, 48, "PlayerLifeBase_2");
 	hpFrame->AddFrame(hpFrameBar1);
 
+	UIFrame* dashUI = new UIFrame();
+	dashUI->init("dashFrame", 20, 70, 0, 0, "");
+	UIMANAGER->GetGameFrame()->AddFrame(dashUI);
+
+	UIFrame* leftDownUI = new UIFrame();
+	leftDownUI->init("leftDown", 20, WINSIZEY - 80, 0,0, "");
+	UIMANAGER->GetGameFrame()->AddFrame(leftDownUI);
+
+	UIFrame* coin = new UIFrame();
+	coin->init("Coin", 0, 8, 0, 0, "Coin");
+	leftDownUI->AddFrame(coin);
+
+	UIText* coinText = new UIText();
+	coinText->init("CoinText", 22, 8, 120, 30, "12345", FONT::PIX, WORDSIZE::WS_SMALL);
+	leftDownUI->AddFrame(coinText);
+
+	UIFrame* food = new UIFrame();
+	food->init("Food", 0, 29, 0, 0, "Food");
+	leftDownUI->AddFrame(food);
+
+	UIText* foodText = new UIText();
+	foodText->init("FoodText", 22, 29, 120, 30, "100 / 125", FONT::PIX, WORDSIZE::WS_SMALL);
+	leftDownUI->AddFrame(foodText);
+
 	container->SetIsViewing(true);
 	hpFrame->SetIsViewing(true);
 }

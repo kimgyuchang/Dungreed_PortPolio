@@ -294,6 +294,9 @@
     <ClCompile Include="DropItem.cpp">
       <Filter>MainGame\Object\Etc</Filter>
     </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -511,6 +514,9 @@
     </ClInclude>
     <ClInclude Include="DropItem.h">
       <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -52,3 +52,4 @@ void UIProgressBar::FillCheck(float initX, float fillX)
 	_fillPercent = fillX / initX;
 	_imgFillX = _fillPercent * _backImg->getWidth();
 }
+

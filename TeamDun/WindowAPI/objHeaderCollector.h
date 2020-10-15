@@ -22,3 +22,4 @@
 #include "Coin.h"
 #include "DropItem.h"
 #include "Treasure.h"
+#include "Portal.h"

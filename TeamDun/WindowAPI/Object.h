@@ -62,6 +62,7 @@ public:
 	void			SetUseImage(int index)				{ _useImage = index; }
 	void			SetFrameX(int x)					{ _frameX = x; }
 	void			SetFrameY(int y)					{ _frameY = y; }
+	void			SetFrameTimer(int timer)			{ _frameTimer = timer; }
 	void			SetSpawnTime(int time)				{ _spawnTime = time; }
 	void			SetBelongMap(FieldMap* map)			{ _belongMap = map; }
 	virtual void	SetIsDead(bool dead)				{ _isDead = dead; }
