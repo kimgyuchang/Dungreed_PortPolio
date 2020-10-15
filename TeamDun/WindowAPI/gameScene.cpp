@@ -680,6 +680,7 @@ void gameScene::UpdateWardrobeUI()
 
 void gameScene::update()
 {
+	CAMERAMANAGER->update();
 	INPUT->update();
 
 	if (INPUT->GetKeyDown(VK_BACK))
