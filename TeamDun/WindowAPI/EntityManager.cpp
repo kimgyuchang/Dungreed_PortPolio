@@ -87,7 +87,7 @@ void EntityManager::eraseBullet()
 	{
 		if (_vBullets[i]->getType() == BT_NOMAL|| _vBullets[i]->getType() == BT_PLAYER)
 		{
-			COLORREF color = GetPixel(IMAGEMANAGER->findImage("PixelMapIg")->getMemDC(), _vBullets[i]->getX(), _vBullets[i]->getY());
+			COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _vBullets[i]->getX(), _vBullets[i]->getY());
 			int r = GetRValue(color);
 			int g = GetGValue(color);
 			int b = GetBValue(color);

@@ -679,13 +679,11 @@ void Belial::SetSwordAngle()
 
 void Belial::SwordPixelCollision()
 {
-	
-	
 	image* pixelMapIg = IMAGEMANAGER->findImage("PixelMapIg");
 	image* _image = IMAGEMANAGER->findImage("SkellBossSword0");
 	for (int i = 0; i < _vBossSword.size(); i++)
 	{
-		COLORREF color1 = GetPixel(pixelMapIg->getMemDC(), _vBossSword[i]->x + _image->getFrameWidth()*3/2+cosf(_vBossSword[i]->angle)*60 , _vBossSword[i]->y + _image->getFrameHeight()*3 / 2-sinf(_vBossSword[i]->angle) * 60);
+		COLORREF color1 = GetFastPixel(MAPMANAGER->GetPixelGetter(), _vBossSword[i]->x + _image->getFrameWidth()*3/2+cosf(_vBossSword[i]->angle)*60 , _vBossSword[i]->y + _image->getFrameHeight()*3 / 2-sinf(_vBossSword[i]->angle) * 60);
 		int r1 = GetRValue(color1);
 		int g1 = GetGValue(color1);
 		int b1 = GetBValue(color1);

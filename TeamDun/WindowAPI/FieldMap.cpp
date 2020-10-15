@@ -454,7 +454,7 @@ void FieldMap::GridMapGenerate()
 	{
 		for (int j = 0; j < _vMapData[i].size(); j++)
 		{
-			COLORREF color = GetPixel(pixelMapDC, j * 48, i * 48);
+			COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), j * 48, i * 48);
 			if (color == RGB(0, 255, 0) || color == RGB(0, 200, 0) || color == RGB(0, 155, 0) || color == RGB(0, 100, 0))
 			{
 				IMAGEMANAGER->findImage("MiniMapDoor")->render(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), 1000 + j * 5, 10 + i * 5);
