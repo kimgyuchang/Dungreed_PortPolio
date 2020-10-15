@@ -150,6 +150,7 @@ private:
 	// UI //
 	vector<CharToolTip>		_vToolTips;		// 툴팁 프레임 목록
 	vector<string>			_vToolTipsName; // 툴팁 프레임 이름 목록
+	UIFrame*				_hpFrame;		// HPFrame
 
 	// 각 캐릭터별 특성 //
 
@@ -181,7 +182,7 @@ public:
 	void SwitchWeapon();
 	void CheckAliceZone();
 	
-
+	void SetHpUI();
 	// GETSET //
 	PLAYERSTATE		GetState()				{ return _state; }
 	bool			GetIsLeft()				{ return _isLeft; }

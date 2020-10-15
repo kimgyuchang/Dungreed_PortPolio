@@ -488,6 +488,12 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("ConversationUI", "Images/UI/ConversationUI.bmp", 1440, 270, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SelectUI", "Images/UI/SelectUI.bmp", 266, 125, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SelectedFrame", "Images/UI/SelectedFrame.bmp", 232, 44, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("LifeBar", "Images/UI/LifeBar.bmp", 180, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("PlayerLifeBackGray_1", "Images/UI/PlayerLifeBackGray_1.bmp", 63, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("PlayerLifeBackGray_2", "Images/UI/PlayerLifeBackGray_2.bmp", 180, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("PlayerLifeBase_1", "Images/UI/PlayerLifeBase_1.bmp", 63, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("PlayerLifeBase_2", "Images/UI/PlayerLifeBase_2.bmp", 159, 48, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("LifeWave", "Images/UI/LifeWave.bmp", 203, 48, 7, 1, true, RGB(255, 0, 255));
 
 	_loading->LoadNormalImage("CheckImage", "Images/GridBound.bmp", 48, 48, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CheckImageRed", "Images/GridBoundRed.bmp", 48, 48, true, RGB(255, 0, 255));

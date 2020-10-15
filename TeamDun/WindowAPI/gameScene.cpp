@@ -86,7 +86,40 @@ void gameScene::MainGameFrameInit()
 	image2->init("image", 0, 0, 0, 0, "");
 	weapon2->AddFrame(image2);
 
+	UIFrame* hpFrame = new UIFrame();
+	hpFrame->init("hpFrame", 20, 20, 0, 0, "");
+	UIMANAGER->GetGameFrame()->AddFrame(hpFrame);
+
+	UIProgressBar* hpBar1 = new UIProgressBar();
+	hpBar1->init("hpBarPros", 42, 0, 180, 48, "LifeBar","PlayerLifeBackGray_2");
+	hpFrame->AddFrame(hpBar1);
+
+	UIImage* hpWave = new UIImage();
+	hpWave->init("Wave", 193, 0, 159, 48, "LifeWave", true, 0, 0);
+	hpFrame->AddFrame(hpWave);
+
+	UIFrame* hpBar0 = new UIFrame();
+	hpBar0->init("hpBarLeft", 0, 0, 63, 48, "PlayerLifeBackGray_1");
+	hpFrame->AddFrame(hpBar0);
+
+	UIText* level = new UIText();
+	level->init("level", 0, 12, 70, 48, "0", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE);
+	hpFrame->AddFrame(level);
+
+	UIText* hp = new UIText();
+	hp->init("hp", 63, 12, 159, 48, "100 / 100", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE);
+	hpFrame->AddFrame(hp);
+
+	UIFrame* hpFrameBar0 = new UIFrame();
+	hpFrameBar0->init("hpBarFrame1", 0, 0, 63, 48, "PlayerLifeBase_1");
+	hpFrame->AddFrame(hpFrameBar0);
+
+	UIFrame* hpFrameBar1 = new UIFrame();
+	hpFrameBar1->init("hpBarFrame2", 63, 0, 159, 48, "PlayerLifeBase_2");
+	hpFrame->AddFrame(hpFrameBar1);
+
 	container->SetIsViewing(true);
+	hpFrame->SetIsViewing(true);
 }
 
 void gameScene::GetItemUIInit()
@@ -742,7 +775,7 @@ void gameScene::render()
 
 	TextOut(getMemDC(), 0, 0, "EXIT : VK_BACK", strlen("EXIT : VK_BACK"));
 
-	IMAGEMANAGER->findImage("BasicCursor")->render(getMemDC(), _ptMouse.x, _ptMouse.y);
+	IMAGEMANAGER->findImage("ShootingCursor2")->stretchRender(getMemDC(), _ptMouse.x - 22, _ptMouse.y - 22, 0.8f, 0.8f);
 
 	string n = to_string((int)CAMERAMANAGER->GetAbsoluteX(_ptMouse.x)) + " " + to_string((int)CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
 

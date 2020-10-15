@@ -38,13 +38,14 @@ HRESULT Player::init()
 	_isHit = false;
 	_hitCount = 0;
 	_aliceZone = IMAGEMANAGER->findImage("AliceZone");
-	_aliceZoneRadius = 144;
+	_aliceZoneRadius = 141;
 	_aliceZoneIn = false;
 	_swapCoolTime = 0;
 	_accesoryCount = 4;
+	_hp = _initHp = 100;
 
 	// UI
-
+	_hpFrame = UIMANAGER->GetGameFrame()->GetChild("hpFrame");
 	for (int i = 0; i < 17; i++) _vToolTips.push_back(CharToolTip());
 	_vToolTipsName = vector<string>{ "powerImg", "defImg", "toughImg", "blockImg", "criImg", "criDmgImg", "evadeImg",
 		"moveSpeedImg", "atkSpeedImg", "reloadImg", "dashImg", "trueDamageImg", "burnImg",
@@ -144,7 +145,7 @@ void Player::update()
 	UpdateCharPage();
 	invincibility();
 	SetRealStat();
-
+	SetHpUI();
 	this->pixelCollision();
 
 }
@@ -217,9 +218,6 @@ void Player::CheckAliceZone()
 				zoneInHere = true;
 				break;
 			}
-
-			//if (UTIL::interactRectArc(objs[i]->GetBody(), POINT{ (long)(_x + _vImages[_useImage]->getFrameWidth() / 2), 
-			//	(long)(_y + _vImages[_useImage]->getFrameHeight() / 2) }, _aliceZoneRadius, -PI / 4, PI / 4))
 		}
 	}
 
@@ -227,6 +225,19 @@ void Player::CheckAliceZone()
 	{
 		_aliceZoneIn = false;
 	}
+}
+
+void Player::SetHpUI()
+{
+	//if (INPUT->GetKeyDown('H')) _hp--;
+	UIProgressBar* bar = dynamic_cast<UIProgressBar*>(_hpFrame->GetChild("hpBarPros"));
+	bar->FillCheck(_initHp, _hp);
+	float fillPercent = (float)_hp / _initHp;
+
+	UIImage* hpWave = dynamic_cast<UIImage*>(_hpFrame->GetChild("Wave"));
+	hpWave->SetX((_hpFrame->GetX() + 42) + 157 * fillPercent); // 수치는 적당히 계산해서 넣음
+
+	dynamic_cast<UIText*>(_hpFrame->GetChild("hp"))->SetText(to_string(_hp) + " / " + to_string(_initHp));
 }
 
 void Player::release()
