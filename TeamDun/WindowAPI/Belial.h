@@ -27,6 +27,7 @@ struct BossSword
 	float speed;
 	bool  isDead;
 	bool  isCol;
+	bool  isHit;
 	RECT body;
 	int Timer;
 	int frameX;
@@ -96,10 +97,10 @@ public:
 
 	float MoveLerp(float y1, float y2, float amount);
 	//KNIFE Pattern
-	virtual void	SetSword();
-	
-	virtual void	SetSwordAngle();
-	virtual void	SwordPixelCollision();
-	virtual void	EraseSword();
+	 void	SetSword();
+	 void	SwordHit();
+	 void	SetSwordAngle();
+	 void	SwordPixelCollision();
+	 void	EraseSword();
 };
 

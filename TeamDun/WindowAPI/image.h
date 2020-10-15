@@ -116,6 +116,7 @@ public:
 	HBITMAP GetRotatedBitmap(HDC hdc, float angle, int xFrame = 0, int yFrmae = 0);
 
 	//DC ¾ò±â
+	inline HDC* getPMemDC() { return &_imageInfo->hMemDC; }
 	inline HDC getMemDC() { return _imageInfo->hMemDC; }
 	inline HBITMAP getHBitMap() { return _imageInfo->hBit; }
 	inline HBITMAP getHOldBitMap() { return _imageInfo->hOBit; }

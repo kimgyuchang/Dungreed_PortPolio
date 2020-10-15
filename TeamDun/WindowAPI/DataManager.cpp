@@ -51,31 +51,24 @@ void DataManager::GetObjectData()
 		case 1500:// 큰 해골
 			obj = new BigWhiteSkel();
 			break;
-
 		case 1501:// 미노타우르스
 			obj = new Minotaurs();
 			break;
-			
 		case 1504:// 서큐버스
 			obj = new Lilith();
 			break;
-
 		case 1505:// 작은 유령
 			obj = new LittleGhost();
 			break;
-
 		case 1506:// 해골 강아지
 			obj = new SkelDog();
 			break;
-
 		case 1507:// 칼 해골
 			obj = new SwordSkel();
 			break;
-
 		case 1508:// 활 해골
 			obj = new BowSkel();
 			break;
-
 		case 1502: // 밴시
 			obj = new Banshee();
 			break;
@@ -88,26 +81,21 @@ void DataManager::GetObjectData()
 		case 702: // 붉은 박쥐
 			obj = new RedBat();
 			break;
-
 		case 2000: // 벨리알
 			obj = new Belial();
 			break;
-
 		case 514: // 문 왼쪽
 			obj = new Door();
 			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_LEFT);
 			break;
-
 		case 515: // 문 오른쪽
 			obj = new Door();
 			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_RIGHT);
 			break;
-
 		case 516: // 문 위쪽
 			obj = new Door();
 			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_UP);
 			break;
-
 		case 517: // 문 아래쪽
 			obj = new Door();
 			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_DOWN);
@@ -120,6 +108,32 @@ void DataManager::GetObjectData()
 			break;
 		case 12 : // 밥 잘 파는 예쁜 누나
 			obj = new Restaurant();
+			break;
+		case 0 : // 포탈
+			obj = new Portal();
+			break;
+		case 2 : // 전설상자
+			obj = new Treasure();
+			dynamic_cast<Treasure*>(obj)->SetTreasureType(TREASURETYPE::TST_LEGENDARY);
+			break;
+		case 3 : // 레어상자
+			obj = new Treasure();
+			dynamic_cast<Treasure*>(obj)->SetTreasureType(TREASURETYPE::TST_BLUE);
+			break;
+		case 4: // 회색상자
+			obj = new Treasure();
+			dynamic_cast<Treasure*>(obj)->SetTreasureType(TREASURETYPE::TST_GRAY);
+			break;
+		case 5: // 갈색상자
+			obj = new Treasure();
+			dynamic_cast<Treasure*>(obj)->SetTreasureType(TREASURETYPE::TST_BROWN);
+			break;
+		case 6: // 금색상자
+			obj = new Treasure();
+			dynamic_cast<Treasure*>(obj)->SetTreasureType(TREASURETYPE::TST_GOLD);
+			break;
+		case 524:
+			obj = new Coin();
 			break;
 		default:
 			obj = new Object();
@@ -160,6 +174,9 @@ void DataManager::GetItemData()
 
 	for (int i = 0; i < itemData.size(); i++)
 	{
+		if (i == 0) _itemMinId = stoi(itemData[i][0]);
+		if (i == itemData.size() - 1) _itemMaxId = stoi(itemData[i][0]);
+
 		Item* item;
 		switch (stoi(itemData[i][0]))
 		{
@@ -218,16 +235,16 @@ void DataManager::GetItemData()
 			itemData[i][4], itemData[i][5], itemClass, stof(itemData[i][7]), stof(itemData[i][8]),
 			stof(itemData[i][9]), stoi(itemData[i][10]), stoi(itemData[i][11]),
 			stoi(itemData[i][12]), stof(itemData[i][13]), bullet, stof(itemData[i][15]), stoi(itemData[i][16]),
-			stoi(itemData[i][17]), vector<string>{itemData[i][18], itemData[i][19], itemData[i][20]}, itemData[i][21]
+			stoi(itemData[i][17]), vector<string>{itemData[i][18], itemData[i][19], itemData[i][20]}, itemData[i][21], itemData[i][22]
 		);
 
 		for (int j = 0; j < 3; j++)
 		{
-			if (itemData[i][22 + (j * 3)] != ".")
+			if (itemData[i][23 + (j * 3)] != ".")
 			{
 				SubOption* option = new SubOption;
 
-				string optionId = itemData[i][22 + (j * 3)];
+				string optionId = itemData[i][23 + (j * 3)];
 				if (optionId == "ACCURACY") option->_optionId = OPTIONTYPE::ACCURACY;
 				else if (optionId == "ATKSPEED") option->_optionId = OPTIONTYPE::ATKSPEED;
 				else if (optionId == "BLOCK") option->_optionId = OPTIONTYPE::BLOCK;
@@ -267,8 +284,8 @@ void DataManager::GetItemData()
 				else if (optionId == "TOSTUN") option->_optionId = OPTIONTYPE::TOSTUN;
 				else if (optionId == "TRUEDAMAGE") option->_optionId = OPTIONTYPE::TRUEDAMAGE;
 
-				option->_optionPower = stof(itemData[i][23 + (j * 3)]);
-				option->_description = itemData[i][24 + (j * 3)];
+				option->_optionPower = stof(itemData[i][24 + (j * 3)]);
+				option->_description = itemData[i][25 + (j * 3)];
 				item->AddSubOption(option);
 			}
 		}

@@ -266,6 +266,8 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Door_Left_Idle", "Images/Object/Door_Left_Idle.bmp", 72, 240, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Door_Right_Idle", "Images/Object/Door_Right_Idle.bmp", 72, 240, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("TrainingSchool", "Images/Object/TrainingSchool.bmp", 810, 231, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("GoldCoin", "Images/Object/GoldCoin.bmp", 168, 21, 8, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Bullion", "Images/Object/Bullion.bmp", 420, 27, 7, 1, true, RGB(255, 0, 255));
 
 	// STAGE 1 //
 	_loading->LoadNormalImage("Door0_Closed", "Images/1Floor/Door0_Closed.bmp", 171, 195, true, RGB(255, 0, 255));
@@ -282,7 +284,7 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("StrawberryFountain0", "Images/Object/StrawberryFountain0.bmp", 384, 96, 4, 1, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("StrawberryFountain1", "Images/Object/StrawberryFountain1.bmp", 96, 96, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("WormPassage00", "Images/Object/WormPassage00.bmp", 81, 93, true, RGB(255, 0, 255));
-	_loading->LoadFrameImage("WormPassageEat00", "Images/Object/WormPassageEat00.bmp", 324, 93, 4, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("WormPassageEat00", "Images/Object/WormPassageEat00.bmp", 648, 93, 8, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("WormPassageIdle00", "Images/Object/WormPassageIdle00.bmp", 729, 93, 9, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("PinkTresureClosed00", "Images/Object/PinkTresureClosed00.bmp", 396, 63, 12, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("PinkTresureOpened00", "Images/Object/PinkTresureOpened00.bmp", 396, 63, 12, 1, true, RGB(255, 0, 255));
@@ -509,9 +511,19 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Room_Line_LR", "Images/UI/Room_Line_LR.bmp", 42, 8, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Room_Line_UD", "Images/UI/Room_Line_UD.bmp", 8, 42, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Room_Selected", "Images/UI/Room_Selected.bmp", 72, 72, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Room_MouseHovered", "Images/UI/Room_MouseHovered.bmp", 72, 72, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("moneyUI", "Images/UI/moneyUI.bmp", 19, 19, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BaseType2", "Images/UI/BaseType2.bmp", 222, 189, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("YesOrNo", "Images/UI/YesOrNo.bmp", 113, 45, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ConversationUI", "Images/UI/ConversationUI.bmp", 1440, 270, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SelectUI", "Images/UI/SelectUI.bmp", 266, 125, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SelectedFrame", "Images/UI/SelectedFrame.bmp", 232, 44, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("LifeBar", "Images/UI/LifeBar.bmp", 180, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("PlayerLifeBackGray_1", "Images/UI/PlayerLifeBackGray_1.bmp", 63, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("PlayerLifeBackGray_2", "Images/UI/PlayerLifeBackGray_2.bmp", 180, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("PlayerLifeBase_1", "Images/UI/PlayerLifeBase_1.bmp", 63, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("PlayerLifeBase_2", "Images/UI/PlayerLifeBase_2.bmp", 159, 48, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("LifeWave", "Images/UI/LifeWave.bmp", 203, 48, 7, 1, true, RGB(255, 0, 255));
 
 	_loading->LoadNormalImage("CheckImage", "Images/GridBound.bmp", 48, 48, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CheckImageRed", "Images/GridBoundRed.bmp", 48, 48, true, RGB(255, 0, 255));
@@ -519,7 +531,6 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("FrontCloud", "Images/villageFloor/FrontCloud.bmp", 2556, 800, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MidCloud0", "Images/villageFloor/MidCloud0.bmp", 2556, 800, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BackCloud", "Images/villageFloor/BackCloud.bmp", 2844, 800, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("MainLogo", "Images/UI/MainLogo.bmp", 693, 333, true, RGB(255, 0, 255));
 
 	// ICON //
 	_loading->LoadNormalImage("brushCursor", "Images/UI/ICON/Brush.bmp", 35, 35, true, RGB(255, 0, 255));
@@ -558,6 +569,9 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Stat_Shock", "Images/UI/ICON/Stat_Shock.bmp", 51, 51, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Stat_Stun", "Images/UI/ICON/Stat_Stun.bmp", 51, 51, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Keyboard_F", "Images/UI/ICON/Keyboard_F.bmp", 39, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Food", "Images/UI/ICON/Food.bmp", 17, 14, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Coin", "Images/UI/ICON/Coin.bmp", 19, 19, true, RGB(255,0,255));
+
 
 	_loading->LoadNormalImage("gameStart1", "Images/UI/gameStart1.bmp", 158, 47, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("gameStart0", "Images/UI/gameStart0.bmp", 158, 47, true, RGB(255, 0, 255));
@@ -789,9 +803,11 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("BasicShortSword_inven", "Images/item/BasicShortSword_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("DemonSword", "Images/item/DemonSword.bmp", 107, 213, 1, 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("DemonSword_inven", "Images/item/DemonSword_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("DemonSword_Drop", "Images/item/DemonSword_Drop.bmp", 62, 21, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("DemonSword_Slash", "Images/item/DemonSword_Slash.bmp", 924, 264, 7, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("Colt", "Images/item/Colt.bmp", 107, 213, 1, 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Colt_inven", "Images/item/Colt_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Colt_Drop", "Images/item/Colt_Drop.bmp", 58, 37, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("MainGauche", "Images/item/MainGauche.bmp", 57, 114, 1, 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MainGauche_inven", "Images/item/MainGauche_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SilverEaring_inven", "Images/item/SilverEaring_inven.bmp", 57, 57, true, RGB(255, 0, 255));
@@ -805,6 +821,7 @@ void loadingScene::loadingImage()
 
 	// EFFECT //
 	_loading->LoadFrameImage("monsterSpawnEffect", "Images/Etc/monsterSpawnEffect.bmp", 1302, 93, 14, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("DieEffect", "Images/Effect/DieEffect.bmp", 1320, 120, 11, 1, true, RGB(255, 0, 255));
 
 	// PARTICLE //
 	_loading->LoadNormalImage("SqaureParticle", "Images/Particle/SqaureParticle.bmp", 15, 15, true, RGB(255, 0, 255));
@@ -855,6 +872,7 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("masterchefIdle", "Images/player/masterchefIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("bearIdle", "Images/player/bearIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("baseCharEffect", "Images/player/baseCharEffect.bmp", 285, 132, 5, 2, true, RGB(255, 0, 255));
+
 	// RUN //
 	_loading->LoadFrameImage("baseCharRun", "Images/player/baseCharRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("sheetingRun", "Images/player/sheetingRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
@@ -870,6 +888,7 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("humanlasleyRun", "Images/player/humanlasleyRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("masterchefRun", "Images/player/masterchefRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("bearRun", "Images/player/bearRun.bmp", 468, 150, 6, 2, true, RGB(255, 0, 255));
+
 	// DIE //
 	_loading->LoadFrameImage("baseCharDie", "Images/player/baseCharDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("sheetingDie", "Images/player/sheetingDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
@@ -884,8 +903,6 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("horsemanDie", "Images/player/horsemanDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("humanlaselyDie", "Images/player/humanlaselyDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("masterchefDie", "Images/player/masterchefDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
-
-
 
 	_loading->LoadFrameImage("AliceZone", "Images/player/AliceZone.bmp", 630, 315, 2, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("RunEffect", "Images/player/RunEffect.bmp", 240, 96, 5, 2, true, RGB(255, 0, 255));

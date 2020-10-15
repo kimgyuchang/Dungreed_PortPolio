@@ -44,7 +44,10 @@ HRESULT MapManager::init()
 		if (mapAllCleared) break;
 	}
 
-	ChangeMap(1, 0);
+	_mapFrame = UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetChild("mapFrame");
+	_pixelGetter = new PixelGetter();
+	ChangeMap(1, 8);
+	_portalAnimOn = false;
 
 	return S_OK;
 }
@@ -65,6 +68,7 @@ void MapManager::update()
 	_vStage[_currentStage]->GetMaps()[_currentMap]->update();
 	DungeonMapUIMover();
 	SetMapUIOnOff();
+	UsePortalMap();
 }
 
 /// <summary>
@@ -127,6 +131,38 @@ void MapManager::DungeonMapUIMover()
 	}
 }
 
+void MapManager::UsePortalMap()
+{
+	image* hoverImg = IMAGEMANAGER->findImage("Room_MouseHovered");
+
+	if (_mapFrame->GetIsViewing() && _portalOn)
+	{
+		for (int i = 0; i < _vStage[_currentStage]->GetMaps().size(); i++)
+		{
+			UIFrame* mapSquare = _mapFrame->GetChild("map_" + to_string(i));
+			if (i != _currentMap && mapSquare != nullptr && _vStage[_currentStage]->GetMapIndex(i)->GetPortal() != nullptr)
+			{
+				if (PtInRect(&mapSquare->GetRect(), _ptMouse))
+				{
+					mapSquare->SetImage(hoverImg);
+					if (INPUT->GetIsLButtonClicked())
+					{
+						_currentPortal->MoveMap(i);
+						UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->SetIsViewing(false);
+						_portalOn = false;
+						_portalAnimOn = true;
+					}
+				}
+
+				else if (mapSquare->GetImage() == hoverImg)
+				{
+					mapSquare->SetImage(IMAGEMANAGER->findImage("Room"));
+				}
+			}
+		}
+	}
+}
+
 /// <summary>
 /// 던전 지도 UI 재생성
 /// </summary>
@@ -141,58 +177,64 @@ void MapManager::ReNewMapUI()
 	for (int i = 0; i < _vStage[_currentStage]->GetMaps().size(); i++)
 	{
 		FieldMap* map = _vStage[_currentStage]->GetMaps()[i];
-
-		if (map->GetNextMapIndex(DIRECTION::DIR_LEFT) != -1)
+		
+		if (map->GetVisited())
 		{
-			UIImage* line = new UIImage();
-			line->init("map_" + to_string(i) + "_lineLeft", (map->GetXIndex() - xIndex) * 100 + 500 - 42, (map->GetYIndex() - yIndex) * 100 + 200 + 36, 42, 8, "Room_Line_LR", false, 0, 0, 1.0f, 1.0f, 125);
-			frame->AddFrame(line);
-			line->SetUseOutsideLimit(true);
-		}
+			if (map->GetNextMapIndex(DIRECTION::DIR_LEFT) != -1)
+			{
+				UIImage* line = new UIImage();
+				line->init("map_" + to_string(i) + "_lineLeft", (map->GetXIndex() - xIndex) * 100 + 500 - 42, (map->GetYIndex() - yIndex) * 100 + 200 + 36, 42, 8, "Room_Line_LR", false, 0, 0, 1.0f, 1.0f, 125);
+				frame->AddFrame(line);
+				line->SetUseOutsideLimit(true);
+			}
 
-		if (map->GetNextMapIndex(DIRECTION::DIR_RIGHT) != -1)
-		{
-			UIImage* line = new UIImage();
-			line->init("map_" + to_string(i) + "_lineRight", (map->GetXIndex() - xIndex) * 100 + 500 + 72, (map->GetYIndex() - yIndex) * 100 + 200 + 36, 42, 8, "Room_Line_LR", false, 0, 0, 1.0f, 1.0f, 125);
-			frame->AddFrame(line);
-			line->SetUseOutsideLimit(true);
-		}
+			if (map->GetNextMapIndex(DIRECTION::DIR_RIGHT) != -1)
+			{
+				UIImage* line = new UIImage();
+				line->init("map_" + to_string(i) + "_lineRight", (map->GetXIndex() - xIndex) * 100 + 500 + 72, (map->GetYIndex() - yIndex) * 100 + 200 + 36, 42, 8, "Room_Line_LR", false, 0, 0, 1.0f, 1.0f, 125);
+				frame->AddFrame(line);
+				line->SetUseOutsideLimit(true);
+			}
 
-		if (map->GetNextMapIndex(DIRECTION::DIR_UP) != -1)
-		{
-			UIImage* line = new UIImage();
-			line->init("map_" + to_string(i) + "_lineUp", (map->GetXIndex() - xIndex) * 100 + 500 + 36, (map->GetYIndex() - yIndex) * 100 + 200 - 42, 8, 42, "Room_Line_UD", false, 0, 0, 1.0f, 1.0f, 125);
-			frame->AddFrame(line);
-			line->SetUseOutsideLimit(true);
-		}
+			if (map->GetNextMapIndex(DIRECTION::DIR_UP) != -1)
+			{
+				UIImage* line = new UIImage();
+				line->init("map_" + to_string(i) + "_lineUp", (map->GetXIndex() - xIndex) * 100 + 500 + 36, (map->GetYIndex() - yIndex) * 100 + 200 - 42, 8, 42, "Room_Line_UD", false, 0, 0, 1.0f, 1.0f, 125);
+				frame->AddFrame(line);
+				line->SetUseOutsideLimit(true);
+			}
 
-		if (map->GetNextMapIndex(DIRECTION::DIR_DOWN) != -1)
-		{
-			UIImage* line = new UIImage();
-			line->init("map_" + to_string(i) + "_lineDown", (map->GetXIndex() - xIndex) * 100 + 500 + 36, (map->GetYIndex() - yIndex) * 100 + 200 + 72, 8, 42, "Room_Line_UD", false, 0, 0, 1.0f, 1.0f, 125);
-			frame->AddFrame(line);
-			line->SetUseOutsideLimit(true);
+			if (map->GetNextMapIndex(DIRECTION::DIR_DOWN) != -1)
+			{
+				UIImage* line = new UIImage();
+				line->init("map_" + to_string(i) + "_lineDown", (map->GetXIndex() - xIndex) * 100 + 500 + 36, (map->GetYIndex() - yIndex) * 100 + 200 + 72, 8, 42, "Room_Line_UD", false, 0, 0, 1.0f, 1.0f, 125);
+				frame->AddFrame(line);
+				line->SetUseOutsideLimit(true);
+			}
 		}
 	}
 
 	for (int i = 0; i < _vStage[_currentStage]->GetMaps().size(); i++)
 	{
 		FieldMap* map = _vStage[_currentStage]->GetMaps()[i];
-
-		UIFrame* cntMap = new UIFrame();
-
-		if (map->GetXIndex() == xIndex && map->GetYIndex() == yIndex)
+		
+		if (map->GetVisited())
 		{
-			cntMap->init("map_" + to_string(i), (map->GetXIndex() - xIndex) * 100 + 500, (map->GetYIndex() - yIndex) * 100 + 200, 72, 72, "Room_Selected");
-		}
+			UIFrame* cntMap = new UIFrame();
 
-		else
-		{
-			cntMap->init("map_" + to_string(i), (map->GetXIndex() - xIndex) * 100 + 500, (map->GetYIndex() - yIndex) * 100 + 200, 72, 72, "Room");
-		}
+			if (map->GetXIndex() == xIndex && map->GetYIndex() == yIndex)
+			{
+				cntMap->init("map_" + to_string(i), (map->GetXIndex() - xIndex) * 100 + 500, (map->GetYIndex() - yIndex) * 100 + 200, 72, 72, "Room_Selected");
+			}
 
-		cntMap->SetUseOutsideLimit(true);
-		frame->AddFrame(cntMap);
+			else
+			{
+				cntMap->init("map_" + to_string(i), (map->GetXIndex() - xIndex) * 100 + 500, (map->GetYIndex() - yIndex) * 100 + 200, 72, 72, "Room");
+			}
+
+			cntMap->SetUseOutsideLimit(true);
+			frame->AddFrame(cntMap);
+		}
 	}
 }
 
@@ -214,12 +256,14 @@ void MapManager::ChangeMap(int stage, int index)
 	_currentMap = index;
 	GetPlayMap()->PixelCollisionMapGenerate();
 	GetPlayMap()->GridMapGenerate();
+	GetPlayMap()->SetVisited(true);
 	EFFECTMANAGER->GetVEffect().clear();
 	PARTICLEMANAGER->GetParticles().clear();
 	PARTICLEMANAGER->GetGenerators().clear();
 	GenerateMapParticle();
 	ENTITYMANAGER->getVBullets().clear();
 	ReNewMapUI();
+
 
 	if (ENTITYMANAGER->getPlayer()->GetWeapon(ENTITYMANAGER->getPlayer()->GetSelectedWeaponIdx()) != nullptr)
 		ENTITYMANAGER->getPlayer()->GetWeapon(ENTITYMANAGER->getPlayer()->GetSelectedWeaponIdx())->ChangeMap();

@@ -8,13 +8,15 @@ HRESULT SkelDog::init(int id, string name, OBJECTTYPE type, vector<string> imgNa
 	_state = ES_IDLE;
 	_frameX, _frameY = 0;
 
-	_count = _index = _attackCoolTime = _jumpTimer = _jumpCount = 0;
+	_count = _index = _jumpCount = 0;
 	_initHp = _HP = 30;
 	_gravity = 0.4f;
 	_jumpPower = 7.0f;
-
+	_attackCoolTime = RANDOM->range(50) + 30;
 	_isAttack = _isJump = false;
-
+	_jumpTimer = 80 + RANDOM->range(50);
+	_randomXPos = RANDOM->range(-100, 100);
+	_randomXPosTimer = RANDOM->range(30) + 70;
 	return S_OK;
 }
 
@@ -27,8 +29,7 @@ void SkelDog::update()
 	this->Animation();
 	this->pixelCollision();
 
-	_attackCoolTime++;
-	_jumpTimer++;
+	_jumpTimer--;
 
 	if (_isSpawned)
 	{
@@ -40,24 +41,45 @@ void SkelDog::update()
 				_state = ES_MOVE;
 			}
 			break;
+
 		case ES_MOVE:
+
 			_body = RectMake(_x, _y, 60, 54);
-			if (ENTITYMANAGER->getPlayer()->GetX() - 70 > _x)
+			_randomXPosTimer--;
+
+			if (abs(ENTITYMANAGER->getPlayer()->GetX() + _randomXPos - _x) < 10 || _randomXPosTimer < 0) // 랜덤 좌표와 거리 10 이하면 랜덤 좌표 재지정
 			{
-				_isLeft = true;
-				_x += 4;
+				_randomXPos = RANDOM->range(-200, 200);
+				_randomXPosTimer = RANDOM->range(30) + 70;
 			}
-			else if (ENTITYMANAGER->getPlayer()->GetX() + 70 < _x)
+
+			else // 거리 10 이상 -> 부호에 따라 좌우 및 이동 지정
 			{
-				_isLeft = false;
-				_x -= 4;
+				if (ENTITYMANAGER->getPlayer()->GetX() + _randomXPos - _x > 0) 
+				{
+					_isLeft = true;
+					_x += 4;
+					_body = RectMake(_x, _y, 60, 54);
+				}
+
+				else
+				{
+					_isLeft = false;
+					_x -= 4;
+					_body = RectMake(_x, _y, 60, 54);
+				}
 			}
+
 			if (ENTITYMANAGER->getPlayer()->GetX() - 70 < _x && ENTITYMANAGER->getPlayer()->GetX() + 70 > _x)
 			{
-				if (_attackCoolTime % 50 == 0)
+				_attackCoolTime--;
+
+				if (_attackCoolTime < 0)
 				{
 					_isAttack = true;
+					_attackCoolTime = RANDOM->range(50) + 40;
 				}
+
 				if (_isAttack)
 				{
 					_state = ES_ATTACK;
@@ -74,6 +96,33 @@ void SkelDog::update()
 			}
 			break;
 		case ES_ATTACK:
+			RECT temp;
+			//충돌처리
+		
+			if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_body))
+			{
+				if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
+				{
+					float damage;
+					float block;
+					float evasion;
+
+					damage = _Damage * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100;
+					evasion = RANDOM->range(100);
+					block = RANDOM->range(100);
+					if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
+					{
+						if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
+						{
+							ENTITYMANAGER->getPlayer()->SetIsHit(true);
+							ENTITYMANAGER->getPlayer()->SetHitCount(0);
+							ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
+						}
+					}
+				}
+			}
+
+
 			if (_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
 			{
 				if (_count % 5 == 0)
@@ -121,11 +170,11 @@ void SkelDog::Attack()
 {
 	Enemy::Attack();
 
-	if (abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 100 && abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200 && _isAttack)
+	if (abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 200 && abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 200 && _isAttack)
 	{
-		if (_jumpTimer > 100)
+		if (_jumpTimer < 0)
 		{
-			_jumpTimer = 0;
+			_jumpTimer = 50 + RANDOM->range(30);
 			if (_jumpCount == 0)
 			{
 				_jumpPower = 10;
@@ -252,7 +301,7 @@ void SkelDog::pixelCollision()
 
 	for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + 11, i);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + 11, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -283,7 +332,7 @@ void SkelDog::pixelCollision()
 
 		for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 		{
-			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + SkelDogIdle->getFrameWidth() - 11, i);
+			COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + SkelDogIdle->getFrameWidth() - 11, i);
 			int r = GetRValue(color);
 			int g = GetGValue(color);
 			int b = GetBValue(color);
@@ -314,7 +363,7 @@ void SkelDog::pixelCollision()
 	{
 		for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 		{
-			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + _vImages[_useImage]->getFrameWidth() - 11, i);
+			COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + _vImages[_useImage]->getFrameWidth() - 11, i);
 			int r = GetRValue(color);
 			int g = GetGValue(color);
 			int b = GetBValue(color);
@@ -345,7 +394,7 @@ void SkelDog::pixelCollision()
 
 	for (int i = _y + 15; i > _y - 4; i--)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + _vImages[_useImage]->getFrameWidth() / 2, i);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + _vImages[_useImage]->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -366,7 +415,7 @@ void SkelDog::pixelCollision()
 
 	for (int i = _x + SkelDogIdle->getFrameWidth() - 15; i < _x + SkelDogIdle->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -378,7 +427,6 @@ void SkelDog::pixelCollision()
 			if (_RightCollision1 &&_RightCollision2)
 			{
 				_x = i - SkelDogIdle->getFrameWidth();
-
 			}
 			break;
 		}
@@ -386,7 +434,7 @@ void SkelDog::pixelCollision()
 	}
 	for (int i = _x + SkelDogIdle->getFrameWidth() - 15; i < _x + SkelDogIdle->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 50);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 50);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -400,7 +448,7 @@ void SkelDog::pixelCollision()
 	}
 	for (int i = _x + SkelDogIdle->getFrameWidth() - 15; i < _x + SkelDogIdle->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(_vImages[_useImage]->getMemDC(), i, _y + 2);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _y + 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -415,7 +463,7 @@ void SkelDog::pixelCollision()
 	//왼쪽아래
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -426,7 +474,7 @@ void SkelDog::pixelCollision()
 
 			if (_leftCollision1 &&_leftCollision2)
 			{
-				_x = i - _vImages[_useImage]->getFrameWidth();
+				_x = i + 5 ;
 			}
 			break;
 		}
@@ -434,7 +482,7 @@ void SkelDog::pixelCollision()
 	//왼쪽중간
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 50);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 50);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -442,7 +490,7 @@ void SkelDog::pixelCollision()
 		if ((r == 255 && g == 0 && b == 0))
 		{
 			_leftCollision2 = true;
-			_x = i;
+			_x = i + 5;
 
 			break;
 		}
@@ -450,14 +498,14 @@ void SkelDog::pixelCollision()
 	//왼쪽위
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _y + 2);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _y + 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
 
 		if ((r == 255 && g == 0 && b == 0))
 		{
-			_x = i;
+			_x = i + 5;
 
 			break;
 		}

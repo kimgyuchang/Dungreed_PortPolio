@@ -3,7 +3,6 @@
 
 HRESULT gameScene::init()
 {
-
 	INPUT->init();
 	UIMANAGER->init();
 	initUI();
@@ -15,6 +14,7 @@ HRESULT gameScene::init()
 	_p->init();
 
 	MAPMANAGER->init();
+
 	PARTICLEMANAGER->init();
 	EFFECTMANAGER->init();
 
@@ -54,11 +54,155 @@ void gameScene::InitWardrobeString()
 
 void gameScene::initUI()
 {
+	MainGameFrameInit();
 	DungeonMapUIInit();
 	WardrobeUIInit();
 	InventoryUIInit();
 	CharUIInit();
 	ShopUIInit();
+	ConversationUIInit();
+	GetItemUIInit();
+}
+
+void gameScene::MainGameFrameInit()
+{
+	UIFrame* container = new UIFrame();
+	container->init("swapContainer", WINSIZEX - 180, WINSIZEY - 150, 200, 200, "");
+	UIMANAGER->GetGameFrame()->AddFrame(container);
+
+	UIFrame* weapon1 = new UIFrame();
+	weapon1->init("weapon2", 50, 0, IMAGEMANAGER->findImage("EquippedWeaponBase")->getWidth(), IMAGEMANAGER->findImage("EquippedWeaponBase")->getHeight(), "EquippedWeaponBase");
+	container->AddFrame(weapon1);
+
+	UIFrame* image1 = new UIFrame();
+	image1->init("image", 0, 0, 0, 0, "");
+	weapon1->AddFrame(image1);
+
+	UIFrame* weapon2 = new UIFrame();
+	weapon2->init("weapon1", 0, 50, IMAGEMANAGER->findImage("EquippedWeaponBase")->getWidth(), IMAGEMANAGER->findImage("EquippedWeaponBase")->getHeight(), "EquippedWeaponBase");
+	container->AddFrame(weapon2);
+
+	UIFrame* image2 = new UIFrame();
+	image2->init("image", 0, 0, 0, 0, "");
+	weapon2->AddFrame(image2);
+
+	UIFrame* hpFrame = new UIFrame();
+	hpFrame->init("hpFrame", 20, 20, 0, 0, "");
+	UIMANAGER->GetGameFrame()->AddFrame(hpFrame);
+
+	UIProgressBar* hpBar1 = new UIProgressBar();
+	hpBar1->init("hpBarPros", 42, 0, 180, 48, "LifeBar","PlayerLifeBackGray_2");
+	hpFrame->AddFrame(hpBar1);
+
+	UIImage* hpWave = new UIImage();
+	hpWave->init("Wave", 193, 0, 159, 48, "LifeWave", true, 0, 0);
+	hpFrame->AddFrame(hpWave);
+
+	UIFrame* hpBar0 = new UIFrame();
+	hpBar0->init("hpBarLeft", 0, 0, 63, 48, "PlayerLifeBackGray_1");
+	hpFrame->AddFrame(hpBar0);
+
+	UIText* level = new UIText();
+	level->init("level", 0, 12, 70, 48, "0", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE);
+	hpFrame->AddFrame(level);
+
+	UIText* hp = new UIText();
+	hp->init("hp", 63, 12, 159, 48, "100 / 100", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE);
+	hpFrame->AddFrame(hp);
+
+	UIFrame* hpFrameBar0 = new UIFrame();
+	hpFrameBar0->init("hpBarFrame1", 0, 0, 63, 48, "PlayerLifeBase_1");
+	hpFrame->AddFrame(hpFrameBar0);
+
+	UIFrame* hpFrameBar1 = new UIFrame();
+	hpFrameBar1->init("hpBarFrame2", 63, 0, 159, 48, "PlayerLifeBase_2");
+	hpFrame->AddFrame(hpFrameBar1);
+
+	UIFrame* dashUI = new UIFrame();
+	dashUI->init("dashFrame", 20, 70, 0, 0, "");
+	UIMANAGER->GetGameFrame()->AddFrame(dashUI);
+
+	UIFrame* leftDownUI = new UIFrame();
+	leftDownUI->init("leftDown", 20, WINSIZEY - 80, 0,0, "");
+	UIMANAGER->GetGameFrame()->AddFrame(leftDownUI);
+
+	UIFrame* coin = new UIFrame();
+	coin->init("Coin", 0, 8, 0, 0, "Coin");
+	leftDownUI->AddFrame(coin);
+
+	UIText* coinText = new UIText();
+	coinText->init("CoinText", 22, 8, 120, 30, "12345", FONT::PIX, WORDSIZE::WS_SMALL);
+	leftDownUI->AddFrame(coinText);
+
+	UIFrame* food = new UIFrame();
+	food->init("Food", 0, 29, 0, 0, "Food");
+	leftDownUI->AddFrame(food);
+
+	UIText* foodText = new UIText();
+	foodText->init("FoodText", 22, 29, 120, 30, "100 / 125", FONT::PIX, WORDSIZE::WS_SMALL);
+	leftDownUI->AddFrame(foodText);
+
+	container->SetIsViewing(true);
+	hpFrame->SetIsViewing(true);
+}
+
+void gameScene::GetItemUIInit()
+{
+	UIImage* getFrame = new UIImage();
+	getFrame->init("itemGetFrame", WINSIZEX / 2 - 250, WINSIZEY - 220, 500, 150, "ScreenCover", false, 0, 0, 2.5f, 0.75f, 180);
+	UIMANAGER->GetGameFrame()->AddFrame(getFrame);
+
+	UIFrame* itemImage = new UIFrame();
+	itemImage->init("image", 30, 30, IMAGEMANAGER->findImage("DemonSword_Drop")->getFrameWidth() * 3.0f, IMAGEMANAGER->findImage("DemonSword_Drop")->getFrameHeight() * 3.0f, "DemonSword_Drop", 3.0f, 3.0f);
+	getFrame->AddFrame(itemImage);
+
+	UIText* itemGet = new UIText();
+	itemGet->init("getText", 200, 20, 300, 50, "¾ÆÀÌÅÛ È¹µæ", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE);
+	getFrame->AddFrame(itemGet);
+
+	UIText* name = new UIText();
+	name->init("name", 200, 70, 300, 50, "¸¶°Ë ¿¤¸®»ç", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_MIDDLE);
+	getFrame->AddFrame(name);
+
+	getFrame->SetIsViewing(false);
+}
+
+void gameScene::ConversationUIInit()
+{
+	UIFrame* convFrame = new UIFrame();
+	convFrame->init("convFrame", 0, 530, 1440, 800, "ConversationUI");
+	UIMANAGER->GetGameFrame()->AddFrame(convFrame);
+
+	UIText* name = new UIText();
+	name->init("name", 30, 30, 800, 100, "", FONT::PIX, WORDSIZE::WS_BIGGEST, WORDSORT::WSORT_LEFT, RGB(241, 182, 158));
+	convFrame->AddFrame(name);
+
+	UIText* text = new UIText();
+	text->init("text", 30, 100, 1380, 250, "", FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_LEFT, RGB(255, 255, 255), true, WORDANIMATIONSPEED::WAS_FAST);
+	convFrame->AddFrame(text);
+
+	UIFrame* selectFrame = new UIFrame();
+	selectFrame->init("selectFrame", 1150, 390, 266, 125, "SelectUI", 1.0f, 1.0f);
+	UIMANAGER->GetGameFrame()->AddFrame(selectFrame);
+
+	UIFrame* selectedFrame = new UIFrame();
+	selectedFrame->init("selected1", 17, 19, 232, 44, "SelectedFrame");
+	selectFrame->AddFrame(selectedFrame);
+
+	UIFrame* selectedFrame2 = new UIFrame();
+	selectedFrame2->init("selected2", 17, 63, 232, 44, "SelectedFrame");
+	selectFrame->AddFrame(selectedFrame2);
+
+	UIText* selectOne = new UIText();
+	selectOne->init("text", 0, 10, 232, 24, "", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE);
+	selectedFrame->AddFrame(selectOne);
+
+	UIText* selectTwo = new UIText();
+	selectTwo->init("text", 0, 10, 232, 24, "", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE);
+	selectedFrame2->AddFrame(selectTwo);
+
+	convFrame->SetIsViewing(false);
+	selectFrame->SetIsViewing(false);
 }
 
 void gameScene::WardrobeUIInit()
@@ -221,7 +365,7 @@ void gameScene::InventoryUIInit()
 	InventoryFrame->AddFrame(weaponImageFrame);
 
 	UIFrame* weaponImageSubFrame = new UIFrame();
-	weaponImageSubFrame->init("curWeaponSub_1", 114, 105, 57, 57, "");
+	weaponImageSubFrame->init("curWeaponSub_1", 110, 105, 57, 57, "");
 	InventoryFrame->AddFrame(weaponImageSubFrame);
 
 	UIFrame* weaponImageFrame2 = new UIFrame();
@@ -229,7 +373,7 @@ void gameScene::InventoryUIInit()
 	InventoryFrame->AddFrame(weaponImageFrame2);
 
 	UIFrame* weaponImageSubFrame2 = new UIFrame();
-	weaponImageSubFrame2->init("curWeaponSub_2", 276, 105, 57, 57, "");
+	weaponImageSubFrame2->init("curWeaponSub_2", 268, 105, 57, 57, "");
 	InventoryFrame->AddFrame(weaponImageSubFrame2);
 
 	int accesorySize = 4;
@@ -262,7 +406,7 @@ void gameScene::InventoryUIInit()
 	UIText* moneyText = new UIText();
 	moneyText->init("moneyText", 5, 505, 300, 100, "0", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_RIGHT, RGB(255, 255, 255));
 	InventoryFrame->AddFrame(moneyText);
-	
+
 	InventoryFrame->SetIsViewing(false);
 
 	UIText* accessFullText = new UIText();
@@ -496,6 +640,7 @@ void gameScene::release()
 	PARTICLEMANAGER->releaseSingleton();
 }
 
+
 void gameScene::UpdateWardrobeUI()
 {
 
@@ -508,45 +653,112 @@ void gameScene::UpdateWardrobeUI()
 		}
 	}
 
-	if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetRect(), _ptMouse) && INPUT->GetKey(VK_LBUTTON))
+	if (UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetIsViewing() == true)
 	{
-		_scrollTimer++;
-		if (_scrollTimer == 1)
+		if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetRect(), _ptMouse) && INPUT->GetKey(VK_LBUTTON))
 		{
-			_mouseLocation = _ptMouse.x;
-		}
-
-		else if (_scrollTimer > 1)
-		{
-			for (int i = 0; i < 13; i++)
+			_scrollTimer++;
+			if (_scrollTimer == 1)
 			{
-				UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeBack" + to_string(i))->MoveFrameChild(_ptMouse.x - _mouseLocation, 0);
-				UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->MoveFrameChild(_ptMouse.x - _mouseLocation, 0);
-				UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->MoveFrameChild(_ptMouse.x - _mouseLocation, 0);
+				_mouseLocation = _ptMouse.x;
 			}
-			_mouseLocation = _ptMouse.x;
+
+			else if (_scrollTimer > 1)
+			{
+				for (int i = 0; i < 13; i++)
+				{
+					UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeBack" + to_string(i))->MoveFrameChild(_ptMouse.x - _mouseLocation, 0);
+					UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->MoveFrameChild(_ptMouse.x - _mouseLocation, 0);
+					UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->MoveFrameChild(_ptMouse.x - _mouseLocation, 0);
+				}
+				_mouseLocation = _ptMouse.x;
+			}
 		}
-	}
 
-	if (INPUT->GetIsLButtonUp())
-	{
-		_scrollTimer = 0;
-		_mouseLocation = 0;
-	}
-
-	for (int i = 0; i < 13; i++)
-	{
-		if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->GetRect(), _ptMouse))
+		if (INPUT->GetIsLButtonUp())
 		{
-			UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(true);
-			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("charNameText"))->SetText(_vCharName[i]);
-			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharExplanationText"))->SetText(_CharExplanation[i]);
-			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharAbilityText"))->SetText(_CharAbility[i]);
-			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharFirstStat"))->SetText(_CharFirstStat[i]);
-			dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharSecondStat"))->SetText(_CharSecondStat[i]);
+			_scrollTimer = 0;
+			_mouseLocation = 0;
 		}
-		else
-			UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(false);
+
+		for (int i = 0; i < 13; i++)
+		{
+			if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->GetRect(), _ptMouse))
+			{
+				UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(true);
+				dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("charNameText"))->SetText(_vCharName[i]);
+				dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharExplanationText"))->SetText(_CharExplanation[i]);
+				dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharAbilityText"))->SetText(_CharAbility[i]);
+				dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharFirstStat"))->SetText(_CharFirstStat[i]);
+				dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("CostumeBase_1")->GetChild("CharSecondStat"))->SetText(_CharSecondStat[i]);
+			}
+			else
+				UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(false);
+		}
+		for (int i = 0; i < 13; i++)
+		{
+			if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->GetRect(), _ptMouse) && INPUT->GetIsRButtonClicked())
+			{
+				switch (i)
+				{
+				case 0:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("baseCharIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("baseCharRun"));
+					break;
+				case 1:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("sheetingIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("sheetingRun"));
+					break;
+				case 2:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("gunmanIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("gunmanRun"));
+					break;
+				case 3:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("aliceIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("aliceRun"));
+					break;
+				case 4:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("redlotusIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("redlotusRun"));
+					break;
+				case 5:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("lkinabearIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("lkinabearRun"));
+					break;
+				case 6:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("riderHIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("riderHRun"));
+					break;
+				case 7:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("criminalldle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("criminalRun"));
+					break;
+				case 8:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("pickIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("pickRun"));
+					break;
+				case 9:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("fastoIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("fastoRun"));
+					break;
+				case 10:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("horsemanIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("horsemanRun"));
+					break;
+				case 11:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("humanlasleyIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("humanlasleyRun"));
+					break;
+				case 12:
+					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("masterchefIdle"));
+					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("masterchefRun"));
+					break;
+
+				default:
+					break;
+				}
+			}
+		}
 	}
 }
 
@@ -587,10 +799,39 @@ void gameScene::render()
 
 	TextOut(getMemDC(), 0, 0, "EXIT : VK_BACK", strlen("EXIT : VK_BACK"));
 
-	IMAGEMANAGER->findImage("BasicCursor")->render(getMemDC(), _ptMouse.x, _ptMouse.y);
+	IMAGEMANAGER->findImage("ShootingCursor2")->stretchRender(getMemDC(), _ptMouse.x - 22, _ptMouse.y - 22, 0.8f, 0.8f);
 
 	string n = to_string((int)CAMERAMANAGER->GetAbsoluteX(_ptMouse.x)) + " " + to_string((int)CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
 
 	TextOut(getMemDC(), _ptMouse.x, _ptMouse.y, n.c_str(), n.length());
+}
+
+void gameScene::doubleClick()
+{
+	if (_clicked)
+	{
+		_clickTimer++;
+		if (_clickTimer > 10)
+		{
+			_clickTimer = 0;
+			_clicked = false;
+		}
+	}
+	if (INPUT->GetIsLButtonClicked())
+	{
+		if (!_clicked)
+		{
+			for (int i = 0; i < 13; i++)
+			{
+				UIFrame* clickFrame = UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i));
+
+				if (PtInRect(&clickFrame->GetRect(), _ptMouse))
+				{
+					_clickTimer = 0;
+					_clicked = false;
+				}
+			}
+		}
+	}
 }
 

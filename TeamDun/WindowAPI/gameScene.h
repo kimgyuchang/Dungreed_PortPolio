@@ -5,6 +5,8 @@
 class gameScene : public gameNode
 {
 private:
+	bool					_clicked;
+	int						_clickTimer;
 	float					_pivX;
 	float					_pivY;
 	Player*					_p;
@@ -20,6 +22,9 @@ public:
 	HRESULT init();
 	void InitWardrobeString();
 	void initUI();
+	void MainGameFrameInit();
+	void GetItemUIInit();
+	void ConversationUIInit();
 	void WardrobeUIInit();
 	void DungeonMapUIInit();
 	void InventoryUIInit();
@@ -29,5 +34,6 @@ public:
 	void UpdateWardrobeUI();
 	void update();
 	void render();
+	void doubleClick();
 };
 

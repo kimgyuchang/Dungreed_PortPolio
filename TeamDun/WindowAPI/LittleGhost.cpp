@@ -7,13 +7,14 @@ HRESULT LittleGhost::init(int id, string name, OBJECTTYPE type, vector<string> i
 
 	_state = ES_IDLE;
 
-	_index = _count = _attackCoolTime = _attackTime = _moveTimer = _moveCoolTime = 0;
+	_index = _count = _attackTime = _moveTimer = _moveCoolTime = 0;
 	_frameX, _frameY = 0;
 	_initHp = _HP = 15;
 	_realMoveX, _realMoveY = 0;
 	_Damage = 5;
 	_isLeft = false;
-
+	_isAtk = false;
+	_attackCoolTime = RANDOM->range(20) + 20;
 	return S_OK;
 }
 
@@ -35,12 +36,12 @@ void LittleGhost::update()
 		switch (_state)
 		{
 		case ES_IDLE:
-			_attackCoolTime++;
+			_attackCoolTime--;
 
-			if (_attackCoolTime > 30)
+			if (_attackCoolTime < 0)
 			{
 				_state = ES_MOVE;
-				_attackCoolTime = 0;
+				_attackCoolTime = RANDOM->range(20) + 20;
 			}
 			break;
 		case ES_MOVE:
@@ -54,10 +55,37 @@ void LittleGhost::update()
 			break;
 		case ES_ATTACK:
 			_attackTime++;
+			RECT temp;
+			if (_isAtk == false)
+			{
+				_isAtk = true;
+				if (IntersectRect(&temp,&ENTITYMANAGER->getPlayer()->GetBody(),&_body))
+				{
+					if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
+					{
+						float damage;
+							float block;
+							float evasion;
 
+							damage = _Damage * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100;
+							evasion = RANDOM->range(100);
+							block = RANDOM->range(100);
+						if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
+						{
+							if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
+							{
+								ENTITYMANAGER->getPlayer()->SetIsHit(true);
+								ENTITYMANAGER->getPlayer()->SetHitCount(0);
+								ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
+							}
+						}
+					}
+				} 
+			}
 			this->Attack();
 			if (_attackTime > 100)
 			{
+				_isAtk = false;
 				_state = ES_IDLE;
 				_attackTime = 0;
 			}

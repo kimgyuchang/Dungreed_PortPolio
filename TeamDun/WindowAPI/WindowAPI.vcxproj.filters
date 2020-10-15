@@ -282,10 +282,25 @@
     <ClCompile Include="Shop.cpp">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClCompile>
-    <ClCompile Include="townNPCimage.cpp">
-      <Filter>MainGame\Object\NPC</Filter>
-    </ClCompile>
     <ClCompile Include="Restaurant.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="townNPCimage.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="DropItem.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="DropObjs.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="Treasure.cpp">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClCompile>
   </ItemGroup>
@@ -494,10 +509,25 @@
     <ClInclude Include="Shop.h">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClInclude>
-    <ClInclude Include="townNPCimage.h">
-      <Filter>MainGame\Object\NPC</Filter>
-    </ClInclude>
     <ClInclude Include="Restaurant.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="townNPCimage.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="DropItem.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="DropObjs.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Treasure.h">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClInclude>
   </ItemGroup>

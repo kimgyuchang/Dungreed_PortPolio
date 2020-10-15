@@ -28,7 +28,7 @@ HRESULT Belial::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 
 
 	_initHp = _HP = 800;
-	_Damage = 10;
+	_Damage = 10; //阂房措固瘤
 
 
 	_leftHandle.ig = IMAGEMANAGER->findImage("SkellBossLeftHandIdle");
@@ -261,6 +261,8 @@ void Belial::Attack()
 				}
 				_vBossSword[i]->x += cosf(_vBossSword[i]->angle)*_vBossSword[i]->speed;
 				_vBossSword[i]->y += -sinf(_vBossSword[i]->angle)*_vBossSword[i]->speed;
+				_vBossSword[i]->body = RectMakeCenter(_vBossSword[i]->x+ _vBossSword[i]->ig->getFrameWidth() *3/2 , _vBossSword[i]->y+ _vBossSword[i]->ig->getFrameHeight() * 3/2,
+										_vBossSword[i]->ig->getFrameWidth()*2, _vBossSword[i]->ig->getFrameHeight()*2);
 
 			}
 
@@ -279,6 +281,8 @@ void Belial::Attack()
 				}
 			}
 
+
+			SwordHit();
 			SwordPixelCollision();
 			EraseSword();
 			if (_swordEndCount == 6)
@@ -444,6 +448,35 @@ void Belial::Animation()
 				_leftHandle.frameX = 0;
 			}
 		}
+		RECT temp;
+		//面倒贸府
+		for (int i = 0; i < _vLeftRazer.size(); i++)
+		{
+			if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_vLeftRazer[i]->body))
+			{
+				if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
+				{
+					float damage;
+					float block;
+					float evasion;
+
+					damage = 15 * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100;
+					evasion = RANDOM->range(100);
+					block = RANDOM->range(100);
+					if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
+					{
+						if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
+						{
+							ENTITYMANAGER->getPlayer()->SetIsHit(true);
+							ENTITYMANAGER->getPlayer()->SetHitCount(0);
+							ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
+						}
+					}
+				}
+
+
+			}
+		}
 		break;
 	default:
 		break;
@@ -501,6 +534,36 @@ void Belial::Animation()
 				_RightHandle.frameX = 0;
 			}
 		}
+		
+		RECT temp;
+		//面倒贸府
+		for (int i = 0; i <_vRightRazer.size(); i++)
+		{
+			if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_vRightRazer[i]->body))
+			{
+				if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
+				{
+					float damage;
+					float block;
+					float evasion;
+
+					damage = 15 * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100;
+					evasion = RANDOM->range(100);
+					block = RANDOM->range(100);
+					if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
+					{
+						if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
+						{
+							ENTITYMANAGER->getPlayer()->SetIsHit(true);
+							ENTITYMANAGER->getPlayer()->SetHitCount(0);
+							ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
+						}
+					}
+				}
+
+
+			}
+		}
 		break;
 	default:
 		break;
@@ -551,10 +614,49 @@ void Belial::SetSword()
 	_sword->body = RectMake(_sword->x, _sword->y, _sword->ig->getFrameWidth()*3, _sword->ig->getFrameHeight()*3);
 	_sword->isDead = false;
 	_sword->isCol = false;
+	_sword->isHit = false;
 	_sword->speed = 0;	
 	_sword->Timer = 0;
 
 	_vBossSword.push_back(_sword);
+}
+
+void Belial::SwordHit()
+{
+
+	Player* _p = ENTITYMANAGER->getPlayer();
+	RECT temp;
+	//面倒贸府
+	for (int i = 0; i < _vBossSword.size(); i++)
+	{
+		if (IntersectRect(&temp, &_p->GetBody(), &_vBossSword[i]->body))
+		{
+			if (_vBossSword[i]->speed > 0 && _vBossSword[i]->isHit == false)
+			{
+				if (_p->GetIsHit() == false)
+				{
+					_vBossSword[i]->isHit = true;
+					float damage;
+					float block;
+					float evasion;
+
+					damage = 15 * _p->GetRealDefence() / 100;
+					evasion = RANDOM->range(100);
+					block = RANDOM->range(100);
+					if (_p->GetRealEvasion() <= evasion)
+					{
+						if (_p->GetBlock() <= block)
+						{
+							_p->SetIsHit(true);
+							_p->SetHitCount(0);
+							_p->SetHp(_p->GetHP() - damage);
+						}
+					}
+				}
+
+			}
+		}
+	}
 }
 
 
@@ -577,13 +679,11 @@ void Belial::SetSwordAngle()
 
 void Belial::SwordPixelCollision()
 {
-	
-	
 	image* pixelMapIg = IMAGEMANAGER->findImage("PixelMapIg");
 	image* _image = IMAGEMANAGER->findImage("SkellBossSword0");
 	for (int i = 0; i < _vBossSword.size(); i++)
 	{
-		COLORREF color1 = GetPixel(pixelMapIg->getMemDC(), _vBossSword[i]->x + _image->getFrameWidth()*3/2+cosf(_vBossSword[i]->angle)*60 , _vBossSword[i]->y + _image->getFrameHeight()*3 / 2-sinf(_vBossSword[i]->angle) * 60);
+		COLORREF color1 = GetFastPixel(MAPMANAGER->GetPixelGetter(), _vBossSword[i]->x + _image->getFrameWidth()*3/2+cosf(_vBossSword[i]->angle)*60 , _vBossSword[i]->y + _image->getFrameHeight()*3 / 2-sinf(_vBossSword[i]->angle) * 60);
 		int r1 = GetRValue(color1);
 		int g1 = GetGValue(color1);
 		int b1 = GetBValue(color1);

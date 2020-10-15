@@ -8,10 +8,11 @@ HRESULT Minotaurs::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_state = ES_IDLE;
 
 	_dashTimer = _movePoint = 0;
-	_attackCoolTime = _attackCount = _attackIndexFix = 0;
-
+	_attackCount = _attackIndexFix = 0;
+	_attackCoolTime = 100 + RANDOM->range(40);
 	_index = _count = 0;
 	_effectTimer = _effect = 0;
+	_MoveTimer = 0;
 	_frameX, _frameY = 0;
 	_initHp = _HP = 80;
 	_moveSpeed = 10;
@@ -34,52 +35,55 @@ void Minotaurs::update()
 		switch (_state)
 		{
 		case ES_IDLE:
-			_attackCoolTime++;
+			
 
-			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 300 && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 100)
+			if (abs(_x - ENTITYMANAGER->getPlayer()->GetX()) < 500 && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 100)
 			{
-				if (_attackCount <= 0)
+				_MoveTimer++;
+
+				if (_MoveTimer > 200)
 				{
-					_state = ES_MOVE;
-				}
-				else if (_attackCount >= 1)
-				{
-					if (_attackCoolTime > 100)
+					if (abs(_x + _vImages[0]->getFrameWidth() / 2 - ENTITYMANAGER->getPlayer()->GetX()) < 85)
+					{
+						_state = ES_ATTACK;
+						if (_isLeft)
+						{
+							_frameX = 0;
+						}
+						else
+						{
+							_frameX = _vImages[2]->getMaxFrameX();
+							
+						}
+					}
+					else
 					{
 						_state = ES_MOVE;
-						_attackCoolTime = 0;
+						if (_isLeft)
+						{
+							_frameX = 0;
+						}
+						else
+						{
+							_frameX = _vImages[1]->getMaxFrameX();
+						}
 					}
-				}
+					_MoveTimer = 0;
 
+				}
 				if (_x < ENTITYMANAGER->getPlayer()->GetX()) { _moveSpeed = 10; _isLeft = true; }
 				else if (_x >= ENTITYMANAGER->getPlayer()->GetX()) { _moveSpeed = -10; _isLeft = false; }
 			}
 			break;
 		case ES_MOVE:
 			this->Move();
-			if (!_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
-			{
-				_state = ES_ATTACK;
-				_frameX = 0;
-			}
-			else if (_isLeft && _frameX <= 0)
-			{
-				_state = ES_ATTACK;
-				_frameX = _vImages[_useImage]->getMaxFrameX() - 1;
-			}
+			
 			break;
 		case ES_ATTACK:
 			_body = RectMake(_x, _y, 156, 150);
-			if (_isLeft && _frameX >= _vImages[_useImage]->getMaxFrameX())
-			{
-				_state = ES_IDLE;
-				_attackCount++;
-			}
-			else if (!_isLeft && _frameX <= 0)
-			{
-				_state = ES_IDLE;
-				_attackCount++;
-			}
+
+			_MoveTimer++;
+			
 			break;
 		default:
 			break;
@@ -104,6 +108,7 @@ void Minotaurs::render(HDC hdc)
 
 void Minotaurs::Move()
 {
+	cout << _movePoint << endl;
 	Enemy::Move();
 
 	_body = RectMake(_x, _y, 156, 150);
@@ -127,30 +132,45 @@ void Minotaurs::Move()
 
 	//대쉬
 	_movePoint++;
-	_dashTimer++;
-	_isDash = true;
+	
+	_x += _moveSpeed;
 
-	if (_isDash)
+
+	RECT temp;
+	if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_body))
 	{
-		_x += _moveSpeed;
-
-		if (_dashTimer > 100)
+		if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
 		{
-			_dashTimer = 0;
-			_isDash = false;
+			float damage;
+			float block;
+			float evasion;
+
+			damage = 20 * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100; // 대쉬시 충돌하면 기본 20데미지에서 계산
+			evasion = RANDOM->range(100);
+			block = RANDOM->range(100);
+			if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
+			{
+				if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
+				{
+					ENTITYMANAGER->getPlayer()->SetIsHit(true);
+					ENTITYMANAGER->getPlayer()->SetHitCount(0);
+					ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
+				}
+			}
 		}
+		_movePoint = 101;
 	}
 
 	if (_movePoint > 100) // 혹은 충돌했을떄
 	{
 		_state = ES_ATTACK;
-		if (_moveSpeed > 0)
+		if (_isLeft)
 		{
 			_frameX = 0;
 		}
 		else
 		{
-			_frameX = _vImages[_useImage]->getMaxFrameX() - 1;
+			_frameX = _vImages[2]->getMaxFrameX() ;
 		}
 		_movePoint = 0;
 	}
@@ -165,11 +185,10 @@ void Minotaurs::Animation()
 {
 	Enemy::Animation();
 
-	_count++;
-
 	switch (_state)
 	{
 	case ES_IDLE:
+		_count++;
 		_useImage = 0;
 		if (!_isLeft)
 		{
@@ -201,6 +220,7 @@ void Minotaurs::Animation()
 		}
 		break;
 	case ES_MOVE:
+		_count++;
 		_useImage = 1;
 		if (_isLeft)
 		{
@@ -267,32 +287,92 @@ void Minotaurs::Animation()
 		break;
 	case ES_ATTACK:
 		_useImage = 2;
-		if (_isLeft)
+		if (_MoveTimer > 30)
 		{
-			_frameY = 0;
-			if (_count > _attackAnimFrame[_frameX])
+			_count++;
+			if (_isLeft)
 			{
-				_count = 0;
-				_frameX++;
+				_frameY = 0;
 
-				if (_frameX > _vImages[_useImage]->getMaxFrameX())
+				if (_count > _attackAnimFrame[_frameX])
 				{
-					_frameX = 0;
+					_count = 0;
+					_frameX++;
+					if (_frameX == 3)
+					{
+						RECT temp;
+						if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_body))
+						{
+							if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
+							{
+								float damage;
+								float block;
+								float evasion;
+
+								damage = _Damage * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100; // 대쉬시 충돌하면 기본 20데미지에서 계산
+								evasion = RANDOM->range(100);
+								block = RANDOM->range(100);
+								if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
+								{
+									if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
+									{
+										ENTITYMANAGER->getPlayer()->SetIsHit(true);
+										ENTITYMANAGER->getPlayer()->SetHitCount(0);
+										ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
+									}
+								}
+							}
+						}
+					}
+					if (_frameX > _vImages[_useImage]->getMaxFrameX())
+					{
+						_state = ES_IDLE;
+						_MoveTimer = 0;
+						_frameX = 0;
+					}
 				}
 			}
-		}
-		else
-		{
-			_frameY = 1;
-			if (_count > _attackAnimFrame[_vImages[_useImage]->getMaxFrameX() - _frameX])
+			else
 			{
-				_count = 0;
-				_frameX--;
-
-				if (_frameX < 0)
+				_frameY = 1;
+				if (_count > _attackAnimFrame[_vImages[_useImage]->getMaxFrameX() - _frameX])
 				{
-					_frameX = _vImages[_useImage]->getMaxFrameX();
-					_attackIndexFix = 0;
+					_count = 0;
+					_frameX--;
+
+					if (_frameX == 3)
+					{
+						RECT temp;
+						if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_body))
+						{
+							if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
+							{
+								float damage;
+								float block;
+								float evasion;
+
+								damage = _Damage * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100; // 대쉬시 충돌하면 기본 20데미지에서 계산
+								evasion = RANDOM->range(100);
+								block = RANDOM->range(100);
+								if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
+								{
+									if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
+									{
+										ENTITYMANAGER->getPlayer()->SetIsHit(true);
+										ENTITYMANAGER->getPlayer()->SetHitCount(0);
+										ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
+									}
+								}
+							}
+						}
+					}
+					if (_frameX < 0)
+					{
+						_frameX = _vImages[_useImage]->getMaxFrameX();
+						_state = ES_IDLE;
+						_MoveTimer = 0;
+						_attackIndexFix = 0;
+					}
 				}
 			}
 		}
@@ -317,7 +397,7 @@ void Minotaurs::pixelCollision()
 
 	for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + 11, i);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + 11, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -343,7 +423,7 @@ void Minotaurs::pixelCollision()
 
 		for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 		{
-			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + MinotaursIdle->getFrameWidth() - 11, i);
+			COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + MinotaursIdle->getFrameWidth() - 11, i);
 			int r = GetRValue(color);
 			int g = GetGValue(color);
 			int b = GetBValue(color);
@@ -370,7 +450,7 @@ void Minotaurs::pixelCollision()
 	{
 		for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 		{
-			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + _vImages[_useImage]->getFrameWidth() - 11, i);
+			COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + _vImages[_useImage]->getFrameWidth() - 11, i);
 			int r = GetRValue(color);
 			int g = GetGValue(color);
 			int b = GetBValue(color);
@@ -397,7 +477,7 @@ void Minotaurs::pixelCollision()
 
 	for (int i = _y + 15; i > _y - 4; i--)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + _vImages[_useImage]->getFrameWidth() / 2, i);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + _vImages[_useImage]->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -419,7 +499,7 @@ void Minotaurs::pixelCollision()
 
 	for (int i = _x + MinotaursIdle->getFrameWidth() - 15; i < _x + MinotaursIdle->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -439,7 +519,7 @@ void Minotaurs::pixelCollision()
 	}
 	for (int i = _x + MinotaursIdle->getFrameWidth() - 15; i < _x + MinotaursIdle->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 40);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 40);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -455,7 +535,7 @@ void Minotaurs::pixelCollision()
 	}
 	for (int i = _x + MinotaursIdle->getFrameWidth() - 15; i < _x + MinotaursIdle->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(_vImages[_useImage]->getMemDC(), i, _y + 2);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _y + 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -473,7 +553,7 @@ void Minotaurs::pixelCollision()
 	//왼쪽아래
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -494,7 +574,7 @@ void Minotaurs::pixelCollision()
 	//왼쪽중간
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 40);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 40);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -510,7 +590,7 @@ void Minotaurs::pixelCollision()
 	//왼쪽위
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _y + 2);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _y + 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);

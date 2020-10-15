@@ -4,15 +4,16 @@
 HRESULT DemonSword::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill* skill, string name,
 	string description, ITEMCLASS itemClass, float minAtk, float maxAtk, float atkSpeed,
 	int defence, bool useAtkSpeed, int numOfBullet, float reloadTime, Bullet* bullet,
-	float accuracy, int buyPrice, bool isBulletInfinite, vector<string> imageNames, string invenImage)
+	float accuracy, int buyPrice, bool isBulletInfinite, vector<string> imageNames, string invenImage, string dropImage)
 {
 	Item::init(id, itemType, weaponType, skill, name, description, itemClass, minAtk, maxAtk, atkSpeed,
-		defence, useAtkSpeed, numOfBullet, reloadTime, bullet, accuracy, buyPrice, isBulletInfinite, imageNames, invenImage);
+		defence, useAtkSpeed, numOfBullet, reloadTime, bullet, accuracy, buyPrice, isBulletInfinite, imageNames, invenImage, dropImage);
 
 	_isRenderFirst = true;
 	_animCount = 0;
 	_finalAnimCount = 0;
 	_slashImage = IMAGEMANAGER->findImage("DemonSword_Slash");
+	_renderScale = 3.0f;
 	return S_OK;
 }
 
@@ -25,7 +26,7 @@ void DemonSword::update()
 
 void DemonSword::render(HDC hdc)
 {
-	CAMERAMANAGER->FrameStretchRender(hdc, _vImages[_currentImage], _renderPosX, _renderPosY, _xFrame, _yFrame, 3.0f, 3.0f, _angle + _renderAngle);
+	CAMERAMANAGER->FrameStretchRender(hdc, _vImages[_currentImage], _renderPosX, _renderPosY, _xFrame, _yFrame, _renderScale, _renderScale, _angle + _renderAngle);
 	for (int i = 0; i < _vSlashes.size(); i++) _vSlashes[i]->render(hdc);
 }
 
@@ -145,7 +146,7 @@ void DemonSlash::SetCollide()
 		{
 			if (_vObjs[i]->GetType() == OBJECTTYPE::OT_MONSTER || _vObjs[i]->GetType() == OBJECTTYPE::OT_BREAKABLE)
 			{
-				if (UTIL::interactRectArc(_vObjs[i]->GetBody(), POINT{ (LONG)_parent->GetAngleCheckPosX(), (LONG)_parent->GetAngleCheckPosY() }, _radius, _angle - PI * 0.2f, _angle + PI * 0.2f))
+				if (UTIL::interactRectArc(_vObjs[i]->GetBody(), POINT{ (LONG)_parent->GetAngleCheckPosX(), (LONG)_parent->GetAngleCheckPosY() }, _radius, _angle - PI * 0.2f, _angle + PI * 0.2f, _radius /2))
 				{
 					_vObjs[i]->GetDamage();
 				}

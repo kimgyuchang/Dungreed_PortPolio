@@ -1,16 +1,18 @@
 #include "stdafx.h"
 #include "FieldMap.h"
+#include "Portal.h"
 
 HRESULT FieldMap::init(string fileName)
 {
 	_fileName = fileName;
 	_spawnTimer = 0;
+	_visited = false;
+	_portal = nullptr;
 
 	_nextMapIndex[0] = -1;
 	_nextMapIndex[1] = -1;
 	_nextMapIndex[2] = -1;
 	_nextMapIndex[3] = -1;
-
 	return S_OK;
 }
 
@@ -153,14 +155,42 @@ void FieldMap::LoadObject()
 		case 2500: // 몬스터 스포너
 			obj = new MonsterSpawner(*dynamic_cast<MonsterSpawner*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-		case 10 :
+		case 10 : // 상점
 			obj = new Shop(*dynamic_cast<Shop*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Shop*>(obj)->initSecond();
 			dynamic_cast<Shop*>(obj)->SetShopItem();
 			dynamic_cast<Shop*>(obj)->ReNewUI();
 			break;
 		case 12 : // 밥 잘 파는 예쁜 누나
 			obj = new Restaurant(*dynamic_cast<Restaurant*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Restaurant*>(obj)->initSecond();
 			dynamic_cast<Restaurant*>(obj)->SetRestaurantFood();
+			break;
+		case 0: // 포탈
+			obj = new Portal(*dynamic_cast<Portal*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Portal*>(obj)->initSecond();
+			_portal = dynamic_cast<Portal*>(obj);
+			break;
+
+		case 2: // 전설상자
+			obj = new Treasure(*dynamic_cast<Treasure*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Treasure*>(obj)->initSecond();
+			break;
+		case 3: // 레어상자
+			obj = new Treasure(*dynamic_cast<Treasure*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Treasure*>(obj)->initSecond();
+			break;
+		case 4: // 회색상자
+			obj = new Treasure(*dynamic_cast<Treasure*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Treasure*>(obj)->initSecond();
+			break;
+		case 5: // 갈색상자
+			obj = new Treasure(*dynamic_cast<Treasure*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Treasure*>(obj)->initSecond();
+			break;
+		case 6: // 금색상자
+			obj = new Treasure(*dynamic_cast<Treasure*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Treasure*>(obj)->initSecond();
 			break;
 		default:
 			obj = new Object(*DATAMANAGER->GetObjectById(stoi(objData[i][0])));
@@ -388,6 +418,9 @@ void FieldMap::MakeNearTileCollision(Door* door, bool isActivate)
 /// </summary>
 void FieldMap::PixelCollisionMapGenerate()
 {
+	IMAGEMANAGER->addImage("PixelMapIg", "Images/PixelMapIg.bmp", _vMapData[0].size() * 48, _vMapData.size() * 48, true, RGB(255,255,255));
+
+	image* pixelMapImg = IMAGEMANAGER->findImage("PixelMapIg");
 	HDC pixelMapDC = IMAGEMANAGER->findImage("PixelMapIg")->getMemDC();
 	Rectangle(pixelMapDC, -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
 
@@ -401,6 +434,9 @@ void FieldMap::PixelCollisionMapGenerate()
 			}
 		}
 	}
+	
+
+	SetFastPixel(IMAGEMANAGER->findImage("PixelMapIg"), MAPMANAGER->GetPixelGetter());
 }
 
 /// <summary>
@@ -439,7 +475,7 @@ void FieldMap::GridMapGenerate()
 	{
 		for (int j = 0; j < _vMapData[i].size(); j++)
 		{
-			COLORREF color = GetPixel(pixelMapDC, j * 48, i * 48);
+			COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), j * 48, i * 48);
 			if (color == RGB(0, 255, 0) || color == RGB(0, 200, 0) || color == RGB(0, 155, 0) || color == RGB(0, 100, 0))
 			{
 				IMAGEMANAGER->findImage("MiniMapDoor")->render(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), 1000 + j * 5, 10 + i * 5);

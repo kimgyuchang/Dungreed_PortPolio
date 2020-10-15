@@ -46,6 +46,7 @@ void UIFrame::update()
 	}
 
 	CheckIsOutside();
+	OperateViewingTimer();
 }
 
 /// <summary>
@@ -68,6 +69,12 @@ void UIFrame::ToggleIsViewing()
 /// <param name="withChild"></param>
 void UIFrame::SetIsViewing(bool isViewing, bool withChild)
 {
+	if (isViewing == false)
+	{
+		_timer = 0;
+		_isSetTimer = false;
+	}
+
 	_isViewing = isViewing;
 
 	if (withChild)
@@ -203,6 +210,23 @@ void UIFrame::MoveFrameToXY(float x, float y)
 	for (int i = 0; i < _vChildFrames.size(); i++)
 	{
 		_vChildFrames[i]->MoveFrame(-moveX, -moveY);
+	}
+}
+
+/// <summary>
+/// 일정 시간 뒤에 UI를 보이지 않게 하는 기능
+/// </summary>
+void UIFrame::OperateViewingTimer()
+{
+	if (_isSetTimer)
+	{
+		_timer--;
+		if (_timer < 0)
+		{
+			_timer = 0;
+			_isSetTimer = false;
+			SetIsViewing(false);
+		}
 	}
 }
 

@@ -5,12 +5,59 @@
 HRESULT Shop::init(int id, string name, OBJECTTYPE type, vector<string> imgNames)
 {
 	NPC::init(id, name, type, imgNames);
+	_npcName = "크록";
+	_vConvTexts = vector<string>{
+		"물건 판다. 많이 준비해놨다.",
+		"반갑다. 좋은 것들 가져왔다.",
+		"많이 벌어서 가게 차릴거다."
+	};
+
+	_vSelectTexts = vector<string>{
+		"상점",
+		"아무것도"
+	};
+
+	_useConv = true;
+	_useSelect = true;
+
 	return S_OK;
+}
+
+void Shop::Conversation()
+{
+	if (PtInRect(&_selectFrame->GetChild("selected1")->GetRect(), _ptMouse))
+	{
+		_selectFrame->GetChild("selected1")->SetImage(IMAGEMANAGER->findImage("SelectedFrame"));
+		if (INPUT->GetIsLButtonClicked())
+		{
+			_selectFrame->SetIsViewing(false);
+			_convFrame->SetIsViewing(false);
+			Activate();
+		}
+	}
+	else _selectFrame->GetChild("selected1")->SetImage(nullptr);
+
+	if (PtInRect(&_selectFrame->GetChild("selected2")->GetRect(), _ptMouse))
+	{
+		_selectFrame->GetChild("selected2")->SetImage(IMAGEMANAGER->findImage("SelectedFrame"));
+		if (INPUT->GetIsLButtonClicked())
+		{
+			_selectFrame->SetIsViewing(false);
+			_convFrame->SetIsViewing(false);
+		}
+	}
+	else _selectFrame->GetChild("selected2")->SetImage(nullptr);
+
 }
 
 void Shop::update()
 {
 	NPC::update();
+
+	if (_selectFrame->GetIsViewing())
+	{
+		Conversation();
+	}
 
 	if (_shopBase->GetIsViewing())
 	{
@@ -42,22 +89,33 @@ void Shop::Animation()
 }
 
 /// <summary>
+/// DATAMANAGER에서 불러온 후 init 가능한 것들만 init한다.
+/// </summary>
+void Shop::initSecond()
+{
+	_interactionImage = IMAGEMANAGER->findImage("Keyboard_F");
+	_convFrame = UIMANAGER->GetGameFrame()->GetChild("convFrame");
+	_selectFrame = UIMANAGER->GetGameFrame()->GetChild("selectFrame");
+
+	_inven = ENTITYMANAGER->getPlayer()->GetInventory();
+	_shopBase = UIMANAGER->GetGameFrame()->GetChild("DungeonShopBase");
+	_invenFrame = UIMANAGER->GetGameFrame()->GetChild("InventoryFrame");
+	_checkSellFrame = UIMANAGER->GetGameFrame()->GetChild("CheckSell");
+}
+
+/// <summary>
 /// 초기화시 Shop에 진열할 아이템들을 선택하고, 필요 변수들을 지정한다.
 /// </summary>
 void Shop::SetShopItem()
 {
 	_curToolTipItem = nullptr;
-	_inven = ENTITYMANAGER->getPlayer()->GetInventory();
-	_shopBase = UIMANAGER->GetGameFrame()->GetChild("DungeonShopBase");
-	_invenFrame = UIMANAGER->GetGameFrame()->GetChild("InventoryFrame");
-	_checkSellFrame = UIMANAGER->GetGameFrame()->GetChild("CheckSell");
 	_toolTipFinalY = 0;
 	_toolTipIndex = 0;
 
 	int itemSize = RANDOM->range(4, 6);
 	for (int i = 0; i < itemSize; i++)
 	{
-		_vItemList.push_back(new Item(*DATAMANAGER->GetItemById(RANDOM->range(4000, 4004))));
+		_vItemList.push_back(new Item(*DATAMANAGER->GetItemById(RANDOM->range(DATAMANAGER->GetItemMinId(), DATAMANAGER->GetItemMaxId()))));
 	}
 }
 
@@ -99,9 +157,9 @@ void Shop::ReNewUI()
 
 	UIImage* uiToolTip = new UIImage();
 	uiToolTip->init("itemToolTip", 0, 0, 400, 500, "ToolTipCover", false, 0, 0, 4.0f, 5.0f, 130);
-	uiToolTip->SetIsViewing(false);
-
 	_shopBase->AddFrame(uiToolTip);
+	
+	uiToolTip->SetIsViewing(false);
 }
 
 /// <summary>
@@ -224,6 +282,7 @@ void Shop::BuyItem()
 void Shop::Activate()
 {
 	ReNewUI();
+	_isActivating = !_isActivating;
 	_shopBase->ToggleIsViewing();
 	UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->SetIsViewing(_shopBase->GetIsViewing());
 	_checkSellFrame->SetIsViewing(false);

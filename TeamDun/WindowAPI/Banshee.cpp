@@ -9,6 +9,7 @@ HRESULT Banshee::init(int id, string name, OBJECTTYPE type, vector<string> imgNa
 	_Damage = 8;
 	_isAtk = false;
 	_initHp = _HP = 50;
+	_attackCoolTime = RANDOM->range(200) + 250;
 	return S_OK;
 }
 
@@ -18,9 +19,7 @@ void Banshee::update()
 
 	if (_isSpawned)
 	{
-		
 		Animation();
-		
 		Attack();
 		if (ENTITYMANAGER->getPlayer()->GetX() - 70 > _x)  _isLeft = true;
 		else if (ENTITYMANAGER->getPlayer()->GetX() + 70 < _x)  _isLeft = false;
@@ -41,13 +40,12 @@ void Banshee::render(HDC hdc)
 
 void Banshee::Attack()
 {
-
 	if (!_isAtk)
 	{
-		_attackCoolTime++;
-		if (_attackCoolTime > 400)
+		_attackCoolTime--;
+		if (_attackCoolTime < 0)
 		{
-			_attackCoolTime = 0;
+			_attackCoolTime = RANDOM->range(200) + 250;
 			_isAtk = true;
 			_useImage = 1;
 			if (_isLeft)
@@ -145,17 +143,14 @@ void Banshee::Animation()
 
 		if (_leftAtk)
 		{
-
 			_count++;
 
 			_frameY = 0;
 			if (_count % 10 == 0)
 			{
-
 				_frameX++;
 				if (_frameX == _vImages[_useImage]->getMaxFrameX() / 2)
 				{
-
 					for (int i = 0; i < 12; i++)
 						ENTITYMANAGER->makeBullet("BansheeBulletIdle", "BansheeBulletHit", BT_NOCOL, _x, _y, PI / 6 * i,_Damage,
 							4, 1000, true);

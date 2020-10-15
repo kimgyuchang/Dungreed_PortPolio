@@ -4,7 +4,7 @@
 HRESULT Item::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill* skill,
 	string name, string description, ITEMCLASS itemClass, float minAtk, float maxAtk, float atkSpeed,
 	int defence, bool useAtkSpeed, int numOfBullet, float reloadTime, Bullet* bullet, float accuracy,
-	int buyPrice, bool isBulletInfinite, vector<string> imageNames, string invenImage)
+	int buyPrice, bool isBulletInfinite, vector<string> imageNames, string invenImage, string dropImage)
 {
 	_renderPosX = _renderPosY = 0;
 
@@ -38,6 +38,10 @@ HRESULT Item::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill* skil
 
 	_invenImageName = invenImage;
 	_invenImage = IMAGEMANAGER->findImage(invenImage);
+	
+	_dropImageName = dropImage;
+	_dropImage = IMAGEMANAGER->findImage(dropImage);
+
 	_currentImage = 0;
 	_chargePercent = 0;
 	_xFrame = 0;
@@ -46,6 +50,7 @@ HRESULT Item::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill* skil
 	_angleCheckPosX = _angleCheckPosY = 0;
 	_renderPosX = _renderPosY = 0;
 	_isAttacking = false;
+	_renderScale = 1.f;
 
 	if (_itemType == ITEMTYPE::IT_SUBWEAPON)
 		_isRenderFirst = true;
@@ -67,8 +72,18 @@ void Item::update()
 
 void Item::render(HDC hdc)
 {
-	if(_itemType != ITEMTYPE::IT_NOTHING && _itemType != ITEMTYPE::IT_ACCESORRY)
-		CAMERAMANAGER->FrameRender(hdc, _vImages[_currentImage], _renderPosX, _renderPosY, _xFrame, _yFrame, _angle);
+	if (_itemType != ITEMTYPE::IT_NOTHING && _itemType != ITEMTYPE::IT_ACCESORRY)
+	{
+		if (_renderScale == 1)
+		{
+			CAMERAMANAGER->FrameRender(hdc, _vImages[_currentImage], _renderPosX, _renderPosY, _xFrame, _yFrame, _angle);
+		}
+
+		else
+		{
+			CAMERAMANAGER->FrameStretchRender(hdc, _vImages[_currentImage], _renderPosX, _renderPosY, _xFrame, _yFrame, _renderScale, _renderScale, _angle);
+		}
+	}
 }
 
 void Item::release()

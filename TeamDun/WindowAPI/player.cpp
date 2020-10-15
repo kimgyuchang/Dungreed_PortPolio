@@ -9,7 +9,8 @@ HRESULT Player::init()
 	_x = 300;
 	_y = WINSIZEY / 2;
 
-	_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+
+	_body = RectMake(_x + 10, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 20, IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
 
 	_useImage = 0;
 	_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
@@ -21,9 +22,11 @@ HRESULT Player::init()
 	_downJumpTimer = 0;
 	_dashTimer = 0;
 	_dashSpeed = 0;
+	_maxDashCount = 3;
 	_atkSpeed = 0.f;
 	_realAttackSpeed = _atkSpeed * 60;
 	_dustEffectCount = 0;
+	_stun = false;
 	_isDash = false;
 	_leftBack = false;
 	_rightBack = false;
@@ -36,17 +39,22 @@ HRESULT Player::init()
 	_isHit = false;
 	_hitCount = 0;
 	_aliceZone = IMAGEMANAGER->findImage("AliceZone");
-	_aliceZoneRadius = 144;
+	_aliceZoneRadius = 141;
 	_aliceZoneIn = false;
-
+	_swapCoolTime = 0;
 	_accesoryCount = 4;
+	_hp = _initHp = 100;
 
 	// UI
+	_hpFrame = UIMANAGER->GetGameFrame()->GetChild("hpFrame");
+	_dashFrame = UIMANAGER->GetGameFrame()->GetChild("dashFrame");
 
 	for (int i = 0; i < 17; i++) _vToolTips.push_back(CharToolTip());
 	_vToolTipsName = vector<string>{ "powerImg", "defImg", "toughImg", "blockImg", "criImg", "criDmgImg", "evadeImg",
 		"moveSpeedImg", "atkSpeedImg", "reloadImg", "dashImg", "trueDamageImg", "burnImg",
 		"poisonImg", "coldImg", "elecImg", "stunImg" };
+
+	DashUICheck();
 
 	// 예시용
 	_selectedWeaponIdx = 0;
@@ -71,22 +79,26 @@ HRESULT Player::init()
 	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4004)));
 
 	return S_OK;
-
 }
 
 void Player::update()
 {
 	if (!UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->GetIsViewing() &&
 		!UIMANAGER->GetGameFrame()->GetChild("DungeonShopBase")->GetIsViewing() &&
-		!UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetIsViewing()
+		!UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetIsViewing() &&
+		!UIMANAGER->GetGameFrame()->GetChild("selectFrame")->GetIsViewing() &&
+		!UIMANAGER->GetGameFrame()->GetChild("convFrame")->GetIsViewing() &&
+		!MAPMANAGER->GetPortalAnimOn()
 		)
 		// 잡다한 UI가 OFF일때
 	{
-		if (INPUT->GetIsRButtonClicked())		//마우스 오른쪽 버튼을 눌렀을때
+		if (INPUT->GetIsRButtonClicked() && _dashCount > 0)		//마우스 오른쪽 버튼을 눌렀을때
 		{
 			_isDash = true;
 			_dashPoint = _ptMouse;
 			_jumpPower = 0;
+			_dashCount--;
+			DashImageCheck();
 		}
 
 		if (INPUT->GetKeyDown('X'))				//X키를 눌렀을때
@@ -98,13 +110,11 @@ void Player::update()
 		{	//플레이어의 중점+이미지 가로길이의 반이 마우스 x좌표보다 크거나 같을때
 			_isLeft = true;		//왼쪽을 바라보게
 		}
-
 		else
 		{
 			_isLeft = false;	//오른쪽을 바라보게
 		}
 
-		this->pixelCollision();
 		if (_isDash)			//대쉬 상태
 		{
 			this->dash();		//대쉬를 해야하므로 dash함수 실행
@@ -113,8 +123,6 @@ void Player::update()
 		{
 			this->Move();		//대쉬 상태가 아니므로 Move함수 실행
 		}
-
-
 
 		_realAttackSpeed--;
 		if (INPUT->GetKey(VK_LBUTTON))
@@ -131,7 +139,6 @@ void Player::update()
 	else // 잡다한 UI가 ON
 	{
 		_inven->update();
-		this->pixelCollision();
 	}
 
 	SwitchWeapon();
@@ -146,29 +153,117 @@ void Player::update()
 	UpdateCharPage();
 	invincibility();
 	SetRealStat();
+	SetHpUI();
+	SetTextLeftDown();
+	this->pixelCollision();
 
+	if (INPUT->GetKeyDown('J'))
+	{
+		_maxDashCount++;
+		_dashCount--;
+		DashUICheck();
+	}
 
+	if (INPUT->GetKeyDown('K'))
+	{
+		if (_maxDashCount > 0) _maxDashCount--;
+		if (_dashCount > _maxDashCount) _dashCount--;
+		DashUICheck();
+	}
+}
+
+void Player::DashImageCheck()
+{
+	for (int i = 0; i < _maxDashCount; i++)
+	{
+		if (_dashCount > i)
+			_dashFrame->GetChild("dashColor" + to_string(i))->SetImage(IMAGEMANAGER->findImage("DashCount"));
+		else
+			_dashFrame->GetChild("dashColor" + to_string(i))->SetImage(nullptr);
+	}
+}
+
+void Player::SetTextLeftDown()
+{
+	dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("leftDown")->GetChild("CoinText"))->SetText(to_string(_money));
+	dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("leftDown")->GetChild("FoodText"))->SetText(to_string(_satiety) + " / " + to_string(_maxSatiety));
+}
+
+void Player::DashUICheck()
+{
+	_dashCount = _maxDashCount;
+	_dashFrame->GetVChildFrames().clear();
+
+	UIFrame* dashStartFrame = new UIFrame();
+	dashStartFrame->init("start", 0, 0, 6, 23, "DashBaseLeftEnd");
+	_dashFrame->AddFrame(dashStartFrame);
+	int x = 6;
+	for (int i = 0; i < _maxDashCount; i++)
+	{
+		UIFrame* dashBar = new UIFrame();
+		dashBar->init("dashBar" + to_string(i), x, 0, 27, 24, "DashBase");
+		_dashFrame->AddFrame(dashBar);
+
+		UIFrame* dashColor = new UIFrame();
+		dashColor->init("dashColor" + to_string(i), x, 6, 27, 24, "DashCount");
+		_dashFrame->AddFrame(dashColor);
+		x += 23;
+	}
+	UIFrame* dashEndFrame = new UIFrame();
+	dashEndFrame->init("end", x, 0, 6, 23, "DashBaseRightEnd");
+	_dashFrame->AddFrame(dashEndFrame);
 }
 
 void Player::SwitchWeapon()
 {
+	if (_swapCoolTime > 0)
+	{
+		_swapCoolTime--;
+		UIFrame* swapFrame = UIMANAGER->GetGameFrame()->GetChild("swapContainer");
+
+		UIFrame* weapon1 = swapFrame->GetChild("weapon1");
+		UIFrame* weapon2 = swapFrame->GetChild("weapon2");
+
+		if (_swapCoolTime == 0)
+		{
+			swapFrame->GetVChildFrames().push_back(swapFrame->GetVChildFrames()[0]);
+			swapFrame->GetVChildFrames().erase(swapFrame->GetVChildFrames().begin());
+		}
+
+		if (_selectedWeaponIdx == 0)
+		{
+			weapon1->MoveFrameChild(-2.5f, 2.5f);
+			weapon2->MoveFrameChild(2.5f, -2.5f);
+		}
+		else
+		{
+			weapon1->MoveFrameChild(2.5f, -2.5f);
+			weapon2->MoveFrameChild(-2.5f, 2.5f);
+		}
+	}
+
 	if (_mouseWheel != 0)
 	{
-		if (_weapons[_selectedWeaponIdx] != nullptr)
+		if (_swapCoolTime == 0)
 		{
-			_weapons[_selectedWeaponIdx]->SetisAttacking(false);
-			_weapons[_selectedWeaponIdx]->SetRenderAngle(0);
-		}
-		if (_subWeapons[_selectedWeaponIdx] != nullptr)
-		{
-			_subWeapons[_selectedWeaponIdx]->SetisAttacking(false);
-			_subWeapons[_selectedWeaponIdx]->SetRenderAngle(0);
-		}
+			if (_weapons[_selectedWeaponIdx] != nullptr)
+			{
+				_weapons[_selectedWeaponIdx]->SetisAttacking(false);
+				_weapons[_selectedWeaponIdx]->SetRenderAngle(0);
+			}
+			if (_subWeapons[_selectedWeaponIdx] != nullptr)
+			{
+				_subWeapons[_selectedWeaponIdx]->SetisAttacking(false);
+				_subWeapons[_selectedWeaponIdx]->SetRenderAngle(0);
+			}
 
-		_realAttackSpeed = 0;
+			_realAttackSpeed = 0;
 
-		_selectedWeaponIdx = _selectedWeaponIdx == 0 ? 1 : 0;
-		_inven->SwitchWeapon(_selectedWeaponIdx);
+			_selectedWeaponIdx = _selectedWeaponIdx == 0 ? 1 : 0;
+			_inven->SwitchWeapon(_selectedWeaponIdx);
+
+			_swapCoolTime = 20;
+		}
 	}
 }
 
@@ -181,15 +276,12 @@ void Player::CheckAliceZone()
 	{
 		if (objs[i]->GetType() == OBJECTTYPE::OT_MONSTER && dynamic_cast<Enemy*>(objs[i])->GetIsSpawned())
 		{
-			if (UTIL::interactRectArc(objs[i]->GetBody(), POINT{ (long)(_x + _vImages[_useImage]->getFrameWidth() / 2), (long)(_y + _vImages[_useImage]->getFrameHeight() / 2) }, _aliceZoneRadius, -PI / 4, PI / 4))
+			if (UTIL::interactRectCircle(objs[i]->GetBody(), POINT{ (long)(_x + _vImages[_useImage]->getFrameWidth() / 2), (long)(_y + _vImages[_useImage]->getFrameHeight() / 2) }, _aliceZoneRadius))
 			{
 				_aliceZoneIn = true;
 				zoneInHere = true;
 				break;
 			}
-
-			//if (UTIL::interactRectArc(objs[i]->GetBody(), POINT{ (long)(_x + _vImages[_useImage]->getFrameWidth() / 2), 
-			//	(long)(_y + _vImages[_useImage]->getFrameHeight() / 2) }, _aliceZoneRadius, -PI / 4, PI / 4))
 		}
 	}
 
@@ -199,6 +291,19 @@ void Player::CheckAliceZone()
 	}
 }
 
+void Player::SetHpUI()
+{
+	//if (INPUT->GetKeyDown('H')) _hp--;
+	UIProgressBar* bar = dynamic_cast<UIProgressBar*>(_hpFrame->GetChild("hpBarPros"));
+	bar->FillCheck(_initHp, _hp);
+	float fillPercent = (float)_hp / _initHp;
+
+	UIImage* hpWave = dynamic_cast<UIImage*>(_hpFrame->GetChild("Wave"));
+	hpWave->SetX((_hpFrame->GetX() + 42) + 157 * fillPercent); // 수치는 적당히 계산해서 넣음
+
+	dynamic_cast<UIText*>(_hpFrame->GetChild("hp"))->SetText(to_string(_hp) + " / " + to_string(_initHp));
+}
+
 void Player::release()
 {
 	_inven->release();
@@ -206,32 +311,36 @@ void Player::release()
 
 void Player::render(HDC hdc)
 {
-	if (_weapons[_selectedWeaponIdx] != nullptr && _weapons[_selectedWeaponIdx]->GetIsRenderFirst()) _weapons[_selectedWeaponIdx]->render(hdc);
-	if (_subWeapons[_selectedWeaponIdx] != nullptr && _subWeapons[_selectedWeaponIdx]->GetIsRenderFirst()) _subWeapons[_selectedWeaponIdx]->render(hdc);
-	for (int i = 0; i < _vAccessories.size(); i++)
+	if (!MAPMANAGER->GetPortalAnimOn())
 	{
-		if (_vAccessories[i]->GetIsRenderFirst()) _vAccessories[i]->render(hdc);
-	}
+		if (_weapons[_selectedWeaponIdx] != nullptr && _weapons[_selectedWeaponIdx]->GetIsRenderFirst()) _weapons[_selectedWeaponIdx]->render(hdc);
+		if (_subWeapons[_selectedWeaponIdx] != nullptr && _subWeapons[_selectedWeaponIdx]->GetIsRenderFirst()) _subWeapons[_selectedWeaponIdx]->render(hdc);
+		
+		for (int i = 0; i < _vAccessories.size(); i++)
+		{
+			if (_vAccessories[i]->GetIsRenderFirst()) _vAccessories[i]->render(hdc);
+		}
 
-	if (_isHit)
-	{
-		CAMERAMANAGER->FrameAlphaRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY, _hitAlpha);
-	}
-	else
-	{
-		CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);
-	}
+		if (_isHit)
+		{
+			CAMERAMANAGER->FrameAlphaRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY, _hitAlpha);
+		}
+		else
+		{
+			CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);
+		}
 
-	if (_weapons[_selectedWeaponIdx] != nullptr && !_weapons[_selectedWeaponIdx]->GetIsRenderFirst()) _weapons[_selectedWeaponIdx]->render(hdc);
-	if (_subWeapons[_selectedWeaponIdx] != nullptr && !_subWeapons[_selectedWeaponIdx]->GetIsRenderFirst()) _subWeapons[_selectedWeaponIdx]->render(hdc);
-	for (int i = 0; i < _vAccessories.size(); i++)
-	{
-		if (!_vAccessories[i]->GetIsRenderFirst()) _vAccessories[i]->render(hdc);
+		if (_weapons[_selectedWeaponIdx] != nullptr && !_weapons[_selectedWeaponIdx]->GetIsRenderFirst()) _weapons[_selectedWeaponIdx]->render(hdc);
+		if (_subWeapons[_selectedWeaponIdx] != nullptr && !_subWeapons[_selectedWeaponIdx]->GetIsRenderFirst()) _subWeapons[_selectedWeaponIdx]->render(hdc);
+		for (int i = 0; i < _vAccessories.size(); i++)
+		{
+			if (!_vAccessories[i]->GetIsRenderFirst()) _vAccessories[i]->render(hdc);
+		}
+
+		_inven->render(hdc);
+
+		CAMERAMANAGER->FrameRender(hdc, _aliceZone, _x + _vImages[_useImage]->getFrameWidth() / 2 - _aliceZone->getFrameWidth() / 2, _y + _vImages[_useImage]->getFrameHeight() / 2 - _aliceZone->getFrameHeight() / 2, _aliceZoneIn ? 1 : 0, 0);
 	}
-
-	_inven->render(hdc);
-
-	CAMERAMANAGER->FrameRender(hdc, _aliceZone, _x + _vImages[_useImage]->getFrameWidth() / 2 - _aliceZone->getFrameWidth() / 2, _y + _vImages[_useImage]->getFrameHeight() / 2 - _aliceZone->getFrameHeight() / 2, _aliceZoneIn ? 1 : 0, 0);
 }
 
 void Player::Animation()
@@ -345,7 +454,8 @@ void Player::Move()
 
 		_state = PS_MOVE;			//이미지 상태 이동상태로
 		_x -= 5;
-		_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+		_body = RectMake(_x + 10, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 20, IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+
 	}
 	if (INPUT->GetKeyUp('A'))		//A키를 눌렀다가 뗏을때
 	{
@@ -360,7 +470,8 @@ void Player::Move()
 		_rightBack = false;
 		_state = PS_MOVE;
 		_x += 5;
-		_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+		_body = RectMake(_x + 10, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 20, IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+
 	}
 	if (INPUT->GetKeyUp('D'))
 	{
@@ -416,7 +527,7 @@ void Player::pixelCollision()
 
 	for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + baseCharIg->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -448,7 +559,7 @@ void Player::pixelCollision()
 
 		for (int i = _y + 15; i > _y - 4; i--)
 		{
-			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
+			COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + baseCharIg->getFrameWidth() / 2, i);
 			int r = GetRValue(color);
 			int g = GetGValue(color);
 			int b = GetBValue(color);
@@ -472,12 +583,13 @@ void Player::pixelCollision()
 		{
 			_jumpPower = -20;		//더이상 -되지않게 점프파워 값을 고정
 		}
-		_body = RectMake(_x, _y, baseCharIg->getFrameWidth(), baseCharIg->getFrameHeight());
+		_body = RectMake(_x + 10, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 20, IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+
 	}
 
 	for (int i = _x + baseCharIg->getFrameWidth() - 15; i < _x + baseCharIg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -497,7 +609,7 @@ void Player::pixelCollision()
 	}
 	for (int i = _x + baseCharIg->getFrameWidth() - 15; i < _x + baseCharIg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 40);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 40);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -513,7 +625,7 @@ void Player::pixelCollision()
 	}
 	for (int i = _x + baseCharIg->getFrameWidth() - 15; i < _x + baseCharIg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _y + 2);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _y + 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -531,7 +643,7 @@ void Player::pixelCollision()
 	//왼쪽아래
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -552,7 +664,7 @@ void Player::pixelCollision()
 	//왼쪽중간
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 40);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 40);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -568,7 +680,7 @@ void Player::pixelCollision()
 	//왼쪽위
 	for (int i = _x + 15; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _y + 2);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _y + 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -584,7 +696,7 @@ void Player::pixelCollision()
 	// 포탈 검사
 	_pixelCenter = POINT{ (long)(_x + 30), (long)(_y + 30) };
 
-	COLORREF _color = GetPixel(pixelMapIg->getMemDC(), _pixelCenter.x, _pixelCenter.y);
+	COLORREF _color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _pixelCenter.x, _pixelCenter.y);
 	if (_color == RGB(0, 255, 0))
 	{
 		MAPMANAGER->ChangeMap(MAPMANAGER->GetCurrentStage(), MAPMANAGER->GetPlayMap()->GetNextMapIndex(DIRECTION::DIR_LEFT));
@@ -615,7 +727,8 @@ void Player::dash()
 
 	_x += cosf(getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _dashPoint.x, _dashPoint.y)) * 20;
 	_y += -sinf(getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _dashPoint.x, _dashPoint.y)) * 20;
-	_body = RectMake(_x, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth(), IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+	_body = RectMake(_x + 10, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 20, IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
+
 	_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
 
 
@@ -626,7 +739,7 @@ void Player::dash()
 	//대쉬할때만 속도가 바뀌므로 픽셀충돌 범위늘려서 따로검사
 	for (int i = _probeBottom - 20; i < _probeBottom + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + baseCharIg->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);				//색깔 값 넣어주기
 		int b = GetBValue(color);
@@ -640,7 +753,7 @@ void Player::dash()
 	}
 	for (int i = _y + 20; i > _y - 5; i--)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + baseCharIg->getFrameWidth() / 2, i);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + baseCharIg->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -653,7 +766,7 @@ void Player::dash()
 	}
 	for (int i = _x + baseCharIg->getFrameWidth() - 20; i < _x + baseCharIg->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - baseCharIg->getFrameHeight() / 2);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - baseCharIg->getFrameHeight() / 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -666,7 +779,7 @@ void Player::dash()
 
 	for (int i = _x + 20; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - baseCharIg->getFrameHeight() / 2);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - baseCharIg->getFrameHeight() / 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
