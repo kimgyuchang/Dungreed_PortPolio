@@ -29,7 +29,7 @@ void Enemy::render(HDC hdc)
 	{
 		
 		CAMERAMANAGER->alphaRender(hdc, _hpBar1, _x+_vImages[_useImage]->getFrameWidth()/2- _hpBar1->getWidth()/2, _y + _vImages[_useImage]->getFrameHeight(),0,0,_hpBar1->getWidth(),_hpBar1->getHeight(), _hpBarAlpha);
-		CAMERAMANAGER->alphaRender(hdc, _hpBar2, _x + _vImages[_useImage]->getFrameWidth() / 2 - _hpBar2->getWidth() / 2, _y + _vImages[_useImage]->getFrameHeight(), 0, 0, _hpBar2->getWidth() / _initHp * _HP, _hpBar2->getHeight(), _hpBarAlpha);
+		CAMERAMANAGER->alphaRender(hdc, _hpBar2, _x + _vImages[_useImage]->getFrameWidth() / 2 - _hpBar2->getWidth() / 2, _y + _vImages[_useImage]->getFrameHeight(), 0, 0, _hpBar2->getWidth() / (float)_initHp * _HP, _hpBar2->getHeight(), _hpBarAlpha);
 	}
 	
 	

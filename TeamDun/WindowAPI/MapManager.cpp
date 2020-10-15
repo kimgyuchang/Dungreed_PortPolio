@@ -44,8 +44,12 @@ HRESULT MapManager::init()
 		if (mapAllCleared) break;
 	}
 
+	_mapFrame = UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetChild("mapFrame");
 	_pixelGetter = new PixelGetter();
+
 	ChangeMap(1, 0);
+	_portalAnimOn = false;
+
 
 	return S_OK;
 }
@@ -66,6 +70,7 @@ void MapManager::update()
 	_vStage[_currentStage]->GetMaps()[_currentMap]->update();
 	DungeonMapUIMover();
 	SetMapUIOnOff();
+	UsePortalMap();
 }
 
 /// <summary>
@@ -125,6 +130,38 @@ void MapManager::DungeonMapUIMover()
 	if (INPUT->GetIsLButtonUp())
 	{
 		_moveClickTimer = 0;
+	}
+}
+
+void MapManager::UsePortalMap()
+{
+	image* hoverImg = IMAGEMANAGER->findImage("Room_MouseHovered");
+
+	if (_mapFrame->GetIsViewing() && _portalOn)
+	{
+		for (int i = 0; i < _vStage[_currentStage]->GetMaps().size(); i++)
+		{
+			UIFrame* mapSquare = _mapFrame->GetChild("map_" + to_string(i));
+			if (i != _currentMap && mapSquare != nullptr && _vStage[_currentStage]->GetMapIndex(i)->GetPortal() != nullptr)
+			{
+				if (PtInRect(&mapSquare->GetRect(), _ptMouse))
+				{
+					mapSquare->SetImage(hoverImg);
+					if (INPUT->GetIsLButtonClicked())
+					{
+						_currentPortal->MoveMap(i);
+						UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->SetIsViewing(false);
+						_portalOn = false;
+						_portalAnimOn = true;
+					}
+				}
+
+				else if (mapSquare->GetImage() == hoverImg)
+				{
+					mapSquare->SetImage(IMAGEMANAGER->findImage("Room"));
+				}
+			}
+		}
 	}
 }
 

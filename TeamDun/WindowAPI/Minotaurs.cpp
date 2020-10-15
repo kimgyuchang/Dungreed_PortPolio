@@ -168,8 +168,6 @@ void Minotaurs::Animation()
 {
 	Enemy::Animation();
 
-
-
 	switch (_state)
 	{
 	case ES_IDLE:

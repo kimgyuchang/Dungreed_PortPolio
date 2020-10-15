@@ -13,6 +13,7 @@ enum FIELDMAPTYPE
 {
 	FMT_ENTER, FMT_END, FMT_RESTAURANT, FMT_SHOP, FMT_TEMPLE, FMT_NORMAL
 };
+class Portal;
 class FieldMap
 {
 private :
@@ -24,7 +25,10 @@ private :
 	vector<RECT>			_vMiniRc;			// 미니맵용 Rects
 	vector<RECT>			_vMiniObjRc;		// 미니맵용 오브젝트 Rects
 	image*					_backImageEtc;		// 기타 패턴 이미지
-	image*					_backImageMain;	// 메인 배경이미지
+	image*					_backImageMain;		// 메인 배경이미지
+	image*					_townBackgroundImg;	// 타운 백그라운드 이미지
+	image*					_townMountainImg;	// 타운 산 이미지
+	image*					_townGrassImg;		// 타운 풀 이미지
 	FIELDMAPTYPE			_mapType;			// 맵 타입
 	int						_nextMapIndex[4];	// 다음 방의 Vector Index (방향별)
 	POINT					_mapMovePos[4];		// 이 방으로 도착할때의 플레이어 위치
@@ -36,6 +40,8 @@ private :
 	bool					_visited;			// 방문했는지 여부
 	int						_spawnTimer;		// 몬스터 스폰용 타이머
 	
+	Portal*					_portal;			// 이 맵의 포탈
+
 public :
 	void LoadMap();
 
@@ -75,6 +81,7 @@ public :
 	int					GetNextMapIndex(DIRECTION dir)	{ return _nextMapIndex[(int)dir]; }
 	bool				GetMapGenVisited()				{ return _mapGenVisited; }
 	bool				GetVisited()					{ return _visited; }
+	Portal*				GetPortal()						{ return _portal; }
 
 	void	SetXIndex(int index)						{ _xIndex = index; }
 	void	SetYIndex(int index)						{ _yIndex = index; }
@@ -85,4 +92,5 @@ public :
 	void	SetMovePos(DIRECTION dir, POINT pos)		{ _mapMovePos[(int)dir] = pos; }
 	void	SetMapGenVisited(bool visit)				{ _mapGenVisited = visit; }
 	void	SetVisited(bool visit)						{ _visited = visit; }
+	void	SetPortal(Portal* portal)					{ _portal = portal; }
 };

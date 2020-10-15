@@ -46,7 +46,7 @@ void Treasure::Activate()
 	{
 		Coin* coin = new Coin(*dynamic_cast<Coin*>(DATAMANAGER->GetObjectById(524)));
 		coin->SetUseImage(i == 0 ? 0 : (RANDOM->range(10) > 8 ? 0 : 1));
-		coin->SetCoin(_x, _y - 30, RANDOM->range(-5.f, 5.f), RANDOM->range(4.f, 6.f));
+		coin->SetCoin(_x, coin->GetUseImage() == 0 ? _y - 40 : _y - 30, RANDOM->range(-5.f, 5.f), RANDOM->range(4.f, 6.f));
 		MAPMANAGER->GetPlayMap()->GetObjects().push_back(coin);
 		_isOpened = true;
 		_useImage = 1;

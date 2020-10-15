@@ -9,6 +9,7 @@ private :
 	vector<Item*> _vInvenItems;
 	UIFrame* _InvenFrame;
 	UIFrame* _shopFrame;
+	UIFrame* _swapFrame;
 
 	int		_invenFullTextTimer;
 	bool	_invenFullTextOn;

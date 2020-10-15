@@ -54,6 +54,7 @@ void gameScene::InitWardrobeString()
 
 void gameScene::initUI()
 {
+	MainGameFrameInit();
 	DungeonMapUIInit();
 	WardrobeUIInit();
 	InventoryUIInit();
@@ -61,6 +62,88 @@ void gameScene::initUI()
 	ShopUIInit();
 	ConversationUIInit();
 	GetItemUIInit();
+}
+
+void gameScene::MainGameFrameInit()
+{
+	UIFrame* container = new UIFrame();
+	container->init("swapContainer", WINSIZEX - 180, WINSIZEY - 150, 200, 200, "");
+	UIMANAGER->GetGameFrame()->AddFrame(container);
+
+	UIFrame* weapon1 = new UIFrame();
+	weapon1->init("weapon2", 50, 0, IMAGEMANAGER->findImage("EquippedWeaponBase")->getWidth(), IMAGEMANAGER->findImage("EquippedWeaponBase")->getHeight(), "EquippedWeaponBase");
+	container->AddFrame(weapon1);
+
+	UIFrame* image1 = new UIFrame();
+	image1->init("image", 0, 0, 0, 0, "");
+	weapon1->AddFrame(image1);
+
+	UIFrame* weapon2 = new UIFrame();
+	weapon2->init("weapon1", 0, 50, IMAGEMANAGER->findImage("EquippedWeaponBase")->getWidth(), IMAGEMANAGER->findImage("EquippedWeaponBase")->getHeight(), "EquippedWeaponBase");
+	container->AddFrame(weapon2);
+
+	UIFrame* image2 = new UIFrame();
+	image2->init("image", 0, 0, 0, 0, "");
+	weapon2->AddFrame(image2);
+
+	UIFrame* hpFrame = new UIFrame();
+	hpFrame->init("hpFrame", 20, 20, 0, 0, "");
+	UIMANAGER->GetGameFrame()->AddFrame(hpFrame);
+
+	UIProgressBar* hpBar1 = new UIProgressBar();
+	hpBar1->init("hpBarPros", 42, 0, 180, 48, "LifeBar","PlayerLifeBackGray_2");
+	hpFrame->AddFrame(hpBar1);
+
+	UIImage* hpWave = new UIImage();
+	hpWave->init("Wave", 193, 0, 159, 48, "LifeWave", true, 0, 0);
+	hpFrame->AddFrame(hpWave);
+
+	UIFrame* hpBar0 = new UIFrame();
+	hpBar0->init("hpBarLeft", 0, 0, 63, 48, "PlayerLifeBackGray_1");
+	hpFrame->AddFrame(hpBar0);
+
+	UIText* level = new UIText();
+	level->init("level", 0, 12, 70, 48, "0", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE);
+	hpFrame->AddFrame(level);
+
+	UIText* hp = new UIText();
+	hp->init("hp", 63, 12, 159, 48, "100 / 100", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE);
+	hpFrame->AddFrame(hp);
+
+	UIFrame* hpFrameBar0 = new UIFrame();
+	hpFrameBar0->init("hpBarFrame1", 0, 0, 63, 48, "PlayerLifeBase_1");
+	hpFrame->AddFrame(hpFrameBar0);
+
+	UIFrame* hpFrameBar1 = new UIFrame();
+	hpFrameBar1->init("hpBarFrame2", 63, 0, 159, 48, "PlayerLifeBase_2");
+	hpFrame->AddFrame(hpFrameBar1);
+
+	UIFrame* dashUI = new UIFrame();
+	dashUI->init("dashFrame", 20, 70, 0, 0, "");
+	UIMANAGER->GetGameFrame()->AddFrame(dashUI);
+
+	UIFrame* leftDownUI = new UIFrame();
+	leftDownUI->init("leftDown", 20, WINSIZEY - 80, 0,0, "");
+	UIMANAGER->GetGameFrame()->AddFrame(leftDownUI);
+
+	UIFrame* coin = new UIFrame();
+	coin->init("Coin", 0, 8, 0, 0, "Coin");
+	leftDownUI->AddFrame(coin);
+
+	UIText* coinText = new UIText();
+	coinText->init("CoinText", 22, 8, 120, 30, "12345", FONT::PIX, WORDSIZE::WS_SMALL);
+	leftDownUI->AddFrame(coinText);
+
+	UIFrame* food = new UIFrame();
+	food->init("Food", 0, 29, 0, 0, "Food");
+	leftDownUI->AddFrame(food);
+
+	UIText* foodText = new UIText();
+	foodText->init("FoodText", 22, 29, 120, 30, "100 / 125", FONT::PIX, WORDSIZE::WS_SMALL);
+	leftDownUI->AddFrame(foodText);
+
+	container->SetIsViewing(true);
+	hpFrame->SetIsViewing(true);
 }
 
 void gameScene::GetItemUIInit()
@@ -557,6 +640,7 @@ void gameScene::release()
 	PARTICLEMANAGER->releaseSingleton();
 }
 
+
 void gameScene::UpdateWardrobeUI()
 {
 
@@ -716,7 +800,7 @@ void gameScene::render()
 
 	TextOut(getMemDC(), 0, 0, "EXIT : VK_BACK", strlen("EXIT : VK_BACK"));
 
-	IMAGEMANAGER->findImage("BasicCursor")->render(getMemDC(), _ptMouse.x, _ptMouse.y);
+	IMAGEMANAGER->findImage("ShootingCursor2")->stretchRender(getMemDC(), _ptMouse.x - 22, _ptMouse.y - 22, 0.8f, 0.8f);
 
 	string n = to_string((int)CAMERAMANAGER->GetAbsoluteX(_ptMouse.x)) + " " + to_string((int)CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
 

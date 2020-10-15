@@ -55,7 +55,7 @@ private:
 	float			_moveSpeed;				// 이동속도
 	float			_jumpPower;				// 점프력
 	int				_dashCount;				// 대쉬 횟수
-
+	int				_maxDashCount;			// 최대 대쉬 횟수
 	// - 내부적 수치
 	float			_gravity;				// 중력
 	float			_dashSpeed;				// 대쉬 속도
@@ -141,18 +141,22 @@ private:
 	// 기타 //						 
 	// - 표면적 수치
 	int				_satiety;				// 포만감
+	int				_maxSatiety;			// 최대 포만감
 	int				_money;					// 돈
 	int				_level;					// 레벨
 	
-											// - 내부적 수치
+	// - 내부적 수치
 	int				_experience;			// 경험치
 	int				_needExperience;		// 필요 경험치
 	float			_goldDrop;				// 돈 드랍양
 
+	// SWAP //
+	int				_swapCoolTime;			// 스왑 쿨타임
 	// UI //
 	vector<CharToolTip>		_vToolTips;		// 툴팁 프레임 목록
 	vector<string>			_vToolTipsName; // 툴팁 프레임 이름 목록
-
+	UIFrame*				_hpFrame;		// HPFrame
+	UIFrame*				_dashFrame;		// DashFrame	
 	// 각 캐릭터별 특성 //
 
 	// 앨리스 //
@@ -164,6 +168,9 @@ public:
 
 	virtual HRESULT init();
 	virtual void	update();
+	void DashImageCheck();
+	void SetTextLeftDown();
+	void DashUICheck();
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 	virtual void	Animation();
@@ -178,11 +185,13 @@ public:
 
 	void ReInitTooltip(int n);
 	void SetToolTipFrame(float x, float y, int index);
+
 	void GetHitDamage(int damage);
+
 	void SwitchWeapon();
 	void CheckAliceZone();
 	
-
+	void SetHpUI();
 	// GETSET //
 	PLAYERSTATE		GetState()				{ return _state; }
 	bool			GetIsLeft()				{ return _isLeft; }
@@ -257,77 +266,82 @@ public:
 	float			GetRealAttackSpeed()	{ return _realAttackSpeed; }
 	float			GetGoldDrop()			{ return _goldDrop; }
 	int				GetAccesoryCount()	    { return _accesoryCount; }
+	int				GetMaxDashCount()		{ return _maxDashCount; }
+	int				GetMaxSatiety()			{ return _maxSatiety; }
 	
-	void			SetHitCount(int hitCount)					  { _hitCount = hitCount; }
-	void			SetState(PLAYERSTATE state)					  { _state = state; }
-	void			SetIsLeft(bool isLeft) 						  { _isLeft = isLeft; }
-	void			SetJump(bool jump) 							  { _jump = jump; }
-	void			SetIsJump(bool isJump)						  { _isJump = isJump; }
-	void			SetDownJump(bool downJump) 					  { _downJump = downJump; }
-	void			SetIsDash(bool isDash) 						  { _isDash = isDash; }
-	void			SetIsHit(bool isHit)						  { _isHit = isHit; }
-	void			SetIsStun(bool isStun)						  { _isStun = isStun; }
-	void			SetMoveSpeed(float moveSpeed) 				  { _moveSpeed = moveSpeed; }
-	void			SetJumpPower(float jumpPower) 				  { _jumpPower = jumpPower; }
-	void			SetDashCount(int dashCount) 				  { _dashCount = dashCount; }
-	void			SetGravity(float gravity) 					  { _gravity = gravity; }
-	void			SetDashSpeed(float dashSpeed) 				  { _dashSpeed = dashSpeed; }
-	void			SetDashEffect(Effect* dashEffect) 			  { _dashEffect = dashEffect; }
-	void			SetJumpCount(int jumpCount) 				  { _jumpCount = jumpCount; }
-	void			SetDownJumpTimer(int downJumpTimer)			  { _downJumpTimer = downJumpTimer; }
-	void			SetDashPoint(POINT dashPoint) 				  { _dashPoint = dashPoint; }
-	void			SetDashTimer(int dashTimer) 				  { _dashTimer = dashTimer; }
-	void			SetMinDamage(int minDamage) 				  { _minDamage = minDamage; }
-	void			SetMaxDamage(int maxDamage) 				  { _maxDamage = maxDamage; }
-	void			SetPower(int power) 						  { _power = power; }
-	void			SetTrueDamage(int trueDamage)				  { _trueDamage = trueDamage; }
-	void			SetAtkSpeed(float atkSpeed) 				  { _atkSpeed = atkSpeed; }
-	void			SetRealCriPer(float realCriPer) 			  { _realCriticalPercent = realCriPer; }
-	void			SetCriDamage(float criDamage) 				  { _criticalDamage = criDamage; }
-	void			SetDashDamage(float dashDamage) 			  { _dashDamage = dashDamage; }
-	void			SetReloadTime(float reloadTime) 			  { _reloadTime = reloadTime; }
-	void			SetInitHp(int initHp)						  { _initHp = initHp; }
-	void			sethp(int hp)								  { _hp = hp; }
-	void			SetRealDefence(float realDefence)			  { _realDefence = realDefence; }
-	void			SetRealEvasion(float realEvasion)			  { _realEvasion = realEvasion; }
-	void			SetToughness(float toughness) 				  { _toughness = toughness; }
-	void			SetBlock(float block) 						  { _block = block; }
-	void			SetAngle(float angle) 						  { _angle = angle; }
-	void			SetCriPer(float criticalPercent)			  { _criticalPercent = criticalPercent; }
-	void			SetFinalDamage(int finalDamage) 			  { _finalDamage = finalDamage; }
-	void			SetFinalDamagePer(float finalDamagePercent)   { _finalDamagePercent = finalDamagePercent; }
-	void			SetReloadSpeed(float reloadSpeed) 			  { _reloadSpeed = reloadSpeed; }
-	void			SetFireAccuracy(float fireAccuracy)			  { _fireAccuracy = fireAccuracy; }
-	void			SetDefence(float defence) 					  { _defence = defence; }
-	void			SetEvasion(float evasion) 					  { _evasion = evasion; }
-	void			SetMaxHp(int maxHp) 						  { _maxHp = maxHp; }
-	void			SetMaxHpPer(float maxHpPercent) 			  { _maxHpPercent = maxHpPercent; }
-	void			SetImmuneFire(bool immuneFire)				  { _immuneFire = immuneFire; }
-	void			SetImmuneIce(bool immuneIce) 				  { _immuneIce = immuneIce; }
-	void			SetImmuneElec(bool immuneElec)				  { _immuneElectric = immuneElec; }
-	void			SetImmunePosion(bool immunePosion)  		  { _immunePosion = immunePosion; }
-	void			SetImmuneStun(bool immuneStun)				  { _immuneStun = immuneStun; }
-	void			SetToFire(int toFire) 						  { _toFire = toFire; }
-	void			SetToIce(int toIce) 						  { _toIce = toIce; }
-	void			SetToElec(int toElec)						  { _toElectric = toElec; }
-	void			SetToPosion(int toPosion)					  { _toPosion = toPosion; }
-	void			SetToStun(int toStun)						  { _toStun = toStun; }
-	void			SetFireDamage(int fireDamage)				  { _fireDamage = fireDamage; }
-	void			SetIceDamage(int iceDamage) 				  { _iceDamage = iceDamage; }
-	void			SetElecDamage(int elecDamage) 				  { _elecDamage = elecDamage; }
-	void			SetPosionDamage(int posionDamage)  			  { _posionDamage = _posionDamage; }
-	void			SetStunDamage(int stunDamage)				  { _stunDamage = stunDamage; }
-	void			SetAnimCount(int animCount) 				  { _animCount = animCount; }
-	void			SetInventory(Inventory* inven) 				  { _inven = inven; }
-	void			SetWeapon(int num, Item* item) 				  { _weapons[num] = item; }
-	void			SetSubWeapon(int num, Item* item)			  { _subWeapons[num] = item; }
-	void			SetVAccessory(int num, Item* item)  		  { _vAccessories[num] = item; }
-	void			SetSelectedWeaponIdx(int selectWeaponidx)	  { _selectedWeaponIdx = selectWeaponidx; }
-	void			SetSatiety(int satiety) 					  { _satiety = satiety; }
-	void			SetMoney(int money) 						  { _money = money; }
-	void			SetLevel(int level) 						  { _level = level; }
-	void			SetExperience(int experience) 				  { _experience = experience; }
-	void			SetNeedExperience(int needExperience) 		  { _needExperience = needExperience; }
-	void			SetGoldDrop(float goldDrop) 				  { _goldDrop = goldDrop; }
-	void			SetAccesoryCount(int accesoryCount)           { _accesoryCount = accesoryCount; }
+
+	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
+	void			SetState(PLAYERSTATE state)						{ _state = state; }
+	void			SetIsLeft(bool isLeft) 							{ _isLeft = isLeft; }
+	void			SetJump(bool jump) 								{ _jump = jump; }
+	void			SetIsJump(bool isJump)							{ _isJump = isJump; }
+	void			SetDownJump(bool downJump) 						{ _downJump = downJump; }
+	void			SetIsDash(bool isDash) 							{ _isDash = isDash; }
+	void			SetIsHit(bool isHit)							{ _isHit = isHit; }
+	void			SetMoveSpeed(float moveSpeed) 					{ _moveSpeed = moveSpeed; }
+	void			SetJumpPower(float jumpPower) 					{ _jumpPower = jumpPower; }
+	void			SetDashCount(int dashCount) 					{ _dashCount = dashCount; }
+	void			SetGravity(float gravity) 						{ _gravity = gravity; }
+	void			SetDashSpeed(float dashSpeed) 					{ _dashSpeed = dashSpeed; }
+	void			SetDashEffect(Effect* dashEffect) 				{ _dashEffect = dashEffect; }
+	void			SetJumpCount(int jumpCount) 					{ _jumpCount = jumpCount; }
+	void			SetDownJumpTimer(int downJumpTimer)				{ _downJumpTimer = downJumpTimer; }
+	void			SetDashPoint(POINT dashPoint) 					{ _dashPoint = dashPoint; }
+	void			SetDashTimer(int dashTimer) 					{ _dashTimer = dashTimer; }
+	void			SetMinDamage(int minDamage) 					{ _minDamage = minDamage; }
+	void			SetMaxDamage(int maxDamage) 					{ _maxDamage = maxDamage; }
+	void			SetPower(int power) 							{ _power = power; }
+	void			SetTrueDamage(int trueDamage)					{ _trueDamage = trueDamage; }
+	void			SetAtkSpeed(float atkSpeed) 					{ _atkSpeed = atkSpeed; }
+	void			SetRealCriPer(float realCriPer) 				{ _realCriticalPercent = realCriPer; }
+	void			SetCriDamage(float criDamage) 					{ _criticalDamage = criDamage; }
+	void			SetDashDamage(float dashDamage) 				{ _dashDamage = dashDamage; }
+	void			SetReloadTime(float reloadTime) 				{ _reloadTime = reloadTime; }
+	void			SetInitHp(int initHp)							{ _initHp = initHp; }
+	void			SetHp(int hp) 									{ _hp = hp; }
+	void			SetRealDefence(float realDefence)				{ _realDefence = realDefence; }
+	void			SetRealEvasion(float realEvasion)				{ _realEvasion = realEvasion; }
+	void			SetToughness(float toughness) 					{ _toughness = toughness; }
+	void			SetBlock(float block) 							{ _block = block; }
+	void			SetAngle(float angle) 							{ _angle = angle; }
+	void			SetCriPer(float criticalPercent)				{ _criticalPercent = criticalPercent; }
+	void			SetFinalDamage(int finalDamage) 				{ _finalDamage = finalDamage; }
+	void			SetFinalDamagePer(float finalDamagePercent)		{ _finalDamagePercent = finalDamagePercent; }
+	void			SetReloadSpeed(float reloadSpeed) 				{ _reloadSpeed = reloadSpeed; }
+	void			SetFireAccuracy(float fireAccuracy)				{ _fireAccuracy = fireAccuracy; }
+	void			SetDefence(float defence) 						{ _defence = defence; }
+	void			SetEvasion(float evasion) 						{ _evasion = evasion; }
+	void			SetMaxHp(int maxHp) 							{ _maxHp = maxHp; }
+	void			SetMaxHpPer(float maxHpPercent) 				{ _maxHpPercent = maxHpPercent; }
+	void			SetImmuneFire(bool immuneFire)					{ _immuneFire = immuneFire; }
+	void			SetImmuneIce(bool immuneIce) 					{ _immuneIce = immuneIce; }
+	void			SetImmuneElec(bool immuneElec)					{ _immuneElectric = immuneElec; }
+	void			SetImmunePosion(bool immunePosion)  			{ _immunePosion = immunePosion; }
+	void			SetImmuneStun(bool immuneStun)					{ _immuneStun = immuneStun; }
+	void			SetToFire(int toFire) 							{ _toFire = toFire; }
+	void			SetToIce(int toIce) 							{ _toIce = toIce; }
+	void			SetToElec(int toElec)							{ _toElectric = toElec; }
+	void			SetToPosion(int toPosion)						{ _toPosion = toPosion; }
+	void			SetToStun(int toStun)							{ _toStun = toStun; }
+	void			SetFireDamage(int fireDamage)					{ _fireDamage = fireDamage; }
+	void			SetIceDamage(int iceDamage) 					{ _iceDamage = iceDamage; }
+	void			SetElecDamage(int elecDamage) 					{ _elecDamage = elecDamage; }
+	void			SetPosionDamage(int posionDamage)  				{ _posionDamage = _posionDamage; }
+	void			SetStunDamage(int stunDamage)					{ _stunDamage = stunDamage; }
+	void			SetAnimCount(int animCount) 					{ _animCount = animCount; }
+	void			SetInventory(Inventory* inven) 					{ _inven = inven; }
+	void			SetWeapon(int num, Item* item) 					{ _weapons[num] = item; }
+	void			SetSubWeapon(int num, Item* item)				{ _subWeapons[num] = item; }
+	void			SetVAccessory(int num, Item* item)  			{ _vAccessories[num] = item; }
+	void			SetSelectedWeaponIdx(int selectWeaponidx)		{ _selectedWeaponIdx = selectWeaponidx; }
+	void			SetSatiety(int satiety) 						{ _satiety = satiety; }
+	void			SetMoney(int money) 							{ _money = money; }
+	void			SetLevel(int level) 							{ _level = level; }
+	void			SetExperience(int experience) 					{ _experience = experience; }
+	void			SetNeedExperience(int needExperience) 			{ _needExperience = needExperience; }
+	void			SetGoldDrop(float goldDrop) 					{ _goldDrop = goldDrop; }
+	void			SetAccesoryCount(int accesoryCount)				{ _accesoryCount = accesoryCount; }
+	void			SetMaxDashCount(int dashCount)					{ _maxDashCount = dashCount; }
+	void			SetMaxSatiety(int satiety)						{ _maxSatiety = satiety; }
+	void			SetIsStun(bool isStun)							{ _isStun = isStun; }
 };

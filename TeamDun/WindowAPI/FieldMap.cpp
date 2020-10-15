@@ -1,17 +1,18 @@
 #include "stdafx.h"
 #include "FieldMap.h"
+#include "Portal.h"
 
 HRESULT FieldMap::init(string fileName)
 {
 	_fileName = fileName;
 	_spawnTimer = 0;
 	_visited = false;
+	_portal = nullptr;
 
 	_nextMapIndex[0] = -1;
 	_nextMapIndex[1] = -1;
 	_nextMapIndex[2] = -1;
 	_nextMapIndex[3] = -1;
-
 	return S_OK;
 }
 
@@ -31,6 +32,9 @@ void FieldMap::LoadMap()
 	_vMapData.clear();
 	_backImageEtc = nullptr;
 	_backImageMain = nullptr;
+	_townBackgroundImg = nullptr;
+	_townMountainImg = nullptr;
+	_townGrassImg = nullptr;
 	
 	for (int i = 0; i < stringData.size(); i++)
 	{
@@ -68,6 +72,12 @@ void FieldMap::LoadMap()
 	{
 		_backImageEtc = IMAGEMANAGER->findImage("BackFloorBack1");
 		_backImageMain = IMAGEMANAGER->findImage("SubBGStage1");
+	}
+	if (_stage == 0)
+	{
+		_townBackgroundImg = IMAGEMANAGER->findImage("Sky_Day");
+		_townMountainImg = IMAGEMANAGER->findImage("TownBG_Day");
+		_townGrassImg = IMAGEMANAGER->findImage("TownLayer_Day");
 	}
 }
 
@@ -151,6 +161,17 @@ void FieldMap::LoadObject()
 			dynamic_cast<Shop*>(obj)->SetShopItem();
 			dynamic_cast<Shop*>(obj)->ReNewUI();
 			break;
+		case 12 : // ¹ä Àß ÆÄ´Â ¿¹»Û ´©³ª
+			obj = new Restaurant(*dynamic_cast<Restaurant*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Restaurant*>(obj)->initSecond();
+			dynamic_cast<Restaurant*>(obj)->SetRestaurantFood();
+			break;
+		case 0: // Æ÷Å»
+			obj = new Portal(*dynamic_cast<Portal*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Portal*>(obj)->initSecond();
+			_portal = dynamic_cast<Portal*>(obj);
+			break;
+
 		case 2: // Àü¼³»óÀÚ
 			obj = new Treasure(*dynamic_cast<Treasure*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			dynamic_cast<Treasure*>(obj)->initSecond();
@@ -608,6 +629,10 @@ void FieldMap::render(HDC hdc)
 		CAMERAMANAGER->StretchRender(hdc, _backImageEtc, -WINSIZEX / 2, 0, WINSIZEX / 2, mapSizeY);
 		CAMERAMANAGER->StretchRender(hdc, _backImageEtc, -WINSIZEX / 2, mapSizeY, WINSIZEX + mapSizeX, WINSIZEY / 2);
 		CAMERAMANAGER->StretchRender(hdc, _backImageEtc, mapSizeX, 0, WINSIZEX / 2, mapSizeY);
+	}
+
+	if (_townBackgroundImg != nullptr)
+	{
 	}
 
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer2MapIg"), 0, 0);

@@ -196,11 +196,13 @@
     <ClInclude Include="particleGenerator.h" />
     <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Portal.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="PurpleGiantBat.h" />
     <ClInclude Include="random.h" />
     <ClInclude Include="RedBat.h" />
     <ClInclude Include="RedGiantBat.h" />
+    <ClInclude Include="Restaurant.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="Shop.h" />
     <ClInclude Include="singletonBase.h" />
@@ -211,6 +213,7 @@
     <ClInclude Include="startScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SwordSkel.h" />
+    <ClInclude Include="townNPCimage.h" />
     <ClInclude Include="Treasure.h" />
     <ClInclude Include="uibrushTool.h" />
     <ClInclude Include="UIFrame.h" />
@@ -267,11 +270,13 @@
     <ClCompile Include="particleGenerator.cpp" />
     <ClCompile Include="ParticleManager.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="PurpleGiantBat.cpp" />
     <ClCompile Include="random.cpp" />
     <ClCompile Include="RedBat.cpp" />
     <ClCompile Include="RedGiantBat.cpp" />
+    <ClCompile Include="Restaurant.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="Shop.cpp" />
     <ClCompile Include="SkelDog.cpp" />
@@ -286,6 +291,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="SwordSkel.cpp" />
+    <ClCompile Include="townNPCimage.cpp" />
     <ClCompile Include="Treasure.cpp" />
     <ClCompile Include="uibrushTool.cpp" />
     <ClCompile Include="UIFrame.cpp" />
