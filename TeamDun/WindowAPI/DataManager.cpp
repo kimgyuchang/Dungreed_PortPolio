@@ -129,9 +129,17 @@ void DataManager::GetObjectData()
 			obj = new Treasure();
 			dynamic_cast<Treasure*>(obj)->SetTreasureType(TREASURETYPE::TST_GOLD);
 			break;
-		case 524:
+		case 7: // 다음 스테이지 문
+			obj = new StageDoor();
+			break;
+		case 524: // 동전
 			obj = new Coin();
 			break;
+
+		case 2501: // 마을 - 던전 포탈
+			obj = new WormVillage();
+			break;
+
 		default:
 			obj = new Object();
 			break;
@@ -288,5 +296,19 @@ void DataManager::GetItemData()
 		}
 
 		_mMapItemData[stoi(itemData[i][0])] = item;
+	}
+}
+
+Item* DataManager::GetItemById(int id)
+{
+	Item* rtnItem;
+	
+	switch (id)
+	{
+	case 4000 : // 마검 엘레마
+		return new DemonSword (*dynamic_cast<DemonSword*>(_mMapItemData[id]));
+		break;
+	default:
+		return _mMapItemData[id];
 	}
 }

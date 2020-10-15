@@ -3,59 +3,58 @@
 
 HRESULT MapManager::init()
 {
-	while (true)
+	_vOriginMaps.clear();
+	_stage = new Stage();
+
+	vector<vector<string>> mapData = CSVMANAGER->csvLoad("Data/Maps.csv");
+	for (int i = 0; i < mapData.size(); i++)
 	{
-		bool mapAllCleared = true;
-		_vOriginMaps.clear();
-		_vStage.clear();
+		FieldMap* map = new FieldMap();
+		map->init(mapData[i][0]);
+		map->SetStage(stoi(mapData[i][1]));
+		map->LoadMap();
 
-		vector<vector<string>> mapData = CSVMANAGER->csvLoad("Data/Maps.csv");
-		for (int i = 0; i < mapData.size(); i++)
-		{
-			FieldMap* map = new FieldMap();
-			map->init(mapData[i][0]);
-			map->SetStage(stoi(mapData[i][1]));
-			map->LoadMap();
+		if (mapData[i][2] == "NORMAL") map->SetFieldType(FIELDMAPTYPE::FMT_NORMAL);
+		else if (mapData[i][2] == "ENTER") map->SetFieldType(FIELDMAPTYPE::FMT_ENTER);
+		else if (mapData[i][2] == "END") map->SetFieldType(FIELDMAPTYPE::FMT_END);
+		else if (mapData[i][2] == "SHOP") map->SetFieldType(FIELDMAPTYPE::FMT_SHOP);
+		else if (mapData[i][2] == "RESTAURANT") map->SetFieldType(FIELDMAPTYPE::FMT_RESTAURANT);
+		else if (mapData[i][2] == "TEMPLE") map->SetFieldType(FIELDMAPTYPE::FMT_TEMPLE);
 
-			if (mapData[i][2] == "NORMAL") map->SetFieldType(FIELDMAPTYPE::FMT_NORMAL);
-			else if (mapData[i][2] == "ENTER") map->SetFieldType(FIELDMAPTYPE::FMT_ENTER);
-			else if (mapData[i][2] == "END") map->SetFieldType(FIELDMAPTYPE::FMT_END);
-			else if (mapData[i][2] == "SHOP") map->SetFieldType(FIELDMAPTYPE::FMT_SHOP);
-			else if (mapData[i][2] == "RESTAURANT") map->SetFieldType(FIELDMAPTYPE::FMT_RESTAURANT);
-			else if (mapData[i][2] == "TEMPLE") map->SetFieldType(FIELDMAPTYPE::FMT_TEMPLE);
+		map->SetMovePos(DIRECTION::DIR_LEFT, POINT{ stoi(mapData[i][3]), stoi(mapData[i][4]) });
+		map->SetMovePos(DIRECTION::DIR_RIGHT, POINT{ stoi(mapData[i][5]), stoi(mapData[i][6]) });
+		map->SetMovePos(DIRECTION::DIR_UP, POINT{ stoi(mapData[i][7]), stoi(mapData[i][8]) });
+		map->SetMovePos(DIRECTION::DIR_DOWN, POINT{ stoi(mapData[i][9]), stoi(mapData[i][10]) });
 
-			map->SetMovePos(DIRECTION::DIR_LEFT, POINT{ stoi(mapData[i][3]), stoi(mapData[i][4]) });
-			map->SetMovePos(DIRECTION::DIR_RIGHT, POINT{ stoi(mapData[i][5]), stoi(mapData[i][6]) });
-			map->SetMovePos(DIRECTION::DIR_UP, POINT{ stoi(mapData[i][7]), stoi(mapData[i][8]) });
-			map->SetMovePos(DIRECTION::DIR_DOWN, POINT{ stoi(mapData[i][9]), stoi(mapData[i][10]) });
-
-			_vOriginMaps.push_back(map);
-		}
-
-		for (int i = 0; i < 3; i++)
-		{
-			Stage* stage;
-			stage = new Stage();
-			stage->init(i);
-			if (!stage->SettingMap()) mapAllCleared = false;
-			_vStage.push_back(stage);
-		}
-
-		if (mapAllCleared) break;
+		_vOriginMaps.push_back(map);
 	}
-
+	
+	AddStage(0);
 	_mapFrame = UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetChild("mapFrame");
 	_pixelGetter = new PixelGetter();
-	ChangeMap(1, 8);
+	ChangeMap(0);
 	_portalAnimOn = false;
+
 	return S_OK;
 }
 
+void MapManager::AddStage(int stageNum)
+{
+	_stage = new Stage();
+	bool mapAllCleared = true;
+	_curStageNum = stageNum;
+	while (true)
+	{
+		_stage->init(stageNum);
+		if (!_stage->SettingMap()) mapAllCleared = false;
+		if (mapAllCleared) break;
+	}
+}
 void MapManager::update()
 {
 	if (INPUT->GetKeyDown(VK_F2))
 	{
-		ChangeMap(_currentStage, RANDOM->range((int)_vStage[_currentStage]->GetMaps().size()));
+		ChangeMap(RANDOM->range((int)_stage->GetMaps().size()));
 		GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_UP);
 	}
 
@@ -64,7 +63,7 @@ void MapManager::update()
 		MAPMANAGER->init();
 	}
 
-	_vStage[_currentStage]->GetMaps()[_currentMap]->update();
+	_stage->GetMaps()[_currentMap]->update();
 	DungeonMapUIMover();
 	SetMapUIOnOff();
 	UsePortalMap();
@@ -136,10 +135,10 @@ void MapManager::UsePortalMap()
 
 	if (_mapFrame->GetIsViewing() && _portalOn)
 	{
-		for (int i = 0; i < _vStage[_currentStage]->GetMaps().size(); i++)
+		for (int i = 0; i < _stage->GetMaps().size(); i++)
 		{
 			UIFrame* mapSquare = _mapFrame->GetChild("map_" + to_string(i));
-			if (i != _currentMap && mapSquare != nullptr && _vStage[_currentStage]->GetMapIndex(i)->GetPortal() != nullptr)
+			if (i != _currentMap && mapSquare != nullptr && _stage->GetMapIndex(i)->GetPortal() != nullptr)
 			{
 				if (PtInRect(&mapSquare->GetRect(), _ptMouse))
 				{
@@ -173,10 +172,10 @@ void MapManager::ReNewMapUI()
 	int xIndex = GetPlayMap()->GetXIndex();
 	int yIndex = GetPlayMap()->GetYIndex();
 
-	for (int i = 0; i < _vStage[_currentStage]->GetMaps().size(); i++)
+	for (int i = 0; i < _stage->GetMaps().size(); i++)
 	{
-		FieldMap* map = _vStage[_currentStage]->GetMaps()[i];
-		
+		FieldMap* map = _stage->GetMaps()[i];
+
 		if (map->GetVisited())
 		{
 			if (map->GetNextMapIndex(DIRECTION::DIR_LEFT) != -1)
@@ -213,10 +212,10 @@ void MapManager::ReNewMapUI()
 		}
 	}
 
-	for (int i = 0; i < _vStage[_currentStage]->GetMaps().size(); i++)
+	for (int i = 0; i < _stage->GetMaps().size(); i++)
 	{
-		FieldMap* map = _vStage[_currentStage]->GetMaps()[i];
-		
+		FieldMap* map = _stage->GetMaps()[i];
+
 		if (map->GetVisited())
 		{
 			UIFrame* cntMap = new UIFrame();
@@ -243,16 +242,16 @@ void MapManager::release()
 
 void MapManager::render(HDC hdc)
 {
-	_vStage[_currentStage]->GetMaps()[_currentMap]->render(hdc);
+	_stage->GetMaps()[_currentMap]->render(hdc);
 }
 
 /// <summary>
 /// 맵을 이동하는데에 사용
 /// </summary>
-void MapManager::ChangeMap(int stage, int index)
+void MapManager::ChangeMap(int index)
 {
-	_currentStage = stage;
 	_currentMap = index;
+
 	GetPlayMap()->PixelCollisionMapGenerate();
 	GetPlayMap()->GridMapGenerate();
 	GetPlayMap()->SetVisited(true);

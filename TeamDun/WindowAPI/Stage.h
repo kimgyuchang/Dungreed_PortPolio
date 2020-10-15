@@ -19,6 +19,8 @@ public :
 	void CheckFloodFill(int index, int& numOfCheckRoom);
 	bool FloodFillStart();
 	void AddRoomConnections();
+	void SetStageZero();
+	void SetStageTwo();
 	bool SettingMap();
 
 	bool AddLine(FieldMap* map, DIRECTION dir, int index);

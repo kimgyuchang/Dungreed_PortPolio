@@ -23,3 +23,5 @@
 #include "DropItem.h"
 #include "Treasure.h"
 #include "Portal.h"
+#include "StageDoor.h"
+#include "WormVillage.h"

@@ -97,7 +97,7 @@ void Portal::Animation()
 					_useImage = 0;
 					_frameX = 0;
 					_isUp = false;
-					MAPMANAGER->ChangeMap(MAPMANAGER->GetCurrentStage(), _destination);
+					MAPMANAGER->ChangeMap(_destination);
 					ENTITYMANAGER->getPlayer()->SetX(MAPMANAGER->GetPlayMap()->GetPortal()->GetX());
 					ENTITYMANAGER->getPlayer()->SetY(MAPMANAGER->GetPlayMap()->GetPortal()->GetY());
 					MAPMANAGER->GetPlayMap()->GetPortal()->SetIsUp(true);

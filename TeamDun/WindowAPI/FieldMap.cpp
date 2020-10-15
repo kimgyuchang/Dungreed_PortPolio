@@ -32,7 +32,7 @@ void FieldMap::LoadMap()
 	_vMapData.clear();
 	_backImageEtc = nullptr;
 	_backImageMain = nullptr;
-	
+
 	for (int i = 0; i < stringData.size(); i++)
 	{
 		vector<Tile*> tileLine;
@@ -44,11 +44,11 @@ void FieldMap::LoadMap()
 			{
 				tile->_img = IMAGEMANAGER->findImage(stringData[i][j]);
 				RECT rc;
-				if(_fileName == "stage0_town")
+				if (_fileName == "stage0_town")
 					rc = RectMake(1000 + j * 3, 10 + i * 3, 3, 3); // 한칸당 5픽셀이기 때문에 늘리고싶으면 이미지도 같이 바꿔야합니다
-				else 
+				else
 				{
-				rc = RectMake(1000 + j * 5, 10 + i * 5, 5, 5); // 한칸당 5픽셀이기 때문에 늘리고싶으면 이미지도 같이 바꿔야합니다
+					rc = RectMake(1000 + j * 5, 10 + i * 5, 5, 5); // 한칸당 5픽셀이기 때문에 늘리고싶으면 이미지도 같이 바꿔야합니다
 				}
 				_vMiniRc.push_back(rc);
 			}
@@ -113,11 +113,11 @@ void FieldMap::LoadObject()
 		case 1507:// 칼 해골
 			obj = new SwordSkel(*dynamic_cast<SwordSkel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-			
+
 		case 1508:// 활 해골
 			obj = new BowSkel(*dynamic_cast<BowSkel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-			
+
 		case 1502: // 밴시
 			obj = new Banshee(*dynamic_cast<Banshee*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
@@ -146,7 +146,7 @@ void FieldMap::LoadObject()
 		case 2500: // 몬스터 스포너
 			obj = new MonsterSpawner(*dynamic_cast<MonsterSpawner*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-		case 10 : // 상점
+		case 10: // 상점
 			obj = new Shop(*dynamic_cast<Shop*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			dynamic_cast<Shop*>(obj)->initSecond();
 			dynamic_cast<Shop*>(obj)->SetShopItem();
@@ -178,6 +178,10 @@ void FieldMap::LoadObject()
 			obj = new Treasure(*dynamic_cast<Treasure*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			dynamic_cast<Treasure*>(obj)->initSecond();
 			break;
+		case 7: // 다음 스테이지 문
+			obj = new StageDoor(*dynamic_cast<StageDoor*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<StageDoor*>(obj)->initSecond();
+			break;
 		default:
 			obj = new Object(*DATAMANAGER->GetObjectById(stoi(objData[i][0])));
 			break;
@@ -193,26 +197,26 @@ void FieldMap::LoadObject()
 		switch (stoi(objData[i][0]))
 		{
 		case 514: // 문 왼쪽
-			if (_nextMapIndex[DIRECTION::DIR_LEFT] != -1) 
+			if (_nextMapIndex[DIRECTION::DIR_LEFT] != -1)
 				MakeDoor(dynamic_cast<Door*>(obj));
 			else CheckRollBack = true;
 			break;
 		case 515: // 문 오른쪽
-			if (_nextMapIndex[DIRECTION::DIR_RIGHT] != -1) 
+			if (_nextMapIndex[DIRECTION::DIR_RIGHT] != -1)
 				MakeDoor(dynamic_cast<Door*>(obj));
 			else CheckRollBack = true;
 			break;
 		case 516: // 문 위쪽
-			if (_nextMapIndex[DIRECTION::DIR_UP] != -1) 
+			if (_nextMapIndex[DIRECTION::DIR_UP] != -1)
 				MakeDoor(dynamic_cast<Door*>(obj));
 			else CheckRollBack = true;
 			break;
 		case 517: // 문 아래쪽
-			if (_nextMapIndex[DIRECTION::DIR_DOWN] != -1) 
+			if (_nextMapIndex[DIRECTION::DIR_DOWN] != -1)
 				MakeDoor(dynamic_cast<Door*>(obj));
 			else CheckRollBack = true;
 			break;
-		case 2000 : // 벨리알
+		case 2000: // 벨리알
 			dynamic_cast<Belial*>(obj)->SetAfterSpawn();
 			break;
 		}
@@ -404,7 +408,7 @@ void FieldMap::MakeNearTileCollision(Door* door, bool isActivate)
 /// </summary>
 void FieldMap::PixelCollisionMapGenerate()
 {
-	IMAGEMANAGER->addImage("PixelMapIg", "Images/PixelMapIg.bmp", _vMapData[0].size() * 48, _vMapData.size() * 48, true, RGB(255,255,255));
+	IMAGEMANAGER->addImage("PixelMapIg", "Images/PixelMapIg.bmp", _vMapData[0].size() * 48, _vMapData.size() * 48, true, RGB(255, 255, 255));
 
 	image* pixelMapImg = IMAGEMANAGER->findImage("PixelMapIg");
 	HDC pixelMapDC = IMAGEMANAGER->findImage("PixelMapIg")->getMemDC();
@@ -418,9 +422,17 @@ void FieldMap::PixelCollisionMapGenerate()
 			{
 				_vMapData[i][j]->_collisionImage->render(pixelMapDC, _vMapData[i][j]->_x, _vMapData[i][j]->_y); // 충돌용 배경에 충돌용 타일 배치
 			}
+
+			if (_fileName == "stage0_town")
+			{
+				if (j > 59 && i == 23 && j < 80)
+				{
+					IMAGEMANAGER->findImage("Green_CollisionAll")->render(pixelMapDC, _vMapData[i][j]->_x, _vMapData[i][j]->_y);
+				}
+			}
 		}
 	}
-	
+
 
 	SetFastPixel(IMAGEMANAGER->findImage("PixelMapIg"), MAPMANAGER->GetPixelGetter());
 }
@@ -444,7 +456,7 @@ void FieldMap::GridMapGenerate()
 			{
 				_vMapData[i][j]->_img->render(IMAGEMANAGER->findImage("Layer1MapIg")->getMemDC(), _vMapData[i][j]->_x, _vMapData[i][j]->_y); // 충돌용 배경에 충돌용 타일 배치
 			}
-			
+
 			if (_vMapData[i][j]->_img2 != nullptr)
 			{
 				_vMapData[i][j]->_img2->render(IMAGEMANAGER->findImage("Layer2MapIg")->getMemDC(), _vMapData[i][j]->_x, _vMapData[i][j]->_y); // 충돌용 배경에 충돌용 타일 배치
@@ -456,7 +468,7 @@ void FieldMap::GridMapGenerate()
 	{
 		IMAGEMANAGER->findImage("MiniMapPixel")->render(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), _vMiniRc[i].left, _vMiniRc[i].top);
 	} // 미니맵 렌더
-	
+
 	for (int i = 0; i < _vMapData.size(); i++)
 	{
 		for (int j = 0; j < _vMapData[i].size(); j++)
@@ -464,7 +476,8 @@ void FieldMap::GridMapGenerate()
 			COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), j * 48, i * 48);
 			if (color == RGB(0, 255, 0) || color == RGB(0, 200, 0) || color == RGB(0, 155, 0) || color == RGB(0, 100, 0))
 			{
-				IMAGEMANAGER->findImage("MiniMapDoor")->render(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), 1000 + j * 5, 10 + i * 5);
+				if (_fileName == "stage0_town") IMAGEMANAGER->findImage("MiniMapDoor")->stretchRender(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), 1000 + j * 3, 10 + i * 3, 0.66f, 0.66f);
+				else IMAGEMANAGER->findImage("MiniMapDoor")->render(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), 1000 + j * 5, 10 + i * 5);
 			}
 		}
 	}
@@ -567,7 +580,7 @@ void FieldMap::EraseDeathObject()
 	{
 		if (_vObjs[i]->GetIsDead())
 		{
-			
+
 			_vObjs.erase(_vObjs.begin() + i);
 			i--;
 		}
@@ -605,10 +618,10 @@ void FieldMap::ChangePlayerByDirection(DIRECTION dir)
 void FieldMap::render(HDC hdc)
 {
 	if (_backImageMain != nullptr) _backImageMain->loopRender(hdc, &RectMake(0, 0, WINSIZEX, WINSIZEY), CAMERAMANAGER->GetRect().left / 4, CAMERAMANAGER->GetRect().top / 4);
-	
+
 	int mapSizeX = _vMapData[0].size() * 48;
 	int mapSizeY = _vMapData.size() * 48;
-	
+
 	if (_backImageEtc != nullptr)
 	{
 		CAMERAMANAGER->StretchRender(hdc, _backImageEtc, -WINSIZEX / 2, -WINSIZEY / 2, WINSIZEX + mapSizeX, WINSIZEY / 2);
@@ -620,7 +633,7 @@ void FieldMap::render(HDC hdc)
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer2MapIg"), 0, 0);
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
-		if(!_vObjs[i]->GetRenderIndex() == 0)
+		if (!_vObjs[i]->GetRenderIndex() == 0)
 			_vObjs[i]->render(hdc);
 	} // 오브젝트 렌더 0 렌더
 
@@ -635,7 +648,7 @@ void FieldMap::render(HDC hdc)
 
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
-		if(_vObjs[i]->GetRenderIndex() == 1)	
+		if (_vObjs[i]->GetRenderIndex() == 1)
 			_vObjs[i]->render(hdc);
 	} // 오브젝트 렌더 1 렌더
 
@@ -659,8 +672,8 @@ void FieldMap::render(HDC hdc)
 	}
 	else
 	{
-	IMAGEMANAGER->findImage("MiniMapPlayer")->render(hdc, 
-		1000+(float)5 / 48 * ENTITYMANAGER->getPlayer()->GetX(),10+ (float)5 /48 * ENTITYMANAGER->getPlayer()->GetY());
+		IMAGEMANAGER->findImage("MiniMapPlayer")->render(hdc,
+			1000 + (float)5 / 48 * ENTITYMANAGER->getPlayer()->GetX(), 10 + (float)5 / 48 * ENTITYMANAGER->getPlayer()->GetY());
 	}
 	//미니맵에 몬스터 렌더
 	for (int i = 0; i < _vObjs.size(); i++)
@@ -670,7 +683,7 @@ void FieldMap::render(HDC hdc)
 		if (_vObjs[i]->GetType() == OT_MONSTER && enemy->GetIsSpawned())
 		{
 			IMAGEMANAGER->findImage("MiniMapEnemy")->render(hdc,
-				1000 + (float)5 / 48 * (_vObjs[i]->GetX()+_vObjs[i]->GetImage(0)->getFrameWidth() / 2),
+				1000 + (float)5 / 48 * (_vObjs[i]->GetX() + _vObjs[i]->GetImage(0)->getFrameWidth() / 2),
 				10 + (float)5 / 48 * (_vObjs[i]->GetY() + _vObjs[i]->GetImage(0)->getFrameHeight() / 2));
 		}
 	}
@@ -680,9 +693,9 @@ void FieldMap::DoorParticleGenerate()
 {
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
-		switch(_vObjs[i]->GetId())
+		switch (_vObjs[i]->GetId())
 		{
-		case 514 : case 515: case 516: case 517:
+		case 514: case 515: case 516: case 517:
 			dynamic_cast<Door*>(_vObjs[i])->SetPGenerator();
 			break;
 		}

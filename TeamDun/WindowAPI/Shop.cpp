@@ -115,7 +115,7 @@ void Shop::SetShopItem()
 	int itemSize = RANDOM->range(4, 6);
 	for (int i = 0; i < itemSize; i++)
 	{
-		_vItemList.push_back(new Item(*DATAMANAGER->GetItemById(RANDOM->range(DATAMANAGER->GetItemMinId(), DATAMANAGER->GetItemMaxId()))));
+		_vItemList.push_back(DATAMANAGER->GetItemById(RANDOM->range(DATAMANAGER->GetItemMinId(), DATAMANAGER->GetItemMaxId())));
 	}
 }
 

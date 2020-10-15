@@ -7,52 +7,36 @@ HRESULT EntityManager::init()
 	{
 		_vBullets[i]->init();
 	}
+	
+	_wormVillage = new WormVillage(*dynamic_cast<WormVillage*>(DATAMANAGER->GetObjectById(2501)));
+
 	return S_OK;
 }
 
 void EntityManager::update()
 {
-	for (int i = 0; i < _vObjs.size(); i++)
-	{
-		_vObjs[i]->update();
-	}
-	
-	for (int i = 0; i < _vBullets.size(); i++)
-	{
-		_vBullets[i]->update();
-	}
+	for (int i = 0; i < _vObjs.size(); i++) _vObjs[i]->update();
+	for (int i = 0; i < _vBullets.size(); i++) _vBullets[i]->update();
 	eraseBullet();
+	
+	_wormVillage->update();
 	_p->update();
 	HitBullet();
 }
 
 void EntityManager::render(HDC hdc)
 {
-	for (int i = 0; i < _vObjs.size(); i++)
-	{
-		_vObjs[i]->render(hdc);
-	}
-
-	for (int i = 0; i < _vBullets.size(); i++)
-	{
-		_vBullets[i]->render(hdc);
-	}
-
+	_wormVillage->render(hdc);
+	for (int i = 0; i < _vObjs.size(); i++) _vObjs[i]->render(hdc);
+	for (int i = 0; i < _vBullets.size(); i++) _vBullets[i]->render(hdc);
 	_p->render(hdc);
 }
 
 void EntityManager::release()
 {
-	for (int i = 0; i < _vObjs.size(); i++)		
-	{
-		_vObjs[i]->release();
-	}
-
-	for (int i = 0; i < _vBullets.size(); i++)
-	{
-		_vBullets[i]->release();
-	}
-
+	for (int i = 0; i < _vObjs.size(); i++)	_vObjs[i]->release();
+	for (int i = 0; i < _vBullets.size(); i++) _vBullets[i]->release();
+	_wormVillage->release();
 	_p->release();
 }
 
