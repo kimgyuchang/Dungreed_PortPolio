@@ -801,9 +801,9 @@ void loadingScene::loadingImage()
 	// BACKGROUND //
 	_loading->LoadNormalImage("BackFloorBack1", "Images/1Floor/Basic_H_Type2_4.bmp", 1, 1);
 	_loading->LoadNormalImage("SubBGStage1", "Images/1Floor/SubBGStage1.bmp", 960, 540, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("TownBG_Day", "Images/1Floor/TownBG_Day.bmp", 960, 426, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("TownLayer_Day", "Images/1Floor/TownLayer_Day.bmp", 960, 285, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("Sky_Day", "Images/1Floor/Sky_Day.bmp", 960, 540, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("TownBG_Day", "Images/villageFloor/TownBG_Day.bmp", 960, 1200, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("TownLayer_Day", "Images/villageFloor/TownLayer_Day.bmp", 960, 1200, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Sky_Day", "Images/villageFloor/Sky_Day.bmp", 1440, 800, true, RGB(255, 0, 255));
 
 	// ITEM //
 	_loading->LoadFrameImage("BasicShortSword_New", "Images/item/BasicShortSword_New.bmp", 90, 90, true, RGB(255, 0, 255));

@@ -710,7 +710,6 @@ void Player::pixelCollision()
 				_x = i;
 
 			}
-
 			break;
 		}
 	}

@@ -78,6 +78,7 @@ void FieldMap::LoadMap()
 		_townBackgroundImg = IMAGEMANAGER->findImage("Sky_Day");
 		_townMountainImg = IMAGEMANAGER->findImage("TownBG_Day");
 		_townGrassImg = IMAGEMANAGER->findImage("TownLayer_Day");
+		_backImageEtc = IMAGEMANAGER->findImage("BackFloorBack1");
 	}
 }
 
@@ -636,7 +637,7 @@ void FieldMap::render(HDC hdc)
 	int mapSizeX = _vMapData[0].size() * 48;
 	int mapSizeY = _vMapData.size() * 48;
 
-	if (_backImageEtc != nullptr)
+	if (_stage == 1 || _stage == 2)
 	{
 		CAMERAMANAGER->StretchRender(hdc, _backImageEtc, -WINSIZEX / 2, -WINSIZEY / 2, WINSIZEX + mapSizeX, WINSIZEY / 2);
 		CAMERAMANAGER->StretchRender(hdc, _backImageEtc, -WINSIZEX / 2, 0, WINSIZEX / 2, mapSizeY);
@@ -644,8 +645,12 @@ void FieldMap::render(HDC hdc)
 		CAMERAMANAGER->StretchRender(hdc, _backImageEtc, mapSizeX, 0, WINSIZEX / 2, mapSizeY);
 	}
 
-	if (_townBackgroundImg != nullptr)
+	if (_stage == 0)
 	{
+		_townBackgroundImg->render(hdc, 0, 0);
+		_townMountainImg->loopRender(hdc, &RectMake(0, -300, WINSIZEX, 1200), CAMERAMANAGER->GetRect().left / 4, CAMERAMANAGER->GetRect().top / 8);
+		_townGrassImg->loopRender(hdc, &RectMake(0, -200,WINSIZEX, 1000), CAMERAMANAGER->GetRect().left / 2, CAMERAMANAGER->GetRect().top/2);
+		CAMERAMANAGER->StretchRender(hdc, _backImageEtc, -WINSIZEX / 2, mapSizeY, WINSIZEX + mapSizeX, WINSIZEY / 2);
 	}
 
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer2MapIg"), 0, 0);

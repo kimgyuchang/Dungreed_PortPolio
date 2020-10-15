@@ -84,14 +84,17 @@ void MapManager::SetMapUIOnOff()
 /// </summary>
 void MapManager::GenerateMapParticle()
 {
-	ParticleGenerator* mapSquareGen = new ParticleGenerator();
-	mapSquareGen->initGenerator(REGULARGEN, 100000, 3, 0, 1, vector<string>{ "SqaureParticle" });
-	mapSquareGen->initPos(GetPlayMap()->GetMapSizeX() * 24, GetPlayMap()->GetMapSizeY() * 24, GetPlayMap()->GetMapSizeX() * 44, GetPlayMap()->GetMapSizeY() * 44);
-	mapSquareGen->initAlpha(150, 50, 1);
-	mapSquareGen->initTime(150, 10);
-	mapSquareGen->initScale(0.5f, 1.0f, 0);
-	mapSquareGen->initSpeed(0.5f, 0.5f, 0.3f, 0.3f, 0, 0);
-	PARTICLEMANAGER->AddGenerator(mapSquareGen);
+	if (_curStageNum == 1 || _curStageNum == 2)
+	{
+		ParticleGenerator* mapSquareGen = new ParticleGenerator();
+		mapSquareGen->initGenerator(REGULARGEN, 100000, 3, 0, 1, vector<string>{ "SqaureParticle" });
+		mapSquareGen->initPos(GetPlayMap()->GetMapSizeX() * 24, GetPlayMap()->GetMapSizeY() * 24, GetPlayMap()->GetMapSizeX() * 44, GetPlayMap()->GetMapSizeY() * 44);
+		mapSquareGen->initAlpha(150, 50, 1);
+		mapSquareGen->initTime(150, 10);
+		mapSquareGen->initScale(0.5f, 1.0f, 0);
+		mapSquareGen->initSpeed(0.5f, 0.5f, 0.3f, 0.3f, 0, 0);
+		PARTICLEMANAGER->AddGenerator(mapSquareGen);
+	}
 }
 
 void MapManager::DungeonMapUIMover()
@@ -254,6 +257,7 @@ void MapManager::ChangeMap(int index)
 	GetPlayMap()->PixelCollisionMapGenerate();
 	GetPlayMap()->GridMapGenerate();
 	GetPlayMap()->SetVisited(true);
+
 	EFFECTMANAGER->GetVEffect().clear();
 	PARTICLEMANAGER->GetParticles().clear();
 	PARTICLEMANAGER->GetGenerators().clear();
