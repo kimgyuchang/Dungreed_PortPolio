@@ -54,6 +54,7 @@ void gameScene::InitWardrobeString()
 
 void gameScene::initUI()
 {
+	MainGameFrameInit();
 	DungeonMapUIInit();
 	WardrobeUIInit();
 	InventoryUIInit();
@@ -61,6 +62,31 @@ void gameScene::initUI()
 	ShopUIInit();
 	ConversationUIInit();
 	GetItemUIInit();
+}
+
+void gameScene::MainGameFrameInit()
+{
+	UIFrame* container = new UIFrame();
+	container->init("swapContainer", WINSIZEX - 180, WINSIZEY - 150, 200, 200, "");
+	UIMANAGER->GetGameFrame()->AddFrame(container);
+
+	UIFrame* weapon1 = new UIFrame();
+	weapon1->init("weapon2", 50, 0, IMAGEMANAGER->findImage("EquippedWeaponBase")->getWidth(), IMAGEMANAGER->findImage("EquippedWeaponBase")->getHeight(), "EquippedWeaponBase");
+	container->AddFrame(weapon1);
+
+	UIFrame* image1 = new UIFrame();
+	image1->init("image", 0, 0, 0, 0, "");
+	weapon1->AddFrame(image1);
+
+	UIFrame* weapon2 = new UIFrame();
+	weapon2->init("weapon1", 0, 50, IMAGEMANAGER->findImage("EquippedWeaponBase")->getWidth(), IMAGEMANAGER->findImage("EquippedWeaponBase")->getHeight(), "EquippedWeaponBase");
+	container->AddFrame(weapon2);
+
+	UIFrame* image2 = new UIFrame();
+	image2->init("image", 0, 0, 0, 0, "");
+	weapon2->AddFrame(image2);
+
+	container->SetIsViewing(true);
 }
 
 void gameScene::GetItemUIInit()
@@ -556,6 +582,7 @@ void gameScene::release()
 	PARTICLEMANAGER->release();
 	PARTICLEMANAGER->releaseSingleton();
 }
+
 
 void gameScene::UpdateWardrobeUI()
 {

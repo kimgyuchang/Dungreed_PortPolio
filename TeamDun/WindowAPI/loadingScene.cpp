@@ -815,6 +815,7 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("masterchefIdle", "Images/player/masterchefIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("bearIdle", "Images/player/bearIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("baseCharEffect", "Images/player/baseCharEffect.bmp", 285, 132, 5, 2, true, RGB(255, 0, 255));
+
 	// RUN //
 	_loading->LoadFrameImage("baseCharRun", "Images/player/baseCharRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("sheetingRun", "Images/player/sheetingRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
@@ -845,8 +846,6 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("horsemanDie", "Images/player/horsemanDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("humanlaselyDie", "Images/player/humanlaselyDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("masterchefDie", "Images/player/masterchefDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
-
-
 
 	_loading->LoadFrameImage("AliceZone", "Images/player/AliceZone.bmp", 630, 315, 2, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("RunEffect", "Images/player/RunEffect.bmp", 240, 96, 5, 2, true, RGB(255, 0, 255));

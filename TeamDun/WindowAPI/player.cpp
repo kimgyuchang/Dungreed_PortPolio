@@ -40,7 +40,7 @@ HRESULT Player::init()
 	_aliceZone = IMAGEMANAGER->findImage("AliceZone");
 	_aliceZoneRadius = 144;
 	_aliceZoneIn = false;
-
+	_swapCoolTime = 0;
 	_accesoryCount = 4;
 
 	// UI
@@ -151,23 +151,54 @@ void Player::update()
 
 void Player::SwitchWeapon()
 {
+	if (_swapCoolTime > 0)
+	{
+		_swapCoolTime--;
+		UIFrame* swapFrame = UIMANAGER->GetGameFrame()->GetChild("swapContainer");
+
+		UIFrame* weapon1 = swapFrame->GetChild("weapon1");
+		UIFrame* weapon2 = swapFrame->GetChild("weapon2");
+
+		if (_swapCoolTime == 0)
+		{
+			swapFrame->GetVChildFrames().push_back(swapFrame->GetVChildFrames()[0]);
+			swapFrame->GetVChildFrames().erase(swapFrame->GetVChildFrames().begin());
+		}
+
+		if (_selectedWeaponIdx == 0)
+		{
+			weapon1->MoveFrameChild(-2.5f, 2.5f);
+			weapon2->MoveFrameChild(2.5f, -2.5f);
+		}
+		else
+		{
+			weapon1->MoveFrameChild(2.5f, -2.5f);
+			weapon2->MoveFrameChild(-2.5f, 2.5f);
+		}
+	}
+
 	if (_mouseWheel != 0)
 	{
-		if (_weapons[_selectedWeaponIdx] != nullptr)
+		if (_swapCoolTime == 0)
 		{
-			_weapons[_selectedWeaponIdx]->SetisAttacking(false);
-			_weapons[_selectedWeaponIdx]->SetRenderAngle(0);
-		}
-		if (_subWeapons[_selectedWeaponIdx] != nullptr)
-		{
-			_subWeapons[_selectedWeaponIdx]->SetisAttacking(false);
-			_subWeapons[_selectedWeaponIdx]->SetRenderAngle(0);
-		}
+			if (_weapons[_selectedWeaponIdx] != nullptr)
+			{
+				_weapons[_selectedWeaponIdx]->SetisAttacking(false);
+				_weapons[_selectedWeaponIdx]->SetRenderAngle(0);
+			}
+			if (_subWeapons[_selectedWeaponIdx] != nullptr)
+			{
+				_subWeapons[_selectedWeaponIdx]->SetisAttacking(false);
+				_subWeapons[_selectedWeaponIdx]->SetRenderAngle(0);
+			}
 
-		_realAttackSpeed = 0;
+			_realAttackSpeed = 0;
 
-		_selectedWeaponIdx = _selectedWeaponIdx == 0 ? 1 : 0;
-		_inven->SwitchWeapon(_selectedWeaponIdx);
+			_selectedWeaponIdx = _selectedWeaponIdx == 0 ? 1 : 0;
+			_inven->SwitchWeapon(_selectedWeaponIdx);
+
+			_swapCoolTime = 20;
+		}
 	}
 }
 

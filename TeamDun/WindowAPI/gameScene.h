@@ -22,6 +22,7 @@ public:
 	HRESULT init();
 	void InitWardrobeString();
 	void initUI();
+	void MainGameFrameInit();
 	void GetItemUIInit();
 	void ConversationUIInit();
 	void WardrobeUIInit();

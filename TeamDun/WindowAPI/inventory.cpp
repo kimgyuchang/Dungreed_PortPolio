@@ -6,6 +6,7 @@ HRESULT Inventory::init()
 {
 	_InvenFrame = UIMANAGER->GetGameFrame()->GetChild("InventoryFrame");
 	_shopFrame = UIMANAGER->GetGameFrame()->GetChild("DungeonShopBase");
+	_swapFrame = UIMANAGER->GetGameFrame()->GetChild("swapContainer");
 
 	_invenFullTextOn = false;
 	_invenFullTextTimer = 0;
@@ -350,10 +351,49 @@ bool Inventory::AddItem(Item* item)
 void Inventory::ReloadUIImages()
 {
 	Player* p = ENTITYMANAGER->getPlayer();
+	_swapFrame->GetChild("weapon1")->GetVChildFrames().clear();
+	_swapFrame->GetChild("weapon2")->GetVChildFrames().clear();
+
+	UIFrame* weapon1Swap = new UIFrame();
 	_InvenFrame->GetChild("curWeapon_1")->SetImage(nullptr);
-	if (p->GetWeapon(0) != nullptr) _InvenFrame->GetChild("curWeapon_1")->SetImage(p->GetWeapon(0)->GetInvenImage());
+	if (p->GetWeapon(0) != nullptr)
+	{
+		_InvenFrame->GetChild("curWeapon_1")->SetImage(p->GetWeapon(0)->GetInvenImage());
+		weapon1Swap->init("image",
+			25 - p->GetWeapon(0)->GetDropImage()->getFrameWidth() / 2 * (p->GetWeapon(0)->GetRenderScale() - 1),
+			15 - p->GetWeapon(0)->GetDropImage()->getFrameHeight() / 2 * (p->GetWeapon(0)->GetRenderScale() - 1),
+			0,0,
+			p->GetWeapon(0)->GetDropImageName(),
+			p->GetWeapon(0)->GetRenderScale(),
+			p->GetWeapon(0)->GetRenderScale()
+		);
+	}
+	else
+	{
+		weapon1Swap->init("image", 0, 0, 0, 0, "");
+	}
+	_swapFrame->GetChild("weapon1")->AddFrame(weapon1Swap);
+	UIFrame* weapon2Swap = new UIFrame();
 	_InvenFrame->GetChild("curWeapon_2")->SetImage(nullptr);
-	if (p->GetWeapon(1) != nullptr) _InvenFrame->GetChild("curWeapon_2")->SetImage(p->GetWeapon(1)->GetInvenImage());
+	if (p->GetWeapon(1) != nullptr)
+	{
+		_InvenFrame->GetChild("curWeapon_2")->SetImage(p->GetWeapon(1)->GetInvenImage());
+		weapon2Swap->init("image",
+			25 - p->GetWeapon(1)->GetDropImage()->getFrameWidth() / 2 * (p->GetWeapon(1)->GetRenderScale() - 1),
+			15 - p->GetWeapon(1)->GetDropImage()->getFrameHeight() / 2 * (p->GetWeapon(1)->GetRenderScale() - 1),
+			p->GetWeapon(1)->GetDropImage()->getFrameWidth() * p->GetWeapon(1)->GetRenderScale(),
+			p->GetWeapon(1)->GetDropImage()->getFrameHeight() * p->GetWeapon(1)->GetRenderScale(),
+			p->GetWeapon(1)->GetDropImageName(),
+			p->GetWeapon(1)->GetRenderScale(),
+			p->GetWeapon(1)->GetRenderScale()
+		);
+	}
+	else
+	{
+		weapon2Swap->init("image", 0, 0, 0, 0, "");
+	}
+	_swapFrame->GetChild("weapon2")->AddFrame(weapon2Swap);
+
 	_InvenFrame->GetChild("curWeaponSub_1")->SetImage(nullptr);
 	if (p->GetSubWeapon(0) != nullptr) _InvenFrame->GetChild("curWeaponSub_1")->SetImage(p->GetSubWeapon(0)->GetInvenImage());
 	_InvenFrame->GetChild("curWeaponSub_2")->SetImage(nullptr);

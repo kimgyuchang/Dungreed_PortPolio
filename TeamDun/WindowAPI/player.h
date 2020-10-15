@@ -51,7 +51,7 @@ private:
 	float			_moveSpeed;				// 이동속도
 	float			_jumpPower;				// 점프력
 	int				_dashCount;				// 대쉬 횟수
-
+	
 	// - 내부적 수치
 	float			_gravity;				// 중력
 	float			_dashSpeed;				// 대쉬 속도
@@ -140,11 +140,13 @@ private:
 	int				_money;					// 돈
 	int				_level;					// 레벨
 	
-											// - 내부적 수치
+	// - 내부적 수치
 	int				_experience;			// 경험치
 	int				_needExperience;		// 필요 경험치
 	float			_goldDrop;				// 돈 드랍양
 
+	// SWAP //
+	int				_swapCoolTime;			// 스왑 쿨타임
 	// UI //
 	vector<CharToolTip>		_vToolTips;		// 툴팁 프레임 목록
 	vector<string>			_vToolTipsName; // 툴팁 프레임 이름 목록
@@ -174,6 +176,7 @@ public:
 
 	void ReInitTooltip(int n);
 	void SetToolTipFrame(float x, float y, int index);
+
 
 	void SwitchWeapon();
 	void CheckAliceZone();
