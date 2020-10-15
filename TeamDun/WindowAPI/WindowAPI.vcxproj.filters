@@ -306,6 +306,12 @@
     <ClCompile Include="Colt.cpp">
       <Filter>MainGame\Item\Items\Weapon\Range</Filter>
     </ClCompile>
+    <ClCompile Include="WormVillage.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="StageDoor.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -535,6 +541,12 @@
     </ClInclude>
     <ClInclude Include="Colt.h">
       <Filter>MainGame\Item\Items\Weapon\Range</Filter>
+    </ClInclude>
+    <ClInclude Include="WormVillage.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="StageDoor.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

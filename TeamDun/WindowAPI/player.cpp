@@ -72,21 +72,21 @@ HRESULT Player::init()
 	_inven = new Inventory();
 	_inven->init();
 
-	_inven->AddItem(new DemonSword(*dynamic_cast<DemonSword*>(DATAMANAGER->GetItemById(4000))));
-	_inven->AddItem(new DemonSword(*dynamic_cast<DemonSword*>(DATAMANAGER->GetItemById(4000))));
-	_inven->AddItem(new DemonSword(*dynamic_cast<DemonSword*>(DATAMANAGER->GetItemById(4000))));
-	_inven->AddItem(new Colt(*dynamic_cast<Colt*>(DATAMANAGER->GetItemById(4001))));
-	_inven->AddItem(new Colt(*dynamic_cast<Colt*>(DATAMANAGER->GetItemById(4001))));
-
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4002)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4002)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4002)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4003)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4003)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4003)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4004)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4004)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4004)));
+	_inven->AddItem(DATAMANAGER->GetItemById(4000));
+	_inven->AddItem(DATAMANAGER->GetItemById(4000));
+	_inven->AddItem(DATAMANAGER->GetItemById(4000));
+	_inven->AddItem(DATAMANAGER->GetItemById(4001));
+	_inven->AddItem(DATAMANAGER->GetItemById(4001));
+	_inven->AddItem(DATAMANAGER->GetItemById(4001));
+	_inven->AddItem(DATAMANAGER->GetItemById(4002));
+	_inven->AddItem(DATAMANAGER->GetItemById(4002));
+	_inven->AddItem(DATAMANAGER->GetItemById(4002));
+	_inven->AddItem(DATAMANAGER->GetItemById(4003));
+	_inven->AddItem(DATAMANAGER->GetItemById(4003));
+	_inven->AddItem(DATAMANAGER->GetItemById(4003));
+	_inven->AddItem(DATAMANAGER->GetItemById(4004));
+	_inven->AddItem(DATAMANAGER->GetItemById(4004));
+	_inven->AddItem(DATAMANAGER->GetItemById(4004));
 
 	return S_OK;
 }
@@ -98,6 +98,7 @@ void Player::update()
 		!UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetIsViewing() &&
 		!UIMANAGER->GetGameFrame()->GetChild("selectFrame")->GetIsViewing() &&
 		!UIMANAGER->GetGameFrame()->GetChild("convFrame")->GetIsViewing() &&
+		!ENTITYMANAGER->GetWormVillage()->GetIsOn() &&
 		!MAPMANAGER->GetPortalAnimOn()
 		&& !_isStun && !_isPlayerDead
 		)
@@ -363,7 +364,7 @@ void Player::release()
 
 void Player::render(HDC hdc)
 {
-	if (!MAPMANAGER->GetPortalAnimOn())
+	if (!MAPMANAGER->GetPortalAnimOn() && ENTITYMANAGER->GetWormVillage()->GetRenderPlayer())
 	{
 		if (_weapons[_selectedWeaponIdx] != nullptr && _weapons[_selectedWeaponIdx]->GetIsRenderFirst()) _weapons[_selectedWeaponIdx]->render(hdc);
 		if (_subWeapons[_selectedWeaponIdx] != nullptr && _subWeapons[_selectedWeaponIdx]->GetIsRenderFirst()) _subWeapons[_selectedWeaponIdx]->render(hdc);
@@ -579,8 +580,6 @@ void Player::pixelCollision()
 	image* pixelMapIg = IMAGEMANAGER->findImage("PixelMapIg");
 	image* baseCharIg = IMAGEMANAGER->findImage("baseCharIdle");
 
-
-
 	for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 	{
 		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + baseCharIg->getFrameWidth() / 2, i);
@@ -690,8 +689,6 @@ void Player::pixelCollision()
 		{
 
 			_x = i - baseCharIg->getFrameWidth();
-
-
 			break;
 		}
 	}
@@ -755,24 +752,30 @@ void Player::pixelCollision()
 	COLORREF _color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _pixelCenter.x, _pixelCenter.y);
 	if (_color == RGB(0, 255, 0))
 	{
-		MAPMANAGER->ChangeMap(MAPMANAGER->GetCurrentStage(), MAPMANAGER->GetPlayMap()->GetNextMapIndex(DIRECTION::DIR_LEFT));
-		MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_RIGHT);
-	}
+		if (MAPMANAGER->GetPlayMap()->GetFileName() == "stage0_town")
+		{
+			ENTITYMANAGER->GetWormVillage()->Activate();
+		}
 
+		else
+		{
+			MAPMANAGER->ChangeMap(MAPMANAGER->GetPlayMap()->GetNextMapIndex(DIRECTION::DIR_LEFT));
+			MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_RIGHT);
+		}
+	}
 	else if (_color == RGB(0, 200, 0))
 	{
-		MAPMANAGER->ChangeMap(MAPMANAGER->GetCurrentStage(), MAPMANAGER->GetPlayMap()->GetNextMapIndex(DIRECTION::DIR_RIGHT));
+		MAPMANAGER->ChangeMap(MAPMANAGER->GetPlayMap()->GetNextMapIndex(DIRECTION::DIR_RIGHT));
 		MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_LEFT);
 	}
-
 	else if (_color == RGB(0, 155, 0))
 	{
-		MAPMANAGER->ChangeMap(MAPMANAGER->GetCurrentStage(), MAPMANAGER->GetPlayMap()->GetNextMapIndex(DIRECTION::DIR_UP));
+		MAPMANAGER->ChangeMap(MAPMANAGER->GetPlayMap()->GetNextMapIndex(DIRECTION::DIR_UP));
 		MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_DOWN);
 	}
 	else if (_color == RGB(0, 100, 0))
 	{
-		MAPMANAGER->ChangeMap(MAPMANAGER->GetCurrentStage(), MAPMANAGER->GetPlayMap()->GetNextMapIndex(DIRECTION::DIR_DOWN));
+		MAPMANAGER->ChangeMap(MAPMANAGER->GetPlayMap()->GetNextMapIndex(DIRECTION::DIR_DOWN));
 		MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_UP);
 	}
 }

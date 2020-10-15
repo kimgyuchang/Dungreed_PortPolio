@@ -298,6 +298,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("YellowTresureClosed", "Images/Object/YellowTresureClosed.bmp", 117, 69, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("YellowTresureOpened", "Images/Object/YellowTresureOpened.bmp", 117, 69, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("NPC_Giant", "Images/NPC/NPC_Giant.bmp", 588, 144, 4, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("DungeonIngurgitate", "Images/NPC/DungeonIngurgitate.bmp", 19125, 255, 51, 1, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("DungeonInn", "Images/NPC/DungeonInn.bmp", 594, 276, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("NPC_NeighboringVillager", "Images/NPC/NPC_NeighboringVillager.bmp", 324, 63, 9 , 1, true, RGB(255, 0, 255));
 
@@ -329,7 +330,6 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("25_CinnamonRoll", "Images/food/25_CinnamonRoll.bmp", 219, 96, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("26_SparklingWater", "Images/food/26_SparklingWater.bmp", 75, 114, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("98_HotMeatball", "Images/food/98_HotMeatball.bmp", 219, 90, true, RGB(255, 0, 255));
-
 
 	// OBSTACLE //
 

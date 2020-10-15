@@ -13,6 +13,29 @@ id,name,type,image,image2,image3
 100,큰 박스,Breakable,BigBox0,.,.
 101,박스,Breakable,Box0,.,.
 102,오크통,Breakable,OakDrum0,.,.
+200,던전사인-왼,Etc,DungeonSignLeft,.,.
+201,던전사인-오,Etc,DungeonSignRight,.,.
+202,훈련장,Etc,TrainingSchool,.,.
+203,훈련장 타겟,Etc,Target,.,.
+204,대장간,Etc,BlackSmith,.,.
+205,대장간 장식품,Etc,BlackSmithDisplay,.,.
+206,의상실,Etc,Boutique,.,.
+207,총기상점,Etc,Gunsmith,.,.
+208,총기상점 장식품,Etc,FirearmsCase,.,.
+209,기도 조각상,Etc,PrayStatue,.,.
+210,삼지창 가로등,Etc,StreetLight,.,.
+211,특수 가로등,Etc,StreetLight_1,.,.
+212,일반 가로등,Etc,StreetLight_2,.,.
+213,풀 더미 1,Etc,Grass0,.,.
+214,풀 더미 2,Etc,Grass1,.,.
+215,풀 더미 3,Etc,Grass2,.,.
+216,우물,Etc,Well,.,.
+217,수레,Etc,Wagon,.,.
+218,나무 집,Etc,TreeHouse,.,.
+219,펜스,Etc,Fence,.,.
+220,상점,Etc,Shop,.,.
+221,나무 1,Etc,Tree0,.,.
+222,나무 2,Etc,Tree1,.,.
 500,뼈 0,Etc,Bone0,.,.
 501,뼈 1,Etc,Bone1,.,.
 502,해골 0,Etc,Skull0,.,.
@@ -26,8 +49,6 @@ id,name,type,image,image2,image3
 510,고문책상 1,Etc,TortureTable_1,.,.
 511,고문파편 0,Etc,TortureTable1_0,.,.
 512,고문파편 1,Etc,TortureTable1_1,.,.
-200,던전사인-왼,Etc,DungeonSignLeft,.,.
-201,던전사인-오,Etc,DungeonSignRight,,
 514,문 왼쪽,Etc,Door_Left_Idle,Door_Left,.
 515,문 오른쪽,Etc,Door_Right_Idle,Door_Right,.
 516,문 위쪽,Etc,Door_Up_Idle,Door_Up,.
@@ -60,34 +81,14 @@ id,name,type,image,image2,image3
 1510,보라큰박쥐,Monster,GiantBat,GiantBatAttack,.
 2000,벨리알,Monster,SkellBossIdle,SkellBossAttack,.
 2500,몬스터 스폰 트리거,Etc,SpawnMonsterPos,.,.
-202,훈련장,Etc,TrainingSchool,,
-203,훈련장 타겟,Etc,Target,,
-204,대장간,Etc,BlackSmith,,
-205,대장간 장식품,Etc,BlackSmithDisplay,,
-206,의상실,Etc,Boutique,,
-207,총기상점,Etc,Gunsmith,,
-208,총기상점 장식품,Etc,FirearmsCase,,
-209,기도 조각상,Etc,PrayStatue,,
-210,삼지창 가로등,Etc,StreetLight,,
-211,특수 가로등,Etc,StreetLight_1,,
-212,일반 가로등,Etc,StreetLight_2,,
-213,풀 더미 1,Etc,Grass0,,
-214,풀 더미 2,Etc,Grass1,,
-215,풀 더미 3,Etc,Grass2,,
-216,우물,Etc,Well,,
-217,수레,Etc,Wagon,,
-218,나무 집,Etc,TreeHouse,,
-219,펜스,Etc,Fence,,
-220,상점,Etc,Shop,,
-221,나무 1,Etc,Tree0,,
-222,나무 2,Etc,Tree1,,
-223,훈련장 트레이니,Etc,NPC_Trainee,,
-224,아테나 전사,Etc,NPC_AthenaIdle,NPC_AthenaMove,
-225,멋쟁이 신사,Etc,NPC_ButlerIdle,NPC_ButlerMove,
-226,사슴 남자,Etc,NPC_DeerFarmIdle,NPC_DeerFarmMove,
-227,까망 도마뱀,Etc,NPC_Jpage,,
-228,토끼 여자,Etc,NPC_JukToIdle,NPC_JukToMove,
-229,나이트,Etc,NPC_KnightIdle,NPC_KnightMove,
-230,깃발 든 남자,Etc,PistolMan,,
-11,레스토랑,Etc,DungeonInn,,
-12,밥 잘 파는 예쁜누나,NPC,NPC_NeighboringVillager,,
+2501,마을 포탈,Etc,DungeonIngurgitate,.,.
+223,훈련장 트레이니,Etc,NPC_Trainee,.,.
+224,아테나 전사,Etc,NPC_AthenaIdle,NPC_AthenaMove,.
+225,멋쟁이 신사,Etc,NPC_ButlerIdle,NPC_ButlerMove,.
+226,사슴 남자,Etc,NPC_DeerFarmIdle,NPC_DeerFarmMove,.
+227,까망 도마뱀,Etc,NPC_Jpage,.,.
+228,토끼 여자,Etc,NPC_JukToIdle,NPC_JukToMove,.
+229,나이트,Etc,NPC_KnightIdle,NPC_KnightMove,.
+230,깃발 든 남자,Etc,PistolMan,.,.
+11,레스토랑,Etc,DungeonInn,.,.
+12,밥 잘 파는 예쁜누나,NPC,NPC_NeighboringVillager,.,.

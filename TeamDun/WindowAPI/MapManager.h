@@ -17,10 +17,9 @@ class MapManager : public singletonBase<MapManager>
 private:
 	vector<FieldMap*>	_vOriginMaps;	// 데이터로 불러온 맵들
 
-	vector<Stage*>		_vStage;		// 스테이지 데이터
+	Stage*				_stage;			// 현재 스테이지
+	int					_curStageNum;	// 현재 스테이지 번호
 	int					_currentMap;	// 현재 맵
-	int					_currentStage;	// 현재 스테이지
-	
 	// MAP UI 관련 //
 	int					_moveClickTimer;
 	POINT				_recentMousePos;
@@ -32,6 +31,7 @@ private:
 
 public:
 	HRESULT init();
+	void AddStage(int stageNum);
 	void update();
 	void SetMapUIOnOff();
 	void GenerateMapParticle();
@@ -40,20 +40,18 @@ public:
 	void ReNewMapUI();
 	void release();
 	void render(HDC hdc);
-	void ChangeMap(int stage, int index);
-
+	void ChangeMap(int index);
+	
 	// GETSET //
-	int					GetCurrentStage()	{ return _currentStage; }
 	int					GetCurrentMap()		{ return _currentMap; }
-	FieldMap*			GetPlayMap()		{ return _vStage[_currentStage]->GetMaps()[_currentMap]; }
+	FieldMap*			GetPlayMap()		{ return _stage->GetMaps()[_currentMap]; }
 	vector<FieldMap*>&	GetMaps()			{ return _vOriginMaps; }
 	PixelGetter*		GetPixelGetter()	{ return _pixelGetter; }
 	bool				GetPortalOn()		{ return _portalOn; }
 	bool				GetPortalAnimOn()	{ return _portalAnimOn; }
 	Portal*				GetCurrentPortal()	{ return _currentPortal; }
+	int					GetCurStageNum()	{ return _curStageNum; }
 
-
-	void		SetCurrentStage(int stage)	{ _currentStage = stage; }
 	void 		SetCurrentMap(int map)		{ _currentMap = map; }
 	void		SetPortalOn(bool on)		{ _portalOn = on; }
 	void		SetCurrentPortal(Portal* p) { _currentPortal = p; }

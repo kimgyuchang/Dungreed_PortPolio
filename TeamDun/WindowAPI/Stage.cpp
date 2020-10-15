@@ -58,7 +58,6 @@ void Stage::AddRooms()
 	for (int i = 0; i < MAPMANAGER->GetMaps().size(); i++)
 	{
 		FieldMap* map = MAPMANAGER->GetMaps()[i];
-
 		if (map->GetStage() == _stage)
 		{
 			map->SetXIndex(0);
@@ -121,6 +120,7 @@ void Stage::AddRoomConnections()
 	{
 		for (int i = 0; i < _vMaps.size(); i++)
 		{
+
 			if (_vMaps.size() == 1) break;
 			FieldMap* map = _vMaps[i];
 
@@ -154,17 +154,107 @@ void Stage::AddRoomConnections()
 	}
 }
 
-
-bool Stage::SettingMap()
+void Stage::SetStageZero()
 {
-	AddRooms();
-	AddRoomConnections();
+	for (int i = 0; i < MAPMANAGER->GetMaps().size(); i++)
+	{
+		FieldMap* map = MAPMANAGER->GetMaps()[i];
 
-	if (_numOfFloodFillCount > 5) return false;
-
+		if (map->GetStage() == _stage)
+		{
+			map->SetXIndex(0);
+			map->SetYIndex(0);
+			_vMaps.push_back(map);
+		}
+	}
+	
 	for (int i = 0; i < _vMaps.size(); i++)
 	{
 		_vMaps[i]->LoadObject();
+	}
+}
+
+void Stage::SetStageTwo()
+{
+	int count = 0;
+	for (int i = 0; i < MAPMANAGER->GetMaps().size(); i++)
+	{
+		FieldMap* map = MAPMANAGER->GetMaps()[i];
+
+		if (map->GetStage() == _stage)
+		{
+			map->SetXIndex(0);
+			map->SetYIndex(0);
+			_vMaps.push_back(map);
+
+			if (count == 0)
+			{
+				map->SetXIndex(0);
+				map->SetYIndex(0);
+			}
+
+			else if (count == 1)
+			{
+				map->SetXIndex(1);
+				map->SetYIndex(0);
+			}
+
+			else if (count == 2)
+			{
+				map->SetXIndex(2);
+				map->SetYIndex(0);
+			}
+
+			count++;
+		}
+	}
+
+	for (int i = 0; i < _vMaps.size(); i++)
+	{
+		FieldMap* map = _vMaps[i];
+
+		if (i == 0)
+		{
+			AddLine(map, DIRECTION::DIR_RIGHT, 0);
+		}
+
+		if (i == 1)
+		{
+			AddLine(map, DIRECTION::DIR_RIGHT, 1);
+		}
+
+		if (i == 2)
+		{
+
+		}
+
+		_vMaps[i]->LoadObject();
+	}
+}
+
+bool Stage::SettingMap()
+{
+	if (_stage == 1)
+	{
+		AddRooms();
+		AddRoomConnections();
+
+		if (_numOfFloodFillCount > 5) return false;
+
+		for (int i = 0; i < _vMaps.size(); i++)
+		{
+			_vMaps[i]->LoadObject();
+		}
+	}
+	
+	else if (_stage == 0)
+	{
+		SetStageZero();
+	}
+
+	else if (_stage == 2)
+	{
+		SetStageTwo();
 	}
 
 	return true;
@@ -208,6 +298,8 @@ bool Stage::AddLine(FieldMap* map, DIRECTION dir, int index)
 
 	case DIRECTION::DIR_RIGHT:
 		result = FindSameIndex(map->GetXIndex() + 1, map->GetYIndex(), index);
+		
+		if(_stage == 2)	cout << result << endl;
 		if (result != -1)
 		{
 			_vMaps[result]->SetNextMapIndex(DIRECTION::DIR_LEFT, index);
