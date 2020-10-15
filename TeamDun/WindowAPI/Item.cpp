@@ -249,7 +249,7 @@ void Item::SetBaseRenderPos()
 	_renderPosY = _angleCheckPosY - _vImages[_currentImage]->getFrameHeight() / 2;
 	if (!_isAttacking)
 	{
-		_angle = getAngle(_angleCheckPosX, CAMERAMANAGER->GetAbsoluteY(_ptMouse.y), CAMERAMANAGER->GetAbsoluteX(_ptMouse.x), _angleCheckPosY);
+		_angle = getAngle(_angleCheckPosX, _angleCheckPosY, CAMERAMANAGER->GetAbsoluteX(_ptMouse.x), CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
 		if (_angle > PI * 2) _angle -= PI * 2;
 		if (_angle < 0) _angle += PI * 2;
 	}

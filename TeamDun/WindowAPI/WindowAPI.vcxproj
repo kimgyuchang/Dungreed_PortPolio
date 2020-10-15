@@ -156,6 +156,7 @@
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="cameraText.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="Colt.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="CSVManager.h" />
     <ClInclude Include="DataManager.h" />
@@ -235,6 +236,7 @@
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="cameraText.cpp" />
     <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="Colt.cpp" />
     <ClCompile Include="CSVManager.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="DemonSword.cpp" />

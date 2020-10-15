@@ -37,7 +37,9 @@ HRESULT Player::init()
 	_pixelCenter = POINT{ (long)(_x + _vImages[_useImage]->getWidth() / 2), (long)(_y + _vImages[_useImage]->getHeight() / 2) };
 	_bottomCol = false;
 	_dashEffect = nullptr;
-
+	_isPlayerDead = false;
+	_dashRestoreCount = 0;
+	_dashRestoreTime = 100;
 	_evasion = 0;
 	_defence = 10;
 	_money = 10000;
@@ -73,18 +75,18 @@ HRESULT Player::init()
 	_inven->AddItem(DATAMANAGER->GetItemById(4000));
 	_inven->AddItem(DATAMANAGER->GetItemById(4000));
 	_inven->AddItem(DATAMANAGER->GetItemById(4000));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4001)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4001)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4001)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4002)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4002)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4002)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4003)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4003)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4003)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4004)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4004)));
-	_inven->AddItem(new Item(*DATAMANAGER->GetItemById(4004)));
+	_inven->AddItem(DATAMANAGER->GetItemById(4001));
+	_inven->AddItem(DATAMANAGER->GetItemById(4001));
+	_inven->AddItem(DATAMANAGER->GetItemById(4001));
+	_inven->AddItem(DATAMANAGER->GetItemById(4002));
+	_inven->AddItem(DATAMANAGER->GetItemById(4002));
+	_inven->AddItem(DATAMANAGER->GetItemById(4002));
+	_inven->AddItem(DATAMANAGER->GetItemById(4003));
+	_inven->AddItem(DATAMANAGER->GetItemById(4003));
+	_inven->AddItem(DATAMANAGER->GetItemById(4003));
+	_inven->AddItem(DATAMANAGER->GetItemById(4004));
+	_inven->AddItem(DATAMANAGER->GetItemById(4004));
+	_inven->AddItem(DATAMANAGER->GetItemById(4004));
 
 	return S_OK;
 }
@@ -98,7 +100,7 @@ void Player::update()
 		!UIMANAGER->GetGameFrame()->GetChild("convFrame")->GetIsViewing() &&
 		!ENTITYMANAGER->GetWormVillage()->GetIsOn() &&
 		!MAPMANAGER->GetPortalAnimOn()
-		&& !_isStun
+		&& !_isStun && !_isPlayerDead
 		)
 
 		// 잡다한 UI가 OFF일때
@@ -140,7 +142,7 @@ void Player::update()
 		{
 			if (_weapons[_selectedWeaponIdx] != nullptr && _realAttackSpeed < 0)
 			{
-				_realAttackSpeed = _atkSpeed * 60;
+				_realAttackSpeed = 60 / _atkSpeed;
 				_weapons[_selectedWeaponIdx]->Activate();
 			}
 		}
@@ -189,18 +191,37 @@ void Player::update()
 	SetTextLeftDown();
 	this->pixelCollision();
 
+
 	if (INPUT->GetKeyDown('J'))
 	{
 		_maxDashCount++;
-		_dashCount--;
 		DashUICheck();
 	}
 
+	//나중에 대쉬최대횟수 증가시킬때 필요
 	if (INPUT->GetKeyDown('K'))
 	{
 		if (_maxDashCount > 0) _maxDashCount--;
 		if (_dashCount > _maxDashCount) _dashCount--;
 		DashUICheck();
+	}
+
+	if (_maxDashCount > _dashCount)
+	{
+		_dashRestoreCount++;
+
+		if (_dashRestoreCount > _dashRestoreTime)
+		{
+			_dashRestoreCount = 0;
+			_dashCount++;
+			DashImageCheck();
+		}
+	}
+
+	if (_HP < 0)
+	{
+		
+		_HP = 0;
 	}
 }
 
@@ -327,13 +348,13 @@ void Player::SetHpUI()
 {
 	//if (INPUT->GetKeyDown('H')) _hp--;
 	UIProgressBar* bar = dynamic_cast<UIProgressBar*>(_hpFrame->GetChild("hpBarPros"));
-	bar->FillCheck(_initHp, _hp);
-	float fillPercent = (float)_hp / _initHp;
+	bar->FillCheck(_initHp, _HP);
+	float fillPercent = (float)_HP / _initHp;
 
 	UIImage* hpWave = dynamic_cast<UIImage*>(_hpFrame->GetChild("Wave"));
 	hpWave->SetX((_hpFrame->GetX() + 42) + 157 * fillPercent); // 수치는 적당히 계산해서 넣음
 
-	dynamic_cast<UIText*>(_hpFrame->GetChild("hp"))->SetText(to_string(_hp) + " / " + to_string(_initHp));
+	dynamic_cast<UIText*>(_hpFrame->GetChild("hp"))->SetText(to_string(_HP) + " / " + to_string(_initHp));
 }
 
 void Player::release()

@@ -15,8 +15,10 @@ HRESULT EntityManager::init()
 
 void EntityManager::update()
 {
+
 	for (int i = 0; i < _vObjs.size(); i++) _vObjs[i]->update();
 	for (int i = 0; i < _vBullets.size(); i++) _vBullets[i]->update();
+
 	eraseBullet();
 	
 	_wormVillage->update();
@@ -34,16 +36,18 @@ void EntityManager::render(HDC hdc)
 
 void EntityManager::release()
 {
+
 	for (int i = 0; i < _vObjs.size(); i++)	_vObjs[i]->release();
 	for (int i = 0; i < _vBullets.size(); i++) _vBullets[i]->release();
 	_wormVillage->release();
+
 	_p->release();
 }
 
-Bullet* EntityManager::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle,float damage, float speed, float maxDis, bool isFrame ,float igAngle)
+Bullet* EntityManager::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle, float damage, float speed, float maxDis, bool isFrame, float igAngle)
 {
 	Bullet* _bullet = new Bullet;
-	_bullet->makeBullet(imageName, effectIgName,type, x, y, angle,damage, speed, maxDis, isFrame , igAngle);
+	_bullet->makeBullet(imageName, effectIgName, type, x, y, angle, damage, speed, maxDis, isFrame, igAngle);
 	_vBullets.push_back(_bullet);
 	return _bullet;
 }
@@ -62,14 +66,14 @@ void EntityManager::eraseBullet()
 		{
 			EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), _vBullets[i]->getEffectIgName(), 4, 0, 0, false, 255);
 			_vBullets[i]->SetIsDead(true);
-			
+
 		}
 	}
-	
+
 	//총알 레이어 1벽과 충돌체크
 	for (int i = 0; i < _vBullets.size(); i++)
 	{
-		if (_vBullets[i]->getType() == BT_NOMAL|| _vBullets[i]->getType() == BT_PLAYER)
+		if (_vBullets[i]->getType() == BT_NOMAL || _vBullets[i]->getType() == BT_PLAYER)
 		{
 			COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _vBullets[i]->getX(), _vBullets[i]->getY());
 			int r = GetRValue(color);
@@ -78,14 +82,14 @@ void EntityManager::eraseBullet()
 
 			if ((r == 255 && g == 0 && b == 0))
 			{
-				
+
 				EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), _vBullets[i]->getEffectIgName(), 4, 0, 0, false, 255);
 				_vBullets[i]->SetIsDead(true);
-				
+
 			}
 		}
 	}
-	
+
 
 
 	for (int i = 0; i < _vBullets.size(); i++)
@@ -99,6 +103,7 @@ void EntityManager::eraseBullet()
 
 void EntityManager::HitBullet()
 {
+	
 	RECT temp;
 	for (int i = 0; i < _vBullets.size(); i++)
 	{
@@ -109,6 +114,30 @@ void EntityManager::HitBullet()
 			{
 				_vBullets[i]->SetIsDead(true);
 				_p->GetHitDamage(_vBullets[i]->getDamage());
+			}
+		}
+	}
+
+
+	for (int i = 0; i < MAPMANAGER->GetPlayMap()->GetObjects().size(); i++)
+	{
+		Object* curObj = MAPMANAGER->GetPlayMap()->GetObjects()[i];
+		if ((curObj->GetType() == OBJECTTYPE::OT_MONSTER || curObj->GetType() == OBJECTTYPE::OT_BREAKABLE))
+		{
+			for (int j = 0; j < _vBullets.size(); j++)
+			{
+				if (_vBullets[j]->getType() == BT_PLAYER || _vBullets[j]->getType() == BT_PLAYERNOCOL)
+				{
+					if (IntersectRect(&temp, &_vBullets[j]->getRc(), &curObj->GetBody()))
+					{
+						if (!curObj->GetIsDead())
+						{
+							_vBullets[j]->SetIsDead(true);
+							MAPMANAGER->GetPlayMap()->GetObjects()[i]->GetDamage();
+						}
+						break;
+					}
+				}
 			}
 		}
 	}
