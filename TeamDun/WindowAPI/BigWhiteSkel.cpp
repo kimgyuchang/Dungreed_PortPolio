@@ -240,25 +240,7 @@ void BigWhiteSkel::Animation()
 
 					if (UTIL::interactRectArc(ENTITYMANAGER->getPlayer()->GetBody(), POINT{(LONG)_x+100 , (LONG)_y+70 }, _vImages[2]->getFrameWidth()-_vImages[1]->getFrameWidth()+20, 0, PI / 2, 10))
 					{
-						if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
-						{
-							float damage;
-							float block;
-							float evasion;
-
-							damage = _Damage * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100;
-							evasion = RANDOM->range(100);
-							block = RANDOM->range(100);
-							if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
-							{
-								if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
-								{
-									ENTITYMANAGER->getPlayer()->SetIsHit(true);
-									ENTITYMANAGER->getPlayer()->SetHitCount(0);
-									ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
-								}
-							}
-						}
+						ENTITYMANAGER->getPlayer()->GetHitDamage(_Damage);
 					}
 				}
 				if (_frameX > _vImages[_useImage]->getMaxFrameX() - 1)
@@ -283,25 +265,7 @@ void BigWhiteSkel::Animation()
 
 					if (UTIL::interactRectArc(ENTITYMANAGER->getPlayer()->GetBody(), POINT{(LONG) _x + 100 , (LONG)_y + 70 }, _vImages[2]->getFrameWidth() - _vImages[1]->getFrameWidth() + 20, PI/2, PI , 10))
 					{
-						if (ENTITYMANAGER->getPlayer()->GetIsHit() == false)
-						{
-							float damage;
-							float block;
-							float evasion;
-
-							damage = _Damage * ENTITYMANAGER->getPlayer()->GetRealDefence() / 100;
-							evasion = RANDOM->range(100);
-							block = RANDOM->range(100);
-							if (ENTITYMANAGER->getPlayer()->GetRealEvasion() <= evasion)
-							{
-								if (ENTITYMANAGER->getPlayer()->GetBlock() <= block)
-								{
-									ENTITYMANAGER->getPlayer()->SetIsHit(true);
-									ENTITYMANAGER->getPlayer()->SetHitCount(0);
-									ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() - damage);
-								}
-							}
-						}
+						ENTITYMANAGER->getPlayer()->GetHitDamage(_Damage);
 					}
 				}
 				if (_frameX < 0)

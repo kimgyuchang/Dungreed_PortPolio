@@ -9,7 +9,7 @@ HRESULT Player::init()
 	_x = 300;
 	_y = WINSIZEY / 2;
 
-
+	_initHp = _HP = 100;
 	_body = RectMake(_x + 10, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 20, IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
 
 	_useImage = 0;
@@ -26,15 +26,20 @@ HRESULT Player::init()
 	_atkSpeed = 0.f;
 	_realAttackSpeed = _atkSpeed * 60;
 	_dustEffectCount = 0;
-	_stun = false;
+	_isStun = false;
+	_stunCount = 0;
+	_stunAniCout = 0;
+	_stunFrameX = 0;
+	_stunFrameY = 0;
 	_isDash = false;
 	_leftBack = false;
 	_rightBack = false;
 	_pixelCenter = POINT{ (long)(_x + _vImages[_useImage]->getWidth() / 2), (long)(_y + _vImages[_useImage]->getHeight() / 2) };
 	_bottomCol = false;
 	_dashEffect = nullptr;
+
 	_evasion = 0;
-	_defence = -10;
+	_defence = 10;
 	_money = 10000;
 	_isHit = false;
 	_hitCount = 0;
@@ -44,6 +49,9 @@ HRESULT Player::init()
 	_swapCoolTime = 0;
 	_accesoryCount = 4;
 	_hp = _initHp = 100;
+
+	_criticalPercent = 2;
+	_criticalDamage = 100;
 
 	// UI
 	_hpFrame = UIMANAGER->GetGameFrame()->GetChild("hpFrame");
@@ -90,7 +98,9 @@ void Player::update()
 		!UIMANAGER->GetGameFrame()->GetChild("convFrame")->GetIsViewing() &&
 		!ENTITYMANAGER->GetWormVillage()->GetIsOn() &&
 		!MAPMANAGER->GetPortalAnimOn()
+		&& !_isStun
 		)
+
 		// 잡다한 UI가 OFF일때
 	{
 		if (INPUT->GetIsRButtonClicked() && _dashCount > 0)		//마우스 오른쪽 버튼을 눌렀을때
@@ -142,6 +152,27 @@ void Player::update()
 		_inven->update();
 	}
 
+	if (_isStun)
+	{
+		_stunCount++;
+		if (_stunCount > 40)
+		{
+			_isStun = false;
+			_stunCount = 0;
+		}
+		_stunAniCout++;
+		if (_stunAniCout > 5)
+		{
+			_stunAniCout = 0;
+			_stunFrameX++;
+			if (_stunFrameX > 5)
+			{
+				_stunFrameX = 0;
+			}
+		}
+
+
+	}
 	SwitchWeapon();
 	if (_weapons[_selectedWeaponIdx] != nullptr) _weapons[_selectedWeaponIdx]->update();
 	if (_subWeapons[_selectedWeaponIdx] != nullptr) _subWeapons[_selectedWeaponIdx]->update();
@@ -338,8 +369,12 @@ void Player::render(HDC hdc)
 			if (!_vAccessories[i]->GetIsRenderFirst()) _vAccessories[i]->render(hdc);
 		}
 
-		_inven->render(hdc);
 
+	if (_isStun)
+	{
+		CAMERAMANAGER->FrameRender(hdc, IMAGEMANAGER->findImage("stun"), _x+13, _y -10, _stunFrameX, _stunFrameY);
+	}
+		_inven->render(hdc);
 		CAMERAMANAGER->FrameRender(hdc, _aliceZone, _x + _vImages[_useImage]->getFrameWidth() / 2 - _aliceZone->getFrameWidth() / 2, _y + _vImages[_useImage]->getFrameHeight() / 2 - _aliceZone->getFrameHeight() / 2, _aliceZoneIn ? 1 : 0, 0);
 	}
 }
@@ -899,6 +934,14 @@ void Player::SetRealStat()
 		_realDefence = -sqrt(abs(_defence) * 36);
 	}
 
+	_realCriticalPercent = sqrt(_criticalPercent * 36);
+	if (_criticalPercent < 0)
+	{
+		_realCriticalPercent = 0;
+	}
+
+	
+
 }
 
 /// <summary>
@@ -1011,3 +1054,40 @@ void Player::SetToolTipFrame(float x, float y, int index)
 	dynamic_cast<UIText*>(toolTipFrame->GetChild("discription"))->SetText(_vToolTips[index].description);
 	dynamic_cast<UIText*>(toolTipFrame->GetChild("additional"))->SetText(_vToolTips[index].additionalDescription);
 }
+
+
+void Player::GetHitDamage(int damage)
+{
+	if (_isHit == false)
+	{
+		float Realdamage;
+		int block;
+		int evasion;
+		int critical;
+		Realdamage = damage - damage * _realDefence / 100; // 대쉬시 충돌하면 기본 20데미지에서 계산
+		evasion = RANDOM->range(100);
+		block = RANDOM->range(100);
+		if (_realEvasion <= evasion)
+		{
+			if (_block <= block)
+			{
+				_isHit = true;
+				_hitCount = 0;
+				_HP = _HP - Realdamage;
+				EFFECTMANAGER->AddEffect(0, 0, "hit", 0, 0, 0, true, 100, 0, 1, 1, true ,true);
+				CAMERAMANAGER->Shake(25, 25, 6, 1);
+
+			}
+			else
+			{
+				EFFECTMANAGER->AddCameraText(_x, _y, 200, 50, "BLOCK", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WSORT_LEFT, RGB(0, 0, 255));
+			}
+		}
+		else
+		{
+			EFFECTMANAGER->AddCameraText(_x, _y, 200, 50, "EVADE", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WSORT_LEFT, RGB(0, 255, 0));
+		}
+	}
+
+}
+

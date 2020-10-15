@@ -34,7 +34,6 @@ HRESULT MapManager::init()
 	_pixelGetter = new PixelGetter();
 	ChangeMap(0);
 	_portalAnimOn = false;
-
 	return S_OK;
 }
 

@@ -5,20 +5,7 @@
 enum ENEMYSTATE {
 	ES_IDLE, ES_MOVE, ES_ATTACK
 };
-struct DamageView 
-{
-	
-	float x;
-	float y;
-	float xSize;
-	float ySize;
-	string text;
-	FONT font;
-	WORDSIZE size;
-	WORDSORT sort;
-	COLORREF color;
-	int count;
-};
+
 class Enemy : public Object
 {
 protected :
@@ -29,7 +16,9 @@ protected :
 	float			_atkSpeed;				// 공격속도
 	int				_initHp;				// 초기 체력
 	float			_realDefence;			// 방어력
-
+	image*			_hpBar1;
+	image*			_hpBar2;
+	int				_hpBarAlpha;
 
 	ENEMYSTATE		_state;				// 현재 상태
 	int				_attackCoolTime;	// 공격 쿨타임
@@ -42,7 +31,6 @@ protected :
 	bool			_isSpawned;			// 현재 스폰되었느냐
 	Effect*			_spawnEffect;		// 스폰 이펙트
 
-	vector<DamageView*> _vDamageView;
 
 public :
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
@@ -56,12 +44,14 @@ public :
 	virtual void	SpawnEnemy();
 	virtual void	SpawnAnimation();
 	virtual void	GetDamage();
-
+	void			HpBarDelete();
 	// GETSET //
 	int		GetAttackCoolTime() { return _attackCoolTime; }
 	float	GetMoveSpeed()		{ return _moveSpeed; }
 	bool	GetIsSpawned()		{ return _isSpawned; }
+	int		GetHpBarAlphe()		{ return _hpBarAlpha; }
 
+	void	SetHpBarAlpha(int hpBarAlpha) { _hpBarAlpha = hpBarAlpha; }
 	void	SetAttackCoolTime(int coolTime)	{ _attackCoolTime = coolTime; }
 	void	SetMoveSpeed(float speed)		{ _moveSpeed = speed; }
 };

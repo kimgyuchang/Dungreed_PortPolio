@@ -106,6 +106,9 @@ void DataManager::GetObjectData()
 		case 10 : // 상점 주인
 			obj = new Shop();
 			break;
+		case 12 : // 밥 잘 파는 예쁜 누나
+			obj = new Restaurant();
+			break;
 		case 0 : // 포탈
 			obj = new Portal();
 			break;

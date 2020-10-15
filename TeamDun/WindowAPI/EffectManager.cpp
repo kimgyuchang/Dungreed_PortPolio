@@ -45,10 +45,10 @@ void EffectManager::render(HDC hdc)
 	}
 }
 
-Effect* EffectManager::AddEffect(float x, float y, string imgName, int animSpeed, int frameX, int frameY, bool isLoop, int alpha, float angle, float scaleX, float scaleY)
+Effect* EffectManager::AddEffect(float x, float y, string imgName, int animSpeed, int frameX, int frameY, bool isLoop, int alpha, float angle, float scaleX, float scaleY, bool isAlpha,bool useCamera)
 {
 	Effect* effect = new Effect();
-	effect->init(x, y, imgName, animSpeed, frameX, frameY, isLoop, alpha, angle, scaleX, scaleY);
+	effect->init(x, y, imgName, animSpeed, frameX, frameY, isLoop, alpha, angle, scaleX, scaleY ,isAlpha ,useCamera);
 	_vEffect.push_back(effect);
 
 	return effect;
