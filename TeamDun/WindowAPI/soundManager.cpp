@@ -61,6 +61,7 @@ void soundManager::update()
 
 void soundManager::addSound(string keyName, string soundName, bool bgm, bool loop)
 {
+	
 	if (loop) //일반적으로 BGM
 	{
 		if (bgm)
@@ -81,7 +82,7 @@ void soundManager::addSound(string keyName, string soundName, bool bgm, bool loo
 	{
 		_system->createSound(soundName.c_str(), FMOD_DEFAULT, 0, &_sound[_mTotalSound.size()]);
 	}
-
+	
 	//맵에 사운드를 키값과 함께 담아둔다
 	_mTotalSound.insert(make_pair(keyName, &_sound[_mTotalSound.size()]));
 }
@@ -188,4 +189,11 @@ void soundManager::StopAllBGM()
 	stop("1.JailBoss");
 	stop("1.JailField");
 	stop("title");
+	stop("ambience_arskami");
+	stop("ambience_town");
+	stop("ambience_prison");
+	stop("Credit");
+	stop("credit2");
+	stop("Shop");
+	stop("Foodshop");
 }

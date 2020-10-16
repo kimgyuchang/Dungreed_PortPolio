@@ -45,6 +45,7 @@ void MapManager::AddStage(int stageNum)
 		{
 			SOUNDMANAGER->StopAllBGM();
 			SOUNDMANAGER->play("0.Town"); 
+			SOUNDMANAGER->play("ambience_town", 0.5f); 
 			break;
 		}
 
@@ -52,10 +53,14 @@ void MapManager::AddStage(int stageNum)
 		{
 			SOUNDMANAGER->StopAllBGM();
 			SOUNDMANAGER->play("1.JailField"); 
+			SOUNDMANAGER->play("ambience_prison", 0.5f); 
 			break;
 		}
 
-		case 2: SOUNDMANAGER->StopAllBGM();  break; // 보스방에서는 잠시 BGM을 멈춰줌 (이후 스폰시 1.JailBoss 재생)
+		case 2: 
+			SOUNDMANAGER->StopAllBGM(); 
+			SOUNDMANAGER->play("ambience_prison", 0.5f);
+			break; // 보스방에서는 잠시 BGM을 멈춰줌 (이후 스폰시 1.JailBoss 재생)
 	}
 
 	_stage = new Stage();

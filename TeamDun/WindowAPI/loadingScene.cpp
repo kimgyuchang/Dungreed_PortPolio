@@ -978,18 +978,19 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("erichaphase3_final", "Sounds/BGM/erichaphase3_final.wav", true, true);
 	_loading->LoadSound("erichaphase12_final", "Sounds/BGM/erichaphase12_final.wav", true, true);
 	_loading->LoadSound("firegolem_v02", "Sounds/BGM/firegolem_v02.wav", true, true);
-	_loading->LoadSound("Ä³¸¯ÅÍ_¶ó½½¸®_¿£µù", "Sounds/BGM/Ä³¸¯ÅÍ_¶ó½½¸®_¿£µù.wav", true, true);
 	*/
 
-
 	// EFFECT //
+
+	_loading->LoadSound("°ÔÀÓ_µ·È¹µæ", "Sounds/Effect/°ÔÀÓ_µ·È¹µæ.wav", false, false);
+
+	/*
 	_loading->LoadSound("arshasnowstaff_1_TaskStage_Start", "Sounds/Effect/arshasnowstaff_1_TaskStage_Start.wav", false, false);
 	_loading->LoadSound("charged ÃæÀüÇü ±â¸ðÀ¸´Â»ç¿îµå", "Sounds/Effect/charged ÃæÀüÇü ±â¸ðÀ¸´Â»ç¿îµå.wav", false, false);
 	_loading->LoadSound("coin", "Sounds/Effect/coin.wav", false, false);
 	_loading->LoadSound("devana_center5lasers", "Sounds/Effect/devana_center5lasers.wav", false, false);
 	_loading->LoadSound("devana_movinglaser", "Sounds/Effect/devana_movinglaser.wav", false, false);
 	_loading->LoadSound("devana_pyo", "Sounds/Effect/devana_pyo.wav", false, false);
-
 	_loading->LoadSound("devana_spin", "Sounds/Effect/devana_spin.wav", false, false);
 	_loading->LoadSound("dungoolsword", "Sounds/Effect/dungoolsword.wav", false, false);
 	_loading->LoadSound("Fantasy_Game_Attack_Ice_Arrow_kaminelacrystal", "Sounds/Effect/Fantasy_Game_Attack_Ice_Arrow_kaminelacrystal.wav", false, false);
@@ -1069,7 +1070,6 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("°ÔÀÓ_LEVELUP", "Sounds/Effect/°ÔÀÓ_LEVELUP.wav", false, false);
 	_loading->LoadSound("°ÔÀÓ_´øÀü_¹®¿­¸²´ÝÈû", "Sounds/Effect/°ÔÀÓ_´øÀü_¹®¿­¸²´ÝÈû.wav", false, false);
 	_loading->LoadSound("°ÔÀÓ_´øÀü³ª°¡±â", "Sounds/Effect/°ÔÀÓ_´øÀü³ª°¡±â.wav", false, false);
-	_loading->LoadSound("°ÔÀÓ_µ·È¹µæ", "Sounds/Effect/°ÔÀÓ_µ·È¹µæ.wav", false, false);
 	_loading->LoadSound("°ÔÀÓ_µØÂ¢", "Sounds/Effect/°ÔÀÓ_µØÂ¢.wav", false, false);
 	_loading->LoadSound("°ÔÀÓ_¹«±â½º¿Ò", "Sounds/Effect/°ÔÀÓ_¹«±â½º¿Ò.wav", false, false);
 	_loading->LoadSound("°ÔÀÓ_º¹±Í", "Sounds/Effect/°ÔÀÓ_º¹±Í.wav", false, false);
@@ -1094,7 +1094,6 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("¸®·Îµå_ÂªÀº", "Sounds/Effect/¸®·Îµå_ÂªÀº.wav", false, false);
 	_loading->LoadSound("¸Ô´ÂÆ÷Å»Äô¿À¸£³»¸²", "Sounds/Effect/¸Ô´ÂÆ÷Å»Äô¿À¸£³»¸².wav", false, false);
 	_loading->LoadSound("¸Û¸ÛÀÌ ¿Ð¿Ð", "Sounds/Effect/¸Û¸ÛÀÌ ¿Ð¿Ð.wav", false, false);
-	_loading->LoadSound("¸ðÅÍ»çÀÌÅ¬", "Sounds/Effect/¸ðÅÍ»çÀÌÅ¬.wav", false, false);
 	_loading->LoadSound("¸ó½ºÅÍ_±Ã¼ö_¹ß»ç", "Sounds/Effect/¸ó½ºÅÍ_±Ã¼ö_¹ß»ç.wav", false, false);
 	_loading->LoadSound("¸ó½ºÅÍ_±Ã¼ö_ÂÞ¿í", "Sounds/Effect/¸ó½ºÅÍ_±Ã¼ö_ÂÞ¿í.wav", false, false);
 	_loading->LoadSound("¸ó½ºÅÍ_±â°è_¿òÁ÷ÀÓ", "Sounds/Effect/¸ó½ºÅÍ_±â°è_¿òÁ÷ÀÓ.wav", false, false);
@@ -1193,7 +1192,6 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("¹«±â_ÇØ°ñ¿Õ°Ë", "Sounds/Effect/¹«±â_ÇØ°ñ¿Õ°Ë.wav", false, false);
 	_loading->LoadSound("¹«±â_ÇìÄ«Å×ÃÑ", "Sounds/Effect/¹«±â_ÇìÄ«Å×ÃÑ.wav", false, false);
 	_loading->LoadSound("¹«±â_È£¶ûÀÌ±Ç¹ý", "Sounds/Effect/¹«±â_È£¶ûÀÌ±Ç¹ý.wav", false, false);
-	_loading->LoadSound("¹«±â_È­¿°¹æ»ç±â(2)", "Sounds/Effect/¹«±â_È­¿°¹æ»ç±â(2).wav", false, false);
 	_loading->LoadSound("¹«±â_È­¿°¹æ»ç±â", "Sounds/Effect/¹«±â_È­¿°¹æ»ç±â.wav", false, false);
 	_loading->LoadSound("¹«±â_È°¹ß»ç", "Sounds/Effect/¹«±â_È°¹ß»ç.wav", false, false);
 	_loading->LoadSound("¹«±â°¡´Â¼Ò¸®", "Sounds/Effect/¹«±â°¡´Â¼Ò¸®.wav", false, false);
@@ -1203,4 +1201,5 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("¹º°¡ ÀÛµ¿ÇÏ´Â ¼Ò¸®", "Sounds/Effect/¹º°¡ ÀÛµ¿ÇÏ´Â ¼Ò¸®.wav", false, false);
 	_loading->LoadSound("¹º°¡Æø¹ß", "Sounds/Effect/¹º°¡Æø¹ß.wav", false, false);
 	_loading->LoadSound("¹Ì¿¹¿õ", "Sounds/Effect/¹Ì¿¹¿õ.wav", false, false);
+	*/
 }
