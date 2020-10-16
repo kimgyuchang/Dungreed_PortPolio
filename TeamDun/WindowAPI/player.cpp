@@ -39,7 +39,7 @@ HRESULT Player::init()
 	_dashEffect = nullptr;
 	_isPlayerDead = false;
 	_dashRestoreCount = 0;
-	_dashRestoreTime = 100;
+	_dashRestoreTime = 60;
 	_evasion = 0;
 	_defence = 10;
 	_money = 10000;
