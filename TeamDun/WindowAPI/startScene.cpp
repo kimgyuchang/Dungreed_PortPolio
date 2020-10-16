@@ -14,30 +14,30 @@ HRESULT startScene::init()
 	_StartIg = IMAGEMANAGER->findImage("gameStart1");
 	_MaptoolIg = IMAGEMANAGER->findImage("mapTool2");
 	_QuitIg = IMAGEMANAGER->findImage("quit2");
-	
+
 	_angle = 0;
 	_alpha = 0;
 	_xFrame = 0;
 	_yFrame = 0;
 	_count = 0;
 	_backLoopX = 0;
-	_midLoopX =0 ;
-	_frontLoopX =0;
+	_midLoopX = 0;
+	_frontLoopX = 0;
 	_loopCount = 0;
 
 	_backGround = IMAGEMANAGER->findImage("BackCloud");
 	_midCloud = IMAGEMANAGER->findImage("MidCloud0");
-	_FrontGround = IMAGEMANAGER->findImage("FrontCloud"); 
+	_FrontGround = IMAGEMANAGER->findImage("FrontCloud");
 
-	SOUNDMANAGER->StopAllBGM();
 	SOUNDMANAGER->play("title");
-
+	SOUNDMANAGER->StopAllBGM();
+	
 	return S_OK;
 }
 
 void startScene::release()
 {
-	
+
 }
 
 void startScene::update()
@@ -93,13 +93,13 @@ void startScene::update()
 		_QuitIg = IMAGEMANAGER->findImage("quit2");
 	}
 
-	
+
 
 	_alpha += 5;
 	if (_alpha > 255) _alpha = 0;
-	_angle += PI/32;
+	_angle += PI / 32;
 	if (_angle > 2 * PI) _angle -= 2 * PI;
-	
+
 	_count++;
 	if (_count == 2)
 	{
@@ -126,7 +126,7 @@ void startScene::render()
 	IMAGEMANAGER->loopRender("FrontCloud", getMemDC(), &rc, _frontLoopX, 0);
 	IMAGEMANAGER->findImage("MainLogo")->render(getMemDC(), 500, 200);
 
-	
+
 	_StartIg->render(getMemDC(), _rc.left, _rc.top);
 	_MaptoolIg->render(getMemDC(), _rc2.left, _rc2.top);
 	_QuitIg->render(getMemDC(), _rc3.left, _rc3.top);
