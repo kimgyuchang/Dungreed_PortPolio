@@ -955,7 +955,7 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("Shop", "Sounds/BGM/Shop.wav", true, true);
 	_loading->LoadSound("title", "Sounds/BGM/title.wav", true, true);
 
-	/*
+	
 	_loading->LoadSound("2.IceBoss", "Sounds/BGM/2.IceBoss.wav", true, true);
 	_loading->LoadSound("2.IceField", "Sounds/BGM/2.IceField.wav", true, true);
 	_loading->LoadSound("3.jungleboss", "Sounds/BGM/3.jungleboss.wav", true, true);
@@ -978,13 +978,13 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("erichaphase3_final", "Sounds/BGM/erichaphase3_final.wav", true, true);
 	_loading->LoadSound("erichaphase12_final", "Sounds/BGM/erichaphase12_final.wav", true, true);
 	_loading->LoadSound("firegolem_v02", "Sounds/BGM/firegolem_v02.wav", true, true);
-	*/
+	
 
 	// EFFECT //
 
 	_loading->LoadSound("게임_돈획득", "Sounds/Effect/게임_돈획득.wav", false, false);
 
-	/*
+	
 	_loading->LoadSound("arshasnowstaff_1_TaskStage_Start", "Sounds/Effect/arshasnowstaff_1_TaskStage_Start.wav", false, false);
 	_loading->LoadSound("charged 충전형 기모으는사운드", "Sounds/Effect/charged 충전형 기모으는사운드.wav", false, false);
 	_loading->LoadSound("coin", "Sounds/Effect/coin.wav", false, false);
@@ -1201,10 +1201,6 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("뭔가 작동하는 소리", "Sounds/Effect/뭔가 작동하는 소리.wav", false, false);
 	_loading->LoadSound("뭔가폭발", "Sounds/Effect/뭔가폭발.wav", false, false);
 	_loading->LoadSound("미예웅", "Sounds/Effect/미예웅.wav", false, false);
-
-
-
-
 	_loading->LoadSound("바람을 가르는 휘두르기", "Sounds/Effect/바람을 가르는 휘두르기.wav", false, false);
 	_loading->LoadSound("벌나는소리", "Sounds/Effect/벌나는소리.wav", false, false);
 	_loading->LoadSound("보스_니플헤임_발사", "Sounds/Effect/보스_니플헤임_발사.wav", false, false);
@@ -1342,7 +1338,6 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("휘두르기_무척가벼움 (6)", "Sounds/Effect/휘두르기_무척가벼움 (6).wav", false, false);
 	_loading->LoadSound("휘두르기_무척가벼움 (7)", "Sounds/Effect/휘두르기_무척가벼움 (7).wav", false, false);
 	_loading->LoadSound("휘두르기_무척가벼움 (8)", "Sounds/Effect/휘두르기_무척가벼움 (8).wav", false, false);
-	
 
 	_loading->LoadSound("휘두르기_무척가벼움2 (1)", "Sounds/Effect/휘두르기_무척가벼움2 (1).wav", false, false);
 	_loading->LoadSound("휘두르기_무척가벼움2 (2)", "Sounds/Effect/휘두르기_무척가벼움2 (2).wav", false, false);
@@ -1352,5 +1347,5 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("휘두르기_무척가벼움2 (6)", "Sounds/Effect/휘두르기_무척가벼움2 (6).wav", false, false);
 	_loading->LoadSound("휘두르기_무척가벼움2 (7)", "Sounds/Effect/휘두르기_무척가벼움2 (7).wav", false, false);
 	_loading->LoadSound("휘두르기_무쳑가벼움2 (8)", "Sounds/Effect/휘두르기_무쳑가벼움2 (8).wav", false, false);
-	*/
+
 }
