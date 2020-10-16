@@ -28,6 +28,9 @@ HRESULT startScene::init()
 	_backGround = IMAGEMANAGER->findImage("BackCloud");
 	_midCloud = IMAGEMANAGER->findImage("MidCloud0");
 	_FrontGround = IMAGEMANAGER->findImage("FrontCloud"); 
+
+	SOUNDMANAGER->play("title");
+
 	return S_OK;
 }
 
@@ -38,6 +41,8 @@ void startScene::release()
 
 void startScene::update()
 {
+	SOUNDMANAGER->update();
+
 	_loopCount++;
 	if (_loopCount > 1)
 	{

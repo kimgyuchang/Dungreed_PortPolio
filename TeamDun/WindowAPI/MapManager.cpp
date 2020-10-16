@@ -39,6 +39,25 @@ HRESULT MapManager::init()
 
 void MapManager::AddStage(int stageNum)
 {
+	switch (stageNum)
+	{
+		case 0: 
+		{
+			SOUNDMANAGER->StopAllBGM();
+			SOUNDMANAGER->play("0.Town"); 
+			break;
+		}
+
+		case 1: 
+		{
+			SOUNDMANAGER->StopAllBGM();
+			SOUNDMANAGER->play("1.JailField"); 
+			break;
+		}
+
+		case 2: SOUNDMANAGER->StopAllBGM();  break; // 보스방에서는 잠시 BGM을 멈춰줌 (이후 스폰시 1.JailBoss 재생)
+	}
+
 	_stage = new Stage();
 	bool mapAllCleared = true;
 	_curStageNum = stageNum;

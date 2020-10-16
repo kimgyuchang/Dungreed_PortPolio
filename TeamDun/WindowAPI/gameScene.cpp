@@ -764,6 +764,7 @@ void gameScene::UpdateWardrobeUI()
 
 void gameScene::update()
 {
+	SOUNDMANAGER->update();
 	CAMERAMANAGER->update();
 	INPUT->update();
 

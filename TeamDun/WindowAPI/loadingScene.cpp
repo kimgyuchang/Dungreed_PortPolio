@@ -6,6 +6,7 @@ HRESULT loadingScene::init()
 	_loading = new Loading();
 	_loading->init();
 
+	SOUNDMANAGER->init();
 	IMAGEMANAGER->addImage("loadingBarFront", "loadingBarFront.bmp", 620, 200);
 	IMAGEMANAGER->addImage("loadingBarBack", "loadingBarBack.bmp", 620, 200);
 
@@ -31,6 +32,8 @@ void loadingScene::release()
 
 void loadingScene::update()
 {
+	SOUNDMANAGER->update();
+
 	_loading->update();
 	_loadingBar->update();
 	this->animation();
@@ -938,4 +941,14 @@ void loadingScene::loadingImage()
 
 void loadingScene::loadingSound()
 {
+
+	// BGM //
+	_loading->LoadSound("0.Town", "Sounds/BGM/0.Town.wav", true, true);
+	_loading->LoadSound("1.JailBoss", "Sounds/BGM/1.JailBoss.wav", true, true);
+	_loading->LoadSound("1.JailField", "Sounds/BGM/1.JailField.wav", true, true);
+	_loading->LoadSound("title", "Sounds/BGM/title.wav", true, true);
+
+	// EFFECT //
+	_loading->LoadSound("∞‘¿”_µ∑»πµÊ", "Sounds/Effect/∞‘¿”_µ∑»πµÊ.wav", false, false);
+
 }
