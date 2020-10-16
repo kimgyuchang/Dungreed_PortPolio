@@ -6,28 +6,7 @@ HRESULT MapManager::init()
 	_vOriginMaps.clear();
 	_stage = new Stage();
 
-	vector<vector<string>> mapData = CSVMANAGER->csvLoad("Data/Maps.csv");
-	for (int i = 0; i < mapData.size(); i++)
-	{
-		FieldMap* map = new FieldMap();
-		map->init(mapData[i][0]);
-		map->SetStage(stoi(mapData[i][1]));
-		map->LoadMap();
-
-		if (mapData[i][2] == "NORMAL") map->SetFieldType(FIELDMAPTYPE::FMT_NORMAL);
-		else if (mapData[i][2] == "ENTER") map->SetFieldType(FIELDMAPTYPE::FMT_ENTER);
-		else if (mapData[i][2] == "END") map->SetFieldType(FIELDMAPTYPE::FMT_END);
-		else if (mapData[i][2] == "SHOP") map->SetFieldType(FIELDMAPTYPE::FMT_SHOP);
-		else if (mapData[i][2] == "RESTAURANT") map->SetFieldType(FIELDMAPTYPE::FMT_RESTAURANT);
-		else if (mapData[i][2] == "TEMPLE") map->SetFieldType(FIELDMAPTYPE::FMT_TEMPLE);
-
-		map->SetMovePos(DIRECTION::DIR_LEFT, POINT{ stoi(mapData[i][3]), stoi(mapData[i][4]) });
-		map->SetMovePos(DIRECTION::DIR_RIGHT, POINT{ stoi(mapData[i][5]), stoi(mapData[i][6]) });
-		map->SetMovePos(DIRECTION::DIR_UP, POINT{ stoi(mapData[i][7]), stoi(mapData[i][8]) });
-		map->SetMovePos(DIRECTION::DIR_DOWN, POINT{ stoi(mapData[i][9]), stoi(mapData[i][10]) });
-
-		_vOriginMaps.push_back(map);
-	}
+	_mapData = CSVMANAGER->csvLoad("Data/Maps.csv");
 	
 	AddStage(0);
 	_mapFrame = UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetChild("mapFrame");
@@ -35,6 +14,36 @@ HRESULT MapManager::init()
 	ChangeMap(0);
 	_portalAnimOn = false;
 	return S_OK;
+}
+
+void MapManager::ClearStage(int cntStage)
+{
+	_vOriginMaps.clear();
+
+	for (int i = 0; i < _mapData.size(); i++)
+	{
+		if (stoi(_mapData[i][1]) == cntStage) 
+		{
+			FieldMap* map = new FieldMap();
+			map->init(_mapData[i][0]);
+			map->SetStage(stoi(_mapData[i][1]));
+			map->LoadMap();
+
+			if (_mapData[i][2] == "NORMAL") map->SetFieldType(FIELDMAPTYPE::FMT_NORMAL);
+			else if (_mapData[i][2] == "ENTER") map->SetFieldType(FIELDMAPTYPE::FMT_ENTER);
+			else if (_mapData[i][2] == "END") map->SetFieldType(FIELDMAPTYPE::FMT_END);
+			else if (_mapData[i][2] == "SHOP") map->SetFieldType(FIELDMAPTYPE::FMT_SHOP);
+			else if (_mapData[i][2] == "RESTAURANT") map->SetFieldType(FIELDMAPTYPE::FMT_RESTAURANT);
+			else if (_mapData[i][2] == "TEMPLE") map->SetFieldType(FIELDMAPTYPE::FMT_TEMPLE);
+
+			map->SetMovePos(DIRECTION::DIR_LEFT, POINT{ stoi(_mapData[i][3]), stoi(_mapData[i][4]) });
+			map->SetMovePos(DIRECTION::DIR_RIGHT, POINT{ stoi(_mapData[i][5]), stoi(_mapData[i][6]) });
+			map->SetMovePos(DIRECTION::DIR_UP, POINT{ stoi(_mapData[i][7]), stoi(_mapData[i][8]) });
+			map->SetMovePos(DIRECTION::DIR_DOWN, POINT{ stoi(_mapData[i][9]), stoi(_mapData[i][10]) });
+
+			_vOriginMaps.push_back(map);
+		}
+	}
 }
 
 void MapManager::AddStage(int stageNum)
@@ -45,7 +54,7 @@ void MapManager::AddStage(int stageNum)
 		{
 			SOUNDMANAGER->StopAllBGM();
 			SOUNDMANAGER->play("0.Town"); 
-			SOUNDMANAGER->play("ambience_town", 0.5f); 
+			SOUNDMANAGER->play("ambience_town"); 
 			break;
 		}
 
@@ -53,21 +62,23 @@ void MapManager::AddStage(int stageNum)
 		{
 			SOUNDMANAGER->StopAllBGM();
 			SOUNDMANAGER->play("1.JailField"); 
-			SOUNDMANAGER->play("ambience_prison", 0.5f); 
+			SOUNDMANAGER->play("ambience_prison"); 
 			break;
 		}
 
 		case 2: 
 			SOUNDMANAGER->StopAllBGM(); 
-			SOUNDMANAGER->play("ambience_prison", 0.5f);
+			SOUNDMANAGER->play("ambience_prison");
 			break; // 보스방에서는 잠시 BGM을 멈춰줌 (이후 스폰시 1.JailBoss 재생)
 	}
 
-	_stage = new Stage();
-	bool mapAllCleared = true;
+	bool mapAllCleared;
 	_curStageNum = stageNum;
 	while (true)
 	{
+		ClearStage(_curStageNum);
+		mapAllCleared = true;
+		_stage = new Stage();
 		_stage->init(stageNum);
 		if (!_stage->SettingMap()) mapAllCleared = false;
 		if (mapAllCleared) break;

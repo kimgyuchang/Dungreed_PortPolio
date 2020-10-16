@@ -9,7 +9,7 @@ using namespace FMOD;
 //=============================================================
 
 //사용할 사운드버퍼 (사운드갯수가 30개 넘어가면 크기를 더 늘려줘야 한다)
-#define SOUNDBUFFER 30
+#define SOUNDBUFFER 300
 
 class soundManager : public singletonBase <soundManager>
 {
@@ -33,7 +33,7 @@ public:
 	void addSound(string keyName, string soundName, bool bgm = false, bool loop = false);
 
 	//사운드 재생
-	void play(string keyName, float volume = 1.0f); //0.0f(min) ~ 1.0f(max)
+	void play(string keyName, float volume = 0.5f); //0.0f(min) ~ 1.0f(max)
 	//사운드 정지
 	void stop(string keyName);
 	//사운드 일시정지

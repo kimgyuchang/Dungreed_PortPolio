@@ -955,7 +955,7 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("Shop", "Sounds/BGM/Shop.wav", true, true);
 	_loading->LoadSound("title", "Sounds/BGM/title.wav", true, true);
 
-	/*
+	
 	_loading->LoadSound("2.IceBoss", "Sounds/BGM/2.IceBoss.wav", true, true);
 	_loading->LoadSound("2.IceField", "Sounds/BGM/2.IceField.wav", true, true);
 	_loading->LoadSound("3.jungleboss", "Sounds/BGM/3.jungleboss.wav", true, true);
@@ -978,13 +978,13 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("erichaphase3_final", "Sounds/BGM/erichaphase3_final.wav", true, true);
 	_loading->LoadSound("erichaphase12_final", "Sounds/BGM/erichaphase12_final.wav", true, true);
 	_loading->LoadSound("firegolem_v02", "Sounds/BGM/firegolem_v02.wav", true, true);
-	*/
+	
 
 	// EFFECT //
 
 	_loading->LoadSound("°ÔÀÓ_µ·È¹µæ", "Sounds/Effect/°ÔÀÓ_µ·È¹µæ.wav", false, false);
 
-	/*
+	
 	_loading->LoadSound("arshasnowstaff_1_TaskStage_Start", "Sounds/Effect/arshasnowstaff_1_TaskStage_Start.wav", false, false);
 	_loading->LoadSound("charged ÃæÀüÇü ±â¸ðÀ¸´Â»ç¿îµå", "Sounds/Effect/charged ÃæÀüÇü ±â¸ðÀ¸´Â»ç¿îµå.wav", false, false);
 	_loading->LoadSound("coin", "Sounds/Effect/coin.wav", false, false);
@@ -1201,5 +1201,5 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("¹º°¡ ÀÛµ¿ÇÏ´Â ¼Ò¸®", "Sounds/Effect/¹º°¡ ÀÛµ¿ÇÏ´Â ¼Ò¸®.wav", false, false);
 	_loading->LoadSound("¹º°¡Æø¹ß", "Sounds/Effect/¹º°¡Æø¹ß.wav", false, false);
 	_loading->LoadSound("¹Ì¿¹¿õ", "Sounds/Effect/¹Ì¿¹¿õ.wav", false, false);
-	*/
+	
 }

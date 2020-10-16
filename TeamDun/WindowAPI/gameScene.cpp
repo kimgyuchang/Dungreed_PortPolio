@@ -56,10 +56,10 @@ void gameScene::initUI()
 {
 	MainGameFrameInit();
 	DungeonMapUIInit();
-	WardrobeUIInit();
+	ShopUIInit();
 	InventoryUIInit();
 	CharUIInit();
-	ShopUIInit();
+	WardrobeUIInit();
 	ConversationUIInit();
 	GetItemUIInit();
 }
@@ -209,7 +209,7 @@ void gameScene::WardrobeUIInit()
 {
 	// WarDrobe Frame //
 	UIFrame* warDrobeFrame = new UIFrame();
-	warDrobeFrame->init("warDrobeFrame", 0, 0, IMAGEMANAGER->findImage("ScreenCover")->getWidth(), IMAGEMANAGER->findImage("ScreenCover")->getHeight(), "ScreenCover");
+	warDrobeFrame->init("warDrobeFrame", 0, 0, 1440, 1080, "ScreenCover", 7.2f, 4.f);
 	UIMANAGER->GetGameFrame()->AddFrame(warDrobeFrame);
 	warDrobeFrame->SetIsViewing(false);
 
