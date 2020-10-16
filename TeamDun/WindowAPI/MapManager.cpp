@@ -12,7 +12,10 @@ HRESULT MapManager::init()
 	_mapFrame = UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetChild("mapFrame");
 	_pixelGetter = new PixelGetter();
 	ChangeMap(0);
+	MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_DOWN);
 	_portalAnimOn = false;
+	_stageChanger = new StageChanger();
+	_stageChanger->init();
 	return S_OK;
 }
 
@@ -97,6 +100,7 @@ void MapManager::update()
 		MAPMANAGER->init();
 	}
 
+	_stageChanger->update();
 	_stage->GetMaps()[_currentMap]->update();
 	DungeonMapUIMover();
 	SetMapUIOnOff();

@@ -312,6 +312,9 @@
     <ClCompile Include="StageDoor.cpp">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClCompile>
+    <ClCompile Include="StageChanger.cpp">
+      <Filter>MainGame\Etc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -547,6 +550,9 @@
     </ClInclude>
     <ClInclude Include="StageDoor.h">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="StageChanger.h">
+      <Filter>MainGame\Etc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

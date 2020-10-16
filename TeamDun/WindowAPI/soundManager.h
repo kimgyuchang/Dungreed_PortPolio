@@ -24,6 +24,10 @@ private:
 
 	arrSound _mTotalSound;	//맵에 담아둘 사운드들
 
+	vector<string> _vStarts;	// 재생 대기중인 애들
+	vector<string> _bgmStrings;	// BGM 스트링 목록
+	int	_fadeOutCount;
+	int _fadeInCount;
 public:
 	HRESULT init();
 	void release();
@@ -47,4 +51,6 @@ public:
 	bool isPauseSound(string keyName);
 
 	void StopAllBGM();
+	void FadeInBGM();
+	void FadeOutBGM();
 };
