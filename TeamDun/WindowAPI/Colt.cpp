@@ -31,13 +31,15 @@ void Colt::FireBullet()
 {
 	if (_isAttacking)
 	{
-		ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_PLAYER, _angleCheckPosX +cosf(-_angle)*50,-50+ _angleCheckPosY+ sinf(_angle) * 50, _angle,
-			10, 10, 1000, true, _angle);
+		SOUNDMANAGER->play("¹«±â_±ÇÃÑ");
+		ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_PLAYER,-20 +_angleCheckPosX +cosf(_angle)*50,-30+ _angleCheckPosY-sinf(_angle) * 50, _angle,
+			10, 30, 1000, true, _angle);
 		_isAttacking = false;
 	}
 }
 
 void Colt::AttackAnim()
+
 {
 	
 }

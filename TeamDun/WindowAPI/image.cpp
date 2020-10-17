@@ -1031,7 +1031,7 @@ HBITMAP image::GetRotatedBitmap(HDC hdc, float angle, int xFrame, int yFrame)
 	DeleteObject(SelectObject(destDC, hbrOld));                                     // 브러시 해제   
 
 	float cosine = (float)cos(angle);												// 회전이동변환 행렬에 들어갈 cos세타 값을 구함          
-	float sine = (float)sin(angle);													// 회전이동변환 행렬에 들어갈 sin세타 값을 구함   
+	float sine = -(float)sin(angle);												// 회전이동변환 행렬에 들어갈 sin세타 값을 구함   
 
 	SetGraphicsMode(destDC, GM_ADVANCED);                                           // 윈도우 좌표계의 회전을 위하여, 그래픽모드를 확장모드로 변경합니다.(요구사항:윈98,NT이상)   
 

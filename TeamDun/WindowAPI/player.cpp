@@ -107,6 +107,7 @@ void Player::update()
 	{
 		if (INPUT->GetIsRButtonClicked() && _dashCount > 0)		//마우스 오른쪽 버튼을 눌렀을때
 		{
+			SOUNDMANAGER->play("대쉬소리");
 			_isDash = true;
 			_dashPoint = _ptMouse;
 			_jumpPower = 0;
@@ -1091,6 +1092,7 @@ void Player::GetHitDamage(int damage)
 		{
 			if (_block <= block)
 			{
+				SOUNDMANAGER->play("Hit_Player");
 				_isHit = true;
 				_hitCount = 0;
 				_HP = _HP - Realdamage;

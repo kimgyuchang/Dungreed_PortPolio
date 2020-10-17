@@ -662,7 +662,6 @@ void FieldMap::render(HDC hdc)
 
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer1MapIg"), 0, 0);
 
-	IMAGEMANAGER->findImage("MiniMapGroundIg")->render(hdc, 0, 0);
 
 	if (INPUT->GetKey(VK_F1))
 	{
@@ -687,6 +686,7 @@ void FieldMap::render(HDC hdc)
 	} // 오브젝트 렌더 2 렌더
 
 
+	IMAGEMANAGER->findImage("MiniMapGroundIg")->render(hdc, 0, 0);
 	//미니맵에 플레이어 렌더
 	if (_fileName == "stage0_town")
 	{

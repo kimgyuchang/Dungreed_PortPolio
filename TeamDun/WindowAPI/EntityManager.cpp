@@ -130,10 +130,22 @@ void EntityManager::HitBullet()
 				{
 					if (IntersectRect(&temp, &_vBullets[j]->getRc(), &curObj->GetBody()))
 					{
+					
 						if (!curObj->GetIsDead())
 						{
-							_vBullets[j]->SetIsDead(true);
-							MAPMANAGER->GetPlayMap()->GetObjects()[i]->GetDamage();
+							if (curObj->GetType() == OBJECTTYPE::OT_MONSTER)
+							{
+								if (dynamic_cast<Enemy*>(curObj)->GetIsSpawned())
+								{
+									_vBullets[j]->SetIsDead(true);
+									MAPMANAGER->GetPlayMap()->GetObjects()[i]->GetDamage();
+								}
+							}
+							else
+							{
+								_vBullets[j]->SetIsDead(true);
+								MAPMANAGER->GetPlayMap()->GetObjects()[i]->GetDamage();
+							}
 						}
 						break;
 					}

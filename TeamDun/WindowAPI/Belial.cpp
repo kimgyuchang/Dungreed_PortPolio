@@ -120,7 +120,7 @@ void Belial::render(HDC hdc)
 		}
 		for (int i = 0; i < _vBossSword.size(); i++)
 		{
-			CAMERAMANAGER->StretchRender(hdc, _vBossSword[i]->ig, _vBossSword[i]->x,_vBossSword[i]->y,3,3,-_vBossSword[i]->angle + PI/2);	
+			CAMERAMANAGER->StretchRender(hdc, _vBossSword[i]->ig, _vBossSword[i]->x,_vBossSword[i]->y,3,3,_vBossSword[i]->angle - PI/2);	
 		}
 		
 		Enemy::render(hdc);
@@ -224,13 +224,13 @@ void Belial::Attack()
 			if (_makeSwordTimer > 20)
 			{
 				_makeSwordTimer = 0;
-				_firstSwordX += 100;
+				_firstSwordX += 120;
 				
 
 				_swordCount++;
 				SetSword();
 
-				if (_swordCount == 6)
+				if (_swordCount == 5)
 				{
 					_makeSword = false;
 					_shootSword = true;
@@ -285,7 +285,7 @@ void Belial::Attack()
 			SwordHit();
 			SwordPixelCollision();
 			EraseSword();
-			if (_swordEndCount == 6)
+			if (_swordEndCount == 5)
 			{
 				_swordEndCount = 0;
 				_state = ES_IDLE;
@@ -595,28 +595,10 @@ void Belial::SwordHit()
 	{
 		if (IntersectRect(&temp, &_p->GetBody(), &_vBossSword[i]->body))
 		{
+		
 			if (_vBossSword[i]->speed > 0 && _vBossSword[i]->isHit == false)
 			{
-				if (_p->GetIsHit() == false)
-				{
-					_vBossSword[i]->isHit = true;
-					float damage;
-					float block;
-					float evasion;
-
-					damage = 15 * _p->GetRealDefence() / 100;
-					evasion = RANDOM->range(100);
-					block = RANDOM->range(100);
-					if (_p->GetRealEvasion() <= evasion)
-					{
-						if (_p->GetBlock() <= block)
-						{
-							_p->SetIsHit(true);
-							_p->SetHitCount(0);
-							_p->SetHp(_p->GetHP() - damage);
-						}
-					}
-				}
+				ENTITYMANAGER->getPlayer()->GetHitDamage(20);
 
 			}
 		}

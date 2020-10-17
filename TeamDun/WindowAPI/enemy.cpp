@@ -67,7 +67,7 @@ void Enemy::GetDamage()
 {
 	if (_isSpawned)
 	{
-
+		SOUNDMANAGER->play("Hit_Monster");
 		Player* p = ENTITYMANAGER->getPlayer();
 		int damage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
 		
@@ -92,6 +92,8 @@ void Enemy::GetDamage()
 
 		if (_HP <= 0)
 		{
+			SOUNDMANAGER->play("¸ó½ºÅÍ_»ç¸Á (1)");
+			EFFECTMANAGER->AddEffect(_x, _y, "DieEffect", 3, 0, 0, false, 255, 0, 1, 1, false);
 			SetIsDead(true);
 		}
 		

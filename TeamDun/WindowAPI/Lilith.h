@@ -7,6 +7,8 @@ private:
 	float _probeBottom;
 	int _attackTimer;
 	bool _isAttack;
+	bool _isHit;
+	int _hitCount;
 
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);

@@ -121,6 +121,7 @@ void MapManager::GenerateMapParticle()
 {
 	if (_curStageNum == 1 || _curStageNum == 2)
 	{
+		CAMERAMANAGER->init(0, 0, 15000, 15000, -300, -300, WINSIZEX / 2, WINSIZEY / 2);
 		ParticleGenerator* mapSquareGen = new ParticleGenerator();
 		mapSquareGen->initGenerator(REGULARGEN, 100000, 3, 0, 1, vector<string>{ "SqaureParticle" });
 		mapSquareGen->initPos(GetPlayMap()->GetMapSizeX() * 24, GetPlayMap()->GetMapSizeY() * 24, GetPlayMap()->GetMapSizeX() * 44, GetPlayMap()->GetMapSizeY() * 44);

@@ -148,12 +148,12 @@ void SwordSkel::render(HDC hdc)
 		Enemy::render(hdc);
 		if (_isLeft)
 		{
-			CAMERAMANAGER->FrameRender(hdc, _skelSword.swordIg, _swordX, _swordY, _skelSword.frameX, _skelSword.frameY, -_skelSword.angle);
+			CAMERAMANAGER->FrameRender(hdc, _skelSword.swordIg, _swordX, _swordY, _skelSword.frameX, _skelSword.frameY, _skelSword.angle);
 		}
 		else
 		{
 			_swordX = _x - 45;
-			CAMERAMANAGER->FrameRender(hdc, _skelSword.swordIg, _swordX, _swordY, _skelSword.frameX, _skelSword.frameY, -_skelSword.angle);
+			CAMERAMANAGER->FrameRender(hdc, _skelSword.swordIg, _swordX, _swordY, _skelSword.frameX, _skelSword.frameY, _skelSword.angle);
 		}
 	}
 }

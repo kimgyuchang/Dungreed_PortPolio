@@ -59,6 +59,7 @@ void Banshee::Attack()
 				_leftAtk = false;
 			}
 			_state = ES_ATTACK;
+			SOUNDMANAGER->play("몬스터_밴시");
 		}
 	}
 }

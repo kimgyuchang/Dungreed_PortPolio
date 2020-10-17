@@ -47,7 +47,7 @@ void BowSkel::render(HDC hdc)
 	if (_isSpawned)
 	{
 		Enemy::render(hdc);
-		CAMERAMANAGER->FrameRender(hdc,_skelBow.bowIg, _x, _y + 20,_skelBow.frameX,_skelBow.frameY, -_skelBow.angle);
+		CAMERAMANAGER->FrameRender(hdc,_skelBow.bowIg, _x, _y + 20,_skelBow.frameX,_skelBow.frameY, _skelBow.angle);
 	}
 }
 
@@ -110,7 +110,7 @@ void BowSkel::Animation()
 			if (_skelBow.frameX == 3)
 			{
 				ENTITYMANAGER->makeBullet("SkelArrow", "BatBulletHit", BT_NOMAL, _x, _y+20,
-					_skelBow.angle,_Damage,10, 1000, true ,-_skelBow.angle);
+					_skelBow.angle,_Damage,10, 1000, true ,_skelBow.angle);
 			}
 			if (_skelBow.frameX > _skelBow.bowIg->getMaxFrameX())
 			{
