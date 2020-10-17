@@ -212,6 +212,7 @@
     <ClInclude Include="Skill.h" />
     <ClInclude Include="soundManager.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="StageChanger.h" />
     <ClInclude Include="StageDoor.h" />
     <ClInclude Include="startScene.h" />
     <ClInclude Include="stdafx.h" />
@@ -288,6 +289,7 @@
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="StageChanger.cpp" />
     <ClCompile Include="StageDoor.cpp" />
     <ClCompile Include="startScene.cpp" />
     <ClCompile Include="stdafx.cpp">

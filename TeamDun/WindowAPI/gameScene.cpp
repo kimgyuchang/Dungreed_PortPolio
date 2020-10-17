@@ -806,7 +806,13 @@ void gameScene::render()
 	string n = to_string((int)CAMERAMANAGER->GetAbsoluteX(_ptMouse.x)) + " " + to_string((int)CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
 
 	TextOut(getMemDC(), _ptMouse.x, _ptMouse.y, n.c_str(), n.length());
+
+	if (MAPMANAGER->GetStageChanger()->GetIsChangingStage())
+	{
+		MAPMANAGER->GetStageChanger()->render(getMemDC());
+	}
 }
+
 
 void gameScene::doubleClick()
 {

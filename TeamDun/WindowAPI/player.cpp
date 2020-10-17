@@ -99,8 +99,10 @@ void Player::update()
 		!UIMANAGER->GetGameFrame()->GetChild("selectFrame")->GetIsViewing() &&
 		!UIMANAGER->GetGameFrame()->GetChild("convFrame")->GetIsViewing() &&
 		!ENTITYMANAGER->GetWormVillage()->GetIsOn() &&
-		!MAPMANAGER->GetPortalAnimOn()
-		&& !_isStun && !_isPlayerDead
+		!MAPMANAGER->GetPortalAnimOn() &&
+		!MAPMANAGER->GetStageChanger()->GetIsChangingStage() &&
+		!_isStun && 
+		!_isPlayerDead
 		)
 
 		// 잡다한 UI가 OFF일때
@@ -147,7 +149,6 @@ void Player::update()
 				_weapons[_selectedWeaponIdx]->Activate();
 			}
 		}
-		Animation();
 	}
 
 	else // 잡다한 UI가 ON
@@ -176,6 +177,8 @@ void Player::update()
 
 
 	}
+
+	Animation();
 	SwitchWeapon();
 	if (_weapons[_selectedWeaponIdx] != nullptr) _weapons[_selectedWeaponIdx]->update();
 	if (_subWeapons[_selectedWeaponIdx] != nullptr) _subWeapons[_selectedWeaponIdx]->update();
@@ -221,7 +224,6 @@ void Player::update()
 
 	if (_HP < 0)
 	{
-		
 		_HP = 0;
 	}
 }

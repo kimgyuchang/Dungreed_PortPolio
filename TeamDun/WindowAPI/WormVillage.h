@@ -14,5 +14,6 @@ public :
 
 	bool GetRenderPlayer() { return _renderPlayer; }
 	bool GetIsOn() { return _isOn; }
+	void SetRenderPlayer(bool rend) { _renderPlayer = rend; }
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "singletonBase.h"
 #include "Stage.h"
+#include "StageChanger.h"
 
 class PixelGetter 
 {
@@ -29,6 +30,8 @@ private:
 	UIFrame*				_mapFrame;
 	Portal*					_currentPortal;
 	vector<vector<string>>	_mapData;
+	StageChanger*			_stageChanger;
+
 public:
 	HRESULT init();
 	void ClearStage(int cntStage);
@@ -52,6 +55,7 @@ public:
 	bool				GetPortalAnimOn()	{ return _portalAnimOn; }
 	Portal*				GetCurrentPortal()	{ return _currentPortal; }
 	int					GetCurStageNum()	{ return _curStageNum; }
+	StageChanger*		GetStageChanger()	{ return _stageChanger; }
 
 	void 		SetCurrentMap(int map)		{ _currentMap = map; }
 	void		SetPortalOn(bool on)		{ _portalOn = on; }
