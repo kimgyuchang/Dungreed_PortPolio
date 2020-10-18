@@ -237,19 +237,19 @@ void Item::AdaptSubOption(SubOption* subOption, bool isEquip)
 
 void Item::SetBaseRenderPos()
 {
-	bool playerIsLeft = ENTITYMANAGER->getPlayer()->GetIsLeft();
-	_yFrame = playerIsLeft ? 0 : 1;
+	bool playerIsLeft = ENTITYMANAGER->getPlayer()->GetIsLeft();	//플레이어 왼쪽인지
+	_yFrame = playerIsLeft ? 0 : 1;									
 
-	if(_itemType == ITEMTYPE::IT_WEAPON_ONEHAND) _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 20 : 40);
-	else if(_itemType == ITEMTYPE::IT_SUBWEAPON) _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 40 : 20);
+	if(_itemType == ITEMTYPE::IT_WEAPON_ONEHAND) _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 20 : 40);	//아이템 타입이 한손일때,각도체크용 중점에 플레이어의 x좌표+ 왼쪽인지 여부에따라 맞으면 +20,아니면 +40
+	else if(_itemType == ITEMTYPE::IT_SUBWEAPON) _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 40 : 20);	
 	else _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 40 : 20);
 
-	_angleCheckPosY = ENTITYMANAGER->getPlayer()->GetY() + 45;
+	_angleCheckPosY = ENTITYMANAGER->getPlayer()->GetY() + 45;	//각도 체크용 중점에 플레이어의 Y좌표를 받아와서  +45만큼
 	_renderPosX = _angleCheckPosX - _vImages[_currentImage]->getFrameWidth() / 2;
 	_renderPosY = _angleCheckPosY - _vImages[_currentImage]->getFrameHeight() / 2;
-	if (!_isAttacking)
+	if (!_isAttacking)	//공격중이 아니면
 	{
-		_angle = getAngle(_angleCheckPosX, _angleCheckPosY, CAMERAMANAGER->GetAbsoluteX(_ptMouse.x), CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
+		_angle = getAngle(_angleCheckPosX, _angleCheckPosY, CAMERAMANAGER->GetAbsoluteX(_ptMouse.x), CAMERAMANAGER->GetAbsoluteY(_ptMouse.y)); 
 		if (_angle > PI * 2) _angle -= PI * 2;
 		if (_angle < 0) _angle += PI * 2;
 	}

@@ -193,6 +193,7 @@ public:
 
 	void SwitchWeapon();
 	void CheckAliceZone();
+	void Ability();
 	
 	void SetHpUI();
 	// GETSET //
