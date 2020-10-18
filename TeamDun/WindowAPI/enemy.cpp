@@ -69,7 +69,15 @@ void Enemy::GetDamage()
 	{
 		SOUNDMANAGER->play("Hit_Monster");
 		Player* p = ENTITYMANAGER->getPlayer();
+		
 		int damage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
+		if (p->GetSpecialAbilityOn(0, 2))
+		{
+			if (p->GetInitHp() * 0.6f > p->GetHP())
+			{
+				damage = p->GetMaxDamage();
+			}
+		}
 		
 		damage = damage + damage * p->GetPower() / 100 - _realDefence;
 		int critical = RANDOM->range(100);
@@ -107,7 +115,6 @@ void Enemy::GetDamage()
 			}
 			SetIsDead(true);
 		}
-		
 	}
 }
 
@@ -118,7 +125,6 @@ void Enemy::GetDamage(int damage)
 		SOUNDMANAGER->play("Hit_Monster");
 		Player* p = ENTITYMANAGER->getPlayer();
 		
-
 		damage = damage + damage * p->GetPower() / 100 - _realDefence;
 		int critical = RANDOM->range(100);
 		if (critical <= p->GetRealCriPer())
@@ -133,10 +139,7 @@ void Enemy::GetDamage(int damage)
 			_hpBarAlpha = 255;
 			_hp -= damage;
 			EFFECTMANAGER->AddCameraText(_x + _vImages[0]->getFrameWidth() / 2, _y, 100, 100, to_string(damage), PIX, WS_MIDDLE, WSORT_LEFT, RGB(255, 255, 255));
-
 		}
-
-
 
 		if (_hp <= 0)
 		{

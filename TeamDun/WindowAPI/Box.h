@@ -19,6 +19,8 @@ public :
 	virtual void	render(HDC hdc);
 	virtual void	GetDamage();
 
+	void GetDamage(int damage);
+
 	void SetParticle();
 	void SetBoxType(BOXTYPE type) { _boxType = type; }
 };

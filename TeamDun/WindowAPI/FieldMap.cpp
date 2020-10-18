@@ -642,6 +642,10 @@ void FieldMap::EraseDeathObject()
 	{
 		if (_vObjs[i]->GetIsDead())
 		{
+			if (_vObjs[i]->GetType() == OBJECTTYPE::OT_MONSTER)
+			{
+				ENTITYMANAGER->getPlayer()->DamageUpEnemyKill();
+			}
 
 			_vObjs.erase(_vObjs.begin() + i);
 			i--;

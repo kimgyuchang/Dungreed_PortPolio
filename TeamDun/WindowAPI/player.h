@@ -42,6 +42,7 @@ private:
 	bool			_downJump;				// 아래점프중인지
 	bool			_isDash;
 	bool			_isPlayerDead;
+
 	// 피격관련
 	bool			_isStun;				//스턴상태인지
 	int				_stunCount;
@@ -70,6 +71,7 @@ private:
 	POINT			_dashPoint;				// 대쉬 위치
 	int				_dashTimer;				// 대쉬 시간
 	float			_moveSpeedPer;			// 이동속도 퍼센트
+
 	// 전투 관련 //			
 	// - 표면적 수치 (공격)
 	int				_minDamage;				// 최소 데미지
@@ -98,6 +100,7 @@ private:
 	float			_fireAccuracy;			// 조준 정확도
 	float			_realAttackSpeed;		// 공격속도(프레임)
 	float			_atkSpeedPer;			// 공격속도 퍼센트
+	RECT			_dashAttackRect;		// 대쉬 공격 렉트
 
 	// - 내부적 수치 (방어)
 	float			_realEvasion;			// 회피 (변환)
@@ -123,9 +126,13 @@ private:
 	int				_stunDamage;			// 스턴 공격력 (스턴 시간)
 
 	// 특성 관련 //
-	int				_maxPoint;				// 전체 능력치
-	int				_remainPoint;			// 남은 능력치
-	int				_abilityNum[7];			// 투자된 능력치
+	int				_maxPoint;					// 전체 능력치
+	int				_remainPoint;				// 남은 능력치
+	int				_abilityNum[7];				// 투자된 능력치
+	bool			_specialAbilityOn[7][3];	// 스폐셜 어빌리티 온
+	RECT			_jumpAttackRect;			// 점프 공격 (분노 스폐셜)
+	int				_damageUpTimer;				// 데미지 업 타이머 (분노 스폐셜)
+	bool			_damageUpTimerUse;			// 데미지 업 타이머가 사용되고 있는지 (분노 스폐셜)
 
 	// 픽셀충돌 전용 //					 
 	RECT			_collider[8];			// 픽셀충돌용
@@ -172,6 +179,7 @@ private:
 	int						_uiScrollTimer;	// 스크롤에 사용되는 타이머
 	float					_uiMouseLocation;	// 저장된 마우스 X좌표
 	float					_movedX;		// 움직인 거리
+
 	// 각 캐릭터별 특성 //
 
 	// 앨리스 //
@@ -183,6 +191,9 @@ public:
 
 	virtual HRESULT init();
 	virtual void	update();
+	void AddMaxDash();
+	void SubMaxDash();
+	void DashAttack();
 	void DashImageCheck();
 	void SetTextLeftDown();
 	void DashUICheck();
@@ -190,6 +201,9 @@ public:
 	virtual void	render(HDC hdc);
 	virtual void	Animation();
 	virtual void	Move();				//플레이어 움직임
+	void DamageJumpAttackRect();
+	void ControlDamageUpTimer();
+	void DamageUpEnemyKill();
 	virtual void	pixelCollision();	//픽셀충돌
 	virtual void	dash();				//대쉬
 	virtual void	GetDamage();
@@ -211,6 +225,7 @@ public:
 	void MoveTraitUI();
 	
 	void SwitchWeapon();
+	void JumpAttackRectUpdate();
 	void CheckAliceZone();
 	void Ability();
 	
@@ -290,7 +305,7 @@ public:
 	int				GetAccesoryCount()	    { return _accesoryCount; }
 	int				GetMaxDashCount()		{ return _maxDashCount; }
 	int				GetMaxSatiety()			{ return _maxSatiety; }
-	
+	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
 
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
 	void			SetState(PLAYERSTATE state)						{ _state = state; }

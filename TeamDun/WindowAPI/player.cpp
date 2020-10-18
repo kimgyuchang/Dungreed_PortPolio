@@ -27,6 +27,7 @@ HRESULT Player::init()
 	_atkSpeedPer = 0.f;
 	_moveSpeed = 5;
 	_moveSpeedPer = 0;
+	_dashDamage = 100;
 	_realAttackSpeed = _atkSpeed + (_atkSpeed * _atkSpeedPer / 100);
 	_dustEffectCount = 0;
 	_isStun = false;
@@ -184,8 +185,6 @@ void Player::update()
 				_stunFrameX = 0;
 			}
 		}
-
-
 	}
 
 	Animation();
@@ -204,21 +203,20 @@ void Player::update()
 	SetHpUI();
 	SetTextLeftDown();
 	ControlTraitPage();
+	JumpAttackRectUpdate();
+	ControlDamageUpTimer();
 	this->pixelCollision();
 
 
 	if (INPUT->GetKeyDown('J'))
 	{
-		_maxDashCount++;
-		DashUICheck();
+		AddMaxDash();
 	}
 
 	//나중에 대쉬최대횟수 증가시킬때 필요
 	if (INPUT->GetKeyDown('K'))		//K키를 눌렀을때
 	{
-		if (_maxDashCount > 0) _maxDashCount--;	// 대쉬 최대 횟수가 0보다 클때 최대횟수 감소
-		if (_dashCount > _maxDashCount) _dashCount--;	//대쉬횟수가 최대 횟수보다 커지면 대쉬횟수 감소
-		DashUICheck();
+		SubMaxDash();
 	}
 
 	if (_maxDashCount > _dashCount)	//대쉬 최대 횟수가 대쉬횟수보다 커지면
@@ -236,6 +234,41 @@ void Player::update()
 	if (_hp < 0)
 	{
 		_hp = 0;
+	}
+}
+
+void Player::AddMaxDash()
+{
+	_maxDashCount++;
+	DashUICheck();
+}
+
+void Player::SubMaxDash()
+{
+	if (_maxDashCount > 0) _maxDashCount--;	// 대쉬 최대 횟수가 0보다 클때 최대횟수 감소
+	if (_dashCount > _maxDashCount) _dashCount--;	//대쉬횟수가 최대 횟수보다 커지면 대쉬횟수 감소
+	DashUICheck();
+}
+
+void Player::DashAttack()
+{
+	if (_weapons[_selectedWeaponIdx] != nullptr && 
+		_weapons[_selectedWeaponIdx]->GetWeaponType() != WEAPONTYPE::WT_RANGE && 
+		_weapons[_selectedWeaponIdx]->GetWeaponType() != WEAPONTYPE::WT_PISTOL && 
+		_weapons[_selectedWeaponIdx]->GetWeaponType() != WEAPONTYPE::WT_CHARGE)
+	{
+		_dashAttackRect = RectMake(_x - 30, _y - 30, _vImages[0]->getFrameWidth() + 60, _vImages[0]->getFrameHeight() + 60);
+
+		for (int i = 0; i < MAPMANAGER->GetPlayMap()->GetObjects().size(); i++)
+		{
+			Object* obj = MAPMANAGER->GetPlayMap()->GetObjects()[i];
+			if (obj->GetType() == OBJECTTYPE::OT_MONSTER)
+			{
+				RECT temp;
+				if (IntersectRect(&temp, &_dashAttackRect, &obj->GetBody()))
+					obj->GetDamage((_dashDamage * RANDOM->range(_minDamage, _maxDamage)) / 100.f);
+			}
+		}
 	}
 }
 
@@ -334,6 +367,64 @@ void Player::SwitchWeapon()
 		}
 	}
 }
+
+void Player::JumpAttackRectUpdate()
+{
+	if(_specialAbilityOn[0][0])
+		_jumpAttackRect = RectMake(_x - 50, _y + _vImages[0]->getFrameHeight() * 0.2f, _vImages[0]->getFrameWidth() + 100, _vImages[0]->getFrameHeight() * 1.4f);
+}
+
+void Player::DamageJumpAttackRect()
+{
+	for (int i = 0; i < MAPMANAGER->GetPlayMap()->GetObjects().size(); i++)
+	{
+		Object* obj = MAPMANAGER->GetPlayMap()->GetObjects()[i];
+		if (obj->GetType() == OBJECTTYPE::OT_MONSTER || obj->GetType() == OBJECTTYPE::OT_BREAKABLE)
+		{
+			RECT temp;
+			if(IntersectRect(&temp, &_jumpAttackRect, &obj->GetBody()))
+				obj->GetDamage(8);
+		}
+	}
+}
+
+void Player::ControlDamageUpTimer()
+{
+	if (_specialAbilityOn[0][1])
+	{
+		if (_damageUpTimerUse)
+		{
+			if (_damageUpTimer > 0)
+			{
+				_damageUpTimer--;
+			}
+
+			else
+			{
+				_damageUpTimer = 0;
+				_power -= 10;
+				_damageUpTimerUse = false;
+			}
+		}
+	}
+}
+void Player::DamageUpEnemyKill()
+{
+	if (_specialAbilityOn[0][1])
+	{
+		if (_damageUpTimer == 0)
+		{
+			_damageUpTimer = 60 * 15;
+			_damageUpTimerUse = true;
+			_power += 10;
+		}
+		else
+		{
+			_damageUpTimer = 60 * 15;
+			_damageUpTimerUse = true;
+		}
+	}
+}	
 
 void Player::CheckAliceZone()
 {
@@ -613,12 +704,14 @@ void Player::Move()
 			_y -= _jumpPower;
 			_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
 			_jumpCount++;
+			if (_specialAbilityOn[0][0]) DamageJumpAttackRect();
 		}
 		if (INPUT->GetKey('S') && _isJump)	//S키를 눌렀는데 점프상태일 때
 		{
 			_downJump = true;
 			_jumpPower = -2;
 			_jumpCount++;
+			if (_specialAbilityOn[0][0]) DamageJumpAttackRect();
 		}
 	}
 
@@ -939,6 +1032,7 @@ void Player::dash()
 
 	if (_dashTimer >= 10)
 	{
+		DashAttack();
 		_dashTimer = 0;		//대쉬 타이머 초기화
 		_jumpPower = 0;		//점프 파워 초기화
 		_isDash = false;	//대쉬상태가 아님
@@ -1161,16 +1255,15 @@ void Player::GetHitDamage(int damage)
 				_hp = _hp - Realdamage;
 				EFFECTMANAGER->AddEffect(0, 0, "hit", 0, 0, 0, true, 100, 0, 1, 1, true, true);
 				CAMERAMANAGER->Shake(25, 25, 6, 1);
-
 			}
 			else
 			{
-				EFFECTMANAGER->AddCameraText(_x, _y, 200, 50, "BLOCK", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WSORT_LEFT, RGB(0, 0, 255));
+				EFFECTMANAGER->AddCameraText(_x, _y, 200, 50, "BLOCK", FONT::PIX, WORDSIZE::WS_MIDDLE, WSORT_LEFT, RGB(0, 0, 255));
 			}
 		}
 		else
 		{
-			EFFECTMANAGER->AddCameraText(_x, _y, 200, 50, "EVADE", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WSORT_LEFT, RGB(0, 255, 0));
+			EFFECTMANAGER->AddCameraText(_x, _y, 200, 50, "EVADE", FONT::PIX, WORDSIZE::WS_MIDDLE, WSORT_LEFT, RGB(0, 255, 0));
 		}
 	}
 
@@ -1239,6 +1332,13 @@ void Player::AddTraitPoint()
 					ReInitTraitUI();
 					if (_abilityNum[i] == 5 || _abilityNum[i] == 10 || _abilityNum[i] == 20)
 					{
+						if (_abilityNum[i] == 5) _specialAbilityOn[i][0] = true;
+						else if (_abilityNum[i] == 10) _specialAbilityOn[i][1] = true;
+						else if (_abilityNum[i] == 20)
+						{
+							_specialAbilityOn[i][2] = true;
+							AddMaxDash();
+						}
 						SOUNDMANAGER->play("NPC_훈련소_특성찍기");
 					}
 					else
@@ -1324,6 +1424,12 @@ void Player::ReloadTraitPoint()
 			}
 			_remainPoint += _abilityNum[i];
 			_abilityNum[i] = 0;
+
+			_specialAbilityOn[i][0] = false;
+			_specialAbilityOn[i][1] = false;
+
+			if (_specialAbilityOn[i][2]) SubMaxDash();
+			_specialAbilityOn[i][2] = false;
 		}
 		ReInitTraitUI();
 	}
