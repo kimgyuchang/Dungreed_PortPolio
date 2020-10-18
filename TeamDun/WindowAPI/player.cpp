@@ -42,6 +42,7 @@ HRESULT Player::init()
 	_bottomCol = false;
 	_dashEffect = nullptr;
 	_isPlayerDead = false;
+	_atkSpdUpUse = false;
 	_dashRestoreCount = 0;
 	_dashRestoreTime = 60;
 	_evasion = 0;
@@ -202,10 +203,13 @@ void Player::update()
 	SetRealStat();
 	SetHpUI();
 	SetTextLeftDown();
+	this->pixelCollision();
+
+	// 특성 관련
 	ControlTraitPage();
 	JumpAttackRectUpdate();
 	ControlDamageUpTimer();
-	this->pixelCollision();
+	SpecialAtkSpeedUp();
 
 
 	if (INPUT->GetKeyDown('J'))
@@ -223,7 +227,7 @@ void Player::update()
 	{
 		_dashRestoreCount++;	//대쉬 횟수 복구 카운트 증가
 
-		if (_dashRestoreCount > _dashRestoreTime)	//대쉬 횟수 복구 카운트가 대쉬 복구 시간보다 커지면
+		if (_dashRestoreCount > (_specialAbilityOn[1][1] ? _dashRestoreTime - 15 : _dashRestoreTime))	//대쉬 횟수 복구 카운트가 대쉬 복구 시간보다 커지면
 		{
 			_dashRestoreCount = 0;	//대쉬 횟수 복구 카운트 초기화
 			_dashCount++;			//대쉬 횟수 증가
@@ -408,6 +412,7 @@ void Player::ControlDamageUpTimer()
 		}
 	}
 }
+
 void Player::DamageUpEnemyKill()
 {
 	if (_specialAbilityOn[0][1])
@@ -425,6 +430,32 @@ void Player::DamageUpEnemyKill()
 		}
 	}
 }	
+
+void Player::SpecialAtkSpeedUp()
+{
+	if (_specialAbilityOn[1][1])
+	{
+		if (!_atkSpdUpUse && (_hp / (float)_initHp * 100 >= 80))
+		{
+			_atkSpeedPer += 10;
+			_atkSpdUpUse = true;
+		}
+
+		if (_atkSpdUpUse && (_hp / (float)_initHp * 100 < 80))
+		{
+			_atkSpeedPer -= 10;
+			_atkSpdUpUse = false;
+		}
+	}
+	else
+	{
+		if (_atkSpdUpUse && (_hp / (float)_initHp * 100 < 80))
+		{
+			_atkSpeedPer -= 10;
+			_atkSpdUpUse = false;
+		}
+	}
+}
 
 void Player::CheckAliceZone()
 {
@@ -693,7 +724,7 @@ void Player::Move()
 		_state = PS_IDLE;
 	}
 
-	if (_jumpCount == 0 || _jumpCount == 1)	//점프를 안했거나 한번했을때
+	if (_jumpCount == 0 || (_specialAbilityOn[1][0] && _jumpCount == 1))	//점프를 안했거나 한번했을때 (신속 5 특성)
 	{
 
 		if (INPUT->GetKeyDown(VK_SPACE) && !_downJump)	//스페이스바를 누르고 아래로 점프한게 아닐때
@@ -1332,7 +1363,11 @@ void Player::AddTraitPoint()
 					ReInitTraitUI();
 					if (_abilityNum[i] == 5 || _abilityNum[i] == 10 || _abilityNum[i] == 20)
 					{
-						if (_abilityNum[i] == 5) _specialAbilityOn[i][0] = true;
+						if (_abilityNum[i] == 5)
+						{
+							if (i == 1) AddMaxDash();
+							_specialAbilityOn[i][0] = true;
+						}
 						else if (_abilityNum[i] == 10) _specialAbilityOn[i][1] = true;
 						else if (_abilityNum[i] == 20)
 						{
@@ -1423,6 +1458,8 @@ void Player::ReloadTraitPoint()
 				break;
 			}
 			_remainPoint += _abilityNum[i];
+		
+			if (_abilityNum[i] >= 5 && i == 1) SubMaxDash();
 			_abilityNum[i] = 0;
 
 			_specialAbilityOn[i][0] = false;
@@ -1430,6 +1467,7 @@ void Player::ReloadTraitPoint()
 
 			if (_specialAbilityOn[i][2]) SubMaxDash();
 			_specialAbilityOn[i][2] = false;
+		
 		}
 		ReInitTraitUI();
 	}

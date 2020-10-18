@@ -133,6 +133,7 @@ private:
 	RECT			_jumpAttackRect;			// 점프 공격 (분노 스폐셜)
 	int				_damageUpTimer;				// 데미지 업 타이머 (분노 스폐셜)
 	bool			_damageUpTimerUse;			// 데미지 업 타이머가 사용되고 있는지 (분노 스폐셜)
+	bool			_atkSpdUpUse;				// 공격속도 업이 사용되었는지 (신속 스페셜)
 
 	// 픽셀충돌 전용 //					 
 	RECT			_collider[8];			// 픽셀충돌용
@@ -204,6 +205,7 @@ public:
 	void DamageJumpAttackRect();
 	void ControlDamageUpTimer();
 	void DamageUpEnemyKill();
+	void SpecialAtkSpeedUp();
 	virtual void	pixelCollision();	//픽셀충돌
 	virtual void	dash();				//대쉬
 	virtual void	GetDamage();
