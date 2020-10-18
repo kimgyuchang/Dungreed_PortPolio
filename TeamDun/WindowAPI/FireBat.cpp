@@ -7,7 +7,7 @@ HRESULT FireBat::init(int id, string name, OBJECTTYPE type, vector<string> imgNa
 	_state = ES_IDLE;
 	_stateTimer = 0;
 	_isAtk = false;
-	_initHp = _HP = 30;
+	_initHp = _hp = 30;
 	_attackCoolTime = 200 + RANDOM->range(150);
 	_fireAngle = 0;
 	_Damage = 10;

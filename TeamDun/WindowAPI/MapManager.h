@@ -45,7 +45,9 @@ public:
 	void release();
 	void render(HDC hdc);
 	void ChangeMap(int index);
-	
+
+	void ChangeMapBGM(FIELDMAPTYPE prevMapType);
+
 	// GETSET //
 	int					GetCurrentMap()		{ return _currentMap; }
 	FieldMap*			GetPlayMap()		{ return _stage->GetMaps()[_currentMap]; }

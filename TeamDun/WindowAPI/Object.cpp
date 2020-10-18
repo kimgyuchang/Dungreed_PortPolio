@@ -70,7 +70,7 @@ void Object::CheckCollision()
 
 void Object::GetDamage()
 {
-	if (_HP <= 0)
+	if (_hp <= 0)
 	{
 		SetIsDead(true);
 	}
@@ -78,7 +78,7 @@ void Object::GetDamage()
 
 void Object::GetDamage(int damage)
 {
-	if (_HP <= 0)
+	if (_hp <= 0)
 	{
 		SetIsDead(true);
 	}

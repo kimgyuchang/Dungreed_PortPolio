@@ -27,7 +27,7 @@ HRESULT Belial::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_RazerEndCount = 0;
 
 
-	_initHp = _HP = 800;
+	_initHp = _hp = 800;
 	_Damage = 10; //불렛대미지
 
 

@@ -7,6 +7,9 @@ HRESULT loadingScene::init()
 	_loading->init();
 
 	SOUNDMANAGER->init();
+	SOUNDMANAGER->addSound("인트로 사운드", "Sounds/Effect/인트로 사운드.wav", false, false);
+	SOUNDMANAGER->play("인트로 사운드");
+
 	IMAGEMANAGER->addImage("loadingBarFront", "loadingBarFront.bmp", 620, 200);
 	IMAGEMANAGER->addImage("loadingBarBack", "loadingBarBack.bmp", 620, 200);
 
@@ -48,7 +51,7 @@ void loadingScene::update()
 	// 아니라면 계속해서 불러오기
 	else
 	{
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 12; i++)
 		{
 			LoadItem* item = _loading->GetLoadItem()[_currentGauge];
 			_loading->LoadingDone(item);
@@ -271,6 +274,11 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("TrainingSchool", "Images/Object/TrainingSchool.bmp", 810, 231, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("GoldCoin", "Images/Object/GoldCoin.bmp", 168, 21, 8, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("Bullion", "Images/Object/Bullion.bmp", 420, 27, 7, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FairyL00", "Images/Object/FairyL00.bmp", 1152, 75, 16, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FairyM00", "Images/Object/FairyM00.bmp", 960, 60, 16, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FairyS00", "Images/Object/FairyS00.bmp", 432, 33, 16, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FairyXL00", "Images/Object/FairyXL00.bmp", 1440, 90, 16, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("GreenFairy00", "Images/Object/GreenFairy00.bmp", 1440, 90, 16, 1, true, RGB(255, 0, 255));
 
 	// STAGE 1 //
 	_loading->LoadNormalImage("Door0_Closed", "Images/1Floor/Door0_Closed.bmp", 171, 195, true, RGB(255, 0, 255));
@@ -344,6 +352,8 @@ void loadingScene::loadingImage()
 
 	// ETC //
 	_loading->LoadNormalImage("SpawnMonsterPos", "Images/Etc/SpawnMonsterPos.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SpawnBoxPos", "Images/Etc/SpawnBoxPos.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SpawnPixiePos", "Images/Etc/SpawnPixiePos.bmp", 48, 48, true, RGB(255, 0, 255));
 
 	// UI //  
 	_loading->LoadNormalImage("UIBaseBig", "Images/UI/Base.bmp", 500, 300, true, RGB(255, 0, 255));
@@ -850,6 +860,24 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("SqaureParticle_2", "Images/Particle/SqaureParticle_2.bmp", 22, 22, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SqaureParticle_3", "Images/Particle/SqaureParticle_3.bmp", 28, 28, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SqaureParticle_4", "Images/Particle/SqaureParticle_4.bmp", 5, 5, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BigBoxParticle0_0", "Images/object/BigBoxParticle0_0.bmp", 30, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BigBoxParticle0_1", "Images/object/BigBoxParticle0_1.bmp", 24, 21, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BigBoxParticle0_2", "Images/object/BigBoxParticle0_2.bmp", 33, 39, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BigBoxParticle0_3", "Images/object/BigBoxParticle0_3.bmp", 12, 18, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BigBoxParticle0_4", "Images/object/BigBoxParticle0_4.bmp", 42, 39, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BigBoxParticle0_5", "Images/object/BigBoxParticle0_5.bmp", 27, 21, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BoxParticle0_0", "Images/object/BoxParticle0_0.bmp", 30, 39, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BoxParticle0_1", "Images/object/BoxParticle0_1.bmp", 21, 30, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BoxParticle0_2", "Images/object/BoxParticle0_2.bmp", 15, 24, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BoxParticle0_3", "Images/object/BoxParticle0_3.bmp", 12, 27, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BoxParticle0_4", "Images/object/BoxParticle0_4.bmp", 21, 12, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BoxParticle0_5", "Images/object/BoxParticle0_5.bmp", 27, 12, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BoxParticle0_6", "Images/object/BoxParticle0_6.bmp", 12, 27, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("OakDrumParticle0_0", "Images/object/OakDrumParticle0_0.bmp", 30, 24, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("OakDrumParticle0_1", "Images/object/OakDrumParticle0_1.bmp", 30, 30, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("OakDrumParticle0_2", "Images/object/OakDrumParticle0_2.bmp", 12, 24, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("OakDrumParticle0_3", "Images/object/OakDrumParticle0_3.bmp", 18, 9, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("OakDrumParticle0_4", "Images/object/OakDrumParticle0_4.bmp", 15, 24, true, RGB(255, 0, 255));
 
 	// MINIMAP //
 	_loading->LoadNormalImage("MiniMapPixel", "Images/MiniMapPixel.bmp", 5, 5);
@@ -1311,7 +1339,6 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("음식섭취 (3)", "Sounds/Effect/음식섭취 (3).wav", false, false);
 	_loading->LoadSound("이런저런_번개침", "Sounds/Effect/이런저런_번개침.wav", false, false);
 	_loading->LoadSound("인벤토리열기", "Sounds/Effect/인벤토리열기.wav", false, false);
-	_loading->LoadSound("인트로 사운드", "Sounds/Effect/인트로 사운드.wav", false, false);
 	_loading->LoadSound("장애물_가시온", "Sounds/Effect/장애물_가시온.wav", false, false);
 	_loading->LoadSound("전기쪼꼬미", "Sounds/Effect/전기쪼꼬미.wav", false, false);
 	_loading->LoadSound("점프", "Sounds/Effect/점프.wav", false, false);

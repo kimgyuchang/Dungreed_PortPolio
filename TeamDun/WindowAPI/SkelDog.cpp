@@ -9,7 +9,7 @@ HRESULT SkelDog::init(int id, string name, OBJECTTYPE type, vector<string> imgNa
 	_frameX, _frameY = 0;
 
 	_count = _index = _jumpCount = 0;
-	_initHp = _HP = 30;
+	_initHp = _hp = 30;
 	_gravity = 0.4f;
 	_jumpPower = 7.0f;
 	_attackCoolTime = RANDOM->range(50) + 30;

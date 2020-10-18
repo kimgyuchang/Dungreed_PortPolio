@@ -9,7 +9,7 @@ HRESULT Player::init()
 	_x = 300;
 	_y = WINSIZEY / 2;
 
-	_initHp = _HP = 100;
+	_initHp = _hp = 100;
 	_body = RectMake(_x + 10, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 20, IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
 
 	_useImage = 0;
@@ -222,9 +222,9 @@ void Player::update()
 		}
 	}
 
-	if (_HP < 0)
+	if (_hp < 0)
 	{
-		_HP = 0;
+		_hp = 0;
 	}
 }
 
@@ -300,6 +300,7 @@ void Player::SwitchWeapon()
 
 	if (_mouseWheel != 0)
 	{
+		SOUNDMANAGER->play("게임_무기스왑");
 		if (_swapCoolTime == 0)
 		{
 			if (_weapons[_selectedWeaponIdx] != nullptr)
@@ -351,13 +352,13 @@ void Player::SetHpUI()
 {
 	//if (INPUT->GetKeyDown('H')) _hp--;
 	UIProgressBar* bar = dynamic_cast<UIProgressBar*>(_hpFrame->GetChild("hpBarPros"));
-	bar->FillCheck(_initHp, _HP);
-	float fillPercent = (float)_HP / _initHp;
+	bar->FillCheck(_initHp, _hp);
+	float fillPercent = (float)_hp / _initHp;
 
 	UIImage* hpWave = dynamic_cast<UIImage*>(_hpFrame->GetChild("Wave"));
 	hpWave->SetX((_hpFrame->GetX() + 42) + 157 * fillPercent); // 수치는 적당히 계산해서 넣음
 
-	dynamic_cast<UIText*>(_hpFrame->GetChild("hp"))->SetText(to_string(_HP) + " / " + to_string(_initHp));
+	dynamic_cast<UIText*>(_hpFrame->GetChild("hp"))->SetText(to_string(_hp) + " / " + to_string(_initHp));
 }
 
 void Player::release()
@@ -420,6 +421,8 @@ void Player::Animation()
 			_dustEffectCount++;
 			if (_dustEffectCount % 20 == 0)
 			{
+				int runSound = RANDOM->range(1,4);
+				SOUNDMANAGER->play("걷는소리 (" + to_string(runSound) + ")");
 				if (_isLeft)
 				{
 					EFFECTMANAGER->AddEffect(_x + 40, _y + 20, "RunEffect", 5, 0, 1, false, 255);
@@ -428,7 +431,6 @@ void Player::Animation()
 				{
 					EFFECTMANAGER->AddEffect(_x - 40, _y + 20, "RunEffect", 5, 0, 0, false, 255);
 				}
-
 			}
 		}
 		break;
@@ -543,6 +545,7 @@ void Player::Move()
 
 		if (INPUT->GetKeyDown(VK_SPACE) && !_downJump)	//스페이스바를 누르고 아래로 점프한게 아닐때
 		{
+			SOUNDMANAGER->play("점프");
 			_isJump = true;
 			_jumpPower = 11;
 			_y -= _jumpPower;
@@ -1097,7 +1100,7 @@ void Player::GetHitDamage(int damage)
 				SOUNDMANAGER->play("Hit_Player");
 				_isHit = true;
 				_hitCount = 0;
-				_HP = _HP - Realdamage;
+				_hp = _hp - Realdamage;
 				EFFECTMANAGER->AddEffect(0, 0, "hit", 0, 0, 0, true, 100, 0, 1, 1, true ,true);
 				CAMERAMANAGER->Shake(25, 25, 6, 1);
 

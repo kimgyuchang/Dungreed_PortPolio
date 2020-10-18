@@ -82,7 +82,6 @@ private:
 
 	// - 표면적 수치 (방어) 					
 	int				_initHp;				// 초기 체력
-	int				_hp;					
 	float			_defence;				// 방어
 	float			_evasion;				// 회피 
 	float			_toughness;				// 강인함
@@ -301,7 +300,6 @@ public:
 	void			SetDashDamage(float dashDamage) 				{ _dashDamage = dashDamage; }
 	void			SetReloadTime(float reloadTime) 				{ _reloadTime = reloadTime; }
 	void			SetInitHp(int initHp)							{ _initHp = initHp; }
-	void			SetHp(int hp) 									{ _hp = hp; }
 	void			SetRealDefence(float realDefence)				{ _realDefence = realDefence; }
 	void			SetRealEvasion(float realEvasion)				{ _realEvasion = realEvasion; }
 	void			SetToughness(float toughness) 					{ _toughness = toughness; }

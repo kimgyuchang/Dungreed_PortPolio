@@ -85,6 +85,9 @@
     <Filter Include="MainGame\Object\NPC\NPCs">
       <UniqueIdentifier>{cff3bb23-612a-4565-bbc8-12cd65a0417a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Etc\Drops">
+      <UniqueIdentifier>{4cdd3c51-dc76-4bd2-a5ec-057ebb9ce0c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -291,15 +294,6 @@
     <ClCompile Include="Portal.cpp">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClCompile>
-    <ClCompile Include="Coin.cpp">
-      <Filter>MainGame\Object\Etc</Filter>
-    </ClCompile>
-    <ClCompile Include="DropItem.cpp">
-      <Filter>MainGame\Object\Etc</Filter>
-    </ClCompile>
-    <ClCompile Include="DropObjs.cpp">
-      <Filter>MainGame\Object\Etc</Filter>
-    </ClCompile>
     <ClCompile Include="Treasure.cpp">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClCompile>
@@ -315,10 +309,34 @@
     <ClCompile Include="StageChanger.cpp">
       <Filter>MainGame\Etc</Filter>
     </ClCompile>
-    <ClCompile Include="IceBat.cpp">
-      <Filter>MainGame\Object\Enemy</Filter>
+    <ClCompile Include="Box.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxParticle.cpp">
+      <Filter>MainGame\Object\Etc\Drops</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>MainGame\Object\Etc\Drops</Filter>
+    </ClCompile>
+    <ClCompile Include="DropItem.cpp">
+      <Filter>MainGame\Object\Etc\Drops</Filter>
+    </ClCompile>
+    <ClCompile Include="DropObjs.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="HpPixie.cpp">
+      <Filter>MainGame\Object\Etc\Drops</Filter>
+    </ClCompile>
+    <ClCompile Include="PixieSpawner.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="TreasureSpawner.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
     </ClCompile>
     <ClCompile Include="FireBat.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="IceBat.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
@@ -536,15 +554,6 @@
     <ClInclude Include="Portal.h">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClInclude>
-    <ClInclude Include="Coin.h">
-      <Filter>MainGame\Object\Etc</Filter>
-    </ClInclude>
-    <ClInclude Include="DropItem.h">
-      <Filter>MainGame\Object\Etc</Filter>
-    </ClInclude>
-    <ClInclude Include="DropObjs.h">
-      <Filter>MainGame\Object\Etc</Filter>
-    </ClInclude>
     <ClInclude Include="Treasure.h">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClInclude>
@@ -560,10 +569,35 @@
     <ClInclude Include="StageChanger.h">
       <Filter>MainGame\Etc</Filter>
     </ClInclude>
-    <ClInclude Include="IceBat.h">
-      <Filter>MainGame\Object\Enemy</Filter>
+    <ClInclude Include="Box.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxParticle.h">
+      <Filter>MainGame\Object\Etc\Drops</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>MainGame\Object\Etc\Drops</Filter>
+    </ClInclude>
+    <ClInclude Include="DropItem.h">
+      <Filter>MainGame\Object\Etc\Drops</Filter>
+    </ClInclude>
+    <ClInclude Include="DropObjs.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="HpPixie.h">
+      <Filter>MainGame\Object\Etc\Drops</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="PixieSpawner.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="TreasureSpawner.h">
+      <Filter>MainGame\Object\Etc</Filter>
     </ClInclude>
     <ClInclude Include="FireBat.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="IceBat.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>

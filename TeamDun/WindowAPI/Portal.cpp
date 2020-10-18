@@ -104,7 +104,8 @@ void Portal::Animation()
 					MAPMANAGER->GetPlayMap()->GetPortal()->SetUseImage(2);
 					MAPMANAGER->GetPlayMap()->GetPortal()->SetFrameX(_vImages[_useImage]->getMaxFrameX()-1);
 					MAPMANAGER->GetPlayMap()->GetPortal()->SetFrameTimer(0);
-					
+					SOUNDMANAGER->play("게임_던전나가기");
+
 					_destination = -1;
 				}
 			}

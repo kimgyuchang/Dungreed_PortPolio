@@ -20,7 +20,7 @@ protected:
 	int				_frameY;				// 현재 프레임 Y
 	int				_spawnTime;				// 스폰 시간
 	int				_frameTimer;			// 프레임 타이머
-	int				_HP;					// 오브젝트 HP;
+	int				_hp;					// 오브젝트 HP;
 	RECT			_body;					// 충돌체
 	FieldMap*		_belongMap;				// 현재 속한 맵 정보
 	bool			_isDead;				// 죽었는지(파괴되었는지) 여부
@@ -37,7 +37,7 @@ public:
 	virtual void	GetDamage(int damage);
 
 	// GETSET //
-	int				GetHP()				{ return _HP; }
+	int				GetHP()				{ return _hp; }
 	int				GetId()				{ return _id; }
 	string			GetName()			{ return _name; }
 	vector<string>	GetImgNames()		{ return _vImageNames; }
@@ -54,7 +54,7 @@ public:
 	bool			GetIsDead()			{ return _isDead; }
 	int				GetRenderIndex()	{ return _renderOrder; }
 
-	void			SetHp(int hp)						{ _HP = hp; }
+	void			SetHp(int hp)						{ _hp = hp; }
 	void			SetName(string name)				{ _name = name; }
 	void			SetX(int x)							{ _x = x; }
 	void			SetY(int y)							{ _y = y; }

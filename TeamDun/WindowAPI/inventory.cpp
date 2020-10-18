@@ -55,6 +55,7 @@ void Inventory::EquipItem()
 				{
 					if (_vInvenItems.size() > i)
 					{
+						SOUNDMANAGER->play("게임_아이템장착 (2)");
 						Item* item = _vInvenItems[i];
 						item->EquipUnEquipStatus(true);
 
@@ -239,6 +240,8 @@ void Inventory::UnEquipItem()
 		{
 			if (PtInRect(&_InvenFrame->GetChild("curWeapon_1")->GetRect(), _ptMouse) && _p->GetWeapon(0) != nullptr)
 			{
+				SOUNDMANAGER->play("게임_아이템장착 (2)");
+
 				if ((_vInvenItems.size() > 13 && _p->GetWeapon(0)->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND && _p->GetSubWeapon(0) != nullptr) || _vInvenItems.size() > 14)
 				{
 					OnInvenFullText();

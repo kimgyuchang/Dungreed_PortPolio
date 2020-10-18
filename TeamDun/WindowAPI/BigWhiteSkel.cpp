@@ -13,7 +13,7 @@ HRESULT BigWhiteSkel::init(int id, string name, OBJECTTYPE type, vector<string> 
 	_gravity = 0.5f;
 	_jumpPower = 7.0f;
 	_isLeft = _isAttack = _isJump = false;
-	_initHp = _HP = 50;
+	_initHp = _hp = 50;
 	_attackAnimFrame = vector<int>{ 40,3,5,5,5,5,5,5,5,5,5,5 };
 	_randomXPosTimer = RANDOM->range(30) + 70;
 	_randomXPos = RANDOM->range(-200, 200);

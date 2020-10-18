@@ -72,10 +72,10 @@ void DataManager::GetObjectData()
 		case 1502: // 밴시
 			obj = new Banshee();
 			break;
-		case 1509://빨간큰박쥐
+		case 1509: // 빨간 큰 박쥐
 			obj = new RedGiantBat();
 			break;
-		case 1510://보라 큰박쥐
+		case 1510: // 보라 큰 박쥐
 			obj = new PurpleGiantBat();
 			break;
 		case 702: // 붉은 박쥐
@@ -109,6 +109,12 @@ void DataManager::GetObjectData()
 		case 2500: // 몬스터 스포너
 			obj = new MonsterSpawner();
 			break;
+		case 2502: // 픽시 스포너
+			obj = new PixieSpawner();
+			break;
+		case 2503: // 상자 스포너
+			obj = new TreasureSpawner();
+			break;
 		case 10 : // 상점 주인
 			obj = new Shop();
 			break;
@@ -141,6 +147,7 @@ void DataManager::GetObjectData()
 		case 7: // 다음 스테이지 문
 			obj = new StageDoor();
 			break;
+			
 		case 524: // 동전
 			obj = new Coin();
 			break;
@@ -149,6 +156,46 @@ void DataManager::GetObjectData()
 			obj = new WormVillage();
 			break;
 
+		case 13: // 작은 픽시
+			obj = new HpPixie();
+			dynamic_cast<HpPixie*>(obj)->SetPixType(PIXIETYPE::SMALL);
+			break;
+
+		case 14: // 중간 픽시
+			obj = new HpPixie();
+			dynamic_cast<HpPixie*>(obj)->SetPixType(PIXIETYPE::MIDDLE);
+			break;
+
+		case 15: // 큰 픽시
+			obj = new HpPixie();
+			dynamic_cast<HpPixie*>(obj)->SetPixType(PIXIETYPE::LARGE);
+			break;
+
+		case 16: // 매우 큰 픽시
+			obj = new HpPixie();
+			dynamic_cast<HpPixie*>(obj)->SetPixType(PIXIETYPE::XLARGE);
+			break;
+
+		case 17: // 매우 큰 픽시
+			obj = new HpPixie();
+			dynamic_cast<HpPixie*>(obj)->SetPixType(PIXIETYPE::GREEN);
+			break;
+
+		case 100 : // 큰 박스
+			obj = new Box();
+			dynamic_cast<Box*>(obj)->SetBoxType(BOXTYPE::BOX_BIGBOX);
+			dynamic_cast<Box*>(obj)->SetParticle();
+			break;
+		case 101: // 작은 박스
+			obj = new Box();
+			dynamic_cast<Box*>(obj)->SetBoxType(BOXTYPE::BOX_SMALLBOX);
+			dynamic_cast<Box*>(obj)->SetParticle();
+			break;
+		case 102: // 오크통
+			obj = new Box();
+			dynamic_cast<Box*>(obj)->SetBoxType(BOXTYPE::BOX_ORC);
+			dynamic_cast<Box*>(obj)->SetParticle();
+			break;
 		default:
 			obj = new Object();
 			break;

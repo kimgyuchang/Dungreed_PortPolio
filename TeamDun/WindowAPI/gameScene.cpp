@@ -337,11 +337,11 @@ void gameScene::DungeonMapUIInit()
 {
 	// DungeonMap Frame //
 	UIImage* allMapFrame = new UIImage();
-	allMapFrame->init("allMapFrame", 0, 0, WINSIZEX, WINSIZEY, "ScreenCover", false, 0, 0, 6, 6, 80);
+	allMapFrame->init("allMapFrame", 0, 0, WINSIZEX, WINSIZEY, "ScreenCover", false, 0, 0, 1440 / 200.f, 800 / 200.f);
 	UIMANAGER->GetGameFrame()->AddFrame(allMapFrame);
 
 	UIFrame* mapUpperImg = new UIFrame();
-	mapUpperImg->init("mapUpperImg", 0, 0, IMAGEMANAGER->findImage("MapBase_1_0")->getWidth(), IMAGEMANAGER->findImage("MapBase_1_0")->getHeight(), "MapBase_1_0", 1.0f, 1.0f);
+	mapUpperImg->init("mapUpperImg", 0, 0, IMAGEMANAGER->findImage("MapBase_1_0")->getWidth(), IMAGEMANAGER->findImage("MapBase_1_0")->getHeight(), "MapBase_1_0");
 	allMapFrame->AddFrame(mapUpperImg);
 
 	UIFrame* mapFrame = new UIFrame();
@@ -785,11 +785,13 @@ void gameScene::update()
 
 	if (INPUT->GetKeyDown('V'))
 	{
+		SOUNDMANAGER->play("인벤토리열기");
 		UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->ToggleIsViewing();
 	}
 
 	if (INPUT->GetKeyDown('C'))
 	{
+		SOUNDMANAGER->play("인벤토리열기");
 		UIMANAGER->GetGameFrame()->GetChild("charFrame")->ToggleIsViewing();
 	}
 }

@@ -5,6 +5,7 @@ HRESULT DropObjs::init(int id, string name, OBJECTTYPE type, vector<string> imgN
 {
 	Object::init(id, name, type, imgNames);
 
+	_droppedTimer = 0;
 	return S_OK;
 }
 
@@ -62,7 +63,7 @@ void DropObjs::PixelCollision()
 
 	float _probeBottom = _y + coinImg->getFrameHeight();
 
-	for (int i = _probeBottom - 5; i < _probeBottom + 5; i++)
+	for (int i = _probeBottom + _speedY - 2; i < _probeBottom + 5; i++)
 	{
 		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + coinImg->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
