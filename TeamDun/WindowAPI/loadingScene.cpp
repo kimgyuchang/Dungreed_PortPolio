@@ -332,7 +332,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("16_MinotaursSteak", "Images/food/16_MinotaursSteak.bmp", 219, 144, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("17_SpecialtyCookedMeat", "Images/food/17_SpecialtyCookedMeat.bmp", 219, 144, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("18_StrawberryPie", "Images/food/18_StrawberryPie.bmp", 219, 144, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("19_SeasoningSmallBird", "Images/food/19_SeasoningSmallBird.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("19_SeasoningSmallBird", "Images/food/19_SeasoningSmallBird.bmp", 231, 144, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("20_Beer", "Images/food/20_Beer.bmp", 219, 144, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("21_CombinationPizza", "Images/food/21_CombinationPizza.bmp", 219, 144, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("22_SmokedSalmon", "Images/food/22_SmokedSalmon.bmp", 219, 144, true, RGB(255, 0, 255));

@@ -612,7 +612,7 @@ void Restaurant::BuyFood(Food* food, int index)
 				break;
 			}
 			case FST_CRIPER: {
-				int newCriPer = p->GetCriPer() * food->_vStatusNum[i] + p->GetCriPer();
+				int newCriPer = p->GetCriPer() + (p->GetCriPer() * (food->_vStatusNum[i] / 100));
 				p->SetCriPer(newCriPer);
 				break;
 			}
@@ -622,7 +622,7 @@ void Restaurant::BuyFood(Food* food, int index)
 				break;
 			}
 			case FST_MAXHP: {
-				int newMaxHP = p->GetMaxHp() * food->_vStatusNum[i] + p->GetMaxHp();
+				int newMaxHP = p->GetMaxHp() + food->_vStatusNum[i];
 				p->SetMaxHp(newMaxHP);
 				break;
 			}
@@ -637,12 +637,12 @@ void Restaurant::BuyFood(Food* food, int index)
 				break;
 			}
 			case FST_ATKSPEED: {
-				int newAtkSpeed = p->GetAtkSpeed() + food->_vStatusNum[i] * p->GetAtkSpeed();
+				int newAtkSpeed = p->GetAtkSpeed() + (p->GetAtkSpeed() * (food->_vStatusNum[i] / 100));
 				p->SetAtkSpeed(newAtkSpeed);
 				break;
 			}
 			case FST_CHARGESPEED: {
-				int newChargeSpeed = p->GetReloadSpeed() + food->_vStatusNum[i] * p->GetReloadSpeed();
+				int newChargeSpeed = p->GetReloadSpeed() + (p->GetReloadSpeed() * (food->_vStatusNum[i] / 100));
 				p->SetReloadSpeed(newChargeSpeed);
 				break;
 			}
@@ -665,7 +665,7 @@ void Restaurant::BuyFood(Food* food, int index)
 				break;
 			}
 			case FST_MOVESPEED: {
-				int newMoveSpeed = p->GetMoveSpeed() + p->GetMoveSpeed() * food->_vStatusNum[i];
+				int newMoveSpeed = p->GetMoveSpeed() + (p->GetMoveSpeed() * (food->_vStatusNum[i] / 100));
 				p->SetMoveSpeed(newMoveSpeed);
 				break;
 			}
@@ -789,12 +789,12 @@ void Restaurant::ReNewUI()
 			_foodFrame->AddFrame(coin);
 
 			UIText* triangle = new UIText();
-			triangle->init("triangle", 10, 60 + j * 30, 500, 500, "▶ + ", FONT::PIX, WORDSIZE::WS_MIDDLESMALL);
+			triangle->init("triangle", 10, 60 + j * 30, 500, 500, "▶ + ", FONT::PIX, WORDSIZE::WS_SMALL);
 			_foodFrame->AddFrame(triangle);
 
 			UIText* foodStatNum = new UIText();
 			foodStatNum->init("foodStatNum", 60, 60 + j * 30, 500, 500, to_string((int)_vFoods[i]->_vStatusNum[j]),
-				FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_LEFT, RGB(0, 255, 0));
+				FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(0, 255, 0));
 			_foodFrame->AddFrame(foodStatNum);
 
 			string typetext;
@@ -819,11 +819,38 @@ void Restaurant::ReNewUI()
 			case FST_MAXHP:
 				typetext = "최대체력";
 				break;
+			case FST_MAXDASH:
+				typetext = "대시 횟수";
+				break;
+			case FST_FIXEDDMG:
+				typetext = "고정 데미지";
+				break;
+			case FST_ATKSPEED:
+				typetext = "% 공격 속도";
+				break;
+			case FST_CHARGESPEED:
+				typetext = "% 재장전 속도 %";
+				break;
+			case FST_MAXACCSLOT:
+				typetext = "악세사리 슬롯";
+				break;
+			case FST_STRONG:
+				typetext = "강인함";
+				break;
+			case FST_SATIATION:
+				typetext = "포만감";
+				break;
+			case FST_BLOCK:
+				typetext = "막기";
+				break;
+			case FST_MOVESPEED:
+				typetext = "% 이동 속도";
+				break;
 			default:
 				break;
 			}
 			UIText* foodStatType = new UIText();
-			foodStatType->init("foodStatType", 100, 60 + j * 30, 500, 500, typetext, FONT::PIX, WORDSIZE::WS_MIDDLE);
+			foodStatType->init("foodStatType", 80, 60 + j * 30, 500, 500, typetext, FONT::PIX, WORDSIZE::WS_MIDDLESMALL);
 			_foodFrame->AddFrame(foodStatType);
 		}
 	}
