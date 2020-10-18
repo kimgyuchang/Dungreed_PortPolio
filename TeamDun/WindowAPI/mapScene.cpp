@@ -279,12 +279,6 @@ void mapScene::UIInit()
 
 void mapScene::release()
 {
-	_mapTool->release();
-	_uiBrushTool->release();
-
-	SAFE_DELETE(_mapTool);
-	SAFE_DELETE(_uiBrushTool);
-	SAFE_DELETE(_targetObject);
 }
 
 void mapScene::update()

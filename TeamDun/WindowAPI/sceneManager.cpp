@@ -9,7 +9,6 @@ HRESULT sceneManager::init()
 
 void sceneManager::release()
 {
-
 	for (auto scene : _mSceneList)
 	{
 		scene.second->release();

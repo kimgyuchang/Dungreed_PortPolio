@@ -597,10 +597,10 @@
     <ClInclude Include="TreasureSpawner.h">
       <Filter>MainGame\Object\Etc</Filter>
     </ClInclude>
-    <ClInclude Include="FireBat.h">
+    <ClInclude Include="IceBat.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="IceBat.h">
+    <ClInclude Include="FireBat.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="BloodOfSrobeo.h">

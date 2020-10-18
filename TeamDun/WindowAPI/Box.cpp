@@ -95,3 +95,8 @@ void Box::GetDamage()
 
 	_isDead = true;
 }
+
+void Box::GetDamage(int damage)
+{
+	GetDamage();
+}

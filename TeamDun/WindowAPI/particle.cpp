@@ -7,7 +7,6 @@ void particle::init()
 
 void particle::release()
 {
-	SAFE_DELETE(_image);
 }
 
 void particle::update()

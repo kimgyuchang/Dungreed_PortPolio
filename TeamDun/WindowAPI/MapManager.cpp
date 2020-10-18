@@ -89,6 +89,7 @@ void MapManager::AddStage(int stageNum)
 
 	if(stageNum == 2) SOUNDMANAGER->play("보스방입장문");
 }
+
 void MapManager::update()
 {
 	if (INPUT->GetKeyDown(VK_F2))
