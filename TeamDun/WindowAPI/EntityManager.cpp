@@ -37,17 +37,23 @@ void EntityManager::render(HDC hdc)
 void EntityManager::release()
 {
 
-	for (int i = 0; i < _vObjs.size(); i++)	_vObjs[i]->release();
-	for (int i = 0; i < _vBullets.size(); i++) _vBullets[i]->release();
-	_wormVillage->release();
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		_vObjs[i]->release();
+		SAFE_DELETE(_vObjs[i]);
+	}
 
-	_p->release();
+	for (int i = 0; i < _vBullets.size(); i++)
+	{
+		_vBullets[i]->release();
+		SAFE_DELETE(_vBullets[i]);
+	}
 }
 
-Bullet* EntityManager::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle, float damage, float speed, float maxDis, bool isFrame, float igAngle)
+Bullet* EntityManager::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle, float damage, float speed, float maxDis, bool isFrame, float igAngle, BULLETSPEEDTYPE speedtype)
 {
 	Bullet* _bullet = new Bullet;
-	_bullet->makeBullet(imageName, effectIgName, type, x, y, angle, damage, speed, maxDis, isFrame, igAngle);
+	_bullet->makeBullet(imageName, effectIgName, type, x, y, angle, damage, speed, maxDis, isFrame, igAngle ,speedtype);
 	_vBullets.push_back(_bullet);
 	return _bullet;
 }
@@ -59,12 +65,11 @@ void EntityManager::eraseBullet()
 	image* BansheeBulletIg = IMAGEMANAGER->findImage("BansheeBulletIdle");
 
 
-
 	for (int i = 0; i < _vBullets.size(); i++)
 	{
 		if (_vBullets[i]->getDis() >= _vBullets[i]->getMaxDis())
 		{
-			EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), _vBullets[i]->getEffectIgName(), 4, 0, 0, false, 255);
+			EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), _vBullets[i]->getEffectIgName(), 4, 0, 0, false, 255,_vBullets[i]->getAngle());
 			_vBullets[i]->SetIsDead(true);
 
 		}
@@ -82,8 +87,7 @@ void EntityManager::eraseBullet()
 
 			if ((r == 255 && g == 0 && b == 0))
 			{
-
-				EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), _vBullets[i]->getEffectIgName(), 4, 0, 0, false, 255);
+				EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), _vBullets[i]->getEffectIgName(), 4, 0, 0, false, 255,_vBullets[i]->getAngle());
 				_vBullets[i]->SetIsDead(true);
 
 			}
@@ -130,10 +134,24 @@ void EntityManager::HitBullet()
 				{
 					if (IntersectRect(&temp, &_vBullets[j]->getRc(), &curObj->GetBody()))
 					{
+					
 						if (!curObj->GetIsDead())
 						{
-							_vBullets[j]->SetIsDead(true);
-							MAPMANAGER->GetPlayMap()->GetObjects()[i]->GetDamage();
+							if (curObj->GetType() == OBJECTTYPE::OT_MONSTER)
+							{
+								if (dynamic_cast<Enemy*>(curObj)->GetIsSpawned())
+								{
+									EFFECTMANAGER->AddEffect(_vBullets[j]->getX(), _vBullets[j]->getY(), _vBullets[j]->getEffectIgName(), 4,0, 0, false, 255,_vBullets[j]->getAngle());
+									_vBullets[j]->SetIsDead(true);
+									MAPMANAGER->GetPlayMap()->GetObjects()[i]->GetDamage(_vBullets[j]->getDamage());
+								}
+							}
+							else
+							{
+								EFFECTMANAGER->AddEffect(_vBullets[j]->getX(), _vBullets[j]->getY(), _vBullets[j]->getEffectIgName(), 4, 0, 0, false, 255, _vBullets[j]->getAngle());
+								_vBullets[j]->SetIsDead(true);
+								MAPMANAGER->GetPlayMap()->GetObjects()[i]->GetDamage(_vBullets[j]->getDamage());
+							}
 						}
 						break;
 					}

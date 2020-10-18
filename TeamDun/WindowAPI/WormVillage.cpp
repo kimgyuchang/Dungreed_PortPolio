@@ -47,10 +47,7 @@ void WormVillage::Animation()
 			if (_frameX > _vImages[_useImage]->getMaxFrameX())
 			{
 				_isOn = false;
-				_renderPlayer = true;
-				MAPMANAGER->AddStage(1);
-				MAPMANAGER->ChangeMap(0);
-				MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_RIGHT);
+				MAPMANAGER->GetStageChanger()->MoveStage(1);
 			}
 		}
 	}
@@ -58,12 +55,13 @@ void WormVillage::Animation()
 
 void WormVillage::Activate()
 {
-	if (!_isOn)
+	if (!_isOn && !MAPMANAGER->GetStageChanger()->GetIsChangingStage())
 	{
 		_x = ENTITYMANAGER->getPlayer()->GetX() + 30 - _vImages[_useImage]->getFrameWidth()/2;
 		_y = ENTITYMANAGER->getPlayer()->GetY() - 48 - _vImages[_useImage]->getFrameHeight()/2;
 		_frameX = 0;
 		_frameTimer = 0;
 		_isOn = true;
+		SOUNDMANAGER->play("먹는포탈쿵오르내림");
 	}
 }

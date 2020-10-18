@@ -6,49 +6,91 @@ HRESULT MapManager::init()
 	_vOriginMaps.clear();
 	_stage = new Stage();
 
-	vector<vector<string>> mapData = CSVMANAGER->csvLoad("Data/Maps.csv");
-	for (int i = 0; i < mapData.size(); i++)
-	{
-		FieldMap* map = new FieldMap();
-		map->init(mapData[i][0]);
-		map->SetStage(stoi(mapData[i][1]));
-		map->LoadMap();
-
-		if (mapData[i][2] == "NORMAL") map->SetFieldType(FIELDMAPTYPE::FMT_NORMAL);
-		else if (mapData[i][2] == "ENTER") map->SetFieldType(FIELDMAPTYPE::FMT_ENTER);
-		else if (mapData[i][2] == "END") map->SetFieldType(FIELDMAPTYPE::FMT_END);
-		else if (mapData[i][2] == "SHOP") map->SetFieldType(FIELDMAPTYPE::FMT_SHOP);
-		else if (mapData[i][2] == "RESTAURANT") map->SetFieldType(FIELDMAPTYPE::FMT_RESTAURANT);
-		else if (mapData[i][2] == "TEMPLE") map->SetFieldType(FIELDMAPTYPE::FMT_TEMPLE);
-
-		map->SetMovePos(DIRECTION::DIR_LEFT, POINT{ stoi(mapData[i][3]), stoi(mapData[i][4]) });
-		map->SetMovePos(DIRECTION::DIR_RIGHT, POINT{ stoi(mapData[i][5]), stoi(mapData[i][6]) });
-		map->SetMovePos(DIRECTION::DIR_UP, POINT{ stoi(mapData[i][7]), stoi(mapData[i][8]) });
-		map->SetMovePos(DIRECTION::DIR_DOWN, POINT{ stoi(mapData[i][9]), stoi(mapData[i][10]) });
-
-		_vOriginMaps.push_back(map);
-	}
+	_mapData = CSVMANAGER->csvLoad("Data/Maps.csv");
 	
-	AddStage(1);
+	AddStage(0);
 	_mapFrame = UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetChild("mapFrame");
 	_pixelGetter = new PixelGetter();
-	ChangeMap(4);
+	ChangeMap(0);
+	MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_DOWN);
+	
 	_portalAnimOn = false;
+	_stageChanger = new StageChanger();
+	_stageChanger->init();
 	return S_OK;
+}
+
+void MapManager::ClearStage(int cntStage)
+{
+	_vOriginMaps.clear();
+
+	for (int i = 0; i < _mapData.size(); i++)
+	{
+		if (stoi(_mapData[i][1]) == cntStage) 
+		{
+			FieldMap* map = new FieldMap();
+			map->init(_mapData[i][0]);
+			map->SetStage(stoi(_mapData[i][1]));
+			map->LoadMap();
+
+			if (_mapData[i][2] == "NORMAL") map->SetFieldType(FIELDMAPTYPE::FMT_NORMAL);
+			else if (_mapData[i][2] == "ENTER") map->SetFieldType(FIELDMAPTYPE::FMT_ENTER);
+			else if (_mapData[i][2] == "END") map->SetFieldType(FIELDMAPTYPE::FMT_END);
+			else if (_mapData[i][2] == "SHOP") map->SetFieldType(FIELDMAPTYPE::FMT_SHOP);
+			else if (_mapData[i][2] == "RESTAURANT") map->SetFieldType(FIELDMAPTYPE::FMT_RESTAURANT);
+			else if (_mapData[i][2] == "TEMPLE") map->SetFieldType(FIELDMAPTYPE::FMT_TEMPLE);
+
+			map->SetMovePos(DIRECTION::DIR_LEFT, POINT{ stoi(_mapData[i][3]), stoi(_mapData[i][4]) });
+			map->SetMovePos(DIRECTION::DIR_RIGHT, POINT{ stoi(_mapData[i][5]), stoi(_mapData[i][6]) });
+			map->SetMovePos(DIRECTION::DIR_UP, POINT{ stoi(_mapData[i][7]), stoi(_mapData[i][8]) });
+			map->SetMovePos(DIRECTION::DIR_DOWN, POINT{ stoi(_mapData[i][9]), stoi(_mapData[i][10]) });
+
+			_vOriginMaps.push_back(map);
+		}
+	}
 }
 
 void MapManager::AddStage(int stageNum)
 {
-	_stage = new Stage();
-	bool mapAllCleared = true;
+	switch (stageNum)
+	{
+		case 0: 
+		{
+			SOUNDMANAGER->StopAllBGM();
+			SOUNDMANAGER->play("0.Town"); 
+			SOUNDMANAGER->play("ambience_town"); 
+			break;
+		}
+
+		case 1: 
+		{
+			SOUNDMANAGER->StopAllBGM();
+			SOUNDMANAGER->play("1.JailField"); 
+			SOUNDMANAGER->play("ambience_prison"); 
+			break;
+		}
+
+		case 2: 
+			SOUNDMANAGER->StopAllBGM(); 
+			SOUNDMANAGER->play("ambience_prison");
+			break; // 보스방에서는 잠시 BGM을 멈춰줌 (이후 스폰시 1.JailBoss 재생)
+	}
+
+	bool mapAllCleared;
 	_curStageNum = stageNum;
 	while (true)
 	{
+		ClearStage(_curStageNum);
+		mapAllCleared = true;
+		_stage = new Stage();
 		_stage->init(stageNum);
 		if (!_stage->SettingMap()) mapAllCleared = false;
 		if (mapAllCleared) break;
 	}
+
+	if(stageNum == 2) SOUNDMANAGER->play("보스방입장문");
 }
+
 void MapManager::update()
 {
 	if (INPUT->GetKeyDown(VK_F2))
@@ -62,6 +104,7 @@ void MapManager::update()
 		MAPMANAGER->init();
 	}
 
+	_stageChanger->update();
 	_stage->GetMaps()[_currentMap]->update();
 	DungeonMapUIMover();
 	SetMapUIOnOff();
@@ -75,6 +118,7 @@ void MapManager::SetMapUIOnOff()
 {
 	if (INPUT->GetKeyDown(VK_TAB))
 	{
+		_portalOn = false;
 		UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->ToggleIsViewing();
 	}
 }
@@ -84,14 +128,22 @@ void MapManager::SetMapUIOnOff()
 /// </summary>
 void MapManager::GenerateMapParticle()
 {
-	ParticleGenerator* mapSquareGen = new ParticleGenerator();
-	mapSquareGen->initGenerator(REGULARGEN, 100000, 3, 0, 1, vector<string>{ "SqaureParticle" });
-	mapSquareGen->initPos(GetPlayMap()->GetMapSizeX() * 24, GetPlayMap()->GetMapSizeY() * 24, GetPlayMap()->GetMapSizeX() * 44, GetPlayMap()->GetMapSizeY() * 44);
-	mapSquareGen->initAlpha(150, 50, 1);
-	mapSquareGen->initTime(150, 10);
-	mapSquareGen->initScale(0.5f, 1.0f, 0);
-	mapSquareGen->initSpeed(0.5f, 0.5f, 0.3f, 0.3f, 0, 0);
-	PARTICLEMANAGER->AddGenerator(mapSquareGen);
+	if (_curStageNum == 1 || _curStageNum == 2)
+	{
+		CAMERAMANAGER->init(0, 0, 15000, 15000, -300, -300, WINSIZEX / 2, WINSIZEY / 2);
+		ParticleGenerator* mapSquareGen = new ParticleGenerator();
+		mapSquareGen->initGenerator(REGULARGEN, 100000, 3, 0, 1, vector<string>{ "SqaureParticle" });
+		mapSquareGen->initPos(GetPlayMap()->GetMapSizeX() * 24, GetPlayMap()->GetMapSizeY() * 24, GetPlayMap()->GetMapSizeX() * 44, GetPlayMap()->GetMapSizeY() * 44);
+		mapSquareGen->initAlpha(150, 50, 1);
+		mapSquareGen->initTime(150, 10);
+		mapSquareGen->initScale(0.5f, 1.0f, 0);
+		mapSquareGen->initSpeed(0.5f, 0.5f, 0.3f, 0.3f, 0, 0);
+		PARTICLEMANAGER->AddGenerator(mapSquareGen);
+	}
+	else if(_curStageNum == 0)
+	{
+		CAMERAMANAGER->init(0, 0, 6720, 15000, 0, 0, WINSIZEX / 2, WINSIZEY / 2);
+	}
 }
 
 void MapManager::DungeonMapUIMover()
@@ -144,7 +196,8 @@ void MapManager::UsePortalMap()
 					mapSquare->SetImage(hoverImg);
 					if (INPUT->GetIsLButtonClicked())
 					{
-						_currentPortal->MoveMap(i);
+						SOUNDMANAGER->play("던전이동");
+						if(_currentPortal != nullptr) _currentPortal->MoveMap(i);
 						UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->SetIsViewing(false);
 						_portalOn = false;
 						_portalAnimOn = true;
@@ -180,7 +233,7 @@ void MapManager::ReNewMapUI()
 			if (map->GetNextMapIndex(DIRECTION::DIR_LEFT) != -1)
 			{
 				UIImage* line = new UIImage();
-				line->init("map_" + to_string(i) + "_lineLeft", (map->GetXIndex() - xIndex) * 100 + 500 - 42, (map->GetYIndex() - yIndex) * 100 + 200 + 36, 42, 8, "Room_Line_LR", false, 0, 0, 1.0f, 1.0f, 125);
+				line->init("map_" + to_string(i) + "_lineLeft", (map->GetXIndex() - xIndex) * 100 + 500 - 42, (map->GetYIndex() - yIndex) * 100 + 200 + 36, 42, 8, "Room_Line_LR", false, 0, 0);
 				frame->AddFrame(line);
 				line->SetUseOutsideLimit(true);
 			}
@@ -188,7 +241,7 @@ void MapManager::ReNewMapUI()
 			if (map->GetNextMapIndex(DIRECTION::DIR_RIGHT) != -1)
 			{
 				UIImage* line = new UIImage();
-				line->init("map_" + to_string(i) + "_lineRight", (map->GetXIndex() - xIndex) * 100 + 500 + 72, (map->GetYIndex() - yIndex) * 100 + 200 + 36, 42, 8, "Room_Line_LR", false, 0, 0, 1.0f, 1.0f, 125);
+				line->init("map_" + to_string(i) + "_lineRight", (map->GetXIndex() - xIndex) * 100 + 500 + 72, (map->GetYIndex() - yIndex) * 100 + 200 + 36, 42, 8, "Room_Line_LR", false, 0, 0);
 				frame->AddFrame(line);
 				line->SetUseOutsideLimit(true);
 			}
@@ -196,7 +249,7 @@ void MapManager::ReNewMapUI()
 			if (map->GetNextMapIndex(DIRECTION::DIR_UP) != -1)
 			{
 				UIImage* line = new UIImage();
-				line->init("map_" + to_string(i) + "_lineUp", (map->GetXIndex() - xIndex) * 100 + 500 + 36, (map->GetYIndex() - yIndex) * 100 + 200 - 42, 8, 42, "Room_Line_UD", false, 0, 0, 1.0f, 1.0f, 125);
+				line->init("map_" + to_string(i) + "_lineUp", (map->GetXIndex() - xIndex) * 100 + 500 + 36, (map->GetYIndex() - yIndex) * 100 + 200 - 42, 8, 42, "Room_Line_UD", false, 0, 0);
 				frame->AddFrame(line);
 				line->SetUseOutsideLimit(true);
 			}
@@ -204,7 +257,7 @@ void MapManager::ReNewMapUI()
 			if (map->GetNextMapIndex(DIRECTION::DIR_DOWN) != -1)
 			{
 				UIImage* line = new UIImage();
-				line->init("map_" + to_string(i) + "_lineDown", (map->GetXIndex() - xIndex) * 100 + 500 + 36, (map->GetYIndex() - yIndex) * 100 + 200 + 72, 8, 42, "Room_Line_UD", false, 0, 0, 1.0f, 1.0f, 125);
+				line->init("map_" + to_string(i) + "_lineDown", (map->GetXIndex() - xIndex) * 100 + 500 + 36, (map->GetYIndex() - yIndex) * 100 + 200 + 72, 8, 42, "Room_Line_UD", false, 0, 0);
 				frame->AddFrame(line);
 				line->SetUseOutsideLimit(true);
 			}
@@ -249,14 +302,19 @@ void MapManager::render(HDC hdc)
 /// </summary>
 void MapManager::ChangeMap(int index)
 {
+	FIELDMAPTYPE prevMapType;
+	if (_currentMap >= 0 && _currentMap < _stage->GetMaps().size()) prevMapType = GetPlayMap()->GetFieldMapType();
+	else prevMapType = FIELDMAPTYPE::FMT_NULL;
+
 	_currentMap = index;
+	ChangeMapBGM(prevMapType);
 
 	GetPlayMap()->PixelCollisionMapGenerate();
 	GetPlayMap()->GridMapGenerate();
-
+	
 	if (!GetPlayMap()->GetVisited())
 	{
-		int satiety = ENTITYMANAGER->getPlayer()->GetSatiety() - 1;
+		int satiety = ENTITYMANAGER->getPlayer()->GetSatiety() - 2;
 		if (satiety < 0) satiety = 0;
 		ENTITYMANAGER->getPlayer()->SetSatiety(satiety);
 		GetPlayMap()->SetVisited(true);
@@ -274,4 +332,32 @@ void MapManager::ChangeMap(int index)
 		ENTITYMANAGER->getPlayer()->GetWeapon(ENTITYMANAGER->getPlayer()->GetSelectedWeaponIdx())->ChangeMap();
 
 	GetPlayMap()->DoorParticleGenerate();
+}
+
+void MapManager::ChangeMapBGM(FIELDMAPTYPE prevMapType)
+{
+	if (prevMapType != FIELDMAPTYPE::FMT_NULL)
+	{
+		if (GetPlayMap()->GetFieldMapType() == FIELDMAPTYPE::FMT_RESTAURANT)
+		{
+			SOUNDMANAGER->StopAllBGM();
+			SOUNDMANAGER->play("Foodshop");
+			SOUNDMANAGER->play("ambience_prison");
+		}
+
+		else if (GetPlayMap()->GetFieldMapType() == FIELDMAPTYPE::FMT_SHOP)
+		{
+			SOUNDMANAGER->StopAllBGM();
+			SOUNDMANAGER->play("Shop");
+			SOUNDMANAGER->play("ambience_prison");
+		}
+
+		else if (GetPlayMap()->GetFieldMapType() != FIELDMAPTYPE::FMT_SHOP && GetPlayMap()->GetFieldMapType() != FIELDMAPTYPE::FMT_RESTAURANT &&
+			(prevMapType == FIELDMAPTYPE::FMT_SHOP || prevMapType == FIELDMAPTYPE::FMT_RESTAURANT))
+		{
+			SOUNDMANAGER->StopAllBGM();
+			SOUNDMANAGER->play("1.JailField");
+			SOUNDMANAGER->play("ambience_prison");
+		}
+	}
 }

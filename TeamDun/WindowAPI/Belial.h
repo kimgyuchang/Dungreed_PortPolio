@@ -54,8 +54,8 @@ private:
 	float			_fireAngle;
 	int				_bulletFireTimer;
 	int				_bulletEndTimer;
-
-
+	bool			_realIsViewing;
+	int				_handAlpha;
 	//레이저패턴 변수
 	bool			_RazerEnd;
 	int				_RazerEndCount;
@@ -102,5 +102,8 @@ public:
 	 void	SetSwordAngle();
 	 void	SwordPixelCollision();
 	 void	EraseSword();
+
+	 void	SetBelial();
+	 void	SetHpBar();
 };
 

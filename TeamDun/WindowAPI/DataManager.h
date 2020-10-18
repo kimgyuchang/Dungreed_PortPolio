@@ -39,7 +39,7 @@ public :
 	map<int, MapObject*>&	GetMapObjectData()				{ return _mMapObjectData; }
 	Object*					GetObjectById(int id)			{ return _mObjectData[id]; }
 	map<int, Item*>&		GetMapItemData()				{return _mMapItemData; }
-
+	
 	int						GetItemMaxId()					{ return _itemMaxId; }
 	int						GetItemMinId()					{ return _itemMinId; }
 };

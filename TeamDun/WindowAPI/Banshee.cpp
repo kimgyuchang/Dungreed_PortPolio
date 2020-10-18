@@ -8,7 +8,7 @@ HRESULT Banshee::init(int id, string name, OBJECTTYPE type, vector<string> imgNa
 	_stateTimer = 0;
 	_Damage = 8;
 	_isAtk = false;
-	_initHp = _HP = 50;
+	_initHp = _hp = 50;
 	_attackCoolTime = RANDOM->range(200) + 250;
 	return S_OK;
 }
@@ -59,6 +59,7 @@ void Banshee::Attack()
 				_leftAtk = false;
 			}
 			_state = ES_ATTACK;
+			SOUNDMANAGER->play("∏ÛΩ∫≈Õ_πÍΩ√");
 		}
 	}
 }

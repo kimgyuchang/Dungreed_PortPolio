@@ -11,9 +11,12 @@ struct Tile
 
 enum FIELDMAPTYPE
 {
-	FMT_ENTER, FMT_END, FMT_RESTAURANT, FMT_SHOP, FMT_TEMPLE, FMT_NORMAL
+	FMT_ENTER, FMT_END, FMT_RESTAURANT, FMT_SHOP, FMT_TEMPLE, FMT_NORMAL, FMT_NULL
 };
+
 class Portal;
+class PixieSpawner;
+class TreasureSpawner;
 class FieldMap
 {
 private :
@@ -41,10 +44,11 @@ private :
 	int						_spawnTimer;		// 몬스터 스폰용 타이머
 	
 	Portal*					_portal;			// 이 맵의 포탈
+	PixieSpawner*			_pixieSpawner;		// 픽시 스포너
+	TreasureSpawner*		_treasureSpawner;	// 상자 스포너
 
 public :
 	void LoadMap();
-
 	void LoadObject();
 
 	void MakeNearTileCollision(Door* door, bool isActivate);

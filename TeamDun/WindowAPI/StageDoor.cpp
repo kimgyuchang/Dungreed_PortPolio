@@ -3,7 +3,5 @@
 
 void StageDoor::Activate()
 {
-	MAPMANAGER->AddStage(MAPMANAGER->GetCurStageNum() != 2 ? MAPMANAGER->GetCurStageNum() + 1 : 0);
-	MAPMANAGER->ChangeMap(0);
-	MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_RIGHT);
+	MAPMANAGER->GetStageChanger()->MoveStage(MAPMANAGER->GetCurStageNum() != 2 ? MAPMANAGER->GetCurStageNum() + 1 : 0);
 }

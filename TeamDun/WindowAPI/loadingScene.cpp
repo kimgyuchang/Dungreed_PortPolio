@@ -6,6 +6,10 @@ HRESULT loadingScene::init()
 	_loading = new Loading();
 	_loading->init();
 
+	SOUNDMANAGER->init();
+	SOUNDMANAGER->addSound("인트로 사운드", "Sounds/Effect/인트로 사운드.wav", false, false);
+	SOUNDMANAGER->play("인트로 사운드");
+
 	IMAGEMANAGER->addImage("loadingBarFront", "loadingBarFront.bmp", 620, 200);
 	IMAGEMANAGER->addImage("loadingBarBack", "loadingBarBack.bmp", 620, 200);
 
@@ -31,6 +35,8 @@ void loadingScene::release()
 
 void loadingScene::update()
 {
+	SOUNDMANAGER->update();
+
 	_loading->update();
 	_loadingBar->update();
 	this->animation();
@@ -45,7 +51,7 @@ void loadingScene::update()
 	// 아니라면 계속해서 불러오기
 	else
 	{
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 12; i++)
 		{
 			LoadItem* item = _loading->GetLoadItem()[_currentGauge];
 			_loading->LoadingDone(item);
@@ -268,6 +274,11 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("TrainingSchool", "Images/Object/TrainingSchool.bmp", 810, 231, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("GoldCoin", "Images/Object/GoldCoin.bmp", 168, 21, 8, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("Bullion", "Images/Object/Bullion.bmp", 420, 27, 7, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FairyL00", "Images/Object/FairyL00.bmp", 1152, 75, 16, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FairyM00", "Images/Object/FairyM00.bmp", 960, 60, 16, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FairyS00", "Images/Object/FairyS00.bmp", 432, 33, 16, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FairyXL00", "Images/Object/FairyXL00.bmp", 1440, 90, 16, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("GreenFairy00", "Images/Object/GreenFairy00.bmp", 1440, 90, 16, 1, true, RGB(255, 0, 255));
 
 	// STAGE 1 //
 	_loading->LoadNormalImage("Door0_Closed", "Images/1Floor/Door0_Closed.bmp", 171, 195, true, RGB(255, 0, 255));
@@ -342,6 +353,8 @@ void loadingScene::loadingImage()
 
 	// ETC //
 	_loading->LoadNormalImage("SpawnMonsterPos", "Images/Etc/SpawnMonsterPos.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SpawnBoxPos", "Images/Etc/SpawnBoxPos.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SpawnPixiePos", "Images/Etc/SpawnPixiePos.bmp", 48, 48, true, RGB(255, 0, 255));
 
 	// UI //  
 	_loading->LoadNormalImage("UIBaseBig", "Images/UI/Base.bmp", 500, 300, true, RGB(255, 0, 255));
@@ -357,6 +370,58 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("ShortcutKey1", "Images/UI/IconGray.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("ShortcutKey2", "Images/UI/IconWhite1.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("AbilityTextBar", "Images/UI/AbilityTextBar.bmp", 33, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_avarice_5_1", "Images/UI/ICON/Trait_avarice_5_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_avarice_5_2", "Images/UI/ICON/Trait_avarice_5_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_avarice_10_1", "Images/UI/ICON/Trait_avarice_10_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_avarice_10_2", "Images/UI/ICON/Trait_avarice_10_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_avarice_20_1", "Images/UI/ICON/Trait_avarice_20_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_avarice_20_2", "Images/UI/ICON/Trait_avarice_20_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Concentration_5_1", "Images/UI/ICON/Trait_Concentration_5_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Concentration_5_2", "Images/UI/ICON/Trait_Concentration_5_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Concentration_10_1", "Images/UI/ICON/Trait_Concentration_10_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Concentration_10_2", "Images/UI/ICON/Trait_Concentration_10_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Concentration_20_1", "Images/UI/ICON/Trait_Concentration_20_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Concentration_20_2", "Images/UI//ICON/Trait_Concentration_20_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_craving_5_1", "Images/UI/ICON/Trait_craving_5_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_craving_5_2", "Images/UI/ICON/Trait_craving_5_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_craving_10_1", "Images/UI/ICON/Trait_craving_10_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_craving_10_2", "Images/UI/ICON/Trait_craving_10_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_craving_20_1", "Images/UI/ICON/Trait_craving_20_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_craving_20_2", "Images/UI/ICON/Trait_craving_20_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Def_5_1", "Images/UI/ICON/Trait_Def_5_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Def_5_2", "Images/UI/ICON/Trait_Def_5_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Def_10_1", "Images/UI/ICON/Trait_Def_10_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Def_10_2", "Images/UI/ICON/Trait_Def_10_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Def_20_1", "Images/UI/ICON/Trait_Def_20_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Def_20_2", "Images/UI/ICON/Trait_Def_20_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Mystery_5_1", "Images/UI/ICON/Trait_Mystery_5_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Mystery_5_2", "Images/UI/ICON/Trait_Mystery_5_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Mystery_10_1", "Images/UI/ICON/Trait_Mystery_10_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Mystery_10_2", "Images/UI/ICON/Trait_Mystery_10_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Mystery_20_1", "Images/UI/ICON/Trait_Mystery_20_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Mystery_20_2", "Images/UI/ICON/Trait_Mystery_20_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Power_5_1", "Images/UI/ICON/Trait_Power_5_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Power_5_2", "Images/UI/ICON/Trait_Power_5_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Power_10_1", "Images/UI/ICON/Trait_Power_10_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Power_10_2", "Images/UI/ICON/Trait_Power_10_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Power_20_1", "Images/UI/ICON/Trait_Power_20_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Power_20_2", "Images/UI/ICON/Trait_Power_20_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Speed_5_1", "Images/UI/ICON/Trait_Speed_5_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Speed_5_2", "Images/UI/ICON/Trait_Speed_5_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Speed_10_1", "Images/UI/ICON/Trait_Speed_10_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Speed_10_2", "Images/UI/ICON/Trait_Speed_10_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Speed_20_1", "Images/UI/ICON/Trait_Speed_20_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Speed_20_2", "Images/UI/ICON/Trait_Speed_20_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButton_Arcane", "Images/UI/AbilityBackgroundButton_Arcane.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButton_Greed", "Images/UI/AbilityBackgroundButton_Greed.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButton_Patience", "Images/UI/AbilityBackgroundButton_Patience.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButton_Swiftness", "Images/UI/AbilityBackgroundButton_Swiftness.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButton_Wrath", "Images/UI/AbilityBackgroundButton_Wrath.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButtonDisable_Arcane", "Images/UI/AbilityBackgroundButtonDisable_Arcane.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButtonDisable_Greed", "Images/UI/AbilityBackgroundButtonDisable_Greed.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButtonDisable_Patience", "Images/UI/AbilityBackgroundButtonDisable_Patience.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButtonDisable_Swiftness", "Images/UI/AbilityBackgroundButtonDisable_Swiftness.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButtonDisable_Wrath", "Images/UI/AbilityBackgroundButtonDisable_Wrath.bmp", 54, 54, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("accessoryZone", "Images/UI/accessoryZone.bmp", 96, 75, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("AltarButton0", "Images/UI/AltarButton0.bmp", 300, 90, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("AltarButton1", "Images/UI/AltarButton1.bmp", 266, 87, true, RGB(255, 0, 255));
@@ -417,14 +482,14 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("ScrollRect", "Images/UI/ScrollRect.bmp", 906, 396, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SlotDeleteButton", "Images/UI/SlotDeleteButton.bmp", 186, 51, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SlotDeleteButton_Rev", "Images/UI/SlotDeleteButton_Rev.bmp", 51, 186, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("AbilityBackground_0", "Images/UI/AbilityBackground_0.bmp", 192, 345, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("AbilityBackground_1", "Images/UI/AbilityBackground_1.bmp", 174, 339, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("AbilityBackground_Arcane", "Images/UI/AbilityBackground_Arcane.bmp", 174, 342, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("AbilityBackground_Greed", "Images/UI/AbilityBackground_Greed.bmp", 186, 348, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("AbilityBackground_Patience", "Images/UI/AbilityBackground_Patience.bmp", 174, 333, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("AbilityBackground_Swiftness", "Images/UI/AbilityBackground_Swiftness.bmp", 180, 357, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("AbilityBackground_Wrath", "Images/UI/AbilityBackground_Wrath.bmp", 198, 351, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("AbilityTItle", "Images/UI/AbilityTItle.bmp", 960, 96, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackground_0", "Images/UI/AbilityBackground_0.bmp", 200, 350, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackground_1", "Images/UI/AbilityBackground_1.bmp", 200, 350, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackground_Arcane", "Images/UI/AbilityBackground_Arcane.bmp", 200, 350, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackground_Greed", "Images/UI/AbilityBackground_Greed.bmp", 200, 350, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackground_Patience", "Images/UI/AbilityBackground_Patience.bmp", 200, 350, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackground_Swiftness", "Images/UI/AbilityBackground_Swiftness.bmp", 200, 350, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackground_Wrath", "Images/UI/AbilityBackground_Wrath.bmp", 200, 350, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityTItle", "Images/UI/AbilityTItle.bmp", 1440, 96, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("accessory", "Images/UI/accessory.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("accessorySelect", "Images/UI/accessorySelect.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("InventoryBase_2", "Images/UI/InventoryBase_2.bmp", 369, 564, true, RGB(255, 0, 255));
@@ -576,10 +641,15 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Stat_Shock", "Images/UI/ICON/Stat_Shock.bmp", 51, 51, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Stat_Stun", "Images/UI/ICON/Stat_Stun.bmp", 51, 51, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Keyboard_F", "Images/UI/ICON/Keyboard_F.bmp", 39, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Keyboard_R", "Images/UI/ICON/Keyboard_R.bmp", 39, 42, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Food", "Images/UI/ICON/Food.bmp", 17, 14, true, RGB(255,0,255));
 	_loading->LoadNormalImage("FoodIcon", "Images/UI/ICON/FoodIcon.bmp", 51, 42, true, RGB(255,0,255));
 	_loading->LoadNormalImage("Coin", "Images/UI/ICON/Coin.bmp", 19, 19, true, RGB(255,0,255));
 	_loading->LoadNormalImage("Fairy", "Images/UI/ICON/Fairy.bmp", 17, 14, true, RGB(255,0,255));
+
+	_loading->LoadNormalImage("BossLifeBack", "Images/Monster/Boss/BossLifeBack.bmp", 600, 77, true, RGB(255,0,255));
+	_loading->LoadNormalImage("BossLifeBase", "Images/Monster/Boss/BossLifeBase.bmp", 600, 77, true, RGB(255,0,255));
+	_loading->LoadNormalImage("BossLife", "Images/Monster/Boss/BossLifeRed.bmp", 480, 77, true, RGB(255,0,255));
 
 
 	_loading->LoadNormalImage("gameStart1", "Images/UI/gameStart1.bmp", 158, 47, true, RGB(255, 0, 255));
@@ -769,6 +839,10 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("MinotaursAttack", "Images/Monster/MinotaursAttack.bmp", 1176, 300, 7, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("MinotaursBuff", "Images/Monster/MinotaursBuff.bmp", 1728, 87, 12, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("MinotaursDashEffect", "Images/Monster/MinotaursDashEffect.bmp", 2136, 216, 8, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("IceBat", "Images/Monster/IceBat.bmp", 558, 120, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("IceBatAttack", "Images/Monster/IceBatAttack.bmp", 900, 120, 10, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FireBat", "Images/Monster/FireBat.bmp", 558, 126, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FireBatAttack", "Images/Monster/FireBatAttack.bmp", 930, 126, 10, 2, true, RGB(255, 0, 255));
 
 	// BOSS //
 	_loading->LoadFrameImage("SkellBossIdle", "Images/Monster/Boss/SkellBossIdle.bmp", 2100, 285, 10, 1, true, RGB(255, 0, 255));
@@ -799,13 +873,14 @@ void loadingScene::loadingImage()
 	
 	_loading->LoadFrameImage("BossBullet", "Images/Monster/Boss/BossBullet.bmp", 156, 39, 4, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BossBulletEffect", "Images/Monster/Boss/BossBulletEffect.bmp", 744, 93, 8, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("destroyEffect", "Images/Monster/Boss/destroyEffect.bmp", 558, 186, 3, 1, true, RGB(255, 0, 255));
 
 	// BACKGROUND //
 	_loading->LoadNormalImage("BackFloorBack1", "Images/1Floor/Basic_H_Type2_4.bmp", 1, 1);
 	_loading->LoadNormalImage("SubBGStage1", "Images/1Floor/SubBGStage1.bmp", 960, 540, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("TownBG_Day", "Images/1Floor/TownBG_Day.bmp", 960, 426, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("TownLayer_Day", "Images/1Floor/TownLayer_Day.bmp", 960, 285, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("Sky_Day", "Images/1Floor/Sky_Day.bmp", 960, 540, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("TownBG_Day", "Images/villageFloor/TownBG_Day.bmp", 960, 1200, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("TownLayer_Day", "Images/villageFloor/TownLayer_Day.bmp", 960, 1200, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Sky_Day", "Images/villageFloor/Sky_Day.bmp", 1440, 800, true, RGB(255, 0, 255));
 
 	// ITEM //
 	_loading->LoadFrameImage("BasicShortSword_New", "Images/item/BasicShortSword_New.bmp", 90, 90, true, RGB(255, 0, 255));
@@ -821,12 +896,32 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("MainGauche_inven", "Images/item/MainGauche_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SilverEaring_inven", "Images/item/SilverEaring_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SilverRing_inven", "Images/item/SilverRing_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BloodOfSrobeo", "Images/item/BloodOfSrobeo.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ChainArmor", "Images/item/ChainArmor.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BloodStoneRing", "Images/item/BloodStoneRing.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BloodStoneNecklace", "Images/item/BloodStoneNecklace.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BombPouch", "Images/item/BombPouch.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ClothArmor", "Images/item/ClothArmor.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Bullion_Inven", "Images/item/Bullion_Inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Bullion", "Images/item/Bullion.bmp", 60, 27, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("CarpCoinPurse", "Images/item/CarpCoinPurse.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Cintamani", "Images/item/Cintamani.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BlessOfSage", "Images/item/BlessOfSage.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("CowLeather", "Images/item/CowLeather.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BatBulletHit", "Images/Monster/Bullet/BatBulletHit.bmp", 546, 78, 7, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BansheeBulletIdle", "Images/Monster/Bullet/BansheeBulletIdle.bmp", 180, 81, 3, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BansheeBulletHit", "Images/Monster/Bullet/BansheeBulletHit.bmp", 420, 81, 7, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Bullet01", "Images/Weapon/bullet/Bullet01.bmp", 42, 42, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Bullet02", "Images/Weapon/bullet/Bullet02.bmp", 27, 27, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("BulletEffect01", "Images/Weapon/bullet/BulletEffect01.bmp", 270, 45, 6, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("IceBullet", "Images/Monster/Bullet/IceBullet.bmp", 45, 45,1,1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("IceBulletHit", "Images/Monster/Bullet/IceBulletHit.bmp", 225, 75,3,1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FireBatBullet", "Images/Monster/Bullet/FireBatBullet.bmp", 345, 69,5,1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FireBatBullet0", "Images/Monster/Bullet/FireBatBullet0.bmp", 135, 45,3,1, true, RGB(255, 0, 255));
+	
 
 	// EFFECT //
 	_loading->LoadFrameImage("monsterSpawnEffect", "Images/Etc/monsterSpawnEffect.bmp", 1302, 93, 14, 1, true, RGB(255, 0, 255));
@@ -837,6 +932,24 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("SqaureParticle_2", "Images/Particle/SqaureParticle_2.bmp", 22, 22, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SqaureParticle_3", "Images/Particle/SqaureParticle_3.bmp", 28, 28, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SqaureParticle_4", "Images/Particle/SqaureParticle_4.bmp", 5, 5, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BigBoxParticle0_0", "Images/object/BigBoxParticle0_0.bmp", 30, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BigBoxParticle0_1", "Images/object/BigBoxParticle0_1.bmp", 24, 21, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BigBoxParticle0_2", "Images/object/BigBoxParticle0_2.bmp", 33, 39, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BigBoxParticle0_3", "Images/object/BigBoxParticle0_3.bmp", 12, 18, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BigBoxParticle0_4", "Images/object/BigBoxParticle0_4.bmp", 42, 39, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BigBoxParticle0_5", "Images/object/BigBoxParticle0_5.bmp", 27, 21, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BoxParticle0_0", "Images/object/BoxParticle0_0.bmp", 30, 39, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BoxParticle0_1", "Images/object/BoxParticle0_1.bmp", 21, 30, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BoxParticle0_2", "Images/object/BoxParticle0_2.bmp", 15, 24, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BoxParticle0_3", "Images/object/BoxParticle0_3.bmp", 12, 27, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BoxParticle0_4", "Images/object/BoxParticle0_4.bmp", 21, 12, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BoxParticle0_5", "Images/object/BoxParticle0_5.bmp", 27, 12, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BoxParticle0_6", "Images/object/BoxParticle0_6.bmp", 12, 27, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("OakDrumParticle0_0", "Images/object/OakDrumParticle0_0.bmp", 30, 24, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("OakDrumParticle0_1", "Images/object/OakDrumParticle0_1.bmp", 30, 30, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("OakDrumParticle0_2", "Images/object/OakDrumParticle0_2.bmp", 12, 24, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("OakDrumParticle0_3", "Images/object/OakDrumParticle0_3.bmp", 18, 9, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("OakDrumParticle0_4", "Images/object/OakDrumParticle0_4.bmp", 15, 24, true, RGB(255, 0, 255));
 
 	// MINIMAP //
 	_loading->LoadNormalImage("MiniMapPixel", "Images/MiniMapPixel.bmp", 5, 5);
@@ -940,4 +1053,410 @@ void loadingScene::loadingImage()
 
 void loadingScene::loadingSound()
 {
+
+	// BGM //
+	_loading->LoadSound("0.Town", "Sounds/BGM/0.Town.wav", true, true);
+	_loading->LoadSound("1.JailBoss", "Sounds/BGM/1.JailBoss.wav", true, true);
+	_loading->LoadSound("1.JailField", "Sounds/BGM/1.JailField.wav", true, true);
+	_loading->LoadSound("ambience_arskami", "Sounds/BGM/ambience_arskami.wav", true, true);
+	_loading->LoadSound("ambience_town", "Sounds/BGM/ambience_town.wav", true, true);
+	_loading->LoadSound("ambience_prison", "Sounds/BGM/ambience_prison.wav", true, true);
+	_loading->LoadSound("Credit", "Sounds/BGM/Credit.wav", true, true);
+	_loading->LoadSound("credit2", "Sounds/BGM/credit2.wav", true, true);
+	_loading->LoadSound("Foodshop", "Sounds/BGM/Foodshop.wav", true, true);
+	_loading->LoadSound("Shop", "Sounds/BGM/Shop.wav", true, true);
+	_loading->LoadSound("title", "Sounds/BGM/title.wav", true, true);
+
+	
+	_loading->LoadSound("2.IceBoss", "Sounds/BGM/2.IceBoss.wav", true, true);
+	_loading->LoadSound("2.IceField", "Sounds/BGM/2.IceField.wav", true, true);
+	_loading->LoadSound("3.jungleboss", "Sounds/BGM/3.jungleboss.wav", true, true);
+	_loading->LoadSound("3.junglefield", "Sounds/BGM/3.junglefield.wav", true, true);
+	_loading->LoadSound("4.lavaboss", "Sounds/BGM/4.lavaboss.wav", true, true);
+	_loading->LoadSound("4.lavafield", "Sounds/BGM/4.lavafield.wav", true, true);
+	_loading->LoadSound("5.ForestBoss", "Sounds/BGM/5.ForestBoss.wav", true, true);
+	_loading->LoadSound("5.forestfield", "Sounds/BGM/5.forestfield.wav", true, true);
+	_loading->LoadSound("6.desertboss", "Sounds/BGM/6.desertboss.wav", true, true);
+	_loading->LoadSound("6.desertfield", "Sounds/BGM/6.desertfield.wav", true, true);
+	_loading->LoadSound("7.arsha", "Sounds/BGM/7.arsha.wav", true, true);
+	_loading->LoadSound("8.kaminela", "Sounds/BGM/8.kaminela.wav", true, true);
+	_loading->LoadSound("actiongyoza", "Sounds/BGM/actiongyoza.wav", true, true);
+	_loading->LoadSound("ambience_desert", "Sounds/BGM/ambience_desert.wav", true, true);
+	_loading->LoadSound("ambience_ericha", "Sounds/BGM/ambience_ericha.wav", true, true);
+	_loading->LoadSound("ambience_forest", "Sounds/BGM/ambience_forest.wav", true, true);
+	_loading->LoadSound("ambience_ice", "Sounds/BGM/ambience_ice.wav", true, true);
+	_loading->LoadSound("ambience_jungle", "Sounds/BGM/ambience_jungle.wav", true, true);
+	_loading->LoadSound("ambience_magma", "Sounds/BGM/ambience_magma.wav", true, true);
+	_loading->LoadSound("erichaphase3_final", "Sounds/BGM/erichaphase3_final.wav", true, true);
+	_loading->LoadSound("erichaphase12_final", "Sounds/BGM/erichaphase12_final.wav", true, true);
+	_loading->LoadSound("firegolem_v02", "Sounds/BGM/firegolem_v02.wav", true, true);
+	
+
+	// EFFECT //
+
+	_loading->LoadSound("게임_돈획득", "Sounds/Effect/게임_돈획득.wav", false, false);
+
+	
+	_loading->LoadSound("arshasnowstaff_1_TaskStage_Start", "Sounds/Effect/arshasnowstaff_1_TaskStage_Start.wav", false, false);
+	_loading->LoadSound("charged 충전형 기모으는사운드", "Sounds/Effect/charged 충전형 기모으는사운드.wav", false, false);
+	_loading->LoadSound("coin", "Sounds/Effect/coin.wav", false, false);
+	_loading->LoadSound("devana_center5lasers", "Sounds/Effect/devana_center5lasers.wav", false, false);
+	_loading->LoadSound("devana_movinglaser", "Sounds/Effect/devana_movinglaser.wav", false, false);
+	_loading->LoadSound("devana_pyo", "Sounds/Effect/devana_pyo.wav", false, false);
+	_loading->LoadSound("devana_spin", "Sounds/Effect/devana_spin.wav", false, false);
+	_loading->LoadSound("dungoolsword", "Sounds/Effect/dungoolsword.wav", false, false);
+	_loading->LoadSound("Fantasy_Game_Attack_Ice_Arrow_kaminelacrystal", "Sounds/Effect/Fantasy_Game_Attack_Ice_Arrow_kaminelacrystal.wav", false, false);
+	_loading->LoadSound("Fantasy_Game_Attack_Magic_Arrow_C", "Sounds/Effect/Fantasy_Game_Attack_Magic_Arrow_C.wav", false, false);
+	_loading->LoadSound("Fantasy_Game_Footstep_Dirt_Heavy_E", "Sounds/Effect/Fantasy_Game_Footstep_Dirt_Heavy_E.wav", false, false);
+	_loading->LoadSound("Fantasy_Game_Inventory_Material_Stone_Touch_4_Magic", "Sounds/Effect/Fantasy_Game_Inventory_Material_Stone_Touch_4_Magic.wav", false, false);
+	_loading->LoadSound("Fantasy_Game_Item_Collect_Dark_Magic_A", "Sounds/Effect/Fantasy_Game_Item_Collect_Dark_Magic_A.wav", false, false);
+	_loading->LoadSound("Fantasy_Game_Item_Collect_Dark_Magic_B", "Sounds/Effect/Fantasy_Game_Item_Collect_Dark_Magic_B.wav", false, false);
+	_loading->LoadSound("Fantasy_Game_Item_Collect_Magic_K", "Sounds/Effect/Fantasy_Game_Item_Collect_Magic_K.wav", false, false);
+	_loading->LoadSound("Fantasy_Game_Item_Crafting_Sword_A", "Sounds/Effect/Fantasy_Game_Item_Crafting_Sword_A.wav", false, false);
+	_loading->LoadSound("Fantasy_Game_Item_Totem_Scroll_C", "Sounds/Effect/Fantasy_Game_Item_Totem_Scroll_C.wav", false, false);
+	_loading->LoadSound("Fantasy_Game_Item_Totem_Scroll_D", "Sounds/Effect/Fantasy_Game_Item_Totem_Scroll_D.wav", false, false);
+	_loading->LoadSound("Fantasy_Game_Magic_Fire_Instant_Cast_Spell_D", "Sounds/Effect/Fantasy_Game_Magic_Fire_Instant_Cast_Spell_D.wav", false, false);
+	_loading->LoadSound("Fantasy_Game_Magic_Possession_Spell-impact", "Sounds/Effect/Fantasy_Game_Magic_Possession_Spell-impact.wav", false, false);
+	_loading->LoadSound("Fantasy_Game_Material_Stone_Pick_Up_4", "Sounds/Effect/Fantasy_Game_Material_Stone_Pick_Up_4.wav", false, false);
+	_loading->LoadSound("Fantasy_Game_UI_Lightning_Select", "Sounds/Effect/Fantasy_Game_UI_Lightning_Select.wav", false, false);
+	_loading->LoadSound("Fantasy_Game_UI_Shadow_Select", "Sounds/Effect/Fantasy_Game_UI_Shadow_Select.wav", false, false);
+	_loading->LoadSound("Fantasy_Game_Water_Bolt_2_kaminelaBlink", "Sounds/Effect/Fantasy_Game_Water_Bolt_2_kaminelaBlink.wav", false, false);
+	_loading->LoadSound("fire", "Sounds/Effect/fire.wav", false, false);
+	_loading->LoadSound("fireball_Bart_K", "Sounds/Effect/fireball_Bart_K.wav", false, false);
+	_loading->LoadSound("fireball_blast_projectile_spell_06", "Sounds/Effect/fireball_blast_projectile_spell_06.wav", false, false);
+	_loading->LoadSound("fireball_impact_burn_01", "Sounds/Effect/fireball_impact_burn_01.wav", false, false);
+	_loading->LoadSound("fireball_impact_burn_03", "Sounds/Effect/fireball_impact_burn_03.wav", false, false);
+	_loading->LoadSound("fireball_impact_burn_03_BeetleEx", "Sounds/Effect/fireball_impact_burn_03_BeetleEx.wav", false, false);
+	_loading->LoadSound("fireball_impact_burn_04_TriFire", "Sounds/Effect/fireball_impact_burn_04_TriFire.wav", false, false);
+	_loading->LoadSound("gas_large_flame_ignite_01", "Sounds/Effect/gas_large_flame_ignite_01.wav", false, false);
+	_loading->LoadSound("GrowAbility", "Sounds/Effect/GrowAbility.wav", false, false);
+	_loading->LoadSound("hardmode off", "Sounds/Effect/hardmode off.wav", false, false);
+	_loading->LoadSound("hardmode on", "Sounds/Effect/hardmode on.wav", false, false);
+	_loading->LoadSound("heartbeat", "Sounds/Effect/heartbeat.wav", false, false);
+	_loading->LoadSound("Hit_Monster", "Sounds/Effect/Hit_Monster.wav", false, false);
+	_loading->LoadSound("Hit_Player", "Sounds/Effect/Hit_Player.wav", false, false);
+	_loading->LoadSound("ice", "Sounds/Effect/ice.wav", false, false);
+	_loading->LoadSound("ice_blast_projectile_spell_01", "Sounds/Effect/ice_blast_projectile_spell_01.wav", false, false);
+	_loading->LoadSound("ice_blast_projectile_spell_02", "Sounds/Effect/ice_blast_projectile_spell_02.wav", false, false);
+	_loading->LoadSound("ice_blast_projectile_spell_04", "Sounds/Effect/ice_blast_projectile_spell_04.wav", false, false);
+	_loading->LoadSound("ice_spell_forming_shards_01", "Sounds/Effect/ice_spell_forming_shards_01.wav", false, false);
+	_loading->LoadSound("ice_spell_forming_shards_02", "Sounds/Effect/ice_spell_forming_shards_02.wav", false, false);
+	_loading->LoadSound("ice_spell_forming_shards_03", "Sounds/Effect/ice_spell_forming_shards_03.wav", false, false);
+	_loading->LoadSound("ice_spell_forming_shards_04", "Sounds/Effect/ice_spell_forming_shards_04.wav", false, false);
+	_loading->LoadSound("ice_spell_freeze_frost_01", "Sounds/Effect/ice_spell_freeze_frost_01.wav", false, false);
+	_loading->LoadSound("ice_spell_freeze_frost_02_iceslime", "Sounds/Effect/ice_spell_freeze_frost_02_iceslime.wav", false, false);
+	_loading->LoadSound("ice_spell_freeze_small_02", "Sounds/Effect/ice_spell_freeze_small_02.wav", false, false);
+	_loading->LoadSound("ice_spell_freeze_small_04", "Sounds/Effect/ice_spell_freeze_small_04.wav", false, false);
+	_loading->LoadSound("iceball", "Sounds/Effect/iceball.wav", false, false);
+	_loading->LoadSound("joejoon", "Sounds/Effect/joejoon.wav", false, false);
+	_loading->LoadSound("light_in_dark_spell_01_Dungreed_Spell", "Sounds/Effect/light_in_dark_spell_01_Dungreed_Spell.wav", false, false);
+	_loading->LoadSound("livna_attack", "Sounds/Effect/livna_attack.wav", false, false);
+	_loading->LoadSound("livna_debris", "Sounds/Effect/livna_debris.wav", false, false);
+	_loading->LoadSound("milkbudan deal", "Sounds/Effect/milkbudan deal.wav", false, false);
+	_loading->LoadSound("milkbudan heal", "Sounds/Effect/milkbudan heal.wav", false, false);
+	_loading->LoadSound("NPC_건설", "Sounds/Effect/NPC_건설.wav", false, false);
+	_loading->LoadSound("NPC_레스토랑_마시기", "Sounds/Effect/NPC_레스토랑_마시기.wav", false, false);
+	_loading->LoadSound("NPC_모루", "Sounds/Effect/NPC_모루.wav", false, false);
+	_loading->LoadSound("NPC_보스상자열기", "Sounds/Effect/NPC_보스상자열기.wav", false, false);
+	_loading->LoadSound("NPC_상점음식점", "Sounds/Effect/NPC_상점음식점.wav", false, false);
+	_loading->LoadSound("NPC_상점판매", "Sounds/Effect/NPC_상점판매.wav", false, false);
+	_loading->LoadSound("NPC_슬롯머신", "Sounds/Effect/NPC_슬롯머신.wav", false, false);
+	_loading->LoadSound("NPC_식당_마시기", "Sounds/Effect/NPC_식당_마시기.wav", false, false);
+	_loading->LoadSound("NPC_식당_마시기2", "Sounds/Effect/NPC_식당_마시기2.wav", false, false);
+	_loading->LoadSound("NPC_저주상자열기", "Sounds/Effect/NPC_저주상자열기.wav", false, false);
+	_loading->LoadSound("NPC_축복", "Sounds/Effect/NPC_축복.wav", false, false);
+	_loading->LoadSound("NPC_훈련소_특성찍기", "Sounds/Effect/NPC_훈련소_특성찍기.wav", false, false);
+	_loading->LoadSound("NPC_훈련소_특성찍기2", "Sounds/Effect/NPC_훈련소_특성찍기2.wav", false, false);
+	_loading->LoadSound("PEEP", "Sounds/Effect/PEEP.wav", false, false);
+	_loading->LoadSound("SF_쉴드EMP", "Sounds/Effect/SF_쉴드EMP.wav", false, false);
+	_loading->LoadSound("Skorpion-Kibblesbob", "Sounds/Effect/Skorpion-Kibblesbob.wav", false, false);
+	_loading->LoadSound("강화하는듯한 소리", "Sounds/Effect/강화하는듯한 소리.wav", false, false);
+	_loading->LoadSound("거친파이어볼", "Sounds/Effect/거친파이어볼.wav", false, false);
+	_loading->LoadSound("거칠게 자르는 소리", "Sounds/Effect/거칠게 자르는 소리.wav", false, false);
+	_loading->LoadSound("거칠게_먹는_소리", "Sounds/Effect/거칠게_먹는_소리.wav", false, false);
+	_loading->LoadSound("걷는소리 (1)", "Sounds/Effect/걷는소리 (1).wav", false, false);
+	_loading->LoadSound("걷는소리 (2)", "Sounds/Effect/걷는소리 (2).wav", false, false);
+	_loading->LoadSound("걷는소리 (3)", "Sounds/Effect/걷는소리 (3).wav", false, false);
+	_loading->LoadSound("걷는소리 (4)", "Sounds/Effect/걷는소리 (4).wav", false, false);
+	_loading->LoadSound("게임_BLOCK", "Sounds/Effect/게임_BLOCK.wav", false, false);
+	_loading->LoadSound("게임_LEVELUP", "Sounds/Effect/게임_LEVELUP.wav", false, false);
+	_loading->LoadSound("게임_던전_문열림닫힘", "Sounds/Effect/게임_던전_문열림닫힘.wav", false, false);
+	_loading->LoadSound("게임_던전나가기", "Sounds/Effect/게임_던전나가기.wav", false, false);
+	_loading->LoadSound("게임_뒈짖", "Sounds/Effect/게임_뒈짖.wav", false, false);
+	_loading->LoadSound("게임_무기스왑", "Sounds/Effect/게임_무기스왑.wav", false, false);
+	_loading->LoadSound("게임_복귀", "Sounds/Effect/게임_복귀.wav", false, false);
+	_loading->LoadSound("게임_시련간단한클리어", "Sounds/Effect/게임_시련간단한클리어.wav", false, false);
+	_loading->LoadSound("게임_시련극복", "Sounds/Effect/게임_시련극복.wav", false, false);
+	_loading->LoadSound("게임_아이템장착 (1)", "Sounds/Effect/게임_아이템장착 (1).wav", false, false);
+	_loading->LoadSound("게임_아이템장착 (2)", "Sounds/Effect/게임_아이템장착 (2).wav", false, false);
+	_loading->LoadSound("게임_아이템장착", "Sounds/Effect/게임_아이템장착.wav", false, false);
+	_loading->LoadSound("게임_클리어", "Sounds/Effect/게임_클리어.wav", false, false);
+	_loading->LoadSound("게임_템버리기", "Sounds/Effect/게임_템버리기.wav", false, false);
+	_loading->LoadSound("기차지나가유", "Sounds/Effect/기차지나가유.wav", false, false);
+	_loading->LoadSound("대쉬소리", "Sounds/Effect/대쉬소리.wav", false, false);
+	_loading->LoadSound("던전이동", "Sounds/Effect/던전이동.wav", false, false);
+	_loading->LoadSound("독트랩", "Sounds/Effect/독트랩.wav", false, false);
+	_loading->LoadSound("돌부수기 (1)", "Sounds/Effect/돌부수기 (1).wav", false, false);
+	_loading->LoadSound("돌부수기 (2)", "Sounds/Effect/돌부수기 (2).wav", false, false);
+	_loading->LoadSound("돌부수기", "Sounds/Effect/돌부수기.wav", false, false);
+	_loading->LoadSound("돌부수기_천둥치는듯한", "Sounds/Effect/돌부수기_천둥치는듯한.wav", false, false);
+	_loading->LoadSound("두두우", "Sounds/Effect/두두우.wav", false, false);
+	_loading->LoadSound("라바미니보스_텔레포트", "Sounds/Effect/라바미니보스_텔레포트.wav", false, false);
+	_loading->LoadSound("리로드_기본", "Sounds/Effect/리로드_기본.wav", false, false);
+	_loading->LoadSound("리로드_짧은", "Sounds/Effect/리로드_짧은.wav", false, false);
+	_loading->LoadSound("먹는포탈쿵오르내림", "Sounds/Effect/먹는포탈쿵오르내림.wav", false, false);
+	_loading->LoadSound("멍멍이 왈왈", "Sounds/Effect/멍멍이 왈왈.wav", false, false);
+	_loading->LoadSound("몬스터_궁수_발사", "Sounds/Effect/몬스터_궁수_발사.wav", false, false);
+	_loading->LoadSound("몬스터_궁수_쭈욱", "Sounds/Effect/몬스터_궁수_쭈욱.wav", false, false);
+	_loading->LoadSound("몬스터_기계_움직임", "Sounds/Effect/몬스터_기계_움직임.wav", false, false);
+	_loading->LoadSound("몬스터_도마뱀버퍼", "Sounds/Effect/몬스터_도마뱀버퍼.wav", false, false);
+	_loading->LoadSound("몬스터_로봇댕댕_짖기", "Sounds/Effect/몬스터_로봇댕댕_짖기.wav", false, false);
+	_loading->LoadSound("몬스터_리자드맨", "Sounds/Effect/몬스터_리자드맨.wav", false, false);
+	_loading->LoadSound("몬스터_박쥐 (1)", "Sounds/Effect/몬스터_박쥐 (1).wav", false, false);
+	_loading->LoadSound("몬스터_박쥐 (2)", "Sounds/Effect/몬스터_박쥐 (2).wav", false, false);
+	_loading->LoadSound("몬스터_밴시", "Sounds/Effect/몬스터_밴시.wav", false, false);
+	_loading->LoadSound("몬스터_버퍼 (1)", "Sounds/Effect/몬스터_버퍼 (1).wav", false, false);
+	_loading->LoadSound("몬스터_버퍼 (2)", "Sounds/Effect/몬스터_버퍼 (2).wav", false, false);
+	_loading->LoadSound("몬스터_버퍼 (3)", "Sounds/Effect/몬스터_버퍼 (3).wav", false, false);
+	_loading->LoadSound("몬스터_버퍼 (4)", "Sounds/Effect/몬스터_버퍼 (4).wav", false, false);
+	_loading->LoadSound("몬스터_사망 (1)", "Sounds/Effect/몬스터_사망 (1).wav", false, false);
+	_loading->LoadSound("몬스터_사망 (2)", "Sounds/Effect/몬스터_사망 (2).wav", false, false);
+	_loading->LoadSound("몬스터_사망", "Sounds/Effect/몬스터_사망.wav", false, false);
+	_loading->LoadSound("몬스터_쉐도우유령", "Sounds/Effect/몬스터_쉐도우유령.wav", false, false);
+	_loading->LoadSound("몬스터_쉐도우유령2", "Sounds/Effect/몬스터_쉐도우유령2.wav", false, false);
+	_loading->LoadSound("몬스터_울부짖음 (1)", "Sounds/Effect/몬스터_울부짖음 (1).wav", false, false);
+	_loading->LoadSound("몬스터_울부짖음 (2)", "Sounds/Effect/몬스터_울부짖음 (2).wav", false, false);
+	_loading->LoadSound("몬스터_울부짖음 (3)", "Sounds/Effect/몬스터_울부짖음 (3).wav", false, false);
+	_loading->LoadSound("몬스터_유도탄발사기_발사", "Sounds/Effect/몬스터_유도탄발사기_발사.wav", false, false);
+	_loading->LoadSound("몬스터_전기를막날리는드래곤", "Sounds/Effect/몬스터_전기를막날리는드래곤.wav", false, false);
+	_loading->LoadSound("몬스터_케르베로스_불", "Sounds/Effect/몬스터_케르베로스_불.wav", false, false);
+	_loading->LoadSound("몬스터_큰거미기계_점프", "Sounds/Effect/몬스터_큰거미기계_점프.wav", false, false);
+	_loading->LoadSound("몬스터_큰댕댕_짖기", "Sounds/Effect/몬스터_큰댕댕_짖기.wav", false, false);
+	_loading->LoadSound("몬스터_큰박쥐", "Sounds/Effect/몬스터_큰박쥐.wav", false, false);
+	_loading->LoadSound("몬스터_트롤죽음", "Sounds/Effect/몬스터_트롤죽음.wav", false, false);
+	_loading->LoadSound("몬스터_폭탄박쥐", "Sounds/Effect/몬스터_폭탄박쥐.wav", false, false);
+	_loading->LoadSound("무기_AK", "Sounds/Effect/무기_AK.wav", false, false);
+	_loading->LoadSound("무기_M1Garand", "Sounds/Effect/무기_M1Garand.wav", false, false);
+	_loading->LoadSound("무기_M1Garand리로드", "Sounds/Effect/무기_M1Garand리로드.wav", false, false);
+	_loading->LoadSound("무기_M4A1", "Sounds/Effect/무기_M4A1.wav", false, false);
+	_loading->LoadSound("무기_RPG", "Sounds/Effect/무기_RPG.wav", false, false);
+	_loading->LoadSound("무기_UZI 발사", "Sounds/Effect/무기_UZI 발사.wav", false, false);
+	_loading->LoadSound("무기_개틀링건발사", "Sounds/Effect/무기_개틀링건발사.wav", false, false);
+	_loading->LoadSound("무기_개틀링건점화", "Sounds/Effect/무기_개틀링건점화.wav", false, false);
+	_loading->LoadSound("무기_권총", "Sounds/Effect/무기_권총.wav", false, false);
+	_loading->LoadSound("무기_권총2", "Sounds/Effect/무기_권총2.wav", false, false);
+	_loading->LoadSound("무기_기공톤파_공격", "Sounds/Effect/무기_기공톤파_공격.wav", false, false);
+	_loading->LoadSound("무기_기공톤파_스킬", "Sounds/Effect/무기_기공톤파_스킬.wav", false, false);
+	_loading->LoadSound("무기_기타 (1)", "Sounds/Effect/무기_기타 (1).wav", false, false);
+	_loading->LoadSound("무기_기타 (2)", "Sounds/Effect/무기_기타 (2).wav", false, false);
+	_loading->LoadSound("무기_기타 (3)", "Sounds/Effect/무기_기타 (3).wav", false, false);
+	_loading->LoadSound("무기_기타 (4)", "Sounds/Effect/무기_기타 (4).wav", false, false);
+	_loading->LoadSound("무기_기타 (5)", "Sounds/Effect/무기_기타 (5).wav", false, false);
+	_loading->LoadSound("무기_기타 (6)", "Sounds/Effect/무기_기타 (6).wav", false, false);
+	_loading->LoadSound("무기_나팔총", "Sounds/Effect/무기_나팔총.wav", false, false);
+	_loading->LoadSound("무기_덜둔탁한발사음", "Sounds/Effect/무기_덜둔탁한발사음.wav", false, false);
+	_loading->LoadSound("무기_데몬소드", "Sounds/Effect/무기_데몬소드.wav", false, false);
+	_loading->LoadSound("무기_두손검", "Sounds/Effect/무기_두손검.wav", false, false);
+	_loading->LoadSound("무기_둔탁한발사음", "Sounds/Effect/무기_둔탁한발사음.wav", false, false);
+	_loading->LoadSound("무기_라라의 요술봉", "Sounds/Effect/무기_라라의 요술봉.wav", false, false);
+	_loading->LoadSound("무기_라이플", "Sounds/Effect/무기_라이플.wav", false, false);
+	_loading->LoadSound("무기_러시안룰렛_실패", "Sounds/Effect/무기_러시안룰렛_실패.wav", false, false);
+	_loading->LoadSound("무기_레이저발사", "Sounds/Effect/무기_레이저발사.wav", false, false);
+	_loading->LoadSound("무기_레이피어", "Sounds/Effect/무기_레이피어.wav", false, false);
+	_loading->LoadSound("무기_모스버그샷건", "Sounds/Effect/무기_모스버그샷건.wav", false, false);
+	_loading->LoadSound("무기_몬드리아 (1)", "Sounds/Effect/무기_몬드리아 (1).wav", false, false);
+	_loading->LoadSound("무기_몬드리아 (2)", "Sounds/Effect/무기_몬드리아 (2).wav", false, false);
+	_loading->LoadSound("무기_무거운휘두름", "Sounds/Effect/무기_무거운휘두름.wav", false, false);
+	_loading->LoadSound("무기_물총 뿌림", "Sounds/Effect/무기_물총 뿌림.wav", false, false);
+	_loading->LoadSound("무기_버터플라이나이프", "Sounds/Effect/무기_버터플라이나이프.wav", false, false);
+	_loading->LoadSound("무기_부메랑계열", "Sounds/Effect/무기_부메랑계열.wav", false, false);
+	_loading->LoadSound("무기_빛의인도자", "Sounds/Effect/무기_빛의인도자.wav", false, false);
+	_loading->LoadSound("무기_빛의인도자_충전", "Sounds/Effect/무기_빛의인도자_충전.wav", false, false);
+	_loading->LoadSound("무기_산탄총", "Sounds/Effect/무기_산탄총.wav", false, false);
+	_loading->LoadSound("무기_새총", "Sounds/Effect/무기_새총.wav", false, false);
+	_loading->LoadSound("무기_샐러맨더의눈", "Sounds/Effect/무기_샐러맨더의눈.wav", false, false);
+	_loading->LoadSound("무기_선레이저라이플 (1)", "Sounds/Effect/무기_선레이저라이플 (1).wav", false, false);
+	_loading->LoadSound("무기_선레이저라이플 (2)", "Sounds/Effect/무기_선레이저라이플 (2).wav", false, false);
+	_loading->LoadSound("무기_쇠뇌", "Sounds/Effect/무기_쇠뇌.wav", false, false);
+	_loading->LoadSound("무기_스나이퍼발사", "Sounds/Effect/무기_스나이퍼발사.wav", false, false);
+	_loading->LoadSound("무기_스나이핑", "Sounds/Effect/무기_스나이핑.wav", false, false);
+	_loading->LoadSound("무기_슬라임메이커", "Sounds/Effect/무기_슬라임메이커.wav", false, false);
+	_loading->LoadSound("무기_우주검우주의심장", "Sounds/Effect/무기_우주검우주의심장.wav", false, false);
+	_loading->LoadSound("무기_우주검효과음", "Sounds/Effect/무기_우주검효과음.wav", false, false);
+	_loading->LoadSound("무기_운디네창효과", "Sounds/Effect/무기_운디네창효과.wav", false, false);
+	_loading->LoadSound("무기_찰진무기", "Sounds/Effect/무기_찰진무기.wav", false, false);
+	_loading->LoadSound("무기_채찍", "Sounds/Effect/무기_채찍.wav", false, false);
+	_loading->LoadSound("무기_카타나 (1)", "Sounds/Effect/무기_카타나 (1).wav", false, false);
+	_loading->LoadSound("무기_카타나 (2)", "Sounds/Effect/무기_카타나 (2).wav", false, false);
+	_loading->LoadSound("무기_카타나 (3)", "Sounds/Effect/무기_카타나 (3).wav", false, false);
+	_loading->LoadSound("무기_칼던지기", "Sounds/Effect/무기_칼던지기.wav", false, false);
+	_loading->LoadSound("무기_캐논발사 (1)", "Sounds/Effect/무기_캐논발사 (1).wav", false, false);
+	_loading->LoadSound("무기_캐논발사 (2)", "Sounds/Effect/무기_캐논발사 (2).wav", false, false);
+	_loading->LoadSound("무기_캐논발사 (3)", "Sounds/Effect/무기_캐논발사 (3).wav", false, false);
+	_loading->LoadSound("무기_크로스보우", "Sounds/Effect/무기_크로스보우.wav", false, false);
+	_loading->LoadSound("무기_톤파쇼크", "Sounds/Effect/무기_톤파쇼크.wav", false, false);
+	_loading->LoadSound("무기_펌프샷건 (1)", "Sounds/Effect/무기_펌프샷건 (1).wav", false, false);
+	_loading->LoadSound("무기_펌프샷건 (2)", "Sounds/Effect/무기_펌프샷건 (2).wav", false, false);
+	_loading->LoadSound("무기_폭탄발사기", "Sounds/Effect/무기_폭탄발사기.wav", false, false);
+	_loading->LoadSound("무기_프로스트노바", "Sounds/Effect/무기_프로스트노바.wav", false, false);
+	_loading->LoadSound("무기_피스톨 (1)", "Sounds/Effect/무기_피스톨 (1).wav", false, false);
+	_loading->LoadSound("무기_피스톨 (2)", "Sounds/Effect/무기_피스톨 (2).wav", false, false);
+	_loading->LoadSound("무기_해골왕검", "Sounds/Effect/무기_해골왕검.wav", false, false);
+	_loading->LoadSound("무기_헤카테총", "Sounds/Effect/무기_헤카테총.wav", false, false);
+	_loading->LoadSound("무기_호랑이권법", "Sounds/Effect/무기_호랑이권법.wav", false, false);
+	_loading->LoadSound("무기_화염방사기", "Sounds/Effect/무기_화염방사기.wav", false, false);
+	_loading->LoadSound("무기_활발사", "Sounds/Effect/무기_활발사.wav", false, false);
+	_loading->LoadSound("무기가는소리", "Sounds/Effect/무기가는소리.wav", false, false);
+	_loading->LoadSound("무기휘두름바람소리중", "Sounds/Effect/무기휘두름바람소리중.wav", false, false);
+	_loading->LoadSound("무언가에찔림", "Sounds/Effect/무언가에찔림.wav", false, false);
+	_loading->LoadSound("물 맞음", "Sounds/Effect/물 맞음.wav", false, false);
+	_loading->LoadSound("뭔가 작동하는 소리", "Sounds/Effect/뭔가 작동하는 소리.wav", false, false);
+	_loading->LoadSound("뭔가폭발", "Sounds/Effect/뭔가폭발.wav", false, false);
+	_loading->LoadSound("미예웅", "Sounds/Effect/미예웅.wav", false, false);
+	_loading->LoadSound("바람을 가르는 휘두르기", "Sounds/Effect/바람을 가르는 휘두르기.wav", false, false);
+	_loading->LoadSound("벌나는소리", "Sounds/Effect/벌나는소리.wav", false, false);
+	_loading->LoadSound("보스_니플헤임_발사", "Sounds/Effect/보스_니플헤임_발사.wav", false, false);
+	_loading->LoadSound("보스_니플헤임_시작효과음", "Sounds/Effect/보스_니플헤임_시작효과음.wav", false, false);
+	_loading->LoadSound("보스_라슬리_차원가르기", "Sounds/Effect/보스_라슬리_차원가르기.wav", false, false);
+	_loading->LoadSound("보스_라슬리_텐타클", "Sounds/Effect/보스_라슬리_텐타클.wav", false, false);
+	_loading->LoadSound("보스_라슬리_폭발", "Sounds/Effect/보스_라슬리_폭발.wav", false, false);
+	_loading->LoadSound("보스_벨리알_웃음", "Sounds/Effect/보스_벨리알_웃음.wav", false, false);
+	_loading->LoadSound("보스_아르샤_발판소환", "Sounds/Effect/보스_아르샤_발판소환.wav", false, false);
+	_loading->LoadSound("보스_아르샤_불릿발사", "Sounds/Effect/보스_아르샤_불릿발사.wav", false, false);
+	_loading->LoadSound("보스_아르샤_적소환", "Sounds/Effect/보스_아르샤_적소환.wav", false, false);
+	_loading->LoadSound("보스_아르테_레이저", "Sounds/Effect/보스_아르테_레이저.wav", false, false);
+	_loading->LoadSound("보스_아르테_마그마올라오기", "Sounds/Effect/보스_아르테_마그마올라오기.wav", false, false);
+	_loading->LoadSound("보스_아르테_불꽃발사", "Sounds/Effect/보스_아르테_불꽃발사.wav", false, false);
+	_loading->LoadSound("보스_아르테_사망 (1)", "Sounds/Effect/보스_아르테_사망 (1).wav", false, false);
+	_loading->LoadSound("보스_아르테_사망 (2)", "Sounds/Effect/보스_아르테_사망 (2).wav", false, false);
+	_loading->LoadSound("보스_아르테_사망 (3)", "Sounds/Effect/보스_아르테_사망 (3).wav", false, false);
+	_loading->LoadSound("보스_아르테_사망 (4)", "Sounds/Effect/보스_아르테_사망 (4).wav", false, false);
+	_loading->LoadSound("보스_아르테_사망 (5)", "Sounds/Effect/보스_아르테_사망 (5).wav", false, false);
+	_loading->LoadSound("보스_아르테_주먹치기", "Sounds/Effect/보스_아르테_주먹치기.wav", false, false);
+	_loading->LoadSound("보스_에리차_스파이크공격", "Sounds/Effect/보스_에리차_스파이크공격.wav", false, false);
+	_loading->LoadSound("보스_에리차_울부짖을때뒷소리", "Sounds/Effect/보스_에리차_울부짖을때뒷소리.wav", false, false);
+	_loading->LoadSound("보스_에리카_다음패턴", "Sounds/Effect/보스_에리카_다음패턴.wav", false, false);
+	_loading->LoadSound("보스_에리카_대기중벽찧기 (1)", "Sounds/Effect/보스_에리카_대기중벽찧기 (1).wav", false, false);
+	_loading->LoadSound("보스_에리카_대기중벽찧기 (2)", "Sounds/Effect/보스_에리카_대기중벽찧기 (2).wav", false, false);
+	_loading->LoadSound("보스_에리카_드릴", "Sounds/Effect/보스_에리카_드릴.wav", false, false);
+	_loading->LoadSound("보스_에리카_스파이크공격", "Sounds/Effect/보스_에리카_스파이크공격.wav", false, false);
+	_loading->LoadSound("보스_에리카_어둠소환", "Sounds/Effect/보스_에리카_어둠소환.wav", false, false);
+	_loading->LoadSound("보스_에리카_울부짖음 (1)", "Sounds/Effect/보스_에리카_울부짖음 (1).wav", false, false);
+	_loading->LoadSound("보스_에리카_울부짖음 (2)", "Sounds/Effect/보스_에리카_울부짖음 (2).wav", false, false);
+	_loading->LoadSound("보스_에리카_울부짖음", "Sounds/Effect/보스_에리카_울부짖음.wav", false, false);
+	_loading->LoadSound("보스_에리카_텔레포트", "Sounds/Effect/보스_에리카_텔레포트.wav", false, false);
+	_loading->LoadSound("보스_엔비록_꾸와앙", "Sounds/Effect/보스_엔비록_꾸와앙.wav", false, false);
+	_loading->LoadSound("보스_엔비록_스네이크소환", "Sounds/Effect/보스_엔비록_스네이크소환.wav", false, false);
+	_loading->LoadSound("보스_엔비록_스팅거", "Sounds/Effect/보스_엔비록_스팅거.wav", false, false);
+	_loading->LoadSound("보스_카미넬라_2페이즈", "Sounds/Effect/보스_카미넬라_2페이즈.wav", false, false);
+	_loading->LoadSound("보스_카미넬라_무언가", "Sounds/Effect/보스_카미넬라_무언가.wav", false, false);
+	_loading->LoadSound("보스_카미넬라_발차기", "Sounds/Effect/보스_카미넬라_발차기.wav", false, false);
+	_loading->LoadSound("보스_카미넬라_사망", "Sounds/Effect/보스_카미넬라_사망.wav", false, false);
+	_loading->LoadSound("보스_카미넬라_스매쉬", "Sounds/Effect/보스_카미넬라_스매쉬.wav", false, false);
+	_loading->LoadSound("보스_카미넬라_헬게이트오픈", "Sounds/Effect/보스_카미넬라_헬게이트오픈.wav", false, false);
+	_loading->LoadSound("보스방입장문", "Sounds/Effect/보스방입장문.wav", false, false);
+	_loading->LoadSound("보호막깨짐", "Sounds/Effect/보호막깨짐.wav", false, false);
+	_loading->LoadSound("불길한바람이불어온다", "Sounds/Effect/불길한바람이불어온다.wav", false, false);
+	_loading->LoadSound("불덩이", "Sounds/Effect/불덩이.wav", false, false);
+	_loading->LoadSound("비프음", "Sounds/Effect/비프음.wav", false, false);
+	_loading->LoadSound("샤라랄라랄랄라", "Sounds/Effect/샤라랄라랄랄라.wav", false, false);
+	_loading->LoadSound("샤방샤방", "Sounds/Effect/샤방샤방.wav", false, false);
+	_loading->LoadSound("섞는듯한소리 (1)", "Sounds/Effect/섞는듯한소리 (1).wav", false, false);       //밸리알 총알임
+	_loading->LoadSound("섞는듯한소리 (2)", "Sounds/Effect/섞는듯한소리 (2).wav", false, false);
+	_loading->LoadSound("세트효과", "Sounds/Effect/세트효과.wav", false, false);
+	_loading->LoadSound("스위치 땃", "Sounds/Effect/스위치 땃.wav", false, false);
+	_loading->LoadSound("스위치소리", "Sounds/Effect/스위치소리.wav", false, false);
+	_loading->LoadSound("스토리_결계느낌 (1)", "Sounds/Effect/스토리_결계느낌 (1).wav", false, false);
+	_loading->LoadSound("스토리_결계느낌 (2)", "Sounds/Effect/스토리_결계느낌 (2).wav", false, false);
+	_loading->LoadSound("스토리_결계느낌 (3)", "Sounds/Effect/스토리_결계느낌 (3).wav", false, false);
+
+	_loading->LoadSound("스폰몬스터", "Sounds/Effect/스폰몬스터.wav", false, false);
+
+	_loading->LoadSound("슬라임볼", "Sounds/Effect/슬라임볼.wav", false, false);
+	_loading->LoadSound("실버라임", "Sounds/Effect/실버라임.wav", false, false);
+	_loading->LoadSound("아이작콜라보 (1)", "Sounds/Effect/아이작콜라보 (1).wav", false, false);
+	_loading->LoadSound("아이작콜라보 (2)", "Sounds/Effect/아이작콜라보 (2).wav", false, false);
+	_loading->LoadSound("아이작콜라보 (3)", "Sounds/Effect/아이작콜라보 (3).wav", false, false);
+	_loading->LoadSound("아이작콜라보 (4)", "Sounds/Effect/아이작콜라보 (4).wav", false, false);
+	_loading->LoadSound("아이템_HARNESSMAGIC", "Sounds/Effect/아이템_HARNESSMAGIC.wav", false, false);
+	_loading->LoadSound("아이템_PHAX", "Sounds/Effect/아이템_PHAX.wav", false, false);
+	_loading->LoadSound("아이템_RADDRAGONKILLER", "Sounds/Effect/아이템_RADDRAGONKILLER.wav", false, false);
+	_loading->LoadSound("아이템_도깨비검스킬", "Sounds/Effect/아이템_도깨비검스킬.wav", false, false);
+	_loading->LoadSound("아이템_롱소드스킬", "Sounds/Effect/아이템_롱소드스킬.wav", false, false);
+	_loading->LoadSound("아이템_메이스스턴", "Sounds/Effect/아이템_메이스스턴.wav", false, false);
+	_loading->LoadSound("아이템_아이템_악마의손", "Sounds/Effect/아이템_아이템_악마의손.wav", false, false);
+
+	_loading->LoadSound("아이템_전기충격기", "Sounds/Effect/아이템_전기충격기.wav", false, false);
+	_loading->LoadSound("아이템_제트팩", "Sounds/Effect/아이템_제트팩.wav", false, false);
+	_loading->LoadSound("아이템_타워실드스킬", "Sounds/Effect/아이템_타워실드스킬.wav", false, false);
+	_loading->LoadSound("아이템_폭탄바구니", "Sounds/Effect/아이템_폭탄바구니.wav", false, false);
+	_loading->LoadSound("아이템장착", "Sounds/Effect/아이템장착.wav", false, false);
+	_loading->LoadSound("아이템획득", "Sounds/Effect/아이템획득.wav", false, false);
+	_loading->LoadSound("암흑마법같은발사음", "Sounds/Effect/암흑마법같은발사음.wav", false, false);
+	_loading->LoadSound("에리차가는벽부수기", "Sounds/Effect/에리차가는벽부수기.wav", false, false);
+	_loading->LoadSound("에리카대기돌부수기 (1)", "Sounds/Effect/에리카대기돌부수기 (1).wav", false, false);
+	_loading->LoadSound("에리카대기돌부수기 (2)", "Sounds/Effect/에리카대기돌부수기 (2).wav", false, false);
+	_loading->LoadSound("오브젝트_HP회복", "Sounds/Effect/오브젝트_HP회복.wav", false, false);
+	_loading->LoadSound("오브젝트_보스_파괴_아이템루팅", "Sounds/Effect/오브젝트_보스_파괴_아이템루팅.wav", false, false);
+	_loading->LoadSound("오브젝트_상자오픈", "Sounds/Effect/오브젝트_상자오픈.wav", false, false);
+	_loading->LoadSound("오브젝트_상자오픈_별거아님", "Sounds/Effect/오브젝트_상자오픈_별거아님.wav", false, false);
+	_loading->LoadSound("오브젝트_전설상자오픈", "Sounds/Effect/오브젝트_전설상자오픈.wav", false, false);
+	_loading->LoadSound("오브젝트_통부숨 (1)", "Sounds/Effect/오브젝트_통부숨 (1).wav", false, false);
+	_loading->LoadSound("오브젝트_통부숨 (2)", "Sounds/Effect/오브젝트_통부숨 (2).wav", false, false);
+	_loading->LoadSound("오브젝트_통부숨 (3)", "Sounds/Effect/오브젝트_통부숨 (3).wav", false, false);
+	_loading->LoadSound("요술봉PPT효과음", "Sounds/Effect/요술봉PPT효과음.wav", false, false);
+	_loading->LoadSound("우웅", "Sounds/Effect/우웅.wav", false, false);
+	_loading->LoadSound("음식섭취 (1)", "Sounds/Effect/음식섭취 (1).wav", false, false);
+	_loading->LoadSound("음식섭취 (2)", "Sounds/Effect/음식섭취 (2).wav", false, false);
+	_loading->LoadSound("음식섭취 (3)", "Sounds/Effect/음식섭취 (3).wav", false, false);
+	_loading->LoadSound("이런저런_번개침", "Sounds/Effect/이런저런_번개침.wav", false, false);
+	_loading->LoadSound("인벤토리열기", "Sounds/Effect/인벤토리열기.wav", false, false);
+	_loading->LoadSound("장애물_가시온", "Sounds/Effect/장애물_가시온.wav", false, false);
+	_loading->LoadSound("전기쪼꼬미", "Sounds/Effect/전기쪼꼬미.wav", false, false);
+	_loading->LoadSound("점프", "Sounds/Effect/점프.wav", false, false);
+	_loading->LoadSound("중후한레이저발사", "Sounds/Effect/중후한레이저발사.wav", false, false);
+	_loading->LoadSound("지진", "Sounds/Effect/지진.wav", false, false);
+	_loading->LoadSound("징글벨 (1)", "Sounds/Effect/징글벨 (1).wav", false, false);
+	_loading->LoadSound("징글벨 (2)", "Sounds/Effect/징글벨 (2).wav", false, false);
+	_loading->LoadSound("징글벨 (3)", "Sounds/Effect/징글벨 (3).wav", false, false);
+	_loading->LoadSound("짧게쏘는소리", "Sounds/Effect/짧게쏘는소리.wav", false, false);
+	_loading->LoadSound("천둥새", "Sounds/Effect/천둥새.wav", false, false);
+	_loading->LoadSound("치는듯한SF소리", "Sounds/Effect/치는듯한SF소리.wav", false, false);
+	_loading->LoadSound("탁치는소리", "Sounds/Effect/탁치는소리.wav", false, false);
+	_loading->LoadSound("포탈열림", "Sounds/Effect/포탈열림.wav", false, false);
+	_loading->LoadSound("폭발 (1)", "Sounds/Effect/폭발 (1).wav", false, false);
+	_loading->LoadSound("폭발 (2)", "Sounds/Effect/폭발 (2).wav", false, false);
+	_loading->LoadSound("폭발_짧음", "Sounds/Effect/폭발_짧음.wav", false, false);
+	_loading->LoadSound("폭발_큼", "Sounds/Effect/폭발_큼.wav", false, false);
+	_loading->LoadSound("폭탄소리", "Sounds/Effect/폭탄소리.wav", false, false);
+	_loading->LoadSound("풍경종소리 LONG", "Sounds/Effect/풍경종소리 LONG.wav", false, false);
+	_loading->LoadSound("후잇", "Sounds/Effect/후잇.wav", false, false);
+	_loading->LoadSound("후잉", "Sounds/Effect/후잉.wav", false, false);
+	_loading->LoadSound("휘두르기_가벼움 (1)", "Sounds/Effect/휘두르기_가벼움 (1).wav", false, false);
+	_loading->LoadSound("휘두르기_가벼움 (2)", "Sounds/Effect/휘두르기_가벼움 (2).wav", false, false);
+	_loading->LoadSound("휘두르기_가벼움 (3)", "Sounds/Effect/휘두르기_가벼움 (3).wav", false, false);
+	_loading->LoadSound("휘두르기_가벼움 (4)", "Sounds/Effect/휘두르기_가벼움 (4).wav", false, false);
+	_loading->LoadSound("휘두르기_가벼움 (5)", "Sounds/Effect/휘두르기_가벼움 (5).wav", false, false);
+	_loading->LoadSound("휘두르기_강한바람", "Sounds/Effect/휘두르기_강한바람.wav", false, false);
+	_loading->LoadSound("휘두르기_무거움 (1)", "Sounds/Effect/휘두르기_무거움 (1).wav", false, false);
+	_loading->LoadSound("휘두르기_무거움 (2)", "Sounds/Effect/휘두르기_무거움 (2).wav", false, false);
+	_loading->LoadSound("휘두르기_무거움 (3)", "Sounds/Effect/휘두르기_무거움 (3).wav", false, false);
+	_loading->LoadSound("휘두르기_무척가벼움 (1)", "Sounds/Effect/휘두르기_무척가벼움 (1).wav", false, false);
+	_loading->LoadSound("휘두르기_무척가벼움 (2)", "Sounds/Effect/휘두르기_무척가벼움 (2).wav", false, false);
+	_loading->LoadSound("휘두르기_무척가벼움 (3)", "Sounds/Effect/휘두르기_무척가벼움 (3).wav", false, false);
+	_loading->LoadSound("휘두르기_무척가벼움 (4)", "Sounds/Effect/휘두르기_무척가벼움 (4).wav", false, false);
+	_loading->LoadSound("휘두르기_무척가벼움 (5)", "Sounds/Effect/휘두르기_무척가벼움 (5).wav", false, false);
+	_loading->LoadSound("휘두르기_무척가벼움 (6)", "Sounds/Effect/휘두르기_무척가벼움 (6).wav", false, false);
+	_loading->LoadSound("휘두르기_무척가벼움 (7)", "Sounds/Effect/휘두르기_무척가벼움 (7).wav", false, false);
+	_loading->LoadSound("휘두르기_무척가벼움 (8)", "Sounds/Effect/휘두르기_무척가벼움 (8).wav", false, false);
+
+	_loading->LoadSound("휘두르기_무척가벼움2 (1)", "Sounds/Effect/휘두르기_무척가벼움2 (1).wav", false, false);
+	_loading->LoadSound("휘두르기_무척가벼움2 (2)", "Sounds/Effect/휘두르기_무척가벼움2 (2).wav", false, false);
+	_loading->LoadSound("휘두르기_무척가벼움2 (3)", "Sounds/Effect/휘두르기_무척가벼움2 (3).wav", false, false);
+	_loading->LoadSound("휘두르기_무척가벼움2 (4)", "Sounds/Effect/휘두르기_무척가벼움2 (4).wav", false, false);
+	_loading->LoadSound("휘두르기_무척가벼움2 (5)", "Sounds/Effect/휘두르기_무척가벼움2 (5).wav", false, false);
+	_loading->LoadSound("휘두르기_무척가벼움2 (6)", "Sounds/Effect/휘두르기_무척가벼움2 (6).wav", false, false);
+	_loading->LoadSound("휘두르기_무척가벼움2 (7)", "Sounds/Effect/휘두르기_무척가벼움2 (7).wav", false, false);
+	_loading->LoadSound("휘두르기_무쳑가벼움2 (8)", "Sounds/Effect/휘두르기_무쳑가벼움2 (8).wav", false, false);
+
 }

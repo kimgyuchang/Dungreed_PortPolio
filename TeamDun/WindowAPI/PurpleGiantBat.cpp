@@ -7,7 +7,7 @@ HRESULT PurpleGiantBat::init(int id, string name, OBJECTTYPE type, vector<string
 	_state = ES_IDLE;
 	_stateTimer = 0;
 	_isAtk = false;
-	_initHp = _HP = 80;
+	_initHp = _hp = 80;
 	_fireAngle = 0;
 	_attackCoolTime = 200 + RANDOM->range(150);
 	_Damage = 11;
@@ -36,7 +36,6 @@ void PurpleGiantBat::update()
 		default:
 			break;
 		}
-	
 	}
 }
 
@@ -86,7 +85,6 @@ void PurpleGiantBat::Animation()
 		_useImage = 0;
 		if (_isLeft)
 		{
-
 			_count++;
 
 			_frameY = 0;

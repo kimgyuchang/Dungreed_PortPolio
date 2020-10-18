@@ -239,8 +239,10 @@ bool Stage::SettingMap()
 		AddRooms();
 		AddRoomConnections();
 
-		if (_numOfFloodFillCount > 5) return false;
-
+		if (_numOfFloodFillCount > 5)
+		{
+			return false;
+		}
 		for (int i = 0; i < _vMaps.size(); i++)
 		{
 			_vMaps[i]->LoadObject();
@@ -299,7 +301,6 @@ bool Stage::AddLine(FieldMap* map, DIRECTION dir, int index)
 	case DIRECTION::DIR_RIGHT:
 		result = FindSameIndex(map->GetXIndex() + 1, map->GetYIndex(), index);
 		
-		if(_stage == 2)	cout << result << endl;
 		if (result != -1)
 		{
 			_vMaps[result]->SetNextMapIndex(DIRECTION::DIR_LEFT, index);

@@ -21,13 +21,14 @@ HRESULT Belial::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_makeSword = false;
 	_shootSword = false;
 	_shootSwordTimer = 0;
-
+	_viewAlpha = 0;
+	_isViewingHpBar = false;
 	_RazerCount = 0;
 	_RazerEnd = false;
 	_RazerEndCount = 0;
-
-
-	_initHp = _HP = 800;
+	_realIsViewing = false;
+	_handAlpha = 0;
+	_initHp = _hp = 800;
 	_Damage = 10; //ºÒ·¿´ë¹ÌÁö
 
 
@@ -42,6 +43,8 @@ HRESULT Belial::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_RightHandle.frameY = 0;
 	_RightHandle.Timer = 0;
 	_RightHandle.state = ES_IDLE;
+
+
 	return S_OK;
 }
 
@@ -65,39 +68,45 @@ void Belial::update()
 	
 	if (_isSpawned)
 	{
+		SetBelial();
 		Animation();
-		switch (_state)
+		if (_realIsViewing)
 		{
-		case ES_IDLE:
-			_PatternTime++;
-			if (_PatternTime > 300)
+
+			SetHpBar();
+			switch (_state)
 			{
-				SetPattern();
-			}
-			Move();
-
-
-			break;
-		case ES_ATTACK:
-
-			Attack();
-			switch (_BelialPattern)
-			{
-
-			case RAZER:
+			case ES_IDLE:
+				_PatternTime++;
+				if (_PatternTime > 300)
+				{
+					SetPattern();
+				}
 				Move();
+
+
 				break;
-			case KNIFE:
-				Move();
-				break;
-			case BULLET:
+			case ES_ATTACK:
+
+				Attack();
+				switch (_BelialPattern)
+				{
+
+				case RAZER:
+					Move();
+					break;
+				case KNIFE:
+					Move();
+					break;
+				case BULLET:
+					break;
+				default:
+					break;
+				}
 				break;
 			default:
 				break;
 			}
-			break;
-		default:
-			break;
 		}
 	}
 }
@@ -110,29 +119,39 @@ void Belial::render(HDC hdc)
 {
 	if (_isSpawned)
 	{
-		if (_BelialPattern == BULLET && _state == ES_ATTACK)
+		if (_realIsViewing)
 		{
-		CAMERAMANAGER->FrameRender(hdc, _bossBack, _x+53, _y+ 215, _frameX, 0);
+			if (_BelialPattern == BULLET && _state == ES_ATTACK)
+			{
+				CAMERAMANAGER->FrameRender(hdc, _bossBack, _x + 53, _y + 215, _frameX, 0);
+			}
+			else
+			{
+				CAMERAMANAGER->FrameRender(hdc, _bossBack, _x + 53, _y + 135, _frameX, 0);
+			}
+			for (int i = 0; i < _vBossSword.size(); i++)
+			{
+				CAMERAMANAGER->StretchRender(hdc, _vBossSword[i]->ig, _vBossSword[i]->x, _vBossSword[i]->y, 3, 3, _vBossSword[i]->angle - PI / 2);
+			}
+
+			Enemy::render(hdc);
+			CAMERAMANAGER->FrameRender(hdc, _leftHandle.ig, _leftHandle.x, _leftHandle.y, _leftHandle.frameX, _leftHandle.frameY);
+			CAMERAMANAGER->FrameRender(hdc, _RightHandle.ig, _RightHandle.x, _RightHandle.y, _RightHandle.frameX, _RightHandle.frameY);
+			for (int i = 0; i < _vLeftRazer.size(); i++)
+			{
+				CAMERAMANAGER->FrameRender(hdc, _vLeftRazer[i]->ig, _vLeftRazer[i]->x, _vLeftRazer[i]->y, _leftHandle.frameX - 8, 0);
+			}
+			for (int i = 0; i < _vRightRazer.size(); i++)
+			{
+				CAMERAMANAGER->FrameRender(hdc, _vRightRazer[i]->ig, _vRightRazer[i]->x, _vRightRazer[i]->y, _RightHandle.frameX - 8, 0);
+			}
 		}
 		else
 		{
-		CAMERAMANAGER->FrameRender(hdc, _bossBack, _x+53, _y+ 135, _frameX, 0);
-		}
-		for (int i = 0; i < _vBossSword.size(); i++)
-		{
-			CAMERAMANAGER->StretchRender(hdc, _vBossSword[i]->ig, _vBossSword[i]->x,_vBossSword[i]->y,3,3,-_vBossSword[i]->angle + PI/2);	
-		}
-		
-		Enemy::render(hdc);
-		CAMERAMANAGER->FrameRender(hdc, _leftHandle.ig, _leftHandle.x, _leftHandle.y, _leftHandle.frameX, _leftHandle.frameY);
-		CAMERAMANAGER->FrameRender(hdc, _RightHandle.ig, _RightHandle.x, _RightHandle.y, _RightHandle.frameX, _RightHandle.frameY);
-		for (int i = 0; i < _vLeftRazer.size(); i++)
-		{
-			CAMERAMANAGER->FrameRender(hdc, _vLeftRazer[i]->ig, _vLeftRazer[i]->x, _vLeftRazer[i]->y, _leftHandle.frameX-8, 0);
-		}
-		for (int i = 0; i < _vRightRazer.size(); i++)
-		{
-			CAMERAMANAGER->FrameRender(hdc, _vRightRazer[i]->ig, _vRightRazer[i]->x, _vRightRazer[i]->y, _RightHandle.frameX - 8, 0);
+			CAMERAMANAGER->FrameAlphaRender(hdc, _bossBack, _x + 53, _y + 135, _frameX, 0,_viewAlpha);
+			Enemy::render(hdc);
+			CAMERAMANAGER->FrameAlphaRender(hdc, _leftHandle.ig, _leftHandle.x, _leftHandle.y, _leftHandle.frameX, _leftHandle.frameY,_handAlpha);
+			CAMERAMANAGER->FrameAlphaRender(hdc, _RightHandle.ig, _RightHandle.x, _RightHandle.y, _RightHandle.frameX, _RightHandle.frameY ,_handAlpha);
 		}
 	}
 }
@@ -147,8 +166,6 @@ void Belial::Move()
 
 void Belial::Attack()
 {
-	
-
 	switch (_BelialPattern)
 	{
 	case RAZER:
@@ -224,13 +241,13 @@ void Belial::Attack()
 			if (_makeSwordTimer > 20)
 			{
 				_makeSwordTimer = 0;
-				_firstSwordX += 100;
+				_firstSwordX += 120;
 				
 
 				_swordCount++;
 				SetSword();
 
-				if (_swordCount == 6)
+				if (_swordCount == 5)
 				{
 					_makeSword = false;
 					_shootSword = true;
@@ -285,7 +302,7 @@ void Belial::Attack()
 			SwordHit();
 			SwordPixelCollision();
 			EraseSword();
-			if (_swordEndCount == 6)
+			if (_swordEndCount == 5)
 			{
 				_swordEndCount = 0;
 				_state = ES_IDLE;
@@ -595,28 +612,10 @@ void Belial::SwordHit()
 	{
 		if (IntersectRect(&temp, &_p->GetBody(), &_vBossSword[i]->body))
 		{
+		
 			if (_vBossSword[i]->speed > 0 && _vBossSword[i]->isHit == false)
 			{
-				if (_p->GetIsHit() == false)
-				{
-					_vBossSword[i]->isHit = true;
-					float damage;
-					float block;
-					float evasion;
-
-					damage = 15 * _p->GetRealDefence() / 100;
-					evasion = RANDOM->range(100);
-					block = RANDOM->range(100);
-					if (_p->GetRealEvasion() <= evasion)
-					{
-						if (_p->GetBlock() <= block)
-						{
-							_p->SetIsHit(true);
-							_p->SetHitCount(0);
-							_p->SetHp(_p->GetHP() - damage);
-						}
-					}
-				}
+				ENTITYMANAGER->getPlayer()->GetHitDamage(20);
 
 			}
 		}
@@ -701,5 +700,38 @@ void Belial::EraseSword()
 				_swordEndCount++;
 			}
 		}
+	}
+}
+
+void Belial::SetBelial()
+{
+	
+	if (_viewAlpha <= 255)
+	{
+		_viewAlpha++;
+	}
+	if (_viewAlpha > 123)
+	{
+		_handAlpha += 2;
+		if (_handAlpha > 255)
+		{
+			_handAlpha = 255;
+		}
+	}
+	if (_viewAlpha > 255)
+	{
+		_viewAlpha = 255;
+		_realIsViewing = true;
+		UIMANAGER->GetGameFrame()->GetChild("BossLifeBack")->SetIsViewing(true);
+	}
+}
+
+void Belial::SetHpBar()
+{
+	dynamic_cast<UIProgressBar*>(UIMANAGER->GetGameFrame()->GetChild("BossLifeBack")->GetChild("BossLife"))->FillCheck(_initHp, _hp);
+
+	if (_hp <= 0)
+	{
+		UIMANAGER->GetGameFrame()->GetChild("BossLifeBack")->SetIsViewing(false);
 	}
 }

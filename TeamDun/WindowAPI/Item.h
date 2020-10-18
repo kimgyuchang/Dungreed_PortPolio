@@ -20,7 +20,7 @@ enum WEAPONTYPE
 enum OPTIONTYPE
 {
 	POWER,				 // 위력
-	ATKSPEED,			 // 공격속도
+	ATKSPEED,			 // 공격속도 (%)
 	DASHATK,			 // 대쉬 공격력
 	DEFENCE,			 // 방어력
 	BLOCK,				 // 막기
@@ -35,7 +35,7 @@ enum OPTIONTYPE
 	MAXHP,				 // 최대 HP
 	MAXHPPERCENT,		 // 최대 HP (%)
 	EVADE,				 // 회피
-	MOVESPEED,			 // 이동 속도
+	MOVESPEED,			 // 이동 속도 (%)
 	JUMPPOWER,			 // 점프력
 	GOLDDROP,			 // 골드 드랍
 	RELOADSPEED,		 // 재장전 속도

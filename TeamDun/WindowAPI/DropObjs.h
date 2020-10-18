@@ -8,7 +8,8 @@ protected:
 	float _speedY;
 	float _angle;
 	float _gravity;
-	
+	int	  _droppedTimer;
+
 public :
 	HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
 	void update();

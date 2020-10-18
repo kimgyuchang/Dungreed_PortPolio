@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -95,6 +95,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <StackReserveSize>10485760</StackReserveSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -151,7 +152,10 @@
     <ClInclude Include="Banshee.h" />
     <ClInclude Include="Belial.h" />
     <ClInclude Include="BigWhiteSkel.h" />
+    <ClInclude Include="BloodOfSrobeo.h" />
     <ClInclude Include="BowSkel.h" />
+    <ClInclude Include="Box.h" />
+    <ClInclude Include="BoxParticle.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="cameraText.h" />
@@ -169,8 +173,11 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="FieldMap.h" />
+    <ClInclude Include="FireBat.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="gameScene.h" />
+    <ClInclude Include="HpPixie.h" />
+    <ClInclude Include="IceBat.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="iniData.h" />
@@ -196,6 +203,7 @@
     <ClInclude Include="particle.h" />
     <ClInclude Include="particleGenerator.h" />
     <ClInclude Include="ParticleManager.h" />
+    <ClInclude Include="PixieSpawner.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="progressBar.h" />
@@ -203,6 +211,7 @@
     <ClInclude Include="random.h" />
     <ClInclude Include="RedBat.h" />
     <ClInclude Include="RedGiantBat.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Restaurant.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="Shop.h" />
@@ -211,12 +220,14 @@
     <ClInclude Include="Skill.h" />
     <ClInclude Include="soundManager.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="StageChanger.h" />
     <ClInclude Include="StageDoor.h" />
     <ClInclude Include="startScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SwordSkel.h" />
     <ClInclude Include="townNPCimage.h" />
     <ClInclude Include="Treasure.h" />
+    <ClInclude Include="TreasureSpawner.h" />
     <ClInclude Include="uibrushTool.h" />
     <ClInclude Include="UIFrame.h" />
     <ClInclude Include="UIImage.h" />
@@ -231,7 +242,10 @@
     <ClCompile Include="Banshee.cpp" />
     <ClCompile Include="Belial.cpp" />
     <ClCompile Include="BigWhiteSkel.cpp" />
+    <ClCompile Include="BloodOfSrobeo.cpp" />
     <ClCompile Include="BowSkel.cpp" />
+    <ClCompile Include="Box.cpp" />
+    <ClCompile Include="BoxParticle.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="cameraText.cpp" />
@@ -248,8 +262,11 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="FieldMap.cpp" />
+    <ClCompile Include="FireBat.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="gameScene.cpp" />
+    <ClCompile Include="HpPixie.cpp" />
+    <ClCompile Include="IceBat.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="iniData.cpp" />
@@ -273,6 +290,7 @@
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="particleGenerator.cpp" />
     <ClCompile Include="ParticleManager.cpp" />
+    <ClCompile Include="PixieSpawner.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="progressBar.cpp" />
@@ -289,6 +307,7 @@
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="StageChanger.cpp" />
     <ClCompile Include="StageDoor.cpp" />
     <ClCompile Include="startScene.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -300,6 +319,7 @@
     <ClCompile Include="SwordSkel.cpp" />
     <ClCompile Include="townNPCimage.cpp" />
     <ClCompile Include="Treasure.cpp" />
+    <ClCompile Include="TreasureSpawner.cpp" />
     <ClCompile Include="uibrushTool.cpp" />
     <ClCompile Include="UIFrame.cpp" />
     <ClCompile Include="UIImage.cpp" />

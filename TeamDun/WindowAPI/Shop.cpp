@@ -223,6 +223,7 @@ void Shop::CheckToSell()
 /// </summary>
 void Shop::ActivateSell()
 {
+	SOUNDMANAGER->play("NPC_상점판매");
 	ENTITYMANAGER->getPlayer()->SetMoney(ENTITYMANAGER->getPlayer()->GetMoney() + _selectedItem->GetSellPrice());
 	_inven->GetVItemList().erase(_inven->GetVItemList().begin() + _index);
 	_inven->ReloadUIImages();
@@ -252,6 +253,7 @@ void Shop::BuyItem()
 				{
 					if (_inven->AddItem(_vItemList[i]) == true) // 넣는대에 성공하면
 					{
+						SOUNDMANAGER->play("NPC_상점판매");
 						ENTITYMANAGER->getPlayer()->SetMoney(ENTITYMANAGER->getPlayer()->GetMoney() - _vItemList[i]->GetBuyPrice());
 						_vItemList.erase(_vItemList.begin() + i);
 						ReNewUI();

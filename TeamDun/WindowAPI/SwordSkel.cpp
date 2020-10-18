@@ -12,7 +12,7 @@ HRESULT SwordSkel::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_gravity = 0.5;
 	_jumpPower = 10.0f;
 	_moveSpeed = 3;
-	_initHp = _HP = 50;
+	_initHp = _hp = 50;
 
 
 	_swordX = _x;
@@ -148,12 +148,12 @@ void SwordSkel::render(HDC hdc)
 		Enemy::render(hdc);
 		if (_isLeft)
 		{
-			CAMERAMANAGER->FrameRender(hdc, _skelSword.swordIg, _swordX, _swordY, _skelSword.frameX, _skelSword.frameY, -_skelSword.angle);
+			CAMERAMANAGER->FrameRender(hdc, _skelSword.swordIg, _swordX, _swordY, _skelSword.frameX, _skelSword.frameY, _skelSword.angle);
 		}
 		else
 		{
 			_swordX = _x - 45;
-			CAMERAMANAGER->FrameRender(hdc, _skelSword.swordIg, _swordX, _swordY, _skelSword.frameX, _skelSword.frameY, -_skelSword.angle);
+			CAMERAMANAGER->FrameRender(hdc, _skelSword.swordIg, _swordX, _swordY, _skelSword.frameX, _skelSword.frameY, _skelSword.angle);
 		}
 	}
 }
