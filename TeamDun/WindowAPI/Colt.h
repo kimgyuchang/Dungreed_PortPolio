@@ -20,7 +20,7 @@ public:
 	void AttackAnim();
 	virtual void Activate();
 
-	virtual void ChangeMap();
+
 
 };
 

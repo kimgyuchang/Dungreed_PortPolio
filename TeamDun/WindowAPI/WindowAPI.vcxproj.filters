@@ -315,6 +315,12 @@
     <ClCompile Include="StageChanger.cpp">
       <Filter>MainGame\Etc</Filter>
     </ClCompile>
+    <ClCompile Include="IceBat.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="FireBat.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -553,6 +559,12 @@
     </ClInclude>
     <ClInclude Include="StageChanger.h">
       <Filter>MainGame\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="IceBat.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBat.h">
+      <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -75,11 +75,17 @@ void DataManager::GetObjectData()
 		case 1509://»¡°£Å«¹ÚÁã
 			obj = new RedGiantBat();
 			break;
-		case 1510:
+		case 1510://º¸¶ó Å«¹ÚÁã
 			obj = new PurpleGiantBat();
 			break;
 		case 702: // ºÓÀº ¹ÚÁã
 			obj = new RedBat();
+			break;
+		case 704: // ¾óÀ½ ¹ÚÁã
+			obj = new IceBat();
+			break;
+		case 705: // ºÒ¹ÚÁã
+			obj = new FireBat();
 			break;
 		case 2000: // º§¸®¾Ë
 			obj = new Belial();

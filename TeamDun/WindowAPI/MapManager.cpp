@@ -8,7 +8,7 @@ HRESULT MapManager::init()
 
 	_mapData = CSVMANAGER->csvLoad("Data/Maps.csv");
 	
-	AddStage(0);
+	AddStage(1);
 	_mapFrame = UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetChild("mapFrame");
 	_pixelGetter = new PixelGetter();
 	ChangeMap(0);
@@ -134,6 +134,10 @@ void MapManager::GenerateMapParticle()
 		mapSquareGen->initScale(0.5f, 1.0f, 0);
 		mapSquareGen->initSpeed(0.5f, 0.5f, 0.3f, 0.3f, 0, 0);
 		PARTICLEMANAGER->AddGenerator(mapSquareGen);
+	}
+	else if(_curStageNum == 0)
+	{
+		CAMERAMANAGER->init(0, 0, 6720, 15000, 0, 0, WINSIZEX / 2, WINSIZEY / 2);
 	}
 }
 

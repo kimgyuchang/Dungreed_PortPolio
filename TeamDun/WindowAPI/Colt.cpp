@@ -32,8 +32,8 @@ void Colt::FireBullet()
 	if (_isAttacking)
 	{
 		SOUNDMANAGER->play("¹«±â_±ÇÃÑ");
-		ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_PLAYER,-20 +_angleCheckPosX +cosf(_angle)*50,-30+ _angleCheckPosY-sinf(_angle) * 50, _angle,
-			10, 30, 1000, true, _angle);
+		ENTITYMANAGER->makeBullet("Bullet01", "BulletEffect01", BT_PLAYER,-20 +_angleCheckPosX +cosf(_angle)*50,-30+ _angleCheckPosY-sinf(_angle) * 50, _angle,
+			10, 22, 1000, true, _angle);
 		_isAttacking = false;
 	}
 }
@@ -49,8 +49,5 @@ void Colt::Activate()
 	_isAttacking = true;
 }
 
-void Colt::ChangeMap()
-{
-}
 
 

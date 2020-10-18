@@ -44,6 +44,8 @@ public :
 	virtual void	SpawnEnemy();
 	virtual void	SpawnAnimation();
 	virtual void	GetDamage();
+	virtual void	GetDamage(int damage);
+
 	void			HpBarDelete();
 	// GETSET //
 	int		GetAttackCoolTime() { return _attackCoolTime; }

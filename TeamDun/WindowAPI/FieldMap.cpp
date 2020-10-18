@@ -103,6 +103,12 @@ void FieldMap::LoadObject()
 		case 702: // ºÓÀº ¹ÚÁã
 			obj = new RedBat(*dynamic_cast<RedBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
+		case 704: // ¾óÀ½ ¹ÚÁã
+			obj = new IceBat(*dynamic_cast<IceBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+		case 705: // ºÒ ¹ÚÁã
+			obj = new FireBat(*dynamic_cast<FireBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 
 		case 2000: // º§¸®¾Ë
 			obj = new Belial(*dynamic_cast<Belial*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));

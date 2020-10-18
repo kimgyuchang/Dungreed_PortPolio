@@ -28,3 +28,5 @@
 #include "Colt.h"
 #include "StageDoor.h"
 #include "WormVillage.h"
+#include "IceBat.h"
+#include "FireBat.h"

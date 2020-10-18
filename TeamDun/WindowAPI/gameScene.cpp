@@ -24,7 +24,7 @@ HRESULT gameScene::init()
 	_mouseLocation = 0;
 
 	InitWardrobeString();
-	CAMERAMANAGER->init(0, 0, 6720, 15000, -0, -0, WINSIZEX / 2, WINSIZEY / 2);
+	CAMERAMANAGER->init(0, 0, 6720, 15000, 0, 0, WINSIZEX / 2, WINSIZEY / 2);
 	return S_OK;
 }
 
