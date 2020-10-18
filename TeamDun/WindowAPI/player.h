@@ -192,6 +192,7 @@ public:
 
 	void SwitchWeapon();
 	void CheckAliceZone();
+	void Ability();
 	
 	void SetHpUI();
 	// GETSET //
@@ -223,7 +224,6 @@ public:
 	float			GetDashDamage()			{ return _dashDamage; }
 	float			GetReloadTime()			{ return _reloadTime; }
 	int				GetInitHp()				{ return _initHp; }
-	int				Gethp()				    { return _hp; }
 	float			GetRealDefence()		{ return _realDefence; }
 	float			GetRealEvasion()		{ return _realEvasion; }
 	float			GetToughness()			{ return _toughness; }

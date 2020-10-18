@@ -457,9 +457,9 @@ void Inventory::CheckInvenText()
 
 void Inventory::SwitchWeapon(int selectedWeapon)
 {
-	if (selectedWeapon == 0)
+	if (selectedWeapon == 0)	//선택무기가 0번일때
 	{
-		if (_p->GetWeapon(0) != nullptr)
+		if (_p->GetWeapon(0) != nullptr)	//공격무기가 0번이 아닐
 			_p->GetWeapon(0)->EquipUnEquipStatus(true);
 		if (_p->GetSubWeapon(0) != nullptr)
 			_p->GetSubWeapon(0)->EquipUnEquipStatus(true);
