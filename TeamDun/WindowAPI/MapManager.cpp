@@ -29,10 +29,10 @@ HRESULT MapManager::init()
 		_vOriginMaps.push_back(map);
 	}
 	
-	AddStage(0);
+	AddStage(1);
 	_mapFrame = UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetChild("mapFrame");
 	_pixelGetter = new PixelGetter();
-	ChangeMap(0);
+	ChangeMap(4);
 	_portalAnimOn = false;
 	return S_OK;
 }
@@ -253,7 +253,15 @@ void MapManager::ChangeMap(int index)
 
 	GetPlayMap()->PixelCollisionMapGenerate();
 	GetPlayMap()->GridMapGenerate();
-	GetPlayMap()->SetVisited(true);
+
+	if (!GetPlayMap()->GetVisited())
+	{
+		int satiety = ENTITYMANAGER->getPlayer()->GetSatiety() - 1;
+		if (satiety < 0) satiety = 0;
+		ENTITYMANAGER->getPlayer()->SetSatiety(satiety);
+		GetPlayMap()->SetVisited(true);
+	}
+
 	EFFECTMANAGER->GetVEffect().clear();
 	PARTICLEMANAGER->GetParticles().clear();
 	PARTICLEMANAGER->GetGenerators().clear();

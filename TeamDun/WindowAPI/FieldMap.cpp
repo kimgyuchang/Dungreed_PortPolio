@@ -165,6 +165,7 @@ void FieldMap::LoadObject()
 			obj = new Restaurant(*dynamic_cast<Restaurant*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			dynamic_cast<Restaurant*>(obj)->initSecond();
 			dynamic_cast<Restaurant*>(obj)->SetRestaurantFood();
+			dynamic_cast<Restaurant*>(obj)->ReNewUI();
 			break;
 		case 0: // 포탈
 			obj = new Portal(*dynamic_cast<Portal*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
@@ -571,6 +572,9 @@ void FieldMap::CheckNoMonsterInMap()
 
 		if (!isRemainMonster) // 남은 몬스터가 없을때
 		{
+			int satiety = ENTITYMANAGER->getPlayer()->GetSatiety() - 1;
+			if (satiety < 0) satiety = 0;
+			ENTITYMANAGER->getPlayer()->SetSatiety(satiety);
 			_isCleared = true; // 몬스터를 모두 정리했다 알림
 			for (int i = 0; i < _vObjs.size(); i++)
 			{

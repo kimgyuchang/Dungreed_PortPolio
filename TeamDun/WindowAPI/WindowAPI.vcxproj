@@ -280,7 +280,9 @@
     <ClCompile Include="random.cpp" />
     <ClCompile Include="RedBat.cpp" />
     <ClCompile Include="RedGiantBat.cpp" />
-    <ClCompile Include="Restaurant.cpp" />
+    <ClCompile Include="Restaurant.cpp">
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</BasicRuntimeChecks>
+    </ClCompile>
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="Shop.cpp" />
     <ClCompile Include="SkelDog.cpp" />

@@ -59,6 +59,7 @@ void gameScene::initUI()
 	WardrobeUIInit();
 	InventoryUIInit();
 	CharUIInit();
+	RestaurantUIInit();
 	ShopUIInit();
 	ConversationUIInit();
 	GetItemUIInit();
@@ -203,6 +204,30 @@ void gameScene::ConversationUIInit()
 
 	convFrame->SetIsViewing(false);
 	selectFrame->SetIsViewing(false);
+}
+
+void gameScene::RestaurantUIInit()
+{
+	UIImage* _restaurantBase = new UIImage();
+	_restaurantBase->init("_restaurantBase", 0, 0, WINSIZEX, WINSIZEY, "ScreenCover", true, 0, 0, 10.0f, 10.0f);
+	UIMANAGER->GetGameFrame()->AddFrame(_restaurantBase);
+
+	UIText* full = new UIText();
+	full->init("full", 0, 200, WINSIZEX, 500, "배가 불러 음식을 먹을 수 없습니다.", FONT::PIX, WORDSIZE::WS_BIGGEST, WORDSORT::WSORT_MIDDLE, RGB(207, 18, 18));
+	UIMANAGER->GetGameFrame()->AddFrame(full);
+	full->SetIsViewing(false);
+
+	UIText* noMoney = new UIText();
+	noMoney->init("noMoney", 0, 200, WINSIZEX, 500, "소지금이 부족합니다!", FONT::PIX, WORDSIZE::WS_BIGGEST, WORDSORT::WSORT_MIDDLE, RGB(207, 18, 18));
+	UIMANAGER->GetGameFrame()->AddFrame(noMoney);
+	noMoney->SetIsViewing(false);
+
+	UIImage* _foodImg = new UIImage();
+	_foodImg->init("_foodImg", 870, 350, 219, 144, "", false, 0, 0, 1.4f, 1.4f, 255);
+	UIMANAGER->GetGameFrame()->AddFrame(_foodImg);
+	_foodImg->SetIsViewing(false);
+
+	_restaurantBase->SetIsViewing(false);
 }
 
 void gameScene::WardrobeUIInit()

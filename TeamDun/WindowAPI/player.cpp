@@ -42,7 +42,7 @@ HRESULT Player::init()
 	_dashRestoreTime = 100;
 	_evasion = 0;
 	_defence = 10;
-	_money = 10000;
+	_money = 3000;
 	_isHit = false;
 	_hitCount = 0;
 	_aliceZone = IMAGEMANAGER->findImage("AliceZone");
@@ -51,6 +51,7 @@ HRESULT Player::init()
 	_swapCoolTime = 0;
 	_accesoryCount = 4;
 	_hp = _initHp = 100;
+	_maxSatiety = 100;
 
 	_criticalPercent = 2;
 	_criticalDamage = 100;

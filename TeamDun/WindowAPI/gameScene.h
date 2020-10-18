@@ -25,6 +25,7 @@ public:
 	void MainGameFrameInit();
 	void GetItemUIInit();
 	void ConversationUIInit();
+	void RestaurantUIInit();
 	void WardrobeUIInit();
 	void DungeonMapUIInit();
 	void InventoryUIInit();

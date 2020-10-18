@@ -18,7 +18,10 @@ public:
 	virtual void update();
 	void Animation();
 	virtual void render(HDC hdc);
+	
+	int GetAlpha() { return _alpha; }
 
 	void SetFrameX(int x) { _frameX = x; }
 	void SetFrameY(int y) { _frameY = y; }
+	void SetAlpha(int alpha) { _alpha = alpha; }
 };
