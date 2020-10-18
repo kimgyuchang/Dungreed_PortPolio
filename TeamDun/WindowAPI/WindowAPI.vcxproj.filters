@@ -589,7 +589,4 @@
       <Filter>MainGame\Object\Etc</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="GameFramework2D.rc" />
-  </ItemGroup>
 </Project>

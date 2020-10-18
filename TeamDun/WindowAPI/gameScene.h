@@ -28,6 +28,7 @@ public:
 	void WardrobeUIInit();
 	void DungeonMapUIInit();
 	void InventoryUIInit();
+	void TraitUIInit();
 	void ShopUIInit();
 	void CharUIInit();
 	void release();

@@ -37,11 +37,17 @@ void EntityManager::render(HDC hdc)
 void EntityManager::release()
 {
 
-	for (int i = 0; i < _vObjs.size(); i++)	_vObjs[i]->release();
-	for (int i = 0; i < _vBullets.size(); i++) _vBullets[i]->release();
-	_wormVillage->release();
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		_vObjs[i]->release();
+		SAFE_DELETE(_vObjs[i]);
+	}
 
-	_p->release();
+	for (int i = 0; i < _vBullets.size(); i++)
+	{
+		_vBullets[i]->release();
+		SAFE_DELETE(_vBullets[i]);
+	}
 }
 
 Bullet* EntityManager::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle, float damage, float speed, float maxDis, bool isFrame, float igAngle)
@@ -57,7 +63,6 @@ void EntityManager::eraseBullet()
 
 	image* batBulletIg = IMAGEMANAGER->findImage("BatBullet");
 	image* BansheeBulletIg = IMAGEMANAGER->findImage("BansheeBulletIdle");
-
 
 
 	for (int i = 0; i < _vBullets.size(); i++)

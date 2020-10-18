@@ -62,6 +62,7 @@ void gameScene::initUI()
 	WardrobeUIInit();
 	ConversationUIInit();
 	GetItemUIInit();
+	TraitUIInit();
 }
 
 void gameScene::MainGameFrameInit()
@@ -91,7 +92,7 @@ void gameScene::MainGameFrameInit()
 	UIMANAGER->GetGameFrame()->AddFrame(hpFrame);
 
 	UIProgressBar* hpBar1 = new UIProgressBar();
-	hpBar1->init("hpBarPros", 42, 0, 180, 48, "LifeBar","PlayerLifeBackGray_2");
+	hpBar1->init("hpBarPros", 42, 0, 180, 48, "LifeBar", "PlayerLifeBackGray_2");
 	hpFrame->AddFrame(hpBar1);
 
 	UIImage* hpWave = new UIImage();
@@ -123,7 +124,7 @@ void gameScene::MainGameFrameInit()
 	UIMANAGER->GetGameFrame()->AddFrame(dashUI);
 
 	UIFrame* leftDownUI = new UIFrame();
-	leftDownUI->init("leftDown", 20, WINSIZEY - 80, 0,0, "");
+	leftDownUI->init("leftDown", 20, WINSIZEY - 80, 0, 0, "");
 	UIMANAGER->GetGameFrame()->AddFrame(leftDownUI);
 
 	UIFrame* coin = new UIFrame();
@@ -429,6 +430,15 @@ void gameScene::InventoryUIInit()
 
 }
 
+void gameScene::TraitUIInit()
+{
+	UIImage* traitBase = new UIImage();
+	traitBase->init("allTraitFrame", 0, 0, WINSIZEX, WINSIZEY, "ScreenCover", false, 0, 0, 1440 / 200.f, 800 / 200.f);
+	UIMANAGER->GetGameFrame()->AddFrame(traitBase);
+
+	traitBase->SetIsViewing(false);
+}
+
 void gameScene::ShopUIInit()
 {
 	UIFrame* shopBase = new UIFrame();
@@ -630,14 +640,35 @@ void gameScene::CharUIInit()
 
 void gameScene::release()
 {
-	ENTITYMANAGER->release();
-	ENTITYMANAGER->releaseSingleton();
-	MAPMANAGER->release();
-	MAPMANAGER->releaseSingleton();
-	EFFECTMANAGER->release();
-	EFFECTMANAGER->releaseSingleton();
-	PARTICLEMANAGER->release();
-	PARTICLEMANAGER->releaseSingleton();
+	if (ENTITYMANAGER != nullptr)
+	{
+		ENTITYMANAGER->release();
+		ENTITYMANAGER->releaseSingleton();
+	}
+
+	if (MAPMANAGER != nullptr)
+	{
+		MAPMANAGER->release();
+		MAPMANAGER->releaseSingleton();
+	}
+
+	if (EFFECTMANAGER != nullptr)
+	{
+		EFFECTMANAGER->release();
+		EFFECTMANAGER->releaseSingleton();
+	}
+
+	if (PARTICLEMANAGER != nullptr)
+	{
+		PARTICLEMANAGER->release();
+		PARTICLEMANAGER->releaseSingleton();
+	}
+
+	if (UIMANAGER != nullptr)
+	{
+		UIMANAGER->release();
+		UIMANAGER->releaseSingleton();
+	}
 }
 
 
@@ -793,6 +824,13 @@ void gameScene::update()
 	{
 		SOUNDMANAGER->play("인벤토리열기");
 		UIMANAGER->GetGameFrame()->GetChild("charFrame")->ToggleIsViewing();
+	}
+
+	if (INPUT->GetKeyDown('O'))
+	{
+		SOUNDMANAGER->play("인벤토리열기");
+		UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->ToggleIsViewing();
+		ENTITYMANAGER->getPlayer()->ReInitTraitUI();
 	}
 }
 

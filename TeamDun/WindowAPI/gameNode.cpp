@@ -32,6 +32,12 @@ void gameNode::release()
 	IMAGEMANAGER->release();
 	IMAGEMANAGER->releaseSingleton();
 
+	SOUNDMANAGER->release();
+	SOUNDMANAGER->releaseSingleton();
+
+	SCENEMANAGER->release();
+	SCENEMANAGER->releaseSingleton();
+
 	//HDC «ÿ¡¶
 	ReleaseDC(_hWnd, _hdc);
 }

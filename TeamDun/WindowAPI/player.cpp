@@ -24,7 +24,10 @@ HRESULT Player::init()
 	_dashSpeed = 0;
 	_maxDashCount = 3;
 	_atkSpeed = 0.f;
-	_realAttackSpeed = _atkSpeed * 60;
+	_atkSpeedPer = 0.f;
+	_moveSpeed = 5;
+	_moveSpeedPer = 0;
+	_realAttackSpeed = _atkSpeed + (_atkSpeed * _atkSpeedPer / 100);
 	_dustEffectCount = 0;
 	_isStun = false;
 	_stunCount = 0;
@@ -51,6 +54,10 @@ HRESULT Player::init()
 	_swapCoolTime = 0;
 	_accesoryCount = 4;
 	_hp = _initHp = 100;
+	_level = 30;
+	_remainPoint = 35;
+	_maxPoint = 35;
+	for (int i = 0; i < 7; i++) _abilityNum[i] = 0;
 
 	_criticalPercent = 2;
 	_criticalDamage = 100;
@@ -58,6 +65,8 @@ HRESULT Player::init()
 	// UI
 	_hpFrame = UIMANAGER->GetGameFrame()->GetChild("hpFrame");
 	_dashFrame = UIMANAGER->GetGameFrame()->GetChild("dashFrame");
+	_traitFrame = UIMANAGER->GetGameFrame()->GetChild("allTraitFrame");
+	_movedX = 0;
 
 	for (int i = 0; i < 17; i++) _vToolTips.push_back(CharToolTip());
 	_vToolTipsName = vector<string>{ "powerImg", "defImg", "toughImg", "blockImg", "criImg", "criDmgImg", "evadeImg",
@@ -101,7 +110,8 @@ void Player::update()
 		!ENTITYMANAGER->GetWormVillage()->GetIsOn() &&
 		!MAPMANAGER->GetPortalAnimOn() &&
 		!MAPMANAGER->GetStageChanger()->GetIsChangingStage() &&
-		!_isStun && 
+		!_traitFrame->GetIsViewing() &&
+		!_isStun &&
 		!_isPlayerDead
 		)
 
@@ -145,7 +155,7 @@ void Player::update()
 		{
 			if (_weapons[_selectedWeaponIdx] != nullptr && _realAttackSpeed < 0)
 			{
-				_realAttackSpeed = 60 / _atkSpeed;
+				_realAttackSpeed = 60 / (_atkSpeed + (_atkSpeed * _atkSpeedPer / 100));
 				_weapons[_selectedWeaponIdx]->Activate();
 			}
 		}
@@ -193,6 +203,7 @@ void Player::update()
 	SetRealStat();
 	SetHpUI();
 	SetTextLeftDown();
+	ControlTraitPage();
 	this->pixelCollision();
 
 
@@ -372,7 +383,7 @@ void Player::render(HDC hdc)
 	{
 		if (_weapons[_selectedWeaponIdx] != nullptr && _weapons[_selectedWeaponIdx]->GetIsRenderFirst()) _weapons[_selectedWeaponIdx]->render(hdc);
 		if (_subWeapons[_selectedWeaponIdx] != nullptr && _subWeapons[_selectedWeaponIdx]->GetIsRenderFirst()) _subWeapons[_selectedWeaponIdx]->render(hdc);
-		
+
 		for (int i = 0; i < _vAccessories.size(); i++)
 		{
 			if (_vAccessories[i]->GetIsRenderFirst()) _vAccessories[i]->render(hdc);
@@ -395,10 +406,10 @@ void Player::render(HDC hdc)
 		}
 
 
-	if (_isStun)
-	{
-		CAMERAMANAGER->FrameRender(hdc, IMAGEMANAGER->findImage("stun"), _x+13, _y -10, _stunFrameX, _stunFrameY);
-	}
+		if (_isStun)
+		{
+			CAMERAMANAGER->FrameRender(hdc, IMAGEMANAGER->findImage("stun"), _x + 13, _y - 10, _stunFrameX, _stunFrameY);
+		}
 		_inven->render(hdc);
 		CAMERAMANAGER->FrameRender(hdc, _aliceZone, _x + _vImages[_useImage]->getFrameWidth() / 2 - _aliceZone->getFrameWidth() / 2, _y + _vImages[_useImage]->getFrameHeight() / 2 - _aliceZone->getFrameHeight() / 2, _aliceZoneIn ? 1 : 0, 0);
 	}
@@ -421,7 +432,7 @@ void Player::Animation()
 			_dustEffectCount++;
 			if (_dustEffectCount % 20 == 0)
 			{
-				int runSound = RANDOM->range(1,4);
+				int runSound = RANDOM->range(1, 4);
 				SOUNDMANAGER->play("걷는소리 (" + to_string(runSound) + ")");
 				if (_isLeft)
 				{
@@ -515,7 +526,7 @@ void Player::Move()
 		}
 
 		_state = PS_MOVE;			//이미지 상태 이동상태로
-		_x -= 5;
+		_x -= _moveSpeed + ((_moveSpeedPer * _moveSpeed) / 100.f);
 		_body = RectMake(_x + 10, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 20, IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
 
 	}
@@ -531,7 +542,7 @@ void Player::Move()
 		}
 		_rightBack = false;
 		_state = PS_MOVE;
-		_x += 5;
+		_x += _moveSpeed + ((_moveSpeedPer * _moveSpeed) / 100.f);
 		_body = RectMake(_x + 10, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 20, IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
 
 	}
@@ -927,8 +938,8 @@ void Player::UpdateCharPage()
 		dynamic_cast<UIText*>(charFrame->GetChild("criText"))->SetText(to_string_with_precision(_criticalPercent, 0));
 		dynamic_cast<UIText*>(charFrame->GetChild("criDmgText"))->SetText(to_string_with_precision(_criticalDamage, 0));
 		dynamic_cast<UIText*>(charFrame->GetChild("evadeText"))->SetText(to_string_with_precision(_evasion, 0));
-		dynamic_cast<UIText*>(charFrame->GetChild("moveSpeedText"))->SetText(to_string_with_precision(_moveSpeed, 2));
-		dynamic_cast<UIText*>(charFrame->GetChild("atkSpeedText"))->SetText(to_string_with_precision(_atkSpeed, 2));
+		dynamic_cast<UIText*>(charFrame->GetChild("moveSpeedText"))->SetText(to_string_with_precision(_moveSpeed + (_moveSpeed * _moveSpeedPer / 100), 2));
+		dynamic_cast<UIText*>(charFrame->GetChild("atkSpeedText"))->SetText(to_string_with_precision(_atkSpeed + (_atkSpeed * _atkSpeedPer / 100), 2));
 		dynamic_cast<UIText*>(charFrame->GetChild("reloadText"))->SetText(to_string_with_precision(_reloadTime, 1));
 		dynamic_cast<UIText*>(charFrame->GetChild("dashText"))->SetText(to_string_with_precision(_dashDamage, 0));
 		dynamic_cast<UIText*>(charFrame->GetChild("trueDamageText"))->SetText(to_string_with_precision(_trueDamage, 0));
@@ -950,7 +961,6 @@ void Player::SetRealStat()
 		_realEvasion = 0;
 	}
 
-
 	if (_defence >= 0)
 	{
 		_realDefence = sqrt(_defence * 36);
@@ -965,9 +975,6 @@ void Player::SetRealStat()
 	{
 		_realCriticalPercent = 0;
 	}
-
-	
-
 }
 
 /// <summary>
@@ -1101,7 +1108,7 @@ void Player::GetHitDamage(int damage)
 				_isHit = true;
 				_hitCount = 0;
 				_hp = _hp - Realdamage;
-				EFFECTMANAGER->AddEffect(0, 0, "hit", 0, 0, 0, true, 100, 0, 1, 1, true ,true);
+				EFFECTMANAGER->AddEffect(0, 0, "hit", 0, 0, 0, true, 100, 0, 1, 1, true, true);
 				CAMERAMANAGER->Shake(25, 25, 6, 1);
 
 			}
@@ -1118,3 +1125,265 @@ void Player::GetHitDamage(int damage)
 
 }
 
+void Player::ControlTraitPage()
+{
+	if (_traitFrame->GetIsViewing())
+	{
+		AddTraitPoint();
+		ReloadTraitPoint();
+		MoveTraitUI();
+	}
+}
+
+void Player::AddTraitPoint()
+{
+	vector<string> btnNames = { "AbilityBackgroundButtonDisable_Wrath", "AbilityBackgroundButtonDisable_Swiftness", "AbilityBackgroundButtonDisable_Patience", "AbilityBackgroundButtonDisable_Arcane", "AbilityBackgroundButtonDisable_Greed", "AbilityBackgroundButtonDisable_Patience", "AbilityBackgroundButtonDisable_Wrath" };
+	vector<string> btnNames2 = { "AbilityBackgroundButton_Wrath", "AbilityBackgroundButton_Swiftness", "AbilityBackgroundButton_Patience", "AbilityBackgroundButton_Arcane", "AbilityBackgroundButton_Greed", "AbilityBackgroundButton_Patience", "AbilityBackgroundButton_Wrath" };
+
+	for (int i = 0; i < 7; i++)
+	{
+		UIFrame* btnFrame = _traitFrame->GetChild("trait" + to_string(i))->GetChild("btn");
+		if (PtInRect(&btnFrame->GetRect(), _ptMouse))
+		{
+			btnFrame->SetImage(IMAGEMANAGER->findImage(btnNames2[i]));
+
+			if (INPUT->GetIsLButtonClicked() && _remainPoint > 0)
+			{
+				if (_abilityNum[i] < 20)
+				{
+					switch (i)
+					{
+					case 0:
+						_power += 2;
+						break;
+
+					case 1:
+						_moveSpeedPer += 0.5f;
+						_atkSpeedPer += 0.5f;
+						break;
+
+					case 2:
+						_defence += 1.5f;
+						break;
+
+					case 3:
+						_criticalPercent += 0.5f;
+						_evasion += 0.5f;
+						break;
+
+					case 4:
+						_initHp += 2;
+						break;
+
+					case 5:
+						_criticalDamage += 2.5;
+						break;
+
+					case 6:
+						_power += 1;
+						break;
+					}
+					_abilityNum[i]++;
+					_remainPoint--;
+					ReInitTraitUI();
+					if (_abilityNum[i] == 5 || _abilityNum[i] == 10 || _abilityNum[i] == 20)
+					{
+						SOUNDMANAGER->play("NPC_훈련소_특성찍기");
+					}
+					else
+					{
+						SOUNDMANAGER->play("NPC_훈련소_특성찍기2");
+					}
+					break;
+				}
+			}
+		}
+		else
+		{
+			btnFrame->SetImage(IMAGEMANAGER->findImage(btnNames[i]));
+		}
+	}
+}
+
+void Player::MoveTraitUI()
+{
+	if (PtInRect(&_traitFrame->GetRect(), _ptMouse) && INPUT->GetKey(VK_LBUTTON))
+	{
+		_uiScrollTimer++;
+		if (_uiScrollTimer == 1)
+		{
+			_uiMouseLocation = _ptMouse.x;
+		}
+
+		else if (_uiScrollTimer > 1)
+		{
+			for (int i = 0; i < 7; i++)
+			{
+				_traitFrame->GetChild("trait" + to_string(i))->MoveFrameChild(_ptMouse.x - _uiMouseLocation, 0);
+			}
+			_movedX += _ptMouse.x - _uiMouseLocation;
+			_uiMouseLocation = _ptMouse.x;
+		}
+	}
+
+	if (INPUT->GetIsLButtonUp())
+	{
+		_uiScrollTimer = 0;
+		_uiMouseLocation = 0;
+	}
+}
+
+void Player::ReloadTraitPoint()
+{
+	if (INPUT->GetKeyDown('R'))
+	{
+		for (int i = 0; i < 7; i++)
+		{
+			switch (i)
+			{
+			case 0:
+				_power -= 2 * _abilityNum[i];
+				break;
+
+			case 1:
+				_moveSpeedPer -= 0.5f * _abilityNum[i];
+				_atkSpeedPer -= 0.5f * _abilityNum[i];
+				break;
+
+			case 2:
+				_defence -= 1.5f * _abilityNum[i];
+				break;
+
+			case 3:
+				_criticalPercent -= 0.5f * _abilityNum[i];
+				_evasion -= 0.5f * _abilityNum[i];
+				break;
+
+			case 4:
+				_initHp -= 2 * _abilityNum[i];
+				break;
+
+			case 5:
+				_criticalDamage -= 2.5 * _abilityNum[i];
+				break;
+
+			case 6:
+				_power -= 1 * _abilityNum[i];
+				break;
+			}
+			_remainPoint += _abilityNum[i];
+			_abilityNum[i] = 0;
+		}
+		ReInitTraitUI();
+	}
+}
+
+void Player::ReInitTraitUI()
+{
+	_traitFrame->GetVChildFrames().clear();
+
+	UIFrame* traitUpperImg = new UIFrame();
+	traitUpperImg->init("title", 0, 50, IMAGEMANAGER->findImage("AbilityTItle")->getWidth(), IMAGEMANAGER->findImage("AbilityTItle")->getHeight(), "AbilityTItle");
+	_traitFrame->AddFrame(traitUpperImg);
+
+	vector<string> vImageNames = { "AbilityBackground_Wrath", "AbilityBackground_Swiftness", "AbilityBackground_Patience", "AbilityBackground_Arcane", "AbilityBackground_Greed", "AbilityBackground_0", "AbilityBackground_1" };
+	vector<string> btnNames = { "AbilityBackgroundButtonDisable_Wrath", "AbilityBackgroundButtonDisable_Swiftness", "AbilityBackgroundButtonDisable_Patience", "AbilityBackgroundButtonDisable_Arcane", "AbilityBackgroundButtonDisable_Greed", "AbilityBackgroundButtonDisable_Patience", "AbilityBackgroundButtonDisable_Wrath" };
+	vector<string> traitNames = { "Trait_Power_", "Trait_Speed_", "Trait_Def_", "Trait_Mystery_", "Trait_avarice_", "Trait_Concentration_", "Trait_craving_" };
+	vector<COLORREF> rgbs = { RGB(64, 19, 20), RGB(178, 213, 201), RGB(170, 175, 187), RGB(154, 168, 202), RGB(222, 174, 71), RGB(176,169,178), RGB(171,90,95) };
+
+	for (int i = 0; i < 7; i++)
+	{
+		UIFrame* traitMainFrame = new UIFrame();
+		traitMainFrame->init("trait" + to_string(i), 50 + (250 * i) + _movedX, 200, 200, 350, vImageNames[i]);
+		_traitFrame->AddFrame(traitMainFrame);
+
+		UIText* traitNumber = new UIText();
+		traitNumber->init("number", 50, 138, 100, 100, to_string(_abilityNum[i]), FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_MIDDLE, rgbs[i]);
+		traitMainFrame->AddFrame(traitNumber);
+
+		UIFrame* button = new UIFrame();
+		button->init("btn", 72, 290, 54, 54, btnNames[i]);
+		traitMainFrame->AddFrame(button);
+
+		for (int j = 0; j < 3; j++)
+		{
+			int num;
+			if (j == 0) num = 5;
+			else if (j == 1) num = 10;
+			else num = 20;
+
+			int light = 1;
+			if (j == 0 && _abilityNum[i] >= 5) light = 2;
+			if (j == 1 && _abilityNum[i] >= 10) light = 2;
+			if (j == 2 && _abilityNum[i] >= 20) light = 2;
+
+			UIFrame* traitImage = new UIFrame();
+			traitImage->init("image" + to_string(j), 37 + j * 42, 244, 50, 50, traitNames[i] + to_string(num) + "_" + to_string(light));
+			traitMainFrame->AddFrame(traitImage);
+		}
+
+		UIText* text;
+		UIText* text2;
+
+		switch (i)
+		{
+		case 0:
+			text = new UIText();
+			text->init("ability0", 0, 210, 200, 50, "+" + to_string(_abilityNum[0] * 2) + " 위력", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE);
+			traitMainFrame->AddFrame(text);
+			break;
+		case 1:
+			text = new UIText();
+			text->init("ability0", 0, 210, 200, 50, "+" + to_string_with_precision(_abilityNum[1] * 0.5f, 1) + "% 이동속도", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE);
+			traitMainFrame->AddFrame(text);
+			text2 = new UIText();
+			text2->init("ability1", 0, 195, 200, 50, "+" + to_string_with_precision(_abilityNum[1] * 0.5f, 1) + "% 공격속도", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE);
+			traitMainFrame->AddFrame(text2);
+			break;
+		case 2:
+			text = new UIText();
+			text->init("ability0", 0, 210, 200, 50, "+" + to_string_with_precision(_abilityNum[2] * 1.5f, 1) + " 방어력", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE);
+			traitMainFrame->AddFrame(text);
+			break;
+		case 3:
+			text = new UIText();
+			text->init("ability0", 0, 210, 200, 50, "+" + to_string_with_precision(_abilityNum[3] * 0.5f, 1) + " 크리티컬", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE);
+			traitMainFrame->AddFrame(text);
+			text2 = new UIText();
+			text2->init("ability1", 0, 195, 200, 50, "+" + to_string_with_precision(_abilityNum[3] * 0.5f, 1) + " 회피", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE);
+			traitMainFrame->AddFrame(text2);
+			break;
+		case 4:
+			text = new UIText();
+			text->init("ability0", 0, 210, 200, 50, "+" + to_string(_abilityNum[4] * 2) + " 최대 체력", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE);
+			traitMainFrame->AddFrame(text);
+			break;
+		case 5:
+			text = new UIText();
+			text->init("ability0", 0, 210, 200, 50, "+" + to_string_with_precision(_abilityNum[5] * 2.5f, 1) + "% 크리티컬 데미지", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE);
+			traitMainFrame->AddFrame(text);
+			break;
+		case 6:
+			text = new UIText();
+			text->init("ability0", 0, 210, 200, 50, "+" + to_string(_abilityNum[6] * 1) + " 위력", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE);
+			traitMainFrame->AddFrame(text);
+			break;
+		}
+	}
+
+	UIFrame* rImage = new UIFrame();
+	rImage->init("keyR", 1000, 720, 39, 42, "Keyboard_R");
+	_traitFrame->AddFrame(rImage);
+
+	UIText* text = new UIText();
+	text->init("renew", 1055, 726, 100, 50, "초기화", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_LEFT);
+	_traitFrame->AddFrame(text);
+
+	UIFrame* pointFrame = new UIFrame();
+	pointFrame->init("point", 1170, 690, 226, 135, "YesOrNo", 1.5f, 1.5f);
+	_traitFrame->AddFrame(pointFrame);
+
+	UIText* remainPoint = new UIText();
+	remainPoint->init("remainPoint", 0, 27, 169, 67, "남은 포인트 : " + to_string_with_precision(_remainPoint, 0), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE);
+	pointFrame->AddFrame(remainPoint);
+}

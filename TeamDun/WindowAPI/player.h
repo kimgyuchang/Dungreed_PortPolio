@@ -51,6 +51,7 @@ private:
 	bool			_isHit;					// 플레이어가 데미지를 입었는지
 	int				_hitCount;				// 히트후 무적시간 세는용
 	int				_hitAlpha;				//	히트시 먹일 알파값
+
 	// 이동 관련 //					   
 	// - 표면적 수치
 	float			_moveSpeed;				// 이동속도
@@ -59,6 +60,7 @@ private:
 	int				_dashRestoreCount;		// 대쉬 복구카운트
 	int				_dashRestoreTime;		// 대쉬 복구시간
 	int				_maxDashCount;			// 최대 대쉬 횟수
+
 	// - 내부적 수치
 	float			_gravity;				// 중력
 	float			_dashSpeed;				// 대쉬 속도
@@ -67,7 +69,7 @@ private:
 	int				_downJumpTimer;			// 아래 점프
 	POINT			_dashPoint;				// 대쉬 위치
 	int				_dashTimer;				// 대쉬 시간
-
+	float			_moveSpeedPer;			// 이동속도 퍼센트
 	// 전투 관련 //			
 	// - 표면적 수치 (공격)
 	int				_minDamage;				// 최소 데미지
@@ -95,7 +97,8 @@ private:
 	float			_reloadSpeed;			// 재장전 속도 추가량
 	float			_fireAccuracy;			// 조준 정확도
 	float			_realAttackSpeed;		// 공격속도(프레임)
-	
+	float			_atkSpeedPer;			// 공격속도 퍼센트
+
 	// - 내부적 수치 (방어)
 	float			_realEvasion;			// 회피 (변환)
 	float			_realDefence;			// 방어력 (변환)
@@ -118,6 +121,11 @@ private:
 	int				_elecDamage;			// 감전 공격력 (감전 시간)
 	int				_posionDamage;			// 중독 공격력 (중독 공격력)
 	int				_stunDamage;			// 스턴 공격력 (스턴 시간)
+
+	// 특성 관련 //
+	int				_maxPoint;				// 전체 능력치
+	int				_remainPoint;			// 남은 능력치
+	int				_abilityNum[7];			// 투자된 능력치
 
 	// 픽셀충돌 전용 //					 
 	RECT			_collider[8];			// 픽셀충돌용
@@ -154,11 +162,16 @@ private:
 
 	// SWAP //
 	int				_swapCoolTime;			// 스왑 쿨타임
+
 	// UI //
 	vector<CharToolTip>		_vToolTips;		// 툴팁 프레임 목록
 	vector<string>			_vToolTipsName; // 툴팁 프레임 이름 목록
 	UIFrame*				_hpFrame;		// HPFrame
-	UIFrame*				_dashFrame;		// DashFrame	
+	UIFrame*				_dashFrame;		// DashFrame
+	UIFrame*				_traitFrame;	// traitFrame
+	int						_uiScrollTimer;	// 스크롤에 사용되는 타이머
+	float					_uiMouseLocation;	// 저장된 마우스 X좌표
+	float					_movedX;		// 움직인 거리
 	// 각 캐릭터별 특성 //
 
 	// 앨리스 //
@@ -190,6 +203,13 @@ public:
 
 	void GetHitDamage(int damage);
 
+	void ControlTraitPage();
+	void AddTraitPoint();
+	void ReloadTraitPoint();
+	void ReInitTraitUI();
+
+	void MoveTraitUI();
+	
 	void SwitchWeapon();
 	void CheckAliceZone();
 	
