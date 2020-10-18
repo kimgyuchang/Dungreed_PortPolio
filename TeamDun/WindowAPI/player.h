@@ -133,6 +133,7 @@ private:
 	RECT			_jumpAttackRect;			// 점프 공격 (분노 스폐셜)
 	int				_damageUpTimer;				// 데미지 업 타이머 (분노 스폐셜)
 	bool			_damageUpTimerUse;			// 데미지 업 타이머가 사용되고 있는지 (분노 스폐셜)
+	bool			_atkSpdUpUse;				// 공격속도 업이 사용되었는지 (신속 스페셜)
 
 	// 픽셀충돌 전용 //					 
 	RECT			_collider[8];			// 픽셀충돌용
@@ -154,7 +155,7 @@ private:
 	vector<Item*>	_vAccessories;			// 악세서리들
 	int				_selectedWeaponIdx;		// 장착한 무기 인덱스
 	int				_accesoryCount;			// 악세서리 최대 개수
-
+	
 	// 기타 //						 
 	// - 표면적 수치
 	int				_satiety;				// 포만감
@@ -171,14 +172,15 @@ private:
 	int				_swapCoolTime;			// 스왑 쿨타임
 
 	// UI //
-	vector<CharToolTip>		_vToolTips;		// 툴팁 프레임 목록
-	vector<string>			_vToolTipsName; // 툴팁 프레임 이름 목록
-	UIFrame*				_hpFrame;		// HPFrame
-	UIFrame*				_dashFrame;		// DashFrame
-	UIFrame*				_traitFrame;	// traitFrame
-	int						_uiScrollTimer;	// 스크롤에 사용되는 타이머
-	float					_uiMouseLocation;	// 저장된 마우스 X좌표
-	float					_movedX;		// 움직인 거리
+	vector<CharToolTip>		_vToolTips;				// 툴팁 프레임 목록
+	vector<string>			_vToolTipsName;			// 툴팁 프레임 이름 목록
+	UIFrame*				_hpFrame;				// HPFrame
+	UIFrame*				_dashFrame;				// DashFrame
+	UIFrame*				_traitFrame;			// traitFrame
+	int						_uiScrollTimer;			// 스크롤에 사용되는 타이머
+	float					_uiMouseLocation;		// 저장된 마우스 X좌표
+	float					_movedX;				// 움직인 거리
+	string					_vTraitTooltip[7][3];	// 특성 툴팁들
 
 	// 각 캐릭터별 특성 //
 
@@ -204,6 +206,7 @@ public:
 	void DamageJumpAttackRect();
 	void ControlDamageUpTimer();
 	void DamageUpEnemyKill();
+	void SpecialAtkSpeedUp();
 	virtual void	pixelCollision();	//픽셀충돌
 	virtual void	dash();				//대쉬
 	virtual void	GetDamage();
@@ -220,6 +223,7 @@ public:
 	void ControlTraitPage();
 	void AddTraitPoint();
 	void ReloadTraitPoint();
+	void CheckTraitIconHovered();
 	void ReInitTraitUI();
 
 	void MoveTraitUI();
