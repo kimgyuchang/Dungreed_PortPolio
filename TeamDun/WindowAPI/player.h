@@ -249,6 +249,7 @@ public:
 	int				GetDownJumpTimer()		{ return _downJumpTimer; }
 	POINT			GetDashPoint()			{ return _dashPoint; }
 	int				GetDashTimer()			{ return _dashTimer; }
+	float			GetMoveSpeedPer()		{ return _moveSpeedPer; }
 	int				GetMinDamage()			{ return _minDamage; }
 	int				GetMaxDamage()			{ return _maxDamage; }
 	int				GetPower()				{ return _power; }
@@ -301,6 +302,7 @@ public:
 	int				GetExperience()			{ return _experience; }
 	int				GetNeedExperience()		{ return _needExperience; }
 	float			GetRealAttackSpeed()	{ return _realAttackSpeed; }
+	float			GetAtkSpeedPer()		{ return _atkSpeedPer; }
 	float			GetGoldDrop()			{ return _goldDrop; }
 	int				GetAccesoryCount()	    { return _accesoryCount; }
 	int				GetMaxDashCount()		{ return _maxDashCount; }
@@ -325,11 +327,13 @@ public:
 	void			SetDownJumpTimer(int downJumpTimer)				{ _downJumpTimer = downJumpTimer; }
 	void			SetDashPoint(POINT dashPoint) 					{ _dashPoint = dashPoint; }
 	void			SetDashTimer(int dashTimer) 					{ _dashTimer = dashTimer; }
+	void			SetMoveSpeedPer(float moveSpeedPer)				{ _moveSpeedPer = moveSpeedPer; }
 	void			SetMinDamage(int minDamage) 					{ _minDamage = minDamage; }
 	void			SetMaxDamage(int maxDamage) 					{ _maxDamage = maxDamage; }
 	void			SetPower(int power) 							{ _power = power; }
 	void			SetTrueDamage(int trueDamage)					{ _trueDamage = trueDamage; }
 	void			SetAtkSpeed(float atkSpeed) 					{ _atkSpeed = atkSpeed; }
+	void			SetAtkSpeedPer(float atkSpeedPer) 				{ _atkSpeedPer = atkSpeedPer; }
 	void			SetRealCriPer(float realCriPer) 				{ _realCriticalPercent = realCriPer; }
 	void			SetCriDamage(float criDamage) 					{ _criticalDamage = criDamage; }
 	void			SetDashDamage(float dashDamage) 				{ _dashDamage = dashDamage; }
@@ -362,7 +366,7 @@ public:
 	void			SetFireDamage(int fireDamage)					{ _fireDamage = fireDamage; }
 	void			SetIceDamage(int iceDamage) 					{ _iceDamage = iceDamage; }
 	void			SetElecDamage(int elecDamage) 					{ _elecDamage = elecDamage; }
-	void			SetPosionDamage(int posionDamage)  				{ _posionDamage = _posionDamage; }
+	void			SetPosionDamage(int posionDamage)  				{ _posionDamage = posionDamage; }
 	void			SetStunDamage(int stunDamage)					{ _stunDamage = stunDamage; }
 	void			SetAnimCount(int animCount) 					{ _animCount = animCount; }
 	void			SetInventory(Inventory* inven) 					{ _inven = inven; }

@@ -25,6 +25,7 @@ protected:
 	FieldMap*		_belongMap;				// 현재 속한 맵 정보
 	bool			_isDead;				// 죽었는지(파괴되었는지) 여부
 	int				_renderOrder;			// 렌더 순서 할것인지
+	int				_viewAlpha;				// 알파렌더 알파값
 	
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);

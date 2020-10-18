@@ -63,6 +63,7 @@ void gameScene::initUI()
 	ConversationUIInit();
 	GetItemUIInit();
 	TraitUIInit();
+	BossHpUIInit();
 }
 
 void gameScene::MainGameFrameInit()
@@ -636,6 +637,23 @@ void gameScene::CharUIInit()
 	tooltipFrame->AddFrame(tooltipGray);
 
 	charFrame->SetIsViewing(false);
+}
+
+void gameScene::BossHpUIInit()
+{
+	UIFrame* BossLifeBackImg = new UIFrame();
+	BossLifeBackImg->init("BossLifeBack", WINSIZEX / 2 - 300, WINSIZEY - 80, IMAGEMANAGER->findImage("BossLifeBack")->getWidth(), IMAGEMANAGER->findImage("BossLifeBack")->getHeight(), "BossLifeBack");
+	UIMANAGER->GetGameFrame()->AddFrame(BossLifeBackImg);
+
+	UIProgressBar* BossLifeImg = new UIProgressBar();
+	BossLifeImg->init("BossLife", 106, 0, IMAGEMANAGER->findImage("BossLife")->getWidth(), IMAGEMANAGER->findImage("BossLife")->getHeight(), "BossLife", "");
+	BossLifeBackImg->AddFrame(BossLifeImg);
+	
+	UIFrame* BossLifeBaseImg = new UIFrame();
+	BossLifeBaseImg->init("BossLifeBase", -106, 0, IMAGEMANAGER->findImage("BossLifeBase")->getWidth(), IMAGEMANAGER->findImage("BossLifeBase")->getHeight(), "BossLifeBase");
+	BossLifeImg->AddFrame(BossLifeBaseImg);
+
+	BossLifeBackImg->SetIsViewing(false);
 }
 
 void gameScene::release()

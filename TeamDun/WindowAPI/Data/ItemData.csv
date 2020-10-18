@@ -9,3 +9,5 @@ id,itemType,weaponType,skill,name,description,itemClass,minAtk,maxAtk,atkSpeed,d
 4007,악세서리,무기아님 ,-1,혈석반지,몬스터를 쓰러트릴 때 마다 생명의 무게가 전해진다.,고급,0,0,0,0,0,0,0,-1,0,1650,0,BloodStoneRing,.,.,BloodStoneRing,BloodStoneRing,ETC,0,적을 10마리 죽일 때 마다 체력을 5회복,.,.,.,.,.,.
 4008,악세서리,무기아님,-1,천옷,따뜻합니다.,일반,0,0,0,5,0,0,0,-1,0,620,0,ClothArmor,.,.,ClothArmor,ClothArmor,EVADE,2,.,.,.,.,.,.,.
 4009,악세서리,무기아님 ,-1,사슬갑옷,가볍지만 소리가 커서 발걸음이 위축되는 갑옷,일반,0,0,0,11,0,0,0,-1,0,670,0,ChainArmor,.,.,ChainArmor,ChainArmor,MOVESPEED,-5,.,.,.,.,.,.,.
+4010,악세서리,무기아님 ,-1,소가죽갑옷,조금 꽉 끼는 명품 소가죽 갑옷,희귀,0,0,0,15,0,0,0,-1,0,3250,0,CowLeather,.,.,CowLeather,CowLeather,MOVESPEED,5,.,ATKSPEED,5,.,.,.,.
+4011,악세서리,무기아님 ,-1,친타마니돌,고대의 사원에서 발견된 아름다운 돌 일곱개로 갈라질 것 같다.,희귀,0,0,0,0,0,0,0,-1,0,2920,0,Cintamani,.,.,Cintamani,Cintamani,ETC,0,체력이 10이하로 떨어지게 되면 체력이 30 회복,.,.,.,.,.,.

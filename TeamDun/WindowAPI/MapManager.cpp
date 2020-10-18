@@ -8,7 +8,7 @@ HRESULT MapManager::init()
 
 	_mapData = CSVMANAGER->csvLoad("Data/Maps.csv");
 	
-	AddStage(1);
+	AddStage(2);
 	_mapFrame = UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetChild("mapFrame");
 	_pixelGetter = new PixelGetter();
 	ChangeMap(0);

@@ -5,6 +5,7 @@ HRESULT Enemy::init(int id, string name, OBJECTTYPE type, vector<string> imgName
 {
 	Object::init(id, name, type, imgNames);
 	_isSpawned = false;
+	_isViewingHpBar = true;
 	_hpBarAlpha = 0;
 	_hpBar1 = IMAGEMANAGER->findImage("HpBar1");
 	_hpBar2 = IMAGEMANAGER->findImage("HpBar2");
@@ -25,7 +26,7 @@ void Enemy::release()
 void Enemy::render(HDC hdc)
 {
 	Object::render(hdc);
-	if (_hpBarAlpha > 0)
+	if (_hpBarAlpha > 0 && _isViewingHpBar)
 	{
 		
 		CAMERAMANAGER->alphaRender(hdc, _hpBar1, _x+_vImages[_useImage]->getFrameWidth()/2- _hpBar1->getWidth()/2, _y + _vImages[_useImage]->getFrameHeight(),0,0,_hpBar1->getWidth(),_hpBar1->getHeight(), _hpBarAlpha);

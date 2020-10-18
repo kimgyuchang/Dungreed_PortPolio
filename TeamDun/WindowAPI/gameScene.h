@@ -31,6 +31,7 @@ public:
 	void TraitUIInit();
 	void ShopUIInit();
 	void CharUIInit();
+	void BossHpUIInit();
 	void release();
 	void UpdateWardrobeUI();
 	void update();

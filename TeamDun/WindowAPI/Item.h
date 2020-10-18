@@ -20,7 +20,7 @@ enum WEAPONTYPE
 enum OPTIONTYPE
 {
 	POWER,				 // 위력
-	ATKSPEED,			 // 공격속도
+	ATKSPEED,			 // 공격속도 (%)
 	DASHATK,			 // 대쉬 공격력
 	DEFENCE,			 // 방어력
 	BLOCK,				 // 막기
