@@ -14,7 +14,7 @@ HRESULT Minotaurs::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_effectTimer = _effect = 0;
 	_MoveTimer = 0;
 	_frameX, _frameY = 0;
-	_initHp = _HP = 80;
+	_initHp = _hp = 80;
 	_moveSpeed = 10;
 	_gravity = 10.0f;
 	_isLeft = _isAttack = _isDash = false;

@@ -63,6 +63,7 @@ void DropItem::CheckCollision()
 	{
 		if (ENTITYMANAGER->getPlayer()->GetInventory()->AddItem(_item))
 		{
+			SOUNDMANAGER->play("¾ÆÀÌÅÛÈ¹µæ");
 			UIFrame* getFrame = UIMANAGER->GetGameFrame()->GetChild("itemGetFrame");
 			getFrame->GetVChildFrames().clear();
 

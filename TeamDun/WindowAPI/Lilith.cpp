@@ -5,7 +5,7 @@ HRESULT Lilith::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 {
 	Enemy::init(id, name, type, imgNames);
 	_body = RectMake(_x, _y, 78, 78);
-	_initHp = _HP = 50;
+	_initHp = _hp = 50;
 	_state = ES_IDLE;
 	_count = _attackTimer = _attackCoolTime = 0;
 	_isLeft = _isAttack = false;

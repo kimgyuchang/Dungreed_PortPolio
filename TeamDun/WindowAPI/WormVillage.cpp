@@ -62,5 +62,6 @@ void WormVillage::Activate()
 		_frameX = 0;
 		_frameTimer = 0;
 		_isOn = true;
+		SOUNDMANAGER->play("먹는포탈쿵오르내림");
 	}
 }

@@ -327,6 +327,12 @@
     <ClCompile Include="HpPixie.cpp">
       <Filter>MainGame\Object\Etc\Drops</Filter>
     </ClCompile>
+    <ClCompile Include="PixieSpawner.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="TreasureSpawner.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -575,5 +581,15 @@
     <ClInclude Include="HpPixie.h">
       <Filter>MainGame\Object\Etc\Drops</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="PixieSpawner.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="TreasureSpawner.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameFramework2D.rc" />
   </ItemGroup>
 </Project>

@@ -93,7 +93,7 @@ void soundManager::addSound(string keyName, string soundName, bool bgm, bool loo
 	_mTotalSound.insert(make_pair(keyName, &_sound[_mTotalSound.size()]));
 }
 
-void soundManager::play(string keyName, float volume)
+void soundManager::play(string keyName, float volume, bool useOverlapVolumeDown)
 {
 	int count = 0;
 	arrSoundIter iter = _mTotalSound.begin();
@@ -111,13 +111,24 @@ void soundManager::play(string keyName, float volume)
 			{
 				_vStarts.push_back(keyName);
 				_channel[count]->setVolume(0);
-				StopAllBGM();
 			}
 
 			else // 효과음이면
 			{
-				_channel[count]->setVolume(volume);
+				if (useOverlapVolumeDown)
+				{
+					if(isPlaySound(keyName))
+						_channel[count]->setVolume(volume * 0.5f);
+					else
+						_channel[count]->setVolume(volume);
+				}
+				else
+				{
+					_channel[count]->setVolume(volume);
+				}
 			}
+
+			break;
 		}
 	}
 }
@@ -173,12 +184,12 @@ bool soundManager::isPlaySound(string keyName)
 	{
 		if (keyName == iter->first)
 		{
-			//사운드 일시정지
-			_channel[count]->isPlaying(&isPlay);
+			//사운드 정지
+			_channel[count]->getPaused(&isPlay);
 			break;
 		}
 	}
-	return isPlay;
+	return !isPlay;
 }
 
 bool soundManager::isPauseSound(string keyName)
@@ -203,6 +214,8 @@ bool soundManager::isPauseSound(string keyName)
 /// </summary>
 void soundManager::StopAllBGM()
 {
+	_vStarts.clear();
+
 	_fadeOutCount = 150;
 	_fadeInCount = 150;
 }

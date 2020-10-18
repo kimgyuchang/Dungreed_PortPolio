@@ -7,7 +7,7 @@ HRESULT RedBat::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_state = ES_IDLE;
 	_stateTimer = 0;
 	_isAtk = false;
-	_initHp = _HP = 30;
+	_initHp = _hp = 30;
 	_attackCoolTime = 300 + RANDOM->range(200);
 
 	_Damage = 10;

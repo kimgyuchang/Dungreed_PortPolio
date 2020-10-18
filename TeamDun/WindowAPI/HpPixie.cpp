@@ -30,6 +30,9 @@ void HpPixie::Animation()
 	Object::Animation();
 }
 
+/// <summary>
+/// 충돌하여 HP를 회복하게함
+/// </summary>
 void HpPixie::CheckCollision()
 {
 	RECT temp;
@@ -37,7 +40,6 @@ void HpPixie::CheckCollision()
 	int hp = 0;
 	if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_body))
 	{
-		cout << _pixType << endl;
 		switch (_pixType)
 		{
 		case SMALL:
@@ -63,6 +65,7 @@ void HpPixie::CheckCollision()
 			resultHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 		}
 		ENTITYMANAGER->getPlayer()->SetHp(resultHp);
+		
 		SOUNDMANAGER->play("오브젝트_HP회복");
 		_isDead = true;
 	}

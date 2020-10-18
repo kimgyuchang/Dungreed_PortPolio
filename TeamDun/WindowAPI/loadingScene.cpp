@@ -7,6 +7,9 @@ HRESULT loadingScene::init()
 	_loading->init();
 
 	SOUNDMANAGER->init();
+	SOUNDMANAGER->addSound("인트로 사운드", "Sounds/Effect/인트로 사운드.wav", false, false);
+	SOUNDMANAGER->play("인트로 사운드");
+
 	IMAGEMANAGER->addImage("loadingBarFront", "loadingBarFront.bmp", 620, 200);
 	IMAGEMANAGER->addImage("loadingBarBack", "loadingBarBack.bmp", 620, 200);
 
@@ -48,7 +51,7 @@ void loadingScene::update()
 	// 아니라면 계속해서 불러오기
 	else
 	{
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 12; i++)
 		{
 			LoadItem* item = _loading->GetLoadItem()[_currentGauge];
 			_loading->LoadingDone(item);
@@ -349,6 +352,8 @@ void loadingScene::loadingImage()
 
 	// ETC //
 	_loading->LoadNormalImage("SpawnMonsterPos", "Images/Etc/SpawnMonsterPos.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SpawnBoxPos", "Images/Etc/SpawnBoxPos.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SpawnPixiePos", "Images/Etc/SpawnPixiePos.bmp", 48, 48, true, RGB(255, 0, 255));
 
 	// UI //  
 	_loading->LoadNormalImage("UIBaseBig", "Images/UI/Base.bmp", 500, 300, true, RGB(255, 0, 255));
@@ -1322,7 +1327,6 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("음식섭취 (3)", "Sounds/Effect/음식섭취 (3).wav", false, false);
 	_loading->LoadSound("이런저런_번개침", "Sounds/Effect/이런저런_번개침.wav", false, false);
 	_loading->LoadSound("인벤토리열기", "Sounds/Effect/인벤토리열기.wav", false, false);
-	_loading->LoadSound("인트로 사운드", "Sounds/Effect/인트로 사운드.wav", false, false);
 	_loading->LoadSound("장애물_가시온", "Sounds/Effect/장애물_가시온.wav", false, false);
 	_loading->LoadSound("전기쪼꼬미", "Sounds/Effect/전기쪼꼬미.wav", false, false);
 	_loading->LoadSound("점프", "Sounds/Effect/점프.wav", false, false);

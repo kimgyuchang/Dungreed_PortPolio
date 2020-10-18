@@ -72,9 +72,12 @@ void Box::GetDamage()
 		MAPMANAGER->GetPlayMap()->GetObjects().push_back(boxParticle);
 	}
 
-	if (RANDOM->range(10) < 200)
-	{
-		int pixieCase = RANDOM->range(13, 17);
+	if (RANDOM->range(10) < 3)
+	{ 
+		int pixieCase = RANDOM->range(100);
+		if (pixieCase < 95) pixieCase = 13;
+		else pixieCase = 14;
+
 		HpPixie* pixie = new HpPixie(*dynamic_cast<HpPixie*>(DATAMANAGER->GetObjectById(pixieCase)));
 		pixie->SetX(_x + (_vImages[_useImage]->getWidth() / 2) - pixie->GetImage(_useImage)->getFrameWidth() / 2);
 		pixie->SetY(_y);

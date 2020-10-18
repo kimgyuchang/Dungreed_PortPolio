@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "FieldMap.h"
 #include "Portal.h"
+#include "PixieSpawner.h"
+#include "TreasureSpawner.h"
 
 HRESULT FieldMap::init(string fileName)
 {
@@ -155,6 +157,14 @@ void FieldMap::LoadObject()
 
 		case 2500: // 몬스터 스포너
 			obj = new MonsterSpawner(*dynamic_cast<MonsterSpawner*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+		case 2502: // 픽시 스포너
+			obj = new PixieSpawner(*dynamic_cast<PixieSpawner*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			_pixieSpawner = dynamic_cast<PixieSpawner*>(obj);
+			break;
+		case 2503: // 상자 스포너
+			obj = new TreasureSpawner(*dynamic_cast<TreasureSpawner*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			_treasureSpawner = dynamic_cast<TreasureSpawner*>(obj);
 			break;
 		case 10: // 상점
 			obj = new Shop(*dynamic_cast<Shop*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
@@ -526,6 +536,8 @@ void FieldMap::update()
 /// </summary>
 void FieldMap::SetDoorSpawning()
 {
+	SOUNDMANAGER->play("게임_던전_문열림닫힘");
+
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
 		switch (_vObjs[i]->GetId())
@@ -581,6 +593,8 @@ void FieldMap::CheckNoMonsterInMap()
 
 		if (!isRemainMonster) // 남은 몬스터가 없을때
 		{
+			SOUNDMANAGER->play("게임_던전_문열림닫힘");
+
 			_isCleared = true; // 몬스터를 모두 정리했다 알림
 			for (int i = 0; i < _vObjs.size(); i++)
 			{
@@ -589,6 +603,24 @@ void FieldMap::CheckNoMonsterInMap()
 				case 514: case 515: case 516: case 517: // 문 Case
 					dynamic_cast<Door*>(_vObjs[i])->SetIsActivated(false);
 					break;
+				}
+			}
+
+			if (_pixieSpawner != nullptr) // 픽시 스포너가 있다면
+			{
+				if (RANDOM->range(100) < 30)
+				{
+					_pixieSpawner->SpawnPixie();
+					SOUNDMANAGER->play("오브젝트_상자오픈", 0.5f, true);
+				}
+			}
+
+			if (_treasureSpawner != nullptr) // 상자 스포너가 있다면
+			{
+				if (RANDOM->range(100) < 30)
+				{
+					_treasureSpawner->SpawnTreasure();			
+					SOUNDMANAGER->play("오브젝트_상자오픈", 0.5f, true);
 				}
 			}
 		}

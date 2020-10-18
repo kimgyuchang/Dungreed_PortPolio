@@ -5,6 +5,8 @@
 #include "MapObject.h"
 #include "Door.h"
 #include "MonsterSpawner.h"
+#include "PixieSpawner.h"
+#include "TreasureSpawner.h"
 #include "BigWhiteSkel.h"
 #include "Belial.h"
 #include "LittleGhost.h"

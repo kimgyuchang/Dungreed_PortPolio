@@ -9,7 +9,7 @@ HRESULT LittleGhost::init(int id, string name, OBJECTTYPE type, vector<string> i
 
 	_index = _count = _attackTime = _moveTimer = _moveCoolTime = 0;
 	_frameX, _frameY = 0;
-	_initHp = _HP = 15;
+	_initHp = _hp = 15;
 	_realMoveX, _realMoveY = 0;
 	_Damage = 5;
 	_isLeft = false;

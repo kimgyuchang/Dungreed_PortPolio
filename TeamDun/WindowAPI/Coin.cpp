@@ -40,7 +40,7 @@ void Coin::CheckCollision()
 	{
 		EFFECTMANAGER->AddCameraText(_x + _vImages[0]->getFrameWidth() / 2 + RANDOM->range(-30, 30), _y + RANDOM->range(-30, 30), 100, 100, _useImage == 0 ? "100G" : "10G", PIX, WS_MIDDLE, WSORT_LEFT, RGB(250, 222, 82));
 		ENTITYMANAGER->getPlayer()->SetMoney(ENTITYMANAGER->getPlayer()->GetMoney() + (_useImage == 0 ? 100 : 10));
-		SOUNDMANAGER->play("∞‘¿”_µ∑»πµÊ");
+		SOUNDMANAGER->play("∞‘¿”_µ∑»πµÊ", 0.5f, true);
 		_isDead = true;
 	}
 }

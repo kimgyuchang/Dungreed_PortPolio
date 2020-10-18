@@ -72,10 +72,10 @@ void DataManager::GetObjectData()
 		case 1502: // 밴시
 			obj = new Banshee();
 			break;
-		case 1509://빨간큰박쥐
+		case 1509: // 빨간 큰 박쥐
 			obj = new RedGiantBat();
 			break;
-		case 1510:
+		case 1510: // 보라 큰 박쥐
 			obj = new PurpleGiantBat();
 			break;
 		case 702: // 붉은 박쥐
@@ -102,6 +102,12 @@ void DataManager::GetObjectData()
 			break;
 		case 2500: // 몬스터 스포너
 			obj = new MonsterSpawner();
+			break;
+		case 2502: // 픽시 스포너
+			obj = new PixieSpawner();
+			break;
+		case 2503: // 상자 스포너
+			obj = new TreasureSpawner();
 			break;
 		case 10 : // 상점 주인
 			obj = new Shop();

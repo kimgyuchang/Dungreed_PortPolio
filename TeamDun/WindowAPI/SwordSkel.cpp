@@ -12,7 +12,7 @@ HRESULT SwordSkel::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_gravity = 0.5;
 	_jumpPower = 10.0f;
 	_moveSpeed = 3;
-	_initHp = _HP = 50;
+	_initHp = _hp = 50;
 
 
 	_swordX = _x;

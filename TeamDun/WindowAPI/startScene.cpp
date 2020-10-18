@@ -29,8 +29,8 @@ HRESULT startScene::init()
 	_midCloud = IMAGEMANAGER->findImage("MidCloud0");
 	_FrontGround = IMAGEMANAGER->findImage("FrontCloud");
 
-	SOUNDMANAGER->play("title");
 	SOUNDMANAGER->StopAllBGM();
+	SOUNDMANAGER->play("title");
 	
 	return S_OK;
 }
