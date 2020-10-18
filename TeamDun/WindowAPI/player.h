@@ -121,7 +121,7 @@ private:
 	int				_toStun;				// 공격 시 스턴 확률
 	int				_fireDamage;			// 화염 공격력 (화염 공격력)
 	int				_iceDamage;				// 냉기 공격력 (냉기 시간)
-	int				_elecDamage;			// 감전 공격력 (감전 시간)
+	int				_elecDamage;			// 감전 d공격력 (감전 시간)
 	int				_posionDamage;			// 중독 공격력 (중독 공격력)
 	int				_stunDamage;			// 스턴 공격력 (스턴 시간)
 

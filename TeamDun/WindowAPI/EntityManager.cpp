@@ -50,10 +50,10 @@ void EntityManager::release()
 	}
 }
 
-Bullet* EntityManager::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle, float damage, float speed, float maxDis, bool isFrame, float igAngle)
+Bullet* EntityManager::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle, float damage, float speed, float maxDis, bool isFrame, float igAngle, BULLETSPEEDTYPE speedtype)
 {
 	Bullet* _bullet = new Bullet;
-	_bullet->makeBullet(imageName, effectIgName, type, x, y, angle, damage, speed, maxDis, isFrame, igAngle);
+	_bullet->makeBullet(imageName, effectIgName, type, x, y, angle, damage, speed, maxDis, isFrame, igAngle ,speedtype);
 	_vBullets.push_back(_bullet);
 	return _bullet;
 }
