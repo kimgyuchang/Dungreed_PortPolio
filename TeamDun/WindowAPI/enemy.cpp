@@ -111,6 +111,43 @@ void Enemy::GetDamage()
 	}
 }
 
+void Enemy::GetDamage(int damage)
+{
+	if (_isSpawned)
+	{
+		SOUNDMANAGER->play("Hit_Monster");
+		Player* p = ENTITYMANAGER->getPlayer();
+		
+
+		damage = damage + damage * p->GetPower() / 100 - _realDefence;
+		int critical = RANDOM->range(100);
+		if (critical <= p->GetRealCriPer())
+		{
+			_hpBarAlpha = 255;
+			damage = damage + damage * p->GetCriDamage() / 100;
+			_hp -= damage;
+			EFFECTMANAGER->AddCameraText(_x + _vImages[0]->getFrameWidth() / 2, _y, 100, 100, to_string(damage), PIX, WS_MIDDLE, WSORT_LEFT, RGB(255, 255, 0));
+		}
+		else
+		{
+			_hpBarAlpha = 255;
+			_hp -= damage;
+			EFFECTMANAGER->AddCameraText(_x + _vImages[0]->getFrameWidth() / 2, _y, 100, 100, to_string(damage), PIX, WS_MIDDLE, WSORT_LEFT, RGB(255, 255, 255));
+
+		}
+
+
+
+		if (_hp <= 0)
+		{
+			SOUNDMANAGER->play("¸ó½ºÅÍ_»ç¸Á (1)");
+			EFFECTMANAGER->AddEffect(_x, _y, "DieEffect", 3, 0, 0, false, 255, 0, 1, 1, false);
+			SetIsDead(true);
+		}
+
+	}
+}
+
 void Enemy::HpBarDelete()
 {
 	if (_hpBarAlpha > 0)

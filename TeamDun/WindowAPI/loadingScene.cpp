@@ -833,6 +833,10 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("MinotaursAttack", "Images/Monster/MinotaursAttack.bmp", 1176, 300, 7, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("MinotaursBuff", "Images/Monster/MinotaursBuff.bmp", 1728, 87, 12, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("MinotaursDashEffect", "Images/Monster/MinotaursDashEffect.bmp", 2136, 216, 8, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("IceBat", "Images/Monster/IceBat.bmp", 558, 120, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("IceBatAttack", "Images/Monster/IceBatAttack.bmp", 900, 120, 10, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FireBat", "Images/Monster/FireBat.bmp", 558, 126, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FireBatAttack", "Images/Monster/FireBatAttack.bmp", 930, 126, 10, 2, true, RGB(255, 0, 255));
 
 	// BOSS //
 	_loading->LoadFrameImage("SkellBossIdle", "Images/Monster/Boss/SkellBossIdle.bmp", 2100, 285, 10, 1, true, RGB(255, 0, 255));
@@ -863,6 +867,7 @@ void loadingScene::loadingImage()
 	
 	_loading->LoadFrameImage("BossBullet", "Images/Monster/Boss/BossBullet.bmp", 156, 39, 4, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BossBulletEffect", "Images/Monster/Boss/BossBulletEffect.bmp", 744, 93, 8, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("destroyEffect", "Images/Monster/Boss/destroyEffect.bmp", 558, 186, 3, 1, true, RGB(255, 0, 255));
 
 	// BACKGROUND //
 	_loading->LoadNormalImage("BackFloorBack1", "Images/1Floor/Basic_H_Type2_4.bmp", 1, 1);
@@ -891,6 +896,13 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("BatBulletHit", "Images/Monster/Bullet/BatBulletHit.bmp", 546, 78, 7, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BansheeBulletIdle", "Images/Monster/Bullet/BansheeBulletIdle.bmp", 180, 81, 3, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BansheeBulletHit", "Images/Monster/Bullet/BansheeBulletHit.bmp", 420, 81, 7, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Bullet01", "Images/Weapon/bullet/Bullet01.bmp", 42, 42, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Bullet02", "Images/Weapon/bullet/Bullet02.bmp", 27, 27, 1, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("BulletEffect01", "Images/Weapon/bullet/BulletEffect01.bmp", 270, 45, 6, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("IceBullet", "Images/Monster/Bullet/IceBullet.bmp", 45, 45,1,1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("IceBulletHit", "Images/Monster/Bullet/IceBulletHit.bmp", 225, 75,3,1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FireBatBullet", "Images/Monster/Bullet/FireBatBullet.bmp", 345, 69,5,1, true, RGB(255, 0, 255));
+	
 
 	// EFFECT //
 	_loading->LoadFrameImage("monsterSpawnEffect", "Images/Etc/monsterSpawnEffect.bmp", 1302, 93, 14, 1, true, RGB(255, 0, 255));

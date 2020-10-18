@@ -63,6 +63,8 @@ id,name,type,image,image2,image3
 701,¾Æºñ½º¹ê½Ã,Monster,AbyssBansheeIdle,.,.
 702,ºÓÀº¹ÚÁã,Monster,BatRedIdle,BatRedAttack,.
 703,º¸¶ó¹ÚÁã,Monster,BatIdle,BatAttack,.
+704,¾óÀ½¹ÚÁã,Monster,IceBat,IceBatAttack,.
+705,ºÒ¹ÚÁã,Monster,FireBat,FireBatAttack,.
 1000,Å« Åé´Ï,Obstacle,gear,.,.
 1001,Áß°£ Åé´Ï,Obstacle,Gear_Small,.,.
 1002,ÀÛÀº Åé´Ï,Obstacle,Gear_Small_Small,.,.

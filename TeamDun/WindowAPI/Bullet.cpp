@@ -48,7 +48,16 @@ void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE 
 	_distance = getDistance(_startX, _startY, _x, _y);
 	_maxDistance = maxDis;
 	_igAngle = igAngle;
-	_damage = damage;
+	if (_type == BT_PLAYER || _type == BT_PLAYERNOCOL)
+	{
+		Player* p = ENTITYMANAGER->getPlayer();
+		int Playerdamage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
+		_damage = Playerdamage;
+	}
+	else
+	{
+		_damage = damage;
+	}
 	_isDead = false;
 	if (_isFrame)
 	{

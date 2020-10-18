@@ -75,3 +75,11 @@ void Object::GetDamage()
 		SetIsDead(true);
 	}
 }
+
+void Object::GetDamage(int damage)
+{
+	if (_hp <= 0)
+	{
+		SetIsDead(true);
+	}
+}

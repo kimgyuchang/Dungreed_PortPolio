@@ -81,6 +81,12 @@ void DataManager::GetObjectData()
 		case 702: // ºÓÀº ¹ÚÁã
 			obj = new RedBat();
 			break;
+		case 704: // ¾óÀ½ ¹ÚÁã
+			obj = new IceBat();
+			break;
+		case 705: // ºÒ¹ÚÁã
+			obj = new FireBat();
+			break;
 		case 2000: // º§¸®¾Ë
 			obj = new Belial();
 			break;

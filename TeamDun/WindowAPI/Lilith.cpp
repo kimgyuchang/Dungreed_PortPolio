@@ -35,7 +35,7 @@ void Lilith::update()
 		switch (_state)
 		{
 		case ES_IDLE:
-
+			_renderOrder = 1;
 			if (_isHit)
 			{
 				cout << _isHit << endl;
@@ -70,10 +70,9 @@ void Lilith::update()
 			break;
 
 		case ES_ATTACK:
+
+			_renderOrder = 2;
 			_attackTimer++;
-	
-			
-			
 		
 			if (!_isLeft)
 			{

@@ -34,6 +34,8 @@ public:
 	virtual void	Animation();
 	virtual void	CheckCollision();
 	virtual void	GetDamage();
+	virtual void	GetDamage(int damage);
+
 	// GETSET //
 	int				GetHP()				{ return _hp; }
 	int				GetId()				{ return _id; }

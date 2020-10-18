@@ -117,7 +117,7 @@ void Player::update()
 
 		// 잡다한 UI가 OFF일때
 	{
-		if (INPUT->GetIsRButtonClicked() && _dashCount > 0)		//마우스 오른쪽 버튼을 눌렀을때
+		if (INPUT->GetIsRButtonClicked() && _dashCount > 0)		//마우스 오른쪽 버튼을누르고,대쉬카운트가 0보다 클때
 		{
 			SOUNDMANAGER->play("대쉬소리");
 			_isDash = true;
@@ -151,9 +151,9 @@ void Player::update()
 		}
 
 		_realAttackSpeed--;
-		if (INPUT->GetKey(VK_LBUTTON))
+		if (INPUT->GetKey(VK_LBUTTON))	//만약 왼쪽 버튼을누르면
 		{
-			if (_weapons[_selectedWeaponIdx] != nullptr && _realAttackSpeed < 0)
+			if (_weapons[_selectedWeaponIdx] != nullptr && _realAttackSpeed < 0)	//장착된무기가 있고, 공격 타이머가 충족되었다면
 			{
 				_realAttackSpeed = 60 / (_atkSpeed + (_atkSpeed * _atkSpeedPer / 100));
 				_weapons[_selectedWeaponIdx]->Activate();
@@ -166,18 +166,18 @@ void Player::update()
 		_inven->update();
 	}
 
-	if (_isStun)
+	if (_isStun)				//스턴상태
 	{
-		_stunCount++;
-		if (_stunCount > 40)
+		_stunCount++;			//스턴 유지카운트
+		if (_stunCount > 40)	//스턴 유지 카운트가 40보다 작을때
 		{
-			_isStun = false;
-			_stunCount = 0;
+			_isStun = false;	//스턴 상태 아님
+			_stunCount = 0;		//스턴 유지 카운트는 초기화
 		}
-		_stunAniCout++;
-		if (_stunAniCout > 5)
+		_stunAniCout++;			//스턴 애니메이션 카운트
+		if (_stunAniCout > 5)	//스턴 애니메이션 카운트가 5보다 크면
 		{
-			_stunAniCout = 0;
+			_stunAniCout = 0;	//스턴 애니메이션 카운트를 0으로
 			_stunFrameX++;
 			if (_stunFrameX > 5)
 			{
@@ -190,11 +190,11 @@ void Player::update()
 
 	Animation();
 	SwitchWeapon();
-	if (_weapons[_selectedWeaponIdx] != nullptr) _weapons[_selectedWeaponIdx]->update();
-	if (_subWeapons[_selectedWeaponIdx] != nullptr) _subWeapons[_selectedWeaponIdx]->update();
-	for (int i = 0; i < _vAccessories.size(); i++)
+	if (_weapons[_selectedWeaponIdx] != nullptr) _weapons[_selectedWeaponIdx]->update();		//장착된 주무기가 있다면, 업데이트 함수 실행
+	if (_subWeapons[_selectedWeaponIdx] != nullptr) _subWeapons[_selectedWeaponIdx]->update();	//장착된 보조무기가 있다면, 업데이트 함수 실행
+	for (int i = 0; i < _vAccessories.size(); i++)	//악세서리 사이즈만큼 돌면서
 	{
-		_vAccessories[i]->update();
+		_vAccessories[i]->update();					//악세서리의 업데이트함수를 실행
 	}
 
 	CheckAliceZone();
@@ -214,21 +214,21 @@ void Player::update()
 	}
 
 	//나중에 대쉬최대횟수 증가시킬때 필요
-	if (INPUT->GetKeyDown('K'))
+	if (INPUT->GetKeyDown('K'))		//K키를 눌렀을때
 	{
-		if (_maxDashCount > 0) _maxDashCount--;
-		if (_dashCount > _maxDashCount) _dashCount--;
+		if (_maxDashCount > 0) _maxDashCount--;	// 대쉬 최대 횟수가 0보다 클때 최대횟수 감소
+		if (_dashCount > _maxDashCount) _dashCount--;	//대쉬횟수가 최대 횟수보다 커지면 대쉬횟수 감소
 		DashUICheck();
 	}
 
-	if (_maxDashCount > _dashCount)
+	if (_maxDashCount > _dashCount)	//대쉬 최대 횟수가 대쉬횟수보다 커지면
 	{
-		_dashRestoreCount++;
+		_dashRestoreCount++;	//대쉬 횟수 복구 카운트 증가
 
-		if (_dashRestoreCount > _dashRestoreTime)
+		if (_dashRestoreCount > _dashRestoreTime)	//대쉬 횟수 복구 카운트가 대쉬 복구 시간보다 커지면
 		{
-			_dashRestoreCount = 0;
-			_dashCount++;
+			_dashRestoreCount = 0;	//대쉬 횟수 복구 카운트 초기화
+			_dashCount++;			//대쉬 횟수 증가
 			DashImageCheck();
 		}
 	}
@@ -241,12 +241,12 @@ void Player::update()
 
 void Player::DashImageCheck()
 {
-	for (int i = 0; i < _maxDashCount; i++)
+	for (int i = 0; i < _maxDashCount; i++)	//대쉬 최대갯수가 3개이므로 3번 반복
 	{
-		if (_dashCount > i)
-			_dashFrame->GetChild("dashColor" + to_string(i))->SetImage(IMAGEMANAGER->findImage("DashCount"));
+		if (_dashCount > i)					//만약 대쉬횟수가 i보다 커지면
+			_dashFrame->GetChild("dashColor" + to_string(i))->SetImage(IMAGEMANAGER->findImage("DashCount"));	//대쉬이미지 출력
 		else
-			_dashFrame->GetChild("dashColor" + to_string(i))->SetImage(nullptr);
+			_dashFrame->GetChild("dashColor" + to_string(i))->SetImage(nullptr);	//대쉬이미지 없음
 	}
 }
 
@@ -261,82 +261,83 @@ void Player::DashUICheck()
 	_dashCount = _maxDashCount;
 	_dashFrame->GetVChildFrames().clear();
 
-	UIFrame* dashStartFrame = new UIFrame();
-	dashStartFrame->init("start", 0, 0, 6, 23, "DashBaseLeftEnd");
-	_dashFrame->AddFrame(dashStartFrame);
+	UIFrame* dashStartFrame = new UIFrame();//UI 저장
+	dashStartFrame->init("start", 0, 0, 6, 23, "DashBaseLeftEnd");	//UI 초기화
+	_dashFrame->AddFrame(dashStartFrame);	//dash프레임에 자식추가
 	int x = 6;
-	for (int i = 0; i < _maxDashCount; i++)
+	for (int i = 0; i < _maxDashCount; i++)	//대쉬 최대횟수만큼 반복
 	{
-		UIFrame* dashBar = new UIFrame();
-		dashBar->init("dashBar" + to_string(i), x, 0, 27, 24, "DashBase");
-		_dashFrame->AddFrame(dashBar);
+		UIFrame* dashBar = new UIFrame();	//UI저장
+		dashBar->init("dashBar" + to_string(i), x, 0, 27, 24, "DashBase");	//UI 초기화
+		_dashFrame->AddFrame(dashBar);		//dash프레임에 자식추가
 
-		UIFrame* dashColor = new UIFrame();
-		dashColor->init("dashColor" + to_string(i), x, 6, 27, 24, "DashCount");
-		_dashFrame->AddFrame(dashColor);
+		UIFrame* dashColor = new UIFrame();	//UI저장
+		dashColor->init("dashColor" + to_string(i), x, 6, 27, 24, "DashCount");	//UI 초기화
+		_dashFrame->AddFrame(dashColor);	//dash프레임에 자식추가
 		x += 23;
 	}
-	UIFrame* dashEndFrame = new UIFrame();
-	dashEndFrame->init("end", x, 0, 6, 23, "DashBaseRightEnd");
-	_dashFrame->AddFrame(dashEndFrame);
+	UIFrame* dashEndFrame = new UIFrame();	//UI저장
+	dashEndFrame->init("end", x, 0, 6, 23, "DashBaseRightEnd");	//UI초기화
+	_dashFrame->AddFrame(dashEndFrame);	//dash프레임에 자식추가
 }
 
 void Player::SwitchWeapon()
 {
-	if (_swapCoolTime > 0)
+	if (_swapCoolTime > 0)	//스왑 쿨타임이 0보다 커지면
 	{
-		_swapCoolTime--;
-		UIFrame* swapFrame = UIMANAGER->GetGameFrame()->GetChild("swapContainer");
+		_swapCoolTime--;	//쿨타임을 감소
+		UIFrame* swapFrame = UIMANAGER->GetGameFrame()->GetChild("swapContainer");	//swapUI를 저장
 
-		UIFrame* weapon1 = swapFrame->GetChild("weapon1");
-		UIFrame* weapon2 = swapFrame->GetChild("weapon2");
+		UIFrame* weapon1 = swapFrame->GetChild("weapon1");	//swapUI의 자식을 저장
+		UIFrame* weapon2 = swapFrame->GetChild("weapon2");	//swapUI의 자식을 저장
 
-		if (_swapCoolTime == 0)
+		if (_swapCoolTime == 0)	//쿨타임이 0이되면
 		{
-			swapFrame->GetVChildFrames().push_back(swapFrame->GetVChildFrames()[0]);
+			swapFrame->GetVChildFrames().push_back(swapFrame->GetVChildFrames()[0]);	//swapUI의 자식들을 0번지부터
 			swapFrame->GetVChildFrames().erase(swapFrame->GetVChildFrames().begin());
 		}
 
-		if (_selectedWeaponIdx == 0)
+		if (_selectedWeaponIdx == 0)	//장착된 무기가 0번이라면
 		{
-			weapon1->MoveFrameChild(-2.5f, 2.5f);
-			weapon2->MoveFrameChild(2.5f, -2.5f);
+			weapon1->MoveFrameChild(-2.5f, 2.5f);	//waeponUI의 자식도 좌표변경
+			weapon2->MoveFrameChild(2.5f, -2.5f);	//waeponUI의 자식도 좌표변경
 		}
-		else
+		else                            //0번이아니라면 
 		{
 			weapon1->MoveFrameChild(2.5f, -2.5f);
 			weapon2->MoveFrameChild(-2.5f, 2.5f);
 		}
 	}
 
-	if (_mouseWheel != 0)
+	if (_mouseWheel != 0)	//마우스 휠 작동시
 	{
 		SOUNDMANAGER->play("게임_무기스왑");
 		if (_swapCoolTime == 0)
 		{
-			if (_weapons[_selectedWeaponIdx] != nullptr)
+			if (_weapons[_selectedWeaponIdx] != nullptr)	//장착된 무기가 있다면
 			{
-				_weapons[_selectedWeaponIdx]->SetisAttacking(false);
-				_weapons[_selectedWeaponIdx]->SetRenderAngle(0);
+				_weapons[_selectedWeaponIdx]->SetisAttacking(false);	// 주무기 공격 상태 초기화
+				_weapons[_selectedWeaponIdx]->SetRenderAngle(0);		// 주무기 렌더 앵글 초기화
 			}
-			if (_subWeapons[_selectedWeaponIdx] != nullptr)
+			if (_subWeapons[_selectedWeaponIdx] != nullptr)	//장착뒨 보조무기가 있다면
 			{
-				_subWeapons[_selectedWeaponIdx]->SetisAttacking(false);
-				_subWeapons[_selectedWeaponIdx]->SetRenderAngle(0);
+				_subWeapons[_selectedWeaponIdx]->SetisAttacking(false);	// 보조무기 공격 상태 초기화
+				_subWeapons[_selectedWeaponIdx]->SetRenderAngle(0);		// 보조무기 렌더 상태 초기화
 			}
 
 			_realAttackSpeed = 0;
 
-			_selectedWeaponIdx = _selectedWeaponIdx == 0 ? 1 : 0;
+			_selectedWeaponIdx = _selectedWeaponIdx == 0 ? 1 : 0;	//장착된 무기가 0이냐 ? 맞으면 1 아니면 0
 			_inven->SwitchWeapon(_selectedWeaponIdx);
 
-			_swapCoolTime = 20;
+			_swapCoolTime = 20;		//쿨타임 20
 		}
 	}
 }
 
 void Player::CheckAliceZone()
 {
+
 	vector<Object*> objs = MAPMANAGER->GetPlayMap()->GetObjects();
 
 	bool zoneInHere = false;
@@ -356,6 +357,57 @@ void Player::CheckAliceZone()
 	if (!zoneInHere)
 	{
 		_aliceZoneIn = false;
+	}
+}
+
+void Player::Ability()
+{
+	for (int i = 0; i < _vImages.size(); i++)
+	{
+		switch (i)
+		{
+		case 0:
+			IMAGEMANAGER->findImage("baseCharIdle");
+			break;
+		case 1:
+			IMAGEMANAGER->findImage("sheetingIdle");
+			_defence -= 10;
+			_maxHp += 10;
+			break;
+		case 2:
+			IMAGEMANAGER->findImage("gunmanIdle");
+			break;
+		case 3:
+			IMAGEMANAGER->findImage("aliceIdle");
+			break;
+		case 4:
+			IMAGEMANAGER->findImage("redlotusIdle");
+			break;
+		case 5:
+			IMAGEMANAGER->findImage("lkinabearIdle");
+			break;
+		case 6:
+			IMAGEMANAGER->findImage("riderHIdle");
+			break;
+		case 7:
+			IMAGEMANAGER->findImage("criminalldle");
+			break;
+		case 8:
+			IMAGEMANAGER->findImage("pickIdle");
+			break;
+		case 9:
+			IMAGEMANAGER->findImage("fastoIdle");
+			break;
+		case 10:
+			IMAGEMANAGER->findImage("horsemanIdle");
+			break;
+		case 11:
+			IMAGEMANAGER->findImage("humanlasleyIdle");
+			break;
+		case 12:
+			IMAGEMANAGER->findImage("masterchefIdle");
+			break;
+		}
 	}
 }
 
@@ -379,38 +431,37 @@ void Player::release()
 
 void Player::render(HDC hdc)
 {
-	if (!MAPMANAGER->GetPortalAnimOn() && ENTITYMANAGER->GetWormVillage()->GetRenderPlayer())
+	if (!MAPMANAGER->GetPortalAnimOn() && ENTITYMANAGER->GetWormVillage()->GetRenderPlayer())	//포탈 온 상태, 
 	{
-		if (_weapons[_selectedWeaponIdx] != nullptr && _weapons[_selectedWeaponIdx]->GetIsRenderFirst()) _weapons[_selectedWeaponIdx]->render(hdc);
-		if (_subWeapons[_selectedWeaponIdx] != nullptr && _subWeapons[_selectedWeaponIdx]->GetIsRenderFirst()) _subWeapons[_selectedWeaponIdx]->render(hdc);
+		if (_weapons[_selectedWeaponIdx] != nullptr && _weapons[_selectedWeaponIdx]->GetIsRenderFirst()) _weapons[_selectedWeaponIdx]->render(hdc);				//장착된 무기의 인덱스가 비어있지않고, 플레이어보다 먼저  그려진다면 장착된무기의 인덱스가 그려지도록
+		if (_subWeapons[_selectedWeaponIdx] != nullptr && _subWeapons[_selectedWeaponIdx]->GetIsRenderFirst()) _subWeapons[_selectedWeaponIdx]->render(hdc);	//만약 보조무기의 인덱스가 비어있지않고, 보조무기가 플레이어보다 먼저 그려진다면, 보조무기의 인덱스가 그려지도록
 
-		for (int i = 0; i < _vAccessories.size(); i++)
+		for (int i = 0; i < _vAccessories.size(); i++)		//만약 악세서리가 플레이어보다 먼저 그려진다면, 악세서리가 그려지도록
 		{
 			if (_vAccessories[i]->GetIsRenderFirst()) _vAccessories[i]->render(hdc);
 		}
 
-		if (_isHit)
+		if (_isHit)		//플레이어가 데미지를 입었다면
 		{
-			CAMERAMANAGER->FrameAlphaRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY, _hitAlpha);
+			CAMERAMANAGER->FrameAlphaRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY, _hitAlpha);		//알파값을 이용해 깜빡임 효과 연출
 		}
-		else
+		else            //플레이어가 데미지를 입지않았다면
 		{
-			CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);
+			CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);						//기존 이미지 그대로
 		}
 
-		if (_weapons[_selectedWeaponIdx] != nullptr && !_weapons[_selectedWeaponIdx]->GetIsRenderFirst()) _weapons[_selectedWeaponIdx]->render(hdc);
-		if (_subWeapons[_selectedWeaponIdx] != nullptr && !_subWeapons[_selectedWeaponIdx]->GetIsRenderFirst()) _subWeapons[_selectedWeaponIdx]->render(hdc);
+		if (_weapons[_selectedWeaponIdx] != nullptr && !_weapons[_selectedWeaponIdx]->GetIsRenderFirst()) _weapons[_selectedWeaponIdx]->render(hdc);			//장착된 무기의 인덱스가 비어있지않고, 플레이어보다 먼저  그려지지않는다면 장착된무기의 인덱스가 그려지도록
+		if (_subWeapons[_selectedWeaponIdx] != nullptr && !_subWeapons[_selectedWeaponIdx]->GetIsRenderFirst()) _subWeapons[_selectedWeaponIdx]->render(hdc);	//만약 보조무기의 인덱스가 비어있지않고, 보조무기가 플레이어보다 먼저 그려지지않는다면, 보조무기의 인덱스가 그려지도록
 		for (int i = 0; i < _vAccessories.size(); i++)
 		{
-			if (!_vAccessories[i]->GetIsRenderFirst()) _vAccessories[i]->render(hdc);
+			if (!_vAccessories[i]->GetIsRenderFirst()) _vAccessories[i]->render(hdc);	//만약 악세서리가 플레이어보다 먼저 그려지지않는다면, 악세서리가 그려지도록
 		}
 
-
-		if (_isStun)
+		if (_isStun)	//스턴상태일때
 		{
 			CAMERAMANAGER->FrameRender(hdc, IMAGEMANAGER->findImage("stun"), _x + 13, _y - 10, _stunFrameX, _stunFrameY);
 		}
-		_inven->render(hdc);
+		_inven->render(hdc);	//인벤토리의 렌더 실행
 		CAMERAMANAGER->FrameRender(hdc, _aliceZone, _x + _vImages[_useImage]->getFrameWidth() / 2 - _aliceZone->getFrameWidth() / 2, _y + _vImages[_useImage]->getFrameHeight() / 2 - _aliceZone->getFrameHeight() / 2, _aliceZoneIn ? 1 : 0, 0);
 	}
 }
@@ -902,10 +953,10 @@ void Player::GetDamage()
 
 void Player::invincibility()
 {
-	if (_isHit)
+	if (_isHit)						//플레이어 데미지 입음
 	{
-		_hitCount++;
-		if (_hitCount % 3 == 0)
+		_hitCount++;				//무적 유지를 위한 카운트
+		if (_hitCount % 3 == 0)		//알파값 번경을 통해 깜빡임 효과 연출
 		{
 			_hitAlpha = 255;
 		}
@@ -914,10 +965,10 @@ void Player::invincibility()
 			_hitAlpha = 10;
 		}
 
-		if (_hitCount > 30)
+		if (_hitCount > 30)			//무적 유지를 위한 카운트가 30보다 커졌을때
 		{
-			_isHit = false;
-			_hitCount = 0;
+			_isHit = false;			//플레이어 데미지를 입지않았음
+			_hitCount = 0;			//무적 유지 위한 카운트 초기화
 		}
 
 	}

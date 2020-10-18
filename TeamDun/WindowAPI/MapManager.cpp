@@ -139,6 +139,10 @@ void MapManager::GenerateMapParticle()
 		mapSquareGen->initSpeed(0.5f, 0.5f, 0.3f, 0.3f, 0, 0);
 		PARTICLEMANAGER->AddGenerator(mapSquareGen);
 	}
+	else if(_curStageNum == 0)
+	{
+		CAMERAMANAGER->init(0, 0, 6720, 15000, 0, 0, WINSIZEX / 2, WINSIZEY / 2);
+	}
 }
 
 void MapManager::DungeonMapUIMover()
