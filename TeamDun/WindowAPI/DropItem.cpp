@@ -18,6 +18,7 @@ HRESULT DropItem::init()
 	_body = RECT{ 0,0,0,0 };
 	_isDead = false;
 	_renderOrder = 1;
+	_droppedTimer = 0;
 
 	return S_OK;
 }
@@ -59,38 +60,43 @@ void DropItem::CheckCollision()
 {
 	RECT temp;
 
-	if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_body))
+	_droppedTimer++;
+	
+	if (_droppedTimer > 20)
 	{
-		if (ENTITYMANAGER->getPlayer()->GetInventory()->AddItem(_item))
+		if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_body))
 		{
-			SOUNDMANAGER->play("¾ÆÀÌÅÛÈ¹µæ");
-			UIFrame* getFrame = UIMANAGER->GetGameFrame()->GetChild("itemGetFrame");
-			getFrame->GetVChildFrames().clear();
-
-			UIFrame* itemImage = new UIFrame();
-			itemImage->init("image", 100 - (_vImages[_useImage]->getFrameWidth() * _item->GetRenderScale() / 2), 80 - (_vImages[_useImage]->getFrameHeight() * _item->GetRenderScale() / 2), 10, 10, _item->GetDropImageName(), _item->GetRenderScale(), _item->GetRenderScale());
-			getFrame->AddFrame(itemImage);
-
-			int nameR = 255, nameG = 255, nameB = 255;
-			switch (_item->GetItemClass())
+			if (ENTITYMANAGER->getPlayer()->GetInventory()->AddItem(_item))
 			{
-			case ITEMCLASS::IC_NORMAL: nameR = 255, nameG = 255, nameB = 255; break;
-			case ITEMCLASS::IC_ADVANCED: nameR = 112, nameG = 146, nameB = 190; break;
-			case ITEMCLASS::IC_RARE: nameR = 232, nameG = 239, nameB = 90; break;
-			case ITEMCLASS::IC_LEGENDARY: nameR = 237, nameG = 9, nameB = 138; break;
+				SOUNDMANAGER->play("¾ÆÀÌÅÛÈ¹µæ");
+				UIFrame* getFrame = UIMANAGER->GetGameFrame()->GetChild("itemGetFrame");
+				getFrame->GetVChildFrames().clear();
+
+				UIFrame* itemImage = new UIFrame();
+				itemImage->init("image", 100 - (_vImages[_useImage]->getFrameWidth() * _item->GetRenderScale() / 2), 80 - (_vImages[_useImage]->getFrameHeight() * _item->GetRenderScale() / 2), 10, 10, _item->GetDropImageName(), _item->GetRenderScale(), _item->GetRenderScale());
+				getFrame->AddFrame(itemImage);
+
+				int nameR = 255, nameG = 255, nameB = 255;
+				switch (_item->GetItemClass())
+				{
+				case ITEMCLASS::IC_NORMAL: nameR = 255, nameG = 255, nameB = 255; break;
+				case ITEMCLASS::IC_ADVANCED: nameR = 112, nameG = 146, nameB = 190; break;
+				case ITEMCLASS::IC_RARE: nameR = 232, nameG = 239, nameB = 90; break;
+				case ITEMCLASS::IC_LEGENDARY: nameR = 237, nameG = 9, nameB = 138; break;
+				}
+
+				UIText* itemGet = new UIText();
+				itemGet->init("getText", 150, 20, 300, 50, "¾ÆÀÌÅÛ È¹µæ", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE);
+				getFrame->AddFrame(itemGet);
+
+				UIText* name = new UIText();
+				name->init("name", 150, 70, 300, 50, _item->GetName(), FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_MIDDLE, RGB(nameR, nameG, nameB));
+				getFrame->AddFrame(name);
+
+				getFrame->SetViewingTimer(100);
+
+				_isDead = true;
 			}
-
-			UIText* itemGet = new UIText();
-			itemGet->init("getText", 150, 20, 300, 50, "¾ÆÀÌÅÛ È¹µæ", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE);
-			getFrame->AddFrame(itemGet);
-
-			UIText* name = new UIText();
-			name->init("name", 150, 70, 300, 50, _item->GetName(), FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_MIDDLE, RGB(nameR, nameG, nameB));
-			getFrame->AddFrame(name);
-
-			getFrame->SetViewingTimer(100);
-
-			_isDead = true;
 		}
 	}
 }

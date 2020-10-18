@@ -5,6 +5,7 @@ HRESULT DropObjs::init(int id, string name, OBJECTTYPE type, vector<string> imgN
 {
 	Object::init(id, name, type, imgNames);
 
+	_droppedTimer = 0;
 	return S_OK;
 }
 

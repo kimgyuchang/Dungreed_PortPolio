@@ -116,6 +116,7 @@ void MapManager::SetMapUIOnOff()
 {
 	if (INPUT->GetKeyDown(VK_TAB))
 	{
+		_portalOn = false;
 		UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->ToggleIsViewing();
 	}
 }
