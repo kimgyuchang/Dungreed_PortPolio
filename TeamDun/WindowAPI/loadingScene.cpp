@@ -837,6 +837,18 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("MainGauche_inven", "Images/item/MainGauche_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SilverEaring_inven", "Images/item/SilverEaring_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SilverRing_inven", "Images/item/SilverRing_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BloodOfSrobeo", "Images/item/BloodOfSrobeo.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ChainArmor", "Images/item/ChainArmor.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BloodStoneRing", "Images/item/BloodStoneRing.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BloodStoneNecklace", "Images/item/BloodStoneNecklace.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BombPouch", "Images/item/BombPouch.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ClothArmor", "Images/item/ClothArmor.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Bullion_Inven", "Images/item/Bullion_Inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Bullion", "Images/item/Bullion.bmp", 60, 27, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("CarpCoinPurse", "Images/item/CarpCoinPurse.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Cintamani", "Images/item/Cintamani.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BlessOfSage", "Images/item/BlessOfSage.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("CowLeather", "Images/item/CowLeather.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));
@@ -849,6 +861,7 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("IceBullet", "Images/Monster/Bullet/IceBullet.bmp", 45, 45,1,1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("IceBulletHit", "Images/Monster/Bullet/IceBulletHit.bmp", 225, 75,3,1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("FireBatBullet", "Images/Monster/Bullet/FireBatBullet.bmp", 345, 69,5,1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FireBatBullet0", "Images/Monster/Bullet/FireBatBullet0.bmp", 135, 45,3,1, true, RGB(255, 0, 255));
 	
 
 	// EFFECT //

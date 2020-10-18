@@ -8,7 +8,6 @@ private:
 	bool	_isAtk;
 	bool	_leftAtk;
 	float	_probeBottom;
-	int		_hp;
 
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);

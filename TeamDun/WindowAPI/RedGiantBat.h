@@ -16,7 +16,6 @@ private:
 	int		_bulletCount;
 	int		_shootCount;
 	float	_probeBottom;
-	int		_hp;
 	float	_angle;
 
 	vector<Bullet*> _vBatBullet;

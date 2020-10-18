@@ -9,7 +9,6 @@ private:
 	bool	_isAtk;
 	bool	_leftAtk;
 	float	_probeBottom;
-	int		_hp;
 	float	_fireAngle;
 
 public:
