@@ -36,7 +36,6 @@ void PurpleGiantBat::update()
 		default:
 			break;
 		}
-	
 	}
 }
 
@@ -86,7 +85,6 @@ void PurpleGiantBat::Animation()
 		_useImage = 0;
 		if (_isLeft)
 		{
-
 			_count++;
 
 			_frameY = 0;

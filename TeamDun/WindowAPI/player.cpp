@@ -75,6 +75,28 @@ HRESULT Player::init()
 		"moveSpeedImg", "atkSpeedImg", "reloadImg", "dashImg", "trueDamageImg", "burnImg",
 		"poisonImg", "coldImg", "elecImg", "stunImg" };
 
+	_vTraitTooltip[0][0] = "점프할 때 주변 적들에게 8의 피해";
+	_vTraitTooltip[0][1] = "적을 처치하면 15초동안 위력이 10 상승";
+	_vTraitTooltip[0][2] = "HP가 60% 미만일 때 무기 공격력이 최대로 적용.\n대쉬 최대 횟수 +1";
+	_vTraitTooltip[1][0] = "이단 점프 가능, 대쉬 최대 횟수 +1";
+	_vTraitTooltip[1][1] = "대쉬 쿨타임 감소, 현재 체력이 80% 이상일 경우 공격속도 증가";
+	_vTraitTooltip[1][2] = "대쉬 도중 0.2초간 무적.\n대쉬 최대 횟수 +1";
+	_vTraitTooltip[2][0] = "마법방패를 얻음";
+	_vTraitTooltip[2][1] = "죽음에 이르는 피해를 입을 경우 4초동안 무적 (1번만)";
+	_vTraitTooltip[2][2] = "체력이 30% 미만일 때 체력이 재생하고 방어력이 증가함.\n대쉬 최대 횟수 +1";
+	_vTraitTooltip[3][0] = "상점 가격 30% 할인";
+	_vTraitTooltip[3][1] = "아이템 사용효과의 쿨타임 40% 감소";
+	_vTraitTooltip[3][2] = "탐험 종료시 소지중인 아이템 중 하나를 선택해 보존 가능.\n대쉬 최대 횟수 +1";
+	_vTraitTooltip[4][0] = "골드 획득량 +20%";
+	_vTraitTooltip[4][1] = "포만감 최대치 +25";
+	_vTraitTooltip[4][2] = "액세서리 슬롯+1, 식당에서 먹는 음식의 포만감 증가량 10% 감소.\n대쉬 최대 횟수 +1";
+	_vTraitTooltip[5][0] = "원거리 무기 장착시 최대 체력 +20, 방어력 +10을 획득";
+	_vTraitTooltip[5][1] = "재장전속도가 15% 증가하고, 방의 모든 몬스터를 쓰러뜨릴 때마다 체력을 +2씩 회복";
+	_vTraitTooltip[5][2] = "12초마다 무기 재장전을 바로 해주는 \"재장전 도구\"를 획득 (최대 3개)\n대쉬 최대 횟수 +1";
+	_vTraitTooltip[6][0] = "적 직접공격시 10% 확률로 \"약화\"상태이상 부여(적에게 지속 데미지)";
+	_vTraitTooltip[6][1] = "약화 상태의 적 직접공격 시 입은 데미지만큼 회복";
+	_vTraitTooltip[6][2] = "위력을 +15 증가시키고 \"약화\"확률을 100%로 증가.\n대쉬 최대 횟수 +1";
+
 	DashUICheck();
 
 	// 예시용
@@ -1307,6 +1329,7 @@ void Player::ControlTraitPage()
 		AddTraitPoint();
 		ReloadTraitPoint();
 		MoveTraitUI();
+		CheckTraitIconHovered();
 	}
 }
 
@@ -1471,6 +1494,32 @@ void Player::ReloadTraitPoint()
 		}
 		ReInitTraitUI();
 	}
+}
+
+void Player::CheckTraitIconHovered()
+{
+	UIText* text = dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("traitToolTip")->GetChild("description"));
+
+	bool finded = false;
+	for (int i = 0; i < 7; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			UIFrame* frame = _traitFrame->GetChild("trait" + to_string(i))->GetChild("image" + to_string(j));
+			if (PtInRect(&frame->GetRect(), _ptMouse))
+			{
+				finded = true;
+				UIMANAGER->GetGameFrame()->GetChild("traitToolTip")->SetIsViewing(true);
+				UIMANAGER->GetGameFrame()->GetChild("traitToolTip")->MoveFrameChild((_ptMouse.x) - text->GetX(), (_ptMouse.y) - text->GetY());
+				text->SetText(_vTraitTooltip[i][j]);
+				break;
+			}
+		}
+
+		if (finded) break;
+	}
+
+	if(!finded) UIMANAGER->GetGameFrame()->GetChild("traitToolTip")->SetIsViewing(false);
 }
 
 void Player::ReInitTraitUI()

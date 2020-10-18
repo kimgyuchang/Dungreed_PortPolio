@@ -427,7 +427,6 @@ void gameScene::InventoryUIInit()
 	uiToolTip->init("itemToolTip", 0, 0, 400, 500, "ToolTipCover", false, 0, 0, 4.0f, 5.0f, 130);
 	uiToolTip->SetUseOutsideLimit(false);
 	InventoryFrame->AddFrame(uiToolTip);
-
 }
 
 void gameScene::TraitUIInit()
@@ -436,6 +435,15 @@ void gameScene::TraitUIInit()
 	traitBase->init("allTraitFrame", 0, 0, WINSIZEX, WINSIZEY, "ScreenCover", false, 0, 0, 1440 / 200.f, 800 / 200.f);
 	UIMANAGER->GetGameFrame()->AddFrame(traitBase);
 
+	UIImage* tooltipFrame = new UIImage();
+	tooltipFrame->init("traitToolTip", 0, 0, 200, 100, "ToolTipCover", false, 0, 0, 2.0f, 1.0f, 80);
+	UIMANAGER->GetGameFrame()->AddFrame(tooltipFrame);
+
+	UIText* tooltipDiscript = new UIText();
+	tooltipDiscript->init("description", 10, 10, 190, 90, "", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
+	tooltipFrame->AddFrame(tooltipDiscript);
+
+	tooltipFrame->SetIsViewing(false);
 	traitBase->SetIsViewing(false);
 }
 
@@ -674,7 +682,6 @@ void gameScene::release()
 
 void gameScene::UpdateWardrobeUI()
 {
-
 	if (INPUT->GetKeyDown('P'))
 	{
 		UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->ToggleIsViewing();
@@ -878,7 +885,7 @@ void gameScene::render()
 
 	string n = to_string((int)CAMERAMANAGER->GetAbsoluteX(_ptMouse.x)) + " " + to_string((int)CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
 
-	TextOut(getMemDC(), _ptMouse.x, _ptMouse.y, n.c_str(), n.length());
+	// TextOut(getMemDC(), _ptMouse.x, _ptMouse.y, n.c_str(), n.length());
 
 	if (MAPMANAGER->GetStageChanger()->GetIsChangingStage())
 	{
