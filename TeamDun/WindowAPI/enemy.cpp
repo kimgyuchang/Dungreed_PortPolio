@@ -88,12 +88,23 @@ void Enemy::GetDamage()
 
 		}
 
-		
-
 		if (_HP <= 0)
 		{
 			SOUNDMANAGER->play("¸ó½ºÅÍ_»ç¸Á (1)");
-			EFFECTMANAGER->AddEffect(_x, _y, "DieEffect", 3, 0, 0, false, 255, 0, 1, 1, false);
+			EFFECTMANAGER->AddEffect(_x + _vImages[0]->getFrameWidth()/2 - IMAGEMANAGER->findImage("DieEffect")->getFrameWidth()/2, _y + _vImages[0]->getFrameHeight() / 2 - IMAGEMANAGER->findImage("DieEffect")->getFrameHeight() / 2, "DieEffect", 3, 0, 0, false, 255, 0, 1, 1, false);
+			
+			int dropCoin = RANDOM->range(0,1);
+			if (dropCoin == 0)
+			{
+				int coinCount = RANDOM->range(1, 6);
+				for (int i = 0; i < coinCount; i++)
+				{
+					Coin* coin = new Coin(*dynamic_cast<Coin*>(DATAMANAGER->GetObjectById(524)));
+					coin->SetUseImage(1);
+					coin->SetCoin(_x,  _y, RANDOM->range(-5.f, 5.f), RANDOM->range(2.f, 3.f));
+					MAPMANAGER->GetPlayMap()->GetObjects().push_back(coin);
+				}
+			}
 			SetIsDead(true);
 		}
 		

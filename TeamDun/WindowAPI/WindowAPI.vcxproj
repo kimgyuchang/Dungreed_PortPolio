@@ -153,6 +153,8 @@
     <ClInclude Include="Belial.h" />
     <ClInclude Include="BigWhiteSkel.h" />
     <ClInclude Include="BowSkel.h" />
+    <ClInclude Include="Box.h" />
+    <ClInclude Include="BoxParticle.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="cameraText.h" />
@@ -172,6 +174,7 @@
     <ClInclude Include="FieldMap.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="gameScene.h" />
+    <ClInclude Include="HpPixie.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="iniData.h" />
@@ -234,6 +237,8 @@
     <ClCompile Include="Belial.cpp" />
     <ClCompile Include="BigWhiteSkel.cpp" />
     <ClCompile Include="BowSkel.cpp" />
+    <ClCompile Include="Box.cpp" />
+    <ClCompile Include="BoxParticle.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="cameraText.cpp" />
@@ -252,6 +257,7 @@
     <ClCompile Include="FieldMap.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="gameScene.cpp" />
+    <ClCompile Include="HpPixie.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="iniData.cpp" />

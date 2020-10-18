@@ -135,6 +135,7 @@ void DataManager::GetObjectData()
 		case 7: // 다음 스테이지 문
 			obj = new StageDoor();
 			break;
+			
 		case 524: // 동전
 			obj = new Coin();
 			break;
@@ -143,6 +144,46 @@ void DataManager::GetObjectData()
 			obj = new WormVillage();
 			break;
 
+		case 13: // 작은 픽시
+			obj = new HpPixie();
+			dynamic_cast<HpPixie*>(obj)->SetPixType(PIXIETYPE::SMALL);
+			break;
+
+		case 14: // 중간 픽시
+			obj = new HpPixie();
+			dynamic_cast<HpPixie*>(obj)->SetPixType(PIXIETYPE::MIDDLE);
+			break;
+
+		case 15: // 큰 픽시
+			obj = new HpPixie();
+			dynamic_cast<HpPixie*>(obj)->SetPixType(PIXIETYPE::LARGE);
+			break;
+
+		case 16: // 매우 큰 픽시
+			obj = new HpPixie();
+			dynamic_cast<HpPixie*>(obj)->SetPixType(PIXIETYPE::XLARGE);
+			break;
+
+		case 17: // 매우 큰 픽시
+			obj = new HpPixie();
+			dynamic_cast<HpPixie*>(obj)->SetPixType(PIXIETYPE::GREEN);
+			break;
+
+		case 100 : // 큰 박스
+			obj = new Box();
+			dynamic_cast<Box*>(obj)->SetBoxType(BOXTYPE::BOX_BIGBOX);
+			dynamic_cast<Box*>(obj)->SetParticle();
+			break;
+		case 101: // 작은 박스
+			obj = new Box();
+			dynamic_cast<Box*>(obj)->SetBoxType(BOXTYPE::BOX_SMALLBOX);
+			dynamic_cast<Box*>(obj)->SetParticle();
+			break;
+		case 102: // 오크통
+			obj = new Box();
+			dynamic_cast<Box*>(obj)->SetBoxType(BOXTYPE::BOX_ORC);
+			dynamic_cast<Box*>(obj)->SetParticle();
+			break;
 		default:
 			obj = new Object();
 			break;

@@ -197,6 +197,15 @@ void FieldMap::LoadObject()
 			obj = new StageDoor(*dynamic_cast<StageDoor*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			dynamic_cast<StageDoor*>(obj)->initSecond();
 			break;
+		case 100: // 큰 박스
+			obj = new Box(*dynamic_cast<Box*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+		case 101: // 작은 박스
+			obj = new Box(*dynamic_cast<Box*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+		case 102: // 오크통
+			obj = new Box(*dynamic_cast<Box*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 		default:
 			obj = new Object(*DATAMANAGER->GetObjectById(stoi(objData[i][0])));
 			break;

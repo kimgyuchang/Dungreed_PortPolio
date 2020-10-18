@@ -28,3 +28,6 @@
 #include "Colt.h"
 #include "StageDoor.h"
 #include "WormVillage.h"
+#include "HpPixie.h"
+#include "Box.h"
+#include "BoxParticle.h"
