@@ -26,16 +26,11 @@ HRESULT image::init(int width, int height)
 	_imageInfo->height = height;
 	_imageInfo->frameWidth = width;
 	_imageInfo->frameHeight = height;
-	_imageInfo->currentFrameX = 0;
-	_imageInfo->currentFrameY = 0;
 	_imageInfo->maxFrameX = 0;
 	_imageInfo->maxFrameY = 0;
-	_imageInfo->loadType = 0;
 	_stretchImage = nullptr;
 	_blendImage = nullptr;
 	_rotateImage = nullptr;
-	_fileName = "";
-	_key = "";
 
 	//파일이름
 	_fileName = NULL;
@@ -77,10 +72,10 @@ HRESULT image::init(const char* fileName, int width, int height, bool isTrans, C
 	_imageInfo->frameHeight = height;
 	_imageInfo->maxFrameX = 0;
 	_imageInfo->maxFrameY = 0;
+
 	_stretchImage = nullptr;
 	_blendImage = nullptr;
 	_rotateImage = nullptr;
-	_key = "";
 
 	//파일이름
 	int len = strlen(fileName);

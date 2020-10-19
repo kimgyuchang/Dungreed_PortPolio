@@ -329,7 +329,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("12_RaspberryCookie", "Images/food/12_RaspberryCookie.bmp", 219, 144, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("13_GriffonEggOmelette", "Images/food/13_GriffonEggOmelette.bmp", 219, 144, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("14_GarlicMeatball", "Images/food/14_GarlicMeatball.bmp", 219, 144, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("15_Bibimbap", "Images/food/15_Bibimbap.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("15_Bibimbap", "Images/food/15_Bibimbap.bmp", 192, 144, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("16_MinotaursSteak", "Images/food/16_MinotaursSteak.bmp", 219, 144, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("17_SpecialtyCookedMeat", "Images/food/17_SpecialtyCookedMeat.bmp", 219, 144, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("18_StrawberryPie", "Images/food/18_StrawberryPie.bmp", 219, 144, true, RGB(255, 0, 255));
@@ -431,6 +431,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("AnvilCloseButtonSelected", "Images/UI/AnvilCloseButtonSelected.bmp", 39, 39, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("AnvilUI", "Images/UI/AnvilUI.bmp", 408, 153, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Base", "Images/UI/Base.bmp", 222, 189, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("baseFrame", "Images/UI/baseFrame.bmp", 1440, 800, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Base_0", "Images/UI/Base_0.bmp", 333, 396, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Base_1", "Images/UI/Base_1.bmp", 333, 51, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Base_2", "Images/UI/Base_2.bmp", 339, 51, true, RGB(255, 0, 255));
@@ -903,8 +904,8 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("BloodStoneNecklace", "Images/item/BloodStoneNecklace.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BombPouch", "Images/item/BombPouch.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("ClothArmor", "Images/item/ClothArmor.bmp", 57, 57, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("Bullion_Inven", "Images/item/Bullion_Inven.bmp", 57, 57, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("Bullion", "Images/item/Bullion.bmp", 60, 27, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Bullion_Silver_Inven", "Images/item/Bullion_Silver_Inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Bullion_Silver", "Images/item/Bullion_Silver.bmp", 60, 27, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CarpCoinPurse", "Images/item/CarpCoinPurse.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Cintamani", "Images/item/Cintamani.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BlessOfSage", "Images/item/BlessOfSage.bmp", 57, 57, true, RGB(255, 0, 255));
