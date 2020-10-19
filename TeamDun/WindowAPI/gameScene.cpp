@@ -700,7 +700,72 @@ void gameScene::UpdateWardrobeUI()
 			if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->GetRect(), _ptMouse) && INPUT->GetIsRButtonClicked())
 			{
 				int curHp = ENTITYMANAGER->getPlayer()->GetHP();
-				cout << curHp << endl;
+				image* curIg = ENTITYMANAGER->getPlayer()->GetImage(0);
+				if (curIg == IMAGEMANAGER->findImage("sheetingIdle"))
+				{
+					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() - 10);
+					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 10);
+				}
+				else if (curIg == IMAGEMANAGER->findImage("gunmanIdle"))
+				{
+					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() + 15);
+					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 15);
+				}
+				else if (curIg == IMAGEMANAGER->findImage("aliceIdle"))
+				{
+					ENTITYMANAGER->getPlayer()->SetPower(ENTITYMANAGER->getPlayer()->GetPower() - 40);
+					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 30);
+					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+				}
+				else if (curIg == IMAGEMANAGER->findImage("redlotusIdle"))
+				{
+					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 15);
+					ENTITYMANAGER->getPlayer()->SetEvasion(ENTITYMANAGER->getPlayer()->GetEvasion() + 5);
+					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+				}
+				else if (curIg == IMAGEMANAGER->findImage("lkinabearIdle"))
+				{
+					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() + 5);
+					ENTITYMANAGER->getPlayer()->SetPower(ENTITYMANAGER->getPlayer()->GetPower() + 20);
+				}
+				else if (curIg == IMAGEMANAGER->findImage("riderHIdle"))
+				{
+					ENTITYMANAGER->getPlayer()->SetMoveSpeed(ENTITYMANAGER->getPlayer()->GetMoveSpeed() - 22);
+					ENTITYMANAGER->getPlayer()->SetToughness(ENTITYMANAGER->getPlayer()->GetToughness() + 2);
+				}
+				else if (curIg == IMAGEMANAGER->findImage("criminalldle"))
+				{
+					ENTITYMANAGER->getPlayer()->SetEvasion(ENTITYMANAGER->getPlayer()->GetEvasion() + 12);
+				}
+				else if (curIg == IMAGEMANAGER->findImage("pickIdle"))
+				{
+					ENTITYMANAGER->getPlayer()->SetDashCount(ENTITYMANAGER->getPlayer()->GetDashCount() - 1);
+					ENTITYMANAGER->getPlayer()->SetCriDamage(ENTITYMANAGER->getPlayer()->GetCriDamage() + 25);
+				}
+				else if (curIg == IMAGEMANAGER->findImage("fastoIdle"))
+				{
+					ENTITYMANAGER->getPlayer()->SetMoveSpeed(ENTITYMANAGER->getPlayer()->GetMoveSpeed() + 20);
+					ENTITYMANAGER->getPlayer()->SetAtkSpeed(ENTITYMANAGER->getPlayer()->GetAtkSpeed() + 10);
+				}
+				else if (curIg == IMAGEMANAGER->findImage("horsemanIdle"))
+				{
+					//추후 구현예정
+				}
+				else if (curIg == IMAGEMANAGER->findImage("humanlasleyIdle"))
+				{
+					//추후 구현예정
+				}
+				else if (curIg == IMAGEMANAGER->findImage("masterchefIdle"))
+				{
+					ENTITYMANAGER->getPlayer()->SetFireAccuracy(ENTITYMANAGER->getPlayer()->GetFireAccuracy() - 33);
+					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 33);
+					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+				}
+
+
 				switch (i)
 				{
 				case 0:
@@ -711,8 +776,9 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("sheetingIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("sheetingRun"));
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() + 10);
-					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp()-10);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 10);
+					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					break;
 				case 2:
@@ -720,23 +786,26 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("gunmanRun"));
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() - 15);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 15);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
-					ENTITYMANAGER->getPlayer()->SetHp(curHp); 
+					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) 
+						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					break;
 				case 3:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("aliceIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("aliceRun"));
 					ENTITYMANAGER->getPlayer()->SetPower(ENTITYMANAGER->getPlayer()->GetPower() + 40);
-					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() -30);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 30);
+					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) 
+						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					break;
 				case 4:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("redlotusIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("redlotusRun"));
-					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() -15);
+					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 15);
 					ENTITYMANAGER->getPlayer()->SetEvasion(ENTITYMANAGER->getPlayer()->GetEvasion() - 5);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					break;
 				case 5:
@@ -748,7 +817,7 @@ void gameScene::UpdateWardrobeUI()
 				case 6:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("riderHIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("riderHRun"));
-					ENTITYMANAGER->getPlayer()->SetMoveSpeed(ENTITYMANAGER->getPlayer()->GetMoveSpeed()+22);
+					ENTITYMANAGER->getPlayer()->SetMoveSpeed(ENTITYMANAGER->getPlayer()->GetMoveSpeed() + 22);
 					ENTITYMANAGER->getPlayer()->SetToughness(ENTITYMANAGER->getPlayer()->GetToughness() - 2);
 					break;
 				case 7:
@@ -771,25 +840,26 @@ void gameScene::UpdateWardrobeUI()
 				case 10:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("horsemanIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("horsemanRun"));
+					//추후 구현예정 (아이템 들고옴)
 					break;
 				case 11:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("humanlasleyIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("humanlasleyRun"));
+					//추후 구현예정 (아이템 들고옴)
 					break;
 				case 12:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("masterchefIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("masterchefRun"));
 					ENTITYMANAGER->getPlayer()->SetFireAccuracy(ENTITYMANAGER->getPlayer()->GetFireAccuracy() + 33);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 33);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) 
+						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					break;
 
 				default:
 					break;
 				}
-				cout << curHp << endl;
-
 			}
 		}
 	}
