@@ -5,13 +5,13 @@ HRESULT Player::init()
 {
 	this->_vImages.push_back(IMAGEMANAGER->findImage("baseCharIdle"));//0
 	this->_vImages.push_back(IMAGEMANAGER->findImage("baseCharRun")); //1
+	_state = PS_IDLE;
 
 	_x = 300;
 	_y = WINSIZEY / 2;
 
 	_initHp = _hp = 100;
 	_body = RectMake(_x + 10, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 20, IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
-
 	_useImage = 0;
 	_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();
 	_frameX = 0;
@@ -31,6 +31,11 @@ HRESULT Player::init()
 	_realAttackSpeed = _atkSpeed + (_atkSpeed * _atkSpeedPer / 100);
 	_dustEffectCount = 0;
 	_isStun = false;
+	_isLeft = false;
+	_jump = false;
+	_isJump = false;
+	_downJump = false;
+	_hitAlpha = 0;
 	_stunCount = 0;
 	_stunAniCout = 0;
 	_stunFrameX = 0;
@@ -64,6 +69,15 @@ HRESULT Player::init()
 
 	_criticalPercent = 2;
 	_criticalDamage = 100;
+
+	_weapons[0] = nullptr;
+	_weapons[1] = nullptr;
+	_subWeapons[0] = nullptr;
+	_subWeapons[1] = nullptr;
+	for (int i = 0; i < _vAccessories.size(); i++)
+	{
+		_vAccessories[i] = nullptr;
+	}
 
 	// UI
 	_hpFrame = UIMANAGER->GetGameFrame()->GetChild("hpFrame");
