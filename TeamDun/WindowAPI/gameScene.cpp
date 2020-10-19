@@ -780,17 +780,24 @@ void gameScene::UpdateWardrobeUI()
 		{
 			if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->GetRect(), _ptMouse) && INPUT->GetIsRButtonClicked())
 			{
+				// 빼는거
+
 				int curHp = ENTITYMANAGER->getPlayer()->GetHP();
 				image* curIg = ENTITYMANAGER->getPlayer()->GetImage(0);
+
 				if (curIg == IMAGEMANAGER->findImage("sheetingIdle"))
 				{
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() - 10);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 10);
+					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 				}
 				else if (curIg == IMAGEMANAGER->findImage("gunmanIdle"))
 				{
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() + 15);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 15);
+					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 				}
 				else if (curIg == IMAGEMANAGER->findImage("aliceIdle"))
 				{
@@ -830,13 +837,21 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->SetMoveSpeed(ENTITYMANAGER->getPlayer()->GetMoveSpeed() + 20);
 					ENTITYMANAGER->getPlayer()->SetAtkSpeed(ENTITYMANAGER->getPlayer()->GetAtkSpeed() + 10);
 				}
+
 				else if (curIg == IMAGEMANAGER->findImage("horsemanIdle"))
 				{
-					//추후 구현예정
+					/*
+					ENTITYMANAGER->getPlayer()->SetInitHp(100);
+					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					*/
 				}
+
 				else if (curIg == IMAGEMANAGER->findImage("humanlasleyIdle"))
 				{
-					//추후 구현예정
+					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 45);
+					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 				}
 				else if (curIg == IMAGEMANAGER->findImage("masterchefIdle"))
 				{
@@ -847,11 +862,15 @@ void gameScene::UpdateWardrobeUI()
 				}
 
 
+				// 입는거
 				switch (i)
 				{
 				case 0:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("baseCharIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("baseCharRun"));
+					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					break;
 				case 1:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("sheetingIdle"));
@@ -894,39 +913,59 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("lkinabearRun"));
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() - 5);
 					ENTITYMANAGER->getPlayer()->SetPower(ENTITYMANAGER->getPlayer()->GetPower() - 20);
+					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					break;
 				case 6:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("riderHIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("riderHRun"));
 					ENTITYMANAGER->getPlayer()->SetMoveSpeed(ENTITYMANAGER->getPlayer()->GetMoveSpeed() + 22);
 					ENTITYMANAGER->getPlayer()->SetToughness(ENTITYMANAGER->getPlayer()->GetToughness() - 2);
+					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					break;
 				case 7:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("criminalldle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("criminalRun"));
 					ENTITYMANAGER->getPlayer()->SetEvasion(ENTITYMANAGER->getPlayer()->GetEvasion() - 12);
+					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					break;
 				case 8:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("pickIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("pickRun"));
 					ENTITYMANAGER->getPlayer()->SetDashCount(ENTITYMANAGER->getPlayer()->GetDashCount() + 1);
 					ENTITYMANAGER->getPlayer()->SetCriDamage(ENTITYMANAGER->getPlayer()->GetCriDamage() - 25);
+					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					break;
 				case 9:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("fastoIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("fastoRun"));
 					ENTITYMANAGER->getPlayer()->SetMoveSpeed(ENTITYMANAGER->getPlayer()->GetMoveSpeed() - 20);
 					ENTITYMANAGER->getPlayer()->SetAtkSpeed(ENTITYMANAGER->getPlayer()->GetAtkSpeed() - 10);
+					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					break;
 				case 10:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("horsemanIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("horsemanRun"));
-					//추후 구현예정 (아이템 들고옴)
+					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					break;
 				case 11:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("humanlasleyIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("humanlasleyRun"));
-					//추후 구현예정 (아이템 들고옴)
+					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 45);
+					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					break;
 				case 12:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("masterchefIdle"));
