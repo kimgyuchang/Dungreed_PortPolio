@@ -389,9 +389,9 @@ public:
 	void			SetStunDamage(int stunDamage)					{ _stunDamage = stunDamage; }
 	void			SetAnimCount(int animCount) 					{ _animCount = animCount; }
 	void			SetInventory(Inventory* inven) 					{ _inven = inven; }
-	void			SetWeapon(int num, Item* item) 					{ _weapons[num] = item; }
-	void			SetSubWeapon(int num, Item* item)				{ _subWeapons[num] = item; }
-	void			SetVAccessory(int num, Item* item)  			{ _vAccessories[num] = item; }
+	Item*			SetWeapon(int num, Item* item)					{ Item* saveItem = _weapons[num]; _weapons[num] = item; return saveItem; }
+	Item*			SetSubWeapon(int num, Item* item)				{ Item* saveItem = _subWeapons[num]; _subWeapons[num] = item; return saveItem; }
+	Item*			SetVAccessory(int num, Item* item)				{ Item* saveItem = _vAccessories[num]; _vAccessories[num] = item; return saveItem; }
 	void			SetSelectedWeaponIdx(int selectWeaponidx)		{ _selectedWeaponIdx = selectWeaponidx; }
 	void			SetSatiety(int satiety) 						{ _satiety = satiety; }
 	void			SetMoney(int money) 							{ _money = money; }
