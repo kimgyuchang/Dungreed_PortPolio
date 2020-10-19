@@ -820,7 +820,7 @@ void gameScene::UpdateWardrobeUI()
 				}
 				else if (curIg == IMAGEMANAGER->findImage("riderHIdle"))
 				{
-					ENTITYMANAGER->getPlayer()->SetMoveSpeed(ENTITYMANAGER->getPlayer()->GetMoveSpeed() - 22);
+					ENTITYMANAGER->getPlayer()->SetMoveSpeedPer(ENTITYMANAGER->getPlayer()->GetMoveSpeedPer() - 22);
 					ENTITYMANAGER->getPlayer()->SetToughness(ENTITYMANAGER->getPlayer()->GetToughness() + 2);
 				}
 				else if (curIg == IMAGEMANAGER->findImage("criminalldle"))
@@ -834,8 +834,8 @@ void gameScene::UpdateWardrobeUI()
 				}
 				else if (curIg == IMAGEMANAGER->findImage("fastoIdle"))
 				{
-					ENTITYMANAGER->getPlayer()->SetMoveSpeed(ENTITYMANAGER->getPlayer()->GetMoveSpeed() + 20);
-					ENTITYMANAGER->getPlayer()->SetAtkSpeed(ENTITYMANAGER->getPlayer()->GetAtkSpeed() + 10);
+					ENTITYMANAGER->getPlayer()->SetMoveSpeedPer(ENTITYMANAGER->getPlayer()->GetMoveSpeedPer() + 20);
+					ENTITYMANAGER->getPlayer()->SetAtkSpeedPer(ENTITYMANAGER->getPlayer()->GetAtkSpeedPer() + 10);
 				}
 
 				else if (curIg == IMAGEMANAGER->findImage("horsemanIdle"))
