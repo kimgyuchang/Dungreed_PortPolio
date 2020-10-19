@@ -211,7 +211,7 @@ void gameScene::ConversationUIInit()
 void gameScene::RestaurantUIInit()
 {
 	UIImage* _restaurantBase = new UIImage();
-	_restaurantBase->init("_restaurantBase", 0, 0, WINSIZEX, WINSIZEY, "ScreenCover", true, 0, 0, 10.0f, 10.0f);
+	_restaurantBase->init("_restaurantBase", 50, 150, WINSIZEX, WINSIZEY, "Base_0", true, 0, 0, 1.4f, 1.4f);
 	UIMANAGER->GetGameFrame()->AddFrame(_restaurantBase);
 
 	UIText* full = new UIText();
