@@ -80,6 +80,7 @@ void loadingScene::render()
 /// </summary>
 void loadingScene::LoadData()
 {
+	DATAMANAGER->Init();
 	DATAMANAGER->GetUIBrushToolGridData();
 	DATAMANAGER->GetObjectData();
 	DATAMANAGER->GetItemData();

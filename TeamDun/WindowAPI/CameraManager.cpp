@@ -4,6 +4,7 @@
 
 HRESULT CameraManager::init(float pivotX, float pivotY, float maxX, float maxY, float minX, float minY, float disX, float disY)
 {
+
 	// MOVE //
 	_pivotX = pivotX;
 	_pivotY = pivotY;
@@ -22,6 +23,11 @@ HRESULT CameraManager::init(float pivotX, float pivotY, float maxX, float maxY, 
 	_shakeY = 0;
 	_tempShakeX = 0;
 	_tempShakeY = 0;
+	_shakeCycleTimer = 0;
+	_shakeCycle = 0;
+
+	_zoomTargetX = 0;
+	_zoomTargetY = 0;
 
 	_cameraRect = RectMake(_pivotX - disX, _pivotY - disY, WINSIZEX, WINSIZEY);
 

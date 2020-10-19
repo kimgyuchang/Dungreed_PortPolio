@@ -1,6 +1,20 @@
 #include "stdafx.h"
 #include "DataManager.h"
 
+HRESULT DataManager::Init()
+{
+	_mGridDataByName = map<string, GridData*>();
+	_mGridData = map<int, GridData*>();
+	_mObjectData = map<int, Object*>();
+	_mMapObjectData = map<int, MapObject*>();
+	_mMapItemData = map<int, Item*>();
+
+	_itemMaxId = 0;
+	_itemMinId = 0;
+
+	return S_OK;
+}
+
 /// <summary>
 /// UIBrushTool에 배치하기 위한 GridData들을 불러온다.
 /// </summary>
