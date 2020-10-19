@@ -22,6 +22,9 @@ private :
 	float	_toolTipFinalY;
 	Item*	_curToolTipItem;	// 현재 툴팁에서 보여지는 아이템
 
+	Item*	_dragItem;
+	int		_dragIndex;
+
 	Player* _p;
 
 public :
@@ -33,6 +36,8 @@ public :
 	
 	void UpdateMoney();
 
+	void EquipItemPos(int pos, Item * item, int index, bool isUsed);
+	void DragItemStart();
 	void EquipItem();
 	void SwitchItem(int num, Item* item, int index);
 	void UnEquipItem();
