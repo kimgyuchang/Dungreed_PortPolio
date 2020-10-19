@@ -817,7 +817,7 @@ void Restaurant::ReNewUI()
 				typetext = "크리티컬 데미지";
 				break;
 			case FST_MAXHP:
-				typetext = "최대체력";
+				typetext = "최대 체력";
 				break;
 			case FST_MAXDASH:
 				typetext = "대시 횟수";
@@ -850,7 +850,7 @@ void Restaurant::ReNewUI()
 				break;
 			}
 			UIText* foodStatType = new UIText();
-			foodStatType->init("foodStatType", 80, 60 + j * 30, 500, 500, typetext, FONT::PIX, WORDSIZE::WS_MIDDLESMALL);
+			foodStatType->init("foodStatType", 90, 60 + j * 30, 500, 500, typetext, FONT::PIX, WORDSIZE::WS_MIDDLESMALL);
 			_foodFrame->AddFrame(foodStatType);
 		}
 	}
