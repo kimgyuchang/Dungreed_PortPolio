@@ -245,9 +245,10 @@ public:
 	
 	void SwitchWeapon();
 	void JumpAttackRectUpdate();
+
+	//캐릭터 능력 구현 함수
 	void CheckAliceZone();
 	void AdjustAlicePower();
-	void Ability();
 	
 	void SetHpUI();
 	// GETSET //
@@ -327,9 +328,13 @@ public:
 	int				GetAccesoryCount()	    { return _accesoryCount; }
 	int				GetMaxDashCount()		{ return _maxDashCount; }
 	int				GetMaxSatiety()			{ return _maxSatiety; }
+<<<<<<< HEAD
 	CLOTHTYPE		GetPlayerCloth()		{ return _clothType; }
 	bool			GetDashInvincible()		{ return _dashInvinCible; }
 	bool			GetDashInvincibleTimer(){ return _dashInvincibTimer; }
+=======
+	CLOTHTYPE		GetClothType()		{ return _clothType; }
+>>>>>>> d8a002e3459846aa673ca9865735c119dd397afb
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
 
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
@@ -393,9 +398,9 @@ public:
 	void			SetStunDamage(int stunDamage)					{ _stunDamage = stunDamage; }
 	void			SetAnimCount(int animCount) 					{ _animCount = animCount; }
 	void			SetInventory(Inventory* inven) 					{ _inven = inven; }
-	void			SetWeapon(int num, Item* item) 					{ _weapons[num] = item; }
-	void			SetSubWeapon(int num, Item* item)				{ _subWeapons[num] = item; }
-	void			SetVAccessory(int num, Item* item)  			{ _vAccessories[num] = item; }
+	Item*			SetWeapon(int num, Item* item)					{ Item* saveItem = _weapons[num]; _weapons[num] = item; return saveItem; }
+	Item*			SetSubWeapon(int num, Item* item)				{ Item* saveItem = _subWeapons[num]; _subWeapons[num] = item; return saveItem; }
+	Item*			SetVAccessory(int num, Item* item)				{ Item* saveItem = _vAccessories[num]; _vAccessories[num] = item; return saveItem; }
 	void			SetSelectedWeaponIdx(int selectWeaponidx)		{ _selectedWeaponIdx = selectWeaponidx; }
 	void			SetSatiety(int satiety) 						{ _satiety = satiety; }
 	void			SetMoney(int money) 							{ _money = money; }

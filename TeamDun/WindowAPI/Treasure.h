@@ -26,6 +26,7 @@ public:
 
 	// GETSET //
 	TREASURETYPE GetTreasureType() { return _treasureType; }
+	bool GetIsOpened() { return _isOpened; }
 	void SetTreasureType(TREASURETYPE type) { _treasureType = type; }
 };
 

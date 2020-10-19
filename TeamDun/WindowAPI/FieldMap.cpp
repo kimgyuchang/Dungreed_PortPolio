@@ -374,6 +374,40 @@ void FieldMap::MakeDoor(Door* door)
 	}
 }
 
+/// <summary>
+/// 던전맵에 아이콘들을 배치하기 위한 사전작업
+/// </summary>
+int FieldMap::CheckDungeonMapIcons()
+{
+	_hasPixie = false;
+	_hasTreasure = false;
+
+	int count = 0;
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		if (_vObjs[i]->GetId() >= 2 && _vObjs[i]->GetId() <= 6) // 상자
+		{
+			if (!dynamic_cast<Treasure*>(_vObjs[i])->GetIsOpened())
+			{
+				count++;
+				_hasTreasure = true;
+				break;
+			}
+		}
+	}
+
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		if (_vObjs[i]->GetId() >= 13 && _vObjs[i]->GetId() <= 17) // 픽시
+		{
+			count++;
+			_hasPixie = true;
+		}
+	}
+
+	return count;
+}
+
 void FieldMap::release()
 {
 	for (int i = 0; i < _vMapData.size(); i++)
@@ -473,7 +507,6 @@ void FieldMap::PixelCollisionMapGenerate()
 			}
 		}
 	}
-
 
 	SetFastPixel(IMAGEMANAGER->findImage("PixelMapIg"), MAPMANAGER->GetPixelGetter());
 }
@@ -756,6 +789,7 @@ void FieldMap::render(HDC hdc)
 		IMAGEMANAGER->findImage("MiniMapPlayer")->render(hdc,
 			1000 + (float)5 / 48 * ENTITYMANAGER->getPlayer()->GetX(), 10 + (float)5 / 48 * ENTITYMANAGER->getPlayer()->GetY());
 	}
+
 	//미니맵에 몬스터 렌더
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
@@ -768,6 +802,37 @@ void FieldMap::render(HDC hdc)
 				10 + (float)5 / 48 * (_vObjs[i]->GetY() + _vObjs[i]->GetImage(0)->getFrameHeight() / 2));
 		}
 	}
+
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		//미니맵에 상자 렌더
+		if (_vObjs[i]->GetId() >= 2 && _vObjs[i]->GetId() <= 6) // 상자
+		{
+			if (!dynamic_cast<Treasure*>(_vObjs[i])->GetIsOpened())
+			{
+				IMAGEMANAGER->findImage("MiniMapTresure")->render(hdc,
+					1000 + (float)5 / 48 * (_vObjs[i]->GetX() + _vObjs[i]->GetImage(0)->getFrameWidth() / 2) - 8,
+					10 + (float)5 / 48 * (_vObjs[i]->GetY() + _vObjs[i]->GetImage(0)->getFrameHeight() / 2) - 4);
+			}
+		}
+
+		// 미니맵에 픽시 렌더
+		else if (_vObjs[i]->GetId() >= 13 && _vObjs[i]->GetId() <= 17) // 픽시
+		{
+			IMAGEMANAGER->findImage("MiniMapfairyIcon")->render(hdc,
+				1000 + (float)5 / 48 * (_vObjs[i]->GetX() + _vObjs[i]->GetImage(0)->getFrameWidth() / 2) - 6,
+				10 + (float)5 / 48 * (_vObjs[i]->GetY() + _vObjs[i]->GetImage(0)->getFrameHeight() / 2) - 6);
+		}
+
+		//미니맵에 포탈 렌더
+		else if (_vObjs[i]->GetId() == 0) // 포탈
+		{
+			IMAGEMANAGER->findImage("MiniMapWorm")->render(hdc,
+				1000 + (float)5 / 48 * (_vObjs[i]->GetX() + _vObjs[i]->GetImage(0)->getFrameWidth() / 2) - 5,
+				10 + (float)5 / 48 * (_vObjs[i]->GetY() + _vObjs[i]->GetImage(0)->getFrameHeight() / 2) - 6);
+		}
+	}
+
 }
 
 void FieldMap::DoorParticleGenerate()

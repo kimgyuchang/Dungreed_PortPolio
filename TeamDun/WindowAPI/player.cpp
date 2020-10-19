@@ -238,10 +238,11 @@ void Player::update()
 	{
 		_vAccessories[i]->update();					//악세서리의 업데이트함수를 실행
 	}
-
+	// 캐릭터 능력
 	CheckAliceZone();
 	AdjustAlicePower();
 	CheckUsePistolGunner();
+	//====================
 	UpdateCharPage();
 	invincibility();
 	SetRealStat();
@@ -509,57 +510,6 @@ void Player::SpecialAtkSpeedUp()
 		{
 			_atkSpeedPer -= 10;
 			_atkSpdUpUse = false;
-		}
-	}
-}
-
-void Player::Ability()
-{
-	for (int i = 0; i < _vImages.size(); i++)
-	{
-		switch (i)
-		{
-		case 0:
-			IMAGEMANAGER->findImage("baseCharIdle");
-			break;
-		case 1:
-			IMAGEMANAGER->findImage("sheetingIdle");
-			_defence -= 10;
-			_maxHp += 10;
-			break;
-		case 2:
-			IMAGEMANAGER->findImage("gunmanIdle");
-			break;
-		case 3:
-			IMAGEMANAGER->findImage("aliceIdle");
-			break;
-		case 4:
-			IMAGEMANAGER->findImage("redlotusIdle");
-			break;
-		case 5:
-			IMAGEMANAGER->findImage("lkinabearIdle");
-			break;
-		case 6:
-			IMAGEMANAGER->findImage("riderHIdle");
-			break;
-		case 7:
-			IMAGEMANAGER->findImage("criminalldle");
-			break;
-		case 8:
-			IMAGEMANAGER->findImage("pickIdle");
-			break;
-		case 9:
-			IMAGEMANAGER->findImage("fastoIdle");
-			break;
-		case 10:
-			IMAGEMANAGER->findImage("horsemanIdle");
-			break;
-		case 11:
-			IMAGEMANAGER->findImage("humanlasleyIdle");
-			break;
-		case 12:
-			IMAGEMANAGER->findImage("masterchefIdle");
-			break;
 		}
 	}
 }
@@ -1728,7 +1678,6 @@ void Player::AdjustAlicePower()
 				_alicePowerDownCheck = true;
 			}
 		}
-
 		else
 		{
 			if (_alicePowerDownCheck)
@@ -1738,7 +1687,6 @@ void Player::AdjustAlicePower()
 			}
 		}
 	}
-
 	else
 	{
 		if (_alicePowerDownCheck)
@@ -1748,3 +1696,26 @@ void Player::AdjustAlicePower()
 		}
 	}
 }
+
+/*
+void Player::CheckHongRyunAbility()
+{
+	int AtkCount = 0;	//공격 횟수
+
+	if (_clothType == PC_HONGRYAN)	//코스튬이 홍련상태이고
+	{
+		if (_weapons[_selectedWeaponIdx] != nullptr)	//무기가 장착되어있다면
+		{
+			for (int i = 0; i < MAPMANAGER->GetPlayMap()->GetObjects().size(); i++)	//오브젝트를 돌면서 체크
+			{
+				Object* obj = MAPMANAGER->GetPlayMap()->GetObjects()[i];
+				if (obj->GetType() == OBJECTTYPE::OT_MONSTER)
+				{
+					RECT temp;
+					if(IntersectRect(&temp,))
+				}
+			}
+		}
+	}
+}
+*/

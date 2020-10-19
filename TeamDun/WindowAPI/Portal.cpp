@@ -118,6 +118,7 @@ void Portal::Activate()
 	if (!MAPMANAGER->GetPortalAnimOn())
 	{
 		UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->ToggleIsViewing();
+		MAPMANAGER->ReNewMapUI();
 		MAPMANAGER->SetPortalOn(UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetIsViewing());
 		MAPMANAGER->SetCurrentPortal(this);
 	}
