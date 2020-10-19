@@ -829,8 +829,8 @@ void gameScene::UpdateWardrobeUI()
 				}
 				else if (curIg == IMAGEMANAGER->findImage("pickIdle"))
 				{
-					ENTITYMANAGER->getPlayer()->SetDashCount(ENTITYMANAGER->getPlayer()->GetDashCount() - 1);
 					ENTITYMANAGER->getPlayer()->SetCriDamage(ENTITYMANAGER->getPlayer()->GetCriDamage() + 25);
+					ENTITYMANAGER->getPlayer()->SubMaxDash();
 				}
 				else if (curIg == IMAGEMANAGER->findImage("fastoIdle"))
 				{
@@ -937,8 +937,8 @@ void gameScene::UpdateWardrobeUI()
 				case 8:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("pickIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("pickRun"));
-					ENTITYMANAGER->getPlayer()->SetDashCount(ENTITYMANAGER->getPlayer()->GetDashCount() + 1);
 					ENTITYMANAGER->getPlayer()->SetCriDamage(ENTITYMANAGER->getPlayer()->GetCriDamage() - 25);
+					ENTITYMANAGER->getPlayer()->AddMaxDash();
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
