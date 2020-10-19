@@ -789,11 +789,11 @@ void Restaurant::ReNewUI()
 			_foodFrame->AddFrame(coin);
 
 			UIText* triangle = new UIText();
-			triangle->init("triangle", 10, 60 + j * 30, 500, 500, "▶ + ", FONT::PIX, WORDSIZE::WS_SMALL);
+			triangle->init("triangle", 10, 50 + j * 30, 500, 500, "▶ + ", FONT::PIX, WORDSIZE::WS_SMALL);
 			_foodFrame->AddFrame(triangle);
 
 			UIText* foodStatNum = new UIText();
-			foodStatNum->init("foodStatNum", 60, 60 + j * 30, 500, 500, to_string((int)_vFoods[i]->_vStatusNum[j]),
+			foodStatNum->init("foodStatNum", 60, 50 + j * 30, 500, 500, to_string((int)_vFoods[i]->_vStatusNum[j]),
 				FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(0, 255, 0));
 			_foodFrame->AddFrame(foodStatNum);
 
@@ -829,7 +829,7 @@ void Restaurant::ReNewUI()
 				typetext = "% 공격 속도";
 				break;
 			case FST_CHARGESPEED:
-				typetext = "% 재장전 속도 %";
+				typetext = "% 재장전 속도";
 				break;
 			case FST_MAXACCSLOT:
 				typetext = "악세사리 슬롯";
@@ -838,7 +838,7 @@ void Restaurant::ReNewUI()
 				typetext = "강인함";
 				break;
 			case FST_SATIATION:
-				typetext = "포만감";
+				typetext = "포만감 감소";
 				break;
 			case FST_BLOCK:
 				typetext = "막기";
@@ -850,7 +850,7 @@ void Restaurant::ReNewUI()
 				break;
 			}
 			UIText* foodStatType = new UIText();
-			foodStatType->init("foodStatType", 90, 60 + j * 30, 500, 500, typetext, FONT::PIX, WORDSIZE::WS_MIDDLESMALL);
+			foodStatType->init("foodStatType", 90, 50 + j * 30, 500, 500, typetext, FONT::PIX, WORDSIZE::WS_MIDDLESMALL);
 			_foodFrame->AddFrame(foodStatType);
 		}
 	}
