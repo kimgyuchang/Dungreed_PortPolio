@@ -242,9 +242,10 @@ public:
 	
 	void SwitchWeapon();
 	void JumpAttackRectUpdate();
+
+	//캐릭터 능력 구현 함수
 	void CheckAliceZone();
 	void AdjustAlicePower();
-	void Ability();
 	
 	void SetHpUI();
 	// GETSET //
@@ -324,7 +325,7 @@ public:
 	int				GetAccesoryCount()	    { return _accesoryCount; }
 	int				GetMaxDashCount()		{ return _maxDashCount; }
 	int				GetMaxSatiety()			{ return _maxSatiety; }
-	CLOTHTYPE		GetPlayerCloth()		{ return _clothType; }
+	CLOTHTYPE		GetClothType()		{ return _clothType; }
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
 
 

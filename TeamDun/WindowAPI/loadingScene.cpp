@@ -944,6 +944,7 @@ void loadingScene::loadingImage()
 	// EFFECT //
 	_loading->LoadFrameImage("monsterSpawnEffect", "Images/Etc/monsterSpawnEffect.bmp", 1302, 93, 14, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("DieEffect", "Images/Effect/DieEffect.bmp", 1320, 120, 11, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("HongRyunEffect", "Images/Effect/HongRyunEffect.bmp", 510, 30, 10, 1, true, RGB(255, 0, 255));
 
 	// PARTICLE //
 	_loading->LoadNormalImage("SqaureParticle", "Images/Particle/SqaureParticle.bmp", 15, 15, true, RGB(255, 0, 255));
@@ -1113,8 +1114,6 @@ void loadingScene::loadingSound()
 	// EFFECT //
 
 	_loading->LoadSound("°ÔÀÓ_µ·È¹µæ", "Sounds/Effect/°ÔÀÓ_µ·È¹µæ.wav", false, false);
-
-	
 	_loading->LoadSound("arshasnowstaff_1_TaskStage_Start", "Sounds/Effect/arshasnowstaff_1_TaskStage_Start.wav", false, false);
 	_loading->LoadSound("charged ÃæÀüÇü ±â¸ðÀ¸´Â»ç¿îµå", "Sounds/Effect/charged ÃæÀüÇü ±â¸ðÀ¸´Â»ç¿îµå.wav", false, false);
 	_loading->LoadSound("coin", "Sounds/Effect/coin.wav", false, false);
