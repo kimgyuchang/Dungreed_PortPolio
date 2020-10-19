@@ -182,6 +182,7 @@ void FieldMap::LoadObject()
 			obj = new Restaurant(*dynamic_cast<Restaurant*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			dynamic_cast<Restaurant*>(obj)->initSecond();
 			dynamic_cast<Restaurant*>(obj)->SetRestaurantFood();
+			dynamic_cast<Restaurant*>(obj)->ReNewUI();
 			break;
 		case 0: // 포탈
 			obj = new Portal(*dynamic_cast<Portal*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
@@ -484,10 +485,13 @@ void FieldMap::GridMapGenerate()
 {
 	HDC pixelMapDC = IMAGEMANAGER->findImage("PixelMapIg")->getMemDC();
 
-	Rectangle(IMAGEMANAGER->findImage("Layer1MapIg")->getMemDC(), -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
-	Rectangle(IMAGEMANAGER->findImage("Layer2MapIg")->getMemDC(), -10, -10, 10000, 10000); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
-	Rectangle(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), -10, -10, 10000, 10000); // 미니맵 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
-
+	IMAGEMANAGER->addImage("Layer1MapIg", "Images/PixelMapIg.bmp", ((_vMapData[0].size()+15) * 48 > 1440 ? (_vMapData[0].size() + 15) * 48 : 1440), ((_vMapData.size() + 15) * 48 > 800 ? (_vMapData.size() + 15) * 48 : 800), true, RGB(255, 255, 255));
+	IMAGEMANAGER->addImage("Layer2MapIg", "Images/PixelMapIg.bmp", ((_vMapData[0].size() + 15) * 48 > 1440 ? (_vMapData[0].size() + 15) * 48 : 1440), ((_vMapData.size() + 15) * 48 > 800 ? (_vMapData.size() + 15) * 48 : 800), true, RGB(255, 255, 255));
+	
+	Rectangle(IMAGEMANAGER->findImage("Layer1MapIg")->getMemDC(), -10, -10, ((_vMapData[0].size() + 15) * 48 > 1440 ? (_vMapData[0].size() + 15) * 48 : 1440), ((_vMapData.size() + 15) * 48 > 800 ? (_vMapData.size() + 15) * 48 : 800)); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
+	Rectangle(IMAGEMANAGER->findImage("Layer2MapIg")->getMemDC(), -10, -10, ((_vMapData[0].size() + 15) * 48 > 1440 ? (_vMapData[0].size() + 15) * 48 : 1440), ((_vMapData.size() + 15) * 48 > 800 ? (_vMapData.size() + 15)* 48 : 800)); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
+	Rectangle(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), -10, -10, ((_vMapData[0].size() + 15) * 48 > 1440 ? (_vMapData[0].size() + 15) * 48 : 1440), ((_vMapData.size() + 15) * 48 > 800 ? (_vMapData.size() + 15)* 48 : 800)); // 미니맵 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
+	
 	for (int i = 0; i < _vMapData.size(); i++)
 	{
 		for (int j = 0; j < _vMapData[i].size(); j++)
@@ -599,6 +603,9 @@ void FieldMap::CheckNoMonsterInMap()
 
 		if (!isRemainMonster) // 남은 몬스터가 없을때
 		{
+			int satiety = ENTITYMANAGER->getPlayer()->GetSatiety() - 1;
+			if (satiety < 0) satiety = 0;
+			ENTITYMANAGER->getPlayer()->SetSatiety(satiety);
 			SOUNDMANAGER->play("게임_던전_문열림닫힘");
 
 			_isCleared = true; // 몬스터를 모두 정리했다 알림
@@ -642,6 +649,10 @@ void FieldMap::EraseDeathObject()
 	{
 		if (_vObjs[i]->GetIsDead())
 		{
+			if (_vObjs[i]->GetType() == OBJECTTYPE::OT_MONSTER)
+			{
+				ENTITYMANAGER->getPlayer()->DamageUpEnemyKill();
+			}
 
 			_vObjs.erase(_vObjs.begin() + i);
 			i--;

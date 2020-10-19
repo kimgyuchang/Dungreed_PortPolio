@@ -29,6 +29,7 @@ protected :
 	int				_index;				// 애니메이션 용 인덱스
 	bool			_isLeft;			// 애니메이션이 왼쪽이냐?
 	bool			_isSpawned;			// 현재 스폰되었느냐
+	bool			_isViewingHpBar;	// hp바가 보일것인지
 	Effect*			_spawnEffect;		// 스폰 이펙트
 
 

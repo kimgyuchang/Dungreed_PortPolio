@@ -7,7 +7,7 @@ HRESULT SkelDog::init(int id, string name, OBJECTTYPE type, vector<string> imgNa
 	_body = RectMake(_x, _y, 60, 54);
 	_state = ES_IDLE;
 	_frameX, _frameY = 0;
-
+	_Damage = 6;
 	_count = _index = _jumpCount = 0;
 	_initHp = _hp = 30;
 	_gravity = 0.4f;

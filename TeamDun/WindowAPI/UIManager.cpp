@@ -56,5 +56,4 @@ void UIManager::render(HDC hdc)
 /// </summary>
 void UIManager::release()
 {
-	_GameFrame->release();
 }

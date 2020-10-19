@@ -25,11 +25,14 @@ public:
 	void MainGameFrameInit();
 	void GetItemUIInit();
 	void ConversationUIInit();
+	void RestaurantUIInit();
 	void WardrobeUIInit();
 	void DungeonMapUIInit();
 	void InventoryUIInit();
+	void TraitUIInit();
 	void ShopUIInit();
 	void CharUIInit();
+	void BossHpUIInit();
 	void release();
 	void UpdateWardrobeUI();
 	void update();

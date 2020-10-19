@@ -314,33 +314,34 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("NPC_NeighboringVillager", "Images/NPC/NPC_NeighboringVillager.bmp", 270, 69, 6, 1, true, RGB(255, 0, 255));
 
 	// FOOD //
-	_loading->LoadNormalImage("01_Bread", "Images/food/01_Bread.bmp", 219, 90, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("02_FriedEgg", "Images/food/02_FriedEgg.bmp", 219, 90, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("03_GrilledMushroom", "Images/food/03_GrilledMushroom.bmp", 219, 90, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("04_TamatoSoup", "Images/food/04_TamatoSoup.bmp", 219, 90, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("05_OnionSoup", "Images/food/05_OnionSoup.bmp", 219, 90, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("06_PeaSoup", "Images/food/06_PeaSoup.bmp", 219, 90, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("07_VegetableSalsaSoup", "Images/food/07_VegetableSalsaSoup.bmp", 219, 90, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("08_Lemonade", "Images/food/08_Lemonade.bmp", 75, 114, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("09_DeluxeBurger", "Images/food/09_DeluxeBurger.bmp", 219, 114, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("10_ChocolateCookie", "Images/food/10_ChocolateCookie.bmp", 219, 90, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("11_HotChickenStew", "Images/food/11_HotChickenStew.bmp", 219, 105, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("12_RaspberryCookie", "Images/food/12_RaspberryCookie.bmp", 219, 90, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("13_GriffonEggOmelette", "Images/food/13_GriffonEggOmelette.bmp", 219, 90, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("14_GarlicMeatball", "Images/food/14_GarlicMeatball.bmp", 219, 90, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("15_Bibimbap", "Images/food/15_Bibimbap.bmp", 192, 108, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("16_MinotaursSteak", "Images/food/16_MinotaursSteak.bmp", 219, 96, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("17_SpecialtyCookedMeat", "Images/food/17_SpecialtyCookedMeat.bmp", 219, 96, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("18_StrawberryPie", "Images/food/18_StrawberryPie.bmp", 219, 90, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("19_SeasoningSmallBird", "Images/food/19_SeasoningSmallBird.bmp", 231, 111, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("20_Beer", "Images/food/20_Beer.bmp", 114, 111, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("21_CombinationPizza", "Images/food/21_CombinationPizza.bmp", 219, 90, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("22_SmokedSalmon", "Images/food/22_SmokedSalmon.bmp", 219, 90, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("23_FriedShrimp", "Images/food/23_FriedShrimp.bmp", 219, 90, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("24_GrilledEel", "Images/food/24_GrilledEel.bmp", 219, 90, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("25_CinnamonRoll", "Images/food/25_CinnamonRoll.bmp", 219, 96, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("26_SparklingWater", "Images/food/26_SparklingWater.bmp", 75, 114, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("98_HotMeatball", "Images/food/98_HotMeatball.bmp", 219, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("01_Bread", "Images/food/01_Bread.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("02_FriedEgg", "Images/food/02_FriedEgg.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("03_GrilledMushroom", "Images/food/03_GrilledMushroom.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("04_TamatoSoup", "Images/food/04_TamatoSoup.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("05_OnionSoup", "Images/food/05_OnionSoup.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("06_PeaSoup", "Images/food/06_PeaSoup.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("07_VegetableSalsaSoup", "Images/food/07_VegetableSalsaSoup.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("08_Lemonade", "Images/food/08_Lemonade.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("09_DeluxeBurger", "Images/food/09_DeluxeBurger.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("10_ChocolateCookie", "Images/food/10_ChocolateCookie.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("11_HotChickenStew", "Images/food/11_HotChickenStew.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("12_RaspberryCookie", "Images/food/12_RaspberryCookie.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("13_GriffonEggOmelette", "Images/food/13_GriffonEggOmelette.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("14_GarlicMeatball", "Images/food/14_GarlicMeatball.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("15_Bibimbap", "Images/food/15_Bibimbap.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("16_MinotaursSteak", "Images/food/16_MinotaursSteak.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("17_SpecialtyCookedMeat", "Images/food/17_SpecialtyCookedMeat.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("18_StrawberryPie", "Images/food/18_StrawberryPie.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("19_SeasoningSmallBird", "Images/food/19_SeasoningSmallBird.bmp", 231, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("20_Beer", "Images/food/20_Beer.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("21_CombinationPizza", "Images/food/21_CombinationPizza.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("22_SmokedSalmon", "Images/food/22_SmokedSalmon.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("23_FriedShrimp", "Images/food/23_FriedShrimp.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("24_GrilledEel", "Images/food/24_GrilledEel.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("25_CinnamonRoll", "Images/food/25_CinnamonRoll.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("26_SparklingWater", "Images/food/26_SparklingWater.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("97_SweetMeatball", "Images/food/97_SweetMeatball.bmp", 219, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("98_HotMeatball", "Images/food/98_HotMeatball.bmp", 219, 144, true, RGB(255, 0, 255));
 
 	// OBSTACLE //
 
@@ -369,6 +370,58 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("ShortcutKey1", "Images/UI/IconGray.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("ShortcutKey2", "Images/UI/IconWhite1.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("AbilityTextBar", "Images/UI/AbilityTextBar.bmp", 33, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_avarice_5_1", "Images/UI/ICON/Trait_avarice_5_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_avarice_5_2", "Images/UI/ICON/Trait_avarice_5_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_avarice_10_1", "Images/UI/ICON/Trait_avarice_10_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_avarice_10_2", "Images/UI/ICON/Trait_avarice_10_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_avarice_20_1", "Images/UI/ICON/Trait_avarice_20_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_avarice_20_2", "Images/UI/ICON/Trait_avarice_20_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Concentration_5_1", "Images/UI/ICON/Trait_Concentration_5_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Concentration_5_2", "Images/UI/ICON/Trait_Concentration_5_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Concentration_10_1", "Images/UI/ICON/Trait_Concentration_10_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Concentration_10_2", "Images/UI/ICON/Trait_Concentration_10_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Concentration_20_1", "Images/UI/ICON/Trait_Concentration_20_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Concentration_20_2", "Images/UI//ICON/Trait_Concentration_20_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_craving_5_1", "Images/UI/ICON/Trait_craving_5_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_craving_5_2", "Images/UI/ICON/Trait_craving_5_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_craving_10_1", "Images/UI/ICON/Trait_craving_10_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_craving_10_2", "Images/UI/ICON/Trait_craving_10_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_craving_20_1", "Images/UI/ICON/Trait_craving_20_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_craving_20_2", "Images/UI/ICON/Trait_craving_20_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Def_5_1", "Images/UI/ICON/Trait_Def_5_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Def_5_2", "Images/UI/ICON/Trait_Def_5_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Def_10_1", "Images/UI/ICON/Trait_Def_10_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Def_10_2", "Images/UI/ICON/Trait_Def_10_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Def_20_1", "Images/UI/ICON/Trait_Def_20_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Def_20_2", "Images/UI/ICON/Trait_Def_20_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Mystery_5_1", "Images/UI/ICON/Trait_Mystery_5_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Mystery_5_2", "Images/UI/ICON/Trait_Mystery_5_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Mystery_10_1", "Images/UI/ICON/Trait_Mystery_10_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Mystery_10_2", "Images/UI/ICON/Trait_Mystery_10_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Mystery_20_1", "Images/UI/ICON/Trait_Mystery_20_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Mystery_20_2", "Images/UI/ICON/Trait_Mystery_20_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Power_5_1", "Images/UI/ICON/Trait_Power_5_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Power_5_2", "Images/UI/ICON/Trait_Power_5_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Power_10_1", "Images/UI/ICON/Trait_Power_10_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Power_10_2", "Images/UI/ICON/Trait_Power_10_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Power_20_1", "Images/UI/ICON/Trait_Power_20_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Power_20_2", "Images/UI/ICON/Trait_Power_20_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Speed_5_1", "Images/UI/ICON/Trait_Speed_5_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Speed_5_2", "Images/UI/ICON/Trait_Speed_5_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Speed_10_1", "Images/UI/ICON/Trait_Speed_10_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Speed_10_2", "Images/UI/ICON/Trait_Speed_10_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Speed_20_1", "Images/UI/ICON/Trait_Speed_20_1.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Trait_Speed_20_2", "Images/UI/ICON/Trait_Speed_20_2.bmp", 42, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButton_Arcane", "Images/UI/AbilityBackgroundButton_Arcane.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButton_Greed", "Images/UI/AbilityBackgroundButton_Greed.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButton_Patience", "Images/UI/AbilityBackgroundButton_Patience.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButton_Swiftness", "Images/UI/AbilityBackgroundButton_Swiftness.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButton_Wrath", "Images/UI/AbilityBackgroundButton_Wrath.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButtonDisable_Arcane", "Images/UI/AbilityBackgroundButtonDisable_Arcane.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButtonDisable_Greed", "Images/UI/AbilityBackgroundButtonDisable_Greed.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButtonDisable_Patience", "Images/UI/AbilityBackgroundButtonDisable_Patience.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButtonDisable_Swiftness", "Images/UI/AbilityBackgroundButtonDisable_Swiftness.bmp", 54, 54, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackgroundButtonDisable_Wrath", "Images/UI/AbilityBackgroundButtonDisable_Wrath.bmp", 54, 54, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("accessoryZone", "Images/UI/accessoryZone.bmp", 96, 75, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("AltarButton0", "Images/UI/AltarButton0.bmp", 300, 90, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("AltarButton1", "Images/UI/AltarButton1.bmp", 266, 87, true, RGB(255, 0, 255));
@@ -429,14 +482,14 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("ScrollRect", "Images/UI/ScrollRect.bmp", 906, 396, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SlotDeleteButton", "Images/UI/SlotDeleteButton.bmp", 186, 51, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SlotDeleteButton_Rev", "Images/UI/SlotDeleteButton_Rev.bmp", 51, 186, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("AbilityBackground_0", "Images/UI/AbilityBackground_0.bmp", 192, 345, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("AbilityBackground_1", "Images/UI/AbilityBackground_1.bmp", 174, 339, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("AbilityBackground_Arcane", "Images/UI/AbilityBackground_Arcane.bmp", 174, 342, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("AbilityBackground_Greed", "Images/UI/AbilityBackground_Greed.bmp", 186, 348, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("AbilityBackground_Patience", "Images/UI/AbilityBackground_Patience.bmp", 174, 333, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("AbilityBackground_Swiftness", "Images/UI/AbilityBackground_Swiftness.bmp", 180, 357, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("AbilityBackground_Wrath", "Images/UI/AbilityBackground_Wrath.bmp", 198, 351, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("AbilityTItle", "Images/UI/AbilityTItle.bmp", 960, 96, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackground_0", "Images/UI/AbilityBackground_0.bmp", 200, 350, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackground_1", "Images/UI/AbilityBackground_1.bmp", 200, 350, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackground_Arcane", "Images/UI/AbilityBackground_Arcane.bmp", 200, 350, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackground_Greed", "Images/UI/AbilityBackground_Greed.bmp", 200, 350, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackground_Patience", "Images/UI/AbilityBackground_Patience.bmp", 200, 350, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackground_Swiftness", "Images/UI/AbilityBackground_Swiftness.bmp", 200, 350, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityBackground_Wrath", "Images/UI/AbilityBackground_Wrath.bmp", 200, 350, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("AbilityTItle", "Images/UI/AbilityTItle.bmp", 1440, 96, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("accessory", "Images/UI/accessory.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("accessorySelect", "Images/UI/accessorySelect.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("InventoryBase_2", "Images/UI/InventoryBase_2.bmp", 369, 564, true, RGB(255, 0, 255));
@@ -482,8 +535,8 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("RestaurantLifeBaseBack", "Images/UI/RestaurantLifeBaseBack.bmp", 165, 48, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("RestaurantMenu", "Images/UI/RestaurantMenu.bmp", 297, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("RestaurantMenu_Selected", "Images/UI/RestaurantMenu_Selected.bmp", 297, 57, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("RestaurantMenu_Withoutmoney", "Images/UI/RestaurantMenu_Withoutmoney.bmp", 297, 114, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("RestaurantMenu_Withoutmoney_Selected", "Images/UI/RestaurantMenu_Withoutmoney_Selected.bmp", 297, 114, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("RestaurantMenu_Withoutmoney", "Images/UI/RestaurantMenu_Withoutmoney.bmp", 431, 160, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("RestaurantMenu_Withoutmoney_Selected", "Images/UI/RestaurantMenu_Withoutmoney_Selected.bmp", 431, 160, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("RestaurantTable", "Images/UI/RestaurantTable.bmp", 1719, 390, 3, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("Right", "Images/UI/Right.bmp", 270, 48, 5, 1, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Room", "Images/UI/Room.bmp", 72, 72, true, RGB(255, 0, 255));
@@ -517,7 +570,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("WeaponSelect0", "Images/UI/WeaponSelect0.bmp", 141, 90, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("WeaponSelect1", "Images/UI/WeaponSelect1.bmp", 141, 90, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("X", "Images/UI/X.bmp", 39, 39, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("Xbutton", "Images/UI/Xbutton.bmp", 66, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Xbutton", "Images/UI/Xbutton.bmp", 92, 79, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("예시", "Images/UI/예시.bmp", 960, 540, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("ScreenCover", "Images/UI/ScreenCover.bmp", 200, 200, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("ToolTipCover", "Images/UI/ToolTipCover.bmp", 100, 100, true, RGB(255, 0, 255));
@@ -588,9 +641,15 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Stat_Shock", "Images/UI/ICON/Stat_Shock.bmp", 51, 51, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Stat_Stun", "Images/UI/ICON/Stat_Stun.bmp", 51, 51, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Keyboard_F", "Images/UI/ICON/Keyboard_F.bmp", 39, 42, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Keyboard_R", "Images/UI/ICON/Keyboard_R.bmp", 39, 42, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Food", "Images/UI/ICON/Food.bmp", 17, 14, true, RGB(255,0,255));
 	_loading->LoadNormalImage("FoodIcon", "Images/UI/ICON/FoodIcon.bmp", 51, 42, true, RGB(255,0,255));
 	_loading->LoadNormalImage("Coin", "Images/UI/ICON/Coin.bmp", 19, 19, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Fairy", "Images/UI/ICON/Fairy.bmp", 17, 14, true, RGB(255,0,255));
+
+	_loading->LoadNormalImage("BossLifeBack", "Images/Monster/Boss/BossLifeBack.bmp", 600, 77, true, RGB(255,0,255));
+	_loading->LoadNormalImage("BossLifeBase", "Images/Monster/Boss/BossLifeBase.bmp", 600, 77, true, RGB(255,0,255));
+	_loading->LoadNormalImage("BossLife", "Images/Monster/Boss/BossLifeRed.bmp", 480, 77, true, RGB(255,0,255));
 
 
 	_loading->LoadNormalImage("gameStart1", "Images/UI/gameStart1.bmp", 158, 47, true, RGB(255, 0, 255));
@@ -837,6 +896,18 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("MainGauche_inven", "Images/item/MainGauche_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SilverEaring_inven", "Images/item/SilverEaring_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SilverRing_inven", "Images/item/SilverRing_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BloodOfSrobeo", "Images/item/BloodOfSrobeo.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ChainArmor", "Images/item/ChainArmor.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BloodStoneRing", "Images/item/BloodStoneRing.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BloodStoneNecklace", "Images/item/BloodStoneNecklace.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BombPouch", "Images/item/BombPouch.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ClothArmor", "Images/item/ClothArmor.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Bullion_Inven", "Images/item/Bullion_Inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Bullion", "Images/item/Bullion.bmp", 60, 27, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("CarpCoinPurse", "Images/item/CarpCoinPurse.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Cintamani", "Images/item/Cintamani.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BlessOfSage", "Images/item/BlessOfSage.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("CowLeather", "Images/item/CowLeather.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));
@@ -849,6 +920,7 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("IceBullet", "Images/Monster/Bullet/IceBullet.bmp", 45, 45,1,1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("IceBulletHit", "Images/Monster/Bullet/IceBulletHit.bmp", 225, 75,3,1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("FireBatBullet", "Images/Monster/Bullet/FireBatBullet.bmp", 345, 69,5,1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("FireBatBullet0", "Images/Monster/Bullet/FireBatBullet0.bmp", 135, 45,3,1, true, RGB(255, 0, 255));
 	
 
 	// EFFECT //

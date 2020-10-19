@@ -122,7 +122,7 @@ void Item::AdaptSubOption(SubOption* subOption, bool isEquip)
 		p->SetPower(p->GetPower() + value);
 		break;
 	case ATKSPEED:
-		p->SetAtkSpeed(p->GetAtkSpeed() + value);
+		p->SetAtkSpeedPer(p->GetAtkSpeedPer() + value);
 		break;
 	case DASHATK:
 		p->SetDashDamage(p->GetDashDamage() + value);
@@ -167,7 +167,7 @@ void Item::AdaptSubOption(SubOption* subOption, bool isEquip)
 		p->SetEvasion(p->GetEvasion() + value);
 		break;
 	case MOVESPEED:
-		p->SetMoveSpeed(p->GetMoveSpeed() + value);
+		p->SetMoveSpeedPer(p->GetMoveSpeedPer() + value);
 		break;
 	case JUMPPOWER:
 		p->SetJumpPower(p->GetJumpPower() + value);

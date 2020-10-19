@@ -8,7 +8,7 @@ HRESULT Bullet::init()
 
 void Bullet::update()
 {
-	
+	speedTypeMove();
 	moveBullet();
 	Animation();
 	_distance = getDistance(_startX, _startY, _x, _y);
@@ -32,7 +32,7 @@ void Bullet::render(HDC hdc)
 
 }
 
-void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle,float damage, float speed, float maxDis, bool isFrame ,float igAngle)
+void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle,float damage, float speed, float maxDis, bool isFrame ,float igAngle ,BULLETSPEEDTYPE speedtype)
 {
 	_ig = IMAGEMANAGER->findImage(imageName);
 	_effectIgName = effectIgName;
@@ -48,10 +48,19 @@ void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE 
 	_distance = getDistance(_startX, _startY, _x, _y);
 	_maxDistance = maxDis;
 	_igAngle = igAngle;
+	_speedType = speedtype;
 	if (_type == BT_PLAYER || _type == BT_PLAYERNOCOL)
 	{
 		Player* p = ENTITYMANAGER->getPlayer();
 		int Playerdamage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
+		if (p->GetSpecialAbilityOn(0, 2))
+		{
+			if (p->GetInitHp() * 0.6f > p->GetHP())
+			{
+				Playerdamage = p->GetMaxDamage();
+			}
+		}
+
 		_damage = Playerdamage;
 	}
 	else
@@ -100,6 +109,32 @@ void Bullet::Animation()
 		{
 			_frameX = 0;  //¿©±â¶û
 		}
+	}
+}
+
+void Bullet::speedTypeMove()
+{
+	switch (_speedType)
+	{
+	case BST_NOMAL:
+		break;
+	case BST_SLOW:
+		_speed -= 0.03;
+
+		if (_speed < 0)
+		{
+			_isDead = true;
+		}
+		break;
+	case BST_FAST:
+		_speed += 0.1;
+
+		
+		break;
+	case BST_GRAVITY:
+		break;
+	default:
+		break;
 	}
 }
 

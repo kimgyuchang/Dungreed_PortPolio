@@ -14,7 +14,6 @@ private:
 	bool	_isAtk;
 	bool	_leftAtk;
 	float	_probeBottom;
-	int		_hp;
 	Bow		_skelBow;
 	vector<Bullet*> _vSkelBullet;
 public:

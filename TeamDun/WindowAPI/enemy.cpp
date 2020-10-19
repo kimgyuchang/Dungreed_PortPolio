@@ -5,6 +5,7 @@ HRESULT Enemy::init(int id, string name, OBJECTTYPE type, vector<string> imgName
 {
 	Object::init(id, name, type, imgNames);
 	_isSpawned = false;
+	_isViewingHpBar = true;
 	_hpBarAlpha = 0;
 	_hpBar1 = IMAGEMANAGER->findImage("HpBar1");
 	_hpBar2 = IMAGEMANAGER->findImage("HpBar2");
@@ -25,7 +26,7 @@ void Enemy::release()
 void Enemy::render(HDC hdc)
 {
 	Object::render(hdc);
-	if (_hpBarAlpha > 0)
+	if (_hpBarAlpha > 0 && _isViewingHpBar)
 	{
 		
 		CAMERAMANAGER->alphaRender(hdc, _hpBar1, _x+_vImages[_useImage]->getFrameWidth()/2- _hpBar1->getWidth()/2, _y + _vImages[_useImage]->getFrameHeight(),0,0,_hpBar1->getWidth(),_hpBar1->getHeight(), _hpBarAlpha);
@@ -69,7 +70,15 @@ void Enemy::GetDamage()
 	{
 		SOUNDMANAGER->play("Hit_Monster");
 		Player* p = ENTITYMANAGER->getPlayer();
+		
 		int damage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
+		if (p->GetSpecialAbilityOn(0, 2))
+		{
+			if (p->GetInitHp() * 0.6f > p->GetHP())
+			{
+				damage = p->GetMaxDamage();
+			}
+		}
 		
 		damage = damage + damage * p->GetPower() / 100 - _realDefence;
 		int critical = RANDOM->range(100);
@@ -107,7 +116,6 @@ void Enemy::GetDamage()
 			}
 			SetIsDead(true);
 		}
-		
 	}
 }
 
@@ -118,7 +126,6 @@ void Enemy::GetDamage(int damage)
 		SOUNDMANAGER->play("Hit_Monster");
 		Player* p = ENTITYMANAGER->getPlayer();
 		
-
 		damage = damage + damage * p->GetPower() / 100 - _realDefence;
 		int critical = RANDOM->range(100);
 		if (critical <= p->GetRealCriPer())
@@ -133,10 +140,7 @@ void Enemy::GetDamage(int damage)
 			_hpBarAlpha = 255;
 			_hp -= damage;
 			EFFECTMANAGER->AddCameraText(_x + _vImages[0]->getFrameWidth() / 2, _y, 100, 100, to_string(damage), PIX, WS_MIDDLE, WSORT_LEFT, RGB(255, 255, 255));
-
 		}
-
-
 
 		if (_hp <= 0)
 		{

@@ -339,6 +339,9 @@
     <ClCompile Include="IceBat.cpp">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="BloodOfSrobeo.cpp">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -594,11 +597,14 @@
     <ClInclude Include="TreasureSpawner.h">
       <Filter>MainGame\Object\Etc</Filter>
     </ClInclude>
+    <ClInclude Include="IceBat.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
     <ClInclude Include="FireBat.h">
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="IceBat.h">
-      <Filter>MainGame\Object\Enemy</Filter>
+    <ClInclude Include="BloodOfSrobeo.h">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -56,12 +56,15 @@ void gameScene::initUI()
 {
 	MainGameFrameInit();
 	DungeonMapUIInit();
-	ShopUIInit();
 	InventoryUIInit();
 	CharUIInit();
+	RestaurantUIInit();
+	ShopUIInit();
 	WardrobeUIInit();
 	ConversationUIInit();
 	GetItemUIInit();
+	TraitUIInit();
+	BossHpUIInit();
 }
 
 void gameScene::MainGameFrameInit()
@@ -91,7 +94,7 @@ void gameScene::MainGameFrameInit()
 	UIMANAGER->GetGameFrame()->AddFrame(hpFrame);
 
 	UIProgressBar* hpBar1 = new UIProgressBar();
-	hpBar1->init("hpBarPros", 42, 0, 180, 48, "LifeBar","PlayerLifeBackGray_2");
+	hpBar1->init("hpBarPros", 42, 0, 180, 48, "LifeBar", "PlayerLifeBackGray_2");
 	hpFrame->AddFrame(hpBar1);
 
 	UIImage* hpWave = new UIImage();
@@ -123,7 +126,7 @@ void gameScene::MainGameFrameInit()
 	UIMANAGER->GetGameFrame()->AddFrame(dashUI);
 
 	UIFrame* leftDownUI = new UIFrame();
-	leftDownUI->init("leftDown", 20, WINSIZEY - 80, 0,0, "");
+	leftDownUI->init("leftDown", 20, WINSIZEY - 80, 0, 0, "");
 	UIMANAGER->GetGameFrame()->AddFrame(leftDownUI);
 
 	UIFrame* coin = new UIFrame();
@@ -203,6 +206,30 @@ void gameScene::ConversationUIInit()
 
 	convFrame->SetIsViewing(false);
 	selectFrame->SetIsViewing(false);
+}
+
+void gameScene::RestaurantUIInit()
+{
+	UIImage* _restaurantBase = new UIImage();
+	_restaurantBase->init("_restaurantBase", 0, 0, WINSIZEX, WINSIZEY, "ScreenCover", true, 0, 0, 10.0f, 10.0f);
+	UIMANAGER->GetGameFrame()->AddFrame(_restaurantBase);
+
+	UIText* full = new UIText();
+	full->init("full", 0, 200, WINSIZEX, 500, "배가 불러 음식을 먹을 수 없습니다.", FONT::PIX, WORDSIZE::WS_BIGGEST, WORDSORT::WSORT_MIDDLE, RGB(207, 18, 18));
+	UIMANAGER->GetGameFrame()->AddFrame(full);
+	full->SetIsViewing(false);
+
+	UIText* noMoney = new UIText();
+	noMoney->init("noMoney", 0, 200, WINSIZEX, 500, "소지금이 부족합니다!", FONT::PIX, WORDSIZE::WS_BIGGEST, WORDSORT::WSORT_MIDDLE, RGB(207, 18, 18));
+	UIMANAGER->GetGameFrame()->AddFrame(noMoney);
+	noMoney->SetIsViewing(false);
+
+	UIImage* _foodImg = new UIImage();
+	_foodImg->init("_foodImg", 870, 350, 219, 144, "", false, 0, 0, 1.4f, 1.4f, 255);
+	UIMANAGER->GetGameFrame()->AddFrame(_foodImg);
+	_foodImg->SetIsViewing(false);
+
+	_restaurantBase->SetIsViewing(false);
 }
 
 void gameScene::WardrobeUIInit()
@@ -426,7 +453,24 @@ void gameScene::InventoryUIInit()
 	uiToolTip->init("itemToolTip", 0, 0, 400, 500, "ToolTipCover", false, 0, 0, 4.0f, 5.0f, 130);
 	uiToolTip->SetUseOutsideLimit(false);
 	InventoryFrame->AddFrame(uiToolTip);
+}
 
+void gameScene::TraitUIInit()
+{
+	UIImage* traitBase = new UIImage();
+	traitBase->init("allTraitFrame", 0, 0, WINSIZEX, WINSIZEY, "ScreenCover", false, 0, 0, 1440 / 200.f, 800 / 200.f);
+	UIMANAGER->GetGameFrame()->AddFrame(traitBase);
+
+	UIImage* tooltipFrame = new UIImage();
+	tooltipFrame->init("traitToolTip", 0, 0, 200, 100, "ToolTipCover", false, 0, 0, 2.0f, 1.0f, 80);
+	UIMANAGER->GetGameFrame()->AddFrame(tooltipFrame);
+
+	UIText* tooltipDiscript = new UIText();
+	tooltipDiscript->init("description", 10, 10, 190, 90, "", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
+	tooltipFrame->AddFrame(tooltipDiscript);
+
+	tooltipFrame->SetIsViewing(false);
+	traitBase->SetIsViewing(false);
 }
 
 void gameScene::ShopUIInit()
@@ -628,22 +672,59 @@ void gameScene::CharUIInit()
 	charFrame->SetIsViewing(false);
 }
 
+void gameScene::BossHpUIInit()
+{
+	UIFrame* BossLifeBackImg = new UIFrame();
+	BossLifeBackImg->init("BossLifeBack", WINSIZEX / 2 - 300, WINSIZEY - 80, IMAGEMANAGER->findImage("BossLifeBack")->getWidth(), IMAGEMANAGER->findImage("BossLifeBack")->getHeight(), "BossLifeBack");
+	UIMANAGER->GetGameFrame()->AddFrame(BossLifeBackImg);
+
+	UIProgressBar* BossLifeImg = new UIProgressBar();
+	BossLifeImg->init("BossLife", 106, 0, IMAGEMANAGER->findImage("BossLife")->getWidth(), IMAGEMANAGER->findImage("BossLife")->getHeight(), "BossLife", "");
+	BossLifeBackImg->AddFrame(BossLifeImg);
+	
+	UIFrame* BossLifeBaseImg = new UIFrame();
+	BossLifeBaseImg->init("BossLifeBase", -106, 0, IMAGEMANAGER->findImage("BossLifeBase")->getWidth(), IMAGEMANAGER->findImage("BossLifeBase")->getHeight(), "BossLifeBase");
+	BossLifeImg->AddFrame(BossLifeBaseImg);
+
+	BossLifeBackImg->SetIsViewing(false);
+}
+
 void gameScene::release()
 {
-	ENTITYMANAGER->release();
-	ENTITYMANAGER->releaseSingleton();
-	MAPMANAGER->release();
-	MAPMANAGER->releaseSingleton();
-	EFFECTMANAGER->release();
-	EFFECTMANAGER->releaseSingleton();
-	PARTICLEMANAGER->release();
-	PARTICLEMANAGER->releaseSingleton();
+	if (ENTITYMANAGER != nullptr)
+	{
+		ENTITYMANAGER->release();
+		ENTITYMANAGER->releaseSingleton();
+	}
+
+	if (MAPMANAGER != nullptr)
+	{
+		MAPMANAGER->release();
+		MAPMANAGER->releaseSingleton();
+	}
+
+	if (EFFECTMANAGER != nullptr)
+	{
+		EFFECTMANAGER->release();
+		EFFECTMANAGER->releaseSingleton();
+	}
+
+	if (PARTICLEMANAGER != nullptr)
+	{
+		PARTICLEMANAGER->release();
+		PARTICLEMANAGER->releaseSingleton();
+	}
+
+	if (UIMANAGER != nullptr)
+	{
+		UIMANAGER->release();
+		UIMANAGER->releaseSingleton();
+	}
 }
 
 
 void gameScene::UpdateWardrobeUI()
 {
-
 	if (INPUT->GetKeyDown('P'))
 	{
 		UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->ToggleIsViewing();
@@ -897,6 +978,13 @@ void gameScene::update()
 		SOUNDMANAGER->play("인벤토리열기");
 		UIMANAGER->GetGameFrame()->GetChild("charFrame")->ToggleIsViewing();
 	}
+
+	if (INPUT->GetKeyDown('O'))
+	{
+		SOUNDMANAGER->play("인벤토리열기");
+		UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->ToggleIsViewing();
+		ENTITYMANAGER->getPlayer()->ReInitTraitUI();
+	}
 }
 
 void gameScene::render()
@@ -910,7 +998,7 @@ void gameScene::render()
 
 	string n = to_string((int)CAMERAMANAGER->GetAbsoluteX(_ptMouse.x)) + " " + to_string((int)CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
 
-	TextOut(getMemDC(), _ptMouse.x, _ptMouse.y, n.c_str(), n.length());
+	// TextOut(getMemDC(), _ptMouse.x, _ptMouse.y, n.c_str(), n.length());
 
 	if (MAPMANAGER->GetStageChanger()->GetIsChangingStage())
 	{

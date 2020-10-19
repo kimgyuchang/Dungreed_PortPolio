@@ -60,6 +60,7 @@ void HpPixie::CheckCollision()
 				break;
 			case GREEN:
 				hp = 80;
+				break;
 			}
 
 			EFFECTMANAGER->AddCameraText(_x + _vImages[0]->getFrameWidth() / 2, _y, 100, 100, "+" + to_string(hp), PIX, WS_BIG, WSORT_LEFT, RGB(96, 226, 33));
@@ -72,6 +73,7 @@ void HpPixie::CheckCollision()
 
 			SOUNDMANAGER->play("오브젝트_HP회복");
 			_isDead = true;
+			_droppedTimer = 0;
 		}
 	}
 }

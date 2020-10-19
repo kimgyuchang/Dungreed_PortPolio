@@ -1,5 +1,11 @@
 #pragma once
-
+enum BULLETSPEEDTYPE
+{
+	BST_NOMAL,
+	BST_SLOW,
+	BST_FAST,
+	BST_GRAVITY
+};
 enum BULLETTYPE
 {
 	BT_NOMAL,
@@ -10,36 +16,38 @@ enum BULLETTYPE
 class Bullet
 {
 private :
-	BULLETTYPE	_type;
-	image*		_ig;
-	string		_effectIgName;
-	RECT		_rc;
-	float		_x;
-	float		_y;
-	float		_startX;
-	float		_startY;
-	float		_angle;
-	float		_speed;
-	float		_igAngle;
-	int			_frameX;
-	int			_frameY;
-	int			_frameTimer;
-	float		_distance;
-	float		_maxDistance;
-	float		_damage;
+	BULLETTYPE		_type;
+	BULLETSPEEDTYPE _speedType;
+	image*			_ig;
+	string			_effectIgName;
+	RECT			_rc;
+	float			_x;
+	float			_y;
+	float			_startX;
+	float			_startY;
+	float			_angle;
+	float			_speed;
+	float			_igAngle;
+	int				_frameX;
+	int				_frameY;
+	int				_frameTimer;
+	float			_distance;
+	float			_maxDistance;
+	float			_damage;
 
-	bool		_isFrame;
-	bool		_isDead;
+	bool			_isFrame;
+	bool			_isDead;
 
 public :
 	virtual HRESULT init();
 	virtual void	update();
 	virtual	void	release();
 	virtual void	render(HDC hdc);
-	void makeBullet(const char* imageName,string effectIgName, BULLETTYPE type, float x, float y, float angle,float damage, float speed, float maxDis, bool isFrame ,float igAngle =0);
+	void makeBullet(const char* imageName,string effectIgName, BULLETTYPE type, float x, float y, float angle,float damage, float speed, float maxDis, bool isFrame ,float igAngle =0 ,BULLETSPEEDTYPE speedtype= BST_NOMAL);
 
 	void moveBullet();
 	void Animation();
+	void speedTypeMove();
 	
 
 	////GetSet

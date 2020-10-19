@@ -8,11 +8,12 @@ HRESULT MapManager::init()
 
 	_mapData = CSVMANAGER->csvLoad("Data/Maps.csv");
 	
-	AddStage(1);
+	AddStage(0);
 	_mapFrame = UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetChild("mapFrame");
 	_pixelGetter = new PixelGetter();
 	ChangeMap(0);
 	MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_DOWN);
+	
 	_portalAnimOn = false;
 	_stageChanger = new StageChanger();
 	_stageChanger->init();
@@ -89,6 +90,7 @@ void MapManager::AddStage(int stageNum)
 
 	if(stageNum == 2) SOUNDMANAGER->play("보스방입장문");
 }
+
 void MapManager::update()
 {
 	if (INPUT->GetKeyDown(VK_F2))
@@ -309,7 +311,14 @@ void MapManager::ChangeMap(int index)
 
 	GetPlayMap()->PixelCollisionMapGenerate();
 	GetPlayMap()->GridMapGenerate();
-	GetPlayMap()->SetVisited(true);
+	
+	if (!GetPlayMap()->GetVisited())
+	{
+		int satiety = ENTITYMANAGER->getPlayer()->GetSatiety() - 2;
+		if (satiety < 0) satiety = 0;
+		ENTITYMANAGER->getPlayer()->SetSatiety(satiety);
+		GetPlayMap()->SetVisited(true);
+	}
 
 	EFFECTMANAGER->GetVEffect().clear();
 	PARTICLEMANAGER->GetParticles().clear();
