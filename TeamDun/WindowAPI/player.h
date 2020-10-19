@@ -30,6 +30,12 @@ enum PLAYERSTATE
 	PS_IDLE,PS_JUMP,PS_MOVE,PS_DIE,
 };
 
+enum CLOTHTYPE
+{
+	PC_NORMAL, PC_METAL, PC_GUNNER, PC_ALICE, PC_HONGRYAN, PC_IKINABEAR, 
+	PC_RIDERH, PC_CRIMINAL, PC_PICKKING, PC_FATGUY, 
+	PC_HORSESWORD, PC_HUMANLASLEY, PC_MASTERCHEF
+};
 class Player : public Object
 {
 private:
@@ -162,7 +168,7 @@ private:
 	int				_maxSatiety;			// 최대 포만감
 	int				_money;					// 돈
 	int				_level;					// 레벨
-	
+	CLOTHTYPE		_clothType;				// 현재 입은 옷
 	// - 내부적 수치
 	int				_experience;			// 경험치
 	int				_needExperience;		// 필요 경험치
@@ -184,10 +190,14 @@ private:
 
 	// 각 캐릭터별 특성 //
 
+	// 총잡이 //
+	bool			_useGun;
+
 	// 앨리스 //
 	image*			_aliceZone;
 	float			_aliceZoneRadius;
 	bool			_aliceZoneIn;
+	bool			_alicePowerDownCheck;
 
 public:
 
@@ -226,11 +236,14 @@ public:
 	void CheckTraitIconHovered();
 	void ReInitTraitUI();
 
+	void CheckUsePistolGunner();
+
 	void MoveTraitUI();
 	
 	void SwitchWeapon();
 	void JumpAttackRectUpdate();
 	void CheckAliceZone();
+	void AdjustAlicePower();
 	void Ability();
 	
 	void SetHpUI();
@@ -311,7 +324,9 @@ public:
 	int				GetAccesoryCount()	    { return _accesoryCount; }
 	int				GetMaxDashCount()		{ return _maxDashCount; }
 	int				GetMaxSatiety()			{ return _maxSatiety; }
+	CLOTHTYPE		GetPlayerCloth()		{ return _clothType; }
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
+
 
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
 	void			SetState(PLAYERSTATE state)						{ _state = state; }
@@ -388,4 +403,5 @@ public:
 	void			SetMaxDashCount(int dashCount)					{ _maxDashCount = dashCount; }
 	void			SetMaxSatiety(int satiety)						{ _maxSatiety = satiety; }
 	void			SetIsStun(bool isStun)							{ _isStun = isStun; }
+	void			SetClothType(CLOTHTYPE type)					{ _clothType = type; }
 };

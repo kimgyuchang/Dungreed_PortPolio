@@ -211,7 +211,7 @@ void gameScene::ConversationUIInit()
 void gameScene::RestaurantUIInit()
 {
 	UIImage* _restaurantBase = new UIImage();
-	_restaurantBase->init("_restaurantBase", 0, 0, WINSIZEX, WINSIZEY, "ScreenCover", true, 0, 0, 10.0f, 10.0f);
+	_restaurantBase->init("_restaurantBase", 50, 150, WINSIZEX, WINSIZEY, "Base_0", true, 0, 0, 1.4f, 1.4f);
 	UIMANAGER->GetGameFrame()->AddFrame(_restaurantBase);
 
 	UIText* full = new UIText();
@@ -871,6 +871,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_NORMAL);
 					break;
 				case 1:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("sheetingIdle"));
@@ -880,6 +881,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_METAL);
 					break;
 				case 2:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("gunmanIdle"));
@@ -889,6 +891,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) 
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_GUNNER);
 					break;
 				case 3:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("aliceIdle"));
@@ -898,6 +901,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) 
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_ALICE);
 					break;
 				case 4:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("redlotusIdle"));
@@ -907,6 +911,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_HONGRYAN);
 					break;
 				case 5:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("lkinabearIdle"));
@@ -916,6 +921,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_IKINABEAR);
 					break;
 				case 6:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("riderHIdle"));
@@ -925,6 +931,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_RIDERH);
 					break;
 				case 7:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("criminalldle"));
@@ -933,6 +940,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_CRIMINAL);
 					break;
 				case 8:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("pickIdle"));
@@ -942,6 +950,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_PICKKING);
 					break;
 				case 9:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("fastoIdle"));
@@ -951,6 +960,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_FATGUY);
 					break;
 				case 10:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("horsemanIdle"));
@@ -958,6 +968,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_HORSESWORD);
 					break;
 				case 11:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("humanlasleyIdle"));
@@ -966,6 +977,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_HUMANLASLEY);
 					break;
 				case 12:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("masterchefIdle"));
@@ -975,6 +987,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) 
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_MASTERCHEF);
 					break;
 
 				default:

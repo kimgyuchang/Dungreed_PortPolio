@@ -65,9 +65,9 @@ void Restaurant::update()
 			bool checkAnyoneCollided = false;
 			for (int i = 0; i < _vFoods.size(); i++)
 			{
-				if (PtInRect(&_restaurantBase->GetChild("_wholeFoodFrame")->GetChild("_foodFrame" + to_string(i))->GetRect(), _ptMouse))
+				if (PtInRect(&_restaurantBase->GetChild("_foodFrame" + to_string(i))->GetRect(), _ptMouse))
 				{
-					_restaurantBase->GetChild("_wholeFoodFrame")->GetChild("_foodFrame" + to_string(i))->SetImage(IMAGEMANAGER->findImage("RestaurantMenu_Withoutmoney_Selected"));
+					_restaurantBase->GetChild("_foodFrame" + to_string(i))->SetImage(IMAGEMANAGER->findImage("RestaurantMenu_Withoutmoney_Selected"));
 					foodImg->SetImage(_vFoods[i]->_img);
 					foodImg->SetIsViewing(true);
 					checkAnyoneCollided = true; // 하나라도 충돌하면 ON
@@ -82,7 +82,7 @@ void Restaurant::update()
 
 				else
 				{
-					_restaurantBase->GetChild("_wholeFoodFrame")->GetChild("_foodFrame" + to_string(i))->SetImage(IMAGEMANAGER->findImage("RestaurantMenu_Withoutmoney"));
+					_restaurantBase->GetChild("_foodFrame" + to_string(i))->SetImage(IMAGEMANAGER->findImage("RestaurantMenu_Withoutmoney"));
 				}
 			}
 
@@ -702,54 +702,11 @@ void Restaurant::ReNewUI()
 {
 	_restaurantBase->GetVChildFrames().clear();
 
-	UIImage* _restaurantFoodBase = new UIImage();
-	_restaurantFoodBase->init("_restaurantFoodBase", WINSIZEX / 2 - 100, 150, 1719, 390, "RestaurantTable", true, 0, 0, 1.4f, 1.4f);
-	_restaurantBase->AddFrame(_restaurantFoodBase);
-
-	UIFrame* _restaurantLabel = new UIFrame();
-	_restaurantLabel->init("_restaurantLabel", 0, 0, 960, 96, "Label", 1.5f, 1.5f);
-	_restaurantBase->AddFrame(_restaurantLabel);
-
-	UIFrame* _wholeFoodFrame = new UIFrame();
-	_wholeFoodFrame->init("_wholeFoodFrame", 50, 150, 333, 396, "Base_0", 1.4f, 1.4f);
-	_restaurantBase->AddFrame(_wholeFoodFrame);
-
-	UIFrame* _exit = new UIFrame();
-	_exit->init("_exit", WINSIZEX - 120, 30, 92, 79, "Xbutton");
-	_restaurantBase->AddFrame(_exit);
-
-	UIFrame* _satiation = new UIFrame();
-	_satiation->init("_satiation", 50, WINSIZEY - 85, 333, 51, "restaurantSatiation", 1.4f, 1.4f);
-	_restaurantBase->AddFrame(_satiation);
-
-	UIFrame* _foodIcon = new UIFrame();
-	_foodIcon->init("_foodIcon", 75, WINSIZEY - 77, 51, 42, "FoodIcon", 1.4f, 1.4f);
-	_restaurantBase->AddFrame(_foodIcon);
-
-	UIFrame* _money = new UIFrame();
-	_money->init("_money", WINSIZEX - 300, WINSIZEY - 90, 200, 51, "restaurantMoney", 1.4f, 1.4f);
-	_restaurantBase->AddFrame(_money);
-
-	UIText* moneyText = new UIText();
-	moneyText->init("moneyText", 100, 18, 120, 30, to_string(ENTITYMANAGER->getPlayer()->GetMoney()), FONT::PIX, WORDSIZE::WS_BIG);
-	_money->AddFrame(moneyText);
-
-	UIText* satiationText = new UIText();
-	satiationText->init("satiationText", -250, 18, 500, 30, to_string(ENTITYMANAGER->getPlayer()->GetSatiety()), FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_RIGHT);
-	_satiation->AddFrame(satiationText);
-	UIText* slash = new UIText();
-	slash->init("slash", 280, 18, 500, 90, "/", FONT::PIX, WORDSIZE::WS_BIG);
-	_satiation->AddFrame(slash);
-	UIText* maxSatiationText = new UIText();
-	maxSatiationText->init("maxSatiationText", 330, 18, 500, 30, to_string(ENTITYMANAGER->getPlayer()->GetMaxSatiety()), FONT::PIX, WORDSIZE::WS_BIG);
-	_satiation->AddFrame(maxSatiationText);
-
 	for (int i = 0; i < _vFoods.size(); i++)
 	{
 		UIFrame* _foodFrame = new UIFrame();
-		_foodFrame->init("_foodFrame" + to_string(i), 18, 20 + i * 165, 431, 160, "RestaurantMenu_Withoutmoney");
-		_wholeFoodFrame->AddFrame(_foodFrame);
-		_foodFrame->SetUseOutsideLimit(true);
+		_foodFrame->init("_foodFrame" + to_string(i), 18, 15 + i * 165, 431, 160, "RestaurantMenu_Withoutmoney");
+		_restaurantBase->AddFrame(_foodFrame);
 
 		for (int j = 0; j < _vFoods[i]->_vStatusType.size(); j++)
 		{
@@ -789,11 +746,11 @@ void Restaurant::ReNewUI()
 			_foodFrame->AddFrame(coin);
 
 			UIText* triangle = new UIText();
-			triangle->init("triangle", 10, 50 + j * 30, 500, 500, "▶ + ", FONT::PIX, WORDSIZE::WS_SMALL);
+			triangle->init("triangle", 10, 50 + j * 25, 500, 500, "▶ + ", FONT::PIX, WORDSIZE::WS_SMALL);
 			_foodFrame->AddFrame(triangle);
 
 			UIText* foodStatNum = new UIText();
-			foodStatNum->init("foodStatNum", 60, 50 + j * 30, 500, 500, to_string((int)_vFoods[i]->_vStatusNum[j]),
+			foodStatNum->init("foodStatNum", 60, 50 + j * 25, 500, 500, to_string((int)_vFoods[i]->_vStatusNum[j]),
 				FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(0, 255, 0));
 			_foodFrame->AddFrame(foodStatNum);
 
@@ -850,10 +807,52 @@ void Restaurant::ReNewUI()
 				break;
 			}
 			UIText* foodStatType = new UIText();
-			foodStatType->init("foodStatType", 90, 50 + j * 30, 500, 500, typetext, FONT::PIX, WORDSIZE::WS_MIDDLESMALL);
+			foodStatType->init("foodStatType", 90, 50 + j * 25, 500, 500, typetext, FONT::PIX, WORDSIZE::WS_MIDDLESMALL);
 			_foodFrame->AddFrame(foodStatType);
 		}
 	}
+
+	UIFrame* _wholeFoodFrame = new UIFrame();
+	_wholeFoodFrame->init("_wholeFoodFrame", -50, -150, WINSIZEX, WINSIZEY, "baseFrame");
+	_restaurantBase->AddFrame(_wholeFoodFrame);
+
+	UIImage* _restaurantFoodBase = new UIImage();
+	_restaurantFoodBase->init("_restaurantFoodBase", WINSIZEX / 2 - 150, 0, 1719, 390, "RestaurantTable", true, 0, 0, 1.4f, 1.4f);
+	_restaurantBase->AddFrame(_restaurantFoodBase);
+
+	UIFrame* _restaurantLabel = new UIFrame();
+	_restaurantLabel->init("_restaurantLabel", -50, -150, 960, 96, "Label", 1.5f, 1.5f);
+	_restaurantBase->AddFrame(_restaurantLabel);
+
+	UIFrame* _exit = new UIFrame();
+	_exit->init("_exit", WINSIZEX - 170, -120, 92, 79, "Xbutton");
+	_restaurantBase->AddFrame(_exit);
+
+	UIFrame* _satiation = new UIFrame();
+	_satiation->init("_satiation", 0, WINSIZEY - 235, 333, 51, "restaurantSatiation", 1.4f, 1.4f);
+	_restaurantBase->AddFrame(_satiation);
+
+	UIFrame* _foodIcon = new UIFrame();
+	_foodIcon->init("_foodIcon", 25, WINSIZEY - 227, 51, 42, "FoodIcon", 1.4f, 1.4f);
+	_restaurantBase->AddFrame(_foodIcon);
+
+	UIFrame* _money = new UIFrame();
+	_money->init("_money", WINSIZEX - 350, WINSIZEY - 235, 200, 51, "restaurantMoney", 1.4f, 1.4f);
+	_restaurantBase->AddFrame(_money);
+
+	UIText* moneyText = new UIText();
+	moneyText->init("moneyText", 100, 18, 120, 30, to_string(ENTITYMANAGER->getPlayer()->GetMoney()), FONT::PIX, WORDSIZE::WS_BIG);
+	_money->AddFrame(moneyText);
+
+	UIText* satiationText = new UIText();
+	satiationText->init("satiationText", -250, 18, 500, 30, to_string(ENTITYMANAGER->getPlayer()->GetSatiety()), FONT::PIX, WORDSIZE::WS_BIG, WORDSORT::WSORT_RIGHT);
+	_satiation->AddFrame(satiationText);
+	UIText* slash = new UIText();
+	slash->init("slash", 280, 18, 500, 90, "/", FONT::PIX, WORDSIZE::WS_BIG);
+	_satiation->AddFrame(slash);
+	UIText* maxSatiationText = new UIText();
+	maxSatiationText->init("maxSatiationText", 330, 18, 500, 30, to_string(ENTITYMANAGER->getPlayer()->GetMaxSatiety()), FONT::PIX, WORDSIZE::WS_BIG);
+	_satiation->AddFrame(maxSatiationText);
 }
 
 void Restaurant::MoveUI()
@@ -865,12 +864,22 @@ void Restaurant::MoveUI()
 		{
 			_mouseLocation = _ptMouse.y;
 		}
-
 		else if (_scrollTimer > 1)
 		{
 			for (int i = 0; i < _vFoods.size(); i++)
 			{
-				_restaurantBase->GetChild("_wholeFoodFrame")->GetChild("_foodFrame" + to_string(i))->MoveFrameChild(0, _ptMouse.y - _mouseLocation);
+				_restaurantBase->GetChild("_foodFrame" + to_string(i))->MoveFrameChild(0, _ptMouse.y - _mouseLocation);
+
+				/*
+				if (_restaurantBase->GetChild("_foodFrame" + to_string(_vFoods.size()))->GetY() < 500)
+				{
+					_restaurantBase->GetChild("_foodFrame" + to_string(_vFoods.size()))->SetY(501);
+				}
+				if (_restaurantBase->GetChild("_foodFrame" + to_string(0))->GetY() > 500)
+				{
+					_restaurantBase->GetChild("_foodFrame" + to_string(0))->SetY(409);
+				} 
+				*/
 			}
 			_mouseLocation = _ptMouse.y;
 		}
