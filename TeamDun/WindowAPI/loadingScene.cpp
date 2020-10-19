@@ -648,6 +648,22 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("FoodIcon", "Images/UI/ICON/FoodIcon.bmp", 51, 42, true, RGB(255,0,255));
 	_loading->LoadNormalImage("Coin", "Images/UI/ICON/Coin.bmp", 19, 19, true, RGB(255,0,255));
 	_loading->LoadNormalImage("Fairy", "Images/UI/ICON/Fairy.bmp", 17, 14, true, RGB(255,0,255));
+	_loading->LoadNormalImage("EnteranceMap", "Images/UI/ICON/EnteranceMap.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("ExitMap", "Images/UI/ICON/ExitMap.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("FairyMap", "Images/UI/ICON/FairyMap.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("FoodMap", "Images/UI/ICON/FoodMap.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Hungry", "Images/UI/ICON/Hungry.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("PlagueDocter", "Images/UI/ICON/PlagueDocter.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Pot", "Images/UI/ICON/Pot.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("ShopMap", "Images/UI/ICON/ShopMap.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Slot", "Images/UI/ICON/Slot.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Worm", "Images/UI/ICON/Worm.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Worm_Selected", "Images/UI/ICON/Worm_Selected.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Altar", "Images/UI/ICON/Altar.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Anvil", "Images/UI/ICON/Anvil.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Berry", "Images/UI/ICON/Berry.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Chest", "Images/UI/ICON/Chest.bmp", 24, 24, true, RGB(255,0,255));
+
 
 	_loading->LoadNormalImage("BossLifeBack", "Images/Monster/Boss/BossLifeBack.bmp", 600, 77, true, RGB(255,0,255));
 	_loading->LoadNormalImage("BossLifeBase", "Images/Monster/Boss/BossLifeBase.bmp", 600, 77, true, RGB(255,0,255));

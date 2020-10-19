@@ -43,10 +43,12 @@ private :
 	bool					_visited;			// 방문했는지 여부
 	int						_spawnTimer;		// 몬스터 스폰용 타이머
 	
+	bool					_hasTreasure;		// 상자가 있는지
+	bool					_hasPixie;			// 픽시가 있는지
+
 	Portal*					_portal;			// 이 맵의 포탈
 	PixieSpawner*			_pixieSpawner;		// 픽시 스포너
 	TreasureSpawner*		_treasureSpawner;	// 상자 스포너
-
 public :
 	void LoadMap();
 	void LoadObject();
@@ -54,6 +56,7 @@ public :
 	void MakeNearTileCollision(Door* door, bool isActivate);
 
 	void MakeDoor(Door* door);
+	int CheckDungeonMapIcons();
 	void PixelCollisionMapGenerate();
 	void GridMapGenerate();
 
@@ -86,12 +89,14 @@ public :
 	bool				GetMapGenVisited()				{ return _mapGenVisited; }
 	bool				GetVisited()					{ return _visited; }
 	Portal*				GetPortal()						{ return _portal; }
+	bool				GetHasTreasure()				{ return _hasTreasure; }
+	bool				GetHasPixie()					{ return _hasPixie; }
 
 	void	SetXIndex(int index)						{ _xIndex = index; }
 	void	SetYIndex(int index)						{ _yIndex = index; }
 	void	SetIsSpawning(bool isSpawning)				{ _isSpawning = isSpawning; }
 	void	SetStage(int stage)							{ _stage = stage; }
-	void	SetFieldType(FIELDMAPTYPE type)				{ _mapType = type; }
+	void	SetFieldMapType(FIELDMAPTYPE type)				{ _mapType = type; }
 	void	SetNextMapIndex(DIRECTION dir, int index)	{ _nextMapIndex[(int)dir] = index; }
 	void	SetMovePos(DIRECTION dir, POINT pos)		{ _mapMovePos[(int)dir] = pos; }
 	void	SetMapGenVisited(bool visit)				{ _mapGenVisited = visit; }

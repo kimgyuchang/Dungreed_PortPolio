@@ -374,6 +374,37 @@ void FieldMap::MakeDoor(Door* door)
 	}
 }
 
+int FieldMap::CheckDungeonMapIcons()
+{
+	_hasPixie = false;
+	_hasTreasure = false;
+
+	int count = 0;
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		if (_vObjs[i]->GetId() >= 2 && _vObjs[i]->GetId() <= 6) // 상자
+		{
+			if (!dynamic_cast<Treasure*>(_vObjs[i])->GetIsOpened())
+			{
+				count++;
+				_hasTreasure = true;
+				break;
+			}
+		}
+	}
+
+	for (int i = 0; i < _vObjs.size(); i++)
+	{
+		if (_vObjs[i]->GetId() >= 13 && _vObjs[i]->GetId() <= 17) // 픽시
+		{
+			count++;
+			_hasPixie = true;
+		}
+	}
+
+	return count;
+}
+
 void FieldMap::release()
 {
 	for (int i = 0; i < _vMapData.size(); i++)
@@ -473,7 +504,6 @@ void FieldMap::PixelCollisionMapGenerate()
 			}
 		}
 	}
-
 
 	SetFastPixel(IMAGEMANAGER->findImage("PixelMapIg"), MAPMANAGER->GetPixelGetter());
 }

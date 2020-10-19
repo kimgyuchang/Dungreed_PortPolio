@@ -38,7 +38,6 @@ void Lilith::update()
 			_renderOrder = 1;
 			if (_isHit)
 			{
-				cout << _isHit << endl;
 				_hitCount++;
 
 				if (_hitCount > 50)

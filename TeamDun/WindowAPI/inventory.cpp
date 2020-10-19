@@ -7,7 +7,7 @@ HRESULT Inventory::init()
 	_InvenFrame = UIMANAGER->GetGameFrame()->GetChild("InventoryFrame");
 	_shopFrame = UIMANAGER->GetGameFrame()->GetChild("DungeonShopBase");
 	_swapFrame = UIMANAGER->GetGameFrame()->GetChild("swapContainer");
-
+	_trashFrame = UIMANAGER->GetGameFrame()->GetChild("CheckTrash");
 	_invenFullTextOn = false;
 	_invenFullTextTimer = 0;
 
@@ -21,10 +21,20 @@ void Inventory::update()
 
 	if (_InvenFrame->GetIsViewing())
 	{
-		UpdateMoney();
-		EquipItem();
-		UnEquipItem();
-		ShowToolTip();
+		if (_trashFrame->GetIsViewing())
+		{
+			ThrowingOutTrash();
+		}
+
+		else
+		{
+			UpdateMoney();
+			EquipItem();
+			UnEquipItem();
+			ShowToolTip();
+			DragItemStart();
+			DragItem();
+		}
 	}
 }
 
@@ -39,6 +49,27 @@ void Inventory::release()
 void Inventory::UpdateMoney()
 {
 	dynamic_cast<UIText*>(_InvenFrame->GetChild("moneyText"))->SetText(to_string(_p->GetMoney()));
+}
+
+// 아이템이 버려질때
+void Inventory::ThrowingOutTrash()
+{
+	if (INPUT->GetIsLButtonClicked())
+	{
+		if (PtInRect(&_trashFrame->GetChild("yes")->GetRect(), _ptMouse))
+		{
+			_vInvenItems.erase(_vInvenItems.begin() + _dragIndex);
+			EraseDragInfor();
+			ReloadUIImages();
+			_trashFrame->SetIsViewing(false);
+		}
+
+		else if (PtInRect(&_trashFrame->GetChild("no")->GetRect(), _ptMouse))
+		{
+			EraseDragInfor();
+			_trashFrame->SetIsViewing(false);
+		}
+	}
 }
 
 // EquipItemPos는 조건 검사가 완료된 상황에서 사용되는 위치별 착용 함수이다.
@@ -163,12 +194,141 @@ void Inventory::DragItemStart()
 				UIFrame* curFrame = _InvenFrame->GetChild("itemFrame_" + to_string(i))->GetChild("itemImageFrame");
 				if (PtInRect(&curFrame->GetRect(), _ptMouse))
 				{
+					_dragItem = _vInvenItems[i];
+					_dragIndex = i;
+
+					UIMANAGER->GetGameFrame()->GetChild("itemMouseTracker")->SetImage(_dragItem->GetInvenImage());
+					UIMANAGER->GetGameFrame()->GetChild("itemMouseTracker")->SetIsViewing(true);
 				}
 			}
 		}
 	}
 }
 
+/// <summary>
+/// 드래그하여 아이템을 착용 / 버림
+/// </summary>
+void Inventory::DragItem()
+{
+	if (_dragItem != nullptr)
+	{
+		if (INPUT->GetIsRButtonClicked()) // 우클릭시 해제
+		{
+			_dragIndex = -1;
+			_dragItem = nullptr;
+		}
+
+		if (INPUT->GetIsLButtonUp()) // 놓은 곳 체크
+		{
+			UIMANAGER->GetGameFrame()->GetChild("itemMouseTracker")->SetIsViewing(false);
+			
+			if (PtInRect(&_InvenFrame->GetRect(), _ptMouse)) // 인벤 프레임 안이라면
+			{
+				SOUNDMANAGER->play("게임_아이템장착 (2)");
+				if (PtInRect(&_InvenFrame->GetChild("curWeapon_1")->GetRect(), _ptMouse) && (_dragItem->GetitemType() == ITEMTYPE::IT_WEAPON_ONEHAND || _dragItem->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND))
+				{ // 무기 1
+					if (_dragItem->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND && (_p->GetWeapon(0) != nullptr && _vInvenItems.size() >= 15))
+					{ // 미착용
+						OnInvenFullText();
+					}
+					else
+						EquipItemPos(0, _vInvenItems[_dragIndex], _dragIndex, _p->GetSelectedWeaponIdx() == 0);
+				}
+
+				else if (PtInRect(&_InvenFrame->GetChild("curWeapon_2")-> GetRect(), _ptMouse) && (_dragItem->GetitemType() == ITEMTYPE::IT_WEAPON_ONEHAND || _dragItem->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND))
+				{ // 무기 2
+					if (_dragItem->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND && (_p->GetWeapon(1) != nullptr && _vInvenItems.size() >= 15))
+					{ // 미착용
+						OnInvenFullText();
+					}
+					else
+						EquipItemPos(1, _vInvenItems[_dragIndex], _dragIndex, _p->GetSelectedWeaponIdx() == 1);
+				}
+				
+				else if (PtInRect(&_InvenFrame->GetChild("curWeaponSub_1")->GetRect(), _ptMouse) && (_dragItem->GetitemType() == ITEMTYPE::IT_SUBWEAPON))
+				{ // 서브무기 1
+					if ((_p->GetWeapon(0) == nullptr || (_p->GetWeapon(0)->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND)))
+					{ // 서브무기를 낄 수 없는 상태
+						OnInvenFullText();
+					}
+
+					else if (_p->GetWeapon(0) == nullptr)
+					{
+						OnInvenFullText();
+					}
+					else
+					{
+						if (_p->GetWeapon(0) != nullptr && _p->GetWeapon(0)->GetitemType() != ITEMTYPE::IT_WEAPON_TWOHAND)
+						{ // 무기 0이 있고 두손무기가 아니며 서브웨폰이 있다면
+							EquipItemPos(2, _vInvenItems[_dragIndex], _dragIndex, _p->GetSelectedWeaponIdx() == 0);
+						}
+					}
+				}
+				
+				else if (PtInRect(&_InvenFrame->GetChild("curWeaponSub_2")->GetRect(), _ptMouse) && (_dragItem->GetitemType() == ITEMTYPE::IT_SUBWEAPON))
+				{ // 서브무기 2
+					if ((_p->GetWeapon(1) == nullptr || (_p->GetWeapon(1)->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND)))
+					{ // 서브무기를 낄 수 없는 상태
+						OnInvenFullText();
+					}
+
+					else if (_p->GetWeapon(1) == nullptr)
+					{
+						OnInvenFullText();
+					}
+					else
+					{
+						if (_p->GetWeapon(1) != nullptr && _p->GetWeapon(1)->GetitemType() != ITEMTYPE::IT_WEAPON_TWOHAND)
+						{ // 무기 0이 있고 두손무기가 아니며 서브웨폰이 있다면
+							EquipItemPos(3, _vInvenItems[_dragIndex], _dragIndex, _p->GetSelectedWeaponIdx() == 1);
+						}
+					}
+				}
+
+				else
+				{
+					for (int i = 0; i < _p->GetAccesoryCount(); i++)
+					{
+						if (PtInRect(&_InvenFrame->GetChild("accesoryFrame_" + to_string(i))->GetRect(), _ptMouse) && (_dragItem->GetitemType() == ITEMTYPE::IT_ACCESORRY))
+						{
+							bool equalCheck = false; // 같은 종류가 있는지 체크
+							for (int j= 0; j < _p->GetVAccessories().size(); j++)
+							{
+								if (_p->GetAccessory(j)->GetId() == _dragItem->GetId())
+								{
+									OnInvenEqualText();
+									equalCheck = true;
+									break;
+								}
+							}
+
+							if (equalCheck) break; // 같은게 있다면 break
+							else EquipItemPos(4+i, _vInvenItems[_dragIndex], _dragIndex, true); // 아니면 착용
+							break;
+						}
+					}
+				}
+
+				EraseDragInfor();
+			}
+
+			else
+			{
+				// 버리기
+				SOUNDMANAGER->play("게임_템버리기");
+				_trashFrame->SetIsViewing(true);
+			}
+
+			ReloadUIImages();
+		}
+
+		else // 프레임 이동
+		{
+			UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("itemMouseTracker");
+			frame->MoveFrameChild((_ptMouse.x) - frame->GetX(), (_ptMouse.y - frame->GetY()));
+		}
+	}
+}
 
 void Inventory::EquipItem()
 {
@@ -892,6 +1052,12 @@ string Inventory::OptionString(SubOption* option)
 		optionResult += option->_description;
 
 	return optionResult;
+}
+
+void Inventory::EraseDragInfor()
+{
+	_dragIndex = -1;
+	_dragItem = nullptr;
 }
 
 void Inventory::ShowToolTip()

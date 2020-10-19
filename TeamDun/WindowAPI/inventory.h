@@ -10,6 +10,7 @@ private :
 	UIFrame* _InvenFrame;
 	UIFrame* _shopFrame;
 	UIFrame* _swapFrame;
+	UIFrame* _trashFrame;
 
 	int		_invenFullTextTimer;
 	bool	_invenFullTextOn;
@@ -36,8 +37,11 @@ public :
 	
 	void UpdateMoney();
 
+	void ThrowingOutTrash();
+
 	void EquipItemPos(int pos, Item * item, int index, bool isUsed);
 	void DragItemStart();
+	void DragItem();
 	void EquipItem();
 	void SwitchItem(int num, Item* item, int index);
 	void UnEquipItem();
@@ -49,6 +53,7 @@ public :
 	void SwitchWeapon(int selectedWeapon);
 	void InitToolTipItem(Item* item);
 	string OptionString(SubOption* option);
+	void EraseDragInfor();
 	void ShowToolTip();
 
 	// GETSET //
