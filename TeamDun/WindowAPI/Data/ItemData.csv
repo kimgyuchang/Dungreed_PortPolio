@@ -11,3 +11,4 @@ id,itemType,weaponType,skill,name,description,itemClass,minAtk,maxAtk,atkSpeed,d
 4009,악세서리,무기아님 ,-1,사슬갑옷,가볍지만 소리가 커서 발걸음이 위축되는 갑옷,일반,0,0,0,11,0,0,0,-1,0,670,0,ChainArmor,.,.,ChainArmor,ChainArmor,MOVESPEED,-5,.,.,.,.,.,.,.
 4010,악세서리,무기아님 ,-1,소가죽갑옷,조금 꽉 끼는 명품 소가죽 갑옷,희귀,0,0,0,15,0,0,0,-1,0,3250,0,CowLeather,.,.,CowLeather,CowLeather,MOVESPEED,5,.,ATKSPEED,5,.,.,.,.
 4011,악세서리,무기아님 ,-1,친타마니돌,고대의 사원에서 발견된 아름다운 돌 일곱개로 갈라질 것 같다.,희귀,0,0,0,0,0,0,0,-1,0,2920,0,Cintamani,.,.,Cintamani,Cintamani,ETC,0,체력이 10이하로 떨어지게 되면 체력이 30 회복,.,.,.,.,.,.
+4012,악세서리,무기아님,-1,드워프제 갑옷,드워프들이 만든 이 갑옷은 가볍지만 무척 단단하다. 드워프처럼 크기가 작지도않고.,희귀,0,0,0,14,0,0,0,-1,0,3100,0,DwarvenArmor,.,.,DwarvenArmor,DwarvenArmor,POWER,5,.,TOUGHNESS,1,.,.,.,.

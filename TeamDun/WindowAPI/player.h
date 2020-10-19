@@ -140,6 +140,8 @@ private:
 	int				_damageUpTimer;				// 데미지 업 타이머 (분노 스폐셜)
 	bool			_damageUpTimerUse;			// 데미지 업 타이머가 사용되고 있는지 (분노 스폐셜)
 	bool			_atkSpdUpUse;				// 공격속도 업이 사용되었는지 (신속 스페셜)
+	int				_dashInvincibTimer;			// 대쉬 무적 시간
+	bool			_dashInvinCible;			// 무적 상태인지
 
 	// 픽셀충돌 전용 //					 
 	RECT			_collider[8];			// 픽셀충돌용
@@ -187,7 +189,7 @@ private:
 	float					_uiMouseLocation;		// 저장된 마우스 X좌표
 	float					_movedX;				// 움직인 거리
 	string					_vTraitTooltip[7][3];	// 특성 툴팁들
-
+	
 	// 각 캐릭터별 특성 //
 
 	// 총잡이 //
@@ -203,6 +205,7 @@ public:
 
 	virtual HRESULT init();
 	virtual void	update();
+	void DashInvincibility();
 	void AddMaxDash();
 	void SubMaxDash();
 	void DashAttack();
@@ -325,8 +328,9 @@ public:
 	int				GetMaxDashCount()		{ return _maxDashCount; }
 	int				GetMaxSatiety()			{ return _maxSatiety; }
 	CLOTHTYPE		GetPlayerCloth()		{ return _clothType; }
+	bool			GetDashInvincible()		{ return _dashInvinCible; }
+	bool			GetDashInvincibleTimer(){ return _dashInvincibTimer; }
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
-
 
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
 	void			SetState(PLAYERSTATE state)						{ _state = state; }

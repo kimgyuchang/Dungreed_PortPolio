@@ -67,6 +67,8 @@ HRESULT Player::init()
 	_maxPoint = 35;
 	_clothType = PC_NORMAL;
 	_useGun = false;
+	_dashInvinCible = false;
+	_dashInvincibTimer = 0;
 
 	for (int i = 0; i < 7; i++) _abilityNum[i] = 0;
 
@@ -252,7 +254,7 @@ void Player::update()
 	JumpAttackRectUpdate();
 	ControlDamageUpTimer();
 	SpecialAtkSpeedUp();
-
+	DashInvincibility();
 
 	if (INPUT->GetKeyDown('J'))
 	{
@@ -280,6 +282,18 @@ void Player::update()
 	if (_hp < 0)
 	{
 		_hp = 0;
+	}
+}
+
+void Player::DashInvincibility()
+{
+	if (_dashInvinCible >= 0)
+	{
+		_dashInvincibTimer--;
+		if (_dashInvincibTimer < 0)
+		{
+			_dashInvinCible = false;
+		}
 	}
 }
 
@@ -991,6 +1005,11 @@ void Player::pixelCollision()
 void Player::dash()
 {
 	_dashTimer++;
+	if (_specialAbilityOn[1][2])
+	{
+		_dashInvincibTimer = 0.2f * 60; // 대쉬 무적 시간
+		_dashInvinCible = true;
+	}
 
 	_x += cosf(getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _dashPoint.x, _dashPoint.y)) * 20;
 	_y += -sinf(getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _dashPoint.x, _dashPoint.y)) * 20;
@@ -1284,7 +1303,8 @@ void Player::SetToolTipFrame(float x, float y, int index)
 
 void Player::GetHitDamage(int damage)
 {
-	if (_isHit == false)
+	if (_isHit == false && 
+		!_dashInvinCible) // 대쉬 무적상태가 아니면
 	{
 		float Realdamage;
 		int block;
@@ -1294,6 +1314,7 @@ void Player::GetHitDamage(int damage)
 		evasion = RANDOM->range(100);
 		block = RANDOM->range(100);
 		if (_realEvasion <= evasion)
+
 		{
 			if (_block <= block)
 			{
