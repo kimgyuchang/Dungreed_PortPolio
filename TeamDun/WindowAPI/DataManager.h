@@ -27,6 +27,7 @@ private :
 	int _itemMinId;
 
 public :
+	HRESULT Init();
 	// 데이터 불러오기 //
 	void GetUIBrushToolGridData();
 	void GetObjectData();

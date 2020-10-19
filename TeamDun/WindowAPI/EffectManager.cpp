@@ -3,6 +3,9 @@
 
 HRESULT EffectManager::init()
 {
+	_vEffect = vector<Effect*>();
+	_vCameraText = vector<cameraText*>();
+
 	return S_OK;
 }
 

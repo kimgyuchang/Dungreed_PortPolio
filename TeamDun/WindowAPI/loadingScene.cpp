@@ -80,6 +80,7 @@ void loadingScene::render()
 /// </summary>
 void loadingScene::LoadData()
 {
+	DATAMANAGER->Init();
 	DATAMANAGER->GetUIBrushToolGridData();
 	DATAMANAGER->GetObjectData();
 	DATAMANAGER->GetItemData();
@@ -903,8 +904,8 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("BloodStoneNecklace", "Images/item/BloodStoneNecklace.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BombPouch", "Images/item/BombPouch.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("ClothArmor", "Images/item/ClothArmor.bmp", 57, 57, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("Bullion_Inven", "Images/item/Bullion_Inven.bmp", 57, 57, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("Bullion", "Images/item/Bullion.bmp", 60, 27, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Bullion_Silver_Inven", "Images/item/Bullion_Silver_Inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Bullion_Silver", "Images/item/Bullion_Silver.bmp", 60, 27, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CarpCoinPurse", "Images/item/CarpCoinPurse.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Cintamani", "Images/item/Cintamani.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BlessOfSage", "Images/item/BlessOfSage.bmp", 57, 57, true, RGB(255, 0, 255));

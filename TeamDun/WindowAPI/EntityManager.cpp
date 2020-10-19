@@ -3,6 +3,10 @@
 
 HRESULT EntityManager::init()
 {
+	_vObjs = vector<Object*>();
+	_vBullets = vector<Bullet*>();
+	_p = nullptr;
+
 	for (int i = 0; i < _vBullets.size(); i++)
 	{
 		_vBullets[i]->init();
