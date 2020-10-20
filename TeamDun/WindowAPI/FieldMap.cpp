@@ -618,7 +618,7 @@ void FieldMap::SpawnMonsters()
 }
 
 /// <summary>
-/// 맵에 몬스터가 더 없으면 문을 연다
+/// 맵을 클리어했는지 확인하고 이에 따른 작업을 한다.
 /// </summary>
 void FieldMap::CheckNoMonsterInMap()
 {
@@ -639,6 +639,14 @@ void FieldMap::CheckNoMonsterInMap()
 			int satiety = ENTITYMANAGER->getPlayer()->GetSatiety() - 1;
 			if (satiety < 0) satiety = 0;
 			ENTITYMANAGER->getPlayer()->SetSatiety(satiety);
+			
+			if (ENTITYMANAGER->getPlayer()->GetSpecialAbilityOn(5, 1)) // 특성 - 집중 10레벨
+			{
+				int hpPlus = ENTITYMANAGER->getPlayer()->GetHP() + 2;
+				if (hpPlus > ENTITYMANAGER->getPlayer()->GetInitHp()) hpPlus = ENTITYMANAGER->getPlayer()->GetInitHp();
+				ENTITYMANAGER->getPlayer()->SetHp(hpPlus);
+			}
+
 			SOUNDMANAGER->play("게임_던전_문열림닫힘");
 
 			_isCleared = true; // 몬스터를 모두 정리했다 알림

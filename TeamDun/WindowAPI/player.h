@@ -153,7 +153,12 @@ private:
 	bool			_dashInvinCible;			// 무적 상태인지 (신속 스폐셜)
 	int				_deathDefencerTimer;		// 죽음 방지 타이머 (방어 스폐셜)
 	bool			_deathDefencerActivated;	// 죽음 방지 타이머가 작동했는지 (방어 스폐셜)
-	int				_regenTimer;				// 리젠 타이머
+	int				_regenTimer;				// 리젠 타이머 (방어 스폐셜)
+	bool			_getRangeStatus;			// Range 능력치를 얻었는지 (집중 스폐셜)
+	int				_reloadItemTimer;			// 재장전 장비 타이머
+	bool			_reloadItemNumber;			// 재장전 아이템 갯수
+	int				_restorePrevHp;				// 직전에 받은 HP회복가능량
+	int				_restoreHpTimer;			// Hp회복 가능 타이머
 
 	// 픽셀충돌 전용 //					 
 	RECT			_collider[8];			// 픽셀충돌용
@@ -235,6 +240,7 @@ public:
 	void DashImageCheck();
 	void SetTextLeftDown();
 	void DashUICheck();
+	void RangeGetStatusAbility();
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 	virtual void	Animation();
@@ -260,9 +266,12 @@ public:
 
 	void GetHitDamage(int damage);
 
+	void RestoreHpTimerChecker();
+
 	void RemoveMagicShield();
 
 	void ControlTraitPage();
+	void ReloadItemChecker();
 	void AddTraitPoint();
 	void ReloadTraitPoint();
 	void CheckTraitIconHovered();
@@ -370,9 +379,10 @@ public:
 	bool			GetIsReload()			{ return _isReload; }
 	bool			GetDashInvincible()		{ return _dashInvinCible; }
 	bool			GetDashInvincibleTimer(){ return _dashInvincibTimer; }
-	CLOTHTYPE		GetClothType()		{ return _clothType; }
+	CLOTHTYPE		GetClothType()			{ return _clothType; }
+	int				GetRestorePrevHp()		{ return _restorePrevHp; }
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
-
+	
 	void			SetIsReload(bool isReload)						{ _isReload = isReload; }
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
 	void			SetState(PLAYERSTATE state)						{ _state = state; }
@@ -453,4 +463,5 @@ public:
 	void			SetClothType(CLOTHTYPE type)					{ _clothType = type; }
 	void			SetRageCurrent(int rage)						{ _rageCurrent = rage; }
 	void			SetPrevPowerPlus(float num)						{ _prevPowerPlus = num; }
+	void			SetRestorePrevHp(int num)						{ _restorePrevHp = num; }
 };
