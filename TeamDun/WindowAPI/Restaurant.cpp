@@ -27,7 +27,7 @@ HRESULT Restaurant::init(int id, string name, OBJECTTYPE type, vector<string> im
 	}
 
 	_count = 0;
-	_speed = 0.6f;
+	_speed = 0.64f;
 	_x = -15;
 	_y = -15;
 
@@ -125,7 +125,7 @@ void Restaurant::FoodAlphaAnim()
 
 	if (foodImg->GetAlpha() < 0)
 	{
-		foodImg->SetAlpha(255);
+		foodImg->SetAlpha(150);
 		foodImg->SetIsViewing(false);
 		_foodAlphaAnimOn = false;
 	}
@@ -188,6 +188,7 @@ void Restaurant::initSecond()
 	_selectFrame = UIMANAGER->GetGameFrame()->GetChild("selectFrame");
 
 	_restaurantBase = UIMANAGER->GetGameFrame()->GetChild("_restaurantBase");
+	_foodImg = UIMANAGER->GetGameFrame()->GetChild("_foodImg");
 }
 
 void Restaurant::SetRestaurantFood()
@@ -580,7 +581,6 @@ void Restaurant::SetSatiationUI()
 void Restaurant::BuyFood(Food* food, int index)
 {
 	Player* p = ENTITYMANAGER->getPlayer();
-
 	if (food->_price > p->GetMoney())
 	{
 		UIMANAGER->GetGameFrame()->GetChild("noMoney")->SetViewingTimer(30);
@@ -592,6 +592,9 @@ void Restaurant::BuyFood(Food* food, int index)
 	else if (food->_isSoldOut) {}
 	else
 	{
+		UIImage* foodImg = dynamic_cast<UIImage*>(UIMANAGER->GetGameFrame()->GetChild("_foodImg"));
+		foodImg->SetAlpha(255);
+
 		p->SetMoney(p->GetMoney() - food->_price);
 		p->SetSatiety(p->GetSatiety() + food->_satiation);
 

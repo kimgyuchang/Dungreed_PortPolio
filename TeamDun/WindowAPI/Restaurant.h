@@ -44,16 +44,7 @@ class Restaurant : public NPC
 {
 private:
 	UIFrame*		_restaurantBase;
-	UIFrame*		_restaurantLabel;
-	UIFrame*		_restaurantFoodBase;
-	UIFrame*		_wholeFoodFrame;
-	UIFrame*		_foodFrame;
-	UIFrame*		_foodFrameSelected;
-	UIFrame*		_exit;
-	UIFrame*		_satiation;
-	UIFrame*		_money;
-	UIFrame*		_foodIcon;
-
+	UIFrame*		_foodImg;
 	vector<Food*>	_vFoods;
 
 	int				_count;
@@ -79,6 +70,7 @@ public:
 	void			initSecond();
 	void			SetRestaurantFood();
 	void			SetSatiationUI();
+	void			SetHPUI();
 	void			BuyFood(Food* food, int index);
 	void			ReNewUI();
 	void			MoveUI();
