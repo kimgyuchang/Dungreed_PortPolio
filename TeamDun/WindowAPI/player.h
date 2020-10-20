@@ -328,13 +328,12 @@ public:
 	int				GetAccesoryCount()	    { return _accesoryCount; }
 	int				GetMaxDashCount()		{ return _maxDashCount; }
 	int				GetMaxSatiety()			{ return _maxSatiety; }
-<<<<<<< HEAD
-	CLOTHTYPE		GetPlayerCloth()		{ return _clothType; }
+
 	bool			GetDashInvincible()		{ return _dashInvinCible; }
 	bool			GetDashInvincibleTimer(){ return _dashInvincibTimer; }
-=======
+
 	CLOTHTYPE		GetClothType()		{ return _clothType; }
->>>>>>> d8a002e3459846aa673ca9865735c119dd397afb
+
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
 
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
