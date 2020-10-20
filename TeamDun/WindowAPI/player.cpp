@@ -53,7 +53,7 @@ HRESULT Player::init()
 	_dashRestoreTime = 60;
 	_evasion = 0;
 	_defence = 10;
-	_money = 3000;
+	_money = 10000;
 	_isHit = false;
 	_hitCount = 0;
 	_aliceZone = IMAGEMANAGER->findImage("AliceZone");
@@ -62,7 +62,7 @@ HRESULT Player::init()
 	_swapCoolTime = 0;
 	_accesoryCount = 4;
 	_hp = _initHp = 100;
-	_maxSatiety = 100;
+	_maxSatiety = 300;
 	_level = 30;
 	_remainPoint = 35;
 	_maxPoint = 35;
@@ -75,6 +75,7 @@ HRESULT Player::init()
 
 	_criticalPercent = 2;
 	_criticalDamage = 100;
+	_isCritical = false;
 
 	_weapons[0] = nullptr;
 	_weapons[1] = nullptr;
@@ -140,13 +141,13 @@ HRESULT Player::init()
 	_inven->AddItem(DATAMANAGER->GetItemById(4001));
 	_inven->AddItem(DATAMANAGER->GetItemById(4002));
 	_inven->AddItem(DATAMANAGER->GetItemById(4002));
-	_inven->AddItem(DATAMANAGER->GetItemById(4002));
+	_inven->AddItem(DATAMANAGER->GetItemById(4016));
 	_inven->AddItem(DATAMANAGER->GetItemById(4003));
 	_inven->AddItem(DATAMANAGER->GetItemById(4003));
 	_inven->AddItem(DATAMANAGER->GetItemById(4003));
 	_inven->AddItem(DATAMANAGER->GetItemById(4004));
-	_inven->AddItem(DATAMANAGER->GetItemById(4004));
-	_inven->AddItem(DATAMANAGER->GetItemById(4004));
+	_inven->AddItem(DATAMANAGER->GetItemById(4015));
+	_inven->AddItem(DATAMANAGER->GetItemById(4005));
 
 	return S_OK;
 }
@@ -158,6 +159,7 @@ void Player::update()
 		!UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetIsViewing() &&
 		!UIMANAGER->GetGameFrame()->GetChild("selectFrame")->GetIsViewing() &&
 		!UIMANAGER->GetGameFrame()->GetChild("convFrame")->GetIsViewing() &&
+		!UIMANAGER->GetGameFrame()->GetChild("_restaurantBase")->GetIsViewing() &&
 		!ENTITYMANAGER->GetWormVillage()->GetIsOn() &&
 		!MAPMANAGER->GetPortalAnimOn() &&
 		!MAPMANAGER->GetStageChanger()->GetIsChangingStage() &&

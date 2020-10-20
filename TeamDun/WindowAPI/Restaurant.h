@@ -25,6 +25,9 @@ class Food
 public:
 	string					_name;
 	string					_imgName;
+	string					_soundName;
+
+	image*					_img;
 
 	FOODTYPE				_type;
 	vector<FOODHEAL>		_vHeal;
@@ -35,31 +38,20 @@ public:
 	int						_price;
 	int						_satiation;
 
-	image*					_img;
+	bool					_isSoldOut;
 };
 
 class Restaurant : public NPC
 {
 private:
 	UIFrame*		_restaurantBase;
-	UIFrame*		_restaurantLabel;
-	UIFrame*		_restaurantFoodBase;
-	UIFrame*		_wholeFoodFrame;
-	UIFrame*		_foodFrame;
-	UIFrame*		_foodFrameSelected;
-	UIFrame*		_exit;
-	UIFrame*		_satiation;
-	UIFrame*		_money;
-	UIFrame*		_foodIcon;
-
+	UIFrame*		_foodImg;
 	vector<Food*>	_vFoods;
 
 	int				_count;
 	int				_scrollTimer;
 
 	bool			_isOpen;
-	bool			_isNoMoney;
-	bool			_isFull;
 	bool			_foodAlphaAnimOn;
 	bool			_foodMoveAnimOn;
 
@@ -78,6 +70,9 @@ public:
 
 	void			initSecond();
 	void			SetRestaurantFood();
+	void			SetSatiationUI();
+	void			SetHpUI();
+	void			SetHPUI();
 	void			BuyFood(Food* food, int index);
 	void			ReNewUI();
 	void			MoveUI();

@@ -595,6 +595,9 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("restaurantSatiation", "Images/UI/restaurantSatiation.bmp", 333, 51, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("restaurantMoney", "Images/UI/restaurantMoney.bmp", 200, 51, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("LifeWave", "Images/UI/LifeWave.bmp", 203, 48, 7, 1, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("satiation", "Images/UI/satiation.bmp", 1, 33, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SatiationProgressBar", "Images/UI/SatiationProgressBar.bmp", 337, 46, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ThankYou.korean", "Images/UI/ThankYou.korean.bmp", 297, 57, true, RGB(255, 0, 255));
 
 	_loading->LoadNormalImage("CheckImage", "Images/GridBound.bmp", 48, 48, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CheckImageRed", "Images/GridBoundRed.bmp", 48, 48, true, RGB(255, 0, 255));
@@ -926,6 +929,9 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Cintamani", "Images/item/Cintamani.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BlessOfSage", "Images/item/BlessOfSage.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CowLeather", "Images/item/CowLeather.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("DwarvenArmor", "Images/item/DwarvenArmor.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SandBag", "Images/item/SandBag.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Dicegod'sTrick", "Images/item/Dicegod'sTrick.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));
@@ -1180,14 +1186,11 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("milkbudan deal", "Sounds/Effect/milkbudan deal.wav", false, false);
 	_loading->LoadSound("milkbudan heal", "Sounds/Effect/milkbudan heal.wav", false, false);
 	_loading->LoadSound("NPC_°Ç¼³", "Sounds/Effect/NPC_°Ç¼³.wav", false, false);
-	_loading->LoadSound("NPC_·¹½ºÅä¶û_¸¶½Ã±â", "Sounds/Effect/NPC_·¹½ºÅä¶û_¸¶½Ã±â.wav", false, false);
 	_loading->LoadSound("NPC_¸ğ·ç", "Sounds/Effect/NPC_¸ğ·ç.wav", false, false);
 	_loading->LoadSound("NPC_º¸½º»óÀÚ¿­±â", "Sounds/Effect/NPC_º¸½º»óÀÚ¿­±â.wav", false, false);
 	_loading->LoadSound("NPC_»óÁ¡À½½ÄÁ¡", "Sounds/Effect/NPC_»óÁ¡À½½ÄÁ¡.wav", false, false);
 	_loading->LoadSound("NPC_»óÁ¡ÆÇ¸Å", "Sounds/Effect/NPC_»óÁ¡ÆÇ¸Å.wav", false, false);
 	_loading->LoadSound("NPC_½½·Ô¸Ó½Å", "Sounds/Effect/NPC_½½·Ô¸Ó½Å.wav", false, false);
-	_loading->LoadSound("NPC_½Ä´ç_¸¶½Ã±â", "Sounds/Effect/NPC_½Ä´ç_¸¶½Ã±â.wav", false, false);
-	_loading->LoadSound("NPC_½Ä´ç_¸¶½Ã±â2", "Sounds/Effect/NPC_½Ä´ç_¸¶½Ã±â2.wav", false, false);
 	_loading->LoadSound("NPC_ÀúÁÖ»óÀÚ¿­±â", "Sounds/Effect/NPC_ÀúÁÖ»óÀÚ¿­±â.wav", false, false);
 	_loading->LoadSound("NPC_Ãàº¹", "Sounds/Effect/NPC_Ãàº¹.wav", false, false);
 	_loading->LoadSound("NPC_ÈÆ·Ã¼Ò_Æ¯¼ºÂï±â", "Sounds/Effect/NPC_ÈÆ·Ã¼Ò_Æ¯¼ºÂï±â.wav", false, false);
@@ -1198,7 +1201,6 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("°­È­ÇÏ´ÂµíÇÑ ¼Ò¸®", "Sounds/Effect/°­È­ÇÏ´ÂµíÇÑ ¼Ò¸®.wav", false, false);
 	_loading->LoadSound("°ÅÄ£ÆÄÀÌ¾îº¼", "Sounds/Effect/°ÅÄ£ÆÄÀÌ¾îº¼.wav", false, false);
 	_loading->LoadSound("°ÅÄ¥°Ô ÀÚ¸£´Â ¼Ò¸®", "Sounds/Effect/°ÅÄ¥°Ô ÀÚ¸£´Â ¼Ò¸®.wav", false, false);
-	_loading->LoadSound("°ÅÄ¥°Ô_¸Ô´Â_¼Ò¸®", "Sounds/Effect/°ÅÄ¥°Ô_¸Ô´Â_¼Ò¸®.wav", false, false);
 	_loading->LoadSound("°È´Â¼Ò¸® (1)", "Sounds/Effect/°È´Â¼Ò¸® (1).wav", false, false);
 	_loading->LoadSound("°È´Â¼Ò¸® (2)", "Sounds/Effect/°È´Â¼Ò¸® (2).wav", false, false);
 	_loading->LoadSound("°È´Â¼Ò¸® (3)", "Sounds/Effect/°È´Â¼Ò¸® (3).wav", false, false);
@@ -1431,9 +1433,6 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("¿ÀºêÁ§Æ®_ÅëºÎ¼û (3)", "Sounds/Effect/¿ÀºêÁ§Æ®_ÅëºÎ¼û (3).wav", false, false);
 	_loading->LoadSound("¿ä¼úºÀPPTÈ¿°úÀ½", "Sounds/Effect/¿ä¼úºÀPPTÈ¿°úÀ½.wav", false, false);
 	_loading->LoadSound("¿ì¿õ", "Sounds/Effect/¿ì¿õ.wav", false, false);
-	_loading->LoadSound("À½½Ä¼·Ãë (1)", "Sounds/Effect/À½½Ä¼·Ãë (1).wav", false, false);
-	_loading->LoadSound("À½½Ä¼·Ãë (2)", "Sounds/Effect/À½½Ä¼·Ãë (2).wav", false, false);
-	_loading->LoadSound("À½½Ä¼·Ãë (3)", "Sounds/Effect/À½½Ä¼·Ãë (3).wav", false, false);
 	_loading->LoadSound("ÀÌ·±Àú·±_¹ø°³Ä§", "Sounds/Effect/ÀÌ·±Àú·±_¹ø°³Ä§.wav", false, false);
 	_loading->LoadSound("ÀÎº¥Åä¸®¿­±â", "Sounds/Effect/ÀÎº¥Åä¸®¿­±â.wav", false, false);
 	_loading->LoadSound("Àå¾Ö¹°_°¡½Ã¿Â", "Sounds/Effect/Àå¾Ö¹°_°¡½Ã¿Â.wav", false, false);
@@ -1484,4 +1483,11 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("ÈÖµÎ¸£±â_¹«Ã´°¡º­¿ò2 (7)", "Sounds/Effect/ÈÖµÎ¸£±â_¹«Ã´°¡º­¿ò2 (7).wav", false, false);
 	_loading->LoadSound("ÈÖµÎ¸£±â_¹««r°¡º­¿ò2 (8)", "Sounds/Effect/ÈÖµÎ¸£±â_¹««r°¡º­¿ò2 (8).wav", false, false);
 
+	_loading->LoadSound("NPC_·¹½ºÅä¶û_±îÀñ", "Sounds/Effect/NPC_·¹½ºÅä¶û_±îÀñ.wav", false, false);
+	_loading->LoadSound("NPC_·¹½ºÅä¶û_²Ü²©", "Sounds/Effect/NPC_·¹½ºÅä¶û_²Ü²©.wav", false, false);
+	_loading->LoadSound("NPC_·¹½ºÅä¶û_¿ÍÀÛ", "Sounds/Effect/NPC_·¹½ºÅä¶û_¿ÍÀÛ.wav", false, false);
+	_loading->LoadSound("NPC_·¹½ºÅä¶û_­h", "Sounds/Effect/NPC_·¹½ºÅä¶û_­h.wav", false, false);
+	_loading->LoadSound("NPC_·¹½ºÅä¶û_Äí½¹", "Sounds/Effect/NPC_·¹½ºÅä¶û_Äí½¹.wav", false, false);
+	_loading->LoadSound("NPC_·¹½ºÅä¶û_È£·Ï", "Sounds/Effect/NPC_·¹½ºÅä¶û_È£·Ï.wav", false, false);
+	_loading->LoadSound("NPC_·¹½ºÅä¶û_ÈÄ·è", "Sounds/Effect/NPC_·¹½ºÅä¶û_ÈÄ·è.wav", false, false);
 }

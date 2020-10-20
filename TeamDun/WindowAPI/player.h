@@ -87,6 +87,7 @@ private:
 	float			_atkSpeed;				// 공격속도
 	float			_criticalPercent;		// 크리티컬
 	float			_criticalDamage;		// 크리티컬 데미지
+	bool			_isCritical;			// 크리티컬이 떴는지
 	float			_dashDamage;			// 대쉬 공격력
 	float			_reloadTime;			// 재장전에 걸리는 시간
 
@@ -299,6 +300,7 @@ public:
 	float			GetBlock()				{ return _block; }
 	float			GetAngle()				{ return _angle; }
 	float			GetCriPer()				{ return _criticalPercent; }
+	bool			GetIsCritical()			{ return _isCritical;}
 	int				GetFinalDamage()		{ return _finalDamage; }
 	float			GetFinalDamagePer()		{ return _finalDamagePercent; }
 	float			GetReloadSpeed()		{ return _reloadSpeed; }
@@ -387,7 +389,8 @@ public:
 	void			SetBlock(float block) 							{ _block = block; }
 	void			SetAngle(float angle) 							{ _angle = angle; }
 	void			SetCriPer(float criticalPercent)				{ _criticalPercent = criticalPercent; }
-	void			SetFinalDamage(int finalDamage) 				{ _finalDamage = finalDamage; }
+	void			SetIsCritical(bool isCritical)					{ _isCritical = isCritical; }
+	void			SetFinalDamage(int finalDamage)					{ _finalDamage = finalDamage; }
 	void			SetFinalDamagePer(float finalDamagePercent)		{ _finalDamagePercent = finalDamagePercent; }
 	void			SetReloadSpeed(float reloadSpeed) 				{ _reloadSpeed = reloadSpeed; }
 	void			SetFireAccuracy(float fireAccuracy)				{ _fireAccuracy = fireAccuracy; }

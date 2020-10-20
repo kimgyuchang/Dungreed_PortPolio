@@ -240,7 +240,7 @@ void gameScene::RestaurantUIInit()
 	noMoney->SetIsViewing(false);
 
 	UIImage* _foodImg = new UIImage();
-	_foodImg->init("_foodImg", 870, 350, 219, 144, "", false, 0, 0, 1.4f, 1.4f, 255);
+	_foodImg->init("_foodImg", 870, 350, 219, 144, "", false, 0, 0, 1.4f, 1.4f, 150);
 	UIMANAGER->GetGameFrame()->AddFrame(_foodImg);
 	_foodImg->SetIsViewing(false);
 

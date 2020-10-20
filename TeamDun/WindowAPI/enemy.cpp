@@ -83,6 +83,7 @@ void Enemy::GetDamage()
 	{
 		SOUNDMANAGER->play("Hit_Monster");
 		Player* p = ENTITYMANAGER->getPlayer();
+		p->SetIsCritical(false);
 
 		int damage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
 		if (p->GetSpecialAbilityOn(0, 2))
@@ -97,6 +98,7 @@ void Enemy::GetDamage()
 		int critical = RANDOM->range(100);
 		if (critical <= p->GetRealCriPer())
 		{
+			p->SetIsCritical(true);
 			_hpBarAlpha = 255;
 			damage = damage + damage * p->GetCriDamage() / 100;
 			_hp -= damage;
@@ -148,11 +150,12 @@ void Enemy::GetDamage(int damage)
 	{
 		SOUNDMANAGER->play("Hit_Monster");
 		Player* p = ENTITYMANAGER->getPlayer();
-
+		p->SetIsCritical(false);
 		damage = damage + damage * (p->GetPower() + 6 * _hongryanCount) / 100 - _realDefence;
 		int critical = RANDOM->range(100);
 		if (critical <= p->GetRealCriPer())
 		{
+			p->SetIsCritical(true);
 			_hpBarAlpha = 255;
 			damage = damage + damage * p->GetCriDamage() / 100;
 			_hp -= damage;
