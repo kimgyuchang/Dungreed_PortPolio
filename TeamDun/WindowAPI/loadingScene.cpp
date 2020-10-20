@@ -932,6 +932,9 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("DwarvenArmor", "Images/item/DwarvenArmor.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SandBag", "Images/item/SandBag.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Dicegod'sTrick", "Images/item/Dicegod'sTrick.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("MiniSlimeMaker", "Images/item/MiniSlimeMaker.bmp", 1044, 144, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("MiniSlimeBullet", "Images/item/MiniSlimeBullet.bmp", 792, 168, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("MiniSlimeMaker_inven", "Images/item/MiniSlimeMaker_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));

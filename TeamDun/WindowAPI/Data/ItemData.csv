@@ -16,3 +16,4 @@ id,itemType,weaponType,skill,name,description,itemClass,minAtk,maxAtk,atkSpeed,d
 4014,악세서리 ,무기아님,-1,모래주머니,전력으로 상대할 필요가 없을 때 착용하라.,일반,0,0,0,0,0,0,0,-1,0,600,0,SandBag,.,.,SandBag,SandBag,DASHATK,15,.,.,.,.,.,.,.
 4015,악세서리,무기아님,-1,현자의 축복,현자가 쓰다듬어 주었다.,희귀,0,0,0,1,0,0,0,-1,0,3880,0,BlessOfSage,.,.,BlessOfSage,BlessOfSage,MAXHP,5,.,TOUGHNESS,3,.,EVADE,5,.
 4016,악세서리,무기아님,-1,혈석목걸이,죽을때 소지하면 죽은 뒤에 그힘을 얻을수 있다고 한다.,희귀,0,0,0,0,0,0,0,-1,0,3730,0,BloodStoneNecklace,.,.,BloodStoneNecklace,BloodStoneNecklace,MAXHPPERCENT,20,.,.,.,.,.,.,.
+4017,두손무기,원거리,-1,미니 슬라임 메이커,슬라임은 정연이가 만들고 있던 거 아니었어?,희귀,18,28,2.5,0,0,3,10,-1,0,6500,0,MiniSlimeMaker,.,.,MiniSlimeMaker_inven,MiniSlimeMaker_inven,EVADE,5,.,MAXHP,10,.,DEFENCE,5,.
