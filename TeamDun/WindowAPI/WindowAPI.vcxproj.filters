@@ -342,6 +342,9 @@
     <ClCompile Include="BloodOfSrobeo.cpp">
       <Filter>MainGame\Item\Items\Accessory</Filter>
     </ClCompile>
+    <ClCompile Include="BlessOfSage.cpp">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -604,6 +607,9 @@
       <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="BloodOfSrobeo.h">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
+    </ClInclude>
+    <ClInclude Include="BlessOfSage.h">
       <Filter>MainGame\Item\Items\Accessory</Filter>
     </ClInclude>
   </ItemGroup>

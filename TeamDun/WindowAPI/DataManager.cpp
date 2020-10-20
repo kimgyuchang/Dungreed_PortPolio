@@ -261,6 +261,12 @@ void DataManager::GetItemData()
 		case 4001: // 더콜트
 			item = new Colt();
 			break;
+		case 4005: // 소르베오의피
+			item = new BloodOfSrobeo();
+			break;
+		case 4015: // 현자의 축복
+			item = new BlessOfSage();
+			break;
 		default:
 			item = new Item();
 			break;
@@ -398,6 +404,10 @@ Item* DataManager::GetItemById(int id)
 		return new DemonSword (*dynamic_cast<DemonSword*>(_mMapItemData[id]));
 	case 4001 :
 		return new Colt(*dynamic_cast<Colt*>(_mMapItemData[id]));
+	case 4005: // 소르베오의피
+		return new BloodOfSrobeo(*dynamic_cast<BloodOfSrobeo*>(_mMapItemData[id]));
+	case 4015: // 현자의 축복
+		return new BlessOfSage(*dynamic_cast<BlessOfSage*>(_mMapItemData[id]));
 	default:
 		return _mMapItemData[id];
 	}
