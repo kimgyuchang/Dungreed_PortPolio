@@ -29,7 +29,16 @@ enum PLAYERSTATE
 {
 	PS_IDLE,PS_JUMP,PS_MOVE,PS_DIE,
 };
-
+struct ReloadEffect
+{
+	image* ig;
+	float x;
+	float y; 
+	int frameX;
+	int frameY;
+	int frameTime;
+	bool isViewing;
+};
 enum CLOTHTYPE
 {
 	PC_NORMAL, PC_METAL, PC_GUNNER, PC_ALICE, PC_HONGRYAN, PC_IKINABEAR, 
@@ -51,6 +60,9 @@ private:
 
 	bool			_isReload;
 	float			_reloadCount;
+	ReloadEffect	_reloadEffect;
+	int				_bulletCount;
+	int				_maxBullet;
 	
 	// 피격관련
 	bool			_isStun;				//스턴상태인지
@@ -312,6 +324,8 @@ public:
 	float			GetCriDamage()			{ return _criticalDamage; }
 	float			GetDashDamage()			{ return _dashDamage; }
 	float			GetReloadTime()			{ return _reloadTime; }
+	int				GetBulletCount()		{ return _bulletCount; }
+	int				GetMaxBullet()			{ return _maxBullet; }
 	int				GetInitHp()				{ return _initHp; }
 	float			GetRealDefence()		{ return _realDefence; }
 	float			GetRealEvasion()		{ return _realEvasion; }
@@ -452,4 +466,6 @@ public:
 	void			SetClothType(CLOTHTYPE type)					{ _clothType = type; }
 	void			SetRageCurrent(int rage)						{ _rageCurrent = rage; }
 	void			SetPrevPowerPlus(float num)						{ _prevPowerPlus = num; }
+	void			SetMaxBullet(int maxBullet)						{ _maxBullet = maxBullet; }
+	void			SetBulletCount(int bulletCount)					{ _bulletCount = bulletCount; }
 };
