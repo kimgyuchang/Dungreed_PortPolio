@@ -22,9 +22,14 @@ void BloodOfSrobeo::update()
 		}
 	}
 	
-	if (ENTITYMANAGER->getPlayer()->GetIsCritical() && _isReady )
+	if (ENTITYMANAGER->getPlayer()->GetIsCritical() && _isReady)
 	{
+		
 		ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() + 2);
+		if (ENTITYMANAGER->getPlayer()->GetHP() > ENTITYMANAGER->getPlayer()->GetInitHp())
+		{
+			ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetInitHp());
+		}
 		ENTITYMANAGER->getPlayer()->SetIsCritical(false);
 	}
 }
