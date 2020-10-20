@@ -377,10 +377,27 @@ void DataManager::GetItemData()
 	}
 }
 
+int	DataManager::GetItemSize()
+{
+	return _mMapItemData.size();
+}
+
+Item* DataManager::GetItemByIndex(int index)
+{
+	map<int, Item*>::iterator iter;
+	int count = 0;
+	for (iter = _mMapItemData.begin(); iter != _mMapItemData.end(); ++iter)
+	{
+		if (count == index) { return iter->second; }
+		count++;
+	}
+	
+	return nullptr;
+}
+
 Item* DataManager::GetItemById(int id)
 {
 	Item* rtnItem;
-	
 	switch (id)
 	{
 	case 4000 : // ¸¶°Ë ¿¤·¹¸¶

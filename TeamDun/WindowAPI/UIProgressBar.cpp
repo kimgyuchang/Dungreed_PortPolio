@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "UIProgressBar.h"
 
-HRESULT UIProgressBar::init(string name, float x, float y, float sizeX, float sizeY, string imageName, string imageName2)
+HRESULT UIProgressBar::init(string name, float x, float y, float sizeX, float sizeY, string imageName, string backImgName)
 {
 	UIFrame::init(name, x, y, sizeX, sizeY, imageName, 1, 1);
 
-	_backImg = IMAGEMANAGER->findImage(imageName2);
+	_backImg = IMAGEMANAGER->findImage(backImgName);
 	_fillPercent = 0;
 	_imgFillX = 0;
 	return S_OK;

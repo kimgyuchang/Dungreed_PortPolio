@@ -115,7 +115,7 @@ void Shop::SetShopItem()
 	int itemSize = RANDOM->range(4, 6);
 	for (int i = 0; i < itemSize; i++)
 	{
-		_vItemList.push_back(DATAMANAGER->GetItemById(RANDOM->range(DATAMANAGER->GetItemMinId(), DATAMANAGER->GetItemMaxId())));
+		_vItemList.push_back(DATAMANAGER->GetItemByIndex(RANDOM->range(0, DATAMANAGER->GetItemSize() - 1)));
 	}
 }
 
@@ -151,7 +151,7 @@ void Shop::ReNewUI()
 		shopItem->AddFrame(itemName);
 
 		UIText* itemPrice = new UIText();
-		itemPrice->init("itemPrice", 81, 41, 200, 40, to_string(item->GetBuyPrice()), FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_RIGHT);
+		itemPrice->init("itemPrice", 81, 41, 200, 40, (ENTITYMANAGER->getPlayer()->GetSpecialAbilityOn(3,0) ? "[-30%] " + to_string_with_precision(item->GetBuyPrice() * 0.7f, 0) : to_string_with_precision(item->GetBuyPrice(), 0)), FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_RIGHT);
 		shopItem->AddFrame(itemPrice);
 	}
 
@@ -254,7 +254,7 @@ void Shop::BuyItem()
 					if (_inven->AddItem(_vItemList[i]) == true) // 넣는대에 성공하면
 					{
 						SOUNDMANAGER->play("NPC_상점판매");
-						ENTITYMANAGER->getPlayer()->SetMoney(ENTITYMANAGER->getPlayer()->GetMoney() - _vItemList[i]->GetBuyPrice());
+						ENTITYMANAGER->getPlayer()->SetMoney(ENTITYMANAGER->getPlayer()->GetMoney() - ((ENTITYMANAGER->getPlayer()->GetSpecialAbilityOn(3, 0) ? 0.7f : 1)) * _vItemList[i]->GetBuyPrice());
 						_vItemList.erase(_vItemList.begin() + i);
 						ReNewUI();
 					}

@@ -77,6 +77,8 @@ void Enemy::SpawnAnimation()
 
 void Enemy::GetDamage()
 {
+	Player* _p = ENTITYMANAGER->getPlayer();
+
 	if (_isSpawned)
 	{
 		SOUNDMANAGER->play("Hit_Monster");
@@ -119,7 +121,8 @@ void Enemy::GetDamage()
 			if (dropCoin == 0)
 			{
 				int coinCount = RANDOM->range(1, 6);
-				for (int i = 0; i < coinCount; i++)
+				cout << coinCount + coinCount * ((ENTITYMANAGER->getPlayer()->GetGoldDrop() - 100) / 100.f) << endl;
+				for (int i = 0; i < coinCount + coinCount * ((ENTITYMANAGER->getPlayer()->GetGoldDrop() - 100) / 100.f); i++)
 				{
 					Coin* coin = new Coin(*dynamic_cast<Coin*>(DATAMANAGER->GetObjectById(524)));
 					coin->SetUseImage(1);
@@ -130,12 +133,20 @@ void Enemy::GetDamage()
 			SetIsDead(true);
 		}
 
-		if (ENTITYMANAGER->getPlayer()->GetClothType() == PC_HONGRYAN) _hongryanCount++;
+		if (_p->GetClothType() == PC_HONGRYAN) _hongryanCount++;
+
+		if (_p->GetClothType() == PC_IKINABEAR && !_p->GetIsRaging())
+		{
+			int rage = _p->GetRageCurrent() + 1;
+			if (rage > _p->GetRageMax()) rage = _p->GetRageMax();
+			_p->SetRageCurrent(rage);
+		}
 	}
 }
 
 void Enemy::GetDamage(int damage)
 {
+	Player* _p = ENTITYMANAGER->getPlayer();
 	if (_isSpawned)
 	{
 		SOUNDMANAGER->play("Hit_Monster");
@@ -165,7 +176,14 @@ void Enemy::GetDamage(int damage)
 			SetIsDead(true);
 		}
 
-		if (ENTITYMANAGER->getPlayer()->GetClothType() == PC_HONGRYAN) _hongryanCount++;
+		if (_p->GetClothType() == PC_HONGRYAN) _hongryanCount++;
+
+		if (_p->GetClothType() == PC_IKINABEAR && !_p->GetIsRaging())
+		{
+			int rage = _p->GetRageCurrent() + 1;
+			if (rage > _p->GetRageMax()) rage = _p->GetRageMax();
+			_p->SetRageCurrent(rage);
+		}
 	}
 }
 

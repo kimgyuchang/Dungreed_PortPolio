@@ -289,7 +289,7 @@ void Inventory::DragItem()
 				{
 					for (int i = 0; i < _p->GetAccesoryCount(); i++)
 					{
-						if (PtInRect(&_InvenFrame->GetChild("accesoryFrame_" + to_string(i))->GetRect(), _ptMouse) && (_dragItem->GetitemType() == ITEMTYPE::IT_ACCESORRY))
+						if (PtInRect(&_InvenFrame->GetChild("accesoryFrame")->GetChild("accesoryFrame_" + to_string(i))->GetRect(), _ptMouse) && (_dragItem->GetitemType() == ITEMTYPE::IT_ACCESORRY))
 						{
 							bool equalCheck = false; // 같은 종류가 있는지 체크
 							for (int j= 0; j < _p->GetVAccessories().size(); j++)
@@ -576,7 +576,7 @@ void Inventory::UnEquipItem()
 			{
 				for (int i = 0; i < _p->GetAccesoryCount(); i++)
 				{
-					if (PtInRect(&_InvenFrame->GetChild("accesoryFrame_" + to_string(i))->GetRect(), _ptMouse) && _p->GetVAccessories().size() > i)
+					if (PtInRect(&_InvenFrame->GetChild("accesoryFrame")->GetChild("accesoryFrame_" + to_string(i))->GetRect(), _ptMouse) && _p->GetVAccessories().size() > i)
 					{
 						if (_vInvenItems.size() > 14)
 						{
@@ -609,6 +609,25 @@ bool Inventory::AddItem(Item* item)
 	}
 
 	return false;
+}
+
+void Inventory::SetInventoryAccesoryUI()
+{
+	Player* p = ENTITYMANAGER->getPlayer();
+
+	_InvenFrame->GetChild("accesoryFrame")->GetVChildFrames().clear();
+
+	for (int i = 0; i < _p->GetAccesoryCount(); i++)
+	{
+		UIFrame* accesory = new UIFrame();
+		accesory->init("accesoryFrame_" + to_string(i), (i * (IMAGEMANAGER->findImage("accessory")->getWidth() + 8)) - (_p->GetAccesoryCount() - 4) * (IMAGEMANAGER->findImage("accessory")->getWidth() / 2 + 4)
+			, 0, IMAGEMANAGER->findImage("accessory")->getWidth(), IMAGEMANAGER->findImage("accessory")->getHeight(), "accessory");
+		_InvenFrame->GetChild("accesoryFrame")->AddFrame(accesory);
+
+		UIFrame* itemImageFrame = new UIFrame();
+		itemImageFrame->init("itemImageFrame", 0, 0, 57, 57, "");
+		accesory->AddFrame(itemImageFrame);
+	}
 }
 
 void Inventory::ReloadUIImages()
@@ -661,11 +680,13 @@ void Inventory::ReloadUIImages()
 	if (p->GetSubWeapon(0) != nullptr) _InvenFrame->GetChild("curWeaponSub_1")->SetImage(p->GetSubWeapon(0)->GetInvenImage());
 	_InvenFrame->GetChild("curWeaponSub_2")->SetImage(nullptr);
 	if (p->GetSubWeapon(1) != nullptr) _InvenFrame->GetChild("curWeaponSub_2")->SetImage(p->GetSubWeapon(1)->GetInvenImage());
+	
+
 	for (int i = 0; i < p->GetAccesoryCount(); i++)
 	{
-		_InvenFrame->GetChild("accesoryFrame_" + to_string(i))->GetChild("itemImageFrame")->SetImage(nullptr);
+		_InvenFrame->GetChild("accesoryFrame")->GetChild("accesoryFrame_" + to_string(i))->GetChild("itemImageFrame")->SetImage(nullptr);
 		if (p->GetVAccessories().size() > i && p->GetAccessory(i) != nullptr)
-			_InvenFrame->GetChild("accesoryFrame_" + to_string(i))->GetChild("itemImageFrame")->SetImage(p->GetAccessory(i)->GetInvenImage());
+			_InvenFrame->GetChild("accesoryFrame")->GetChild("accesoryFrame_" + to_string(i))->GetChild("itemImageFrame")->SetImage(p->GetAccessory(i)->GetInvenImage());
 	}
 
 	for (int i = 0; i < 15; i++)
@@ -1080,7 +1101,7 @@ void Inventory::ShowToolTip()
 
 	for (int i = 0; i < _p->GetVAccessories().size(); i++)
 	{
-		UIFrame* curFrame = _InvenFrame->GetChild("accesoryFrame_" + to_string(i));
+		UIFrame* curFrame = _InvenFrame->GetChild("accesoryFrame")->GetChild("accesoryFrame_" + to_string(i));
 		if (PtInRect(&curFrame->GetRect(), _ptMouse))
 		{
 			item = _p->GetAccessory(i);

@@ -28,6 +28,7 @@ HRESULT Player::init()
 	_moveSpeed = 5;
 	_moveSpeedPer = 0;
 	_dashDamage = 100;
+	_prevPowerPlus = 0;
 	_realAttackSpeed = _atkSpeed + (_atkSpeed * _atkSpeedPer / 100);
 	_dustEffectCount = 0;
 	_isStun = false;
@@ -67,7 +68,8 @@ HRESULT Player::init()
 	_swapCoolTime = 0;
 	_accesoryCount = 4;
 	_hp = _initHp = 100;
-	_maxSatiety = 300;
+	_maxSatiety = 100;
+	_goldDrop = 100;
 	_level = 30;
 	_remainPoint = 35;
 	_maxPoint = 35;
@@ -75,6 +77,8 @@ HRESULT Player::init()
 	_useGun = false;
 	_dashInvinCible = false;
 	_dashInvincibTimer = 0;
+	_deathDefencerActivated = false;
+	_deathDefencerTimer = 0;
 
 	_isFire = false;
 	_fireCount = 0;
@@ -102,6 +106,12 @@ HRESULT Player::init()
 	{
 		_vAccessories[i] = nullptr;
 	}
+
+	// 코스튬 
+	_rageCurrent = 0;
+	_rageMax = 100;
+	_rageTimer = 1200;
+	_isRaging = false;
 
 	// UI
 	_hpFrame = UIMANAGER->GetGameFrame()->GetChild("hpFrame");
@@ -145,18 +155,12 @@ HRESULT Player::init()
 	_inven->init();
 
 	_inven->AddItem(DATAMANAGER->GetItemById(4000));
-	_inven->AddItem(DATAMANAGER->GetItemById(4000));
-	_inven->AddItem(DATAMANAGER->GetItemById(4000));
 	_inven->AddItem(DATAMANAGER->GetItemById(4001));
-	_inven->AddItem(DATAMANAGER->GetItemById(4001));
-	_inven->AddItem(DATAMANAGER->GetItemById(4001));
-	_inven->AddItem(DATAMANAGER->GetItemById(4002));
 	_inven->AddItem(DATAMANAGER->GetItemById(4002));
 	_inven->AddItem(DATAMANAGER->GetItemById(4016));
 	_inven->AddItem(DATAMANAGER->GetItemById(4003));
-	_inven->AddItem(DATAMANAGER->GetItemById(4003));
-	_inven->AddItem(DATAMANAGER->GetItemById(4003));
 	_inven->AddItem(DATAMANAGER->GetItemById(4004));
+	_inven->AddItem(DATAMANAGER->GetItemById(4120));
 	_inven->AddItem(DATAMANAGER->GetItemById(4015));
 	_inven->AddItem(DATAMANAGER->GetItemById(4005));
 
@@ -262,6 +266,9 @@ void Player::update()
 	CheckAliceZone();
 	AdjustAlicePower();
 	CheckUsePistolGunner();
+	SetIkinaBearAngry();
+	CheckMoveSpeedRiderH();
+
 	//====================
 	UpdateCharPage();
 	invincibility();
@@ -276,10 +283,10 @@ void Player::update()
 	ControlDamageUpTimer();
 	SpecialAtkSpeedUp();
 	DashInvincibility();
+	SetDeathDefencerTimerDown();
+	RegenDefenceSkill();
 	AbnormalState();
 	ReloadBullet();
-
-	
 
 	if (INPUT->GetKeyDown('J'))
 	{
@@ -337,9 +344,9 @@ void Player::SubMaxDash()
 
 void Player::DashAttack()
 {
-	if (_weapons[_selectedWeaponIdx] != nullptr && 
-		_weapons[_selectedWeaponIdx]->GetWeaponType() != WEAPONTYPE::WT_RANGE && 
-		_weapons[_selectedWeaponIdx]->GetWeaponType() != WEAPONTYPE::WT_PISTOL && 
+	if (_weapons[_selectedWeaponIdx] != nullptr &&
+		_weapons[_selectedWeaponIdx]->GetWeaponType() != WEAPONTYPE::WT_RANGE &&
+		_weapons[_selectedWeaponIdx]->GetWeaponType() != WEAPONTYPE::WT_PISTOL &&
 		_weapons[_selectedWeaponIdx]->GetWeaponType() != WEAPONTYPE::WT_CHARGE)
 	{
 		_dashAttackRect = RectMake(_x - 30, _y - 30, _vImages[0]->getFrameWidth() + 60, _vImages[0]->getFrameHeight() + 60);
@@ -455,7 +462,7 @@ void Player::SwitchWeapon()
 
 void Player::JumpAttackRectUpdate()
 {
-	if(_specialAbilityOn[0][0])
+	if (_specialAbilityOn[0][0])
 		_jumpAttackRect = RectMake(_x - 50, _y + _vImages[0]->getFrameHeight() * 0.2f, _vImages[0]->getFrameWidth() + 100, _vImages[0]->getFrameHeight() * 1.4f);
 }
 
@@ -507,7 +514,7 @@ void Player::DamageJumpAttackRect()
 		if (obj->GetType() == OBJECTTYPE::OT_MONSTER || obj->GetType() == OBJECTTYPE::OT_BREAKABLE)
 		{
 			RECT temp;
-			if(IntersectRect(&temp, &_jumpAttackRect, &obj->GetBody()))
+			if (IntersectRect(&temp, &_jumpAttackRect, &obj->GetBody()))
 				obj->GetDamage(8);
 		}
 	}
@@ -550,7 +557,7 @@ void Player::DamageUpEnemyKill()
 			_damageUpTimerUse = true;
 		}
 	}
-}	
+}
 
 void Player::SpecialAtkSpeedUp()
 {
@@ -1319,11 +1326,32 @@ void Player::SetToolTipFrame(float x, float y, int index)
 	dynamic_cast<UIText*>(toolTipFrame->GetChild("additional"))->SetText(_vToolTips[index].additionalDescription);
 }
 
+void Player::SetDeathDefencerTimerDown()
+{
+	if (_deathDefencerTimer > 0)
+	{
+		_deathDefencerTimer--;
+	}
+}
+
+void Player::RegenDefenceSkill()
+{
+	if (_specialAbilityOn[2][2] && _initHp * 0.3f > _hp)
+	{
+		_regenTimer++;
+		if (_regenTimer > 60)
+		{
+			_hp++;
+			_regenTimer = 0;
+		}
+	}
+}
 
 void Player::GetHitDamage(int damage)
 {
-	if (_isHit == false && 
-		!_dashInvinCible) // 대쉬 무적상태가 아니면
+	if (_isHit == false &&
+		!_dashInvinCible && // 대쉬 무적상태가 아니면
+		!_deathDefencerTimer != 0) // 고통견딤 상태가 아니면 
 	{
 		float Realdamage;
 		int block;
@@ -1332,17 +1360,25 @@ void Player::GetHitDamage(int damage)
 		Realdamage = damage - damage * _realDefence / 100; // 대쉬시 충돌하면 기본 20데미지에서 계산
 		evasion = RANDOM->range(100);
 		block = RANDOM->range(100);
-		if (_realEvasion <= evasion)
-
+		if (_realEvasion <= evasion) // 회피 실패
 		{
-			if (_block <= block)
+			if (_block <= block) // 블록 실패
 			{
-				SOUNDMANAGER->play("Hit_Player");
-				_isHit = true;
-				_hitCount = 0;
-				_hp = _hp - Realdamage;
-				EFFECTMANAGER->AddEffect(0, 0, "hit", 0, 0, 0, true, 100, 0, 1, 1, true, true);
-				CAMERAMANAGER->Shake(25, 25, 6, 1);
+				if (_specialAbilityOn[2][1] && _hp - Realdamage <= 0 && !_deathDefencerActivated) // 고통견딤 특성
+				{
+					_deathDefencerActivated = true;
+					_deathDefencerTimer = 240;
+				}
+				else // 데미지 받음
+				{
+					SOUNDMANAGER->play("Hit_Player");
+					_isHit = true;
+					_hitCount = 0;
+
+					_hp = _hp - Realdamage;
+					EFFECTMANAGER->AddEffect(0, 0, "hit", 0, 0, 0, true, 100, 0, 1, 1, true, true);
+					CAMERAMANAGER->Shake(25, 25, 6, 1);
+				}
 			}
 			else
 			{
@@ -1424,11 +1460,18 @@ void Player::AddTraitPoint()
 						if (_abilityNum[i] == 5)
 						{
 							if (i == 1) AddMaxDash();
+							if (i == 2) _inven->AddItem(DATAMANAGER->GetItemById(4120));
+							if (i == 4) _goldDrop += 20;
 							_specialAbilityOn[i][0] = true;
 						}
-						else if (_abilityNum[i] == 10) _specialAbilityOn[i][1] = true;
+						else if (_abilityNum[i] == 10)
+						{
+							if (i == 4) _maxSatiety += 25;
+							_specialAbilityOn[i][1] = true;
+						}
 						else if (_abilityNum[i] == 20)
 						{
+							if (i == 4) { _accesoryCount += 1; _inven->SetInventoryAccesoryUI(); _inven->ReloadUIImages(); }
 							_specialAbilityOn[i][2] = true;
 							AddMaxDash();
 						}
@@ -1505,6 +1548,7 @@ void Player::ReloadTraitPoint()
 
 			case 4:
 				_initHp -= 2 * _abilityNum[i];
+				if (_initHp > _hp) _hp = _initHp;
 				break;
 
 			case 5:
@@ -1516,8 +1560,13 @@ void Player::ReloadTraitPoint()
 				break;
 			}
 			_remainPoint += _abilityNum[i];
-		
+
 			if (_abilityNum[i] >= 5 && i == 1) SubMaxDash();
+			if (_abilityNum[i] >= 5 && i == 2) RemoveMagicShield();
+			if (_abilityNum[i] >= 5 && i == 4) _goldDrop -= 20;
+			if (_abilityNum[i] >= 10 && i == 4) _maxSatiety -= 25;
+			if (_abilityNum[i] >= 20 && i == 4) { _accesoryCount -= 1; _inven->SetInventoryAccesoryUI(); _inven->SetInventoryAccesoryUI(); _inven->ReloadUIImages(); }
+
 			_abilityNum[i] = 0;
 
 			_specialAbilityOn[i][0] = false;
@@ -1525,9 +1574,22 @@ void Player::ReloadTraitPoint()
 
 			if (_specialAbilityOn[i][2]) SubMaxDash();
 			_specialAbilityOn[i][2] = false;
-		
+
 		}
 		ReInitTraitUI();
+	}
+}
+
+void Player::RemoveMagicShield()
+{
+	for (int i = 0; i < _inven->GetVItemList().size(); i++)
+	{
+		if (_inven->GetVItemList()[i]->GetId() == 4120)
+		{
+			_inven->GetVItemList().erase(_inven->GetVItemList().begin() + i);
+			_inven->ReloadUIImages();
+			break;
+		}
 	}
 }
 
@@ -1554,7 +1616,7 @@ void Player::CheckTraitIconHovered()
 		if (finded) break;
 	}
 
-	if(!finded) UIMANAGER->GetGameFrame()->GetChild("traitToolTip")->SetIsViewing(false);
+	if (!finded) UIMANAGER->GetGameFrame()->GetChild("traitToolTip")->SetIsViewing(false);
 }
 
 void Player::ReInitTraitUI()
@@ -1736,7 +1798,7 @@ void Player::CheckAliceZone()
 }
 
 void Player::AdjustAlicePower()
-{	
+{
 	if (_clothType == PC_ALICE)
 	{
 		if (_aliceZoneIn)//몬스터가 들어왔고, 
@@ -1766,25 +1828,54 @@ void Player::AdjustAlicePower()
 	}
 }
 
-/*
-void Player::CheckHongRyunAbility()
+//	이키나곰 특성
+void Player::SetIkinaBearAngry()
 {
-	int AtkCount = 0;	//공격 횟수
-
-	if (_clothType == PC_HONGRYAN)	//코스튬이 홍련상태이고
+	if (_clothType == CLOTHTYPE::PC_IKINABEAR)	//선택한 코스튬이 이키나곰 상태
 	{
-		if (_weapons[_selectedWeaponIdx] != nullptr)	//무기가 장착되어있다면
+		if (_rageCurrent >= _rageMax && !_isRaging)	//현재 화난 값이 화남값 최대보다 크고 변신중이 아닐 때
 		{
-			for (int i = 0; i < MAPMANAGER->GetPlayMap()->GetObjects().size(); i++)	//오브젝트를 돌면서 체크
+			_isRaging = true;		//변신시켜주고
+			_atkSpeedPer += 100;	//공격속도 증가
+			_rageTimer = 1200;
+			_rageCurrent = 0;
+			_vImages[0] = IMAGEMANAGER->findImage("bearIdle");
+			_vImages[1] = IMAGEMANAGER->findImage("bearRun");
+			UIMANAGER->GetGameFrame()->GetChild("IkinaBearFaceFrame")->SetIsViewing(true);
+		}
+		else
+		{
+			if (_isRaging)
 			{
-				Object* obj = MAPMANAGER->GetPlayMap()->GetObjects()[i];
-				if (obj->GetType() == OBJECTTYPE::OT_MONSTER)
+				_rageTimer--;
+				if (_rageTimer <= 0)
 				{
-					RECT temp;
-					if(IntersectRect(&temp,))
+					_atkSpeedPer -= 100;
+					_rageTimer = 1200;
+					_isRaging = false;
+					_vImages[0] = IMAGEMANAGER->findImage("lkinabearIdle");
+					_vImages[1] = IMAGEMANAGER->findImage("lkinabearRun");
+					UIMANAGER->GetGameFrame()->GetChild("IkinaBearFaceFrame")->SetIsViewing(true);
 				}
 			}
+			else
+			{
+				UIMANAGER->GetGameFrame()->GetChild("IkinaBearFaceFrame")->SetIsViewing(false);
+			}
 		}
+
+		dynamic_cast<UIProgressBar*>(UIMANAGER->GetGameFrame()->GetChild("IkinaBaseFrame")->GetChild("progress"))->FillCheck(_rageMax, _rageCurrent); // 차는 수치 변경
 	}
 }
-*/
+void Player::CheckMoveSpeedRiderH()
+{
+	if (_clothType == CLOTHTYPE::PC_RIDERH)
+	{
+		_power -= _prevPowerPlus; // 저번 프레임에서 추가됐던 power량을 원래대로 돌려줌
+
+		float speedPercent = ((_moveSpeed + (_moveSpeed * _moveSpeedPer / 100)) / 15.f);
+		if (speedPercent > 1) speedPercent = 1;
+		_power += 50 * speedPercent;
+		_prevPowerPlus = 50 * speedPercent; // 이번 프레임에서 계산된 비율을 다음 프레임에서 사용하기 위해 저장해둠
+	}
+}
