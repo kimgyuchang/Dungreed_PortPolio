@@ -85,7 +85,7 @@ void Box::GetDamage()
 	}
 	
 	int coinNumber = RANDOM->range(0, 4);
-	for (int i = 0; i < coinNumber; i++)
+	for (int i = 0; i < coinNumber + coinNumber * ((ENTITYMANAGER->getPlayer()->GetGoldDrop() - 100) / 100.f); i++)
 	{
 		Coin* coin = new Coin(*dynamic_cast<Coin*>(DATAMANAGER->GetObjectById(524)));
 		coin->SetUseImage(1);

@@ -70,6 +70,7 @@ public:
 	void SetViewingTimer(int timer) { _isSetTimer = true; _timer = timer; SetIsViewing(true);}
 
 	UIFrame* GetChild(string name) { return _mChildFrames[name]; }
+	void RemoveChild(string name) { _mChildFrames.erase(name); }
 
 	float GetX() { return _x; }
 	float GetY() { return _y; }
