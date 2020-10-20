@@ -262,6 +262,7 @@ public:
 	void AdjustAlicePower();
 	void SetIkinaBearAngry();
 	void CheckMoveSpeedRiderH();
+	void CheckCliminal();
 	
 	void SetHpUI();
 	// GETSET //

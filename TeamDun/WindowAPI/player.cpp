@@ -325,9 +325,9 @@ void Player::SubMaxDash()
 
 void Player::DashAttack()
 {
-	if (_weapons[_selectedWeaponIdx] != nullptr && 
-		_weapons[_selectedWeaponIdx]->GetWeaponType() != WEAPONTYPE::WT_RANGE && 
-		_weapons[_selectedWeaponIdx]->GetWeaponType() != WEAPONTYPE::WT_PISTOL && 
+	if (_weapons[_selectedWeaponIdx] != nullptr &&
+		_weapons[_selectedWeaponIdx]->GetWeaponType() != WEAPONTYPE::WT_RANGE &&
+		_weapons[_selectedWeaponIdx]->GetWeaponType() != WEAPONTYPE::WT_PISTOL &&
 		_weapons[_selectedWeaponIdx]->GetWeaponType() != WEAPONTYPE::WT_CHARGE)
 	{
 		_dashAttackRect = RectMake(_x - 30, _y - 30, _vImages[0]->getFrameWidth() + 60, _vImages[0]->getFrameHeight() + 60);
@@ -443,7 +443,7 @@ void Player::SwitchWeapon()
 
 void Player::JumpAttackRectUpdate()
 {
-	if(_specialAbilityOn[0][0])
+	if (_specialAbilityOn[0][0])
 		_jumpAttackRect = RectMake(_x - 50, _y + _vImages[0]->getFrameHeight() * 0.2f, _vImages[0]->getFrameWidth() + 100, _vImages[0]->getFrameHeight() * 1.4f);
 }
 
@@ -455,7 +455,7 @@ void Player::DamageJumpAttackRect()
 		if (obj->GetType() == OBJECTTYPE::OT_MONSTER || obj->GetType() == OBJECTTYPE::OT_BREAKABLE)
 		{
 			RECT temp;
-			if(IntersectRect(&temp, &_jumpAttackRect, &obj->GetBody()))
+			if (IntersectRect(&temp, &_jumpAttackRect, &obj->GetBody()))
 				obj->GetDamage(8);
 		}
 	}
@@ -498,7 +498,7 @@ void Player::DamageUpEnemyKill()
 			_damageUpTimerUse = true;
 		}
 	}
-}	
+}
 
 void Player::SpecialAtkSpeedUp()
 {
@@ -1265,7 +1265,7 @@ void Player::SetToolTipFrame(float x, float y, int index)
 
 void Player::GetHitDamage(int damage)
 {
-	if (_isHit == false && 
+	if (_isHit == false &&
 		!_dashInvinCible) // 대쉬 무적상태가 아니면
 	{
 		float Realdamage;
@@ -1459,7 +1459,7 @@ void Player::ReloadTraitPoint()
 				break;
 			}
 			_remainPoint += _abilityNum[i];
-		
+
 			if (_abilityNum[i] >= 5 && i == 1) SubMaxDash();
 			_abilityNum[i] = 0;
 
@@ -1468,7 +1468,7 @@ void Player::ReloadTraitPoint()
 
 			if (_specialAbilityOn[i][2]) SubMaxDash();
 			_specialAbilityOn[i][2] = false;
-		
+
 		}
 		ReInitTraitUI();
 	}
@@ -1497,7 +1497,7 @@ void Player::CheckTraitIconHovered()
 		if (finded) break;
 	}
 
-	if(!finded) UIMANAGER->GetGameFrame()->GetChild("traitToolTip")->SetIsViewing(false);
+	if (!finded) UIMANAGER->GetGameFrame()->GetChild("traitToolTip")->SetIsViewing(false);
 }
 
 void Player::ReInitTraitUI()
@@ -1679,7 +1679,7 @@ void Player::CheckAliceZone()
 }
 
 void Player::AdjustAlicePower()
-{	
+{
 	if (_clothType == PC_ALICE)
 	{
 		if (_aliceZoneIn)//몬스터가 들어왔고, 
@@ -1749,6 +1749,8 @@ void Player::SetIkinaBearAngry()
 		dynamic_cast<UIProgressBar*>(UIMANAGER->GetGameFrame()->GetChild("IkinaBaseFrame")->GetChild("progress"))->FillCheck(_rageMax, _rageCurrent); // 차는 수치 변경
 	}
 }
+
+//라이더 H 특성
 void Player::CheckMoveSpeedRiderH()
 {
 	if (_clothType == CLOTHTYPE::PC_RIDERH)
@@ -1759,5 +1761,14 @@ void Player::CheckMoveSpeedRiderH()
 		if (speedPercent > 1) speedPercent = 1;
 		_power += 50 * speedPercent;
 		_prevPowerPlus = 50 * speedPercent; // 이번 프레임에서 계산된 비율을 다음 프레임에서 사용하기 위해 저장해둠
+	}
+}
+
+//범죄자 실루엣 특성
+void Player::CheckCliminal()
+{
+	if (_clothType == CLOTHTYPE::PC_CRIMINAL)
+	{
+		
 	}
 }
