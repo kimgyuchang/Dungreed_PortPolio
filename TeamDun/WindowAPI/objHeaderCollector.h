@@ -35,3 +35,5 @@
 #include "HpPixie.h"
 #include "Box.h"
 #include "BoxParticle.h"
+#include "BloodOfSrobeo.h"
+#include "BlessOfSage.h"

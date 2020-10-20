@@ -74,6 +74,7 @@ HRESULT Player::init()
 
 	_criticalPercent = 2;
 	_criticalDamage = 100;
+	_isCritical = false;
 
 	_weapons[0] = nullptr;
 	_weapons[1] = nullptr;
@@ -133,13 +134,13 @@ HRESULT Player::init()
 	_inven->AddItem(DATAMANAGER->GetItemById(4001));
 	_inven->AddItem(DATAMANAGER->GetItemById(4002));
 	_inven->AddItem(DATAMANAGER->GetItemById(4002));
-	_inven->AddItem(DATAMANAGER->GetItemById(4002));
+	_inven->AddItem(DATAMANAGER->GetItemById(4016));
 	_inven->AddItem(DATAMANAGER->GetItemById(4003));
 	_inven->AddItem(DATAMANAGER->GetItemById(4003));
 	_inven->AddItem(DATAMANAGER->GetItemById(4003));
 	_inven->AddItem(DATAMANAGER->GetItemById(4004));
-	_inven->AddItem(DATAMANAGER->GetItemById(4004));
-	_inven->AddItem(DATAMANAGER->GetItemById(4004));
+	_inven->AddItem(DATAMANAGER->GetItemById(4015));
+	_inven->AddItem(DATAMANAGER->GetItemById(4005));
 
 	return S_OK;
 }

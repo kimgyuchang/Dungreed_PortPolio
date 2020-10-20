@@ -158,7 +158,7 @@ void Item::AdaptSubOption(SubOption* subOption, bool isEquip)
 		p->SetTrueDamage(p->GetTrueDamage() + value);
 		break;
 	case MAXHP:
-		p->SetMaxHp(p->GetMaxHp() + value);
+		p->SetInitHp(p->GetInitHp() + value);
 		break;
 	case MAXHPPERCENT:
 		p->SetMaxHpPer(p->GetMaxHpPer() + value);

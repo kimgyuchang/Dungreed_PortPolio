@@ -261,6 +261,12 @@ void DataManager::GetItemData()
 		case 4001: // ´õÄÝÆ®
 			item = new Colt();
 			break;
+		case 4005:
+			item = new BloodOfSrobeo();
+			break;
+		case 4015:
+			item = new BlessOfSage();
+			break;
 		default:
 			item = new Item();
 			break;
