@@ -1,6 +1,14 @@
-id,itemType,weaponType,skill,name,description,itemClass,minAtk,maxAtk,atkSpeed,defence,useAtkspeed,numOfBullet,reloadTime,bullet,accuracy,buyPrice,isBulletInfinite,imageName1,imageName2,imageName3,invenImageName,Suboption1Id,Suboption1Power,Suboption1Description,Suboption2Id,Suboption2Power,Suboption2Description,Suboption3Id,Suboption3Power,Suboption3Description
-4000,두손무기,근접,-1,마검 엘레마,전 주인이 어떻게 죽었냐고? 글쎄.. 일단 이야기를 하기 전에 내 눈을 촉촉하게 하고 싶군.,전설,35,45,1,0,1,0,0,-1,0,8000,0,DemonSword,.,.,DemonSword_inven,TOSTUN,0,.,ETC,0,시간이 지날수록 점점 데미지가 강해집니다.,GOLDDROP,75,.
-4001,한손무기,권총,-1,더 콜트,그는 모두를 자유롭게 했고 그녀는 모두를 평등하게 했다,일반,3,5,8.33,1,1,12,20,-1,80,800,0,Colt,.,.,Colt_inven,TOELEC,0,.,TOUGHNESS,4,.,ELECDAMAGE,30,.
-4002,악세서리,무기아님,-1,은귀고리,반짝이는 귀는 몬스터의 주의를 조금이라도 끌 수 있습니다.,일반,0,0,0,2,0,0,0,-1,0,500,0,SilverEaring_inven,.,.,SilverEaring_inven,EVADE,3,.,.,.,.,.,.,.
-4003,악세서리,무기아님,-1,은반지,반으로 나누어 착용하는 은으로 만든 가락지.,일반,0,0,0,1,0,0,0,-1,0,500,0,SilverRing_inven,.,.,SilverRing_inven,MAXHP,5,.,POWER,3,.,.,.,.
-4004,서브무기,무기아님,-1,망고슈,왼손으로 잡아 적의 공격을 방어하는데 사용했던 단검,일반,0,0,0,0,0,0,0,-1,0,800,0,MainGauche,.,.,MainGauche_inven,CRITICALDAMAGE,20,.,CRITICALPERCENT,5,.,.,.,.
+id,itemType,weaponType,skill,name,description,itemClass,minAtk,maxAtk,atkSpeed,defence,useAtkspeed,numOfBullet,reloadTime,bullet,accuracy,buyPrice,isBulletInfinite,imageName1,imageName2,imageName3,invenImageName,dropImageName,Suboption1Id,Suboption1Power,Suboption1Description,Suboption2Id,Suboption2Power,Suboption2Description,Suboption3Id,Suboption3Power,Suboption3Description
+4000,두손무기,근접,-1,마검 엘레마,전 주인이 어떻게 죽었냐고? 글쎄.. 일단 이야기를 하기 전에 내 눈을 촉촉하게 하고 싶군.,전설,35,45,1,0,1,0,0,-1,0,8000,0,DemonSword,.,.,DemonSword_inven,DemonSword_Drop,TOSTUN,0,.,ETC,0,시간이 지날수록 점점 데미지가 강해집니다.,GOLDDROP,75,.
+4001,한손무기,권총,-1,더 콜트,그는 모두를 자유롭게 했고 그녀는 모두를 평등하게 했다,일반,3,5,8.33,1,1,12,20,-1,80,800,0,Colt,.,.,Colt_inven,Colt_Drop,TOELEC,0,.,TOUGHNESS,4,.,ELECDAMAGE,30,.
+4002,악세서리,무기아님,-1,은귀고리,반짝이는 귀는 몬스터의 주의를 조금이라도 끌 수 있습니다.,일반,0,0,0,2,0,0,0,-1,0,500,0,SilverEaring_inven,.,.,SilverEaring_inven,SilverEaring_inven,EVADE,3,.,.,.,.,.,.,.
+4003,악세서리,무기아님,-1,은반지,반으로 나누어 착용하는 은으로 만든 가락지.,일반,0,0,0,1,0,0,0,-1,0,500,0,SilverRing_inven,.,.,SilverRing_inven,SilverRing_inven,MAXHP,5,.,POWER,3,.,.,.,.
+4004,서브무기,무기아님,-1,망고슈,왼손으로 잡아 적의 공격을 방어하는데 사용했던 단검,일반,0,0,0,0,0,0,0,-1,0,800,0,MainGauche,.,.,MainGauche_inven,MainGauche_inven,CRITICALDAMAGE,20,.,CRITICALPERCENT,5,.,.,.,.
+4005,악세서리,무기아님,-1,소르베오의피,이 피를 마시면 송곳니가 길어지는 병에 걸린다고 한다.,전설,0,0,0,0,0,0,0,-1,0,8500,0,BloodOfSrobeo,.,.,BloodOfSrobeo,BloodOfSrobeo,ETC,0,크리티컬 발동 시 체력 2 회복 (재사용 대기시간 0.5s),.,.,.,.,.,.
+4006,악세서리,무기아님,-1,폭탄 주머니,폭탄이 가득 담긴 주머니입니다.,고급,0,0,0,2,0,0,0,-1,0,1800,0,BombPouch,.,.,BombPouch,BombPouch,ETC,0,대쉬한 자리에 폭탄을 남김,.,.,.,.,.,.
+4007,악세서리,무기아님 ,-1,혈석반지,몬스터를 쓰러트릴 때 마다 생명의 무게가 전해진다.,고급,0,0,0,0,0,0,0,-1,0,1650,0,BloodStoneRing,.,.,BloodStoneRing,BloodStoneRing,ETC,0,적을 10마리 죽일 때 마다 체력을 5회복,.,.,.,.,.,.
+4008,악세서리,무기아님,-1,천옷,따뜻합니다.,일반,0,0,0,5,0,0,0,-1,0,620,0,ClothArmor,.,.,ClothArmor,ClothArmor,EVADE,2,.,.,.,.,.,.,.
+4009,악세서리,무기아님 ,-1,사슬갑옷,가볍지만 소리가 커서 발걸음이 위축되는 갑옷,일반,0,0,0,11,0,0,0,-1,0,670,0,ChainArmor,.,.,ChainArmor,ChainArmor,MOVESPEED,-5,.,.,.,.,.,.,.
+4010,악세서리,무기아님 ,-1,소가죽갑옷,조금 꽉 끼는 명품 소가죽 갑옷,희귀,0,0,0,15,0,0,0,-1,0,3250,0,CowLeather,.,.,CowLeather,CowLeather,MOVESPEED,5,.,ATKSPEED,5,.,.,.,.
+4011,악세서리,무기아님 ,-1,친타마니돌,고대의 사원에서 발견된 아름다운 돌 일곱개로 갈라질 것 같다.,희귀,0,0,0,0,0,0,0,-1,0,2920,0,Cintamani,.,.,Cintamani,Cintamani,ETC,0,체력이 10이하로 떨어지게 되면 체력이 30 회복,.,.,.,.,.,.
+4012,악세서리,무기아님,-1,드워프제 갑옷,드워프들이 만든 이 갑옷은 가볍지만 무척 단단하다. 드워프처럼 크기가 작지도않고.,희귀,0,0,0,14,0,0,0,-1,0,3100,0,DwarvenArmor,.,.,DwarvenArmor,DwarvenArmor,POWER,5,.,TOUGHNESS,1,.,.,.,.
