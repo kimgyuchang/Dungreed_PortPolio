@@ -595,6 +595,9 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("restaurantSatiation", "Images/UI/restaurantSatiation.bmp", 333, 51, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("restaurantMoney", "Images/UI/restaurantMoney.bmp", 200, 51, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("LifeWave", "Images/UI/LifeWave.bmp", 203, 48, 7, 1, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("satiation", "Images/UI/satiation.bmp", 1, 33, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SatiationProgressBar", "Images/UI/SatiationProgressBar.bmp", 337, 46, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ThankYou.korean", "Images/UI/ThankYou.korean.bmp", 297, 57, true, RGB(255, 0, 255));
 
 	_loading->LoadNormalImage("CheckImage", "Images/GridBound.bmp", 48, 48, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CheckImageRed", "Images/GridBoundRed.bmp", 48, 48, true, RGB(255, 0, 255));

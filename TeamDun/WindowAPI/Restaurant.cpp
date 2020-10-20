@@ -8,7 +8,8 @@ HRESULT Restaurant::init(int id, string name, OBJECTTYPE type, vector<string> im
 	_npcName = "호레리카";
 	_vConvTexts = vector<string>
 	{
-		"오늘은 어떤 요리를 드시러 오셨나요?"
+		"오늘은 어떤 요리를 드시러 오셨나요?",
+		"강한 힘이 아니더라도, 제 요리가 누군가를 구원할 수 있을거라고 믿어요."
 	};
 	_vSelectTexts = vector<string>
 	{
@@ -19,8 +20,12 @@ HRESULT Restaurant::init(int id, string name, OBJECTTYPE type, vector<string> im
 	_useConv = true;
 	_useSelect = true;
 	_isOpen = false;
-	_isNoMoney = false;
-	_isFull = false;
+
+	for (int i = 0; i < _vFoods.size(); i++)
+	{
+		_vFoods[i]->_isSoldOut = false;
+	}
+
 	_count = 0;
 	_speed = 0.6f;
 	_x = -15;
@@ -28,10 +33,6 @@ HRESULT Restaurant::init(int id, string name, OBJECTTYPE type, vector<string> im
 
 	_mouseLocation = 0;
 	_scrollTimer = 0;
-
-	_hEdit = CreateWindow("edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER |
-		ES_AUTOHSCROLL | ES_RIGHT, WINSIZEX / 2 - 95, WINSIZEY / 2, 200, 25, _hWnd, (HMENU)100, _hInstance, NULL);
-	ShowWindow(_hEdit, SW_HIDE);
 
 	return S_OK;
 }
@@ -46,18 +47,19 @@ void Restaurant::update()
 
 	if (_restaurantBase->GetIsViewing())
 	{
+		SetSatiationUI();
+
 		// 나가기
 		if (_restaurantBase->GetChild("_exit")->GetIsViewing() && PtInRect(&_restaurantBase->GetChild("_exit")->GetRect(), _ptMouse))
 		{
 			if (INPUT->GetIsLButtonClicked())
 			{
 				_restaurantBase->SetIsViewing(false);
+				UIMANAGER->GetGameFrame()->GetChild("_foodImg")->SetIsViewing(false);
 				_isActivating = false;
 				_isOpen = false;
 			}
 		}
-
-
 		// 각 FOOD 구매
 		if (!_foodAlphaAnimOn && !_foodMoveAnimOn) // FOOD 알파 애니메이션이 꺼졌을때
 		{
@@ -69,36 +71,32 @@ void Restaurant::update()
 				{
 					_restaurantBase->GetChild("_foodFrame" + to_string(i))->SetImage(IMAGEMANAGER->findImage("RestaurantMenu_Withoutmoney_Selected"));
 					foodImg->SetImage(_vFoods[i]->_img);
-					foodImg->SetIsViewing(true);
+					if(!_vFoods[i]->_isSoldOut) foodImg->SetIsViewing(true);
 					checkAnyoneCollided = true; // 하나라도 충돌하면 ON
 
-					if (INPUT->GetIsLButtonClicked())
+					if (INPUT->GetIsRButtonClicked())
 					{
 						Food* food = _vFoods[i];
 						this->BuyFood(food, i);
 						break;
 					}
 				}
-
 				else
 				{
 					_restaurantBase->GetChild("_foodFrame" + to_string(i))->SetImage(IMAGEMANAGER->findImage("RestaurantMenu_Withoutmoney"));
 				}
 			}
-
 			if (!checkAnyoneCollided)
 			{
 				foodImg->SetImage(nullptr);
 				foodImg->SetIsViewing(false);
 			}
 		}
-
 		else
 		{
 			if (_foodAlphaAnimOn) FoodAlphaAnim();
 			if (_foodMoveAnimOn) MoveFood();
 		}
-
 		MoveUI();
 	}
 }
@@ -113,6 +111,8 @@ void Restaurant::MoveFood()
 
 	if (_x > 0 || _y > 0)
 	{
+		_x = -15;
+		_y = -15;
 		_foodAlphaAnimOn = true;
 		_foodMoveAnimOn = false;
 	}
@@ -178,6 +178,7 @@ void Restaurant::Activate()
 	ReNewUI();
 	_isActivating = !_isActivating;
 	_restaurantBase->ToggleIsViewing();
+	UIMANAGER->GetGameFrame()->GetChild("_foodImg")->SetIsViewing(false);
 }
 
 void Restaurant::initSecond()
@@ -476,7 +477,7 @@ void Restaurant::SetRestaurantFood()
 			food->_vStatusType.push_back(FOODSTATUSTYPE::FST_SATIATION);
 			food->_vStatusNum.push_back(RANDOM->range(10.0f, 30.0f));
 			food->_price = food->_vHealPer[0] * 50 + food->_vStatusNum[0] * 100;
-			food->_satiation = RANDOM->range(46, 55);
+			food->_satiation = 0;
 			food->_img = IMAGEMANAGER->findImage("22_SmokedSalmon");
 			food->_imgName = "22_SmokedSalmon";
 			break;
@@ -486,12 +487,12 @@ void Restaurant::SetRestaurantFood()
 			food->_vHealPer.push_back(RANDOM->range(5.0f, 12.5f));
 			food->_vStatusType.push_back(FOODSTATUSTYPE::FST_DEF);
 			food->_vStatusNum.push_back(RANDOM->range(4.0f, 8.0f));
-			food->_vStatusType.push_back(FOODSTATUSTYPE::FST_CRIDMG);
-			food->_vStatusNum.push_back(RANDOM->range(4.0f, 8.0f));
 			food->_vStatusType.push_back(FOODSTATUSTYPE::FST_STRONG);
 			food->_vStatusNum.push_back(RANDOM->range(1.0f, 2.0f));
 			food->_vStatusType.push_back(FOODSTATUSTYPE::FST_FIXEDDMG);
 			food->_vStatusNum.push_back(RANDOM->range(1.0f, 2.0f));
+			food->_vStatusType.push_back(FOODSTATUSTYPE::FST_CRIDMG);
+			food->_vStatusNum.push_back(RANDOM->range(4.0f, 8.0f));
 			food->_vStatusType.push_back(FOODSTATUSTYPE::FST_MAXHP);
 			food->_vStatusNum.push_back(RANDOM->range(8.0f, 11.0f));
 			food->_vStatusType.push_back(FOODSTATUSTYPE::FST_EVADE);
@@ -533,7 +534,7 @@ void Restaurant::SetRestaurantFood()
 		case F_SPARKLING:
 			food->_name = "탄산수";
 			food->_vHeal.push_back(FOODHEAL::F_HEAL);
-			food->_vHealPer.push_back(RANDOM->range(5.0f, 12.5f));
+			food->_vHealPer.push_back(0);
 			food->_vStatusType.push_back(FOODSTATUSTYPE::FST_SATIATION);
 			food->_vStatusNum.push_back(RANDOM->range(10.0f, 30.0f));
 			food->_price = food->_vHealPer[0] * 50 + food->_vStatusNum[0] * 100;
@@ -571,6 +572,11 @@ void Restaurant::SetRestaurantFood()
 	}
 }
 
+void Restaurant::SetSatiationUI()
+{
+	dynamic_cast<UIProgressBar*>(_restaurantBase->GetChild("realSatiation"))->FillCheck(ENTITYMANAGER->getPlayer()->GetMaxSatiety(), ENTITYMANAGER->getPlayer()->GetSatiety());
+}
+
 void Restaurant::BuyFood(Food* food, int index)
 {
 	Player* p = ENTITYMANAGER->getPlayer();
@@ -579,12 +585,11 @@ void Restaurant::BuyFood(Food* food, int index)
 	{
 		UIMANAGER->GetGameFrame()->GetChild("noMoney")->SetViewingTimer(30);
 	}
-
 	else if (p->GetMaxSatiety() < p->GetSatiety() + food->_satiation)
 	{
 		UIMANAGER->GetGameFrame()->GetChild("full")->SetViewingTimer(30);
 	}
-
+	else if (food->_isSoldOut) {}
 	else
 	{
 		p->SetMoney(p->GetMoney() - food->_price);
@@ -622,13 +627,12 @@ void Restaurant::BuyFood(Food* food, int index)
 				break;
 			}
 			case FST_MAXHP: {
-				int newMaxHP = p->GetMaxHp() + food->_vStatusNum[i];
-				p->SetMaxHp(newMaxHP);
+				int newMaxHP = p->GetInitHp() + food->_vStatusNum[i];
+				p->SetInitHp(newMaxHP);
 				break;
 			}
 			case FST_MAXDASH: {
-				int newMaxDash = p->GetMaxDashCount() + food->_vStatusNum[i];
-				p->SetMaxDashCount(newMaxDash);
+				p->AddMaxDash();
 				break;
 			}
 			case FST_FIXEDDMG: {
@@ -689,9 +693,9 @@ void Restaurant::BuyFood(Food* food, int index)
 			}
 		}
 
+		food->_isSoldOut = true;
 		_foodMoveAnimOn = true;
 		UIMANAGER->GetGameFrame()->GetChild("_foodImg")->MoveFrameChild(170, 170);
-		_vFoods.erase(_vFoods.begin() + index);
 	}
 
 	this->ReNewUI();
@@ -708,109 +712,141 @@ void Restaurant::ReNewUI()
 		_foodFrame->init("_foodFrame" + to_string(i), 18, 15 + i * 165, 431, 160, "RestaurantMenu_Withoutmoney");
 		_restaurantBase->AddFrame(_foodFrame);
 
-		for (int j = 0; j < _vFoods[i]->_vStatusType.size(); j++)
+		if (_vFoods[i]->_isSoldOut)
 		{
-			UIText* foodName = new UIText();
-			foodName->init("foodName", 10, 10, 500, 30, _vFoods[i]->_name, FONT::PIX, WORDSIZE::WS_MIDDLE);
-			_foodFrame->AddFrame(foodName);
+			_restaurantBase->GetChild("_foodFrame" + to_string(i))->GetVChildFrames().clear();
+			_restaurantBase->GetChild("_foodFrame" + to_string(i))->SetImage(IMAGEMANAGER->findImage("RestaurantMenu_Withoutmoney"));
 
-			UIText* foodHeal = new UIText();
-			foodHeal->init("foodHeal", -115, 60, 500, 500, (to_string((int)_vFoods[i]->_vHealPer[0])),
-				FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_RIGHT);
-			_foodFrame->AddFrame(foodHeal);
+			UIFrame* ThankYou = new UIFrame();
+			ThankYou->init("ThankYou", 45, 45, 297, 57, "ThankYou.korean", 1.2f, 1.2f);
+			_restaurantBase->GetChild("_foodFrame" + to_string(i))->AddFrame(ThankYou);
+		}
 
-			UIText* per = new UIText();
-			per->init("per", -100, 60, 500, 500, " %", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_RIGHT);
-			_foodFrame->AddFrame(per);
-
-			UIFrame* life = new UIFrame();
-			life->init("life", 400, 60, 17, 14, "Fairy", 1.5f, 1.5f);
-			_foodFrame->AddFrame(life);
-
-			UIText* foodSatiation = new UIText();
-			foodSatiation->init("foodSatiation", -100, 90, 500, 500, (to_string(_vFoods[i]->_satiation)),
-				FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_RIGHT, RGB(0, 255, 0));
-			_foodFrame->AddFrame(foodSatiation);
-
-			UIFrame* gogi = new UIFrame();
-			gogi->init("gogi", 400, 90, 17, 14, "Food", 1.5f, 1.5f);
-			_foodFrame->AddFrame(gogi);
-
-			UIText* foodPrice = new UIText();
-			foodPrice->init("foodPrice", -100, 120, 500, 500, to_string(_vFoods[i]->_price),
-				FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_RIGHT);
-			_foodFrame->AddFrame(foodPrice);
-
-			UIFrame* coin = new UIFrame();
-			coin->init("coin", 400, 117, 17, 14, "Coin", 1.3f, 1.3f);
-			_foodFrame->AddFrame(coin);
-
-			UIText* triangle = new UIText();
-			triangle->init("triangle", 10, 50 + j * 25, 500, 500, "▶ + ", FONT::PIX, WORDSIZE::WS_SMALL);
-			_foodFrame->AddFrame(triangle);
-
-			UIText* foodStatNum = new UIText();
-			foodStatNum->init("foodStatNum", 60, 50 + j * 25, 500, 500, to_string((int)_vFoods[i]->_vStatusNum[j]),
-				FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(0, 255, 0));
-			_foodFrame->AddFrame(foodStatNum);
-
-			string typetext;
-			FOODSTATUSTYPE type = _vFoods[i]->_vStatusType[j];
-			switch (type)
+		else
+		{
+			for (int j = 0; j < _vFoods[i]->_vStatusType.size(); j++)
 			{
-			case FST_POWER:
-				typetext = "위력";
-				break;
-			case FST_DEF:
-				typetext = "방어력";
-				break;
-			case FST_EVADE:
-				typetext = "회피";
-				break;
-			case FST_CRIPER:
-				typetext = "크리티컬 확률";
-				break;
-			case FST_CRIDMG:
-				typetext = "크리티컬 데미지";
-				break;
-			case FST_MAXHP:
-				typetext = "최대 체력";
-				break;
-			case FST_MAXDASH:
-				typetext = "대시 횟수";
-				break;
-			case FST_FIXEDDMG:
-				typetext = "고정 데미지";
-				break;
-			case FST_ATKSPEED:
-				typetext = "% 공격 속도";
-				break;
-			case FST_CHARGESPEED:
-				typetext = "% 재장전 속도";
-				break;
-			case FST_MAXACCSLOT:
-				typetext = "악세사리 슬롯";
-				break;
-			case FST_STRONG:
-				typetext = "강인함";
-				break;
-			case FST_SATIATION:
-				typetext = "포만감 감소";
-				break;
-			case FST_BLOCK:
-				typetext = "막기";
-				break;
-			case FST_MOVESPEED:
-				typetext = "% 이동 속도";
-				break;
-			default:
-				break;
+				UIText* foodName = new UIText();
+				foodName->init("foodName", 10, 10, 500, 30, _vFoods[i]->_name, FONT::PIX, WORDSIZE::WS_MIDDLE);
+				_foodFrame->AddFrame(foodName);
+
+				UIText* foodHeal = new UIText();
+				foodHeal->init("foodHeal", -115, 60, 500, 500, (to_string((int)_vFoods[i]->_vHealPer[0])),
+					FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_RIGHT);
+				_foodFrame->AddFrame(foodHeal);
+
+				UIText* per = new UIText();
+				per->init("per", -100, 60, 500, 500, " %", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_RIGHT);
+				_foodFrame->AddFrame(per);
+
+				UIFrame* life = new UIFrame();
+				life->init("life", 400, 60, 17, 14, "Fairy", 1.5f, 1.5f);
+				_foodFrame->AddFrame(life);
+
+				UIText* foodSatiation = new UIText();
+				foodSatiation->init("foodSatiation", -100, 90, 500, 500, (to_string(_vFoods[i]->_satiation)),
+					FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_RIGHT, RGB(0, 255, 0));
+				_foodFrame->AddFrame(foodSatiation);
+
+				UIFrame* gogi = new UIFrame();
+				gogi->init("gogi", 400, 90, 17, 14, "Food", 1.5f, 1.5f);
+				_foodFrame->AddFrame(gogi);
+
+				UIText* foodPrice = new UIText();
+				foodPrice->init("foodPrice", -100, 120, 500, 500, to_string(_vFoods[i]->_price),
+					FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_RIGHT);
+				_foodFrame->AddFrame(foodPrice);
+
+				UIFrame* coin = new UIFrame();
+				coin->init("coin", 400, 117, 17, 14, "Coin", 1.3f, 1.3f);
+				_foodFrame->AddFrame(coin);
+
+				string typetext;
+				FOODSTATUSTYPE type = _vFoods[i]->_vStatusType[j];
+				switch (type)
+				{
+				case FST_POWER:
+					typetext = "위력";
+					break;
+				case FST_DEF:
+					typetext = "방어력";
+					break;
+				case FST_EVADE:
+					typetext = "회피";
+					break;
+				case FST_CRIPER:
+					typetext = "크리티컬 확률";
+					break;
+				case FST_CRIDMG:
+					typetext = "크리티컬 데미지";
+					break;
+				case FST_MAXHP:
+					typetext = "최대 체력";
+					break;
+				case FST_MAXDASH:
+					typetext = "대시 횟수";
+					break;
+				case FST_FIXEDDMG:
+					typetext = "고정 데미지";
+					break;
+				case FST_ATKSPEED:
+					typetext = "% 공격 속도";
+					break;
+				case FST_CHARGESPEED:
+					typetext = "% 재장전 속도";
+					break;
+				case FST_MAXACCSLOT:
+					typetext = "악세사리 슬롯";
+					break;
+				case FST_STRONG:
+					typetext = "강인함";
+					break;
+				case FST_SATIATION:
+					typetext = "포만감 감소";
+					break;
+				case FST_BLOCK:
+					typetext = "막기";
+					break;
+				case FST_MOVESPEED:
+					typetext = "% 이동 속도";
+					break;
+				default:
+					break;
+				}
+				if (j < 4)
+				{
+					UIText* triangle = new UIText();
+					triangle->init("triangle", 10, 50 + j * 25, 500, 160, "▶ + ", FONT::PIX, WORDSIZE::WS_SMALL);
+					_foodFrame->AddFrame(triangle);
+
+					UIText* foodStatNum = new UIText();
+					foodStatNum->init("foodStatNum", 50, 50 + j * 25, 500, 160, to_string((int)_vFoods[i]->_vStatusNum[j]),
+						FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(0, 255, 0));
+					_foodFrame->AddFrame(foodStatNum);
+
+					UIText* foodStatType = new UIText();
+					foodStatType->init("foodStatType", 75, 50 + j * 25, 500, 500, typetext, FONT::PIX, WORDSIZE::WS_MIDDLESMALL);
+					_foodFrame->AddFrame(foodStatType);
+				}
+				else if (j >= 4) // 새우튀김용
+				{
+					UIText* triangle = new UIText();
+					triangle->init("triangle", 195, 50 + (j - 4) * 25, 500, 160, "▶ + ", FONT::PIX, WORDSIZE::WS_SMALL);
+					_foodFrame->AddFrame(triangle);
+
+					UIText* foodStatNum = new UIText();
+					foodStatNum->init("foodStatNum", 235, 50 + (j - 4) * 25, 500, 160, to_string((int)_vFoods[i]->_vStatusNum[j]),
+						FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(0, 255, 0));
+					_foodFrame->AddFrame(foodStatNum);
+
+					UIText* foodStatType = new UIText();
+					foodStatType->init("foodStatType", 260, 50 + (j - 4) * 25, 500, 500, typetext, FONT::PIX, WORDSIZE::WS_MIDDLESMALL);
+					_foodFrame->AddFrame(foodStatType);
+				}
 			}
-			UIText* foodStatType = new UIText();
-			foodStatType->init("foodStatType", 90, 50 + j * 25, 500, 500, typetext, FONT::PIX, WORDSIZE::WS_MIDDLESMALL);
-			_foodFrame->AddFrame(foodStatType);
 		}
 	}
+
 
 	UIFrame* _wholeFoodFrame = new UIFrame();
 	_wholeFoodFrame->init("_wholeFoodFrame", -50, -150, WINSIZEX, WINSIZEY, "baseFrame");
@@ -828,8 +864,12 @@ void Restaurant::ReNewUI()
 	_exit->init("_exit", WINSIZEX - 170, -120, 92, 79, "Xbutton");
 	_restaurantBase->AddFrame(_exit);
 
+	UIProgressBar* realSatiation = new UIProgressBar();
+	realSatiation->init("realSatiation", 118, WINSIZEY - 220, 1, 33, "SatiationProgressBar", "");
+	_restaurantBase->AddFrame(realSatiation);
+
 	UIFrame* _satiation = new UIFrame();
-	_satiation->init("_satiation", 0, WINSIZEY - 235, 333, 51, "restaurantSatiation", 1.4f, 1.4f);
+	_satiation->init("_satiation", 0, WINSIZEY - 235, 333, 51, "Base_1", 1.4f, 1.4f);
 	_restaurantBase->AddFrame(_satiation);
 
 	UIFrame* _foodIcon = new UIFrame();
@@ -869,22 +909,10 @@ void Restaurant::MoveUI()
 			for (int i = 0; i < _vFoods.size(); i++)
 			{
 				_restaurantBase->GetChild("_foodFrame" + to_string(i))->MoveFrameChild(0, _ptMouse.y - _mouseLocation);
-
-				/*
-				if (_restaurantBase->GetChild("_foodFrame" + to_string(_vFoods.size()))->GetY() < 500)
-				{
-					_restaurantBase->GetChild("_foodFrame" + to_string(_vFoods.size()))->SetY(501);
-				}
-				if (_restaurantBase->GetChild("_foodFrame" + to_string(0))->GetY() > 500)
-				{
-					_restaurantBase->GetChild("_foodFrame" + to_string(0))->SetY(409);
-				} 
-				*/
 			}
 			_mouseLocation = _ptMouse.y;
 		}
 	}
-
 	if (INPUT->GetIsLButtonUp())
 	{
 		_scrollTimer = 0;

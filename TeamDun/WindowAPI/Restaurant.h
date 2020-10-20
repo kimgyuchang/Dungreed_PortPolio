@@ -26,6 +26,8 @@ public:
 	string					_name;
 	string					_imgName;
 
+	image*					_img;
+
 	FOODTYPE				_type;
 	vector<FOODHEAL>		_vHeal;
 	vector<float>			_vHealPer;
@@ -35,7 +37,7 @@ public:
 	int						_price;
 	int						_satiation;
 
-	image*					_img;
+	bool					_isSoldOut;
 };
 
 class Restaurant : public NPC
@@ -58,8 +60,6 @@ private:
 	int				_scrollTimer;
 
 	bool			_isOpen;
-	bool			_isNoMoney;
-	bool			_isFull;
 	bool			_foodAlphaAnimOn;
 	bool			_foodMoveAnimOn;
 
@@ -78,6 +78,7 @@ public:
 
 	void			initSecond();
 	void			SetRestaurantFood();
+	void			SetSatiationUI();
 	void			BuyFood(Food* food, int index);
 	void			ReNewUI();
 	void			MoveUI();
