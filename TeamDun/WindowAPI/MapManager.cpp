@@ -33,12 +33,12 @@ void MapManager::ClearStage(int cntStage)
 			map->SetStage(stoi(_mapData[i][1]));
 			map->LoadMap();
 
-			if (_mapData[i][2] == "NORMAL") map->SetFieldType(FIELDMAPTYPE::FMT_NORMAL);
-			else if (_mapData[i][2] == "ENTER") map->SetFieldType(FIELDMAPTYPE::FMT_ENTER);
-			else if (_mapData[i][2] == "END") map->SetFieldType(FIELDMAPTYPE::FMT_END);
-			else if (_mapData[i][2] == "SHOP") map->SetFieldType(FIELDMAPTYPE::FMT_SHOP);
-			else if (_mapData[i][2] == "RESTAURANT") map->SetFieldType(FIELDMAPTYPE::FMT_RESTAURANT);
-			else if (_mapData[i][2] == "TEMPLE") map->SetFieldType(FIELDMAPTYPE::FMT_TEMPLE);
+			if (_mapData[i][2] == "NORMAL") map->SetFieldMapType(FIELDMAPTYPE::FMT_NORMAL);
+			else if (_mapData[i][2] == "ENTER") map->SetFieldMapType(FIELDMAPTYPE::FMT_ENTER);
+			else if (_mapData[i][2] == "END") map->SetFieldMapType(FIELDMAPTYPE::FMT_END);
+			else if (_mapData[i][2] == "SHOP") map->SetFieldMapType(FIELDMAPTYPE::FMT_SHOP);
+			else if (_mapData[i][2] == "RESTAURANT") map->SetFieldMapType(FIELDMAPTYPE::FMT_RESTAURANT);
+			else if (_mapData[i][2] == "TEMPLE") map->SetFieldMapType(FIELDMAPTYPE::FMT_TEMPLE);
 
 			map->SetMovePos(DIRECTION::DIR_LEFT, POINT{ stoi(_mapData[i][3]), stoi(_mapData[i][4]) });
 			map->SetMovePos(DIRECTION::DIR_RIGHT, POINT{ stoi(_mapData[i][5]), stoi(_mapData[i][6]) });
@@ -119,6 +119,7 @@ void MapManager::SetMapUIOnOff()
 	if (INPUT->GetKeyDown(VK_TAB))
 	{
 		_portalOn = false;
+		MAPMANAGER->ReNewMapUI();
 		UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->ToggleIsViewing();
 	}
 }
@@ -284,6 +285,42 @@ void MapManager::ReNewMapUI()
 
 			cntMap->SetUseOutsideLimit(true);
 			frame->AddFrame(cntMap);
+
+			vector<int> icons = vector<int>();
+
+			map->CheckDungeonMapIcons();
+			if (map->GetHasTreasure()) icons.push_back(0);
+			if (map->GetHasPixie()) icons.push_back(1);
+			if (map->GetPortal() != nullptr) icons.push_back(2);
+
+			if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_RESTAURANT) icons.push_back(3);
+			if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_SHOP) icons.push_back(4);
+			if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_ENTER) icons.push_back(5);
+			if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_END) icons.push_back(6);
+			if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_TEMPLE) icons.push_back(7);
+
+			for (int i = 0; i < icons.size(); i++)
+			{
+				UIFrame* cntIcon = new UIFrame();
+				string imgName = "";
+				switch (icons[i])
+				{
+				case 0:	imgName = "Chest";	break;
+				case 1:	imgName = "FairyMap";	break;
+				case 2:	imgName = ((map->GetXIndex() == xIndex && map->GetYIndex() == yIndex) ? "Worm_Selected" : "Worm");	break;
+				case 3:	imgName = "FoodMap";	break;
+				case 4:	imgName = "ShopMap";	break;
+				case 5:	imgName = "EnteranceMap";	break;
+				case 6:	imgName = "ExitMap";	break;
+				case 7:	imgName = "Altar";	break;
+				}
+
+				int x = (icons.size() != 1 ? (icons.size() != 3 || i != 2 ? 12 : 24) : 24) + (i % 2) * 24; // 아이콘의 x위치를 중앙정렬 가능하면 중앙정렬하도록
+				int y = (icons.size() > 2 ? 12 : 24) + (i / 2) * 24; // 아이콘의 y위치를 중앙정렬 가능하면 중앙정렬하도록
+
+				cntIcon->init("icon" + to_string(i), x, y, 24, 24, imgName);
+				cntMap->AddFrame(cntIcon);
+			}
 		}
 	}
 }

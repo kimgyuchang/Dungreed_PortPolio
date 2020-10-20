@@ -11,3 +11,8 @@ id,itemType,weaponType,skill,name,description,itemClass,minAtk,maxAtk,atkSpeed,d
 4009,악세서리,무기아님 ,-1,사슬갑옷,가볍지만 소리가 커서 발걸음이 위축되는 갑옷,일반,0,0,0,11,0,0,0,-1,0,670,0,ChainArmor,.,.,ChainArmor,ChainArmor,MOVESPEED,-5,.,.,.,.,.,.,.
 4010,악세서리,무기아님 ,-1,소가죽갑옷,조금 꽉 끼는 명품 소가죽 갑옷,희귀,0,0,0,15,0,0,0,-1,0,3250,0,CowLeather,.,.,CowLeather,CowLeather,MOVESPEED,5,.,ATKSPEED,5,.,.,.,.
 4011,악세서리,무기아님 ,-1,친타마니돌,고대의 사원에서 발견된 아름다운 돌 일곱개로 갈라질 것 같다.,희귀,0,0,0,0,0,0,0,-1,0,2920,0,Cintamani,.,.,Cintamani,Cintamani,ETC,0,체력이 10이하로 떨어지게 되면 체력이 30 회복,.,.,.,.,.,.
+4012,악세서리,무기아님,-1,드워프제 갑옷,드워프들이 만든 이 갑옷은 가볍지만 무척 단단하다. 드워프처럼 크기가 작지도않고.,희귀,0,0,0,14,0,0,0,-1,0,3100,0,DwarvenArmor,.,.,DwarvenArmor,DwarvenArmor,POWER,5,.,TOUGHNESS,1,.,.,.,.
+4013,악세서리,무기아님,-1,주사위 신의농간,이 주사위는 사용자가 원하는 면을 보여준다.,전설,0,0,0,0,0,0,0,-1,0,8200,0,Dicegod'sTrick,.,.,Dicegod'sTrick,Dicegod'sTrick,CRITICALPERCENT,30,.,CRITICALDAMAGE,40,.,.,.,.
+4014,악세서리 ,무기아님,-1,모래주머니,전력으로 상대할 필요가 없을 때 착용하라.,일반,0,0,0,0,0,0,0,-1,0,600,0,SandBag,.,.,SandBag,SandBag,DASHATK,15,.,.,.,.,.,.,.
+4015,악세서리,무기아님,-1,현자의 축복,현자가 쓰다듬어 주었다.,희귀,0,0,0,1,0,0,0,-1,0,3880,0,BlessOfSage,.,.,BlessOfSage,BlessOfSage,MAXHP,5,.,TOUGHNESS,3,.,EVADE,5,.
+4016,악세서리,무기아님,-1,혈석목걸이,죽을때 소지하면 죽은 뒤에 그힘을 얻을수 있다고 한다.,희귀,0,0,0,0,0,0,0,-1,0,3730,0,BloodStoneNecklace,.,.,BloodStoneNecklace,BloodStoneNecklace,MAXHPPERCENT,20,.,.,.,.,.,.,.

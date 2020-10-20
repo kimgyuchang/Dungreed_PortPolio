@@ -32,13 +32,16 @@ protected :
 	bool			_isViewingHpBar;	// hp바가 보일것인지
 	Effect*			_spawnEffect;		// 스폰 이펙트
 
-
+	int				_hongryanCount;		// 홍련 카운트 (표식)
+	image*			_hongryanEffectImage;
 public :
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
 	virtual void	update();
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 	
+	void renderHongryanCount(HDC hdc);
+
 	virtual void	Move();
 	virtual void	Attack();
 	virtual void	Animation();

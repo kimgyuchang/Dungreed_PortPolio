@@ -30,6 +30,12 @@ enum PLAYERSTATE
 	PS_IDLE,PS_JUMP,PS_MOVE,PS_DIE,
 };
 
+enum CLOTHTYPE
+{
+	PC_NORMAL, PC_METAL, PC_GUNNER, PC_ALICE, PC_HONGRYAN, PC_IKINABEAR, 
+	PC_RIDERH, PC_CRIMINAL, PC_PICKKING, PC_FATGUY, 
+	PC_HORSESWORD, PC_HUMANLASLEY, PC_MASTERCHEF
+};
 class Player : public Object
 {
 private:
@@ -81,6 +87,7 @@ private:
 	float			_atkSpeed;				// 공격속도
 	float			_criticalPercent;		// 크리티컬
 	float			_criticalDamage;		// 크리티컬 데미지
+	bool			_isCritical;			// 크리티컬이 떴는지
 	float			_dashDamage;			// 대쉬 공격력
 	float			_reloadTime;			// 재장전에 걸리는 시간
 
@@ -134,6 +141,8 @@ private:
 	int				_damageUpTimer;				// 데미지 업 타이머 (분노 스폐셜)
 	bool			_damageUpTimerUse;			// 데미지 업 타이머가 사용되고 있는지 (분노 스폐셜)
 	bool			_atkSpdUpUse;				// 공격속도 업이 사용되었는지 (신속 스페셜)
+	int				_dashInvincibTimer;			// 대쉬 무적 시간
+	bool			_dashInvinCible;			// 무적 상태인지
 
 	// 픽셀충돌 전용 //					 
 	RECT			_collider[8];			// 픽셀충돌용
@@ -162,7 +171,7 @@ private:
 	int				_maxSatiety;			// 최대 포만감
 	int				_money;					// 돈
 	int				_level;					// 레벨
-	
+	CLOTHTYPE		_clothType;				// 현재 입은 옷
 	// - 내부적 수치
 	int				_experience;			// 경험치
 	int				_needExperience;		// 필요 경험치
@@ -181,18 +190,23 @@ private:
 	float					_uiMouseLocation;		// 저장된 마우스 X좌표
 	float					_movedX;				// 움직인 거리
 	string					_vTraitTooltip[7][3];	// 특성 툴팁들
-
+	
 	// 각 캐릭터별 특성 //
+
+	// 총잡이 //
+	bool			_useGun;
 
 	// 앨리스 //
 	image*			_aliceZone;
 	float			_aliceZoneRadius;
 	bool			_aliceZoneIn;
+	bool			_alicePowerDownCheck;
 
 public:
 
 	virtual HRESULT init();
 	virtual void	update();
+	void DashInvincibility();
 	void AddMaxDash();
 	void SubMaxDash();
 	void DashAttack();
@@ -226,12 +240,16 @@ public:
 	void CheckTraitIconHovered();
 	void ReInitTraitUI();
 
+	void CheckUsePistolGunner();
+
 	void MoveTraitUI();
 	
 	void SwitchWeapon();
 	void JumpAttackRectUpdate();
+
+	//캐릭터 능력 구현 함수
 	void CheckAliceZone();
-	void Ability();
+	void AdjustAlicePower();
 	
 	void SetHpUI();
 	// GETSET //
@@ -270,6 +288,7 @@ public:
 	float			GetBlock()				{ return _block; }
 	float			GetAngle()				{ return _angle; }
 	float			GetCriPer()				{ return _criticalPercent; }
+	bool			GetIsCritical()			{ return _isCritical;}
 	int				GetFinalDamage()		{ return _finalDamage; }
 	float			GetFinalDamagePer()		{ return _finalDamagePercent; }
 	float			GetReloadSpeed()		{ return _reloadSpeed; }
@@ -311,6 +330,12 @@ public:
 	int				GetAccesoryCount()	    { return _accesoryCount; }
 	int				GetMaxDashCount()		{ return _maxDashCount; }
 	int				GetMaxSatiety()			{ return _maxSatiety; }
+
+	bool			GetDashInvincible()		{ return _dashInvinCible; }
+	bool			GetDashInvincibleTimer(){ return _dashInvincibTimer; }
+
+	CLOTHTYPE		GetClothType()		{ return _clothType; }
+
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
 
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
@@ -349,7 +374,8 @@ public:
 	void			SetBlock(float block) 							{ _block = block; }
 	void			SetAngle(float angle) 							{ _angle = angle; }
 	void			SetCriPer(float criticalPercent)				{ _criticalPercent = criticalPercent; }
-	void			SetFinalDamage(int finalDamage) 				{ _finalDamage = finalDamage; }
+	void			SetIsCritical(bool isCritical)					{ _isCritical = isCritical; }
+	void			SetFinalDamage(int finalDamage)					{ _finalDamage = finalDamage; }
 	void			SetFinalDamagePer(float finalDamagePercent)		{ _finalDamagePercent = finalDamagePercent; }
 	void			SetReloadSpeed(float reloadSpeed) 				{ _reloadSpeed = reloadSpeed; }
 	void			SetFireAccuracy(float fireAccuracy)				{ _fireAccuracy = fireAccuracy; }
@@ -374,9 +400,9 @@ public:
 	void			SetStunDamage(int stunDamage)					{ _stunDamage = stunDamage; }
 	void			SetAnimCount(int animCount) 					{ _animCount = animCount; }
 	void			SetInventory(Inventory* inven) 					{ _inven = inven; }
-	void			SetWeapon(int num, Item* item) 					{ _weapons[num] = item; }
-	void			SetSubWeapon(int num, Item* item)				{ _subWeapons[num] = item; }
-	void			SetVAccessory(int num, Item* item)  			{ _vAccessories[num] = item; }
+	Item*			SetWeapon(int num, Item* item)					{ Item* saveItem = _weapons[num]; _weapons[num] = item; return saveItem; }
+	Item*			SetSubWeapon(int num, Item* item)				{ Item* saveItem = _subWeapons[num]; _subWeapons[num] = item; return saveItem; }
+	Item*			SetVAccessory(int num, Item* item)				{ Item* saveItem = _vAccessories[num]; _vAccessories[num] = item; return saveItem; }
 	void			SetSelectedWeaponIdx(int selectWeaponidx)		{ _selectedWeaponIdx = selectWeaponidx; }
 	void			SetSatiety(int satiety) 						{ _satiety = satiety; }
 	void			SetMoney(int money) 							{ _money = money; }
@@ -388,4 +414,5 @@ public:
 	void			SetMaxDashCount(int dashCount)					{ _maxDashCount = dashCount; }
 	void			SetMaxSatiety(int satiety)						{ _maxSatiety = satiety; }
 	void			SetIsStun(bool isStun)							{ _isStun = isStun; }
+	void			SetClothType(CLOTHTYPE type)					{ _clothType = type; }
 };

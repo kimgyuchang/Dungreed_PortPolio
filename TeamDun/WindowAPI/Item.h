@@ -65,6 +65,16 @@ public :
 	OPTIONTYPE	_optionId;
 	float		_optionPower;
 	string		_description;
+
+	SubOption()
+	{
+		_optionId = OPTIONTYPE::ETC, _optionPower = 0, _description = "";
+	}
+
+	SubOption(OPTIONTYPE type, float f, string des)
+	{
+		_optionId = type, _optionPower = f, _description = des;
+	}
 };
 
 class Item

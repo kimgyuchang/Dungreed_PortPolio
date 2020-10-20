@@ -65,10 +65,16 @@ HRESULT Player::init()
 	_level = 30;
 	_remainPoint = 35;
 	_maxPoint = 35;
+	_clothType = PC_NORMAL;
+	_useGun = false;
+	_dashInvinCible = false;
+	_dashInvincibTimer = 0;
+
 	for (int i = 0; i < 7; i++) _abilityNum[i] = 0;
 
 	_criticalPercent = 2;
 	_criticalDamage = 100;
+	_isCritical = false;
 
 	_weapons[0] = nullptr;
 	_weapons[1] = nullptr;
@@ -128,13 +134,13 @@ HRESULT Player::init()
 	_inven->AddItem(DATAMANAGER->GetItemById(4001));
 	_inven->AddItem(DATAMANAGER->GetItemById(4002));
 	_inven->AddItem(DATAMANAGER->GetItemById(4002));
-	_inven->AddItem(DATAMANAGER->GetItemById(4002));
+	_inven->AddItem(DATAMANAGER->GetItemById(4016));
 	_inven->AddItem(DATAMANAGER->GetItemById(4003));
 	_inven->AddItem(DATAMANAGER->GetItemById(4003));
 	_inven->AddItem(DATAMANAGER->GetItemById(4003));
 	_inven->AddItem(DATAMANAGER->GetItemById(4004));
-	_inven->AddItem(DATAMANAGER->GetItemById(4004));
-	_inven->AddItem(DATAMANAGER->GetItemById(4004));
+	_inven->AddItem(DATAMANAGER->GetItemById(4015));
+	_inven->AddItem(DATAMANAGER->GetItemById(4005));
 
 	return S_OK;
 }
@@ -234,8 +240,11 @@ void Player::update()
 	{
 		_vAccessories[i]->update();					//악세서리의 업데이트함수를 실행
 	}
-
+	// 캐릭터 능력
 	CheckAliceZone();
+	AdjustAlicePower();
+	CheckUsePistolGunner();
+	//====================
 	UpdateCharPage();
 	invincibility();
 	SetRealStat();
@@ -248,7 +257,7 @@ void Player::update()
 	JumpAttackRectUpdate();
 	ControlDamageUpTimer();
 	SpecialAtkSpeedUp();
-
+	DashInvincibility();
 
 	if (INPUT->GetKeyDown('J'))
 	{
@@ -276,6 +285,18 @@ void Player::update()
 	if (_hp < 0)
 	{
 		_hp = 0;
+	}
+}
+
+void Player::DashInvincibility()
+{
+	if (_dashInvinCible >= 0)
+	{
+		_dashInvincibTimer--;
+		if (_dashInvincibTimer < 0)
+		{
+			_dashInvinCible = false;
+		}
 	}
 }
 
@@ -491,82 +512,6 @@ void Player::SpecialAtkSpeedUp()
 		{
 			_atkSpeedPer -= 10;
 			_atkSpdUpUse = false;
-		}
-	}
-}
-
-void Player::CheckAliceZone()
-{
-
-	vector<Object*> objs = MAPMANAGER->GetPlayMap()->GetObjects();
-
-	bool zoneInHere = false;
-	for (int i = 0; i < objs.size(); i++)
-	{
-		if (objs[i]->GetType() == OBJECTTYPE::OT_MONSTER && dynamic_cast<Enemy*>(objs[i])->GetIsSpawned())
-		{
-			if (UTIL::interactRectCircle(objs[i]->GetBody(), POINT{ (long)(_x + _vImages[_useImage]->getFrameWidth() / 2), (long)(_y + _vImages[_useImage]->getFrameHeight() / 2) }, _aliceZoneRadius))
-			{
-				_aliceZoneIn = true;
-				zoneInHere = true;
-				break;
-			}
-		}
-	}
-
-	if (!zoneInHere)
-	{
-		_aliceZoneIn = false;
-	}
-}
-
-void Player::Ability()
-{
-	for (int i = 0; i < _vImages.size(); i++)
-	{
-		switch (i)
-		{
-		case 0:
-			IMAGEMANAGER->findImage("baseCharIdle");
-			break;
-		case 1:
-			IMAGEMANAGER->findImage("sheetingIdle");
-			_defence -= 10;
-			_maxHp += 10;
-			break;
-		case 2:
-			IMAGEMANAGER->findImage("gunmanIdle");
-			break;
-		case 3:
-			IMAGEMANAGER->findImage("aliceIdle");
-			break;
-		case 4:
-			IMAGEMANAGER->findImage("redlotusIdle");
-			break;
-		case 5:
-			IMAGEMANAGER->findImage("lkinabearIdle");
-			break;
-		case 6:
-			IMAGEMANAGER->findImage("riderHIdle");
-			break;
-		case 7:
-			IMAGEMANAGER->findImage("criminalldle");
-			break;
-		case 8:
-			IMAGEMANAGER->findImage("pickIdle");
-			break;
-		case 9:
-			IMAGEMANAGER->findImage("fastoIdle");
-			break;
-		case 10:
-			IMAGEMANAGER->findImage("horsemanIdle");
-			break;
-		case 11:
-			IMAGEMANAGER->findImage("humanlasleyIdle");
-			break;
-		case 12:
-			IMAGEMANAGER->findImage("masterchefIdle");
-			break;
 		}
 	}
 }
@@ -1012,6 +957,11 @@ void Player::pixelCollision()
 void Player::dash()
 {
 	_dashTimer++;
+	if (_specialAbilityOn[1][2])
+	{
+		_dashInvincibTimer = 0.2f * 60; // 대쉬 무적 시간
+		_dashInvinCible = true;
+	}
 
 	_x += cosf(getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _dashPoint.x, _dashPoint.y)) * 20;
 	_y += -sinf(getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _dashPoint.x, _dashPoint.y)) * 20;
@@ -1305,7 +1255,8 @@ void Player::SetToolTipFrame(float x, float y, int index)
 
 void Player::GetHitDamage(int damage)
 {
-	if (_isHit == false)
+	if (_isHit == false && 
+		!_dashInvinCible) // 대쉬 무적상태가 아니면
 	{
 		float Realdamage;
 		int block;
@@ -1315,6 +1266,7 @@ void Player::GetHitDamage(int damage)
 		evasion = RANDOM->range(100);
 		block = RANDOM->range(100);
 		if (_realEvasion <= evasion)
+
 		{
 			if (_block <= block)
 			{
@@ -1647,3 +1599,125 @@ void Player::ReInitTraitUI()
 	remainPoint->init("remainPoint", 0, 27, 169, 67, "남은 포인트 : " + to_string_with_precision(_remainPoint, 0), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE);
 	pointFrame->AddFrame(remainPoint);
 }
+
+// 석양의 총잡이 특성
+void Player::CheckUsePistolGunner()
+{
+	if (_clothType == PC_GUNNER)	//코스튬이 석양의 총잡이 상태이고
+	{
+		if (_weapons[_selectedWeaponIdx] != nullptr)	//만약 장착된무기가 있고
+		{
+			if (_weapons[_selectedWeaponIdx]->GetWeaponType() == WEAPONTYPE::WT_PISTOL)	//만약 장착된무기가 권총타입이고
+			{
+				if (!_useGun)	//권총사용이 아닐때
+				{
+					_power += 50;
+					_useGun = true;
+				}
+			}
+			else    //만약 장착된무기가 권총이아닌데
+			{
+				if (_useGun)	//권총이 사용 될 때
+				{
+					_power -= 50;
+					_useGun = false;
+				}
+			}
+		}
+		else        //만약 장착된 무기가 없는데
+		{
+			if (_useGun)	//권총이 사용될 때
+			{
+				_power -= 50;
+				_useGun = false;
+			}
+		}
+	}
+	else            //코스튬이 석양의 총잡이 상태가 아닐때
+	{
+		if (_useGun)	//권총이 사용되면
+		{
+			_power -= 50;
+			_useGun = false;
+		}
+	}
+}
+
+// 앨리스 특성
+void Player::CheckAliceZone()
+{
+	vector<Object*> objs = MAPMANAGER->GetPlayMap()->GetObjects(); // 각 맵 안의 오브젝트 가져오기 위함
+
+	bool zoneInHere = false;
+	for (int i = 0; i < objs.size(); i++) // 오브젝트 쭉 돌면서
+	{
+		if (objs[i]->GetType() == OBJECTTYPE::OT_MONSTER && dynamic_cast<Enemy*>(objs[i])->GetIsSpawned()) // 스폰된 몬스터가 
+		{
+			if (UTIL::interactRectCircle(objs[i]->GetBody(), POINT{ (long)(_x + _vImages[_useImage]->getFrameWidth() / 2), (long)(_y + _vImages[_useImage]->getFrameHeight() / 2) }, _aliceZoneRadius))
+			{ // 범위 안에 몬스터가 들어왔는지 확인
+				_aliceZoneIn = true; // 들어왔어요!
+				zoneInHere = true; // 들어왔어요!
+				break;
+			}
+		}
+	}
+
+	if (!zoneInHere) // 아무도 안들어왔을때
+	{
+		_aliceZoneIn = false; // 안들어왔어요!
+	}
+}
+
+void Player::AdjustAlicePower()
+{	
+	if (_clothType == PC_ALICE)
+	{
+		if (_aliceZoneIn)//몬스터가 들어왔고, 
+		{
+			if (!_alicePowerDownCheck)	//위력이감소 안했을때,
+			{
+				_power -= 20;
+				_alicePowerDownCheck = true;
+			}
+		}
+		else
+		{
+			if (_alicePowerDownCheck)
+			{
+				_power += 20;
+				_alicePowerDownCheck = false;
+			}
+		}
+	}
+	else
+	{
+		if (_alicePowerDownCheck)
+		{
+			_power += 20;
+			_alicePowerDownCheck = false;
+		}
+	}
+}
+
+/*
+void Player::CheckHongRyunAbility()
+{
+	int AtkCount = 0;	//공격 횟수
+
+	if (_clothType == PC_HONGRYAN)	//코스튬이 홍련상태이고
+	{
+		if (_weapons[_selectedWeaponIdx] != nullptr)	//무기가 장착되어있다면
+		{
+			for (int i = 0; i < MAPMANAGER->GetPlayMap()->GetObjects().size(); i++)	//오브젝트를 돌면서 체크
+			{
+				Object* obj = MAPMANAGER->GetPlayMap()->GetObjects()[i];
+				if (obj->GetType() == OBJECTTYPE::OT_MONSTER)
+				{
+					RECT temp;
+					if(IntersectRect(&temp,))
+				}
+			}
+		}
+	}
+}
+*/

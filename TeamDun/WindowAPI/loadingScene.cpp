@@ -651,6 +651,22 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("FoodIcon", "Images/UI/ICON/FoodIcon.bmp", 51, 42, true, RGB(255,0,255));
 	_loading->LoadNormalImage("Coin", "Images/UI/ICON/Coin.bmp", 19, 19, true, RGB(255,0,255));
 	_loading->LoadNormalImage("Fairy", "Images/UI/ICON/Fairy.bmp", 17, 14, true, RGB(255,0,255));
+	_loading->LoadNormalImage("EnteranceMap", "Images/UI/ICON/EnteranceMap.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("ExitMap", "Images/UI/ICON/ExitMap.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("FairyMap", "Images/UI/ICON/FairyMap.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("FoodMap", "Images/UI/ICON/FoodMap.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Hungry", "Images/UI/ICON/Hungry.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("PlagueDocter", "Images/UI/ICON/PlagueDocter.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Pot", "Images/UI/ICON/Pot.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("ShopMap", "Images/UI/ICON/ShopMap.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Slot", "Images/UI/ICON/Slot.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Worm", "Images/UI/ICON/Worm.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Worm_Selected", "Images/UI/ICON/Worm_Selected.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Altar", "Images/UI/ICON/Altar.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Anvil", "Images/UI/ICON/Anvil.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Berry", "Images/UI/ICON/Berry.bmp", 24, 24, true, RGB(255,0,255));
+	_loading->LoadNormalImage("Chest", "Images/UI/ICON/Chest.bmp", 24, 24, true, RGB(255,0,255));
+
 
 	_loading->LoadNormalImage("BossLifeBack", "Images/Monster/Boss/BossLifeBack.bmp", 600, 77, true, RGB(255,0,255));
 	_loading->LoadNormalImage("BossLifeBase", "Images/Monster/Boss/BossLifeBase.bmp", 600, 77, true, RGB(255,0,255));
@@ -913,6 +929,9 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Cintamani", "Images/item/Cintamani.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BlessOfSage", "Images/item/BlessOfSage.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CowLeather", "Images/item/CowLeather.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("DwarvenArmor", "Images/item/DwarvenArmor.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SandBag", "Images/item/SandBag.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Dicegod'sTrick", "Images/item/Dicegod'sTrick.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));
@@ -931,6 +950,7 @@ void loadingScene::loadingImage()
 	// EFFECT //
 	_loading->LoadFrameImage("monsterSpawnEffect", "Images/Etc/monsterSpawnEffect.bmp", 1302, 93, 14, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("DieEffect", "Images/Effect/DieEffect.bmp", 1320, 120, 11, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("HongRyunEffect", "Images/Effect/HongRyunEffect.bmp", 510, 30, 10, 1, true, RGB(255, 0, 255));
 
 	// PARTICLE //
 	_loading->LoadNormalImage("SqaureParticle", "Images/Particle/SqaureParticle.bmp", 15, 15, true, RGB(255, 0, 255));
@@ -961,6 +981,9 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("MiniMapEnemy", "Images/MiniMapEnemy.bmp", 7, 7);
 	_loading->LoadNormalImage("MiniMapPlayer", "Images/MiniMapPlayer.bmp", 9,9);
 	_loading->LoadNormalImage("MiniMapDoor", "Images/MiniMapDoor.bmp", 5,5);
+	_loading->LoadNormalImage("MiniMapfairyIcon", "Images/MiniMapfairyIcon.bmp", 12,12);
+	_loading->LoadNormalImage("MiniMapTresure", "Images/MiniMapTresure.bmp", 15, 9);
+	_loading->LoadNormalImage("MiniMapWorm", "Images/MiniMapWorm.bmp", 11, 13, true, RGB(255, 0, 255));
 
 	// COLLISIONIMAGE //
 	_loading->LoadNormalImage("Half", "Images/GridPixelCollision/Half.bmp", 48, 96, true, RGB(255, 0, 255));
@@ -1100,8 +1123,6 @@ void loadingScene::loadingSound()
 	// EFFECT //
 
 	_loading->LoadSound("°ÔÀÓ_µ·È¹µæ", "Sounds/Effect/°ÔÀÓ_µ·È¹µæ.wav", false, false);
-
-	
 	_loading->LoadSound("arshasnowstaff_1_TaskStage_Start", "Sounds/Effect/arshasnowstaff_1_TaskStage_Start.wav", false, false);
 	_loading->LoadSound("charged ÃæÀüÇü ±â¸ðÀ¸´Â»ç¿îµå", "Sounds/Effect/charged ÃæÀüÇü ±â¸ðÀ¸´Â»ç¿îµå.wav", false, false);
 	_loading->LoadSound("coin", "Sounds/Effect/coin.wav", false, false);

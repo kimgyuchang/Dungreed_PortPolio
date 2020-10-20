@@ -337,7 +337,6 @@ void gameScene::WardrobeUIInit()
 	masterchef->init("masterchef", 70, 170, IMAGEMANAGER->findImage("masterchef")->getWidth(), IMAGEMANAGER->findImage("masterchef")->getHeight(), "masterchef");
 	warDrobeFrame->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(12))->AddFrame(masterchef);
 
-
 	UIText* charNameText = new UIText();
 	charNameText->init("charNameText", 50, 100, 400, 50, "", FONT::PIX, WORDSIZE::WS_MIDDLE, WORDSORT::WSORT_MIDDLE, RGB(255, 204, 0));
 	costumeExplanationFrame->AddFrame(charNameText);
@@ -357,7 +356,6 @@ void gameScene::WardrobeUIInit()
 	UIText* CharSecondStat = new UIText();
 	CharSecondStat->init("CharSecondStat", 550, 250, 1000, 50, "", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(255, 255, 255));
 	costumeExplanationFrame->AddFrame(CharSecondStat);
-
 }
 
 void gameScene::DungeonMapUIInit()
@@ -386,7 +384,7 @@ void gameScene::InventoryUIInit()
 	InventoryFrame->init("InventoryFrame", 1000, 170, IMAGEMANAGER->findImage("InventoryBase_2")->getWidth(), IMAGEMANAGER->findImage("InventoryBase_2")->getHeight(), "InventoryBase_2");
 	InventoryFrame->SetUseOutsideLimit(false);
 	UIMANAGER->GetGameFrame()->AddFrame(InventoryFrame);
-
+	
 	UIFrame* weaponImageFrame = new UIFrame();
 	weaponImageFrame->init("curWeapon_1", 48, 105, 57, 57, "");
 	InventoryFrame->AddFrame(weaponImageFrame);
@@ -446,13 +444,44 @@ void gameScene::InventoryUIInit()
 	UIMANAGER->GetGameFrame()->AddFrame(accessEqualText);
 	accessEqualText->SetIsViewing(false);
 
-
 	/////////// TOOLTIP /////////////
 
 	UIImage* uiToolTip = new UIImage();
 	uiToolTip->init("itemToolTip", 0, 0, 400, 500, "ToolTipCover", false, 0, 0, 4.0f, 5.0f, 130);
 	uiToolTip->SetUseOutsideLimit(false);
 	InventoryFrame->AddFrame(uiToolTip);
+
+	UIImage* itemFrame = new UIImage();
+	itemFrame->init("itemMouseTracker", 0, 0, 0, 0, "", false, 0, 0, 1, 1, 255);
+	UIMANAGER->GetGameFrame()->AddFrame(itemFrame);
+	itemFrame->SetIsViewing(false);
+
+	/////////// 버리기 관련 ///////////
+	UIFrame* checkTrash = new UIFrame();
+	checkTrash->init("CheckTrash", WINSIZEX / 2 - IMAGEMANAGER->findImage("BaseType2")->getWidth() / 2 * 1.5f, WINSIZEY / 2 - IMAGEMANAGER->findImage("BaseType2")->getHeight() / 2 * 0.7f, IMAGEMANAGER->findImage("BaseType2")->getWidth(), IMAGEMANAGER->findImage("BaseType2")->getHeight(), "BaseType2", 1.5f, 0.7f);
+	UIMANAGER->GetGameFrame()->AddFrame(checkTrash);
+
+	UIText* checkText = new UIText();
+	checkText->init("text", 20, 15, 300, 200, "아이템을 버리시겠습니까?", FONT::PIX, WORDSIZE::WS_MIDDLESMALL);
+	checkTrash->AddFrame(checkText);
+
+	UIFrame* checkOK = new UIFrame();
+	checkOK->init("yes", 110, 80, 113, 45, "YesOrNo", 0.9f, 0.9f);
+	checkTrash->AddFrame(checkOK);
+
+	UIText* YES = new UIText();
+	YES->init("text", 0, 10, 113 * 0.9f, 30, "예", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_MIDDLE);
+	checkOK->AddFrame(YES);
+
+	UIFrame* checkNo = new UIFrame();
+	checkNo->init("no", 215, 80, 113, 45, "YesOrNo", 0.9f, 0.9f);
+	checkTrash->AddFrame(checkNo);
+
+	UIText* NO = new UIText();
+	NO->init("text", 0, 10, 113 * 0.9f, 30, "아니오", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_MIDDLE);
+	checkNo->AddFrame(NO);
+
+	checkTrash->SetIsViewing(false);
 }
 
 void gameScene::TraitUIInit()
@@ -820,7 +849,7 @@ void gameScene::UpdateWardrobeUI()
 				}
 				else if (curIg == IMAGEMANAGER->findImage("riderHIdle"))
 				{
-					ENTITYMANAGER->getPlayer()->SetMoveSpeed(ENTITYMANAGER->getPlayer()->GetMoveSpeed() - 22);
+					ENTITYMANAGER->getPlayer()->SetMoveSpeedPer(ENTITYMANAGER->getPlayer()->GetMoveSpeedPer() - 22);
 					ENTITYMANAGER->getPlayer()->SetToughness(ENTITYMANAGER->getPlayer()->GetToughness() + 2);
 				}
 				else if (curIg == IMAGEMANAGER->findImage("criminalldle"))
@@ -834,8 +863,8 @@ void gameScene::UpdateWardrobeUI()
 				}
 				else if (curIg == IMAGEMANAGER->findImage("fastoIdle"))
 				{
-					ENTITYMANAGER->getPlayer()->SetMoveSpeed(ENTITYMANAGER->getPlayer()->GetMoveSpeed() + 20);
-					ENTITYMANAGER->getPlayer()->SetAtkSpeed(ENTITYMANAGER->getPlayer()->GetAtkSpeed() + 10);
+					ENTITYMANAGER->getPlayer()->SetMoveSpeedPer(ENTITYMANAGER->getPlayer()->GetMoveSpeedPer() + 20);
+					ENTITYMANAGER->getPlayer()->SetAtkSpeedPer(ENTITYMANAGER->getPlayer()->GetAtkSpeedPer() + 10);
 				}
 
 				else if (curIg == IMAGEMANAGER->findImage("horsemanIdle"))
@@ -871,6 +900,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_NORMAL);
 					break;
 				case 1:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("sheetingIdle"));
@@ -880,6 +910,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_METAL);
 					break;
 				case 2:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("gunmanIdle"));
@@ -889,6 +920,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) 
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_GUNNER);
 					break;
 				case 3:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("aliceIdle"));
@@ -898,6 +930,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) 
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_ALICE);
 					break;
 				case 4:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("redlotusIdle"));
@@ -907,6 +940,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_HONGRYAN);
 					break;
 				case 5:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("lkinabearIdle"));
@@ -916,15 +950,17 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_IKINABEAR);
 					break;
 				case 6:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("riderHIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("riderHRun"));
-					ENTITYMANAGER->getPlayer()->SetMoveSpeed(ENTITYMANAGER->getPlayer()->GetMoveSpeed() + 22);
+					ENTITYMANAGER->getPlayer()->SetMoveSpeedPer(ENTITYMANAGER->getPlayer()->GetMoveSpeedPer() + 22);
 					ENTITYMANAGER->getPlayer()->SetToughness(ENTITYMANAGER->getPlayer()->GetToughness() - 2);
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_RIDERH);
 					break;
 				case 7:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("criminalldle"));
@@ -933,6 +969,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_CRIMINAL);
 					break;
 				case 8:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("pickIdle"));
@@ -942,15 +979,17 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_PICKKING);
 					break;
 				case 9:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("fastoIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("fastoRun"));
-					ENTITYMANAGER->getPlayer()->SetMoveSpeed(ENTITYMANAGER->getPlayer()->GetMoveSpeed() - 20);
-					ENTITYMANAGER->getPlayer()->SetAtkSpeed(ENTITYMANAGER->getPlayer()->GetAtkSpeed() - 10);
+					ENTITYMANAGER->getPlayer()->SetMoveSpeedPer(ENTITYMANAGER->getPlayer()->GetMoveSpeedPer() - 20);
+					ENTITYMANAGER->getPlayer()->SetAtkSpeedPer(ENTITYMANAGER->getPlayer()->GetAtkSpeedPer() - 10);
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_FATGUY);
 					break;
 				case 10:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("horsemanIdle"));
@@ -958,6 +997,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_HORSESWORD);
 					break;
 				case 11:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("humanlasleyIdle"));
@@ -966,6 +1006,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_HUMANLASLEY);
 					break;
 				case 12:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("masterchefIdle"));
@@ -975,6 +1016,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) 
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_MASTERCHEF);
 					break;
 
 				default:
@@ -1010,6 +1052,8 @@ void gameScene::update()
 	{
 		SOUNDMANAGER->play("인벤토리열기");
 		UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->ToggleIsViewing();
+		UIMANAGER->GetGameFrame()->GetChild("CheckTrash")->SetIsViewing(false);
+		ENTITYMANAGER->getPlayer()->GetInventory()->EraseDragInfor();
 	}
 
 	if (INPUT->GetKeyDown('C'))
