@@ -140,8 +140,11 @@ private:
 	int				_damageUpTimer;				// 데미지 업 타이머 (분노 스폐셜)
 	bool			_damageUpTimerUse;			// 데미지 업 타이머가 사용되고 있는지 (분노 스폐셜)
 	bool			_atkSpdUpUse;				// 공격속도 업이 사용되었는지 (신속 스페셜)
-	int				_dashInvincibTimer;			// 대쉬 무적 시간
-	bool			_dashInvinCible;			// 무적 상태인지
+	int				_dashInvincibTimer;			// 대쉬 무적 시간 (신속 스폐셜)
+	bool			_dashInvinCible;			// 무적 상태인지 (신속 스폐셜)
+	int				_deathDefencerTimer;		// 죽음 방지 타이머 (방어 스폐셜)
+	bool			_deathDefencerActivated;	// 죽음 방지 타이머가 작동했는지 (방어 스폐셜)
+	int				_regenTimer;				// 리젠 타이머
 
 	// 픽셀충돌 전용 //					 
 	RECT			_collider[8];			// 픽셀충돌용
@@ -231,7 +234,13 @@ public:
 	void ReInitTooltip(int n);
 	void SetToolTipFrame(float x, float y, int index);
 
+	void SetDeathDefencerTimerDown();
+
+	void RegenDefenceSkill();
+
 	void GetHitDamage(int damage);
+
+	void RemoveMagicShield();
 
 	void ControlTraitPage();
 	void AddTraitPoint();

@@ -46,6 +46,7 @@ public :
 	void SwitchItem(int num, Item* item, int index);
 	void UnEquipItem();
 	bool AddItem(Item* item);
+	void SetInventoryAccesoryUI();
 	void ReloadUIImages();
 	void OnInvenFullText();
 	void OnInvenEqualText();

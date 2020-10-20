@@ -401,13 +401,17 @@ void gameScene::InventoryUIInit()
 	weaponImageSubFrame2->init("curWeaponSub_2", 268, 105, 57, 57, "");
 	InventoryFrame->AddFrame(weaponImageSubFrame2);
 
+	UIFrame* accesoryFrame = new UIFrame();
+	accesoryFrame->init("accesoryFrame", 65, 190, 0, 0, "");
+	InventoryFrame->AddFrame(accesoryFrame);
+	
 	int accesorySize = 4;
 	for (int i = 0; i < accesorySize; i++)
 	{
 		UIFrame* accesory = new UIFrame();
-		accesory->init("accesoryFrame_" + to_string(i), (i * (IMAGEMANAGER->findImage("accessory")->getWidth() + 8)) + 65 - (accesorySize - 4) * (IMAGEMANAGER->findImage("accessory")->getWidth() / 2 + 4)
-			, 190, IMAGEMANAGER->findImage("accessory")->getWidth(), IMAGEMANAGER->findImage("accessory")->getHeight(), "accessory");
-		InventoryFrame->AddFrame(accesory);
+		accesory->init("accesoryFrame_" + to_string(i), (i * (IMAGEMANAGER->findImage("accessory")->getWidth() + 8)) - (accesorySize - 4) * (IMAGEMANAGER->findImage("accessory")->getWidth() / 2 + 4)
+			, 0, IMAGEMANAGER->findImage("accessory")->getWidth(), IMAGEMANAGER->findImage("accessory")->getHeight(), "accessory");
+		accesoryFrame->AddFrame(accesory);
 
 		UIFrame* itemImageFrame = new UIFrame();
 		itemImageFrame->init("itemImageFrame", 0, 0, 57, 57, "");

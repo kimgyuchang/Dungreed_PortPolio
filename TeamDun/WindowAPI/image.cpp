@@ -192,6 +192,7 @@ HRESULT image::init(const char* fileName, int width, int height, int frameX, int
 
 	return S_OK;
 }
+
 HRESULT image::init(const char* fileName, float x, float y, int width, int height, int frameX, int frameY, bool isTrans, COLORREF transColor)
 {
 	//재초기화 방지용, 이미지 정보의 값이 들어 있다면 릴리즈해서 깨끗하게 초기화 하자
@@ -262,8 +263,8 @@ HRESULT image::initForAlphaBlend()
 	_blendImage->hMemDC = CreateCompatibleDC(hdc);
 	_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, _imageInfo->width * 10, _imageInfo->height * 10);
 	_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDC, _blendImage->hBit);
-	_blendImage->width = WINSIZEX * 10;
-	_blendImage->height = WINSIZEY * 10;
+	_blendImage->width = _imageInfo->width * 10;
+	_blendImage->height = _imageInfo->height * 10;
 
 	//DC 해제하기
 	ReleaseDC(_hWnd, hdc);
