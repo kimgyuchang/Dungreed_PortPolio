@@ -48,9 +48,9 @@ HRESULT Player::init()
 	_dashEffect = nullptr;
 	_isPlayerDead = false;
 
-	_isReload = false;
+	_isReload = true;
 	_reloadCount = 0;
-	_reloadTime = 50;
+	_reloadTime = 100;
 	_reloadSpeed = 1;
 
 	_atkSpdUpUse = false;
@@ -76,7 +76,7 @@ HRESULT Player::init()
 	_dashInvinCible = false;
 	_dashInvincibTimer = 0;
 
-	_isFire = true;
+	_isFire = false;
 	_fireCount = 0;
 	_isIce = false;
 	_isElectric = false;
@@ -616,6 +616,11 @@ void Player::render(HDC hdc)
 		{
 			CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);						//기존 이미지 그대로
 		}
+		if (_isReload)
+		{
+			CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("ReloadBase"), _x - 6, _y - 6);
+		}
+
 
 		if (_weapons[_selectedWeaponIdx] != nullptr && !_weapons[_selectedWeaponIdx]->GetIsRenderFirst()) _weapons[_selectedWeaponIdx]->render(hdc);			//장착된 무기의 인덱스가 비어있지않고, 플레이어보다 먼저  그려지지않는다면 장착된무기의 인덱스가 그려지도록
 		if (_subWeapons[_selectedWeaponIdx] != nullptr && !_subWeapons[_selectedWeaponIdx]->GetIsRenderFirst()) _subWeapons[_selectedWeaponIdx]->render(hdc);	//만약 보조무기의 인덱스가 비어있지않고, 보조무기가 플레이어보다 먼저 그려지지않는다면, 보조무기의 인덱스가 그려지도록
