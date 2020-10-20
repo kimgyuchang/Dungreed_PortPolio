@@ -28,6 +28,7 @@ HRESULT Object::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
     _body = RECT{ 0,0,0,0 };
     _isDead = false;
 	_renderOrder = 1;
+	_viewAlpha = 255;
     return S_OK;
 }
 
@@ -42,8 +43,30 @@ void Object::release()
 
 void Object::render(HDC hdc)
 {
-    if (_vImages[_useImage]->getMaxFrameX() == 0) CAMERAMANAGER->Render(hdc, _vImages[_useImage], _x, _y);
-    else CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);
+	if (_vImages[_useImage]->getMaxFrameX() == 0 && _vImages[_useImage]->getMaxFrameY() == 0)
+	{
+		if (_viewAlpha != 255)
+		{
+			
+			CAMERAMANAGER->AlphaRender(hdc, _vImages[_useImage], _x, _y,_viewAlpha);
+		}
+		else
+		{
+			CAMERAMANAGER->Render(hdc, _vImages[_useImage], _x, _y);
+		}
+	}
+	else
+	{
+		if (_viewAlpha != 255)
+		{
+			
+			CAMERAMANAGER->FrameAlphaRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY,_viewAlpha);
+		}
+		else
+		{
+			CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);
+		}
+	}
 }
 
 void Object::Animation()
@@ -70,7 +93,15 @@ void Object::CheckCollision()
 
 void Object::GetDamage()
 {
-	if (_HP <= 0)
+	if (_hp <= 0)
+	{
+		SetIsDead(true);
+	}
+}
+
+void Object::GetDamage(int damage)
+{
+	if (_hp <= 0)
 	{
 		SetIsDead(true);
 	}

@@ -8,6 +8,7 @@ private:
 	int _moveTimer;
 	int _moveCoolTime;
 	float _realMoveX, _realMoveY;
+	bool _isAtk;
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
 	virtual void	update();
@@ -19,6 +20,5 @@ public:
 	virtual void	Move();
 	virtual void	Attack();
 	virtual void	Animation();
-	virtual void	pixelCollision();
 };
 

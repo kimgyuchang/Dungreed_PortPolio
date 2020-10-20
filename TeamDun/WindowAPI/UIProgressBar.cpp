@@ -25,10 +25,14 @@ void UIProgressBar::render(HDC hdc)
 					_vChildFrames[i]->render(hdc);
 			}
 
-			if (_image != nullptr)
+			if (_backImg != nullptr)
 			{
 				_backImg->render(hdc, _x, _y);
-				_image->render(hdc, _x, _y, 0, 0, _imgFillX, _backImg->getHeight()); // 그린다
+			}
+
+			if (_image != nullptr)
+			{
+				_image->render(hdc, _x, _y, 0, 0, _imgFillX, _image->getHeight()); // 그린다
 			}
 
 			if (INPUT->GetKey(VK_F3)) Rectangle(hdc, _interactRect); // P를 누른 상태라면 충돌 범위도 그린다
@@ -50,5 +54,6 @@ void UIProgressBar::update()
 void UIProgressBar::FillCheck(float initX, float fillX)
 {
 	_fillPercent = fillX / initX;
-	_imgFillX = _fillPercent * _backImg->getWidth();
+	_imgFillX = _fillPercent * (_backImg == nullptr ? _image->getWidth() : _backImg->getWidth());
 }
+

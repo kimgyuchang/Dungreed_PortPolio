@@ -3,12 +3,12 @@
 // 들어 있는 포함 파일입니다.
 //
 #pragma once
-
 #include <SDKDDKVer.h>
 
 //디버깅용 (주석치면 콘솔창이 사라진다)
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 
+#define _CRT_SECURE_NO_WARNINGS
 #define WIN32_LEAN_AND_MEAN             // 거의 사용되지 않는 내용은 Windows 헤더에서 제외합니다.
 // Windows 헤더 파일:
 #include <Windows.h>
@@ -73,7 +73,7 @@ using namespace UTIL;
 //=============================================================
 //	## 디파인문 ## (윈도우창 초기화)
 //=============================================================
-#define WINNAME (LPTSTR)(TEXT("Dungreed"))
+#define WINNAME (LPTSTR)(TEXT("Dungreed 경일게임아카데미 프로그래밍 22기 홍승기 이신홍 안샘 김정연"))
 #define WINSTARTX	0
 #define WINSTARTY	0
 #define WINSIZEX	1440

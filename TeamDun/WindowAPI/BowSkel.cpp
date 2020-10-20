@@ -8,11 +8,12 @@ HRESULT BowSkel::init(int id, string name, OBJECTTYPE type, vector<string> imgNa
 	_state = ES_IDLE;
 	_stateTimer = 0;
 	_isAtk = false;
-	_initHp = _HP = 30;
+	_initHp = _hp = 30;
 	_skelBow.bowIg = IMAGEMANAGER->findImage("SkelBow");
 	_skelBow.frameX = 0;
 	_skelBow.frameY = 0;
 	_skelBow.angle = 0.f;
+	_attackCoolTime = 150 + RANDOM->range(200);
 
 	_Damage = 10;
 	return S_OK;
@@ -46,7 +47,7 @@ void BowSkel::render(HDC hdc)
 	if (_isSpawned)
 	{
 		Enemy::render(hdc);
-		CAMERAMANAGER->FrameRender(hdc,_skelBow.bowIg, _x, _y + 20,_skelBow.frameX,_skelBow.frameY, -_skelBow.angle);
+		CAMERAMANAGER->FrameRender(hdc,_skelBow.bowIg, _x, _y + 20,_skelBow.frameX,_skelBow.frameY, _skelBow.angle);
 	}
 }
 
@@ -55,10 +56,10 @@ void BowSkel::Attack()
 {
 	if (!_isAtk)
 	{
-		_attackCoolTime++;
-		if (_attackCoolTime > 300)
+		_attackCoolTime--;
+		if (_attackCoolTime < 0)
 		{
-			_attackCoolTime = 0;
+			_attackCoolTime = 150 + RANDOM->range(200);
 			_isAtk = true;
 			if (_isLeft)
 			{
@@ -109,7 +110,7 @@ void BowSkel::Animation()
 			if (_skelBow.frameX == 3)
 			{
 				ENTITYMANAGER->makeBullet("SkelArrow", "BatBulletHit", BT_NOMAL, _x, _y+20,
-					_skelBow.angle,_Damage,10, 1000, true ,-_skelBow.angle);
+					_skelBow.angle,_Damage,10, 1000, true ,_skelBow.angle);
 			}
 			if (_skelBow.frameX > _skelBow.bowIg->getMaxFrameX())
 			{

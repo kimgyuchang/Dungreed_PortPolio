@@ -7,12 +7,12 @@ HRESULT SwordSkel::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_body = RectMake(_x, _y, 42, 57);
 	_frameX = _frameY = 0;
 
-	_count = _index = _jumpTimer = _downJmpTimer = _attackCoolTime = _attackTimer = _effectTimer = _effect = 0;
+	_count = _index = _jumpTimer = _downJmpTimer = _attackTimer = _effectTimer = _effect = 0;
+	_attackCoolTime = 40 + RANDOM->range(20);
 	_gravity = 0.5;
 	_jumpPower = 10.0f;
 	_moveSpeed = 3;
-
-	_initHp = _HP = 50;
+	_initHp = _hp = 50;
 
 
 	_swordX = _x;
@@ -67,43 +67,60 @@ void SwordSkel::update()
 				_isLeft = true;
 				_x += _moveSpeed;
 			}
-			if (ENTITYMANAGER->getPlayer()->GetX() <= _x && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 250)
+			if (ENTITYMANAGER->getPlayer()->GetX()+70 <= _x && abs(_y - ENTITYMANAGER->getPlayer()->GetY()) < 250)
 			{
 				_skelSword.angle = PI;
 				_isLeft = false;
 				_x -= _moveSpeed;
 			}
-			if (ENTITYMANAGER->getPlayer()->GetX() - 50 < _x  &&
+			if (ENTITYMANAGER->getPlayer()->GetX() - 50 < _x &&
 				ENTITYMANAGER->getPlayer()->GetX() + 50 + IMAGEMANAGER->findImage("SwordSkelIdle")->getFrameWidth() > _x)
 			{
-				_attackCoolTime++;
+				_attackCoolTime--;
 				_isAttack = true;
 				_skelSword.angle = PI / 2;
-				if (_attackCoolTime > 50)
+				if (_attackCoolTime < 0)
 				{
 					_state = ES_ATTACK;
-					_attackCoolTime = 0;
+					_attackCoolTime = _attackCoolTime = 40 + RANDOM->range(20);
 				}
 			}
 			break;
 		case ES_ATTACK:
+
 			this->Attack();
 			_attackTimer++;
 			_swordX = _x - 10;
 			_swordY = _y - 5;
 			if (_isLeft)
 			{
+				if (_attackTimer == 3)
+				{
+
+					if (UTIL::interactRectArc(ENTITYMANAGER->getPlayer()->GetBody(), POINT{ _swordX ,_swordY },_skelSword.swordIg->getWidth() ,0 ,PI/2 ,10))
+					{
+						ENTITYMANAGER->getPlayer()->GetHitDamage(_Damage);
+					}
+				}
 				if (_attackTimer < 5)
 				{
-					_skelSword.angle -= 0.70f;
+					_skelSword.angle -= 0.7f;
 				}
 
 			}
 			if (!_isLeft)
 			{
+				if (_attackTimer == 3)
+				{
+
+					if (UTIL::interactRectArc(ENTITYMANAGER->getPlayer()->GetBody(), POINT{ _swordX ,_swordY }, _skelSword.swordIg->getWidth(), PI / 2, PI, 10))
+					{
+						ENTITYMANAGER->getPlayer()->GetHitDamage(_Damage);
+					}
+				}
 				if (_attackTimer < 5)
 				{
-					_skelSword.angle += 0.70f;
+					_skelSword.angle += 0.7f;	
 				}
 			}
 			if (_attackTimer > 50)
@@ -131,12 +148,12 @@ void SwordSkel::render(HDC hdc)
 		Enemy::render(hdc);
 		if (_isLeft)
 		{
-			CAMERAMANAGER->FrameRender(hdc, _skelSword.swordIg, _swordX, _swordY, _skelSword.frameX, _skelSword.frameY, -_skelSword.angle);
+			CAMERAMANAGER->FrameRender(hdc, _skelSword.swordIg, _swordX, _swordY, _skelSword.frameX, _skelSword.frameY, _skelSword.angle);
 		}
 		else
 		{
 			_swordX = _x - 45;
-			CAMERAMANAGER->FrameRender(hdc, _skelSword.swordIg, _swordX, _swordY, _skelSword.frameX, _skelSword.frameY, -_skelSword.angle);
+			CAMERAMANAGER->FrameRender(hdc, _skelSword.swordIg, _swordX, _swordY, _skelSword.frameX, _skelSword.frameY, _skelSword.angle);
 		}
 	}
 }
@@ -314,7 +331,7 @@ void SwordSkel::pixelCollision()
 
 	for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + 11, i);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + 11, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -342,10 +359,9 @@ void SwordSkel::pixelCollision()
 	}
 	if (_isLeft)
 	{
-
 		for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 		{
-			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + SwordSkelIdle->getFrameWidth() - 11, i);
+			COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + SwordSkelIdle->getFrameWidth() - 11, i);
 			int r = GetRValue(color);
 			int g = GetGValue(color);
 			int b = GetBValue(color);
@@ -376,7 +392,7 @@ void SwordSkel::pixelCollision()
 	{
 		for (int i = _probeBottom - 10; i < _probeBottom + 10; i++)
 		{
-			COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + _vImages[_useImage]->getFrameWidth() - 11, i);
+			COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + _vImages[_useImage]->getFrameWidth() - 11, i);
 			int r = GetRValue(color);
 			int g = GetGValue(color);
 			int b = GetBValue(color);
@@ -406,7 +422,7 @@ void SwordSkel::pixelCollision()
 
 	for (int i = _y + 15; i > _y - 4; i--)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + _vImages[_useImage]->getFrameWidth() / 2, i);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + _vImages[_useImage]->getFrameWidth() / 2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -415,7 +431,7 @@ void SwordSkel::pixelCollision()
 		if ((r == 255 && g == 0 && b == 0))
 		{
 			_jumpPower = -2;
-			_y = i+5;
+			_y = i + 5;
 
 			break;
 		}
@@ -430,7 +446,7 @@ void SwordSkel::pixelCollision()
 
 	for (int i = _x + SwordSkelIdle->getFrameWidth() - 4; i < _x + SwordSkelIdle->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -439,7 +455,7 @@ void SwordSkel::pixelCollision()
 		{
 			_RightCollision1 = true;
 
-			if (_RightCollision1 &&_RightCollision2)
+			if (_RightCollision1 && _RightCollision2)
 			{
 				_x = i - SwordSkelIdle->getFrameWidth();
 
@@ -450,7 +466,7 @@ void SwordSkel::pixelCollision()
 	}
 	for (int i = _x + SwordSkelIdle->getFrameWidth() - 4; i < _x + SwordSkelIdle->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 50);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 50);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -466,7 +482,7 @@ void SwordSkel::pixelCollision()
 	}
 	for (int i = _x + SwordSkelIdle->getFrameWidth() - 4; i < _x + SwordSkelIdle->getFrameWidth() + 5; i++)
 	{
-		COLORREF color = GetPixel(_vImages[_useImage]->getMemDC(), i, _y + 2);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _y + 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -484,7 +500,7 @@ void SwordSkel::pixelCollision()
 	//¿ÞÂÊ¾Æ·¡
 	for (int i = _x + 4; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 2);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -493,7 +509,7 @@ void SwordSkel::pixelCollision()
 		{
 			_leftCollision1 = true;
 
-			if (_leftCollision1 &&_leftCollision2)
+			if (_leftCollision1 && _leftCollision2)
 			{
 				_x = i - _vImages[_useImage]->getFrameWidth();
 
@@ -505,7 +521,7 @@ void SwordSkel::pixelCollision()
 	//¿ÞÂÊÁß°£
 	for (int i = _x + 4; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _probeBottom - 50);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _probeBottom - 50);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);
@@ -521,7 +537,7 @@ void SwordSkel::pixelCollision()
 	//¿ÞÂÊÀ§
 	for (int i = _x + 4; i > _x - 5; i--)
 	{
-		COLORREF color3 = GetPixel(pixelMapIg->getMemDC(), i, _y + 2);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _y + 2);
 		int r = GetRValue(color3);
 		int g = GetGValue(color3);
 		int b = GetBValue(color3);

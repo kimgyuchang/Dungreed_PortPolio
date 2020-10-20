@@ -85,6 +85,9 @@
     <Filter Include="MainGame\Object\NPC\NPCs">
       <UniqueIdentifier>{cff3bb23-612a-4565-bbc8-12cd65a0417a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Etc\Drops">
+      <UniqueIdentifier>{4cdd3c51-dc76-4bd2-a5ec-057ebb9ce0c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -281,6 +284,63 @@
     </ClCompile>
     <ClCompile Include="Shop.cpp">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="Restaurant.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="townNPCimage.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="Treasure.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="Colt.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Range</Filter>
+    </ClCompile>
+    <ClCompile Include="WormVillage.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="StageDoor.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="StageChanger.cpp">
+      <Filter>MainGame\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="Box.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxParticle.cpp">
+      <Filter>MainGame\Object\Etc\Drops</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>MainGame\Object\Etc\Drops</Filter>
+    </ClCompile>
+    <ClCompile Include="DropItem.cpp">
+      <Filter>MainGame\Object\Etc\Drops</Filter>
+    </ClCompile>
+    <ClCompile Include="DropObjs.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="HpPixie.cpp">
+      <Filter>MainGame\Object\Etc\Drops</Filter>
+    </ClCompile>
+    <ClCompile Include="PixieSpawner.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="TreasureSpawner.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="FireBat.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="IceBat.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BloodOfSrobeo.cpp">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -487,6 +547,64 @@
     </ClInclude>
     <ClInclude Include="Shop.h">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Restaurant.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="townNPCimage.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Treasure.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Colt.h">
+      <Filter>MainGame\Item\Items\Weapon\Range</Filter>
+    </ClInclude>
+    <ClInclude Include="WormVillage.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="StageDoor.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="StageChanger.h">
+      <Filter>MainGame\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxParticle.h">
+      <Filter>MainGame\Object\Etc\Drops</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>MainGame\Object\Etc\Drops</Filter>
+    </ClInclude>
+    <ClInclude Include="DropItem.h">
+      <Filter>MainGame\Object\Etc\Drops</Filter>
+    </ClInclude>
+    <ClInclude Include="DropObjs.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="HpPixie.h">
+      <Filter>MainGame\Object\Etc\Drops</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="PixieSpawner.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="TreasureSpawner.h">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="IceBat.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBat.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BloodOfSrobeo.h">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

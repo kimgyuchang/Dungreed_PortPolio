@@ -4,6 +4,7 @@
 
 HRESULT CameraManager::init(float pivotX, float pivotY, float maxX, float maxY, float minX, float minY, float disX, float disY)
 {
+
 	// MOVE //
 	_pivotX = pivotX;
 	_pivotY = pivotY;
@@ -22,6 +23,11 @@ HRESULT CameraManager::init(float pivotX, float pivotY, float maxX, float maxY, 
 	_shakeY = 0;
 	_tempShakeX = 0;
 	_tempShakeY = 0;
+	_shakeCycleTimer = 0;
+	_shakeCycle = 0;
+
+	_zoomTargetX = 0;
+	_zoomTargetY = 0;
 
 	_cameraRect = RectMake(_pivotX - disX, _pivotY - disY, WINSIZEX, WINSIZEY);
 
@@ -207,6 +213,13 @@ void CameraManager::AlphaRender(HDC hdc, image* ig, int destX, int destY, BYTE a
 {
 	ig->alphaRender(hdc, GetRelativeX(destX), GetRelativeY(destY), alpha, angle);
 }
+
+void CameraManager::alphaRender(HDC hdc, image* ig, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha, float angle)
+{
+	ig->alphaRender(hdc, GetRelativeX(destX), GetRelativeY(destY), sourX,sourY,sourWidth,sourHeight , alpha, angle);
+}
+
+
 
 void CameraManager::FrameAlphaRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, BYTE alpha , float angle)
 {

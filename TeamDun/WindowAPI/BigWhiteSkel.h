@@ -17,6 +17,8 @@ private:
 	int			_jumpTimer;
 	int			_idleTimer;
 	vector<int>	_attackAnimFrame;
+	int			_randomXPosTimer;
+	int			_randomXPos;
 
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);

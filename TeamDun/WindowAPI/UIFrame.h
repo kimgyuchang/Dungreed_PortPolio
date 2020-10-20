@@ -43,6 +43,12 @@ protected:
 	float					_scaleY;			// 확대 스케일 Y
 	bool					_renderBeforeParent;// 부모보다 먼저 렌더될 것인지 (부모에 가려짐)
 
+	// 타이머 관련 //
+	int						_timer;				// 타이머
+	bool					_isSetTimer;		// 타이머 셋팅 여부 
+	// 디버깅 관련 //
+	bool					_useDebug;
+
 public:
 	virtual HRESULT init(string name, float x, float y, float sizeX, float sizeY, string imageName, float scaleX = 1, float scaleY = 1);
 	virtual void render(HDC hdc);
@@ -52,7 +58,7 @@ public:
 	virtual void AddChildMap(string name, UIFrame* frame) { _mChildFrames[name] = frame; } // 자식 목록 Map에 key = name, value = frame으로 넣는다.
 	virtual void ToggleIsViewing();
 	virtual void AddFrame(UIFrame* frame);
-
+	
 	void MoveFrame(); // 자식 포함 이동
 	void MoveFrameChild(float x, float y);
 	void CheckIsOutside();
@@ -60,6 +66,8 @@ public:
 	void MoveFrameToXY(float x, float y);
 	void MoveY(int y) { _y += y; } // 자식 미포함 이동
 	void SetIntersectRect() { _interactRect = RectMake(_x, _y, _sizeX*_scaleX, _sizeY*_scaleY); }
+	void OperateViewingTimer();
+	void SetViewingTimer(int timer) { _isSetTimer = true; _timer = timer; SetIsViewing(true);}
 
 	UIFrame* GetChild(string name) { return _mChildFrames[name]; }
 
@@ -71,6 +79,8 @@ public:
 	RECT GetRect() { return _interactRect; }
 	vector<UIFrame*>& GetVChildFrames() { return _vChildFrames; }
 	image* GetImage() { return _image; }
+	float GetScaleX() { return _scaleX; }
+	float GetScaleY() { return _scaleY; }
 
 	bool GetIsOutside() { return _isOutside; }
 	bool GetIsViewing() { return _isViewing; }
@@ -86,4 +96,5 @@ public:
 	void SetRenderBeforeParent(bool rbp) { _renderBeforeParent = rbp; }
 	void SetScaleX(float x) { _scaleX = x; }
 	void SetScaleY(float y) { _scaleY = y; }
+	void SetUseDebug(bool useDebug) { _useDebug = useDebug; }
 };

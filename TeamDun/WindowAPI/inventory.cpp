@@ -5,6 +5,9 @@
 HRESULT Inventory::init()
 {
 	_InvenFrame = UIMANAGER->GetGameFrame()->GetChild("InventoryFrame");
+	_shopFrame = UIMANAGER->GetGameFrame()->GetChild("DungeonShopBase");
+	_swapFrame = UIMANAGER->GetGameFrame()->GetChild("swapContainer");
+	_trashFrame = UIMANAGER->GetGameFrame()->GetChild("CheckTrash");
 	_invenFullTextOn = false;
 	_invenFullTextTimer = 0;
 
@@ -18,10 +21,20 @@ void Inventory::update()
 
 	if (_InvenFrame->GetIsViewing())
 	{
-		UpdateMoney();
-		EquipItem();
-		UnEquipItem();
-		ShowToolTip();
+		if (_trashFrame->GetIsViewing())
+		{
+			ThrowingOutTrash();
+		}
+
+		else
+		{
+			UpdateMoney();
+			EquipItem();
+			UnEquipItem();
+			ShowToolTip();
+			DragItemStart();
+			DragItem();
+		}
 	}
 }
 
@@ -38,33 +51,290 @@ void Inventory::UpdateMoney()
 	dynamic_cast<UIText*>(_InvenFrame->GetChild("moneyText"))->SetText(to_string(_p->GetMoney()));
 }
 
-
-void Inventory::EquipItem()
+// 아이템이 버려질때
+void Inventory::ThrowingOutTrash()
 {
-	if (_leftClicked) _leftClickTimer++;
-	if (_leftClickTimer > 15)
-	{
-		_leftClickTimer = 0;
-		_leftClicked = false;
-	}
-
 	if (INPUT->GetIsLButtonClicked())
 	{
-		if (!_leftClicked)
+		if (PtInRect(&_trashFrame->GetChild("yes")->GetRect(), _ptMouse))
+		{
+			_vInvenItems.erase(_vInvenItems.begin() + _dragIndex);
+			EraseDragInfor();
+			ReloadUIImages();
+			_trashFrame->SetIsViewing(false);
+		}
+
+		else if (PtInRect(&_trashFrame->GetChild("no")->GetRect(), _ptMouse))
+		{
+			EraseDragInfor();
+			_trashFrame->SetIsViewing(false);
+		}
+	}
+}
+
+// EquipItemPos는 조건 검사가 완료된 상황에서 사용되는 위치별 착용 함수이다.
+void Inventory::EquipItemPos(int pos, Item* item, int index, bool isUsed)
+{
+	_vInvenItems.erase(_vInvenItems.begin() + index);
+	if(isUsed) item->EquipUnEquipStatus(true);
+
+	Item* item1 = nullptr;
+	Item* item2 = nullptr;
+
+	switch (pos)
+	{
+	case 0: // WEAPON 1
+		if (item->GetitemType() == ITEMTYPE::IT_WEAPON_ONEHAND)
+		{
+			item1 = _p->SetWeapon(0, item);
+			if (item1 != nullptr)
+			{
+				AddItem(item1);
+				if(isUsed) item1->EquipUnEquipStatus(false);
+			}
+		}
+
+		else if (item->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND)
+		{
+			item1 = _p->SetWeapon(0, item);
+			if (item1 != nullptr)
+			{
+				AddItem(item1);
+				if (isUsed) item1->EquipUnEquipStatus(false);
+			}
+			item2 = _p->SetSubWeapon(0, nullptr);
+			if (item2 != nullptr)
+			{
+				AddItem(item2);
+				if (isUsed) item2->EquipUnEquipStatus(false);
+			}
+		}
+		break;
+
+	case 1: // WEAPON 2
+		if (item->GetitemType() == ITEMTYPE::IT_WEAPON_ONEHAND)
+		{
+			item1 = _p->SetWeapon(1, item);
+			if (item1 != nullptr)
+			{
+				AddItem(item1);
+				if (isUsed) item1->EquipUnEquipStatus(false);
+			}
+		}
+
+		else if (item->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND)
+		{
+			item1 = _p->SetWeapon(1, item);
+			if (item1 != nullptr)
+			{
+				AddItem(item1);
+				if (isUsed) item1->EquipUnEquipStatus(false);
+			}
+			item2 = _p->SetSubWeapon(1, nullptr);
+			if (item2 != nullptr)
+			{
+				AddItem(item2);
+				if (isUsed) item2->EquipUnEquipStatus(false);
+			}
+		}
+		break;
+
+	case 2: // SUBWEAPON 1
+		if (item->GetitemType() == ITEMTYPE::IT_SUBWEAPON)
+		{
+			item1 = _p->SetSubWeapon(0, item);
+			if (item1 != nullptr)
+			{
+				AddItem(item1);
+				if (isUsed) item1->EquipUnEquipStatus(false);
+			}
+		}
+		break;
+
+	case 3: // SUBWEAPON 2
+		if (item->GetitemType() == ITEMTYPE::IT_SUBWEAPON)
+		{
+			item1 = _p->SetSubWeapon(1, item);
+			if (item1 != nullptr)
+			{
+				AddItem(item1);
+				if (isUsed) item1->EquipUnEquipStatus(false);
+			}
+		}
+		break;
+
+	default:
+		// 4부터 악세서리 n
+		if (item->GetitemType() == ITEMTYPE::IT_ACCESORRY)
+		{
+			if (_p->GetVAccessories().size() <= pos - 4) _p->GetVAccessories().push_back(item);
+
+			else
+			{
+				item1 = _p->SetVAccessory(pos - 4, item);
+				if (item1 != nullptr)
+				{
+					AddItem(item1);
+					item1->EquipUnEquipStatus(false);
+				}
+			}
+		}
+		break;
+	}
+}
+
+void Inventory::DragItemStart()
+{
+	if (_dragItem == nullptr && INPUT->GetKey(VK_LBUTTON))
+	{
+		if (!_shopFrame->GetIsViewing())
 		{
 			for (int i = 0; i < 15; i++)
 			{
 				UIFrame* curFrame = _InvenFrame->GetChild("itemFrame_" + to_string(i))->GetChild("itemImageFrame");
-
 				if (PtInRect(&curFrame->GetRect(), _ptMouse))
 				{
-					_leftClicked = true;
-					_leftClickTimer = 0;
+					_dragItem = _vInvenItems[i];
+					_dragIndex = i;
+
+					UIMANAGER->GetGameFrame()->GetChild("itemMouseTracker")->SetImage(_dragItem->GetInvenImage());
+					UIMANAGER->GetGameFrame()->GetChild("itemMouseTracker")->SetIsViewing(true);
 				}
 			}
 		}
+	}
+}
 
-		else
+/// <summary>
+/// 드래그하여 아이템을 착용 / 버림
+/// </summary>
+void Inventory::DragItem()
+{
+	if (_dragItem != nullptr)
+	{
+		if (INPUT->GetIsRButtonClicked()) // 우클릭시 해제
+		{
+			_dragIndex = -1;
+			_dragItem = nullptr;
+		}
+
+		if (INPUT->GetIsLButtonUp()) // 놓은 곳 체크
+		{
+			UIMANAGER->GetGameFrame()->GetChild("itemMouseTracker")->SetIsViewing(false);
+			
+			if (PtInRect(&_InvenFrame->GetRect(), _ptMouse)) // 인벤 프레임 안이라면
+			{
+				SOUNDMANAGER->play("게임_아이템장착 (2)");
+				if (PtInRect(&_InvenFrame->GetChild("curWeapon_1")->GetRect(), _ptMouse) && (_dragItem->GetitemType() == ITEMTYPE::IT_WEAPON_ONEHAND || _dragItem->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND))
+				{ // 무기 1
+					if (_dragItem->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND && (_p->GetWeapon(0) != nullptr && _vInvenItems.size() >= 15))
+					{ // 미착용
+						OnInvenFullText();
+					}
+					else
+						EquipItemPos(0, _vInvenItems[_dragIndex], _dragIndex, _p->GetSelectedWeaponIdx() == 0);
+				}
+
+				else if (PtInRect(&_InvenFrame->GetChild("curWeapon_2")-> GetRect(), _ptMouse) && (_dragItem->GetitemType() == ITEMTYPE::IT_WEAPON_ONEHAND || _dragItem->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND))
+				{ // 무기 2
+					if (_dragItem->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND && (_p->GetWeapon(1) != nullptr && _vInvenItems.size() >= 15))
+					{ // 미착용
+						OnInvenFullText();
+					}
+					else
+						EquipItemPos(1, _vInvenItems[_dragIndex], _dragIndex, _p->GetSelectedWeaponIdx() == 1);
+				}
+				
+				else if (PtInRect(&_InvenFrame->GetChild("curWeaponSub_1")->GetRect(), _ptMouse) && (_dragItem->GetitemType() == ITEMTYPE::IT_SUBWEAPON))
+				{ // 서브무기 1
+					if ((_p->GetWeapon(0) == nullptr || (_p->GetWeapon(0)->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND)))
+					{ // 서브무기를 낄 수 없는 상태
+						OnInvenFullText();
+					}
+
+					else if (_p->GetWeapon(0) == nullptr)
+					{
+						OnInvenFullText();
+					}
+					else
+					{
+						if (_p->GetWeapon(0) != nullptr && _p->GetWeapon(0)->GetitemType() != ITEMTYPE::IT_WEAPON_TWOHAND)
+						{ // 무기 0이 있고 두손무기가 아니며 서브웨폰이 있다면
+							EquipItemPos(2, _vInvenItems[_dragIndex], _dragIndex, _p->GetSelectedWeaponIdx() == 0);
+						}
+					}
+				}
+				
+				else if (PtInRect(&_InvenFrame->GetChild("curWeaponSub_2")->GetRect(), _ptMouse) && (_dragItem->GetitemType() == ITEMTYPE::IT_SUBWEAPON))
+				{ // 서브무기 2
+					if ((_p->GetWeapon(1) == nullptr || (_p->GetWeapon(1)->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND)))
+					{ // 서브무기를 낄 수 없는 상태
+						OnInvenFullText();
+					}
+
+					else if (_p->GetWeapon(1) == nullptr)
+					{
+						OnInvenFullText();
+					}
+					else
+					{
+						if (_p->GetWeapon(1) != nullptr && _p->GetWeapon(1)->GetitemType() != ITEMTYPE::IT_WEAPON_TWOHAND)
+						{ // 무기 0이 있고 두손무기가 아니며 서브웨폰이 있다면
+							EquipItemPos(3, _vInvenItems[_dragIndex], _dragIndex, _p->GetSelectedWeaponIdx() == 1);
+						}
+					}
+				}
+
+				else
+				{
+					for (int i = 0; i < _p->GetAccesoryCount(); i++)
+					{
+						if (PtInRect(&_InvenFrame->GetChild("accesoryFrame_" + to_string(i))->GetRect(), _ptMouse) && (_dragItem->GetitemType() == ITEMTYPE::IT_ACCESORRY))
+						{
+							bool equalCheck = false; // 같은 종류가 있는지 체크
+							for (int j= 0; j < _p->GetVAccessories().size(); j++)
+							{
+								if (_p->GetAccessory(j)->GetId() == _dragItem->GetId())
+								{
+									OnInvenEqualText();
+									equalCheck = true;
+									break;
+								}
+							}
+
+							if (equalCheck) break; // 같은게 있다면 break
+							else EquipItemPos(4+i, _vInvenItems[_dragIndex], _dragIndex, true); // 아니면 착용
+							break;
+						}
+					}
+				}
+
+				EraseDragInfor();
+			}
+
+			else
+			{
+				// 버리기
+				SOUNDMANAGER->play("게임_템버리기");
+				_trashFrame->SetIsViewing(true);
+			}
+
+			ReloadUIImages();
+		}
+
+		else // 프레임 이동
+		{
+			UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("itemMouseTracker");
+			frame->MoveFrameChild((_ptMouse.x) - frame->GetX(), (_ptMouse.y - frame->GetY()));
+		}
+	}
+}
+
+void Inventory::EquipItem()
+{
+	if (INPUT->GetIsRButtonClicked())
+	{
+		if (!_shopFrame->GetIsViewing())
 		{
 			for (int i = 0; i < 15; i++)
 			{
@@ -74,63 +344,46 @@ void Inventory::EquipItem()
 				{
 					if (_vInvenItems.size() > i)
 					{
+						SOUNDMANAGER->play("게임_아이템장착 (2)");
 						Item* item = _vInvenItems[i];
-						item->EquipUnEquipStatus(true);
+						//item->EquipUnEquipStatus(true);
 
 						switch (item->GetitemType())
 						{
 						case ITEMTYPE::IT_WEAPON_ONEHAND:
 							if (_p->GetWeapon(0) == nullptr)
 							{ // 0번에 착용
-								_p->SetWeapon(0, item);
-								if (_p->GetSelectedWeaponIdx() != 0) item->EquipUnEquipStatus(false);
-								_vInvenItems.erase(_vInvenItems.begin() + i);
+								EquipItemPos(0, item, i, _p->GetSelectedWeaponIdx() == 0);
 							}
 							else if (_p->GetWeapon(1) == nullptr)
 							{ // 1번에 착용
-								_p->SetWeapon(1, item);
-								if (_p->GetSelectedWeaponIdx() != 1) item->EquipUnEquipStatus(false);
-								_vInvenItems.erase(_vInvenItems.begin() + i);
+								EquipItemPos(1, item, i, _p->GetSelectedWeaponIdx() == 1);
 							}
 							else
 							{ // 0번과 switch
-								_p->GetWeapon(0)->EquipUnEquipStatus(false);
-								if (_p->GetSelectedWeaponIdx() != 0) item->EquipUnEquipStatus(false);
-								SwitchItem(0, item, i);
+								EquipItemPos(0, item, i, _p->GetSelectedWeaponIdx() == 0);
 							}
 							break;
 
 						case ITEMTYPE::IT_WEAPON_TWOHAND:
 							if (_p->GetWeapon(0) == nullptr)
 							{ // 0번에 착용
-								_p->SetWeapon(0, item);
-								if (_p->GetSelectedWeaponIdx() != 0) item->EquipUnEquipStatus(false);
-								_vInvenItems.erase(_vInvenItems.begin() + i);
+								EquipItemPos(0, item, i, _p->GetSelectedWeaponIdx() == 0);
 							}
 
 							else if (_p->GetWeapon(1) == nullptr)
 							{ // 1번에 착용
-								_p->SetWeapon(1, item);
-								if (_p->GetSelectedWeaponIdx() != 1) item->EquipUnEquipStatus(false);
-								_vInvenItems.erase(_vInvenItems.begin() + i);
+								EquipItemPos(1, item, 1, _p->GetSelectedWeaponIdx() == 1);
 							}
 
 							else if (_vInvenItems.size() >= 15)
 							{ // 미착용
 								OnInvenFullText();
-								item->EquipUnEquipStatus(false);
 							}
+						
 							else
 							{ // 0번과 switch
-								if (_p->GetSelectedWeaponIdx() == 0) _p->GetWeapon(0)->EquipUnEquipStatus(false);
-								if (_p->GetSelectedWeaponIdx() != 0) item->EquipUnEquipStatus(false);
-								SwitchItem(0, item, i);
-								if (_p->GetSubWeapon(0) != nullptr)
-								{
-									AddItem(_p->GetSubWeapon(0));
-									if (_p->GetSelectedWeaponIdx() == 0) _p->GetSubWeapon(0)->EquipUnEquipStatus(false);
-									_p->SetSubWeapon(0, nullptr);
-								}
+								EquipItemPos(0, item, i, _p->GetSelectedWeaponIdx() == 0);
 							}
 							break;
 
@@ -140,64 +393,53 @@ void Inventory::EquipItem()
 								(_p->GetWeapon(1) == nullptr || (_p->GetWeapon(1)->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND)))
 							{ // 양쪽 다 서브무기를 낄 수 없는 상태라면
 								OnInvenFullText();
-								item->EquipUnEquipStatus(false);
 							}
 
 							else if (_p->GetWeapon(0) != nullptr && _p->GetWeapon(0)->GetitemType() != ITEMTYPE::IT_WEAPON_TWOHAND && _p->GetSubWeapon(0) == nullptr)
 							{ // 무기 0이 있고 두손무기가 아니며, 서브웨폰이 없다면
-								_p->SetSubWeapon(0, item);
-								if (_p->GetSelectedWeaponIdx() != 0) item->EquipUnEquipStatus(false);
-								_vInvenItems.erase(_vInvenItems.begin() + i);
+								EquipItemPos(2, item, i, _p->GetSelectedWeaponIdx() == 0);
 							}
 
 							else if (_p->GetWeapon(1) != nullptr && _p->GetWeapon(1)->GetitemType() != ITEMTYPE::IT_WEAPON_TWOHAND && _p->GetSubWeapon(1) == nullptr)
 							{ // 무기 1이 있고 두손무기가 아니며, 서브웨폰이 없다면
-								_p->SetSubWeapon(1, item);
-								if (_p->GetSelectedWeaponIdx() != 1) item->EquipUnEquipStatus(false);
-								_vInvenItems.erase(_vInvenItems.begin() + i);
+								EquipItemPos(3, item, i, _p->GetSelectedWeaponIdx() == 1);
 							}
 
 							else
 							{
-								if (_p->GetWeapon(0) != nullptr && _p->GetWeapon(0)->GetitemType() != ITEMTYPE::IT_WEAPON_TWOHAND && _p->GetSubWeapon(0) != nullptr)
-								{
-									_p->GetSubWeapon(0)->EquipUnEquipStatus(false);
-									if (_p->GetSelectedWeaponIdx() != 0) item->EquipUnEquipStatus(false);
-									SwitchItem(1, item, i);
+								if (_p->GetWeapon(0) != nullptr && _p->GetWeapon(0)->GetitemType() != ITEMTYPE::IT_WEAPON_TWOHAND)
+								{ // 무기 0이 있고 두손무기가 아니며 서브웨폰이 있다면
+									EquipItemPos(2, item, i, _p->GetSelectedWeaponIdx() == 0);
 								}
 								else
-								{
+								{ // 무기 0이 없거나, 두손무기라면
 									OnInvenFullText();
-									item->EquipUnEquipStatus(false);
 								}
 							}
 							break;
 
 						case ITEMTYPE::IT_ACCESORRY:
-							bool equalCheck = false;
+							bool equalCheck = false; // 같은 종류가 있는지 체크
 							for (int i = 0; i < _p->GetVAccessories().size(); i++)
 							{
 								if (_p->GetAccessory(i)->GetId() == item->GetId())
 								{
 									OnInvenEqualText();
-									item->EquipUnEquipStatus(false);
 									equalCheck = true;
 									break;
 								}
 							}
 
-							if (equalCheck) break;
+							if (equalCheck) break; // 같은게 있다면 break
 
 							if (_p->GetVAccessories().size() == _p->GetAccesoryCount())
-							{
+							{	// 사이즈가 꽉 찼다면 착용 못함
 								OnInvenFullText();
-								item->EquipUnEquipStatus(false);
 							}
 
 							else
-							{
-								_p->GetVAccessories().push_back(item);
-								_vInvenItems.erase(_vInvenItems.begin() + i);
+							{	// 맨 뒤에 악세서리 착용
+								EquipItemPos(_p->GetVAccessories().size() + 4, item, i, true);
 							}
 							break;
 						}
@@ -252,36 +494,14 @@ void Inventory::SwitchItem(int num, Item* item, int index)
 
 void Inventory::UnEquipItem()
 {
-	if (INPUT->GetIsLButtonClicked())
+	if (INPUT->GetIsRButtonClicked())
 	{
-		if (!_leftClicked)
-		{
-			if (PtInRect(&_InvenFrame->GetChild("curWeapon_1")->GetRect(), _ptMouse) ||
-				PtInRect(&_InvenFrame->GetChild("curWeapon_2")->GetRect(), _ptMouse) ||
-				PtInRect(&_InvenFrame->GetChild("curWeaponSub_1")->GetRect(), _ptMouse) ||
-				PtInRect(&_InvenFrame->GetChild("curWeaponSub_2")->GetRect(), _ptMouse))
-			{
-				_leftClicked = true;
-				_leftClickTimer = 0;
-			}
-
-			else
-			{
-				for (int i = 0; i < _p->GetAccesoryCount(); i++)
-				{
-					if (PtInRect(&_InvenFrame->GetChild("accesoryFrame_" + to_string(i))->GetRect(), _ptMouse))
-					{
-						_leftClicked = true;
-						_leftClickTimer = 0;
-					}
-				}
-			}
-		}
-
-		else
+		if (!_shopFrame->GetIsViewing())
 		{
 			if (PtInRect(&_InvenFrame->GetChild("curWeapon_1")->GetRect(), _ptMouse) && _p->GetWeapon(0) != nullptr)
 			{
+				SOUNDMANAGER->play("게임_아이템장착 (2)");
+
 				if ((_vInvenItems.size() > 13 && _p->GetWeapon(0)->GetitemType() == ITEMTYPE::IT_WEAPON_TWOHAND && _p->GetSubWeapon(0) != nullptr) || _vInvenItems.size() > 14)
 				{
 					OnInvenFullText();
@@ -394,10 +614,49 @@ bool Inventory::AddItem(Item* item)
 void Inventory::ReloadUIImages()
 {
 	Player* p = ENTITYMANAGER->getPlayer();
+	_swapFrame->GetChild("weapon1")->GetVChildFrames().clear();
+	_swapFrame->GetChild("weapon2")->GetVChildFrames().clear();
+
+	UIFrame* weapon1Swap = new UIFrame();
 	_InvenFrame->GetChild("curWeapon_1")->SetImage(nullptr);
-	if (p->GetWeapon(0) != nullptr) _InvenFrame->GetChild("curWeapon_1")->SetImage(p->GetWeapon(0)->GetInvenImage());
+	if (p->GetWeapon(0) != nullptr)
+	{
+		_InvenFrame->GetChild("curWeapon_1")->SetImage(p->GetWeapon(0)->GetInvenImage());
+		weapon1Swap->init("image",
+			25 - p->GetWeapon(0)->GetDropImage()->getFrameWidth() / 2 * (p->GetWeapon(0)->GetRenderScale() - 1),
+			15 - p->GetWeapon(0)->GetDropImage()->getFrameHeight() / 2 * (p->GetWeapon(0)->GetRenderScale() - 1),
+			0, 0,
+			p->GetWeapon(0)->GetDropImageName(),
+			p->GetWeapon(0)->GetRenderScale(),
+			p->GetWeapon(0)->GetRenderScale()
+		);
+	}
+	else
+	{
+		weapon1Swap->init("image", 0, 0, 0, 0, "");
+	}
+	_swapFrame->GetChild("weapon1")->AddFrame(weapon1Swap);
+	UIFrame* weapon2Swap = new UIFrame();
 	_InvenFrame->GetChild("curWeapon_2")->SetImage(nullptr);
-	if (p->GetWeapon(1) != nullptr) _InvenFrame->GetChild("curWeapon_2")->SetImage(p->GetWeapon(1)->GetInvenImage());
+	if (p->GetWeapon(1) != nullptr)
+	{
+		_InvenFrame->GetChild("curWeapon_2")->SetImage(p->GetWeapon(1)->GetInvenImage());
+		weapon2Swap->init("image",
+			25 - p->GetWeapon(1)->GetDropImage()->getFrameWidth() / 2 * (p->GetWeapon(1)->GetRenderScale() - 1),
+			15 - p->GetWeapon(1)->GetDropImage()->getFrameHeight() / 2 * (p->GetWeapon(1)->GetRenderScale() - 1),
+			p->GetWeapon(1)->GetDropImage()->getFrameWidth() * p->GetWeapon(1)->GetRenderScale(),
+			p->GetWeapon(1)->GetDropImage()->getFrameHeight() * p->GetWeapon(1)->GetRenderScale(),
+			p->GetWeapon(1)->GetDropImageName(),
+			p->GetWeapon(1)->GetRenderScale(),
+			p->GetWeapon(1)->GetRenderScale()
+		);
+	}
+	else
+	{
+		weapon2Swap->init("image", 0, 0, 0, 0, "");
+	}
+	_swapFrame->GetChild("weapon2")->AddFrame(weapon2Swap);
+
 	_InvenFrame->GetChild("curWeaponSub_1")->SetImage(nullptr);
 	if (p->GetSubWeapon(0) != nullptr) _InvenFrame->GetChild("curWeaponSub_1")->SetImage(p->GetSubWeapon(0)->GetInvenImage());
 	_InvenFrame->GetChild("curWeaponSub_2")->SetImage(nullptr);
@@ -458,9 +717,9 @@ void Inventory::CheckInvenText()
 
 void Inventory::SwitchWeapon(int selectedWeapon)
 {
-	if (selectedWeapon == 0)
+	if (selectedWeapon == 0)	//선택무기가 0번일때
 	{
-		if (_p->GetWeapon(0) != nullptr)
+		if (_p->GetWeapon(0) != nullptr)	//공격무기가 0번이 아닐
 			_p->GetWeapon(0)->EquipUnEquipStatus(true);
 		if (_p->GetSubWeapon(0) != nullptr)
 			_p->GetSubWeapon(0)->EquipUnEquipStatus(true);
@@ -551,10 +810,11 @@ void Inventory::InitToolTipItem(Item* item)
 		uiToolTip->AddFrame(defValue);
 	}
 
+	// 추가 옵션
 	for (int i = 0; i < item->GetSubOptions().size(); i++)
 	{
 		SubOption* option = item->GetSubOptions()[i];
-		
+
 		int optionR = 255, optionG = 255, optionB = 255;
 		if (option->_optionPower < 0) optionR = 255, optionG = 0, optionB = 0;
 		if (option->_optionPower > 0) optionR = 0, optionG = 255, optionB = 0;
@@ -571,6 +831,7 @@ void Inventory::InitToolTipItem(Item* item)
 
 	_toolTipFinalY = item->GetSubOptions().size() * 20 + 122;
 
+	// 아이템 클래스
 	string itemClassString = "일반 아이템";
 	switch (item->GetItemClass())
 	{
@@ -584,6 +845,7 @@ void Inventory::InitToolTipItem(Item* item)
 	itemClass->init("itemClass", 10, _toolTipFinalY + 5, 150, 30, itemClassString, FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT, RGB(120, 120, 120));
 	uiToolTip->AddFrame(itemClass);
 
+	// 아이템 종류
 	string itemKindString = "양손무기";
 	switch (item->GetitemType())
 	{
@@ -598,6 +860,7 @@ void Inventory::InitToolTipItem(Item* item)
 	uiToolTip->AddFrame(itemKind);
 	_toolTipFinalY += 15;
 
+	// 비고
 	string weaponkindString = "";
 	switch (item->GetWeaponType())
 	{
@@ -615,6 +878,7 @@ void Inventory::InitToolTipItem(Item* item)
 		_toolTipFinalY += 20;
 	}
 
+	// 스킬
 	if (item->GetSkill() != nullptr)
 	{
 		UIImage* skillFrame = new UIImage();
@@ -630,16 +894,29 @@ void Inventory::InitToolTipItem(Item* item)
 		skillDescription->init("skillDescription", 55, 22, 220, 120, item->GetSkill()->GetDescription(), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT);
 		skillFrame->AddFrame(skillDescription);
 		UIText* skillCoolTime = new UIText();
-		skillCoolTime->init("skillCoolTime", 257, 39, 20, 30, to_string_with_precision(item->GetSkill()->GetCoolTime(),1), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_RIGHT, RGB(221, 173, 103));
+		skillCoolTime->init("skillCoolTime", 257, 39, 20, 30, to_string_with_precision(item->GetSkill()->GetCoolTime(), 1), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_RIGHT, RGB(221, 173, 103));
 		skillFrame->AddFrame(skillCoolTime);
 		_toolTipFinalY += 45;
 	}
 
+	// 설명
 	UIText* description = new UIText();
-	description->init("description", 10, _toolTipFinalY + 45, 280, 200, item->GetDescription(), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT, RGB(208, 247, 252));
+	description->init("description", 10, _toolTipFinalY + 45, 350, 200, item->GetDescription(), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT, RGB(208, 247, 252));
 	uiToolTip->AddFrame(description);
 	_toolTipFinalY += (item->GetDescription().length() / 22) * 10 + 70;
 
+	if (_shopFrame->GetIsViewing())
+	{
+		UIFrame* moneyImg = new UIFrame();
+		moneyImg->init("moneyImg", 352, _toolTipFinalY - 2, 19, 19, "moneyUI");
+		uiToolTip->AddFrame(moneyImg);
+
+		UIText* sellMoney = new UIText();
+		sellMoney->init("sellMoney", 250, _toolTipFinalY, 100, 50, to_string_with_precision(item->GetSellPrice(), 0), FONT::PIX, WORDSIZE::WS_SMALL, WORDSORT::WSORT_RIGHT);
+		uiToolTip->AddFrame(sellMoney);
+	}
+
+	_toolTipFinalY += 30;
 	uiToolTip->SetScaleY(_toolTipFinalY / 100.f);
 }
 
@@ -771,10 +1048,16 @@ string Inventory::OptionString(SubOption* option)
 		optionResult += "기절 부여";
 	}
 
-	if(option->_description != ".")
+	if (option->_description != ".")
 		optionResult += option->_description;
 
 	return optionResult;
+}
+
+void Inventory::EraseDragInfor()
+{
+	_dragIndex = -1;
+	_dragItem = nullptr;
 }
 
 void Inventory::ShowToolTip()

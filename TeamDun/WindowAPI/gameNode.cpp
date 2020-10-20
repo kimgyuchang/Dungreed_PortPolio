@@ -32,6 +32,12 @@ void gameNode::release()
 	IMAGEMANAGER->release();
 	IMAGEMANAGER->releaseSingleton();
 
+	SOUNDMANAGER->release();
+	SOUNDMANAGER->releaseSingleton();
+
+	SCENEMANAGER->release();
+	SCENEMANAGER->releaseSingleton();
+
 	//HDC 해제
 	ReleaseDC(_hWnd, _hdc);
 }
@@ -83,7 +89,7 @@ LRESULT gameNode::MainProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 		switch (wParam)
 		{
 		case VK_ESCAPE:
-			PostMessage(hWnd, WM_DESTROY, 0, 0);
+			//PostMessage(hWnd, WM_DESTROY, 0, 0); // ESC종료
 			break;
 		}
 		break;

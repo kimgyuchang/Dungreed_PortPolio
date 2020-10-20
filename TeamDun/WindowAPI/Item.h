@@ -20,7 +20,7 @@ enum WEAPONTYPE
 enum OPTIONTYPE
 {
 	POWER,				 // 위력
-	ATKSPEED,			 // 공격속도
+	ATKSPEED,			 // 공격속도 (%)
 	DASHATK,			 // 대쉬 공격력
 	DEFENCE,			 // 방어력
 	BLOCK,				 // 막기
@@ -35,7 +35,7 @@ enum OPTIONTYPE
 	MAXHP,				 // 최대 HP
 	MAXHPPERCENT,		 // 최대 HP (%)
 	EVADE,				 // 회피
-	MOVESPEED,			 // 이동 속도
+	MOVESPEED,			 // 이동 속도 (%)
 	JUMPPOWER,			 // 점프력
 	GOLDDROP,			 // 골드 드랍
 	RELOADSPEED,		 // 재장전 속도
@@ -77,6 +77,8 @@ protected:
 	int					_currentImage;		// 현재 이미지
 	image*				_invenImage;		// 인벤토리용 이미지
 	string				_invenImageName;	// 인벤토리용 이미지 이름
+	image*				_dropImage;			// 드랍용 이미지
+	string				_dropImageName;		// 드랍용 이미지 이름
 	float				_renderPosX;		// 위치 X
 	float				_renderPosY;		// 위치 Y
 	float				_angleCheckPosX;	// 각도체크용 중점 X
@@ -86,6 +88,7 @@ protected:
 	int					_xFrame;			// 이미지 XFrame
 	int					_yFrame;			// 이미지 yFrame
 	bool				_isAttacking;		// 공격 중인지
+	float				_renderScale;		// 렌더때의 스케일
 
 	// 공통 //
 	ITEMCLASS			_itemClass;			// 아이템 등급
@@ -122,7 +125,7 @@ public:
 	virtual HRESULT init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill* skill, string name, 
 		string description, ITEMCLASS itemClass, float minAtk, float maxAtk, float atkSpeed, 
 		int defence, bool useAtkSpeed, int numOfBullet, float reloadTime, Bullet* bullet, 
-		float accuracy, int buyPrice, bool isBulletInfinite, vector<string> imageNames, string invenImage);
+		float accuracy, int buyPrice, bool isBulletInfinite, vector<string> imageNames, string invenImage, string dropImage);
 
 	void AddSubOption(SubOption* option);
 	virtual void update();
@@ -146,6 +149,8 @@ public:
 	vector<string>&		GetImageNames()			{ return _vImageNames; }
 	string				GetImageName(int index) { return _vImageNames[index]; }
 	image*				GetInvenImage()			{ return _invenImage; }
+	image*				GetDropImage()			{ return _dropImage; }
+	string				GetDropImageName()		{ return _dropImageName; }
 	ITEMCLASS			GetItemClass()			{ return _itemClass; }
 	ITEMTYPE			GetitemType()			{ return _itemType; }
 	WEAPONTYPE			GetWeaponType()			{ return _weaponType; }
@@ -170,9 +175,9 @@ public:
 	float				GetAngleCheckPosX()		{ return _angleCheckPosX; }
 	float				GetAngleCheckPosY()		{ return _angleCheckPosY; }
 	string				GetInvenImageName()		{ return _invenImageName; }
+	float				GetRenderScale()		{ return _renderScale; }
 	void				SetIsRenderFirst(bool first)	{ _isRenderFirst = first; }
 	void				SetisAttacking(bool attack)		{ _isAttacking = attack; }
 	void				SetRenderAngle(float angle)		{ _renderAngle = angle; }
-	
 };
 

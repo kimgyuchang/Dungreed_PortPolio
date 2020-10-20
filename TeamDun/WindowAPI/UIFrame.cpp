@@ -46,6 +46,7 @@ void UIFrame::update()
 	}
 
 	CheckIsOutside();
+	OperateViewingTimer();
 }
 
 /// <summary>
@@ -68,6 +69,12 @@ void UIFrame::ToggleIsViewing()
 /// <param name="withChild"></param>
 void UIFrame::SetIsViewing(bool isViewing, bool withChild)
 {
+	if (isViewing == false)
+	{
+		_timer = 0;
+		_isSetTimer = false;
+	}
+
 	_isViewing = isViewing;
 
 	if (withChild)
@@ -206,8 +213,26 @@ void UIFrame::MoveFrameToXY(float x, float y)
 	}
 }
 
+/// <summary>
+/// 일정 시간 뒤에 UI를 보이지 않게 하는 기능
+/// </summary>
+void UIFrame::OperateViewingTimer()
+{
+	if (_isSetTimer)
+	{
+		_timer--;
+		if (_timer < 0)
+		{
+			_timer = 0;
+			_isSetTimer = false;
+			SetIsViewing(false);
+		}
+	}
+}
+
 void UIFrame::render(HDC hdc)
 {
+
 	if (_isViewing) // 보이는 상태이며
 	{
 		if (_isChild && _useOutsideLimit && _isOutside) {} // 자식이며, 범위제한을 사용했고 부모의 범위를 넘었다면 그리지 않음.

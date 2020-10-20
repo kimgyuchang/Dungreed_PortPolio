@@ -4,15 +4,16 @@
 HRESULT DemonSword::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill* skill, string name,
 	string description, ITEMCLASS itemClass, float minAtk, float maxAtk, float atkSpeed,
 	int defence, bool useAtkSpeed, int numOfBullet, float reloadTime, Bullet* bullet,
-	float accuracy, int buyPrice, bool isBulletInfinite, vector<string> imageNames, string invenImage)
+	float accuracy, int buyPrice, bool isBulletInfinite, vector<string> imageNames, string invenImage, string dropImage)
 {
 	Item::init(id, itemType, weaponType, skill, name, description, itemClass, minAtk, maxAtk, atkSpeed,
-		defence, useAtkSpeed, numOfBullet, reloadTime, bullet, accuracy, buyPrice, isBulletInfinite, imageNames, invenImage);
+		defence, useAtkSpeed, numOfBullet, reloadTime, bullet, accuracy, buyPrice, isBulletInfinite, imageNames, invenImage, dropImage);
 
 	_isRenderFirst = true;
 	_animCount = 0;
 	_finalAnimCount = 0;
 	_slashImage = IMAGEMANAGER->findImage("DemonSword_Slash");
+	_renderScale = 3.0f;
 	return S_OK;
 }
 
@@ -25,7 +26,7 @@ void DemonSword::update()
 
 void DemonSword::render(HDC hdc)
 {
-	CAMERAMANAGER->FrameStretchRender(hdc, _vImages[_currentImage], _renderPosX, _renderPosY, _xFrame, _yFrame, 3.0f, 3.0f, _angle + _renderAngle);
+	CAMERAMANAGER->FrameStretchRender(hdc, _vImages[_currentImage], _renderPosX, _renderPosY, _xFrame, _yFrame, _renderScale, _renderScale, _angle + _renderAngle);
 	for (int i = 0; i < _vSlashes.size(); i++) _vSlashes[i]->render(hdc);
 }
 
@@ -66,6 +67,7 @@ void DemonSword::AttackAnim()
 
 void DemonSword::Activate()
 {
+	SOUNDMANAGER->play("무기_두손검");
 	_isAttacking = true;
 	_animCount = 0;
 	_finalAnimCount = ENTITYMANAGER->getPlayer()->GetRealAttackSpeed();
@@ -76,7 +78,7 @@ void DemonSword::Activate()
 
 	DemonSlash* slash = new DemonSlash();
 	
-	slash->init(GetAngleCheckPosX() - _slashImage->getFrameWidth()/2 * 3, GetAngleCheckPosY() - _slashImage->getFrameHeight()/2 * 3, _isLeftAttack ? 0 : 1, "DemonSword_Slash", -(_angle + (_isLeftAttack ? PI : -PI )));
+	slash->init(GetAngleCheckPosX() - _slashImage->getFrameWidth()/2 * 3, GetAngleCheckPosY() - _slashImage->getFrameHeight()/2 * 3, _isLeftAttack ? 0 : 1, "DemonSword_Slash", (_angle + (_isLeftAttack ? PI : -PI )));
 	slash->_parent = this;
 	_vSlashes.push_back(slash);
 }
@@ -102,15 +104,15 @@ void DemonSword::ChangeMap()
 void DemonSword::SetBaseRenderPos()
 {
 	bool playerIsLeft = ENTITYMANAGER->getPlayer()->GetIsLeft();
-	_yFrame = playerIsLeft ? 0 : 1;
+	_yFrame = playerIsLeft ? 1 : 0;
 
-	_angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 40 : 20);
-	_angleCheckPosY = ENTITYMANAGER->getPlayer()->GetY() + 45;
+	_angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 25 : 50);
+	_angleCheckPosY = ENTITYMANAGER->getPlayer()->GetY() + 50;
 	_renderPosX = _angleCheckPosX - _vImages[_currentImage]->getFrameWidth() / 2 * 3;
 	_renderPosY = _angleCheckPosY - _vImages[_currentImage]->getFrameHeight() / 2 * 3;
 	if (!_isAttacking)
 	{
-		_angle = getAngle(CAMERAMANAGER->GetAbsoluteX(_ptMouse.x), _angleCheckPosY, _angleCheckPosX, CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
+		_angle = getAngle(CAMERAMANAGER->GetAbsoluteX(_ptMouse.x), CAMERAMANAGER->GetAbsoluteY(_ptMouse.y), _angleCheckPosX, _angleCheckPosY);
 		SetAngleInBoundary(_angle);
 	}
 }
@@ -124,7 +126,7 @@ void DemonSlash::init(float x, float y, int frameY, string imgName, float angle)
 	_frameY = frameY;
 	_radius = 180;
 
-	_effect = EFFECTMANAGER->AddEffect(_x, _y, imgName, 6, 0, _frameY, false, 255, -_angle, 3.0f, 3.0f);
+	_effect = EFFECTMANAGER->AddEffect(_x, _y, imgName, 6, 0, _frameY, false, 255, _angle, 3.0f, 3.0f);
 }
 
 void DemonSlash::update()
@@ -147,7 +149,7 @@ void DemonSlash::SetCollide()
 			{
 				if (UTIL::interactRectArc(_vObjs[i]->GetBody(), POINT{ (LONG)_parent->GetAngleCheckPosX(), (LONG)_parent->GetAngleCheckPosY() }, _radius, _angle - PI * 0.2f, _angle + PI * 0.2f, _radius /2))
 				{
-					_vObjs[i]->GetDamage();
+					_vObjs[i]->GetDamage();  
 				}
 			}
 		}

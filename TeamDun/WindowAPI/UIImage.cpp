@@ -16,8 +16,32 @@ HRESULT UIImage::init(string name, float x, float y, float sizeX, float sizeY, s
 	_frameX = frameX;
 	_frameY = frameY;
 	_alpha = alpha;
-
+	_timer = 0;
 	return S_OK;
+}
+
+void UIImage::update()
+{
+	UIFrame::update();
+	Animation();
+}
+
+void UIImage::Animation()
+{
+	if (_useFrameImage)
+	{
+		_timer++;
+		if (_timer > 5)
+		{
+			_frameX++;
+			_timer = 0;
+
+			if (_frameX >= _image->getMaxFrameX())
+			{
+				_frameX = 0;
+			}
+		}
+	}
 }
 
 void UIImage::render(HDC hdc)
@@ -85,7 +109,6 @@ void UIImage::render(HDC hdc)
 				if(!_vChildFrames[i]->GetRenderBeforeParent())
 					_vChildFrames[i]->render(hdc);
 			}
-			
 		}
 	}
 }

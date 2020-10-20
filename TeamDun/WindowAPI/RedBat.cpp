@@ -7,7 +7,8 @@ HRESULT RedBat::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_state = ES_IDLE;
 	_stateTimer = 0;
 	_isAtk = false;
-	_initHp = _HP = 30;
+	_initHp = _hp = 30;
+	_attackCoolTime = 200 + RANDOM->range(150);
 
 	_Damage = 10;
 	return S_OK;
@@ -83,10 +84,10 @@ void RedBat::Attack()
 {
 	if (!_isAtk)
 	{
-		_attackCoolTime++;
-		if (_attackCoolTime > 650)
+		_attackCoolTime--;
+		if (_attackCoolTime < 0)
 		{
-			_attackCoolTime = 0;
+			_attackCoolTime = 200 + RANDOM->range(150);
 			_isAtk = true;	
 			_useImage = 1;
 			if (_isLeft)
@@ -253,7 +254,7 @@ void RedBat::PixelCollision()
 	
 	for (int i = _probeBottom - 2; i < _probeBottom + 1; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + RedBatIg->getFrameWidth()/2, i);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + RedBatIg->getFrameWidth()/2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -277,7 +278,7 @@ void RedBat::PixelCollision()
 	
 	for (int i = _y + 2; i > _y -1; i--)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), _x + RedBatIg->getFrameWidth()/2, i);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _x + RedBatIg->getFrameWidth()/2, i);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -299,7 +300,7 @@ void RedBat::PixelCollision()
 
 	for (int i = _x + RedBatIg->getFrameWidth() - 2; i < _x + RedBatIg->getFrameWidth() + 1; i++)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _y + RedBatIg->getFrameHeight()/2);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _y + RedBatIg->getFrameHeight()/2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);
@@ -322,7 +323,7 @@ void RedBat::PixelCollision()
 	}
 	for (int i = _x + 2; i > _x - 1; i--)
 	{
-		COLORREF color = GetPixel(pixelMapIg->getMemDC(), i, _y + RedBatIg->getFrameHeight() / 2);
+		COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), i, _y + RedBatIg->getFrameHeight() / 2);
 		int r = GetRValue(color);
 		int g = GetGValue(color);
 		int b = GetBValue(color);

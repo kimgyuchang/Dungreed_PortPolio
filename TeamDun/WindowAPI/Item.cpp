@@ -4,7 +4,7 @@
 HRESULT Item::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill* skill,
 	string name, string description, ITEMCLASS itemClass, float minAtk, float maxAtk, float atkSpeed,
 	int defence, bool useAtkSpeed, int numOfBullet, float reloadTime, Bullet* bullet, float accuracy,
-	int buyPrice, bool isBulletInfinite, vector<string> imageNames, string invenImage)
+	int buyPrice, bool isBulletInfinite, vector<string> imageNames, string invenImage, string dropImage)
 {
 	_renderPosX = _renderPosY = 0;
 
@@ -38,6 +38,10 @@ HRESULT Item::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill* skil
 
 	_invenImageName = invenImage;
 	_invenImage = IMAGEMANAGER->findImage(invenImage);
+	
+	_dropImageName = dropImage;
+	_dropImage = IMAGEMANAGER->findImage(dropImage);
+
 	_currentImage = 0;
 	_chargePercent = 0;
 	_xFrame = 0;
@@ -46,6 +50,7 @@ HRESULT Item::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill* skil
 	_angleCheckPosX = _angleCheckPosY = 0;
 	_renderPosX = _renderPosY = 0;
 	_isAttacking = false;
+	_renderScale = 1.f;
 
 	if (_itemType == ITEMTYPE::IT_SUBWEAPON)
 		_isRenderFirst = true;
@@ -67,8 +72,18 @@ void Item::update()
 
 void Item::render(HDC hdc)
 {
-	if(_itemType != ITEMTYPE::IT_NOTHING && _itemType != ITEMTYPE::IT_ACCESORRY)
-		CAMERAMANAGER->FrameRender(hdc, _vImages[_currentImage], _renderPosX, _renderPosY, _xFrame, _yFrame, _angle);
+	if (_itemType != ITEMTYPE::IT_NOTHING && _itemType != ITEMTYPE::IT_ACCESORRY)
+	{
+		if (_renderScale == 1)
+		{
+			CAMERAMANAGER->FrameRender(hdc, _vImages[_currentImage], _renderPosX, _renderPosY, _xFrame, _yFrame, _angle);
+		}
+
+		else
+		{
+			CAMERAMANAGER->FrameStretchRender(hdc, _vImages[_currentImage], _renderPosX, _renderPosY, _xFrame, _yFrame, _renderScale, _renderScale, _angle);
+		}
+	}
 }
 
 void Item::release()
@@ -107,7 +122,7 @@ void Item::AdaptSubOption(SubOption* subOption, bool isEquip)
 		p->SetPower(p->GetPower() + value);
 		break;
 	case ATKSPEED:
-		p->SetAtkSpeed(p->GetAtkSpeed() + value);
+		p->SetAtkSpeedPer(p->GetAtkSpeedPer() + value);
 		break;
 	case DASHATK:
 		p->SetDashDamage(p->GetDashDamage() + value);
@@ -152,7 +167,7 @@ void Item::AdaptSubOption(SubOption* subOption, bool isEquip)
 		p->SetEvasion(p->GetEvasion() + value);
 		break;
 	case MOVESPEED:
-		p->SetMoveSpeed(p->GetMoveSpeed() + value);
+		p->SetMoveSpeedPer(p->GetMoveSpeedPer() + value);
 		break;
 	case JUMPPOWER:
 		p->SetJumpPower(p->GetJumpPower() + value);
@@ -222,19 +237,19 @@ void Item::AdaptSubOption(SubOption* subOption, bool isEquip)
 
 void Item::SetBaseRenderPos()
 {
-	bool playerIsLeft = ENTITYMANAGER->getPlayer()->GetIsLeft();
-	_yFrame = playerIsLeft ? 0 : 1;
+	bool playerIsLeft = ENTITYMANAGER->getPlayer()->GetIsLeft();	//플레이어 왼쪽인지
+	_yFrame = playerIsLeft ? 0 : 1;									
 
-	if(_itemType == ITEMTYPE::IT_WEAPON_ONEHAND) _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 20 : 40);
-	else if(_itemType == ITEMTYPE::IT_SUBWEAPON) _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 40 : 20);
+	if(_itemType == ITEMTYPE::IT_WEAPON_ONEHAND) _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 20 : 40);	//아이템 타입이 한손일때,각도체크용 중점에 플레이어의 x좌표+ 왼쪽인지 여부에따라 맞으면 +20,아니면 +40
+	else if(_itemType == ITEMTYPE::IT_SUBWEAPON) _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 40 : 20);	
 	else _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 40 : 20);
 
-	_angleCheckPosY = ENTITYMANAGER->getPlayer()->GetY() + 45;
+	_angleCheckPosY = ENTITYMANAGER->getPlayer()->GetY() + 45;	//각도 체크용 중점에 플레이어의 Y좌표를 받아와서  +45만큼
 	_renderPosX = _angleCheckPosX - _vImages[_currentImage]->getFrameWidth() / 2;
 	_renderPosY = _angleCheckPosY - _vImages[_currentImage]->getFrameHeight() / 2;
-	if (!_isAttacking)
+	if (!_isAttacking)	//공격중이 아니면
 	{
-		_angle = getAngle(_angleCheckPosX, CAMERAMANAGER->GetAbsoluteY(_ptMouse.y), CAMERAMANAGER->GetAbsoluteX(_ptMouse.x), _angleCheckPosY);
+		_angle = getAngle(_angleCheckPosX, _angleCheckPosY, CAMERAMANAGER->GetAbsoluteX(_ptMouse.x), CAMERAMANAGER->GetAbsoluteY(_ptMouse.y)); 
 		if (_angle > PI * 2) _angle -= PI * 2;
 		if (_angle < 0) _angle += PI * 2;
 	}

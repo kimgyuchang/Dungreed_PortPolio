@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "util.h"
+#include "image.h"
+#include "MapManager.h"
 
 float UTIL::getDistance(float startX, float startY, float endX, float endY)
 {
@@ -74,6 +76,8 @@ bool UTIL::interactRectArc(RECT& rect, POINT center, float radius, float minAngl
 {
 	SetAngleInBoundary(maxAngle);
 	SetAngleInBoundary(minAngle);
+
+
 	if (checkDistance > radius / 2)
 	{
 		checkDistance = radius / 2;
@@ -100,7 +104,7 @@ bool UTIL::interactRectArc(RECT& rect, POINT center, float radius, float minAngl
 					return true;
 				}
 			}
-			
+
 			else
 			{
 				if (angle <= maxAngle || angle >= minAngle)
@@ -175,8 +179,8 @@ bool UTIL::interactRectCircle(RECT& rect, POINT center, float radius)
 	{
 		if (IsPointInCircle(center, radius, POINT{ rect.left, rect.top })) return true;
 		if (IsPointInCircle(center, radius, POINT{ rect.left, rect.bottom })) return true;
-		if (IsPointInCircle(center, radius, POINT{ rect.right, rect.top})) return true;
-		if (IsPointInCircle(center, radius, POINT{ rect.right, rect.bottom})) return true;
+		if (IsPointInCircle(center, radius, POINT{ rect.right, rect.top })) return true;
+		if (IsPointInCircle(center, radius, POINT{ rect.right, rect.bottom })) return true;
 	}
 
 	return false;
@@ -188,4 +192,29 @@ string UTIL::to_string_with_precision(const float a_value, const int n = 6)
 	out.precision(n);
 	out << std::fixed << a_value;
 	return out.str();
+}
+
+void UTIL::SetFastPixel(image* img, PixelGetter* getter)
+{
+	HBITMAP bm = img->getHBitMap(); 
+	::GetObject(bm, sizeof(BITMAP), &getter->bmInfo);
+	delete(getter->pData);
+	getter->pData = new BYTE[getter->bmInfo.bmWidthBytes * getter->bmInfo.bmHeight];
+	GetBitmapBits(bm, getter->bmInfo.bmWidthBytes * getter->bmInfo.bmHeight, getter->pData);
+	getter->mapSize = getter->bmInfo.bmWidthBytes * getter->bmInfo.bmHeight;
+	getter->byteSize = getter->bmInfo.bmWidthBytes / getter->bmInfo.bmWidth;
+}
+
+COLORREF UTIL::GetFastPixel(PixelGetter* getter, int x, int y)
+{
+	RGBQUAD* pRgb = (RGBQUAD*)getter->pData;
+
+	float pos = x + (y * getter->bmInfo.bmWidth);
+	if (pos * getter->byteSize >= getter->mapSize || pos < 0) return RGB(255, 255, 255);
+
+  	BYTE r = pRgb[(int)pos].rgbRed;
+	BYTE g = pRgb[(int)pos].rgbGreen;
+	BYTE b = pRgb[(int)pos].rgbBlue;
+	
+	return RGB(r, g, b);
 }

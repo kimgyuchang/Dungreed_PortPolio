@@ -20,14 +20,14 @@ protected:
 	int				_frameY;				// 현재 프레임 Y
 	int				_spawnTime;				// 스폰 시간
 	int				_frameTimer;			// 프레임 타이머
-	int				_HP;					// 오브젝트 HP;
+	int				_hp;					// 오브젝트 HP;
 	RECT			_body;					// 충돌체
 	FieldMap*		_belongMap;				// 현재 속한 맵 정보
 	bool			_isDead;				// 죽었는지(파괴되었는지) 여부
 	int				_renderOrder;			// 렌더 순서 할것인지
+	int				_viewAlpha;				// 알파렌더 알파값
 	
 public:
-
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
 	virtual void	update();
 	virtual	void	release();
@@ -35,8 +35,10 @@ public:
 	virtual void	Animation();
 	virtual void	CheckCollision();
 	virtual void	GetDamage();
+	virtual void	GetDamage(int damage);
+
 	// GETSET //
-	int				GetHP()				{ return _HP; }
+	int				GetHP()				{ return _hp; }
 	int				GetId()				{ return _id; }
 	string			GetName()			{ return _name; }
 	vector<string>	GetImgNames()		{ return _vImageNames; }
@@ -53,7 +55,7 @@ public:
 	bool			GetIsDead()			{ return _isDead; }
 	int				GetRenderIndex()	{ return _renderOrder; }
 
-	void			SetHp(int hp)						{ _HP = hp; }
+	void			SetHp(int hp)						{ _hp = hp; }
 	void			SetName(string name)				{ _name = name; }
 	void			SetX(int x)							{ _x = x; }
 	void			SetY(int y)							{ _y = y; }
@@ -62,6 +64,7 @@ public:
 	void			SetUseImage(int index)				{ _useImage = index; }
 	void			SetFrameX(int x)					{ _frameX = x; }
 	void			SetFrameY(int y)					{ _frameY = y; }
+	void			SetFrameTimer(int timer)			{ _frameTimer = timer; }
 	void			SetSpawnTime(int time)				{ _spawnTime = time; }
 	void			SetBelongMap(FieldMap* map)			{ _belongMap = map; }
 	virtual void	SetIsDead(bool dead)				{ _isDead = dead; }
@@ -69,5 +72,4 @@ public:
 	void			SetBodyPos()						{ _body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight()); }
 
 	void			SetRenderIndex(int isFront)			{ _renderOrder = isFront; }
-
 };
