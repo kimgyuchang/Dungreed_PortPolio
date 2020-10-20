@@ -145,6 +145,21 @@ void gameScene::MainGameFrameInit()
 	foodText->init("FoodText", 22, 29, 120, 30, "100 / 125", FONT::PIX, WORDSIZE::WS_SMALL);
 	leftDownUI->AddFrame(foodText);
 
+	// Ikina Frame //
+	UIFrame* IkinaBase = new UIFrame();
+	IkinaBase->init("IkinaBaseFrame", 1330, 580, IMAGEMANAGER->findImage("IkinaBase")->getWidth(), IMAGEMANAGER->findImage("IkinaBase")->getHeight(), "IkinaBase");
+	UIMANAGER->GetGameFrame()->AddFrame(IkinaBase);
+	IkinaBase->SetIsViewing(false);
+
+	UIFrame* IkinaBearFace = new UIFrame();
+	IkinaBearFace->init("IkinaBearFaceFrame", 1330, 580, IMAGEMANAGER->findImage("IkinaBearFace")->getWidth(), IMAGEMANAGER->findImage("IkinaBearFace")->getHeight(), "IkinaBearFace");
+	UIMANAGER->GetGameFrame()->AddFrame(IkinaBearFace);
+	IkinaBearFace->SetIsViewing(false);
+
+	UIProgressBar* IkinaProgressBar = new UIProgressBar();
+	IkinaProgressBar->init("progress", 8, 15, IMAGEMANAGER->findImage("IkinaBack")->getWidth(), IMAGEMANAGER->findImage("IkinaBack")->getHeight(), "IkinaBack", "");
+	IkinaBase->AddFrame(IkinaProgressBar);
+
 	container->SetIsViewing(true);
 	hpFrame->SetIsViewing(true);
 }
@@ -812,62 +827,66 @@ void gameScene::UpdateWardrobeUI()
 				// »©´Â°Å
 
 				int curHp = ENTITYMANAGER->getPlayer()->GetHP();
-				image* curIg = ENTITYMANAGER->getPlayer()->GetImage(0);
+				CLOTHTYPE type = ENTITYMANAGER->getPlayer()->GetClothType();
 
-				if (curIg == IMAGEMANAGER->findImage("sheetingIdle"))
+				if (type == CLOTHTYPE::PC_METAL)
 				{
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() - 10);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 10);
 					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 				}
-				else if (curIg == IMAGEMANAGER->findImage("gunmanIdle"))
+				else if (type == CLOTHTYPE::PC_GUNNER)
 				{
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() + 15);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 15);
 					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 				}
-				else if (curIg == IMAGEMANAGER->findImage("aliceIdle"))
+				else if (type == CLOTHTYPE::PC_ALICE)
 				{
 					ENTITYMANAGER->getPlayer()->SetPower(ENTITYMANAGER->getPlayer()->GetPower() - 40);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 30);
 					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 				}
-				else if (curIg == IMAGEMANAGER->findImage("redlotusIdle"))
+				else if (type == CLOTHTYPE::PC_HONGRYAN)
 				{
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 15);
 					ENTITYMANAGER->getPlayer()->SetEvasion(ENTITYMANAGER->getPlayer()->GetEvasion() + 5);
 					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 				}
-				else if (curIg == IMAGEMANAGER->findImage("lkinabearIdle"))
+				else if (type == CLOTHTYPE::PC_IKINABEAR)
 				{
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() + 5);
 					ENTITYMANAGER->getPlayer()->SetPower(ENTITYMANAGER->getPlayer()->GetPower() + 20);
+					UIMANAGER->GetGameFrame()->GetChild("IkinaBaseFrame")->SetIsViewing(false);
+					UIMANAGER->GetGameFrame()->GetChild("IkinaBearFaceFrame")->SetIsViewing(false);
 				}
-				else if (curIg == IMAGEMANAGER->findImage("riderHIdle"))
+				else if (type == CLOTHTYPE::PC_RIDERH)
 				{
 					ENTITYMANAGER->getPlayer()->SetMoveSpeedPer(ENTITYMANAGER->getPlayer()->GetMoveSpeedPer() - 22);
 					ENTITYMANAGER->getPlayer()->SetToughness(ENTITYMANAGER->getPlayer()->GetToughness() + 2);
+					ENTITYMANAGER->getPlayer()->SetPower(ENTITYMANAGER->getPlayer()->GetPower() - ENTITYMANAGER->getPlayer()->GetPrevPowerPlus());
+					ENTITYMANAGER->getPlayer()->SetPrevPowerPlus(0);
 				}
-				else if (curIg == IMAGEMANAGER->findImage("criminalldle"))
+				else if (type == CLOTHTYPE::PC_CRIMINAL)
 				{
 					ENTITYMANAGER->getPlayer()->SetEvasion(ENTITYMANAGER->getPlayer()->GetEvasion() + 12);
 				}
-				else if (curIg == IMAGEMANAGER->findImage("pickIdle"))
+				else if (type == CLOTHTYPE::PC_PICKKING)
 				{
 					ENTITYMANAGER->getPlayer()->SetCriDamage(ENTITYMANAGER->getPlayer()->GetCriDamage() + 25);
 					ENTITYMANAGER->getPlayer()->SubMaxDash();
 				}
-				else if (curIg == IMAGEMANAGER->findImage("fastoIdle"))
+				else if (type == CLOTHTYPE::PC_FATGUY)
 				{
 					ENTITYMANAGER->getPlayer()->SetMoveSpeedPer(ENTITYMANAGER->getPlayer()->GetMoveSpeedPer() + 20);
 					ENTITYMANAGER->getPlayer()->SetAtkSpeedPer(ENTITYMANAGER->getPlayer()->GetAtkSpeedPer() + 10);
 				}
 
-				else if (curIg == IMAGEMANAGER->findImage("horsemanIdle"))
+				else if (type == CLOTHTYPE::PC_HORSESWORD)
 				{
 					/*
 					ENTITYMANAGER->getPlayer()->SetInitHp(100);
@@ -876,13 +895,13 @@ void gameScene::UpdateWardrobeUI()
 					*/
 				}
 
-				else if (curIg == IMAGEMANAGER->findImage("humanlasleyIdle"))
+				else if (type == CLOTHTYPE::PC_HUMANLASLEY)
 				{
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 45);
 					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 				}
-				else if (curIg == IMAGEMANAGER->findImage("masterchefIdle"))
+				else if (type == CLOTHTYPE::PC_MASTERCHEF)
 				{
 					ENTITYMANAGER->getPlayer()->SetFireAccuracy(ENTITYMANAGER->getPlayer()->GetFireAccuracy() - 33);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 33);
@@ -951,6 +970,7 @@ void gameScene::UpdateWardrobeUI()
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_IKINABEAR);
+					UIMANAGER->GetGameFrame()->GetChild("IkinaBaseFrame")->SetIsViewing(true);
 					break;
 				case 6:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("riderHIdle"));
@@ -961,6 +981,7 @@ void gameScene::UpdateWardrobeUI()
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_RIDERH);
+					ENTITYMANAGER->getPlayer()->SetPrevPowerPlus(0);
 					break;
 				case 7:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("criminalldle"));

@@ -77,6 +77,8 @@ void Enemy::SpawnAnimation()
 
 void Enemy::GetDamage()
 {
+	Player* _p = ENTITYMANAGER->getPlayer();
+
 	if (_isSpawned)
 	{
 		SOUNDMANAGER->play("Hit_Monster");
@@ -128,12 +130,20 @@ void Enemy::GetDamage()
 			SetIsDead(true);
 		}
 
-		if (ENTITYMANAGER->getPlayer()->GetClothType() == PC_HONGRYAN) _hongryanCount++;
+		if (_p->GetClothType() == PC_HONGRYAN) _hongryanCount++;
+
+		if (_p->GetClothType() == PC_IKINABEAR && !_p->GetIsRaging())
+		{
+			int rage = _p->GetRageCurrent() + 1;
+			if (rage > _p->GetRageMax()) rage = _p->GetRageMax();
+			_p->SetRageCurrent(rage);
+		}
 	}
 }
 
 void Enemy::GetDamage(int damage)
 {
+	Player* _p = ENTITYMANAGER->getPlayer();
 	if (_isSpawned)
 	{
 		SOUNDMANAGER->play("Hit_Monster");
@@ -162,7 +172,14 @@ void Enemy::GetDamage(int damage)
 			SetIsDead(true);
 		}
 
-		if (ENTITYMANAGER->getPlayer()->GetClothType() == PC_HONGRYAN) _hongryanCount++;
+		if (_p->GetClothType() == PC_HONGRYAN) _hongryanCount++;
+
+		if (_p->GetClothType() == PC_IKINABEAR && !_p->GetIsRaging())
+		{
+			int rage = _p->GetRageCurrent() + 1;
+			if (rage > _p->GetRageMax()) rage = _p->GetRageMax();
+			_p->SetRageCurrent(rage);
+		}
 	}
 }
 

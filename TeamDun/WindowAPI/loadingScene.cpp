@@ -1048,6 +1048,11 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("humanlaselyDie", "Images/player/humanlaselyDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("masterchefDie", "Images/player/masterchefDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
 
+	//이키나곰 능력 이미지
+	_loading->LoadNormalImage("IkinaBack", "Images/Iknabear/IkinaBack.bmp", 39, 24);
+	_loading->LoadNormalImage("IkinaBase", "Images/Iknabear/IkinaBase.bmp", 57, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("IkinaBearFace", "Images/Iknabear/IkinaBearFace.bmp", 57, 48, true, RGB(255, 0, 255));
+
 	_loading->LoadFrameImage("AliceZone", "Images/player/AliceZone.bmp", 630, 315, 2, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("RunEffect", "Images/player/RunEffect.bmp", 240, 96, 5, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("stun", "Images/player/stun.bmp", 234, 27, 6, 1, true, RGB(255, 0, 255));

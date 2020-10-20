@@ -201,6 +201,16 @@ private:
 	bool			_aliceZoneIn;
 	bool			_alicePowerDownCheck;
 
+	// 이키나곰 //
+	int				_rageCurrent;					// 현재 화난 값
+	int				_rageMax;						// 화남값 최대 -> 변신 -> 화남값 0
+	bool			_isRaging;						// 현재 변신해있는지
+	int				_rageTimer;						// 변신 시간
+
+	// 라이더H //
+	int				_prevPowerPlus;					// 저번 프레임의 증가된 파워량
+	
+
 public:
 
 	virtual HRESULT init();
@@ -249,6 +259,8 @@ public:
 	//캐릭터 능력 구현 함수
 	void CheckAliceZone();
 	void AdjustAlicePower();
+	void SetIkinaBearAngry();
+	void CheckMoveSpeedRiderH();
 	
 	void SetHpUI();
 	// GETSET //
@@ -328,13 +340,16 @@ public:
 	int				GetAccesoryCount()	    { return _accesoryCount; }
 	int				GetMaxDashCount()		{ return _maxDashCount; }
 	int				GetMaxSatiety()			{ return _maxSatiety; }
-
 	bool			GetDashInvincible()		{ return _dashInvinCible; }
 	bool			GetDashInvincibleTimer(){ return _dashInvincibTimer; }
-
-	CLOTHTYPE		GetClothType()		{ return _clothType; }
-
+	int				GetRageCurrent()		{ return _rageCurrent; }
+	int				GetRageMax()			{ return _rageMax; }
+	bool			GetIsRaging()			{ return _isRaging; }
+	int				GetRageTimer()			{ return _rageTimer; }
+	CLOTHTYPE		GetClothType()			{ return _clothType; }
+	float			GetPrevPowerPlus()		{ return _prevPowerPlus; }
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
+
 
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
 	void			SetState(PLAYERSTATE state)						{ _state = state; }
@@ -412,4 +427,6 @@ public:
 	void			SetMaxSatiety(int satiety)						{ _maxSatiety = satiety; }
 	void			SetIsStun(bool isStun)							{ _isStun = isStun; }
 	void			SetClothType(CLOTHTYPE type)					{ _clothType = type; }
+	void			SetRageCurrent(int rage)						{ _rageCurrent = rage; }
+	void			SetPrevPowerPlus(float num)						{ _prevPowerPlus = num; }
 };

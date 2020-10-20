@@ -28,6 +28,7 @@ HRESULT Player::init()
 	_moveSpeed = 5;
 	_moveSpeedPer = 0;
 	_dashDamage = 100;
+	_prevPowerPlus = 0;
 	_realAttackSpeed = _atkSpeed + (_atkSpeed * _atkSpeedPer / 100);
 	_dustEffectCount = 0;
 	_isStun = false;
@@ -83,6 +84,12 @@ HRESULT Player::init()
 	{
 		_vAccessories[i] = nullptr;
 	}
+
+	// 코스튬 
+	_rageCurrent = 0;
+	_rageMax = 100;
+	_rageTimer = 1200;
+	_isRaging = false;
 
 	// UI
 	_hpFrame = UIMANAGER->GetGameFrame()->GetChild("hpFrame");
@@ -242,6 +249,9 @@ void Player::update()
 	CheckAliceZone();
 	AdjustAlicePower();
 	CheckUsePistolGunner();
+	SetIkinaBearAngry();
+	CheckMoveSpeedRiderH();
+
 	//====================
 	UpdateCharPage();
 	invincibility();
@@ -1697,25 +1707,55 @@ void Player::AdjustAlicePower()
 	}
 }
 
-/*
-void Player::CheckHongRyunAbility()
+//	이키나곰 특성
+void Player::SetIkinaBearAngry()
 {
-	int AtkCount = 0;	//공격 횟수
-
-	if (_clothType == PC_HONGRYAN)	//코스튬이 홍련상태이고
+	if (_clothType == CLOTHTYPE::PC_IKINABEAR)	//선택한 코스튬이 이키나곰 상태
 	{
-		if (_weapons[_selectedWeaponIdx] != nullptr)	//무기가 장착되어있다면
+		if (_rageCurrent >= _rageMax && !_isRaging)	//현재 화난 값이 화남값 최대보다 크고 변신중이 아닐 때
 		{
-			for (int i = 0; i < MAPMANAGER->GetPlayMap()->GetObjects().size(); i++)	//오브젝트를 돌면서 체크
+			_isRaging = true;		//변신시켜주고
+			_atkSpeedPer += 100;	//공격속도 증가
+			_rageTimer = 1200;
+			_rageCurrent = 0;
+			_vImages[0] = IMAGEMANAGER->findImage("bearIdle");
+			_vImages[1] = IMAGEMANAGER->findImage("bearRun");
+			UIMANAGER->GetGameFrame()->GetChild("IkinaBearFaceFrame")->SetIsViewing(true);
+		}
+		else
+		{
+			if (_isRaging)
 			{
-				Object* obj = MAPMANAGER->GetPlayMap()->GetObjects()[i];
-				if (obj->GetType() == OBJECTTYPE::OT_MONSTER)
+				_rageTimer--;
+				cout << _rageTimer << endl;
+				if (_rageTimer <= 0)
 				{
-					RECT temp;
-					if(IntersectRect(&temp,))
+					_atkSpeedPer -= 100;
+					_rageTimer = 1200;
+					_isRaging = false;
+					_vImages[0] = IMAGEMANAGER->findImage("lkinabearIdle");
+					_vImages[1] = IMAGEMANAGER->findImage("lkinabearRun");
+					UIMANAGER->GetGameFrame()->GetChild("IkinaBearFaceFrame")->SetIsViewing(true);
 				}
 			}
+			else
+			{
+				UIMANAGER->GetGameFrame()->GetChild("IkinaBearFaceFrame")->SetIsViewing(false);
+			}
 		}
+
+		dynamic_cast<UIProgressBar*>(UIMANAGER->GetGameFrame()->GetChild("IkinaBaseFrame")->GetChild("progress"))->FillCheck(_rageMax, _rageCurrent); // 차는 수치 변경
 	}
 }
-*/
+void Player::CheckMoveSpeedRiderH()
+{
+	if (_clothType == CLOTHTYPE::PC_RIDERH)
+	{
+		_power -= _prevPowerPlus; // 저번 프레임에서 추가됐던 power량을 원래대로 돌려줌
+
+		float speedPercent = ((_moveSpeed + (_moveSpeed * _moveSpeedPer / 100)) / 15.f);
+		if (speedPercent > 1) speedPercent = 1;
+		_power += 50 * speedPercent;
+		_prevPowerPlus = 50 * speedPercent; // 이번 프레임에서 계산된 비율을 다음 프레임에서 사용하기 위해 저장해둠
+	}
+}
