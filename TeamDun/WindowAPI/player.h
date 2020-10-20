@@ -49,6 +49,9 @@ private:
 	bool			_isDash;
 	bool			_isPlayerDead;
 
+	bool			_isReload;
+	float			_reloadCount;
+	
 	// 피격관련
 	bool			_isStun;				//스턴상태인지
 	int				_stunCount;
@@ -116,11 +119,16 @@ private:
 	float			_maxHpPercent;			// 최대 최력 추가량 (비율)
 
 	// 속성 //
+	bool			_isFire;
+	int				_fireCount;
+	bool			_isIce;
+	bool			_isElectric;
+	bool			_isPoison;
 	bool			_immuneFire;			// 화염 면역
 	bool			_immuneIce;				// 냉기 면역
 	bool			_immuneElectric;		// 감전 면역
 	bool			_immunePosion;			// 중독 면역
-	bool			_immuneStun;
+	bool			_immuneStun;			// 기절 면역
 	int				_toFire;				// 공격 시 화염 확률
 	int				_toIce;					// 공격 시 냉기 확률
 	int				_toElectric;			// 공격 시 감전 확률
@@ -195,6 +203,7 @@ private:
 
 	// 총잡이 //
 	bool			_useGun;
+	
 
 	// 앨리스 //
 	image*			_aliceZone;
@@ -246,7 +255,8 @@ public:
 	
 	void SwitchWeapon();
 	void JumpAttackRectUpdate();
-
+	void AbnormalState(); // 상태이상 구현
+	void ReloadBullet();
 	//캐릭터 능력 구현 함수
 	void CheckAliceZone();
 	void AdjustAlicePower();
@@ -330,14 +340,14 @@ public:
 	int				GetAccesoryCount()	    { return _accesoryCount; }
 	int				GetMaxDashCount()		{ return _maxDashCount; }
 	int				GetMaxSatiety()			{ return _maxSatiety; }
-
+	bool			GetIsReload()			{ return _isReload; }
 	bool			GetDashInvincible()		{ return _dashInvinCible; }
 	bool			GetDashInvincibleTimer(){ return _dashInvincibTimer; }
 
 	CLOTHTYPE		GetClothType()		{ return _clothType; }
-
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
 
+	void			SetIsReload(bool isReload)						{ _isReload = isReload; }
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
 	void			SetState(PLAYERSTATE state)						{ _state = state; }
 	void			SetIsLeft(bool isLeft) 							{ _isLeft = isLeft; }
