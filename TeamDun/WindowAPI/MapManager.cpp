@@ -11,7 +11,7 @@ HRESULT MapManager::init()
 	AddStage(1);
 	_mapFrame = UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetChild("mapFrame");
 	_pixelGetter = new PixelGetter();
-	ChangeMap(4);
+	ChangeMap(0);
 	MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_DOWN);
 	
 	_portalAnimOn = false;

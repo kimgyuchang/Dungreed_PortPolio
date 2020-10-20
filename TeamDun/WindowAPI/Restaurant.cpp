@@ -48,6 +48,7 @@ void Restaurant::update()
 	if (_restaurantBase->GetIsViewing())
 	{
 		SetSatiationUI();
+		SetHpUI();
 
 		// ³ª°¡±â
 		if (_restaurantBase->GetChild("_exit")->GetIsViewing() && PtInRect(&_restaurantBase->GetChild("_exit")->GetRect(), _ptMouse))
@@ -70,8 +71,14 @@ void Restaurant::update()
 				if (PtInRect(&_restaurantBase->GetChild("_foodFrame" + to_string(i))->GetRect(), _ptMouse))
 				{
 					_restaurantBase->GetChild("_foodFrame" + to_string(i))->SetImage(IMAGEMANAGER->findImage("RestaurantMenu_Withoutmoney_Selected"));
-					foodImg->SetImage(_vFoods[i]->_img);
-					if(!_vFoods[i]->_isSoldOut) foodImg->SetIsViewing(true);
+					if (!_vFoods[i]->_isSoldOut) {
+						foodImg->SetImage(_vFoods[i]->_img);
+						foodImg->SetIsViewing(true);
+					}
+					else
+					{
+						foodImg->SetImage(nullptr);
+					}
 					checkAnyoneCollided = true; // ÇÏ³ª¶óµµ Ãæµ¹ÇÏ¸é ON
 
 					if (INPUT->GetIsRButtonClicked())
@@ -214,6 +221,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(48, 60);
 			food->_img = IMAGEMANAGER->findImage("06_PeaSoup");
 			food->_imgName = "06_PeaSoup";
+			food->_soundName = "NPC_·¹½ºÅä¶û_È£·Ï";
 			break;
 		case F_HOTCHICKENSTEW:
 			food->_name = "¸Å¿î Ä¡Å² ½ºÆ©";
@@ -229,6 +237,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(48, 67);
 			food->_img = IMAGEMANAGER->findImage("11_HotChickenStew");
 			food->_imgName = "11_HotChickenStew";
+			food->_soundName = "NPC_·¹½ºÅä¶û_ÈÄ·è";
 			break;
 		case F_DELUXEBURGER:
 			food->_name = "µð·°½º ¹ö°Å";
@@ -244,6 +253,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(50, 67);
 			food->_img = IMAGEMANAGER->findImage("09_DeluxeBurger");
 			food->_imgName = "09_DeluxeBurger";
+			food->_soundName = "NPC_·¹½ºÅä¶û_Äí½¹";
 			break;
 		case F_BREAD:
 			food->_name = "»§";
@@ -257,6 +267,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(48, 60);
 			food->_img = IMAGEMANAGER->findImage("01_Bread");
 			food->_imgName = "01_Bread";
+			food->_soundName = "NPC_·¹½ºÅä¶û_Äí½¹";
 			break;
 		case F_FRIEDEEG:
 			food->_name = "°è¶õ ÇÁ¶óÀÌ";
@@ -270,6 +281,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(48, 55);
 			food->_img = IMAGEMANAGER->findImage("02_FriedEgg");
 			food->_imgName = "02_FriedEgg";
+			food->_soundName = "NPC_·¹½ºÅä¶û_­h";
 			break;
 		case F_GRILLEDMUSHROOM:
 			food->_name = "±¸¿î ¹ö¼¸";
@@ -285,6 +297,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(50, 64);
 			food->_img = IMAGEMANAGER->findImage("03_GrilledMushroom");
 			food->_imgName = "03_GrilledMushroom";
+			food->_soundName = "NPC_·¹½ºÅä¶û_­h";
 			break;
 		case F_TOMATOSOUP:
 			food->_name = "Åä¸¶Åä ¼öÇÁ";
@@ -298,6 +311,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(48, 58);
 			food->_img = IMAGEMANAGER->findImage("04_TamatoSoup");
 			food->_imgName = "04_TamatoSoup";
+			food->_soundName = "NPC_·¹½ºÅä¶û_È£·Ï";
 			break;
 		case F_ONIONSOUP:
 			food->_name = "¾çÆÄ ¼öÇÁ";
@@ -311,6 +325,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(48, 60);
 			food->_img = IMAGEMANAGER->findImage("05_OnionSoup");
 			food->_imgName = "05_OnionSoup";
+			food->_soundName = "NPC_·¹½ºÅä¶û_È£·Ï";
 			break;
 		case F_VEGETABLESOUP:
 			food->_name = "¾ßÃ¤ »ì»ç ¼öÇÁ";
@@ -324,6 +339,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(55, 67);
 			food->_img = IMAGEMANAGER->findImage("07_VegetableSalsaSoup");
 			food->_imgName = "07_VegetableSalsaSoup";
+			food->_soundName = "NPC_·¹½ºÅä¶û_È£·Ï";
 			break;
 		case F_LEMONADE:
 			food->_name = "·¹¸ó ¿¡ÀÌµå";
@@ -335,6 +351,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(40, 55);
 			food->_img = IMAGEMANAGER->findImage("08_Lemonade");
 			food->_imgName = "08_Lemonade";
+			food->_soundName = "NPC_·¹½ºÅä¶û_²Ü²©";
 			break;
 		case F_CHOCOLATECOOKIE: // Æ¯¼ö Æ¯¼º - (°ñµå È¹µæ ½Ã 4 °ñµå Ãß°¡ È¹µæ) : ÃßÈÄ ¼öÁ¤ÇÊ¿ä!
 			food->_name = "ÃÊÄÝ¸´ ÄíÅ°";
@@ -346,6 +363,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(50, 60);
 			food->_img = IMAGEMANAGER->findImage("10_ChocolateCookie");
 			food->_imgName = "10_ChocolateCookie";
+			food->_soundName = "NPC_·¹½ºÅä¶û_±îÀñ";
 			break;
 		case F_RASPBERRYCOOKIE:
 			food->_name = "¶óÁîº£¸® ÄíÅ°";
@@ -357,6 +375,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(50, 60);
 			food->_img = IMAGEMANAGER->findImage("12_RaspberryCookie");
 			food->_imgName = "12_RaspberryCookie";
+			food->_soundName = "NPC_·¹½ºÅä¶û_±îÀñ";
 			break;
 		case F_GRIFFONEGG:
 			food->_name = "±×¸®ÇÉ ¾Ë ¿À¹É·¿";
@@ -368,6 +387,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(40, 50);
 			food->_img = IMAGEMANAGER->findImage("13_GriffonEggOmelette");
 			food->_imgName = "13_GriffonEggOmelette";
+			food->_soundName = "NPC_·¹½ºÅä¶û_­h";
 			break;
 		case F_GARLICMEATBALL:
 			food->_name = "¾çÆÄ ¼Ò½º ¹ÌÆ®º¼";
@@ -385,6 +405,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(50, 67);
 			food->_img = IMAGEMANAGER->findImage("14_GarlicMeatball");
 			food->_imgName = "14_GarlicMeatball";
+			food->_soundName = "NPC_·¹½ºÅä¶û_Äí½¹";
 			break;
 		case F_BIBIMBAP: // // Æ¯¼ö Æ¯¼º - (¾×¼¼¼­¸® ½½·Ô 1°³ Ãß°¡, ¾à°£ÀÇ À§·Â & ÃÖ´ë Ã¼·Â) : ÃßÈÄ ¼öÁ¤ÇÊ¿ä!
 			food->_name = "ºñºö¹ä";
@@ -398,6 +419,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(60, 67);
 			food->_img = IMAGEMANAGER->findImage("15_Bibimbap");
 			food->_imgName = "15_Bibimbap";
+			food->_soundName = "NPC_·¹½ºÅä¶û_Äí½¹";
 			break;
 		case F_MINOTAURS: // Æ¯¼ö Æ¯¼º - (¾²·¯Áö¸é Àý¹ÝÀÇ HP·Î ºÎÈ°) : ÃßÈÄ ¼öÁ¤ÇÊ¿ä!
 			food->_name = "¹Ì³ëÅ¸¿ì¸£½º ½ºÅ×ÀÌÅ©";
@@ -409,6 +431,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(55, 60);
 			food->_img = IMAGEMANAGER->findImage("16_MinotaursSteak");
 			food->_imgName = "16_MinotaursSteak";
+			food->_soundName = "NPC_·¹½ºÅä¶û_­h";
 			break;
 		case F_COOKEDMEAT:
 			food->_name = "Æ¯Á¦ °í±â ¿ä¸®";
@@ -420,6 +443,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(57, 67);
 			food->_img = IMAGEMANAGER->findImage("17_SpecialtyCookedMeat");
 			food->_imgName = "17_SpecialtyCookedMeat";
+			food->_soundName = "NPC_·¹½ºÅä¶û_­h";
 			break;
 		case F_STRAWBERRYPIE:
 			food->_name = "µþ±â ÆÄÀÌ";
@@ -433,6 +457,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(57, 67);
 			food->_img = IMAGEMANAGER->findImage("18_StrawberryPie");
 			food->_imgName = "18_StrawberryPie";
+			food->_soundName = "NPC_·¹½ºÅä¶û_¿ÍÀÛ";
 			break;
 		case F_SEASONINGBIRD:
 			food->_name = "¾ç³äµÈ ÀÛÀº »õ";
@@ -448,6 +473,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(57, 67);
 			food->_img = IMAGEMANAGER->findImage("19_SeasoningSmallBird");
 			food->_imgName = "19_SeasoningSmallBird";
+			food->_soundName = "NPC_·¹½ºÅä¶û_Äí½¹";
 			break;
 		case F_BEER: // Æ¯¼ö Æ¯¼º - (¹«±â ½º¿Ò ½Ã ¹«±â ½º¿Ò ½Ã 10sµ¿¾È À§·Â 50 Áõ°¡ (Àç»ç¿ë ´ë±â½Ã°£ 35s) & À§·Â) : ÃßÈÄ ¼öÁ¤ÇÊ¿ä!
 			food->_name = "¸ÆÁÖ";
@@ -459,6 +485,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(57, 67);
 			food->_img = IMAGEMANAGER->findImage("20_Beer");
 			food->_imgName = "20_Beer";
+			food->_soundName = "NPC_·¹½ºÅä¶û_²Ü²©";
 			break;
 		case F_PIZZA:
 			food->_name = "ÄÞºñ³×ÀÌ¼Ç ÇÇÀÚ";
@@ -470,6 +497,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(55, 65);
 			food->_img = IMAGEMANAGER->findImage("21_CombinationPizza");
 			food->_imgName = "21_CombinationPizza";
+			food->_soundName = "NPC_·¹½ºÅä¶û_Äí½¹";
 			break;
 		case F_SALMON: // Æ¯¼ö Æ¯¼º - (»õ·Î¿î ¹æÀ¸·Î ÀÌµ¿ ½Ã Æ÷¸¸°¨ - 1) : ÃßÈÄ ¼öÁ¤ÇÊ¿ä!
 			food->_name = "ÈÆÁ¦ ¿¬¾î";
@@ -481,6 +509,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = 0;
 			food->_img = IMAGEMANAGER->findImage("22_SmokedSalmon");
 			food->_imgName = "22_SmokedSalmon";
+			food->_soundName = "NPC_·¹½ºÅä¶û_­h";
 			break;
 		case F_SHRIMP:
 			food->_name = "»õ¿ì Æ¢±è";
@@ -505,6 +534,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(60, 68);
 			food->_img = IMAGEMANAGER->findImage("23_FriedShrimp");
 			food->_imgName = "23_FriedShrimp";
+			food->_soundName = "NPC_·¹½ºÅä¶û_±îÀñ";
 			break;
 		case F_EEL:
 			food->_name = "Àå¾î ±¸ÀÌ";
@@ -516,6 +546,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(50, 60);
 			food->_img = IMAGEMANAGER->findImage("24_GrilledEel");
 			food->_imgName = "24_GrilledEel";
+			food->_soundName = "NPC_·¹½ºÅä¶û_­h";
 			break;
 		case F_ROLL:
 			food->_name = "½Ã³ª¸ó ·Ñ";
@@ -531,6 +562,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(50, 60);
 			food->_img = IMAGEMANAGER->findImage("25_CinnamonRoll");
 			food->_imgName = "25_CinnamonRoll";
+			food->_soundName = "NPC_·¹½ºÅä¶û_¿ÍÀÛ";
 			break;
 		case F_SPARKLING:
 			food->_name = "Åº»ê¼ö";
@@ -542,6 +574,7 @@ void Restaurant::SetRestaurantFood()
 			food->_img = IMAGEMANAGER->findImage("26_SparklingWater");
 			food->_satiation = 0;
 			food->_imgName = "26_SparklingWater";
+			food->_soundName = "NPC_·¹½ºÅä¶û_²Ü²©";
 			break;
 		case F_SWEETMEATBALL:
 			food->_name = "´ÜÂ§ ¹ÌÆ®º¼";
@@ -553,6 +586,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(50, 60);
 			food->_img = IMAGEMANAGER->findImage("97_SweetMeatball");
 			food->_imgName = "97_SweetMeatball";
+			food->_soundName = "NPC_·¹½ºÅä¶û_Äí½¹";
 			break;
 		case F_HOTMEATBALL:
 			food->_name = "¸Å¿î ¼Ò½º ¹ÌÆ®º¼";
@@ -564,6 +598,7 @@ void Restaurant::SetRestaurantFood()
 			food->_satiation = RANDOM->range(48, 58);
 			food->_img = IMAGEMANAGER->findImage("98_HotMeatball");
 			food->_imgName = "98_HotMeatball";
+			food->_soundName = "NPC_·¹½ºÅä¶û_Äí½¹";
 			break;
 		default:
 			break;
@@ -576,6 +611,10 @@ void Restaurant::SetRestaurantFood()
 void Restaurant::SetSatiationUI()
 {
 	dynamic_cast<UIProgressBar*>(_restaurantBase->GetChild("realSatiation"))->FillCheck(ENTITYMANAGER->getPlayer()->GetMaxSatiety(), ENTITYMANAGER->getPlayer()->GetSatiety());
+}
+
+void Restaurant::SetHpUI()
+{
 }
 
 void Restaurant::BuyFood(Food* food, int index)
@@ -679,6 +718,10 @@ void Restaurant::BuyFood(Food* food, int index)
 			default:
 				break;
 			}
+			if (p->GetSatiety() - food->_satiation < 0)
+			{
+				p->SetSatiety(0);
+			}
 		}
 		for (int i = 0; i < food->_vHeal.size(); i++)
 		{
@@ -695,10 +738,10 @@ void Restaurant::BuyFood(Food* food, int index)
 				break;
 			}
 		}
-
 		food->_isSoldOut = true;
 		_foodMoveAnimOn = true;
 		UIMANAGER->GetGameFrame()->GetChild("_foodImg")->MoveFrameChild(170, 170);
+		SOUNDMANAGER->play(food->_soundName);
 	}
 
 	this->ReNewUI();
@@ -787,7 +830,7 @@ void Restaurant::ReNewUI()
 					typetext = "ÃÖ´ë Ã¼·Â";
 					break;
 				case FST_MAXDASH:
-					typetext = "´ë½Ã È½¼ö";
+					typetext = "´ë½¬ È½¼ö";
 					break;
 				case FST_FIXEDDMG:
 					typetext = "°íÁ¤ µ¥¹ÌÁö";
@@ -834,11 +877,11 @@ void Restaurant::ReNewUI()
 				else if (j >= 4) // »õ¿ìÆ¢±è¿ë
 				{
 					UIText* triangle = new UIText();
-					triangle->init("triangle", 195, 50 + (j - 4) * 25, 500, 160, "¢º + ", FONT::PIX, WORDSIZE::WS_SMALL);
+					triangle->init("triangle", 200, 50 + (j - 4) * 25, 500, 160, "¢º + ", FONT::PIX, WORDSIZE::WS_SMALL);
 					_foodFrame->AddFrame(triangle);
 
 					UIText* foodStatNum = new UIText();
-					foodStatNum->init("foodStatNum", 235, 50 + (j - 4) * 25, 500, 160, to_string((int)_vFoods[i]->_vStatusNum[j]),
+					foodStatNum->init("foodStatNum", 240, 50 + (j - 4) * 25, 500, 160, to_string((int)_vFoods[i]->_vStatusNum[j]),
 						FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_LEFT, RGB(0, 255, 0));
 					_foodFrame->AddFrame(foodStatNum);
 

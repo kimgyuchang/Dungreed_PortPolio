@@ -25,6 +25,7 @@ class Food
 public:
 	string					_name;
 	string					_imgName;
+	string					_soundName;
 
 	image*					_img;
 
@@ -70,6 +71,7 @@ public:
 	void			initSecond();
 	void			SetRestaurantFood();
 	void			SetSatiationUI();
+	void			SetHpUI();
 	void			SetHPUI();
 	void			BuyFood(Food* food, int index);
 	void			ReNewUI();
