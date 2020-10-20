@@ -1910,6 +1910,8 @@ void Player::SetIkinaBearAngry()
 		dynamic_cast<UIProgressBar*>(UIMANAGER->GetGameFrame()->GetChild("IkinaBaseFrame")->GetChild("progress"))->FillCheck(_rageMax, _rageCurrent); // 차는 수치 변경
 	}
 }
+
+//라이더 H 특성
 void Player::CheckMoveSpeedRiderH()
 {
 	if (_clothType == CLOTHTYPE::PC_RIDERH)
@@ -1920,5 +1922,14 @@ void Player::CheckMoveSpeedRiderH()
 		if (speedPercent > 1) speedPercent = 1;
 		_power += 50 * speedPercent;
 		_prevPowerPlus = 50 * speedPercent; // 이번 프레임에서 계산된 비율을 다음 프레임에서 사용하기 위해 저장해둠
+	}
+}
+
+//범죄자 실루엣 특성
+void Player::CheckCliminal()
+{
+	if (_clothType == CLOTHTYPE::PC_CRIMINAL)
+	{
+		
 	}
 }
