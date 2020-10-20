@@ -51,10 +51,18 @@ HRESULT Player::init()
 	_dashEffect = nullptr;
 	_isPlayerDead = false;
 
-	_isReload = true;
+	_isReload = false;
+	_bulletCount = 0;
+	_maxBullet = 0;
 	_reloadCount = 0;
 	_reloadTime = 100;
 	_reloadSpeed = 1;
+	_reloadEffect.frameX = 0;
+	_reloadEffect.frameY = 0;
+	_reloadEffect.ig = IMAGEMANAGER->findImage("ReloadEffect");
+	_reloadEffect.isViewing = false;
+	_reloadEffect.x = 0;
+	_reloadEffect.y = 0;
 
 	_atkSpdUpUse = false;
 	_dashRestoreCount = 0;
@@ -528,16 +536,46 @@ void Player::AbnormalState()
 
 void Player::ReloadBullet()
 {
+	
+	if (_maxBullet > 0)
+	{
+		if (_bulletCount <= 0)
+		{
+			_isReload = true;
+		}
+	}
+	if (_reloadEffect.isViewing)
+	{
+		_reloadEffect.frameTime++;
+		if (_reloadEffect.frameTime > 4)
+		{
+			_reloadEffect.frameTime = 0;
+			_reloadEffect.frameX++;
+			if (_reloadEffect.frameX >= _reloadEffect.ig->getMaxFrameX())
+			{
+				_reloadEffect.frameX = 0;
+				_reloadEffect.isViewing = false;
+			}
+		}
+	}
+	_reloadEffect.x = _x - 6;
+	_reloadEffect.y = _y - 14;
 	if (_isReload)
 	{
 		_reloadCount+= _reloadSpeed;
 		if (_reloadCount > _reloadTime)
 		{
+			_reloadEffect.frameX = 0;
+			_reloadEffect.frameY = 0;
+			_reloadEffect.isViewing = true;
+			
 			_reloadCount = 0;
 			_isReload = false;
+			_bulletCount = _maxBullet;
 		}
 	}
 	
+
 }
 
 void Player::DamageJumpAttackRect()
@@ -659,7 +697,12 @@ void Player::render(HDC hdc)
 		}
 		if (_isReload)
 		{
-			CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("ReloadBase"), _x - 6, _y - 6);
+			CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("ReloadBase"), _x+6 , _y - 6);
+			CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("ReloadBar"), _x+6 +69/_reloadTime* _reloadCount, _y - 9);
+		}
+		if (_reloadEffect.isViewing)
+		{
+			CAMERAMANAGER->FrameRender(hdc, _reloadEffect.ig, _reloadEffect.x, _reloadEffect.y, _reloadEffect.frameX, _reloadEffect.frameY);
 		}
 
 
@@ -1471,6 +1514,12 @@ void Player::ReloadItemChecker()
 				_reloadItemTimer = 0;
 			}
 		}
+
+		if (_reloadItemNumber > 0 && _reloadCount > 0)
+		{
+			_reloadCount = _reloadTime;
+			_reloadItemNumber--;
+		}
 	}
 }
 
@@ -1537,7 +1586,7 @@ void Player::AddTraitPoint()
 						else if (_abilityNum[i] == 10)
 						{
 							if (i == 4) _maxSatiety += 25;
-							if (i == 5) _reloadSpeed += 15;
+							if (i == 5) _reloadSpeed += 0.15f;
 							_specialAbilityOn[i][1] = true;
 						}
 						else if (_abilityNum[i] == 20)
@@ -1638,7 +1687,7 @@ void Player::ReloadTraitPoint()
 			if (_abilityNum[i] >= 5 && i == 4) _goldDrop -= 20;
 			if (_abilityNum[i] >= 5 && i == 5 && _getRangeStatus) { _getRangeStatus = false, _power -= 10, _initHp -= 20; if (_hp > _initHp) _hp = _initHp; }
 			if (_abilityNum[i] >= 10 && i == 4) _maxSatiety -= 25;
-			if (_abilityNum[i] >= 10 && i == 5) _reloadSpeed -= 15;
+			if (_abilityNum[i] >= 10 && i == 5) _reloadSpeed -= 0.15f;
 			if (_abilityNum[i] >= 20 && i == 4) { _accesoryCount -= 1; _inven->SetInventoryAccesoryUI(); _inven->SetInventoryAccesoryUI(); _inven->ReloadUIImages(); }
 			if (_abilityNum[i] >= 20 && i == 6) _power -= 15;
 			_abilityNum[i] = 0;

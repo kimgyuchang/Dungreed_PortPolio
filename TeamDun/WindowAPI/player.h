@@ -29,7 +29,16 @@ enum PLAYERSTATE
 {
 	PS_IDLE,PS_JUMP,PS_MOVE,PS_DIE,
 };
-
+struct ReloadEffect
+{
+	image* ig;
+	float x;
+	float y; 
+	int frameX;
+	int frameY;
+	int frameTime;
+	bool isViewing;
+};
 enum CLOTHTYPE
 {
 	PC_NORMAL, PC_METAL, PC_GUNNER, PC_ALICE, PC_HONGRYAN, PC_IKINABEAR, 
@@ -51,6 +60,9 @@ private:
 
 	bool			_isReload;
 	float			_reloadCount;
+	ReloadEffect	_reloadEffect;
+	int				_bulletCount;
+	int				_maxBullet;
 	
 	// 피격관련
 	bool			_isStun;				//스턴상태인지
@@ -155,10 +167,10 @@ private:
 	bool			_deathDefencerActivated;	// 죽음 방지 타이머가 작동했는지 (방어 스폐셜)
 	int				_regenTimer;				// 리젠 타이머 (방어 스폐셜)
 	bool			_getRangeStatus;			// Range 능력치를 얻었는지 (집중 스폐셜)
-	int				_reloadItemTimer;			// 재장전 장비 타이머
-	bool			_reloadItemNumber;			// 재장전 아이템 갯수
-	int				_restorePrevHp;				// 직전에 받은 HP회복가능량
-	int				_restoreHpTimer;			// Hp회복 가능 타이머
+	int				_reloadItemTimer;			// 재장전 장비 타이머 (집중 스폐셜)
+	int				_reloadItemNumber;			// 재장전 아이템 갯수 (집중 스폐셜)
+	int				_restorePrevHp;				// 직전에 받은 HP회복가능량 (갈망 스폐셜)
+	int				_restoreHpTimer;			// Hp회복 가능 타이머 (갈망 스폐셜)
 
 	// 픽셀충돌 전용 //					 
 	RECT			_collider[8];			// 픽셀충돌용
@@ -322,6 +334,8 @@ public:
 	float			GetCriDamage()			{ return _criticalDamage; }
 	float			GetDashDamage()			{ return _dashDamage; }
 	float			GetReloadTime()			{ return _reloadTime; }
+	int				GetBulletCount()		{ return _bulletCount; }
+	int				GetMaxBullet()			{ return _maxBullet; }
 	int				GetInitHp()				{ return _initHp; }
 	float			GetRealDefence()		{ return _realDefence; }
 	float			GetRealEvasion()		{ return _realEvasion; }
@@ -464,4 +478,6 @@ public:
 	void			SetRageCurrent(int rage)						{ _rageCurrent = rage; }
 	void			SetPrevPowerPlus(float num)						{ _prevPowerPlus = num; }
 	void			SetRestorePrevHp(int num)						{ _restorePrevHp = num; }
+	void			SetMaxBullet(int maxBullet)						{ _maxBullet = maxBullet; }
+	void			SetBulletCount(int bulletCount)					{ _bulletCount = bulletCount; }
 };
