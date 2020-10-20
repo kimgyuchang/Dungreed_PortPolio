@@ -47,6 +47,12 @@ HRESULT Player::init()
 	_bottomCol = false;
 	_dashEffect = nullptr;
 	_isPlayerDead = false;
+
+	_isReload = false;
+	_reloadCount = 0;
+	_reloadTime = 50;
+	_reloadSpeed = 1;
+
 	_atkSpdUpUse = false;
 	_dashRestoreCount = 0;
 	_dashRestoreTime = 60;
@@ -69,6 +75,18 @@ HRESULT Player::init()
 	_useGun = false;
 	_dashInvinCible = false;
 	_dashInvincibTimer = 0;
+
+	_isFire = true;
+	_fireCount = 0;
+	_isIce = false;
+	_isElectric = false;
+	_isPoison = false;
+
+	_immuneFire = false;
+	_immuneIce = false;
+	_immuneElectric = false;
+	_immunePosion = false;
+	
 
 	for (int i = 0; i < 7; i++) _abilityNum[i] = 0;
 
@@ -257,6 +275,10 @@ void Player::update()
 	ControlDamageUpTimer();
 	SpecialAtkSpeedUp();
 	DashInvincibility();
+	AbnormalState();
+	ReloadBullet();
+
+	
 
 	if (INPUT->GetKeyDown('J'))
 	{
@@ -434,6 +456,46 @@ void Player::JumpAttackRectUpdate()
 {
 	if(_specialAbilityOn[0][0])
 		_jumpAttackRect = RectMake(_x - 50, _y + _vImages[0]->getFrameHeight() * 0.2f, _vImages[0]->getFrameWidth() + 100, _vImages[0]->getFrameHeight() * 1.4f);
+}
+
+void Player::AbnormalState()
+{
+	if (_isFire)
+	{
+		if (!_immuneFire)
+		{
+			_fireCount++;
+			if (_fireCount % 20 == 0)
+			{
+				float x;
+				float y;
+				x = RANDOM->range(_body.left, _body.right);
+				y = RANDOM->range(_body.top, _body.bottom);
+				EFFECTMANAGER->AddEffect(x,y, "StateFireEffect", 4,
+					0, 0, false, 255, 0, 1, 1, false);
+				/*cout << x <<"   "<<y<< endl;*/
+			}
+			if (_fireCount >200)
+			{
+				_fireCount = 0;
+				
+			}
+		}
+	}
+}
+
+void Player::ReloadBullet()
+{
+	if (_isReload)
+	{
+		_reloadCount+= _reloadSpeed;
+		if (_reloadCount > _reloadTime)
+		{
+			_reloadCount = 0;
+			_isReload = false;
+		}
+	}
+	
 }
 
 void Player::DamageJumpAttackRect()
