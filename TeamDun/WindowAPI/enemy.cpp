@@ -121,7 +121,8 @@ void Enemy::GetDamage()
 			if (dropCoin == 0)
 			{
 				int coinCount = RANDOM->range(1, 6);
-				for (int i = 0; i < coinCount; i++)
+				cout << coinCount + coinCount * ((ENTITYMANAGER->getPlayer()->GetGoldDrop() - 100) / 100.f) << endl;
+				for (int i = 0; i < coinCount + coinCount * ((ENTITYMANAGER->getPlayer()->GetGoldDrop() - 100) / 100.f); i++)
 				{
 					Coin* coin = new Coin(*dynamic_cast<Coin*>(DATAMANAGER->GetObjectById(524)));
 					coin->SetUseImage(1);

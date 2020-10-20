@@ -49,6 +49,9 @@ private:
 	bool			_isDash;
 	bool			_isPlayerDead;
 
+	bool			_isReload;
+	float			_reloadCount;
+	
 	// 피격관련
 	bool			_isStun;				//스턴상태인지
 	int				_stunCount;
@@ -116,11 +119,16 @@ private:
 	float			_maxHpPercent;			// 최대 최력 추가량 (비율)
 
 	// 속성 //
+	bool			_isFire;
+	int				_fireCount;
+	bool			_isIce;
+	bool			_isElectric;
+	bool			_isPoison;
 	bool			_immuneFire;			// 화염 면역
 	bool			_immuneIce;				// 냉기 면역
 	bool			_immuneElectric;		// 감전 면역
 	bool			_immunePosion;			// 중독 면역
-	bool			_immuneStun;
+	bool			_immuneStun;			// 기절 면역
 	int				_toFire;				// 공격 시 화염 확률
 	int				_toIce;					// 공격 시 냉기 확률
 	int				_toElectric;			// 공격 시 감전 확률
@@ -141,8 +149,11 @@ private:
 	int				_damageUpTimer;				// 데미지 업 타이머 (분노 스폐셜)
 	bool			_damageUpTimerUse;			// 데미지 업 타이머가 사용되고 있는지 (분노 스폐셜)
 	bool			_atkSpdUpUse;				// 공격속도 업이 사용되었는지 (신속 스페셜)
-	int				_dashInvincibTimer;			// 대쉬 무적 시간
-	bool			_dashInvinCible;			// 무적 상태인지
+	int				_dashInvincibTimer;			// 대쉬 무적 시간 (신속 스폐셜)
+	bool			_dashInvinCible;			// 무적 상태인지 (신속 스폐셜)
+	int				_deathDefencerTimer;		// 죽음 방지 타이머 (방어 스폐셜)
+	bool			_deathDefencerActivated;	// 죽음 방지 타이머가 작동했는지 (방어 스폐셜)
+	int				_regenTimer;				// 리젠 타이머
 
 	// 픽셀충돌 전용 //					 
 	RECT			_collider[8];			// 픽셀충돌용
@@ -195,6 +206,7 @@ private:
 
 	// 총잡이 //
 	bool			_useGun;
+	
 
 	// 앨리스 //
 	image*			_aliceZone;
@@ -242,7 +254,13 @@ public:
 	void ReInitTooltip(int n);
 	void SetToolTipFrame(float x, float y, int index);
 
+	void SetDeathDefencerTimerDown();
+
+	void RegenDefenceSkill();
+
 	void GetHitDamage(int damage);
+
+	void RemoveMagicShield();
 
 	void ControlTraitPage();
 	void AddTraitPoint();
@@ -256,7 +274,8 @@ public:
 	
 	void SwitchWeapon();
 	void JumpAttackRectUpdate();
-
+	void AbnormalState(); // 상태이상 구현
+	void ReloadBullet();
 	//캐릭터 능력 구현 함수
 	void CheckAliceZone();
 	void AdjustAlicePower();
@@ -343,17 +362,18 @@ public:
 	int				GetAccesoryCount()	    { return _accesoryCount; }
 	int				GetMaxDashCount()		{ return _maxDashCount; }
 	int				GetMaxSatiety()			{ return _maxSatiety; }
-	bool			GetDashInvincible()		{ return _dashInvinCible; }
-	bool			GetDashInvincibleTimer(){ return _dashInvincibTimer; }
 	int				GetRageCurrent()		{ return _rageCurrent; }
 	int				GetRageMax()			{ return _rageMax; }
 	bool			GetIsRaging()			{ return _isRaging; }
 	int				GetRageTimer()			{ return _rageTimer; }
-	CLOTHTYPE		GetClothType()			{ return _clothType; }
 	float			GetPrevPowerPlus()		{ return _prevPowerPlus; }
+	bool			GetIsReload()			{ return _isReload; }
+	bool			GetDashInvincible()		{ return _dashInvinCible; }
+	bool			GetDashInvincibleTimer(){ return _dashInvincibTimer; }
+	CLOTHTYPE		GetClothType()		{ return _clothType; }
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
 
-
+	void			SetIsReload(bool isReload)						{ _isReload = isReload; }
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
 	void			SetState(PLAYERSTATE state)						{ _state = state; }
 	void			SetIsLeft(bool isLeft) 							{ _isLeft = isLeft; }

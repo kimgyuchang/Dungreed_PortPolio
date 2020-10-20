@@ -48,6 +48,12 @@ HRESULT Player::init()
 	_bottomCol = false;
 	_dashEffect = nullptr;
 	_isPlayerDead = false;
+
+	_isReload = true;
+	_reloadCount = 0;
+	_reloadTime = 100;
+	_reloadSpeed = 1;
+
 	_atkSpdUpUse = false;
 	_dashRestoreCount = 0;
 	_dashRestoreTime = 60;
@@ -62,7 +68,8 @@ HRESULT Player::init()
 	_swapCoolTime = 0;
 	_accesoryCount = 4;
 	_hp = _initHp = 100;
-	_maxSatiety = 300;
+	_maxSatiety = 100;
+	_goldDrop = 100;
 	_level = 30;
 	_remainPoint = 35;
 	_maxPoint = 35;
@@ -70,6 +77,20 @@ HRESULT Player::init()
 	_useGun = false;
 	_dashInvinCible = false;
 	_dashInvincibTimer = 0;
+	_deathDefencerActivated = false;
+	_deathDefencerTimer = 0;
+
+	_isFire = false;
+	_fireCount = 0;
+	_isIce = false;
+	_isElectric = false;
+	_isPoison = false;
+
+	_immuneFire = false;
+	_immuneIce = false;
+	_immuneElectric = false;
+	_immunePosion = false;
+	
 
 	for (int i = 0; i < 7; i++) _abilityNum[i] = 0;
 
@@ -134,18 +155,12 @@ HRESULT Player::init()
 	_inven->init();
 
 	_inven->AddItem(DATAMANAGER->GetItemById(4000));
-	_inven->AddItem(DATAMANAGER->GetItemById(4000));
-	_inven->AddItem(DATAMANAGER->GetItemById(4000));
 	_inven->AddItem(DATAMANAGER->GetItemById(4001));
-	_inven->AddItem(DATAMANAGER->GetItemById(4001));
-	_inven->AddItem(DATAMANAGER->GetItemById(4001));
-	_inven->AddItem(DATAMANAGER->GetItemById(4002));
 	_inven->AddItem(DATAMANAGER->GetItemById(4002));
 	_inven->AddItem(DATAMANAGER->GetItemById(4016));
 	_inven->AddItem(DATAMANAGER->GetItemById(4003));
-	_inven->AddItem(DATAMANAGER->GetItemById(4003));
-	_inven->AddItem(DATAMANAGER->GetItemById(4003));
 	_inven->AddItem(DATAMANAGER->GetItemById(4004));
+	_inven->AddItem(DATAMANAGER->GetItemById(4120));
 	_inven->AddItem(DATAMANAGER->GetItemById(4015));
 	_inven->AddItem(DATAMANAGER->GetItemById(4005));
 
@@ -268,6 +283,10 @@ void Player::update()
 	ControlDamageUpTimer();
 	SpecialAtkSpeedUp();
 	DashInvincibility();
+	SetDeathDefencerTimerDown();
+	RegenDefenceSkill();
+	AbnormalState();
+	ReloadBullet();
 
 	if (INPUT->GetKeyDown('J'))
 	{
@@ -447,6 +466,46 @@ void Player::JumpAttackRectUpdate()
 		_jumpAttackRect = RectMake(_x - 50, _y + _vImages[0]->getFrameHeight() * 0.2f, _vImages[0]->getFrameWidth() + 100, _vImages[0]->getFrameHeight() * 1.4f);
 }
 
+void Player::AbnormalState()
+{
+	if (_isFire)
+	{
+		if (!_immuneFire)
+		{
+			_fireCount++;
+			if (_fireCount % 20 == 0)
+			{
+				float x;
+				float y;
+				x = RANDOM->range(_body.left, _body.right);
+				y = RANDOM->range(_body.top, _body.bottom);
+				EFFECTMANAGER->AddEffect(x,y, "StateFireEffect", 4,
+					0, 0, false, 255, 0, 1, 1, false);
+				/*cout << x <<"   "<<y<< endl;*/
+			}
+			if (_fireCount >200)
+			{
+				_fireCount = 0;
+				
+			}
+		}
+	}
+}
+
+void Player::ReloadBullet()
+{
+	if (_isReload)
+	{
+		_reloadCount+= _reloadSpeed;
+		if (_reloadCount > _reloadTime)
+		{
+			_reloadCount = 0;
+			_isReload = false;
+		}
+	}
+	
+}
+
 void Player::DamageJumpAttackRect()
 {
 	for (int i = 0; i < MAPMANAGER->GetPlayMap()->GetObjects().size(); i++)
@@ -564,6 +623,11 @@ void Player::render(HDC hdc)
 		{
 			CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);						//기존 이미지 그대로
 		}
+		if (_isReload)
+		{
+			CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("ReloadBase"), _x - 6, _y - 6);
+		}
+
 
 		if (_weapons[_selectedWeaponIdx] != nullptr && !_weapons[_selectedWeaponIdx]->GetIsRenderFirst()) _weapons[_selectedWeaponIdx]->render(hdc);			//장착된 무기의 인덱스가 비어있지않고, 플레이어보다 먼저  그려지지않는다면 장착된무기의 인덱스가 그려지도록
 		if (_subWeapons[_selectedWeaponIdx] != nullptr && !_subWeapons[_selectedWeaponIdx]->GetIsRenderFirst()) _subWeapons[_selectedWeaponIdx]->render(hdc);	//만약 보조무기의 인덱스가 비어있지않고, 보조무기가 플레이어보다 먼저 그려지지않는다면, 보조무기의 인덱스가 그려지도록
@@ -1262,11 +1326,32 @@ void Player::SetToolTipFrame(float x, float y, int index)
 	dynamic_cast<UIText*>(toolTipFrame->GetChild("additional"))->SetText(_vToolTips[index].additionalDescription);
 }
 
+void Player::SetDeathDefencerTimerDown()
+{
+	if (_deathDefencerTimer > 0)
+	{
+		_deathDefencerTimer--;
+	}
+}
+
+void Player::RegenDefenceSkill()
+{
+	if (_specialAbilityOn[2][2] && _initHp * 0.3f > _hp)
+	{
+		_regenTimer++;
+		if (_regenTimer > 60)
+		{
+			_hp++;
+			_regenTimer = 0;
+		}
+	}
+}
 
 void Player::GetHitDamage(int damage)
 {
 	if (_isHit == false &&
-		!_dashInvinCible) // 대쉬 무적상태가 아니면
+		!_dashInvinCible && // 대쉬 무적상태가 아니면
+		!_deathDefencerTimer != 0) // 고통견딤 상태가 아니면 
 	{
 		float Realdamage;
 		int block;
@@ -1275,17 +1360,25 @@ void Player::GetHitDamage(int damage)
 		Realdamage = damage - damage * _realDefence / 100; // 대쉬시 충돌하면 기본 20데미지에서 계산
 		evasion = RANDOM->range(100);
 		block = RANDOM->range(100);
-		if (_realEvasion <= evasion)
-
+		if (_realEvasion <= evasion) // 회피 실패
 		{
-			if (_block <= block)
+			if (_block <= block) // 블록 실패
 			{
-				SOUNDMANAGER->play("Hit_Player");
-				_isHit = true;
-				_hitCount = 0;
-				_hp = _hp - Realdamage;
-				EFFECTMANAGER->AddEffect(0, 0, "hit", 0, 0, 0, true, 100, 0, 1, 1, true, true);
-				CAMERAMANAGER->Shake(25, 25, 6, 1);
+				if (_specialAbilityOn[2][1] && _hp - Realdamage <= 0 && !_deathDefencerActivated) // 고통견딤 특성
+				{
+					_deathDefencerActivated = true;
+					_deathDefencerTimer = 240;
+				}
+				else // 데미지 받음
+				{
+					SOUNDMANAGER->play("Hit_Player");
+					_isHit = true;
+					_hitCount = 0;
+
+					_hp = _hp - Realdamage;
+					EFFECTMANAGER->AddEffect(0, 0, "hit", 0, 0, 0, true, 100, 0, 1, 1, true, true);
+					CAMERAMANAGER->Shake(25, 25, 6, 1);
+				}
 			}
 			else
 			{
@@ -1367,11 +1460,18 @@ void Player::AddTraitPoint()
 						if (_abilityNum[i] == 5)
 						{
 							if (i == 1) AddMaxDash();
+							if (i == 2) _inven->AddItem(DATAMANAGER->GetItemById(4120));
+							if (i == 4) _goldDrop += 20;
 							_specialAbilityOn[i][0] = true;
 						}
-						else if (_abilityNum[i] == 10) _specialAbilityOn[i][1] = true;
+						else if (_abilityNum[i] == 10)
+						{
+							if (i == 4) _maxSatiety += 25;
+							_specialAbilityOn[i][1] = true;
+						}
 						else if (_abilityNum[i] == 20)
 						{
+							if (i == 4) { _accesoryCount += 1; _inven->SetInventoryAccesoryUI(); _inven->ReloadUIImages(); }
 							_specialAbilityOn[i][2] = true;
 							AddMaxDash();
 						}
@@ -1448,6 +1548,7 @@ void Player::ReloadTraitPoint()
 
 			case 4:
 				_initHp -= 2 * _abilityNum[i];
+				if (_initHp > _hp) _hp = _initHp;
 				break;
 
 			case 5:
@@ -1461,6 +1562,11 @@ void Player::ReloadTraitPoint()
 			_remainPoint += _abilityNum[i];
 
 			if (_abilityNum[i] >= 5 && i == 1) SubMaxDash();
+			if (_abilityNum[i] >= 5 && i == 2) RemoveMagicShield();
+			if (_abilityNum[i] >= 5 && i == 4) _goldDrop -= 20;
+			if (_abilityNum[i] >= 10 && i == 4) _maxSatiety -= 25;
+			if (_abilityNum[i] >= 20 && i == 4) { _accesoryCount -= 1; _inven->SetInventoryAccesoryUI(); _inven->SetInventoryAccesoryUI(); _inven->ReloadUIImages(); }
+
 			_abilityNum[i] = 0;
 
 			_specialAbilityOn[i][0] = false;
@@ -1471,6 +1577,19 @@ void Player::ReloadTraitPoint()
 
 		}
 		ReInitTraitUI();
+	}
+}
+
+void Player::RemoveMagicShield()
+{
+	for (int i = 0; i < _inven->GetVItemList().size(); i++)
+	{
+		if (_inven->GetVItemList()[i]->GetId() == 4120)
+		{
+			_inven->GetVItemList().erase(_inven->GetVItemList().begin() + i);
+			_inven->ReloadUIImages();
+			break;
+		}
 	}
 }
 
@@ -1729,7 +1848,6 @@ void Player::SetIkinaBearAngry()
 			if (_isRaging)
 			{
 				_rageTimer--;
-				cout << _rageTimer << endl;
 				if (_rageTimer <= 0)
 				{
 					_atkSpeedPer -= 100;

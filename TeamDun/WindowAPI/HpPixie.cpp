@@ -44,36 +44,39 @@ void HpPixie::CheckCollision()
 		int hp = 0;
 		if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_body))
 		{
-			switch (_pixType)
+			if (ENTITYMANAGER->getPlayer()->GetHP() != ENTITYMANAGER->getPlayer()->GetInitHp())
 			{
-			case SMALL:
-				hp = 10;
-				break;
-			case MIDDLE:
-				hp = 20;
-				break;
-			case LARGE:
-				hp = 40;
-				break;
-			case XLARGE:
-				hp = 60;
-				break;
-			case GREEN:
-				hp = 80;
-				break;
-			}
+				switch (_pixType)
+				{
+				case SMALL:
+					hp = 10;
+					break;
+				case MIDDLE:
+					hp = 20;
+					break;
+				case LARGE:
+					hp = 40;
+					break;
+				case XLARGE:
+					hp = 60;
+					break;
+				case GREEN:
+					hp = 80;
+					break;
+				}
 
-			EFFECTMANAGER->AddCameraText(_x + _vImages[0]->getFrameWidth() / 2, _y, 100, 100, "+" + to_string(hp), PIX, WS_BIG, WSORT_LEFT, RGB(96, 226, 33));
-			int resultHp = ENTITYMANAGER->getPlayer()->GetHP() + hp;
-			if (resultHp > ENTITYMANAGER->getPlayer()->GetInitHp())
-			{
-				resultHp = ENTITYMANAGER->getPlayer()->GetInitHp();
-			}
-			ENTITYMANAGER->getPlayer()->SetHp(resultHp);
+				EFFECTMANAGER->AddCameraText(_x + _vImages[0]->getFrameWidth() / 2, _y, 100, 100, "+" + to_string(hp), PIX, WS_BIG, WSORT_LEFT, RGB(96, 226, 33));
+				int resultHp = ENTITYMANAGER->getPlayer()->GetHP() + hp;
+				if (resultHp > ENTITYMANAGER->getPlayer()->GetInitHp())
+				{
+					resultHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+				}
+				ENTITYMANAGER->getPlayer()->SetHp(resultHp);
 
-			SOUNDMANAGER->play("오브젝트_HP회복");
-			_isDead = true;
-			_droppedTimer = 0;
+				SOUNDMANAGER->play("오브젝트_HP회복");
+				_isDead = true;
+				_droppedTimer = 0;
+			}
 		}
 	}
 }
