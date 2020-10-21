@@ -366,6 +366,9 @@
     <ClCompile Include="Gear.cpp">
       <Filter>MainGame\Object\Obstacle</Filter>
     </ClCompile>
+    <ClCompile Include="BasicShortSword.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -650,6 +653,9 @@
     </ClInclude>
     <ClInclude Include="Gear.h">
       <Filter>MainGame\Object\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicShortSword.h">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

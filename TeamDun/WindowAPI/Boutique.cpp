@@ -27,7 +27,7 @@ HRESULT Boutique::init(int id, string name, OBJECTTYPE type, vector<string> imgN
 void Boutique::update()
 {
 	NPC::update();
-	if (_selectFrame->GetIsViewing() && !_isUsing)
+	if (_selectFrame->GetIsViewing() && _isUsing)
 	{
 		Conversation();
 	}
@@ -38,14 +38,12 @@ void Boutique::Conversation()
 	
 	if (PtInRect(&_selectFrame->GetChild("selected1")->GetRect(), _ptMouse))
 	{
-
 		_selectFrame->GetChild("selected1")->SetImage(IMAGEMANAGER->findImage("SelectedFrame"));
 		if (INPUT->GetIsLButtonClicked())
 		{
 			_selectFrame->SetIsViewing(false);
 			_convFrame->SetIsViewing(false);
 			_isOpen = true;
-			_isUsing = false;
 		}
 	}
 	else _selectFrame->GetChild("selected1")->SetImage(nullptr);
@@ -65,7 +63,7 @@ void Boutique::Conversation()
 	if (_isOpen)
 	{
 		_isOpen = false;
-		Boutique::Activate();
+		this->Activate();
 	}
 }
 
@@ -90,7 +88,7 @@ void Boutique::render(HDC hdc)
 void Boutique::Activate()
 {
 	_isActivating = !_isActivating;
-
+	SOUNDMANAGER->play("인벤토리열기");
 	UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->ToggleIsViewing();
 	_isUsing = UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetIsViewing();
 

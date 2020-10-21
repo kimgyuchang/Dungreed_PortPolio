@@ -205,7 +205,7 @@ private:
 	int				_experience;			// 경험치
 	int				_needExperience;		// 필요 경험치
 	float			_goldDrop;				// 돈 드랍양
-
+	int				_roomMoveSatiation;		// 방 이동시 포만감 감소량
 	// SWAP //
 	int				_swapCoolTime;			// 스왑 쿨타임
 
@@ -401,6 +401,7 @@ public:
 	int				GetRestorePrevHp()		{ return _restorePrevHp; }
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
 	bool			GetIsPlayerDead()		{ return _isPlayerDead; }
+	int				GetRoomMoveSatiation()	{ return _roomMoveSatiation; }
 
 	void			SetIsReload(bool isReload)						{ _isReload = isReload; }
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
@@ -485,4 +486,5 @@ public:
 	void			SetRestorePrevHp(int num)						{ _restorePrevHp = num; }
 	void			SetMaxBullet(int maxBullet)						{ _maxBullet = maxBullet; }
 	void			SetBulletCount(int bulletCount)					{ _bulletCount = bulletCount; }
+	void			SetRoomMoveSatiation(int roomMoveSatiation)		{ _roomMoveSatiation = roomMoveSatiation; }
 };

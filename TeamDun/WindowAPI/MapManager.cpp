@@ -351,7 +351,7 @@ void MapManager::ChangeMap(int index)
 	
 	if (!GetPlayMap()->GetVisited())
 	{
-		int satiety = ENTITYMANAGER->getPlayer()->GetSatiety() - 2;
+		int satiety = ENTITYMANAGER->getPlayer()->GetSatiety() - 2 - ENTITYMANAGER->getPlayer()->GetRoomMoveSatiation();
 		if (satiety < 0) satiety = 0;
 		ENTITYMANAGER->getPlayer()->SetSatiety(satiety);
 		GetPlayMap()->SetVisited(true);

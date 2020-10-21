@@ -285,6 +285,9 @@ void DataManager::GetItemData()
 		case 4015: // 현자의 축복
 			item = new BlessOfSage();
 			break;
+		case 4017: // 숏 소드
+			item = new BasicShortSword();
+			break;
 		default:
 			item = new Item();
 			break;
@@ -426,6 +429,8 @@ Item* DataManager::GetItemById(int id)
 		return new BloodOfSrobeo(*dynamic_cast<BloodOfSrobeo*>(_mMapItemData[id]));
 	case 4015: // 현자의 축복
 		return new BlessOfSage(*dynamic_cast<BlessOfSage*>(_mMapItemData[id]));
+	case 4017: // 숏 소드
+		return new BasicShortSword(*dynamic_cast<BasicShortSword*>(_mMapItemData[id]));
 	default:
 		return _mMapItemData[id];
 	}

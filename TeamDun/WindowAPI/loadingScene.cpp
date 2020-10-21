@@ -912,8 +912,10 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Sky_Day", "Images/villageFloor/Sky_Day.bmp", 1440, 800, true, RGB(255, 0, 255));
 
 	// ITEM //
-	_loading->LoadFrameImage("BasicShortSword_New", "Images/item/BasicShortSword_New.bmp", 90, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BasicShortSword_New", "Images/item/BasicShortSword_New.bmp", 100, 100, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BasicShortSword_inven", "Images/item/BasicShortSword_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BasicShortSword_drop", "Images/item/BasicShortSword_drop.bmp", 57, 32, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("BasicShortSwordEffect", "Images/item/BasicShortSwordEffect.bmp", 300, 108, 3, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("DemonSword", "Images/item/DemonSword.bmp", 107, 213, 1, 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("DemonSword_inven", "Images/item/DemonSword_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("DemonSword_Drop", "Images/item/DemonSword_Drop.bmp", 62, 21, true, RGB(255, 0, 255));

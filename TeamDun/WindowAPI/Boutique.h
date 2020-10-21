@@ -5,7 +5,6 @@ class Boutique : public NPC
 {
 private:
 	bool			_isOpen;
-	bool			_isUsing;
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
 	virtual void	update();

@@ -43,3 +43,4 @@
 #include "Smith.h"
 #include "Spike.h"
 #include "Gear.h"
+#include "BasicShortSword.h"
