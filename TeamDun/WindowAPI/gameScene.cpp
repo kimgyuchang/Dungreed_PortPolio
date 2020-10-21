@@ -8,7 +8,8 @@ HRESULT gameScene::init()
 	initUI();
 
 	_p = new Player();
-
+	
+	SAVELOADMANAGER->Init();
 	ENTITYMANAGER->init();
 	ENTITYMANAGER->setPlayer(_p);
 	_p->init();
@@ -773,6 +774,7 @@ void gameScene::release()
 
 void gameScene::UpdateWardrobeUI()
 {
+	/*
 	if (INPUT->GetKeyDown('P'))
 	{
 		UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->ToggleIsViewing();
@@ -781,6 +783,7 @@ void gameScene::UpdateWardrobeUI()
 			UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(false);
 		}
 	}
+	*/
 
 	if (UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetIsViewing() == true)
 	{
@@ -1058,6 +1061,16 @@ void gameScene::update()
 	CAMERAMANAGER->update();
 	INPUT->update();
 
+	if (INPUT->GetKeyDown(VK_F9))
+	{
+		SAVELOADMANAGER->SaveData();
+	}
+
+	if (INPUT->GetKeyDown(VK_F10))
+	{
+		SAVELOADMANAGER->LoadData();
+	}
+
 	if (INPUT->GetKeyDown(VK_BACK))
 	{
 		UIMANAGER->_GameFrame->GetVChildFrames().clear();
@@ -1087,12 +1100,12 @@ void gameScene::update()
 		UIMANAGER->GetGameFrame()->GetChild("charFrame")->ToggleIsViewing();
 	}
 
-	if (INPUT->GetKeyDown('O'))
-	{
-		SOUNDMANAGER->play("인벤토리열기");
-		UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->ToggleIsViewing();
-		ENTITYMANAGER->getPlayer()->ReInitTraitUI();
-	}
+	//if (INPUT->GetKeyDown('O'))
+	//{
+	//	SOUNDMANAGER->play("인벤토리열기");
+	//	UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->ToggleIsViewing();
+	//	ENTITYMANAGER->getPlayer()->ReInitTraitUI();
+	//}
 }
 
 void gameScene::render()

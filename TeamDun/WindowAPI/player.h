@@ -56,7 +56,8 @@ private:
 	bool			_isJump;				// 점프중인지
 	bool			_downJump;				// 아래점프중인지
 	bool			_isDash;
-	bool			_isPlayerDead;
+	bool			_isPlayerDead;			// 플레이어가 죽었는지
+	int				_playerDeadTimer;		// 플레이어 죽은 후 타이머
 
 	bool			_isReload;
 	float			_reloadCount;
@@ -200,11 +201,12 @@ private:
 	int				_money;					// 돈
 	int				_level;					// 레벨
 	CLOTHTYPE		_clothType;				// 현재 입은 옷
+
 	// - 내부적 수치
 	int				_experience;			// 경험치
 	int				_needExperience;		// 필요 경험치
 	float			_goldDrop;				// 돈 드랍양
-
+	int				_roomMoveSatiation;		// 방 이동시 포만감 감소량
 	// SWAP //
 	int				_swapCoolTime;			// 스왑 쿨타임
 
@@ -246,6 +248,9 @@ public:
 
 	virtual HRESULT init();
 	virtual void	update();
+	void PlayerIsDead();
+	void PlayerDeadTimerCheck();
+	void ReturnToHome();
 	void DashInvincibility();
 	void AddMaxDash();
 	void SubMaxDash();
@@ -388,6 +393,8 @@ public:
 	int				GetMaxSatiety()			{ return _maxSatiety; }
 	int				GetRageCurrent()		{ return _rageCurrent; }
 	int				GetRageMax()			{ return _rageMax; }
+	int				GetMaxPoint()			{ return _maxPoint; }
+	int				GetRemainPoint()		{ return _remainPoint; }
 	bool			GetIsRaging()			{ return _isRaging; }
 	int				GetRageTimer()			{ return _rageTimer; }
 	float			GetPrevPowerPlus()		{ return _prevPowerPlus; }
@@ -399,6 +406,10 @@ public:
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
 	bool			GetIsBossReady()		{ return _isBossReady; }
 
+	int				GetDashRestoreTime()	{ return _dashRestoreTime; }
+	bool			GetIsPlayerDead()		{ return _isPlayerDead; }
+	int				GetSpecialAbilityPoint(int index) { return _abilityNum[index]; }
+	int				GetRoomMoveSatiation()	{ return _roomMoveSatiation; }
 
 	void			SetIsReload(bool isReload)						{ _isReload = isReload; }
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
@@ -484,4 +495,6 @@ public:
 	void			SetMaxBullet(int maxBullet)						{ _maxBullet = maxBullet; }
 	void			SetBulletCount(int bulletCount)					{ _bulletCount = bulletCount; }
 	void			SetIsBossReady(bool isBossReady)				{ _isBossReady = isBossReady; }
+	void			SetDashRestoreTime(int time)					{ _dashRestoreTime = time; }
+	void			SetRoomMoveSatiation(int roomMoveSatiation)		{ _roomMoveSatiation = roomMoveSatiation; }
 };

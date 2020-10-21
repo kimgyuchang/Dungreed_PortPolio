@@ -154,11 +154,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Banshee.h" />
+    <ClInclude Include="BasicShortSword.h" />
     <ClInclude Include="Belial.h" />
     <ClInclude Include="BelialDie.h" />
     <ClInclude Include="BigWhiteSkel.h" />
     <ClInclude Include="BlessOfSage.h" />
     <ClInclude Include="BloodOfSrobeo.h" />
+    <ClInclude Include="Boutique.h" />
     <ClInclude Include="BowSkel.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="BoxParticle.h" />
@@ -182,6 +184,8 @@
     <ClInclude Include="FireBat.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="gameScene.h" />
+    <ClInclude Include="Gear.h" />
+    <ClInclude Include="GunShop.h" />
     <ClInclude Include="HpPixie.h" />
     <ClInclude Include="IceBat.h" />
     <ClInclude Include="image.h" />
@@ -219,12 +223,15 @@
     <ClInclude Include="RedGiantBat.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Restaurant.h" />
+    <ClInclude Include="SaveLoadManager.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="Shop.h" />
     <ClInclude Include="singletonBase.h" />
     <ClInclude Include="SkelDog.h" />
     <ClInclude Include="Skill.h" />
+    <ClInclude Include="Smith.h" />
     <ClInclude Include="soundManager.h" />
+    <ClInclude Include="Spike.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageChanger.h" />
     <ClInclude Include="StageDoor.h" />
@@ -232,6 +239,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SwordSkel.h" />
     <ClInclude Include="townNPCimage.h" />
+    <ClInclude Include="Trainer.h" />
     <ClInclude Include="Treasure.h" />
     <ClInclude Include="TreasureSpawner.h" />
     <ClInclude Include="uibrushTool.h" />
@@ -246,11 +254,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Banshee.cpp" />
+    <ClCompile Include="BasicShortSword.cpp" />
     <ClCompile Include="Belial.cpp" />
     <ClCompile Include="BelialDie.cpp" />
     <ClCompile Include="BigWhiteSkel.cpp" />
     <ClCompile Include="BlessOfSage.cpp" />
     <ClCompile Include="BloodOfSrobeo.cpp" />
+    <ClCompile Include="Boutique.cpp" />
     <ClCompile Include="BowSkel.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="BoxParticle.cpp" />
@@ -273,6 +283,8 @@
     <ClCompile Include="FireBat.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="gameScene.cpp" />
+    <ClCompile Include="Gear.cpp" />
+    <ClCompile Include="GunShop.cpp" />
     <ClCompile Include="HpPixie.cpp" />
     <ClCompile Include="IceBat.cpp" />
     <ClCompile Include="image.cpp" />
@@ -309,11 +321,14 @@
     <ClCompile Include="Restaurant.cpp">
       <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</BasicRuntimeChecks>
     </ClCompile>
+    <ClCompile Include="SaveLoadManager.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="Shop.cpp" />
     <ClCompile Include="SkelDog.cpp" />
     <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="Smith.cpp" />
     <ClCompile Include="soundManager.cpp" />
+    <ClCompile Include="Spike.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StageChanger.cpp" />
     <ClCompile Include="StageDoor.cpp" />
@@ -326,6 +341,7 @@
     </ClCompile>
     <ClCompile Include="SwordSkel.cpp" />
     <ClCompile Include="townNPCimage.cpp" />
+    <ClCompile Include="Trainer.cpp" />
     <ClCompile Include="Treasure.cpp" />
     <ClCompile Include="TreasureSpawner.cpp" />
     <ClCompile Include="uibrushTool.cpp" />

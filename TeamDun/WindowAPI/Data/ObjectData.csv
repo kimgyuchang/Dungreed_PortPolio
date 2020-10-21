@@ -91,7 +91,7 @@ id,name,type,image,image2,image3
 227,까망 도마뱀,Etc,NPC_Jpage,.,.
 228,토끼 여자,Etc,NPC_JukToIdle,NPC_JukToMove,.
 229,나이트,Etc,NPC_KnightIdle,NPC_KnightMove,.
-230,깃발 든 남자,Etc,PistolMan,.,.
+230,피아트,NPC,PistolMan,.,.
 11,레스토랑,Etc,DungeonInn,.,.
 12,밥 잘 파는 예쁜누나,NPC,NPC_NeighboringVillager,.,.
 13,HP픽시S,Etc,FairyS00,.,.
@@ -102,3 +102,8 @@ id,name,type,image,image2,image3
 2502,픽시스포너,Etc,SpawnPixiePos,.,.
 2503,상자스포너,Etc,SpawnBoxPos,.,.
 5000,보스시체,Death,SkellBossDead,SkellBossDead0,.
+231,카블로비나,NPC,NPC_Commander,.,.
+232,블로슈,NPC,NPC_Boutique,.,.
+233,밀리아,NPC,NPC_Merchant,.,.
+234,하켄,NPC,NPC_BlackSmith,.,.
+235,율포드,NPC,NPC_Builder,.,.

@@ -47,6 +47,12 @@ void Restaurant::update()
 
 	if (_restaurantBase->GetIsViewing())
 	{
+		if (INPUT->GetKeyDown(VK_F8))
+		{
+			SetRestaurantFood();
+			ReNewUI();
+		}
+
 		SetSatiationUI();
 		SetHpUI();
 
@@ -200,6 +206,8 @@ void Restaurant::initSecond()
 
 void Restaurant::SetRestaurantFood()
 {
+	_vFoods.clear();
+
 	int foodCount = RANDOM->range(3, 7);
 	for (int i = 0; i < foodCount; i++)
 	{
@@ -415,6 +423,8 @@ void Restaurant::SetRestaurantFood()
 			food->_vStatusNum.push_back(RANDOM->range(5.0f, 8.0f));
 			food->_vStatusType.push_back(FOODSTATUSTYPE::FST_MAXHP);
 			food->_vStatusNum.push_back(RANDOM->range(8.0f, 11.0f));
+			food->_vStatusType.push_back(FOODSTATUSTYPE::FST_MAXACCSLOT);
+			food->_vStatusNum.push_back(1);
 			food->_price = food->_vHealPer[0] * 50 + food->_vStatusNum[0] * 30 + food->_vStatusNum[1] * 40;
 			food->_satiation = RANDOM->range(60, 67);
 			food->_img = IMAGEMANAGER->findImage("15_Bibimbap");
@@ -503,10 +513,10 @@ void Restaurant::SetRestaurantFood()
 			food->_name = "ÈÆÁ¦ ¿¬¾î";
 			food->_vHeal.push_back(FOODHEAL::F_HEAL);
 			food->_vHealPer.push_back(RANDOM->range(5.0f, 12.5f));
-			food->_vStatusType.push_back(FOODSTATUSTYPE::FST_SATIATION);
-			food->_vStatusNum.push_back(RANDOM->range(10.0f, 30.0f));
+			food->_vStatusType.push_back(FOODSTATUSTYPE::FST_ROOMSATIATION);
+			food->_vStatusNum.push_back(1);
 			food->_price = food->_vHealPer[0] * 50 + food->_vStatusNum[0] * 100;
-			food->_satiation = 0;
+			food->_satiation = RANDOM->range(55,68);
 			food->_img = IMAGEMANAGER->findImage("22_SmokedSalmon");
 			food->_imgName = "22_SmokedSalmon";
 			food->_soundName = "NPC_·¹½ºÅä¶û_­h";
@@ -685,16 +695,19 @@ void Restaurant::BuyFood(Food* food, int index)
 				break;
 			}
 			case FST_ATKSPEED: {
-				int newAtkSpeed = p->GetAtkSpeed() + (p->GetAtkSpeed() * (food->_vStatusNum[i] / 100));
-				p->SetAtkSpeed(newAtkSpeed);
+				float newAtkSpeed = p->GetAtkSpeedPer() + food->_vStatusNum[i];
+				p->SetAtkSpeedPer(newAtkSpeed);
 				break;
 			}
 			case FST_CHARGESPEED: {
-				int newChargeSpeed = p->GetReloadSpeed() + (p->GetReloadSpeed() * (food->_vStatusNum[i] / 100));
+				int newChargeSpeed = p->GetReloadSpeed() + food->_vStatusNum[i];
 				p->SetReloadSpeed(newChargeSpeed);
 				break;
 			}
 			case FST_MAXACCSLOT: {
+				p->SetAccesoryCount(p->GetAccesoryCount() + 1);
+				p->GetInventory()->SetInventoryAccesoryUI(); 
+				p->GetInventory()->ReloadUIImages();
 				break;
 			}
 			case FST_STRONG: {
@@ -713,8 +726,12 @@ void Restaurant::BuyFood(Food* food, int index)
 				break;
 			}
 			case FST_MOVESPEED: {
-				int newMoveSpeed = p->GetMoveSpeed() + (p->GetMoveSpeed() * (food->_vStatusNum[i] / 100));
+				float newMoveSpeed = p->GetMoveSpeed() + (p->GetMoveSpeed() * (food->_vStatusNum[i] / 100));
 				p->SetMoveSpeed(newMoveSpeed);
+				break;
+			}
+			case FST_ROOMSATIATION: {
+				p->SetRoomMoveSatiation(p->GetRoomMoveSatiation() + 1);
 				break;
 			}
 			default:
@@ -858,6 +875,8 @@ void Restaurant::ReNewUI()
 				case FST_MOVESPEED:
 					typetext = "% ÀÌµ¿ ¼Óµµ";
 					break;
+				case FST_ROOMSATIATION:
+					typetext = "¹æ ÀÌµ¿½Ã Æ÷¸¸°¨ °¨¼Ò";
 				default:
 					break;
 				}

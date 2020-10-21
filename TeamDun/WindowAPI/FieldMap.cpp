@@ -226,6 +226,28 @@ void FieldMap::LoadObject()
 		case 5000: // 보스시체
 			obj = new BelialDie(*dynamic_cast<BelialDie*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
+		case 230: // 피아트 - 마을 총기상점
+			obj = new GunShop(*dynamic_cast<GunShop*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<GunShop*>(obj)->initSecond();
+			break;
+		case 231: // 카블로비나 - 훈련장 코치
+			obj = new Trainer(*dynamic_cast<Trainer*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Trainer*>(obj)->initSecond();
+			break;
+		case 232: // 블로슈 - 마을 의상실
+			obj = new Boutique(*dynamic_cast<Boutique*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Boutique*>(obj)->initSecond();
+			break;
+		case 234: // 하켄 - 마을 대장장이
+			obj = new Smith(*dynamic_cast<Smith*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<Smith*>(obj)->initSecond();
+			break;
+		case 1003: case 1004: // 가시
+			obj = new Spike(*dynamic_cast<Spike*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+		case 1000 : case 1001 : case 1002: // 기어
+			obj = new Gear(*dynamic_cast<Gear*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 		default:
 			obj = new Object(*DATAMANAGER->GetObjectById(stoi(objData[i][0])));
 			break;
@@ -759,7 +781,7 @@ void FieldMap::render(HDC hdc)
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer2MapIg"), 0, 0);
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
-		if (!_vObjs[i]->GetRenderIndex() == 0)
+		if (_vObjs[i]->GetRenderIndex() == 0)
 			_vObjs[i]->render(hdc);
 	} // 오브젝트 렌더 0 렌더
 
@@ -862,7 +884,6 @@ void FieldMap::render(HDC hdc)
 				10 + (float)5 / 48 * (_vObjs[i]->GetY() + _vObjs[i]->GetImage(0)->getFrameHeight() / 2) - 6);
 		}
 	}
-
 }
 
 void FieldMap::DoorParticleGenerate()

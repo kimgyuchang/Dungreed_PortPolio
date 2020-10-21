@@ -88,6 +88,9 @@
     <Filter Include="MainGame\Object\Etc\Drops">
       <UniqueIdentifier>{4cdd3c51-dc76-4bd2-a5ec-057ebb9ce0c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Obstacle">
+      <UniqueIdentifier>{b3b1d8cb-9801-4187-8f4e-4af9c3ff11ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -347,6 +350,30 @@
     </ClCompile>
     <ClCompile Include="BelialDie.cpp">
       <Filter>MainGame\Object\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicShortSword.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClCompile>
+    <ClCompile Include="Boutique.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="GunShop.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="Smith.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="Trainer.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="Gear.cpp">
+      <Filter>MainGame\Object\Obstacle</Filter>
+    </ClCompile>
+    <ClCompile Include="Spike.cpp">
+      <Filter>MainGame\Object\Obstacle</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveLoadManager.cpp">
+      <Filter>GameFramework\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -617,6 +644,30 @@
     </ClInclude>
     <ClInclude Include="BelialDie.h">
       <Filter>MainGame\Object\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicShortSword.h">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="Boutique.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="GunShop.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Smith.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Trainer.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Gear.h">
+      <Filter>MainGame\Object\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike.h">
+      <Filter>MainGame\Object\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveLoadManager.h">
+      <Filter>GameFramework\Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

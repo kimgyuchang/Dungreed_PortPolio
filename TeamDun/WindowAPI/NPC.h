@@ -7,7 +7,6 @@ protected:
 	RECT	_interactRect;
 	bool	_isInteracting;
 	image* _interactionImage;
-
 	// 대화 기능 //
 	string	_npcName;
 	vector<string> _vConvTexts;
@@ -17,6 +16,7 @@ protected:
 	UIFrame* _convFrame;
 	UIFrame* _selectFrame;
 	bool	 _isActivating;
+	bool	_isUsing;
 
 public:
 

@@ -817,7 +817,13 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("NPC_JukToMove", "Images/villageFloor/NPC/image/NPC_JukToMove.bmp", 882, 222, 7, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("NPC_KnightIdle", "Images/villageFloor/NPC/image/NPC_KnightIdle.bmp", 306, 132, 6, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("NPC_KnightMove", "Images/villageFloor/NPC/image/NPC_KnightMove.bmp", 306, 132, 6, 2, true, RGB(255, 0, 255));
+
+	_loading->LoadFrameImage("NPC_Commander", "Images/villageFloor/NPC/NPC_Commander.bmp", 414, 150, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_Boutique", "Images/villageFloor/NPC/NPC_Boutique.bmp", 210, 138, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_BlackSmith", "Images/villageFloor/NPC/NPC_BlackSmith.bmp", 432, 156, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_Merchant", "Images/villageFloor/NPC/NPC_Merchant.bmp", 234, 126, 6, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("PistolMan", "Images/villageFloor/NPC/image/PistolMan.bmp", 306, 108, 6, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_Builder", "Images/villageFloor/NPC/NPC_Builder.bmp", 252, 138, 6, 2, true, RGB(255, 0, 255));
 
 	_loading->LoadFrameImage("DungeonEat", "Images/villageFloor/NPC/DungeonEat.bmp", 9828, 255, 28, 1, true, RGB(255, 0, 255));
 
@@ -906,8 +912,10 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Sky_Day", "Images/villageFloor/Sky_Day.bmp", 1440, 800, true, RGB(255, 0, 255));
 
 	// ITEM //
-	_loading->LoadFrameImage("BasicShortSword_New", "Images/item/BasicShortSword_New.bmp", 90, 90, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BasicShortSword_New", "Images/item/BasicShortSword_New.bmp", 100, 100, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BasicShortSword_inven", "Images/item/BasicShortSword_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BasicShortSword_drop", "Images/item/BasicShortSword_drop.bmp", 57, 32, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("BasicShortSwordEffect", "Images/item/BasicShortSwordEffect.bmp", 300, 108, 3, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("DemonSword", "Images/item/DemonSword.bmp", 107, 213, 1, 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("DemonSword_inven", "Images/item/DemonSword_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("DemonSword_Drop", "Images/item/DemonSword_Drop.bmp", 62, 21, true, RGB(255, 0, 255));
@@ -931,12 +939,13 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Cintamani", "Images/item/Cintamani.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BlessOfSage", "Images/item/BlessOfSage.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CowLeather", "Images/item/CowLeather.bmp", 57, 57, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("MagicShield", "Images/item/MagicShield.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("MagicShield", "Images/item/MagicShield.bmp", 57, 114, 1,2, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("MagicShield_inv", "Images/item/MagicShield_inv.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("DwarvenArmor", "Images/item/DwarvenArmor.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SandBag", "Images/item/SandBag.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Dicegod'sTrick", "Images/item/Dicegod'sTrick.bmp", 57, 57, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("MiniSlimeMaker", "Images/item/MiniSlimeMaker.bmp", 1044, 144, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("MiniSlimeBullet", "Images/item/MiniSlimeBullet.bmp", 792, 168, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("MiniSlimeMaker", "Images/item/MiniSlimeMaker.bmp", 1044, 144, 12, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("MiniSlimeBullet", "Images/item/MiniSlimeBullet.bmp", 792, 168, 12, 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MiniSlimeMaker_inven", "Images/item/MiniSlimeMaker_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// BULLET //
@@ -963,6 +972,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("SqaureParticle_2", "Images/Particle/SqaureParticle_2.bmp", 22, 22, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SqaureParticle_3", "Images/Particle/SqaureParticle_3.bmp", 28, 28, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SqaureParticle_4", "Images/Particle/SqaureParticle_4.bmp", 5, 5, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SqaureParticle_5", "Images/Particle/SqaureParticle_5.bmp", 5, 5, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BigBoxParticle0_0", "Images/object/BigBoxParticle0_0.bmp", 30, 54, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BigBoxParticle0_1", "Images/object/BigBoxParticle0_1.bmp", 24, 21, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BigBoxParticle0_2", "Images/object/BigBoxParticle0_2.bmp", 33, 39, true, RGB(255, 0, 255));

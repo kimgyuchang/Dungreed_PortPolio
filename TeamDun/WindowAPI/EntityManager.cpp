@@ -58,6 +58,7 @@ Bullet* EntityManager::makeBullet(const char * imageName, string effectIgName, B
 {
 	Bullet* _bullet = new Bullet;
 	_bullet->makeBullet(imageName, effectIgName, type, x, y, angle, damage, speed, maxDis, isFrame, igAngle ,speedtype);
+	_bullet->SetUseTraceParticle(false);
 	_vBullets.push_back(_bullet);
 	return _bullet;
 }
