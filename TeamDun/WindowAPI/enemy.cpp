@@ -176,6 +176,7 @@ void Enemy::MonsterDead()
 void Enemy::GetDamage(int damage)
 {
 	Player* _p = ENTITYMANAGER->getPlayer();
+
 	if (_isSpawned)
 	{
 		SOUNDMANAGER->play("Hit_Monster");
@@ -210,6 +211,7 @@ void Enemy::GetDamage(int damage)
 void Enemy::CheckSpecialPlayerInteractions()
 {
 	Player* _p = ENTITYMANAGER->getPlayer();
+	int curHp = ENTITYMANAGER->getPlayer()->GetHP();
 
 	if (_p->GetClothType() == PC_HONGRYAN) _hongryanCount++;
 
@@ -218,6 +220,17 @@ void Enemy::CheckSpecialPlayerInteractions()
 		int rage = _p->GetRageCurrent() + 1;
 		if (rage > _p->GetRageMax()) rage = _p->GetRageMax();
 		_p->SetRageCurrent(rage);
+	}
+
+	// 휴먼라슬리 구현 대기
+	if (_p->GetClothType() == PC_HUMANLASLEY)
+	{
+		if (_hp <= 0)
+		{
+			ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() +10);
+			curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+			ENTITYMANAGER->getPlayer()->SetHp(curHp);
+		}
 	}
 
 	if ((_p->GetSpecialAbilityOn(6, 0) && RANDOM->range(10) < 1) || _p->GetSpecialAbilityOn(6, 2))

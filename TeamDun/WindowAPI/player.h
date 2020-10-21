@@ -241,6 +241,15 @@ private:
 	// 라이더H //
 	int				_prevPowerPlus;					// 저번 프레임의 증가된 파워량
 	
+	// 범죄자 실루엣 //
+	int				_criminalCount;
+	int				_prevCriminalCount;
+
+	// 뚱뚱보 //
+	bool		    _useMeleeWeapon;
+
+	// 마검사 //
+	int			    _playerDeadCount;
 
 public:
 
@@ -282,6 +291,8 @@ public:
 
 	void GetHitDamage(int damage);
 
+	void AdaptCriminalCount();
+
 	void RestoreHpTimerChecker();
 
 	void RemoveMagicShield();
@@ -301,12 +312,16 @@ public:
 	void JumpAttackRectUpdate();
 	void AbnormalState(); // 상태이상 구현
 	void ReloadBullet();
+
 	//캐릭터 능력 구현 함수
 	void CheckAliceZone();
 	void AdjustAlicePower();
 	void SetIkinaBearAngry();
 	void CheckMoveSpeedRiderH();
+	void AdaptCriminalCount(bool isPlus);
 	void CheckCliminal();
+	void Checkfasto();
+	void CheckMasterChef();
 	
 	void SetHpUI();
 	// GETSET //
@@ -485,4 +500,8 @@ public:
 	void			SetRestorePrevHp(int num)						{ _restorePrevHp = num; }
 	void			SetMaxBullet(int maxBullet)						{ _maxBullet = maxBullet; }
 	void			SetBulletCount(int bulletCount)					{ _bulletCount = bulletCount; }
-};
+	void			SetCriminalCount(int count)						{ _criminalCount = count; }
+	void			SetPrevCriminalCount(int count)					{ _prevCriminalCount = count; }
+	void			SetplayerDeadCount(int count)					{ _playerDeadCount = count; }
+
+};		

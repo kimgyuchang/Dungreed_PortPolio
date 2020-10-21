@@ -8,10 +8,10 @@ HRESULT MapManager::init()
 
 	_mapData = CSVMANAGER->csvLoad("Data/Maps.csv");
 	
-	AddStage(1);
+	AddStage(0);
 	_mapFrame = UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetChild("mapFrame");
 	_pixelGetter = new PixelGetter();
-	ChangeMap(1);
+	ChangeMap(0);
 	MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_DOWN);
 	
 	_portalAnimOn = false;
