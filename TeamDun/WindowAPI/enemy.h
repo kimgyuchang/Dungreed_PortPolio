@@ -8,7 +8,7 @@ enum ENEMYSTATE {
 
 class Enemy : public Object
 {
-protected :
+protected:
 	int				_Damage;				// 최종 데미지
 	int				_minDamage;				// 최소 데미지
 	int				_maxDamage;				// 최대 데미지
@@ -40,13 +40,13 @@ protected :
 	int				_weakeningTimer;	// 약화 카운트
 	bool			_isWeakining;		// 약화 상태
 	int				_weakeningDmgTimer;	// 약화 데미지 카운트
-public :
+public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
 	virtual void	update();
 	virtual	void	release();
 	void WeakeningChecker();
 	virtual void	render(HDC hdc);
-	
+
 	void renderHongryanCount(HDC hdc);
 
 	virtual void	Move();
@@ -59,16 +59,16 @@ public :
 	virtual void	GetDamage(int damage);
 
 	void CheckSpecialPlayerInteractions();
-	
+
 	void			HpBarDelete();
 	// GETSET //
 	int		GetAttackCoolTime() { return _attackCoolTime; }
-	float	GetMoveSpeed()		{ return _moveSpeed; }
-	bool	GetIsSpawned()		{ return _isSpawned; }
-	int		GetHpBarAlphe()		{ return _hpBarAlpha; }
-	bool	GetIsWeakining()	{ return _isWeakining; }
+	float	GetMoveSpeed() { return _moveSpeed; }
+	bool	GetIsSpawned() { return _isSpawned; }
+	int		GetHpBarAlphe() { return _hpBarAlpha; }
+	bool	GetIsWeakining() { return _isWeakining; }
 
 	void	SetHpBarAlpha(int hpBarAlpha) { _hpBarAlpha = hpBarAlpha; }
-	void	SetAttackCoolTime(int coolTime)	{ _attackCoolTime = coolTime; }
-	void	SetMoveSpeed(float speed)		{ _moveSpeed = speed; }
+	void	SetAttackCoolTime(int coolTime) { _attackCoolTime = coolTime; }
+	void	SetMoveSpeed(float speed) { _moveSpeed = speed; }
 };

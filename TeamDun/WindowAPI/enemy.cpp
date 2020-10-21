@@ -76,8 +76,8 @@ void Enemy::renderHongryanCount(HDC hdc)
 	if (_hongryanCount > 0)
 	{
 		CAMERAMANAGER->FrameRender(hdc, _hongryanEffectImage,
-		_x + _vImages[0]->getFrameWidth() / 2 - _hongryanEffectImage->getFrameWidth() / 2,
-		_y + _vImages[0]->getFrameHeight() + 20,_hongryanCount-1,0);
+			_x + _vImages[0]->getFrameWidth() / 2 - _hongryanEffectImage->getFrameWidth() / 2,
+			_y + _vImages[0]->getFrameHeight() + 20, _hongryanCount - 1, 0);
 	}
 }
 void Enemy::Move()
@@ -220,9 +220,9 @@ void Enemy::CheckSpecialPlayerInteractions()
 		_p->SetRageCurrent(rage);
 	}
 
-	if ((_p->GetSpecialAbilityOn(6, 0) && RANDOM->range(10) < 1) || _p->GetSpecialAbilityOn(6,2))
+	if ((_p->GetSpecialAbilityOn(6, 0) && RANDOM->range(10) < 1) || _p->GetSpecialAbilityOn(6, 2))
 	{
-		if(!_isWeakining) _weakeningDmgTimer = 15;
+		if (!_isWeakining) _weakeningDmgTimer = 15;
 		_isWeakining = true;
 		_weakeningTimer = 600;
 	}

@@ -518,7 +518,7 @@ void Player::SwitchWeapon()
 
 		UIFrame* weapon1 = swapFrame->GetChild("weapon1");	//swapUI의 자식을 저장
 		UIFrame* weapon2 = swapFrame->GetChild("weapon2");	//swapUI의 자식을 저장
-
+		
 		if (_swapCoolTime == 0)	//쿨타임이 0이되면
 		{
 			swapFrame->GetVChildFrames().push_back(swapFrame->GetVChildFrames()[0]);	//swapUI의 자식들을 0번지부터
@@ -584,7 +584,7 @@ void Player::AbnormalState()
 				y = RANDOM->range(_body.top, _body.bottom);
 				EFFECTMANAGER->AddEffect(x,y, "StateFireEffect", 4,
 					0, 0, false, 255, 0, 1, 1, false);
-				/*cout << x <<"   "<<y<< endl;*/
+				
 			}
 			if (_fireCount >200)
 			{
@@ -596,45 +596,58 @@ void Player::AbnormalState()
 
 void Player::ReloadBullet()
 {
-	
-	if (_maxBullet > 0)
+	if (_weapons[_selectedWeaponIdx] == nullptr)
 	{
-		if (_bulletCount <= 0)
-		{
-			_isReload = true;
-		}
+		_reloadCount = 0;
+		_isReload = false;
 	}
-	if (_reloadEffect.isViewing)
+	if (_weapons[_selectedWeaponIdx] != nullptr)
 	{
-		_reloadEffect.frameTime++;
-		if (_reloadEffect.frameTime > 4)
+		if (_weapons[_selectedWeaponIdx]->GetInitNumOfBullet() == 0)
 		{
-			_reloadEffect.frameTime = 0;
-			_reloadEffect.frameX++;
-			if (_reloadEffect.frameX >= _reloadEffect.ig->getMaxFrameX())
-			{
-				_reloadEffect.frameX = 0;
-				_reloadEffect.isViewing = false;
-			}
-		}
-	}
-	_reloadEffect.x = _x - 6;
-	_reloadEffect.y = _y - 14;
-	if (_isReload)
-	{
-		_reloadCount+= _reloadSpeed;
-		if (_reloadCount > _reloadTime)
-		{
-			_reloadEffect.frameX = 0;
-			_reloadEffect.frameY = 0;
-			_reloadEffect.isViewing = true;
-			
 			_reloadCount = 0;
 			_isReload = false;
-			_bulletCount = _maxBullet;
 		}
+
+		if (_maxBullet > 0)
+		{
+			if (_weapons[_selectedWeaponIdx]->GetCurNumOfBullet() <= 0)
+			{
+				_isReload = true;
+			}
+		}
+		if (_reloadEffect.isViewing)
+		{
+			_reloadEffect.frameTime++;
+			if (_reloadEffect.frameTime > 4)
+			{
+				_reloadEffect.frameTime = 0;
+				_reloadEffect.frameX++;
+				if (_reloadEffect.frameX >= _reloadEffect.ig->getMaxFrameX())
+				{
+					_reloadEffect.frameX = 0;
+					_reloadEffect.isViewing = false;
+				}
+			}
+		}
+		_reloadEffect.x = _x - 6;
+		_reloadEffect.y = _y - 14;
+		if (_isReload)
+		{
+			_reloadCount+= _reloadSpeed;
+			if (_reloadCount > _reloadTime)
+			{
+				_reloadEffect.frameX = 0;
+				_reloadEffect.frameY = 0;
+				_reloadEffect.isViewing = true;
+				
+				_reloadCount = 0;
+				_isReload = false;
+				_weapons[_selectedWeaponIdx]->SetCurNumOfBullet(_maxBullet);
+			}
+		}
+		
 	}
-	
 
 }
 
