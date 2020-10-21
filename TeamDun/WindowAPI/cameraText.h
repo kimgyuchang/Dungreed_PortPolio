@@ -1,6 +1,7 @@
 #pragma once
 class cameraText
 {
+private:
 	float _x;
 	float _y;
 	float _xSize;

@@ -101,3 +101,4 @@ id,name,type,image,image2,image3
 17,HP픽시그린,Etc,GreenFairy00,.,.
 2502,픽시스포너,Etc,SpawnPixiePos,.,.
 2503,상자스포너,Etc,SpawnBoxPos,.,.
+5000,보스시체,Death,SkellBossDead,SkellBossDead0,.

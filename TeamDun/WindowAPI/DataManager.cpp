@@ -58,6 +58,8 @@ void DataManager::GetObjectData()
 			type = OBJECTTYPE::OT_NPC;
 		else if (objData[i][2] == "Monster")
 			type = OBJECTTYPE::OT_MONSTER;
+		else if (objData[i][2] == "Death")
+			type = OBJECTTYPE::OT_DEATH;
 
 		Object* obj;
 		switch (stoi(objData[i][0]))
@@ -209,6 +211,9 @@ void DataManager::GetObjectData()
 			obj = new Box();
 			dynamic_cast<Box*>(obj)->SetBoxType(BOXTYPE::BOX_ORC);
 			dynamic_cast<Box*>(obj)->SetParticle();
+			break;
+		case 5000:
+			obj = new BelialDie();
 			break;
 		default:
 			obj = new Object();

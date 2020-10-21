@@ -240,7 +240,8 @@ private:
 	// 라이더H //
 	int				_prevPowerPlus;					// 저번 프레임의 증가된 파워량
 	
-
+	// 보스 //
+	bool			_isBossReady;
 public:
 
 	virtual HRESULT init();
@@ -396,7 +397,9 @@ public:
 	CLOTHTYPE		GetClothType()			{ return _clothType; }
 	int				GetRestorePrevHp()		{ return _restorePrevHp; }
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
-	
+	bool			GetIsBossReady()		{ return _isBossReady; }
+
+
 	void			SetIsReload(bool isReload)						{ _isReload = isReload; }
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
 	void			SetState(PLAYERSTATE state)						{ _state = state; }
@@ -480,4 +483,5 @@ public:
 	void			SetRestorePrevHp(int num)						{ _restorePrevHp = num; }
 	void			SetMaxBullet(int maxBullet)						{ _maxBullet = maxBullet; }
 	void			SetBulletCount(int bulletCount)					{ _bulletCount = bulletCount; }
+	void			SetIsBossReady(bool isBossReady)				{ _isBossReady = isBossReady; }
 };

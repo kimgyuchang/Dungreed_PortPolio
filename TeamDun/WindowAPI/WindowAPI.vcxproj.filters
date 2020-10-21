@@ -345,6 +345,9 @@
     <ClCompile Include="BlessOfSage.cpp">
       <Filter>MainGame\Item\Items\Accessory</Filter>
     </ClCompile>
+    <ClCompile Include="BelialDie.cpp">
+      <Filter>MainGame\Object\Enemy\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -611,6 +614,9 @@
     </ClInclude>
     <ClInclude Include="BlessOfSage.h">
       <Filter>MainGame\Item\Items\Accessory</Filter>
+    </ClInclude>
+    <ClInclude Include="BelialDie.h">
+      <Filter>MainGame\Object\Enemy\Boss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

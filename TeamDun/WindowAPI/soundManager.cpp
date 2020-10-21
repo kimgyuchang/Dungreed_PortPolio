@@ -93,7 +93,7 @@ void soundManager::addSound(string keyName, string soundName, bool bgm, bool loo
 	_mTotalSound.insert(make_pair(keyName, &_sound[_mTotalSound.size()]));
 }
 
-void soundManager::play(string keyName, float volume, bool useOverlapVolumeDown)
+void soundManager::play(string keyName, float volume, bool useOverlapVolumeDown, bool useFadeIn)
 {
 	int count = 0;
 	arrSoundIter iter = _mTotalSound.begin();
@@ -110,7 +110,8 @@ void soundManager::play(string keyName, float volume, bool useOverlapVolumeDown)
 			if (mode == 131274) // LOOP하는애면 (BGM)
 			{
 				_vStarts.push_back(keyName);
-				_channel[count]->setVolume(0);
+				if(useFadeIn) _channel[count]->setVolume(0);
+				else _channel[count]->setVolume(0.5f);
 			}
 
 			else // 효과음이면
@@ -212,12 +213,12 @@ bool soundManager::isPauseSound(string keyName)
 /// <summary>
 /// 모든 BGM을 정지해주는 기능
 /// </summary>
-void soundManager::StopAllBGM()
+void soundManager::StopAllBGM(bool useFadeIn)
 {
 	_vStarts.clear();
 
 	_fadeOutCount = 150;
-	_fadeInCount = 150;
+	if(useFadeIn) _fadeInCount = 150;
 }
 
 void soundManager::FadeInBGM()

@@ -116,7 +116,8 @@ HRESULT Player::init()
 	{
 		_vAccessories[i] = nullptr;
 	}
-
+	// 보스 //
+	_isBossReady = false;
 	// 코스튬 
 	_rageCurrent = 0;
 	_rageMax = 100;
@@ -190,7 +191,8 @@ void Player::update()
 		!MAPMANAGER->GetStageChanger()->GetIsChangingStage() &&
 		!_traitFrame->GetIsViewing() &&
 		!_isStun &&
-		!_isPlayerDead
+		!_isPlayerDead &&
+		!_isBossReady
 		)
 
 		// 잡다한 UI가 OFF일때
@@ -202,7 +204,7 @@ void Player::update()
 			_dashPoint = _ptMouse;
 			_jumpPower = 0;
 			_dashCount--;
-			DashImageCheck();
+			DashImageCheck();;
 		}
 
 		if (INPUT->GetKeyDown('X'))				//X키를 눌렀을때
