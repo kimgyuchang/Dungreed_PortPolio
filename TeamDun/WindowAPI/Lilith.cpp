@@ -22,16 +22,17 @@ void Lilith::update()
 
 	if (_isSpawned)
 	{
-	this->Animation();
+		this->Animation();
 
-	if (_x > ENTITYMANAGER->getPlayer()->GetX()+ 60)
-	{
-		_isLeft = true;
-	}
-	if (_x < ENTITYMANAGER->getPlayer()->GetX() - 20)
-	{
-		_isLeft = false;
-	}
+		if (_x > ENTITYMANAGER->getPlayer()->GetX() + 60)
+		{
+			_isLeft = true;
+		}
+		if (_x < ENTITYMANAGER->getPlayer()->GetX() - 20)
+		{
+			_isLeft = false;
+		}
+
 		switch (_state)
 		{
 		case ES_IDLE:
@@ -57,25 +58,25 @@ void Lilith::update()
 					_state = ES_ATTACK;
 					_isAttack = true;
 					_isHit = true;
-					
+
 				}
-				
+
 			}
 			break;
 
 		case ES_MOVE:
 			//충돌처리
-			
+
 			break;
 
 		case ES_ATTACK:
 
 			_renderOrder = 2;
 			_attackTimer++;
-		
+
 			if (!_isLeft)
 			{
-				_x = ENTITYMANAGER->getPlayer()->GetX() -25;
+				_x = ENTITYMANAGER->getPlayer()->GetX() - 25;
 				_y = ENTITYMANAGER->getPlayer()->GetY() + 10;
 				_body = RectMake(_x, _y, 78, 78);
 			}
@@ -85,14 +86,14 @@ void Lilith::update()
 				_y = ENTITYMANAGER->getPlayer()->GetY() + 10;
 				_body = RectMake(_x, _y, 78, 78);
 			}
-	
+
 			if (_attackTimer > 50)
 			{
 
 				_attackTimer = 0;
 				_isAttack = false;
 				_state = ES_IDLE;
-				
+
 			}
 			break;
 		default:
@@ -124,9 +125,9 @@ void Lilith::Move()
 
 void Lilith::Attack()
 {
-	
 
-	
+
+
 }
 
 void Lilith::Animation()

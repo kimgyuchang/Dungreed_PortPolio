@@ -221,6 +221,12 @@ void DataManager::GetObjectData()
 			break;
 		case 234: // 하켄 - 마을 대장장이
 			obj = new Smith();
+			break;	
+		case 1000 : case 1001 : case 1002 : // 기어
+			obj = new Gear();
+			break;
+		case 1003: case 1004: // 가시
+			obj = new Spike();
 			break;
 		default:
 			obj = new Object();
@@ -389,15 +395,32 @@ void DataManager::GetItemData()
 	}
 }
 
+int	DataManager::GetItemSize()
+{
+	return _mMapItemData.size();
+}
+
+Item* DataManager::GetItemByIndex(int index)
+{
+	map<int, Item*>::iterator iter;
+	int count = 0;
+	for (iter = _mMapItemData.begin(); iter != _mMapItemData.end(); ++iter)
+	{
+		if (count == index) { return iter->second; }
+		count++;
+	}
+	
+	return nullptr;
+}
+
 Item* DataManager::GetItemById(int id)
 {
 	Item* rtnItem;
-	
 	switch (id)
 	{
 	case 4000 : // 마검 엘레마
 		return new DemonSword (*dynamic_cast<DemonSword*>(_mMapItemData[id]));
-	case 4001 :
+	case 4001 : // 더 콜트
 		return new Colt(*dynamic_cast<Colt*>(_mMapItemData[id]));
 	case 4005: // 소르베오의피
 		return new BloodOfSrobeo(*dynamic_cast<BloodOfSrobeo*>(_mMapItemData[id]));

@@ -239,7 +239,12 @@ void FieldMap::LoadObject()
 			obj = new Smith(*dynamic_cast<Smith*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			dynamic_cast<Smith*>(obj)->initSecond();
 			break;
-
+		case 1003: case 1004: // 가시
+			obj = new Spike(*dynamic_cast<Spike*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+		case 1000 : case 1001 : case 1002: // 기어
+			obj = new Gear(*dynamic_cast<Gear*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 		default:
 			obj = new Object(*DATAMANAGER->GetObjectById(stoi(objData[i][0])));
 			break;
@@ -635,7 +640,7 @@ void FieldMap::SpawnMonsters()
 }
 
 /// <summary>
-/// 맵에 몬스터가 더 없으면 문을 연다
+/// 맵을 클리어했는지 확인하고 이에 따른 작업을 한다.
 /// </summary>
 void FieldMap::CheckNoMonsterInMap()
 {
@@ -656,6 +661,14 @@ void FieldMap::CheckNoMonsterInMap()
 			int satiety = ENTITYMANAGER->getPlayer()->GetSatiety() - 1;
 			if (satiety < 0) satiety = 0;
 			ENTITYMANAGER->getPlayer()->SetSatiety(satiety);
+			
+			if (ENTITYMANAGER->getPlayer()->GetSpecialAbilityOn(5, 1)) // 특성 - 집중 10레벨
+			{
+				int hpPlus = ENTITYMANAGER->getPlayer()->GetHP() + 2;
+				if (hpPlus > ENTITYMANAGER->getPlayer()->GetInitHp()) hpPlus = ENTITYMANAGER->getPlayer()->GetInitHp();
+				ENTITYMANAGER->getPlayer()->SetHp(hpPlus);
+			}
+
 			SOUNDMANAGER->play("게임_던전_문열림닫힘");
 
 			_isCleared = true; // 몬스터를 모두 정리했다 알림
@@ -764,7 +777,7 @@ void FieldMap::render(HDC hdc)
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer2MapIg"), 0, 0);
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
-		if (!_vObjs[i]->GetRenderIndex() == 0)
+		if (_vObjs[i]->GetRenderIndex() == 0)
 			_vObjs[i]->render(hdc);
 	} // 오브젝트 렌더 0 렌더
 
@@ -849,7 +862,6 @@ void FieldMap::render(HDC hdc)
 				10 + (float)5 / 48 * (_vObjs[i]->GetY() + _vObjs[i]->GetImage(0)->getFrameHeight() / 2) - 6);
 		}
 	}
-
 }
 
 void FieldMap::DoorParticleGenerate()

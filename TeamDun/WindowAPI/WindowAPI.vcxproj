@@ -182,6 +182,7 @@
     <ClInclude Include="FireBat.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="gameScene.h" />
+    <ClInclude Include="Gear.h" />
     <ClInclude Include="GunShop.h" />
     <ClInclude Include="HpPixie.h" />
     <ClInclude Include="IceBat.h" />
@@ -227,6 +228,7 @@
     <ClInclude Include="Skill.h" />
     <ClInclude Include="Smith.h" />
     <ClInclude Include="soundManager.h" />
+    <ClInclude Include="Spike.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageChanger.h" />
     <ClInclude Include="StageDoor.h" />
@@ -276,6 +278,7 @@
     <ClCompile Include="FireBat.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="gameScene.cpp" />
+    <ClCompile Include="Gear.cpp" />
     <ClCompile Include="GunShop.cpp" />
     <ClCompile Include="HpPixie.cpp" />
     <ClCompile Include="IceBat.cpp" />
@@ -319,6 +322,7 @@
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="Smith.cpp" />
     <ClCompile Include="soundManager.cpp" />
+    <ClCompile Include="Spike.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StageChanger.cpp" />
     <ClCompile Include="StageDoor.cpp" />

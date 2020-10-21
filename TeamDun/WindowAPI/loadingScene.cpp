@@ -937,6 +937,8 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Cintamani", "Images/item/Cintamani.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BlessOfSage", "Images/item/BlessOfSage.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CowLeather", "Images/item/CowLeather.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("MagicShield", "Images/item/MagicShield.bmp", 57, 114, 1,2, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("MagicShield_inv", "Images/item/MagicShield_inv.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("DwarvenArmor", "Images/item/DwarvenArmor.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SandBag", "Images/item/SandBag.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Dicegod'sTrick", "Images/item/Dicegod'sTrick.bmp", 57, 57, true, RGB(255, 0, 255));
@@ -1064,6 +1066,11 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("horsemanDie", "Images/player/horsemanDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("humanlaselyDie", "Images/player/humanlaselyDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("masterchefDie", "Images/player/masterchefDie.bmp", 78, 75, 1, 1, true, RGB(255, 0, 255));
+
+	//이키나곰 능력 이미지
+	_loading->LoadNormalImage("IkinaBack", "Images/Iknabear/IkinaBack.bmp", 39, 24);
+	_loading->LoadNormalImage("IkinaBase", "Images/Iknabear/IkinaBase.bmp", 57, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("IkinaBearFace", "Images/Iknabear/IkinaBearFace.bmp", 57, 48, true, RGB(255, 0, 255));
 
 	// PLAYER EFFECT //
 	_loading->LoadFrameImage("AliceZone", "Images/player/AliceZone.bmp", 630, 315, 2, 1, true, RGB(255, 0, 255));

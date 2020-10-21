@@ -48,7 +48,7 @@ void Treasure::Activate()
 	if (!_isOpened)
 	{
 		int coinNumber = RANDOM->range(10, 30);
-		for (int i = 0; i < coinNumber; i++)
+		for (int i = 0; i < coinNumber + coinNumber * ((ENTITYMANAGER->getPlayer()->GetGoldDrop() - 100) / 100.f); i++)
 		{
 			Coin* coin = new Coin(*dynamic_cast<Coin*>(DATAMANAGER->GetObjectById(524)));
 			coin->SetUseImage(i == 0 ? 0 : (RANDOM->range(10) > 8 ? 0 : 1));
@@ -58,7 +58,7 @@ void Treasure::Activate()
 			_useImage = 1;
 		}
 
-		Item* item = DATAMANAGER->GetItemById(RANDOM->range(DATAMANAGER->GetItemMinId(), DATAMANAGER->GetItemMaxId()));
+		Item* item = DATAMANAGER->GetItemByIndex(RANDOM->range(0, DATAMANAGER->GetItemSize()-1));
 		DropItem* dropItem = new DropItem();
 		dropItem->init();
 		dropItem->SetItem(_x - ((item->GetRenderScale() - 1) * (item->GetDropImage()->getFrameWidth() / 2)), _y - 70 - ((item->GetRenderScale() - 1) * (item->GetDropImage()->getFrameHeight() / 2)), 0, RANDOM->range(4.f, 6.f), item);

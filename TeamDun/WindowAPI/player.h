@@ -29,7 +29,16 @@ enum PLAYERSTATE
 {
 	PS_IDLE,PS_JUMP,PS_MOVE,PS_DIE,
 };
-
+struct ReloadEffect
+{
+	image* ig;
+	float x;
+	float y; 
+	int frameX;
+	int frameY;
+	int frameTime;
+	bool isViewing;
+};
 enum CLOTHTYPE
 {
 	PC_NORMAL, PC_METAL, PC_GUNNER, PC_ALICE, PC_HONGRYAN, PC_IKINABEAR, 
@@ -47,10 +56,14 @@ private:
 	bool			_isJump;				// 점프중인지
 	bool			_downJump;				// 아래점프중인지
 	bool			_isDash;
-	bool			_isPlayerDead;
+	bool			_isPlayerDead;			// 플레이어가 죽었는지
+	int				_playerDeadTimer;		// 플레이어 죽은 후 타이머
 
 	bool			_isReload;
 	float			_reloadCount;
+	ReloadEffect	_reloadEffect;
+	int				_bulletCount;
+	int				_maxBullet;
 	
 	// 피격관련
 	bool			_isStun;				//스턴상태인지
@@ -149,8 +162,16 @@ private:
 	int				_damageUpTimer;				// 데미지 업 타이머 (분노 스폐셜)
 	bool			_damageUpTimerUse;			// 데미지 업 타이머가 사용되고 있는지 (분노 스폐셜)
 	bool			_atkSpdUpUse;				// 공격속도 업이 사용되었는지 (신속 스페셜)
-	int				_dashInvincibTimer;			// 대쉬 무적 시간
-	bool			_dashInvinCible;			// 무적 상태인지
+	int				_dashInvincibTimer;			// 대쉬 무적 시간 (신속 스폐셜)
+	bool			_dashInvinCible;			// 무적 상태인지 (신속 스폐셜)
+	int				_deathDefencerTimer;		// 죽음 방지 타이머 (방어 스폐셜)
+	bool			_deathDefencerActivated;	// 죽음 방지 타이머가 작동했는지 (방어 스폐셜)
+	int				_regenTimer;				// 리젠 타이머 (방어 스폐셜)
+	bool			_getRangeStatus;			// Range 능력치를 얻었는지 (집중 스폐셜)
+	int				_reloadItemTimer;			// 재장전 장비 타이머 (집중 스폐셜)
+	int				_reloadItemNumber;			// 재장전 아이템 갯수 (집중 스폐셜)
+	int				_restorePrevHp;				// 직전에 받은 HP회복가능량 (갈망 스폐셜)
+	int				_restoreHpTimer;			// Hp회복 가능 타이머 (갈망 스폐셜)
 
 	// 픽셀충돌 전용 //					 
 	RECT			_collider[8];			// 픽셀충돌용
@@ -211,10 +232,23 @@ private:
 	bool			_aliceZoneIn;
 	bool			_alicePowerDownCheck;
 
+	// 이키나곰 //
+	int				_rageCurrent;					// 현재 화난 값
+	int				_rageMax;						// 화남값 최대 -> 변신 -> 화남값 0
+	bool			_isRaging;						// 현재 변신해있는지
+	int				_rageTimer;						// 변신 시간
+
+	// 라이더H //
+	int				_prevPowerPlus;					// 저번 프레임의 증가된 파워량
+	
+
 public:
 
 	virtual HRESULT init();
 	virtual void	update();
+	void PlayerIsDead();
+	void PlayerDeadTimerCheck();
+	void ReturnToHome();
 	void DashInvincibility();
 	void AddMaxDash();
 	void SubMaxDash();
@@ -222,6 +256,7 @@ public:
 	void DashImageCheck();
 	void SetTextLeftDown();
 	void DashUICheck();
+	void RangeGetStatusAbility();
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 	virtual void	Animation();
@@ -241,9 +276,18 @@ public:
 	void ReInitTooltip(int n);
 	void SetToolTipFrame(float x, float y, int index);
 
+	void SetDeathDefencerTimerDown();
+
+	void RegenDefenceSkill();
+
 	void GetHitDamage(int damage);
 
+	void RestoreHpTimerChecker();
+
+	void RemoveMagicShield();
+
 	void ControlTraitPage();
+	void ReloadItemChecker();
 	void AddTraitPoint();
 	void ReloadTraitPoint();
 	void CheckTraitIconHovered();
@@ -260,6 +304,9 @@ public:
 	//캐릭터 능력 구현 함수
 	void CheckAliceZone();
 	void AdjustAlicePower();
+	void SetIkinaBearAngry();
+	void CheckMoveSpeedRiderH();
+	void CheckCliminal();
 	
 	void SetHpUI();
 	// GETSET //
@@ -291,6 +338,8 @@ public:
 	float			GetCriDamage()			{ return _criticalDamage; }
 	float			GetDashDamage()			{ return _dashDamage; }
 	float			GetReloadTime()			{ return _reloadTime; }
+	int				GetBulletCount()		{ return _bulletCount; }
+	int				GetMaxBullet()			{ return _maxBullet; }
 	int				GetInitHp()				{ return _initHp; }
 	float			GetRealDefence()		{ return _realDefence; }
 	float			GetRealEvasion()		{ return _realEvasion; }
@@ -340,12 +389,18 @@ public:
 	int				GetAccesoryCount()	    { return _accesoryCount; }
 	int				GetMaxDashCount()		{ return _maxDashCount; }
 	int				GetMaxSatiety()			{ return _maxSatiety; }
+	int				GetRageCurrent()		{ return _rageCurrent; }
+	int				GetRageMax()			{ return _rageMax; }
+	bool			GetIsRaging()			{ return _isRaging; }
+	int				GetRageTimer()			{ return _rageTimer; }
+	float			GetPrevPowerPlus()		{ return _prevPowerPlus; }
 	bool			GetIsReload()			{ return _isReload; }
 	bool			GetDashInvincible()		{ return _dashInvinCible; }
 	bool			GetDashInvincibleTimer(){ return _dashInvincibTimer; }
-
-	CLOTHTYPE		GetClothType()		{ return _clothType; }
+	CLOTHTYPE		GetClothType()			{ return _clothType; }
+	int				GetRestorePrevHp()		{ return _restorePrevHp; }
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
+	bool			GetIsPlayerDead()		{ return _isPlayerDead; }
 
 	void			SetIsReload(bool isReload)						{ _isReload = isReload; }
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
@@ -425,4 +480,9 @@ public:
 	void			SetMaxSatiety(int satiety)						{ _maxSatiety = satiety; }
 	void			SetIsStun(bool isStun)							{ _isStun = isStun; }
 	void			SetClothType(CLOTHTYPE type)					{ _clothType = type; }
+	void			SetRageCurrent(int rage)						{ _rageCurrent = rage; }
+	void			SetPrevPowerPlus(float num)						{ _prevPowerPlus = num; }
+	void			SetRestorePrevHp(int num)						{ _restorePrevHp = num; }
+	void			SetMaxBullet(int maxBullet)						{ _maxBullet = maxBullet; }
+	void			SetBulletCount(int bulletCount)					{ _bulletCount = bulletCount; }
 };

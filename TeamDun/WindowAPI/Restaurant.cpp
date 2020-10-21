@@ -627,11 +627,13 @@ void Restaurant::SetHpUI()
 void Restaurant::BuyFood(Food* food, int index)
 {
 	Player* p = ENTITYMANAGER->getPlayer();
+
+	int foodSatiety = (p->GetSpecialAbilityOn(4, 2) ? (food->_satiation * 0.9f) : food->_satiation);
 	if (food->_price > p->GetMoney())
 	{
 		UIMANAGER->GetGameFrame()->GetChild("noMoney")->SetViewingTimer(30);
 	}
-	else if (p->GetMaxSatiety() < p->GetSatiety() + food->_satiation)
+	else if (p->GetMaxSatiety() < p->GetSatiety() + foodSatiety)
 	{
 		UIMANAGER->GetGameFrame()->GetChild("full")->SetViewingTimer(30);
 	}
@@ -642,7 +644,7 @@ void Restaurant::BuyFood(Food* food, int index)
 		foodImg->SetAlpha(255);
 
 		p->SetMoney(p->GetMoney() - food->_price);
-		p->SetSatiety(p->GetSatiety() + food->_satiation);
+		p->SetSatiety(p->GetSatiety() + foodSatiety);
 
 		for (int i = 0; i < food->_vStatusType.size(); i++)
 		{
@@ -797,7 +799,7 @@ void Restaurant::ReNewUI()
 				_foodFrame->AddFrame(life);
 
 				UIText* foodSatiation = new UIText();
-				foodSatiation->init("foodSatiation", -100, 90, 500, 500, (to_string(_vFoods[i]->_satiation)),
+				foodSatiation->init("foodSatiation", -100, 90, 500, 500, (to_string_with_precision((ENTITYMANAGER->getPlayer()->GetSpecialAbilityOn(4, 2) ? _vFoods[i]->_satiation * 0.9f : _vFoods[i]->_satiation),0)),
 					FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_RIGHT, RGB(0, 255, 0));
 				_foodFrame->AddFrame(foodSatiation);
 

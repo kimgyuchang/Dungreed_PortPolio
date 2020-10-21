@@ -52,7 +52,16 @@ void GunShop::Activate()
 {
 	if (!_isTalked)
 	{
-		Item* item = DATAMANAGER->GetItemById(RANDOM->range(DATAMANAGER->GetItemMinId(), DATAMANAGER->GetItemMaxId()));
+		Item* item;
+		while (true)
+		{
+			item = DATAMANAGER->GetItemByIndex(RANDOM->range(0, DATAMANAGER->GetItemSize() - 1));
+
+			if (item->GetWeaponType() == WEAPONTYPE::WT_CHARGE || item->GetWeaponType() == WEAPONTYPE::WT_PISTOL || item->GetWeaponType() == WEAPONTYPE::WT_RANGE)
+			{
+				break;
+			}
+		}
 		DropItem* dropItem = new DropItem();
 		dropItem->init();
 		dropItem->SetItem(_x - ((item->GetRenderScale() - 1) * (item->GetDropImage()->getFrameWidth() / 2)), _y - 70 - ((item->GetRenderScale() - 1) * (item->GetDropImage()->getFrameHeight() / 2)), 0, RANDOM->range(4.f, 6.f), item);

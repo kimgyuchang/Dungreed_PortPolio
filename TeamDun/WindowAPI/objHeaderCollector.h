@@ -41,3 +41,5 @@
 #include "Boutique.h"
 #include "GunShop.h"
 #include "Smith.h"
+#include "Spike.h"
+#include "Gear.h"

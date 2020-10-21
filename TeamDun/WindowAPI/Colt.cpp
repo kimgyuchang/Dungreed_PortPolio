@@ -5,9 +5,10 @@ HRESULT Colt::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill * ski
 {
 	Item::init(id, itemType, weaponType, skill, name, description, itemClass, minAtk, maxAtk, atkSpeed,
 		defence, useAtkSpeed, numOfBullet, reloadTime, bullet, accuracy, buyPrice, isBulletInfinite, imageNames, invenImage, dropImage);
-	_isRenderFirst = false;
+	
 	_animCount = 0;
 	_finalAnimCount = 0;
+	
 	return S_OK;
 }
 
@@ -31,11 +32,21 @@ void Colt::FireBullet()
 {
 	if (_isAttacking)
 	{
+		if (!ENTITYMANAGER->getPlayer()->GetIsReload())
+		{
+
 		SOUNDMANAGER->play("¹«±â_±ÇÃÑ");
 		ENTITYMANAGER->makeBullet("Bullet01", "BulletEffect01", BT_PLAYER,-20 +_angleCheckPosX +cosf(_angle)*50,-30+ _angleCheckPosY-sinf(_angle) * 50, _angle,
 			10, 22, 1000, true, _angle);
+		ENTITYMANAGER->getPlayer()->SetBulletCount(ENTITYMANAGER->getPlayer()->GetBulletCount() - 1);
+
+
+		_curNumOfBullet--;
+		
+		}
 		_isAttacking = false;
 	}
+	
 }
 
 void Colt::AttackAnim()

@@ -88,6 +88,9 @@
     <Filter Include="MainGame\Object\Etc\Drops">
       <UniqueIdentifier>{4cdd3c51-dc76-4bd2-a5ec-057ebb9ce0c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object\Obstacle">
+      <UniqueIdentifier>{da6db078-6952-44b1-b569-cd36565985d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -356,6 +359,12 @@
     </ClCompile>
     <ClCompile Include="Smith.cpp">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="Spike.cpp">
+      <Filter>MainGame\Object\Obstacle</Filter>
+    </ClCompile>
+    <ClCompile Include="Gear.cpp">
+      <Filter>MainGame\Object\Obstacle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -635,6 +644,12 @@
     </ClInclude>
     <ClInclude Include="Smith.h">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Spike.h">
+      <Filter>MainGame\Object\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="Gear.h">
+      <Filter>MainGame\Object\Obstacle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

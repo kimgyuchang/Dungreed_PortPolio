@@ -32,6 +32,8 @@ public :
 	void GetUIBrushToolGridData();
 	void GetObjectData();
 	void GetItemData();
+	int GetItemSize();
+	Item * GetItemByIndex(int index);
 	Item* GetItemById(int id);
 
 	// GETSET //
