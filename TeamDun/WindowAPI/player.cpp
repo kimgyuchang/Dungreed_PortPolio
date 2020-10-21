@@ -75,6 +75,7 @@ HRESULT Player::init()
 	_maxPoint = 35;
 	_clothType = PC_NORMAL;
 	_useGun = false;
+	_useMeleeWeapon = false;
 	_dashInvinCible = false;
 	_dashInvincibTimer = 0;
 	_deathDefencerActivated = false;
@@ -112,6 +113,7 @@ HRESULT Player::init()
 	_rageMax = 100;
 	_rageTimer = 1200;
 	_isRaging = false;
+	_criminalCount = 0;
 
 	// UI
 	_hpFrame = UIMANAGER->GetGameFrame()->GetChild("hpFrame");
@@ -268,6 +270,9 @@ void Player::update()
 	CheckUsePistolGunner();
 	SetIkinaBearAngry();
 	CheckMoveSpeedRiderH();
+	CheckCliminal();
+
+	Checkfasto();
 
 	//====================
 	UpdateCharPage();
@@ -1868,7 +1873,7 @@ void Player::SetIkinaBearAngry()
 	}
 }
 
-//라이더 H 특성
+//	라이더 H 특성
 void Player::CheckMoveSpeedRiderH()
 {
 	if (_clothType == CLOTHTYPE::PC_RIDERH)
@@ -1882,11 +1887,96 @@ void Player::CheckMoveSpeedRiderH()
 	}
 }
 
-//범죄자 실루엣 특성
+//	범죄자 실루엣 특성
 void Player::CheckCliminal()
 {
-	if (_clothType == CLOTHTYPE::PC_CRIMINAL)
+	if (_clothType == CLOTHTYPE::PC_CRIMINAL)	//범죄자 코스튬 상태
 	{
-		
+		// 빼주고
+
+		if (_weapons[0] != nullptr)	//장착된 무기가 있고
+		{
+			_criminalCount++;
+		}
+
+		if (_weapons[1] != nullptr)	//장착된 무기가 있고
+		{
+			_criminalCount++;
+		}
+
+		if (_subWeapons[0] != nullptr)		//장착된 보조무기도 있고
+		{
+			_criminalCount++;
+		}
+
+		if (_subWeapons[1] != nullptr)		//장착된 보조무기도 있고
+		{
+			_criminalCount++;
+		}
+
+		_criminalCount += _vAccessories.size();
+		_criminalCount += _inven->GetVItemList().size();
+
+		// 더해주고
+
+	}
+}
+
+//	뚱뚱보 특성
+void Player::Checkfasto()
+{
+	if (_clothType == CLOTHTYPE::PC_FATGUY)
+	{
+		if (_weapons[_selectedWeaponIdx] != nullptr)
+		{
+			if (_weapons[_selectedWeaponIdx]->GetWeaponType() == WEAPONTYPE::WT_KATANA)
+			{
+				if (!_useMeleeWeapon)
+				{
+					_power += 30;
+					_useMeleeWeapon = true;
+				}
+			}
+			else if (_weapons[_selectedWeaponIdx]->GetWeaponType() == WEAPONTYPE::WT_NEAR)
+			{
+				if (!_useMeleeWeapon)
+				{
+					_power += 30;
+					_useMeleeWeapon = true;
+				}
+			}
+			else if (_weapons[_selectedWeaponIdx]->GetWeaponType() == WEAPONTYPE::WT_SPEAR)
+			{
+				if (!_useMeleeWeapon)
+				{
+					_power += 30;
+					_useMeleeWeapon = true;
+				}
+			}
+			else
+			{
+				if (_useMeleeWeapon)
+				{
+					_power -= 30;
+					_useMeleeWeapon = false;
+				}
+			}
+		}
+		else
+		{
+			if (_useMeleeWeapon)
+			{
+				_power -= 30;
+				_useMeleeWeapon = false;
+			}
+		}
+	}
+	else
+	{
+		if (_useMeleeWeapon)
+		{
+			_power -= 30;
+			_useMeleeWeapon = false;
+		}
 	}
 }

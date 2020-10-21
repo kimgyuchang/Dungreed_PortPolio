@@ -223,6 +223,11 @@ private:
 	// 라이더H //
 	int				_prevPowerPlus;					// 저번 프레임의 증가된 파워량
 	
+	// 범죄자 실루엣 //
+	int				_criminalCount;
+
+	// 뚱뚱보 //
+	bool		    _useMeleeWeapon;
 
 public:
 
@@ -276,12 +281,15 @@ public:
 	void JumpAttackRectUpdate();
 	void AbnormalState(); // 상태이상 구현
 	void ReloadBullet();
+
 	//캐릭터 능력 구현 함수
 	void CheckAliceZone();
 	void AdjustAlicePower();
 	void SetIkinaBearAngry();
 	void CheckMoveSpeedRiderH();
 	void CheckCliminal();
+
+	void Checkfasto();
 	
 	void SetHpUI();
 	// GETSET //
