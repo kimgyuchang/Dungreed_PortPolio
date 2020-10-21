@@ -493,4 +493,9 @@ public:
 	void			SetBulletCount(int bulletCount)					{ _bulletCount = bulletCount; }
 	void			SetDashRestoreTime(int time)					{ _dashRestoreTime = time; }
 	void			SetRoomMoveSatiation(int roomMoveSatiation)		{ _roomMoveSatiation = roomMoveSatiation; }
-};
+	void			SetMaxPoint(int maxPoint)						{ _maxPoint = maxPoint; }
+	void			SetRemainPoint(int remainPoint)					{ _remainPoint = remainPoint; }
+	void			SetSpecialAbilityNum(int index, int point)		{ _abilityNum[index] = point; }
+	void			SetSpecialAbilityOn(bool isOn, int index1, int index2) { _specialAbilityOn[index1][index2] = isOn; }
+
+}; 
