@@ -6,7 +6,7 @@ HRESULT NPC::init(int id, string name, OBJECTTYPE type, vector<string> imgNames)
 	Object::init(id, name, type, imgNames);
 	_isInteracting = false;
 	_isActivating = false;
-
+	_isUsing = false;
 	return S_OK;
 }
 
@@ -67,7 +67,7 @@ void NPC::ShowConversation()
 	{
 		SetConvUI();
 		_convFrame->ToggleIsViewing();
-
+		_isUsing = _convFrame->GetIsViewing();
 		if(_useSelect) _selectFrame->ToggleIsViewing();
 	}
 

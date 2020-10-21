@@ -172,6 +172,7 @@ HRESULT Player::init()
 	_inven->AddItem(DATAMANAGER->GetItemById(4004));
 	_inven->AddItem(DATAMANAGER->GetItemById(4120));
 	_inven->AddItem(DATAMANAGER->GetItemById(4015));
+	_inven->AddItem(DATAMANAGER->GetItemById(4017));
 	_inven->AddItem(DATAMANAGER->GetItemById(4005));
 
 	return S_OK;
@@ -187,6 +188,8 @@ void Player::update()
 			!UIMANAGER->GetGameFrame()->GetChild("selectFrame")->GetIsViewing() &&
 			!UIMANAGER->GetGameFrame()->GetChild("convFrame")->GetIsViewing() &&
 			!UIMANAGER->GetGameFrame()->GetChild("_restaurantBase")->GetIsViewing() &&
+			!UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetIsViewing() &&
+			!UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->GetIsViewing() &&
 			!ENTITYMANAGER->GetWormVillage()->GetIsOn() &&
 			!MAPMANAGER->GetPortalAnimOn() &&
 			!MAPMANAGER->GetStageChanger()->GetIsChangingStage() &&
@@ -388,7 +391,7 @@ void Player::ReturnToHome()
 	_money *= 0.2f;
 	_useImage = 0;
 	_hp = _initHp;
-	_inven->AddItem(DATAMANAGER->GetItemById(4000));
+	_inven->AddItem(DATAMANAGER->GetItemById(4017));
 }
 
 void Player::DashInvincibility()
@@ -765,7 +768,7 @@ void Player::render(HDC hdc)
 		}
 
 
-		if (_isPlayerDead) // Á×¾úÀ¸¸é
+		if (_useImage == 2) // Á×¾úÀ¸¸é
 		{
 			CAMERAMANAGER->Render(hdc, _vImages[_useImage], _x, _y);				
 		}
@@ -1781,7 +1784,7 @@ void Player::ReloadTraitPoint()
 			if (_abilityNum[i] >= 5 && i == 5 && _getRangeStatus) { _getRangeStatus = false, _power -= 10, _initHp -= 20; if (_hp > _initHp) _hp = _initHp; }
 			if (_abilityNum[i] >= 10 && i == 4) _maxSatiety -= 25;
 			if (_abilityNum[i] >= 10 && i == 5) _reloadSpeed -= 0.15f;
-			if (_abilityNum[i] >= 20 && i == 4) { _accesoryCount -= 1; _inven->SetInventoryAccesoryUI(); _inven->SetInventoryAccesoryUI(); _inven->ReloadUIImages(); }
+			if (_abilityNum[i] >= 20 && i == 4) { _accesoryCount -= 1; _inven->SetInventoryAccesoryUI(); _inven->ReloadUIImages(); }
 			if (_abilityNum[i] >= 20 && i == 6) _power -= 15;
 			_abilityNum[i] = 0;
 

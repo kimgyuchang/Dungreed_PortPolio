@@ -774,6 +774,7 @@ void gameScene::release()
 
 void gameScene::UpdateWardrobeUI()
 {
+	/*
 	if (INPUT->GetKeyDown('P'))
 	{
 		UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->ToggleIsViewing();
@@ -782,6 +783,7 @@ void gameScene::UpdateWardrobeUI()
 			UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(false);
 		}
 	}
+	*/
 
 	if (UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetIsViewing() == true)
 	{
@@ -1098,12 +1100,12 @@ void gameScene::update()
 		UIMANAGER->GetGameFrame()->GetChild("charFrame")->ToggleIsViewing();
 	}
 
-	if (INPUT->GetKeyDown('O'))
-	{
-		SOUNDMANAGER->play("인벤토리열기");
-		UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->ToggleIsViewing();
-		ENTITYMANAGER->getPlayer()->ReInitTraitUI();
-	}
+	//if (INPUT->GetKeyDown('O'))
+	//{
+	//	SOUNDMANAGER->play("인벤토리열기");
+	//	UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->ToggleIsViewing();
+	//	ENTITYMANAGER->getPlayer()->ReInitTraitUI();
+	//}
 }
 
 void gameScene::render()

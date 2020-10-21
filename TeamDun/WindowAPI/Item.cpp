@@ -243,7 +243,6 @@ void Item::AdaptSubOption(SubOption* subOption, bool isEquip)
 
 void Item::SetBaseRenderPos()
 {
-	
 	bool playerIsLeft = ENTITYMANAGER->getPlayer()->GetIsLeft();	//플레이어 왼쪽인지
 	_yFrame = playerIsLeft ? 0 : 1;									
 
