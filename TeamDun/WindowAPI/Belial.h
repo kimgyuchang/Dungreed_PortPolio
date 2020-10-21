@@ -1,6 +1,6 @@
 #pragma once
 #include "enemy.h"
-
+#include "BelialDie.h"
 enum BELIALPATTERN
 {
 	RAZER, KNIFE, BULLET
@@ -44,6 +44,7 @@ struct Razer
 	int frameY;
 	RECT body;
 };
+
 class Belial : public Enemy
 {
 private:
@@ -69,18 +70,21 @@ private:
 	vector<BossSword*> _vBossSword;
 	bool			_makeSword;
 	bool			_shootSword;
+	bool			_readySword;
+	int				_readySwordCount;
 	float			_firstSwordX;
 	float			_firstSwordY;
 	int				_makeSwordTimer;
 	int				_swordCount;
 	int				_shootSwordTimer;
 	int				_swordEndCount;
-
+	bool			_playSound;
 
 	bossHands		_leftHandle;
 	bossHands		_RightHandle;
 
-
+	int				_backEffectCount;
+	
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
 	void SetAfterSpawn();
@@ -93,6 +97,9 @@ public:
 	virtual void	Attack();
 	virtual void	Animation();
 	virtual void	SetPattern();
+	virtual void	GetDamage();
+	virtual void	GetDamage(int damage);
+
 
 
 	float MoveLerp(float y1, float y2, float amount);

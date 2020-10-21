@@ -599,6 +599,8 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("SatiationProgressBar", "Images/UI/SatiationProgressBar.bmp", 337, 46, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("ThankYou.korean", "Images/UI/ThankYou.korean.bmp", 297, 57, true, RGB(255, 0, 255));
 
+	_loading->LoadNormalImage("ShieldBack", "Images/UI/ShieldBack.bmp", 156, 27, true, RGB(255, 0, 255));
+
 	_loading->LoadNormalImage("CheckImage", "Images/GridBound.bmp", 48, 48, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CheckImageRed", "Images/GridBoundRed.bmp", 48, 48, true, RGB(255, 0, 255));
 
@@ -1037,7 +1039,6 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("humanlasleyIdle", "Images/player/humanlasleyIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("masterchefIdle", "Images/player/masterchefIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("bearIdle", "Images/player/bearIdle.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
-	_loading->LoadFrameImage("baseCharEffect", "Images/player/baseCharEffect.bmp", 285, 132, 5, 2, true, RGB(255, 0, 255));
 
 	// RUN //
 	_loading->LoadFrameImage("baseCharRun", "Images/player/baseCharRun.bmp", 624, 150, 8, 2, true, RGB(255, 0, 255));
@@ -1080,6 +1081,19 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("RunEffect", "Images/player/RunEffect.bmp", 240, 96, 5, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("stun", "Images/player/stun.bmp", 234, 27, 6, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("StateFireEffect", "Images/Effect/StateFireEffect.bmp", 90, 39, 6, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("baseCharEffect", "Images/player/baseCharEffect.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("sheetingEffect", "Images/player/sheetingEffect.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("gunmanEffect", "Images/player/gunmanEffect.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("aliceEffect", "Images/player/aliceEffect.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("redlotusEffect", "Images/player/redlotusEffect.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("lkinabearEffect", "Images/player/lkinabearEffect.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("riderHEffect", "Images/player/riderHEffect.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("criminalEffect", "Images/player/criminalEffect.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("pickEffect", "Images/player/pickEffect.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("fastoEffect", "Images/player/fastoEffect.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("horsemanEffect", "Images/player/horsemanEffect.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("humanlasleyEffect", "Images/player/humanlasleyEffect.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("masterchefEffect", "Images/player/masterchefEffect.bmp", 390, 150, 5, 2, true, RGB(255, 0, 255));
 
 
 	// MAPIMAGE //

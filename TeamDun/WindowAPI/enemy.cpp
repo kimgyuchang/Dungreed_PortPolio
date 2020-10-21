@@ -176,6 +176,7 @@ void Enemy::MonsterDead()
 void Enemy::GetDamage(int damage)
 {
 	Player* _p = ENTITYMANAGER->getPlayer();
+
 	if (_isSpawned)
 	{
 		SOUNDMANAGER->play("Hit_Monster");
@@ -210,6 +211,7 @@ void Enemy::GetDamage(int damage)
 void Enemy::CheckSpecialPlayerInteractions()
 {
 	Player* _p = ENTITYMANAGER->getPlayer();
+	int curHp = ENTITYMANAGER->getPlayer()->GetHP();
 
 	if (_p->GetClothType() == PC_HONGRYAN) _hongryanCount++;
 

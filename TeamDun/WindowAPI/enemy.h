@@ -55,10 +55,10 @@ public:
 	virtual void	SpawnEnemy();
 	virtual void	SpawnAnimation();
 	virtual void	GetDamage();
-	void MonsterDead();
 	virtual void	GetDamage(int damage);
 
-	void CheckSpecialPlayerInteractions();
+	virtual void CheckSpecialPlayerInteractions();
+	void MonsterDead();
 
 	void			HpBarDelete();
 	// GETSET //

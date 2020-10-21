@@ -101,6 +101,7 @@ id,name,type,image,image2,image3
 17,HP픽시그린,Etc,GreenFairy00,.,.
 2502,픽시스포너,Etc,SpawnPixiePos,.,.
 2503,상자스포너,Etc,SpawnBoxPos,.,.
+5000,보스시체,Death,SkellBossDead,SkellBossDead0,.
 231,카블로비나,NPC,NPC_Commander,.,.
 232,블로슈,NPC,NPC_Boutique,.,.
 233,밀리아,NPC,NPC_Merchant,.,.

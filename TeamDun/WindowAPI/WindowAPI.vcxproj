@@ -156,6 +156,7 @@
     <ClInclude Include="Banshee.h" />
     <ClInclude Include="BasicShortSword.h" />
     <ClInclude Include="Belial.h" />
+    <ClInclude Include="BelialDie.h" />
     <ClInclude Include="BigWhiteSkel.h" />
     <ClInclude Include="BlessOfSage.h" />
     <ClInclude Include="BloodOfSrobeo.h" />
@@ -255,6 +256,7 @@
     <ClCompile Include="Banshee.cpp" />
     <ClCompile Include="BasicShortSword.cpp" />
     <ClCompile Include="Belial.cpp" />
+    <ClCompile Include="BelialDie.cpp" />
     <ClCompile Include="BigWhiteSkel.cpp" />
     <ClCompile Include="BlessOfSage.cpp" />
     <ClCompile Include="BloodOfSrobeo.cpp" />

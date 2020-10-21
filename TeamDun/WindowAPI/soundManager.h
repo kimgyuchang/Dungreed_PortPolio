@@ -36,9 +36,9 @@ public:
 	//사운드 추가 (키값, 파일이름, BGM?, 루프시킬거냐)
 	void addSound(string keyName, string soundName, bool bgm = false, bool loop = false);
 
+	void play(string keyName, float volume = 0.5f, bool useOverlapVolumeDown = false, bool useFadeIn = true);
 
-	//사운드 재생
-	void play(string keyName, float volume = 0.5f, bool useOverlapVolumeDown = false);
+
 	//사운드 정지
 	void stop(string keyName);
 	//사운드 일시정지
@@ -51,7 +51,7 @@ public:
 	//일시정지 중이냐?
 	bool isPauseSound(string keyName);
 
-	void StopAllBGM();
+	void StopAllBGM(bool useFadeIN = true);
 	void FadeInBGM();
 	void FadeOutBGM();
 };
