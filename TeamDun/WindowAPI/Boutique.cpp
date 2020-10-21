@@ -45,6 +45,7 @@ void Boutique::Conversation()
 			_selectFrame->SetIsViewing(false);
 			_convFrame->SetIsViewing(false);
 			_isOpen = true;
+			_isUsing = false;
 		}
 	}
 	else _selectFrame->GetChild("selected1")->SetImage(nullptr);
