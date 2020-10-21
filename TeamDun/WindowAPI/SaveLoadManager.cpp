@@ -260,54 +260,67 @@ void SaveLoadManager::LoadData()
 	case CLOTHTYPE::PC_NORMAL:					
 		ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("baseCharIdle"));
 		ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("baseCharRun"));		 
+		ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("baseCharDie"));
 		break;
 	case CLOTHTYPE::PC_METAL:				
 		ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("sheetingIdle"));
 		ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("sheetingRun")); 
+		ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("sheetingDie"));
 		break;
 	case CLOTHTYPE::PC_GUNNER:	
 		ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("gunmanIdle"));
 		ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("gunmanRun"));
+		ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("gunmanDie"));
 		break;
 	case CLOTHTYPE::PC_ALICE:				
 		ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("aliceIdle"));
 		ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("aliceRun"));
+		ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("aliceDie"));
 		break;
 	case CLOTHTYPE::PC_HONGRYAN:			
 		ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("redlotusIdle"));
 		ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("redlotusRun")); 
+		ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("redlotusDie"));
 		break;
 	case CLOTHTYPE::PC_IKINABEAR:			 
 		ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("lkinabearIdle"));
 		ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("lkinabearRun")); 
+		ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("lkinabearDie"));
 		break;
 	case CLOTHTYPE::PC_RIDERH:				 
 		ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("riderHIdle"));
 		ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("riderHRun")); 
+		ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("riderHDie"));
 		break;
 	case CLOTHTYPE::PC_CRIMINAL:			 
 		ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("criminalldle"));
 		ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("criminalRun")); 
+		ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("criminalDie"));
 		break;
 	case CLOTHTYPE::PC_PICKKING:			
 		ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("pickIdle"));
 		ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("pickRun")); 
+		ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("pickDie"));
 		break;
 	case CLOTHTYPE::PC_FATGUY:				
 		ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("fastoIdle"));
 		ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("fastoRun")); 
+		ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("fastoDie"));
 		break;
 	case CLOTHTYPE::PC_HORSESWORD:			
 		ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("horsemanIdle"));
 		ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("horsemanRun")); 
+		ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("horsemanDie"));
 		break;
 	case CLOTHTYPE::PC_HUMANLASLEY:			 
 		ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("humanlasleyIdle"));
 		ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("humanlasleyRun")); 
+		ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("humanlaselyDie"));
 		break;
 	case CLOTHTYPE::PC_MASTERCHEF:			
 		ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("masterchefIdle"));
 		ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("masterchefRun")); 
+		ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("masterchefDie"));
 		break;
 	}
 }
