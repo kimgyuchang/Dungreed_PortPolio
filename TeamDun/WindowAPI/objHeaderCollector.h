@@ -37,3 +37,7 @@
 #include "BoxParticle.h"
 #include "BloodOfSrobeo.h"
 #include "BlessOfSage.h"
+#include "Trainer.h"
+#include "Boutique.h"
+#include "GunShop.h"
+#include "Smith.h"

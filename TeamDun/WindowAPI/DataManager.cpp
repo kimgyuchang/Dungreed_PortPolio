@@ -210,6 +210,18 @@ void DataManager::GetObjectData()
 			dynamic_cast<Box*>(obj)->SetBoxType(BOXTYPE::BOX_ORC);
 			dynamic_cast<Box*>(obj)->SetParticle();
 			break;
+		case 230: // 피아트 - 마을 총기상점
+			obj = new GunShop();
+			break;
+		case 231: // 카블로비나 - 훈련장 코치
+			obj = new Trainer();
+			break;
+		case 232: // 블로슈 - 마을 의상실
+			obj = new Boutique();
+			break;
+		case 234: // 하켄 - 마을 대장장이
+			obj = new Smith();
+			break;
 		default:
 			obj = new Object();
 			break;

@@ -345,6 +345,18 @@
     <ClCompile Include="BlessOfSage.cpp">
       <Filter>MainGame\Item\Items\Accessory</Filter>
     </ClCompile>
+    <ClCompile Include="Trainer.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="Boutique.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="GunShop.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="Smith.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -611,6 +623,18 @@
     </ClInclude>
     <ClInclude Include="BlessOfSage.h">
       <Filter>MainGame\Item\Items\Accessory</Filter>
+    </ClInclude>
+    <ClInclude Include="Trainer.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Boutique.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="GunShop.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Smith.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

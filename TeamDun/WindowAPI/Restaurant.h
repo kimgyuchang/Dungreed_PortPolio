@@ -72,7 +72,6 @@ public:
 	void			SetRestaurantFood();
 	void			SetSatiationUI();
 	void			SetHpUI();
-	void			SetHPUI();
 	void			BuyFood(Food* food, int index);
 	void			ReNewUI();
 	void			MoveUI();

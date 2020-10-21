@@ -817,7 +817,13 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("NPC_JukToMove", "Images/villageFloor/NPC/image/NPC_JukToMove.bmp", 882, 222, 7, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("NPC_KnightIdle", "Images/villageFloor/NPC/image/NPC_KnightIdle.bmp", 306, 132, 6, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("NPC_KnightMove", "Images/villageFloor/NPC/image/NPC_KnightMove.bmp", 306, 132, 6, 2, true, RGB(255, 0, 255));
+
+	_loading->LoadFrameImage("NPC_Commander", "Images/villageFloor/NPC/NPC_Commander.bmp", 414, 150, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_Boutique", "Images/villageFloor/NPC/NPC_Boutique.bmp", 210, 138, 5, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_BlackSmith", "Images/villageFloor/NPC/NPC_BlackSmith.bmp", 432, 156, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_Merchant", "Images/villageFloor/NPC/NPC_Merchant.bmp", 234, 126, 6, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("PistolMan", "Images/villageFloor/NPC/image/PistolMan.bmp", 306, 108, 6, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_Builder", "Images/villageFloor/NPC/NPC_Builder.bmp", 252, 138, 6, 2, true, RGB(255, 0, 255));
 
 	_loading->LoadFrameImage("DungeonEat", "Images/villageFloor/NPC/DungeonEat.bmp", 9828, 255, 28, 1, true, RGB(255, 0, 255));
 
@@ -934,8 +940,8 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("DwarvenArmor", "Images/item/DwarvenArmor.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SandBag", "Images/item/SandBag.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Dicegod'sTrick", "Images/item/Dicegod'sTrick.bmp", 57, 57, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("MiniSlimeMaker", "Images/item/MiniSlimeMaker.bmp", 1044, 144, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("MiniSlimeBullet", "Images/item/MiniSlimeBullet.bmp", 792, 168, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("MiniSlimeMaker", "Images/item/MiniSlimeMaker.bmp", 1044, 144, 12, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("MiniSlimeBullet", "Images/item/MiniSlimeBullet.bmp", 792, 168, 12, 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MiniSlimeMaker_inven", "Images/item/MiniSlimeMaker_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// BULLET //

@@ -1062,12 +1062,12 @@ void gameScene::update()
 		UIMANAGER->GetGameFrame()->GetChild("charFrame")->ToggleIsViewing();
 	}
 
-	if (INPUT->GetKeyDown('O'))
-	{
-		SOUNDMANAGER->play("인벤토리열기");
-		UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->ToggleIsViewing();
-		ENTITYMANAGER->getPlayer()->ReInitTraitUI();
-	}
+	//if (INPUT->GetKeyDown('O'))
+	//{
+	//	SOUNDMANAGER->play("인벤토리열기");
+	//	UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->ToggleIsViewing();
+	//	ENTITYMANAGER->getPlayer()->ReInitTraitUI();
+	//}
 }
 
 void gameScene::render()

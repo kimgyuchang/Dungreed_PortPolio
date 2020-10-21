@@ -47,6 +47,11 @@ void Restaurant::update()
 
 	if (_restaurantBase->GetIsViewing())
 	{
+		if (INPUT->GetKeyDown(VK_F8))
+		{
+			SetRestaurantFood();
+		}
+
 		SetSatiationUI();
 		SetHpUI();
 
@@ -200,6 +205,8 @@ void Restaurant::initSecond()
 
 void Restaurant::SetRestaurantFood()
 {
+	_vFoods.clear();
+
 	int foodCount = RANDOM->range(3, 7);
 	for (int i = 0; i < foodCount; i++)
 	{
@@ -683,12 +690,12 @@ void Restaurant::BuyFood(Food* food, int index)
 				break;
 			}
 			case FST_ATKSPEED: {
-				int newAtkSpeed = p->GetAtkSpeed() + (p->GetAtkSpeed() * (food->_vStatusNum[i] / 100));
-				p->SetAtkSpeed(newAtkSpeed);
+				float newAtkSpeed = p->GetAtkSpeedPer() + food->_vStatusNum[i];
+				p->SetAtkSpeedPer(newAtkSpeed);
 				break;
 			}
 			case FST_CHARGESPEED: {
-				int newChargeSpeed = p->GetReloadSpeed() + (p->GetReloadSpeed() * (food->_vStatusNum[i] / 100));
+				int newChargeSpeed = p->GetReloadSpeed() + food->_vStatusNum[i];
 				p->SetReloadSpeed(newChargeSpeed);
 				break;
 			}
@@ -711,7 +718,7 @@ void Restaurant::BuyFood(Food* food, int index)
 				break;
 			}
 			case FST_MOVESPEED: {
-				int newMoveSpeed = p->GetMoveSpeed() + (p->GetMoveSpeed() * (food->_vStatusNum[i] / 100));
+				float newMoveSpeed = p->GetMoveSpeed() + (p->GetMoveSpeed() * (food->_vStatusNum[i] / 100));
 				p->SetMoveSpeed(newMoveSpeed);
 				break;
 			}
