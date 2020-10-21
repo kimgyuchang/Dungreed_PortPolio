@@ -63,6 +63,16 @@ void Stage::AddRooms()
 			map->SetXIndex(0);
 			map->SetYIndex(0);
 			_vMaps.push_back(map);
+
+			switch (map->GetFieldMapType())
+			{
+			case FIELDMAPTYPE::FMT_RESTAURANT:
+				_resturantRoomIdx = i; break;
+			case FIELDMAPTYPE::FMT_ENTER:
+				_startIdx = i; break;
+			case FIELDMAPTYPE::FMT_END:
+				_endIdx = i; break;
+			}
 		}
 	}
 
@@ -86,6 +96,52 @@ void Stage::AddRooms()
 
 		if (CheckCollision()) break;
 	}
+
+	SetSpecialRoomPos();
+}
+
+void Stage::SetSpecialRoomPos()
+{
+	// 레스토랑을 1의 거리에 배치
+	if (abs(_vMaps[_resturantRoomIdx]->GetXIndex() - _vMaps[_startIdx]->GetXIndex()) + abs(_vMaps[_resturantRoomIdx]->GetYIndex() - _vMaps[_startIdx]->GetYIndex()) > 1)
+	{
+		for (int i = 0; i < _vMaps.size(); i++)
+		{
+			if (abs(_vMaps[i]->GetXIndex() - _vMaps[_startIdx]->GetXIndex()) + abs(_vMaps[i]->GetYIndex() - _vMaps[_startIdx]->GetYIndex()) == 1)
+			{
+				int idxX = _vMaps[_resturantRoomIdx]->GetXIndex();
+				_vMaps[_resturantRoomIdx]->SetXIndex(_vMaps[
+					i]->GetXIndex());
+				_vMaps[i]->SetXIndex(idxX);
+
+				int idxY = _vMaps[_resturantRoomIdx]->GetYIndex();
+				_vMaps[_resturantRoomIdx]->SetYIndex(_vMaps[i]->GetYIndex());
+				_vMaps[i]->SetYIndex(idxY);
+
+				break;
+			}
+		}
+	}
+
+	// 출구를 3이상의 거리에 배치
+	if (abs(_vMaps[_endIdx]->GetXIndex() - _vMaps[_startIdx]->GetXIndex()) + abs(_vMaps[_endIdx]->GetYIndex() - _vMaps[_startIdx]->GetYIndex()) < 3)
+	{
+		for (int i = 0; i < _vMaps.size(); i++)
+		{
+			if (abs(_vMaps[i]->GetXIndex() - _vMaps[_startIdx]->GetXIndex()) + abs(_vMaps[i]->GetYIndex() - _vMaps[_startIdx]->GetYIndex()) >= 3)
+			{
+				int idxX = _vMaps[_endIdx]->GetXIndex();
+				_vMaps[_endIdx]->SetXIndex(_vMaps[i]->GetXIndex());
+				_vMaps[i]->SetXIndex(idxX);
+
+				int idxY = _vMaps[_endIdx]->GetYIndex();
+				_vMaps[_endIdx]->SetYIndex(_vMaps[i]->GetYIndex());
+				_vMaps[i]->SetYIndex(idxY);
+
+				break;
+			}
+		}
+	}
 }
 
 void Stage::CheckFloodFill(int index, int& numOfCheckRoom)
@@ -106,10 +162,10 @@ void Stage::CheckFloodFill(int index, int& numOfCheckRoom)
 bool Stage::FloodFillStart()
 {
 	_numOfFloodFillCount++;
-	
+
 	int numOfCheckRoom = 1;
 	CheckFloodFill(0, numOfCheckRoom);
-	
+
 	if (numOfCheckRoom != _vMaps.size()) return false;
 	else return true;
 }
@@ -120,7 +176,6 @@ void Stage::AddRoomConnections()
 	{
 		for (int i = 0; i < _vMaps.size(); i++)
 		{
-
 			if (_vMaps.size() == 1) break;
 			FieldMap* map = _vMaps[i];
 
@@ -152,6 +207,17 @@ void Stage::AddRoomConnections()
 		if (FloodFillStart()) break;
 		if (_numOfFloodFillCount > 5) break;
 	}
+
+	int idx[4][2] = { {1,0}, {-1,0}, {0,-1},{0,1} };
+	for (int i = 0; i < 4; i++)
+	{
+		if (_vMaps[_resturantRoomIdx]->GetXIndex() + idx[i][0] == _vMaps[_startIdx]->GetXIndex() && // 스타트와 레스토랑 이동 X 같고
+			_vMaps[_resturantRoomIdx]->GetYIndex() + idx[i][1] == _vMaps[_startIdx]->GetYIndex())// 스타트와 레스토랑 이동 Y 같고
+		{
+			AddLine(_vMaps[_resturantRoomIdx], (DIRECTION)i, _resturantRoomIdx); // 라인 추가
+			return;
+		}
+	}
 }
 
 void Stage::SetStageZero()
@@ -167,7 +233,7 @@ void Stage::SetStageZero()
 			_vMaps.push_back(map);
 		}
 	}
-	
+
 	for (int i = 0; i < _vMaps.size(); i++)
 	{
 		_vMaps[i]->LoadObject();
@@ -248,7 +314,7 @@ bool Stage::SettingMap()
 			_vMaps[i]->LoadObject();
 		}
 	}
-	
+
 	else if (_stage == 0)
 	{
 		SetStageZero();
@@ -300,7 +366,7 @@ bool Stage::AddLine(FieldMap* map, DIRECTION dir, int index)
 
 	case DIRECTION::DIR_RIGHT:
 		result = FindSameIndex(map->GetXIndex() + 1, map->GetYIndex(), index);
-		
+
 		if (result != -1)
 		{
 			_vMaps[result]->SetNextMapIndex(DIRECTION::DIR_LEFT, index);

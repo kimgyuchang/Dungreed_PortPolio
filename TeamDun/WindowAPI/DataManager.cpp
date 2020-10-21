@@ -210,6 +210,15 @@ void DataManager::GetObjectData()
 			dynamic_cast<Box*>(obj)->SetBoxType(BOXTYPE::BOX_ORC);
 			dynamic_cast<Box*>(obj)->SetParticle();
 			break;
+			
+		case 1000 : case 1001 : case 1002 : // 기어
+			obj = new Gear();
+			break;
+
+		case 1003: case 1004: // 가시
+			obj = new Spike();
+			break;
+
 		default:
 			obj = new Object();
 			break;
@@ -402,7 +411,7 @@ Item* DataManager::GetItemById(int id)
 	{
 	case 4000 : // 마검 엘레마
 		return new DemonSword (*dynamic_cast<DemonSword*>(_mMapItemData[id]));
-	case 4001 :
+	case 4001 : // 더 콜트
 		return new Colt(*dynamic_cast<Colt*>(_mMapItemData[id]));
 	case 4005: // 소르베오의피
 		return new BloodOfSrobeo(*dynamic_cast<BloodOfSrobeo*>(_mMapItemData[id]));

@@ -8,6 +8,11 @@ private :
 	FieldMap*					_cntMap;				// 현재 맵
 	int							_stage;					// 현재 스테이지
 	int							_numOfFloodFillCount;	// 플러드 필 횟수
+
+	// 던전 스테이지
+	int							_resturantRoomIdx;		// 레스토랑 인덱스
+	int							_startIdx;				// 시작 인덱스
+	int							_endIdx;				// 끝 인덱스
 public :
 	HRESULT init(int stage);
 	void update();
@@ -16,6 +21,7 @@ public :
 	int FindSameIndex(int indexX, int indexY, int curIndex);
 	int GetConnectedRoomCount(FieldMap* map, int index);
 	void AddRooms();
+	void SetSpecialRoomPos();
 	void CheckFloodFill(int index, int& numOfCheckRoom);
 	bool FloodFillStart();
 	void AddRoomConnections();

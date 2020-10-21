@@ -56,7 +56,8 @@ private:
 	bool			_isJump;				// 점프중인지
 	bool			_downJump;				// 아래점프중인지
 	bool			_isDash;
-	bool			_isPlayerDead;
+	bool			_isPlayerDead;			// 플레이어가 죽었는지
+	int				_playerDeadTimer;		// 플레이어 죽은 후 타이머
 
 	bool			_isReload;
 	float			_reloadCount;
@@ -245,6 +246,9 @@ public:
 
 	virtual HRESULT init();
 	virtual void	update();
+	void PlayerIsDead();
+	void PlayerDeadTimerCheck();
+	void ReturnToHome();
 	void DashInvincibility();
 	void AddMaxDash();
 	void SubMaxDash();
@@ -396,7 +400,8 @@ public:
 	CLOTHTYPE		GetClothType()			{ return _clothType; }
 	int				GetRestorePrevHp()		{ return _restorePrevHp; }
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
-	
+	bool			GetIsPlayerDead()		{ return _isPlayerDead; }
+
 	void			SetIsReload(bool isReload)						{ _isReload = isReload; }
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
 	void			SetState(PLAYERSTATE state)						{ _state = state; }

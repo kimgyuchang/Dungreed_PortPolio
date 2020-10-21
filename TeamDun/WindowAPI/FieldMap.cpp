@@ -223,6 +223,12 @@ void FieldMap::LoadObject()
 		case 102: // 오크통
 			obj = new Box(*dynamic_cast<Box*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
+		case 1003: case 1004: // 가시
+			obj = new Spike(*dynamic_cast<Spike*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+		case 1000 : case 1001 : case 1002: // 기어
+			obj = new Gear(*dynamic_cast<Gear*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 		default:
 			obj = new Object(*DATAMANAGER->GetObjectById(stoi(objData[i][0])));
 			break;
@@ -755,7 +761,7 @@ void FieldMap::render(HDC hdc)
 	CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("Layer2MapIg"), 0, 0);
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
-		if (!_vObjs[i]->GetRenderIndex() == 0)
+		if (_vObjs[i]->GetRenderIndex() == 0)
 			_vObjs[i]->render(hdc);
 	} // 오브젝트 렌더 0 렌더
 
@@ -840,7 +846,6 @@ void FieldMap::render(HDC hdc)
 				10 + (float)5 / 48 * (_vObjs[i]->GetY() + _vObjs[i]->GetImage(0)->getFrameHeight() / 2) - 6);
 		}
 	}
-
 }
 
 void FieldMap::DoorParticleGenerate()

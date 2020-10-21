@@ -931,7 +931,8 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Cintamani", "Images/item/Cintamani.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BlessOfSage", "Images/item/BlessOfSage.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CowLeather", "Images/item/CowLeather.bmp", 57, 57, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("MagicShield", "Images/item/MagicShield.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("MagicShield", "Images/item/MagicShield.bmp", 57, 114, 1,2, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("MagicShield_inv", "Images/item/MagicShield_inv.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("DwarvenArmor", "Images/item/DwarvenArmor.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SandBag", "Images/item/SandBag.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Dicegod'sTrick", "Images/item/Dicegod'sTrick.bmp", 57, 57, true, RGB(255, 0, 255));

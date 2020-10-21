@@ -37,3 +37,5 @@
 #include "BoxParticle.h"
 #include "BloodOfSrobeo.h"
 #include "BlessOfSage.h"
+#include "Spike.h"
+#include "Gear.h"
