@@ -103,11 +103,13 @@ void Item::EquipUnEquipStatus(bool isEquip)
 	p->SetMaxDamage(p->GetMaxDamage() + statusChanger * _maxAtk);
 	p->SetAtkSpeed(p->GetAtkSpeed() + statusChanger * _atkSpeed);
 	p->SetDefence(p->GetDefence() + statusChanger * _defence);
+	
 	if (_initNumOfBullet != 0)
 	{
 		p->SetMaxBullet(p->GetMaxBullet() + statusChanger* _initNumOfBullet);
 		p->SetReloadSpeed(p->GetReloadSpeed() +statusChanger * _reloadTime/100);
 	}
+
 	for (int i = 0; i < _vSubOption.size(); i++)
 	{
 		AdaptSubOption(_vSubOption[i], isEquip);

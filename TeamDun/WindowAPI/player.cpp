@@ -31,6 +31,8 @@ HRESULT Player::init()
 	_prevPowerPlus = 0;
 	_realAttackSpeed = _atkSpeed + (_atkSpeed * _atkSpeedPer / 100);
 	_dustEffectCount = 0;
+	_restorePrevHp = 0;
+	_restoreHpTimer = 0;
 	_isStun = false;
 	_isLeft = false;
 	_jump = false;
@@ -295,6 +297,9 @@ void Player::update()
 	RegenDefenceSkill();
 	AbnormalState();
 	ReloadBullet();
+	RangeGetStatusAbility();
+	ReloadItemChecker();
+	RestoreHpTimerChecker();
 
 	if (INPUT->GetKeyDown('J'))
 	{
@@ -414,6 +419,35 @@ void Player::DashUICheck()
 	_dashFrame->AddFrame(dashEndFrame);	//dash프레임에 자식추가
 }
 
+void Player::RangeGetStatusAbility()
+{
+	if (_specialAbilityOn[5][0])
+	{
+		if (_weapons[_selectedWeaponIdx] != nullptr &&
+			(_weapons[_selectedWeaponIdx]->GetWeaponType() == WEAPONTYPE::WT_RANGE ||
+				_weapons[_selectedWeaponIdx]->GetWeaponType() == WEAPONTYPE::WT_PISTOL ||
+				_weapons[_selectedWeaponIdx]->GetWeaponType() == WEAPONTYPE::WT_CHARGE))
+		{
+			if (!_getRangeStatus)
+			{
+				_initHp += 20;
+				_power += 10;
+				_getRangeStatus = true;
+			}
+		}
+
+		else
+		{
+			if (_getRangeStatus)
+			{
+				_initHp -= 20;
+				_power -= 10;
+				_getRangeStatus = false;
+			}
+		}
+	}
+}
+
 void Player::SwitchWeapon()
 {
 	if (_swapCoolTime > 0)	//스왑 쿨타임이 0보다 커지면
@@ -432,8 +466,8 @@ void Player::SwitchWeapon()
 
 		if (_selectedWeaponIdx == 0)	//장착된 무기가 0번이라면
 		{
-			weapon1->MoveFrameChild(-2.5f, 2.5f);	//waeponUI의 자식도 좌표변경
-			weapon2->MoveFrameChild(2.5f, -2.5f);	//waeponUI의 자식도 좌표변경
+			weapon1->MoveFrameChild(-2.5f, 2.5f);	//weaponUI의 자식도 좌표변경
+			weapon2->MoveFrameChild(2.5f, -2.5f);	//weaponUI의 자식도 좌표변경
 		}
 		else                            //0번이아니라면 
 		{
@@ -1434,6 +1468,12 @@ void Player::GetHitDamage(int damage)
 					_hp = _hp - Realdamage;
 					EFFECTMANAGER->AddEffect(0, 0, "hit", 0, 0, 0, true, 100, 0, 1, 1, true, true);
 					CAMERAMANAGER->Shake(25, 25, 6, 1);
+
+					if (_specialAbilityOn[6][1])
+					{
+						_restorePrevHp = Realdamage * 0.6f;
+						_restoreHpTimer = 15;
+					}
 				}
 			}
 			else
@@ -1449,6 +1489,20 @@ void Player::GetHitDamage(int damage)
 
 }
 
+void Player::RestoreHpTimerChecker()
+{
+	if (_restoreHpTimer < 0)
+	{
+		_restoreHpTimer = 0;
+		_restorePrevHp = 0;
+	}
+
+	else
+	{
+		_restoreHpTimer--;
+	}
+}
+
 void Player::ControlTraitPage()
 {
 	if (_traitFrame->GetIsViewing())
@@ -1457,6 +1511,28 @@ void Player::ControlTraitPage()
 		ReloadTraitPoint();
 		MoveTraitUI();
 		CheckTraitIconHovered();
+	}
+}
+
+void Player::ReloadItemChecker()
+{
+	if (_specialAbilityOn[5][2])
+	{
+		if (_reloadItemNumber < 3)
+		{
+			_reloadItemTimer++;
+			if (_reloadItemTimer > 600)
+			{
+				_reloadItemNumber++;
+				_reloadItemTimer = 0;
+			}
+		}
+
+		if (_reloadItemNumber > 0 && _reloadCount > 0)
+		{
+			_reloadCount = _reloadTime;
+			_reloadItemNumber--;
+		}
 	}
 }
 
@@ -1523,11 +1599,13 @@ void Player::AddTraitPoint()
 						else if (_abilityNum[i] == 10)
 						{
 							if (i == 4) _maxSatiety += 25;
+							if (i == 5) _reloadSpeed += 0.15f;
 							_specialAbilityOn[i][1] = true;
 						}
 						else if (_abilityNum[i] == 20)
 						{
 							if (i == 4) { _accesoryCount += 1; _inven->SetInventoryAccesoryUI(); _inven->ReloadUIImages(); }
+							if (i == 6) _power += 15;
 							_specialAbilityOn[i][2] = true;
 							AddMaxDash();
 						}
@@ -1620,9 +1698,11 @@ void Player::ReloadTraitPoint()
 			if (_abilityNum[i] >= 5 && i == 1) SubMaxDash();
 			if (_abilityNum[i] >= 5 && i == 2) RemoveMagicShield();
 			if (_abilityNum[i] >= 5 && i == 4) _goldDrop -= 20;
+			if (_abilityNum[i] >= 5 && i == 5 && _getRangeStatus) { _getRangeStatus = false, _power -= 10, _initHp -= 20; if (_hp > _initHp) _hp = _initHp; }
 			if (_abilityNum[i] >= 10 && i == 4) _maxSatiety -= 25;
+			if (_abilityNum[i] >= 10 && i == 5) _reloadSpeed -= 0.15f;
 			if (_abilityNum[i] >= 20 && i == 4) { _accesoryCount -= 1; _inven->SetInventoryAccesoryUI(); _inven->SetInventoryAccesoryUI(); _inven->ReloadUIImages(); }
-
+			if (_abilityNum[i] >= 20 && i == 6) _power -= 15;
 			_abilityNum[i] = 0;
 
 			_specialAbilityOn[i][0] = false;
