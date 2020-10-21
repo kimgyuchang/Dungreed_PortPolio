@@ -53,9 +53,9 @@ HRESULT Item::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill* skil
 	_renderScale = 1.f;
 
 	if (_itemType == ITEMTYPE::IT_SUBWEAPON)
-		_isRenderFirst = true;
-	else
 		_isRenderFirst = false;
+	else
+		_isRenderFirst = true;
 
 	return S_OK;
 }
@@ -106,7 +106,7 @@ void Item::EquipUnEquipStatus(bool isEquip)
 	if (_initNumOfBullet != 0)
 	{
 		p->SetMaxBullet(p->GetMaxBullet() + statusChanger* _initNumOfBullet);
-		p->SetBulletCount(_curNumOfBullet);
+		p->SetReloadSpeed(p->GetReloadSpeed() +statusChanger * _reloadTime/100);
 	}
 	for (int i = 0; i < _vSubOption.size(); i++)
 	{
@@ -241,11 +241,12 @@ void Item::AdaptSubOption(SubOption* subOption, bool isEquip)
 
 void Item::SetBaseRenderPos()
 {
+	
 	bool playerIsLeft = ENTITYMANAGER->getPlayer()->GetIsLeft();	//플레이어 왼쪽인지
 	_yFrame = playerIsLeft ? 0 : 1;									
 
-	if(_itemType == ITEMTYPE::IT_WEAPON_ONEHAND) _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 20 : 40);	//아이템 타입이 한손일때,각도체크용 중점에 플레이어의 x좌표+ 왼쪽인지 여부에따라 맞으면 +20,아니면 +40
-	else if(_itemType == ITEMTYPE::IT_SUBWEAPON) _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 40 : 20);	
+	if(_itemType == ITEMTYPE::IT_WEAPON_ONEHAND) _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 10 : 70);	//아이템 타입이 한손일때,각도체크용 중점에 플레이어의 x좌표+ 왼쪽인지 여부에따라 맞으면 +20,아니면 +40
+	else if(_itemType == ITEMTYPE::IT_SUBWEAPON) _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 60 : 20);	
 	else _angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 40 : 20);
 
 	_angleCheckPosY = ENTITYMANAGER->getPlayer()->GetY() + 45;	//각도 체크용 중점에 플레이어의 Y좌표를 받아와서  +45만큼

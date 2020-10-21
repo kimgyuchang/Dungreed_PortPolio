@@ -189,5 +189,6 @@ public:
 	void				SetIsRenderFirst(bool first)	{ _isRenderFirst = first; }
 	void				SetisAttacking(bool attack)		{ _isAttacking = attack; }
 	void				SetRenderAngle(float angle)		{ _renderAngle = angle; }
+	void				SetCurNumOfBullet(int curNumOfBullet) { _curNumOfBullet = curNumOfBullet; }
 };
 
