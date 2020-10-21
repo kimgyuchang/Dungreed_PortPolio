@@ -51,7 +51,6 @@ void ParticleManager::update()
 
 void ParticleManager::render(HDC hdc)
 {
-
 	for (int i = 0; i < _vParticles.size(); i++)
 	{
 		_vParticles[i]->render(hdc); // 파티클만을 렌더하도록 한다

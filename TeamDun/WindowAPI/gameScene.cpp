@@ -8,7 +8,8 @@ HRESULT gameScene::init()
 	initUI();
 
 	_p = new Player();
-
+	
+	SAVELOADMANAGER->Init();
 	ENTITYMANAGER->init();
 	ENTITYMANAGER->setPlayer(_p);
 	_p->init();
@@ -1057,6 +1058,16 @@ void gameScene::update()
 	SOUNDMANAGER->update();
 	CAMERAMANAGER->update();
 	INPUT->update();
+
+	if (INPUT->GetKeyDown(VK_F9))
+	{
+		SAVELOADMANAGER->SaveData();
+	}
+
+	if (INPUT->GetKeyDown(VK_F10))
+	{
+		SAVELOADMANAGER->LoadData();
+	}
 
 	if (INPUT->GetKeyDown(VK_BACK))
 	{

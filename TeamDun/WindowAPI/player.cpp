@@ -11,7 +11,7 @@ HRESULT Player::init()
 	_x = 300;
 	_y = WINSIZEY / 2;
 
-	_initHp = _hp = 10;
+	_initHp = _hp = 100;
 	_body = RectMake(_x + 10, _y, IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() - 20, IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight());
 	_useImage = 0;
 	_probeBottom = _y + IMAGEMANAGER->findImage("baseCharIdle")->getFrameHeight();

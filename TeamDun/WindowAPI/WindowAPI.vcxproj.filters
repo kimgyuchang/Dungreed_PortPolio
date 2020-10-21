@@ -354,6 +354,9 @@
     <ClCompile Include="Gear.cpp">
       <Filter>MainGame\Object\Obstacle</Filter>
     </ClCompile>
+    <ClCompile Include="SaveLoadManager.cpp">
+      <Filter>GameFramework\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -626,6 +629,9 @@
     </ClInclude>
     <ClInclude Include="Gear.h">
       <Filter>MainGame\Object\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveLoadManager.h">
+      <Filter>GameFramework\Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

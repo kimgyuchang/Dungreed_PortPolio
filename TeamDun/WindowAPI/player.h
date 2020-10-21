@@ -201,6 +201,7 @@ private:
 	int				_money;					// 돈
 	int				_level;					// 레벨
 	CLOTHTYPE		_clothType;				// 현재 입은 옷
+
 	// - 내부적 수치
 	int				_experience;			// 경험치
 	int				_needExperience;		// 필요 경험치
@@ -391,6 +392,8 @@ public:
 	int				GetMaxSatiety()			{ return _maxSatiety; }
 	int				GetRageCurrent()		{ return _rageCurrent; }
 	int				GetRageMax()			{ return _rageMax; }
+	int				GetMaxPoint()			{ return _maxPoint; }
+	int				GetRemainPoint()		{ return _remainPoint; }
 	bool			GetIsRaging()			{ return _isRaging; }
 	int				GetRageTimer()			{ return _rageTimer; }
 	float			GetPrevPowerPlus()		{ return _prevPowerPlus; }
@@ -400,8 +403,10 @@ public:
 	CLOTHTYPE		GetClothType()			{ return _clothType; }
 	int				GetRestorePrevHp()		{ return _restorePrevHp; }
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
+	int				GetDashRestoreTime()	{ return _dashRestoreTime; }
 	bool			GetIsPlayerDead()		{ return _isPlayerDead; }
-
+	int				GetSpecialAbilityPoint(int index) { return _abilityNum[index]; }
+	
 	void			SetIsReload(bool isReload)						{ _isReload = isReload; }
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
 	void			SetState(PLAYERSTATE state)						{ _state = state; }
@@ -485,4 +490,5 @@ public:
 	void			SetRestorePrevHp(int num)						{ _restorePrevHp = num; }
 	void			SetMaxBullet(int maxBullet)						{ _maxBullet = maxBullet; }
 	void			SetBulletCount(int bulletCount)					{ _bulletCount = bulletCount; }
+	void			SetDashRestoreTime(int time)					{ _dashRestoreTime = time; }
 };

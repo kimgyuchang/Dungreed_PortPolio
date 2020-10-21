@@ -964,6 +964,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("SqaureParticle_2", "Images/Particle/SqaureParticle_2.bmp", 22, 22, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SqaureParticle_3", "Images/Particle/SqaureParticle_3.bmp", 28, 28, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SqaureParticle_4", "Images/Particle/SqaureParticle_4.bmp", 5, 5, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SqaureParticle_5", "Images/Particle/SqaureParticle_5.bmp", 5, 5, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BigBoxParticle0_0", "Images/object/BigBoxParticle0_0.bmp", 30, 54, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BigBoxParticle0_1", "Images/object/BigBoxParticle0_1.bmp", 24, 21, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("BigBoxParticle0_2", "Images/object/BigBoxParticle0_2.bmp", 33, 39, true, RGB(255, 0, 255));

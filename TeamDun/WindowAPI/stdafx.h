@@ -49,6 +49,7 @@ using namespace std;
 #include "MapManager.h"
 #include "EffectManager.h"
 #include "ParticleManager.h"
+#include "SaveLoadManager.h"
 
 using namespace UTIL;
 
@@ -66,6 +67,7 @@ using namespace UTIL;
 #define ENTITYMANAGER EntityManager::getSingleton()
 #define EFFECTMANAGER EffectManager::getSingleton()
 #define PARTICLEMANAGER ParticleManager::getSingleton()
+#define SAVELOADMANAGER SaveLoadManager::getSingleton()
 #define MAPMANAGER MapManager::getSingleton()
 #define RANDOM random::getSingleton()
 #define INIDATA iniData::getSingleton()
