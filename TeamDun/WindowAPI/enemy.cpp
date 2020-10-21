@@ -222,17 +222,6 @@ void Enemy::CheckSpecialPlayerInteractions()
 		_p->SetRageCurrent(rage);
 	}
 
-	// 휴먼라슬리 구현 대기
-	if (_p->GetClothType() == PC_HUMANLASLEY)
-	{
-		if (_hp <= 0)
-		{
-			ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() +10);
-			curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
-			ENTITYMANAGER->getPlayer()->SetHp(curHp);
-		}
-	}
-
 	if ((_p->GetSpecialAbilityOn(6, 0) && RANDOM->range(10) < 1) || _p->GetSpecialAbilityOn(6, 2))
 	{
 		if (!_isWeakining) _weakeningDmgTimer = 15;
