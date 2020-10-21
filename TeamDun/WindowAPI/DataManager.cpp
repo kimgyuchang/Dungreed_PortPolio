@@ -58,6 +58,8 @@ void DataManager::GetObjectData()
 			type = OBJECTTYPE::OT_NPC;
 		else if (objData[i][2] == "Monster")
 			type = OBJECTTYPE::OT_MONSTER;
+		else if (objData[i][2] == "Death")
+			type = OBJECTTYPE::OT_DEATH;
 
 		Object* obj;
 		switch (stoi(objData[i][0]))
@@ -210,15 +212,27 @@ void DataManager::GetObjectData()
 			dynamic_cast<Box*>(obj)->SetBoxType(BOXTYPE::BOX_ORC);
 			dynamic_cast<Box*>(obj)->SetParticle();
 			break;
-			
+		case 5000: // 밸리알 시체
+			obj = new BelialDie();
+			break;
+		case 230: // 피아트 - 마을 총기상점
+			obj = new GunShop();
+			break;
+		case 231: // 카블로비나 - 훈련장 코치
+			obj = new Trainer();
+			break;
+		case 232: // 블로슈 - 마을 의상실
+			obj = new Boutique();
+			break;
+		case 234: // 하켄 - 마을 대장장이
+			obj = new Smith();
+			break;	
 		case 1000 : case 1001 : case 1002 : // 기어
 			obj = new Gear();
 			break;
-
 		case 1003: case 1004: // 가시
 			obj = new Spike();
 			break;
-
 		default:
 			obj = new Object();
 			break;
@@ -275,6 +289,9 @@ void DataManager::GetItemData()
 			break;
 		case 4015: // 현자의 축복
 			item = new BlessOfSage();
+			break;
+		case 4017: // 숏 소드
+			item = new BasicShortSword();
 			break;
 		default:
 			item = new Item();
@@ -417,6 +434,8 @@ Item* DataManager::GetItemById(int id)
 		return new BloodOfSrobeo(*dynamic_cast<BloodOfSrobeo*>(_mMapItemData[id]));
 	case 4015: // 현자의 축복
 		return new BlessOfSage(*dynamic_cast<BlessOfSage*>(_mMapItemData[id]));
+	case 4017: // 숏 소드
+		return new BasicShortSword(*dynamic_cast<BasicShortSword*>(_mMapItemData[id]));
 	default:
 		return _mMapItemData[id];
 	}

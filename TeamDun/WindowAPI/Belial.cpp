@@ -20,6 +20,8 @@ HRESULT Belial::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_swordEndCount = 0;
 	_makeSword = false;
 	_shootSword = false;
+	_readySword = false;
+	_readySwordCount = 0;
 	_shootSwordTimer = 0;
 	_viewAlpha = 0;
 	_isViewingHpBar = false;
@@ -28,10 +30,11 @@ HRESULT Belial::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_RazerEndCount = 0;
 	_realIsViewing = false;
 	_handAlpha = 0;
-	_initHp = _hp = 800;
+	 _hp = 1000;
+	 _initHp = 1000;
 	_Damage = 10; //불렛대미지
-
-
+	_playSound = false;
+	_backEffectCount = 0;
 	_leftHandle.ig = IMAGEMANAGER->findImage("SkellBossLeftHandIdle");
 	_leftHandle.frameX = 0;
 	_leftHandle.frameY = 0;
@@ -44,7 +47,7 @@ HRESULT Belial::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_RightHandle.Timer = 0;
 	_RightHandle.state = ES_IDLE;
 
-
+	
 	return S_OK;
 }
 
@@ -68,18 +71,47 @@ void Belial::update()
 	
 	if (_isSpawned)
 	{
+		if (!_realIsViewing)
+		{
+			ENTITYMANAGER->getPlayer()->SetIsBossReady(true);
+			CAMERAMANAGER->MovePivotLerp(500, 300, 3.0f);
+		}
+		if (_playSound == false)
+		{
+			SOUNDMANAGER->StopAllBGM(false);
+			SOUNDMANAGER->play("1.JailBoss", 0.5f, false, false);
+			SOUNDMANAGER->play("ambience_town", 0.5f, false, false);
+			SOUNDMANAGER->play("보스_벨리알_웃음");
+			_playSound = true;
+		}
 		SetBelial();
 		Animation();
+
+		
+
 		if (_realIsViewing)
 		{
+			_backEffectCount++;
+			if (_backEffectCount > 10)
+			{
+				_backEffectCount = 0;
+				for(int i = 0 ;i < 4; i++)
+				{
+					EFFECTMANAGER->AddEffect(RANDOM->range(_x, _x + 25 + _bossBack->getFrameWidth()), RANDOM->range(_y + 70, _y + 100 + _bossBack->getFrameHeight()), "SkellBossParticle", 3,
+						0, 0, false, 255, 0, 1, 1, false, false, false);
+				}
+			}
 
+			ENTITYMANAGER->getPlayer()->SetIsBossReady(false);
+			CAMERAMANAGER->MovePivotLerp(ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY(), 5.0f);
 			SetHpBar();
 			switch (_state)
 			{
 			case ES_IDLE:
 				_PatternTime++;
-				if (_PatternTime > 300)
+				if (_PatternTime > 200)
 				{
+					_PatternTime = 0;
 					SetPattern();
 				}
 				Move();
@@ -109,6 +141,7 @@ void Belial::update()
 			}
 		}
 	}
+	
 }
 
 void Belial::release()
@@ -238,11 +271,12 @@ void Belial::Attack()
 			SetSwordAngle();
 			
 			_makeSwordTimer++;
-			if (_makeSwordTimer > 20)
+			if (_makeSwordTimer > 5)
 			{
+				
 				_makeSwordTimer = 0;
 				_firstSwordX += 120;
-				
+				SOUNDMANAGER->play("슬라임볼");
 
 				_swordCount++;
 				SetSword();
@@ -250,12 +284,43 @@ void Belial::Attack()
 				if (_swordCount == 5)
 				{
 					_makeSword = false;
-					_shootSword = true;
-
-					_firstSwordX = 100;
-					_firstSwordY = 200;
-					_swordCount = 0;
+					_readySword = true;
+					
 				}
+			}
+		}
+		if (_readySword)
+		{
+			for (int i = 0; i < _vBossSword.size(); i++)
+			{
+				if (_vBossSword[i]->speed == 0 && _vBossSword[i]->isCol == false)
+				{
+					_vBossSword[i]->angle = getAngle(_vBossSword[i]->x + _vBossSword[i]->ig->getFrameWidth() * 3 / 2, _vBossSword[i]->y + _vBossSword[i]->ig->getFrameHeight() * 3 / 2, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY());
+					if (_vBossSword[i]->angle < 0)
+					{
+						_vBossSword[i]->angle += PI2;
+					}
+					if (_vBossSword[i]->angle >= PI2)
+					{
+						_vBossSword[i]->angle -= PI2;
+					}
+
+				}
+				_vBossSword[i]->x += cosf(_vBossSword[i]->angle)*_vBossSword[i]->speed;
+				_vBossSword[i]->y += -sinf(_vBossSword[i]->angle)*_vBossSword[i]->speed;
+				_vBossSword[i]->body = RectMakeCenter(_vBossSword[i]->x + _vBossSword[i]->ig->getFrameWidth() * 3 / 2, _vBossSword[i]->y + _vBossSword[i]->ig->getFrameHeight() * 3 / 2,
+					_vBossSword[i]->ig->getFrameWidth() * 2, _vBossSword[i]->ig->getFrameHeight() * 2);
+
+			}
+			_readySwordCount++;
+			if (_readySwordCount > 100)
+			{
+				_shootSword = true;
+				_firstSwordX = 20;
+				_firstSwordY = 200;
+				_swordCount = 0;
+				_readySwordCount = 0;
+				_readySword = false;
 			}
 		}
 		if (_shootSword)
@@ -279,7 +344,7 @@ void Belial::Attack()
 				_vBossSword[i]->x += cosf(_vBossSword[i]->angle)*_vBossSword[i]->speed;
 				_vBossSword[i]->y += -sinf(_vBossSword[i]->angle)*_vBossSword[i]->speed;
 				_vBossSword[i]->body = RectMakeCenter(_vBossSword[i]->x+ _vBossSword[i]->ig->getFrameWidth() *3/2 , _vBossSword[i]->y+ _vBossSword[i]->ig->getFrameHeight() * 3/2,
-										_vBossSword[i]->ig->getFrameWidth()*2, _vBossSword[i]->ig->getFrameHeight()*2);
+										_vBossSword[i]->ig->getFrameWidth(), _vBossSword[i]->ig->getFrameHeight());
 
 			}
 
@@ -292,7 +357,7 @@ void Belial::Attack()
 					if (_vBossSword[i]->speed == 0 && _vBossSword[i]->isCol == false)
 					{
 						_vBossSword[i]->ig = IMAGEMANAGER->findImage("SkellBossSwordFire");
-						_vBossSword[i]->speed = 25;
+						_vBossSword[i]->speed = 40;
 						break;
 					}
 				}
@@ -307,14 +372,26 @@ void Belial::Attack()
 				_swordEndCount = 0;
 				_state = ES_IDLE;
 				_shootSword = false;
+				_readySword = false;
 			}
 		}
 		break;
 	case BULLET:
 		_bulletFireTimer++;
 		_bulletEndTimer++;
+		if (_bulletEndTimer % 6 == 0)
+		{
+			SOUNDMANAGER->play("섞는듯한소리 (1)",0.2);
+		}
+		if ((_bulletEndTimer+3) % 6 == 0)
+		{
+			SOUNDMANAGER->play("섞는듯한소리 (2)",0.2);
+		}
 		if (_bulletFireTimer > 12)
 		{	
+			
+
+
 			_fireAngle += PI / 24;
 			for (int i = 0; i < 4; i++)
 			{
@@ -326,6 +403,7 @@ void Belial::Attack()
 		{
 			_bulletEndTimer = 0;
 			_state = ES_IDLE;
+
 		}
 		break;
 	default:
@@ -438,6 +516,7 @@ void Belial::Animation()
 			_leftHandle.frameX++;
 			if (_leftHandle.frameX == 8)
 			{
+				SOUNDMANAGER->play("iceball");
 				for (int i = 0; i < 8; i++)
 				{
 					Razer* razer = new Razer;
@@ -505,6 +584,7 @@ void Belial::Animation()
 			_RightHandle.frameX++;
 			if (_RightHandle.frameX == 8)
 			{
+				SOUNDMANAGER->play("iceball");
 				for (int i = 0; i < 8; i++)
 				{
 					Razer* razer = new Razer;
@@ -579,6 +659,99 @@ void Belial::SetPattern()
 	_BelialPattern = (BELIALPATTERN)rndPatten;
 
 }
+
+void Belial::GetDamage()
+{
+	Player* _p = ENTITYMANAGER->getPlayer();
+
+	if (_isSpawned)
+	{
+		SOUNDMANAGER->play("Hit_Monster");
+		Player* p = ENTITYMANAGER->getPlayer();
+		p->SetIsCritical(false);
+
+		int damage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
+		if (p->GetSpecialAbilityOn(0, 2))
+		{
+			if (p->GetInitHp() * 0.6f > p->GetHP())
+			{
+				damage = p->GetMaxDamage();
+			}
+		}
+
+		damage = damage + damage * (p->GetPower() + 6 * _hongryanCount) / 100 - _realDefence;
+		int critical = RANDOM->range(100);
+		if (critical <= p->GetRealCriPer())
+		{
+			p->SetIsCritical(true);
+			_hpBarAlpha = 255;
+			damage = damage + damage * p->GetCriDamage() / 100;
+			_hp -= damage;
+			EFFECTMANAGER->AddCameraText(_x + _vImages[0]->getFrameWidth() / 2, _y, 100, 100, to_string(damage), PIX, WS_MIDDLE, WSORT_LEFT, RGB(255, 255, 0));
+		}
+		else
+		{
+			_hpBarAlpha = 255;
+			_hp -= damage;
+			EFFECTMANAGER->AddCameraText(_x + _vImages[0]->getFrameWidth() / 2, _y, 100, 100, to_string(damage), PIX, WS_MIDDLE, WSORT_LEFT, RGB(255, 255, 255));
+
+		}
+
+		if (_hp <= 0)
+		{
+			
+			SOUNDMANAGER->StopAllBGM(true);
+			BelialDie* BossDie = new BelialDie();
+			BossDie->init(_x,_y);
+			MAPMANAGER->GetPlayMap()->GetObjects().push_back(BossDie);
+			MonsterDead();
+		}
+
+		CheckSpecialPlayerInteractions();
+	}
+}
+
+void Belial::GetDamage(int damage)
+{
+	Player* _p = ENTITYMANAGER->getPlayer();
+	if (_isSpawned)
+	{
+		SOUNDMANAGER->play("Hit_Monster");
+		Player* p = ENTITYMANAGER->getPlayer();
+		p->SetIsCritical(false);
+		damage = damage + damage * (p->GetPower() + 6 * _hongryanCount) / 100 - _realDefence;
+		int critical = RANDOM->range(100);
+		if (critical <= p->GetRealCriPer())
+		{
+			p->SetIsCritical(true);
+			_hpBarAlpha = 255;
+			damage = damage + damage * p->GetCriDamage() / 100;
+			_hp -= damage;
+			EFFECTMANAGER->AddCameraText(_x + _vImages[0]->getFrameWidth() / 2, _y, 100, 100, to_string(damage), PIX, WS_MIDDLE, WSORT_LEFT, RGB(255, 255, 0));
+		}
+		else
+		{
+			_hpBarAlpha = 255;
+			_hp -= damage;
+			EFFECTMANAGER->AddCameraText(_x + _vImages[0]->getFrameWidth() / 2, _y, 100, 100, to_string(damage), PIX, WS_MIDDLE, WSORT_LEFT, RGB(255, 255, 255));
+		}
+
+		if (_hp <= 0)
+		{
+			
+			SOUNDMANAGER->StopAllBGM(true);
+			BelialDie* BossDie = new BelialDie();
+			BossDie->init(_x, _y);
+			MAPMANAGER->GetPlayMap()->GetObjects().push_back(BossDie);
+			MonsterDead();
+		}
+
+		CheckSpecialPlayerInteractions();
+	}
+}
+
+
+
 
 float Belial::MoveLerp(float y1, float y2, float amount)
 {

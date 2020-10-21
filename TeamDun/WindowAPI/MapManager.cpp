@@ -8,7 +8,9 @@ HRESULT MapManager::init()
 
 	_mapData = CSVMANAGER->csvLoad("Data/Maps.csv");
 	
+
 	AddStage(0);
+
 	_mapFrame = UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetChild("mapFrame");
 	_pixelGetter = new PixelGetter();
 	ChangeMap(0);
@@ -351,7 +353,7 @@ void MapManager::ChangeMap(int index)
 	
 	if (!GetPlayMap()->GetVisited())
 	{
-		int satiety = ENTITYMANAGER->getPlayer()->GetSatiety() - 2;
+		int satiety = ENTITYMANAGER->getPlayer()->GetSatiety() - 2 - ENTITYMANAGER->getPlayer()->GetRoomMoveSatiation();
 		if (satiety < 0) satiety = 0;
 		ENTITYMANAGER->getPlayer()->SetSatiety(satiety);
 		GetPlayMap()->SetVisited(true);

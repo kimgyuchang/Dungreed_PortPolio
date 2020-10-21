@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Effect.h"
 
-HRESULT Effect::init(float x, float y, string imgName, int animSpeed, int frameX, int frameY, bool isLoop, int alpha, float angle, float scaleX, float scaleY, bool isAlpha, bool useCamera)
+HRESULT Effect::init(float x, float y, string imgName, int animSpeed, int frameX, int frameY, bool isLoop, int alpha, float angle, float scaleX, float scaleY, bool isAlpha, bool useCamera, bool isFirstViewing)
 {
 	_x = x;
 	_y = y;
@@ -18,6 +18,7 @@ HRESULT Effect::init(float x, float y, string imgName, int animSpeed, int frameX
 	_scaleY = scaleY;
 	_isAlpha = isAlpha;
 	_useCamera = useCamera;
+	_isFirstViewing = isFirstViewing;
 	return S_OK;
 }
 

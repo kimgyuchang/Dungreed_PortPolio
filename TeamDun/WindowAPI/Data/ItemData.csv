@@ -1,6 +1,6 @@
 id,itemType,weaponType,skill,name,description,itemClass,minAtk,maxAtk,atkSpeed,defence,useAtkspeed,numOfBullet,reloadTime,bullet,accuracy,buyPrice,isBulletInfinite,imageName1,imageName2,imageName3,invenImageName,dropImageName,Suboption1Id,Suboption1Power,Suboption1Description,Suboption2Id,Suboption2Power,Suboption2Description,Suboption3Id,Suboption3Power,Suboption3Description
-4000,두손무기,근접,-1,마검 엘레마,전 주인이 어떻게 죽었냐고? 글쎄.. 일단 이야기를 하기 전에 내 눈을 촉촉하게 하고 싶군.,전설,35,45,1,0,1,0,0,-1,0,8000,0,DemonSword,.,.,DemonSword_inven,DemonSword_Drop,TOSTUN,0,.,ETC,0,시간이 지날수록 점점 데미지가 강해집니다.,GOLDDROP,75,.
-4001,한손무기,권총,-1,더 콜트,그는 모두를 자유롭게 했고 그녀는 모두를 평등하게 했다,일반,3,5,8.33,1,1,12,20,-1,80,800,0,Colt,.,.,Colt_inven,Colt_Drop,TOELEC,0,.,TOUGHNESS,4,.,ELECDAMAGE,30,.
+4000,두손무기,근접,-1,마검 엘레마,전 주인이 어떻게 죽었냐고? 글쎄.. 일단 이야기를 하기 전에 내 눈을 촉촉하게 하고 싶군.,전설,35,45,1,0,1,0,0,-1,0,8000,0,DemonSword,.,.,DemonSword_inven,DemonSword_Drop,.,.,.,.,.,.,.,.,.
+4001,한손무기,권총,-1,더 콜트,그는 모두를 자유롭게 했고 그녀는 모두를 평등하게 했다,일반,3,5,8.33,1,1,12,20,-1,80,800,0,Colt,.,.,Colt_inven,Colt_Drop,.,.,.,.,.,.,.,.,.
 4002,악세서리,무기아님,-1,은귀고리,반짝이는 귀는 몬스터의 주의를 조금이라도 끌 수 있습니다.,일반,0,0,0,2,0,0,0,-1,0,500,0,SilverEaring_inven,.,.,SilverEaring_inven,SilverEaring_inven,EVADE,3,.,.,.,.,.,.,.
 4003,악세서리,무기아님,-1,은반지,반으로 나누어 착용하는 은으로 만든 가락지.,일반,0,0,0,1,0,0,0,-1,0,500,0,SilverRing_inven,.,.,SilverRing_inven,SilverRing_inven,MAXHP,5,.,POWER,3,.,.,.,.
 4004,서브무기,무기아님,-1,망고슈,왼손으로 잡아 적의 공격을 방어하는데 사용했던 단검,일반,0,0,0,0,0,0,0,-1,0,800,0,MainGauche,.,.,MainGauche_inven,MainGauche_inven,CRITICALDAMAGE,20,.,CRITICALPERCENT,5,.,.,.,.
@@ -16,5 +16,5 @@ id,itemType,weaponType,skill,name,description,itemClass,minAtk,maxAtk,atkSpeed,d
 4014,악세서리 ,무기아님,-1,모래주머니,전력으로 상대할 필요가 없을 때 착용하라.,일반,0,0,0,0,0,0,0,-1,0,600,0,SandBag,.,.,SandBag,SandBag,DASHATK,15,.,.,.,.,.,.,.
 4015,악세서리,무기아님,-1,현자의 축복,현자가 쓰다듬어 주었다.,희귀,0,0,0,1,0,0,0,-1,0,3880,0,BlessOfSage,.,.,BlessOfSage,BlessOfSage,MAXHP,5,.,TOUGHNESS,3,.,EVADE,5,.
 4016,악세서리,무기아님,-1,혈석목걸이,죽을때 소지하면 죽은 뒤에 그힘을 얻을수 있다고 한다.,희귀,0,0,0,0,0,0,0,-1,0,3730,0,BloodStoneNecklace,.,.,BloodStoneNecklace,BloodStoneNecklace,MAXHPPERCENT,20,.,.,.,.,.,.,.
-4017,두손무기,원거리,-1,미니 슬라임 메이커,슬라임은 정연이가 만들고 있던 거 아니었어?,희귀,18,28,2.5,0,0,3,10,-1,0,6500,0,MiniSlimeMaker,.,.,MiniSlimeMaker_inven,MiniSlimeMaker_inven,EVADE,5,.,MAXHP,10,.,DEFENCE,5,.
 4120,서브무기,무기아님,-1,마법 방패,방패를 바라면 팔찌에서부터 생겨난다,희귀,0,0,0,7,0,0,0,-1,0,1200,0,MagicShield,.,.,MagicShield_inv,MagicShield_inv,BLOCK,8,.,.,.,.,.,.,.
+4017,한손무기,근접,-1,숏소드,가볍고 휘두르기 편한 검,일반,8,10,3.03,0,0,0,0,-1,0,100,0,BasicShortSword_New,.,.,BasicShortSword_inven,BasicShortSword_drop,.,.,.,.,.,.,.,.,.

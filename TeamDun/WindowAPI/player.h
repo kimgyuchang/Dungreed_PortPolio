@@ -201,11 +201,12 @@ private:
 	int				_money;					// 돈
 	int				_level;					// 레벨
 	CLOTHTYPE		_clothType;				// 현재 입은 옷
+
 	// - 내부적 수치
 	int				_experience;			// 경험치
 	int				_needExperience;		// 필요 경험치
 	float			_goldDrop;				// 돈 드랍양
-
+	int				_roomMoveSatiation;		// 방 이동시 포만감 감소량
 	// SWAP //
 	int				_swapCoolTime;			// 스왑 쿨타임
 
@@ -251,6 +252,8 @@ private:
 	// 마검사 //
 	int			    _playerDeadCount;
 
+	// 보스 //
+	bool			_isBossReady;
 public:
 
 	virtual HRESULT init();
@@ -406,6 +409,8 @@ public:
 	int				GetMaxSatiety()			{ return _maxSatiety; }
 	int				GetRageCurrent()		{ return _rageCurrent; }
 	int				GetRageMax()			{ return _rageMax; }
+	int				GetMaxPoint()			{ return _maxPoint; }
+	int				GetRemainPoint()		{ return _remainPoint; }
 	bool			GetIsRaging()			{ return _isRaging; }
 	int				GetRageTimer()			{ return _rageTimer; }
 	float			GetPrevPowerPlus()		{ return _prevPowerPlus; }
@@ -415,7 +420,12 @@ public:
 	CLOTHTYPE		GetClothType()			{ return _clothType; }
 	int				GetRestorePrevHp()		{ return _restorePrevHp; }
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
+	bool			GetIsBossReady()		{ return _isBossReady; }
+
+	int				GetDashRestoreTime()	{ return _dashRestoreTime; }
 	bool			GetIsPlayerDead()		{ return _isPlayerDead; }
+	int				GetSpecialAbilityPoint(int index) { return _abilityNum[index]; }
+	int				GetRoomMoveSatiation()	{ return _roomMoveSatiation; }
 
 	void			SetIsReload(bool isReload)						{ _isReload = isReload; }
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
@@ -504,4 +514,7 @@ public:
 	void			SetPrevCriminalCount(int count)					{ _prevCriminalCount = count; }
 	void			SetplayerDeadCount(int count)					{ _playerDeadCount = count; }
 
-};		
+	void			SetIsBossReady(bool isBossReady)				{ _isBossReady = isBossReady; }
+	void			SetDashRestoreTime(int time)					{ _dashRestoreTime = time; }
+	void			SetRoomMoveSatiation(int roomMoveSatiation)		{ _roomMoveSatiation = roomMoveSatiation; }
+};

@@ -3,6 +3,8 @@
 
 HRESULT Bullet::init()
 {
+	_particleTimer = 0;
+
 	return S_OK;
 }
 
@@ -11,6 +13,7 @@ void Bullet::update()
 	speedTypeMove();
 	moveBullet();
 	Animation();
+	GenerateTraceParticle();
 	_distance = getDistance(_startX, _startY, _x, _y);
 }
 
@@ -23,13 +26,41 @@ void Bullet::render(HDC hdc)
 	if (_isFrame)
 	{
 		CAMERAMANAGER->FrameRender(hdc, _ig, _x, _y, _frameX, _frameY,_igAngle);
-
 	}
+
 	else
 	{
 		CAMERAMANAGER->Render(hdc, _ig, _x, _y ,_igAngle);
 	}
 
+}
+
+void Bullet::GenerateTraceParticle()
+{
+	if (_useTraceParticle)
+	{
+		_particleTimer--;
+		if (_particleTimer < 0)
+		{
+			particle* curParticle = PARTICLEMANAGER->AddNewParticle();
+			curParticle->initParticle(
+				_x + _ig->getFrameWidth()/2,					// X좌표에 랜덤성 추가
+				_y + _ig->getFrameHeight()/2,					// Y좌표에 랜덤성 추가
+				0, 0,					// 스피드 XY 변화량
+				0,						// X스피드 랜덤성 추가
+				0,						// Y스피드 랜덤성 추가
+				0,						// 각도값 변화량
+				0,						// 각도값 랜덤성 추가
+				3,						// 알파값 변화량
+				255,					// 알파값 랜덤성 추가
+				0,						// 크기 XY 변화량
+				1,						// 크기 X 랜덤성 추가
+				60,						// 파티클 생존 시간에 랜덤성 추가
+				"SqaureParticle_5"		// 이미지 중 하나를 선택해 파티클에 입력
+			);
+			_particleTimer = 4;
+		}
+	}
 }
 
 void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle,float damage, float speed, float maxDis, bool isFrame ,float igAngle ,BULLETSPEEDTYPE speedtype)

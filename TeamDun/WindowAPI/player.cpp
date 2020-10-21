@@ -119,7 +119,8 @@ HRESULT Player::init()
 	{
 		_vAccessories[i] = nullptr;
 	}
-
+	// 보스 //
+	_isBossReady = false;
 	// 코스튬 
 	_rageCurrent = 0;
 	_rageMax = 100;
@@ -177,13 +178,15 @@ HRESULT Player::init()
 	_inven->AddItem(DATAMANAGER->GetItemById(4004));
 	_inven->AddItem(DATAMANAGER->GetItemById(4120));
 	_inven->AddItem(DATAMANAGER->GetItemById(4015));
+	_inven->AddItem(DATAMANAGER->GetItemById(4017));
 	_inven->AddItem(DATAMANAGER->GetItemById(4005));
-
+	
 	return S_OK;
 }
 
 void Player::update()
 {
+	
 	if (!_isPlayerDead)
 	{
 		if (!UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->GetIsViewing() &&
@@ -192,11 +195,15 @@ void Player::update()
 			!UIMANAGER->GetGameFrame()->GetChild("selectFrame")->GetIsViewing() &&
 			!UIMANAGER->GetGameFrame()->GetChild("convFrame")->GetIsViewing() &&
 			!UIMANAGER->GetGameFrame()->GetChild("_restaurantBase")->GetIsViewing() &&
+			!UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetIsViewing() &&
+			!UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->GetIsViewing() &&
 			!ENTITYMANAGER->GetWormVillage()->GetIsOn() &&
 			!MAPMANAGER->GetPortalAnimOn() &&
 			!MAPMANAGER->GetStageChanger()->GetIsChangingStage() &&
 			!_traitFrame->GetIsViewing() &&
-			!_isStun
+			!_isStun &&
+			!_isPlayerDead &&
+			!_isBossReady
 			)
 
 			// 잡다한 UI가 OFF일때
@@ -208,7 +215,7 @@ void Player::update()
 				_dashPoint = _ptMouse;
 				_jumpPower = 0;
 				_dashCount--;
-				DashImageCheck();
+				DashImageCheck();;
 			}
 
 			if (INPUT->GetKeyDown('X'))				//X키를 눌렀을때
@@ -430,7 +437,7 @@ void Player::ReturnToHome()
 	_money *= 0.2f;
 	_useImage = 0;
 	_hp = _initHp;
-	_inven->AddItem(DATAMANAGER->GetItemById(4000));
+	_inven->AddItem(DATAMANAGER->GetItemById(4017));
 }
 
 void Player::DashInvincibility()
@@ -807,7 +814,7 @@ void Player::render(HDC hdc)
 		}
 
 
-		if (_isPlayerDead) // 죽었으면
+		if (_useImage == 2) // 죽었으면
 		{
 			CAMERAMANAGER->Render(hdc, _vImages[_useImage], _x, _y);				
 		}
@@ -1823,7 +1830,7 @@ void Player::ReloadTraitPoint()
 			if (_abilityNum[i] >= 5 && i == 5 && _getRangeStatus) { _getRangeStatus = false, _power -= 10, _initHp -= 20; if (_hp > _initHp) _hp = _initHp; }
 			if (_abilityNum[i] >= 10 && i == 4) _maxSatiety -= 25;
 			if (_abilityNum[i] >= 10 && i == 5) _reloadSpeed -= 0.15f;
-			if (_abilityNum[i] >= 20 && i == 4) { _accesoryCount -= 1; _inven->SetInventoryAccesoryUI(); _inven->SetInventoryAccesoryUI(); _inven->ReloadUIImages(); }
+			if (_abilityNum[i] >= 20 && i == 4) { _accesoryCount -= 1; _inven->SetInventoryAccesoryUI(); _inven->ReloadUIImages(); }
 			if (_abilityNum[i] >= 20 && i == 6) _power -= 15;
 			_abilityNum[i] = 0;
 
