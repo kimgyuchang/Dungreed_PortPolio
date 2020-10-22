@@ -37,7 +37,7 @@ void StrawberryFountain::update()
 void StrawberryFountain::SetConvUI()
 {
 	dynamic_cast<UIText*>(_convFrame->GetChild("name"))->SetText(_npcName);
-	dynamic_cast<UIText*>(_convFrame->GetChild("text"))->SetText(_vConvTexts[RANDOM->range((int)_vConvTexts.size())]);
+	dynamic_cast<UIText*>(_convFrame->GetChild("text"))->SetText(_vConvTexts[0]);
 	dynamic_cast<UIText*>(_convFrame->GetChild("text"))->SetCntPos(0);
 
 	if (!_isTalked)

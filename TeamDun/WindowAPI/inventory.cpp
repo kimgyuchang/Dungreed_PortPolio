@@ -654,7 +654,9 @@ void Inventory::ReloadUIImages()
 	{
 		weapon1Swap->init("image", 0, 0, 0, 0, "");
 	}
+
 	_swapFrame->GetChild("weapon1")->AddFrame(weapon1Swap);
+
 	UIFrame* weapon2Swap = new UIFrame();
 	_InvenFrame->GetChild("curWeapon_2")->SetImage(nullptr);
 	if (p->GetWeapon(1) != nullptr)
@@ -674,8 +676,10 @@ void Inventory::ReloadUIImages()
 	{
 		weapon2Swap->init("image", 0, 0, 0, 0, "");
 	}
+
 	_swapFrame->GetChild("weapon2")->AddFrame(weapon2Swap);
 
+	
 	_InvenFrame->GetChild("curWeaponSub_1")->SetImage(nullptr);
 	if (p->GetSubWeapon(0) != nullptr) _InvenFrame->GetChild("curWeaponSub_1")->SetImage(p->GetSubWeapon(0)->GetInvenImage());
 	_InvenFrame->GetChild("curWeaponSub_2")->SetImage(nullptr);

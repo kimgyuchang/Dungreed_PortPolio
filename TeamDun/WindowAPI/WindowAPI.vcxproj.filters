@@ -414,6 +414,9 @@
     <ClCompile Include="StrawberryFountain.cpp">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClCompile>
+    <ClCompile Include="LalaMagic.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Range</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -746,6 +749,9 @@
     </ClInclude>
     <ClInclude Include="StrawberryFountain.h">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="LalaMagic.h">
+      <Filter>MainGame\Item\Items\Weapon\Range</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
