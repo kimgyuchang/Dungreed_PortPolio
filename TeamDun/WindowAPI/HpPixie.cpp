@@ -44,7 +44,7 @@ void HpPixie::CheckCollision()
 		int hp = 0;
 		if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_body))
 		{
-			if (ENTITYMANAGER->getPlayer()->GetHP() != ENTITYMANAGER->getPlayer()->GetInitHp())
+			if (ENTITYMANAGER->getPlayer()->GetHP() != ENTITYMANAGER->getPlayer()->GetMaxHp())
 			{
 				switch (_pixType)
 				{
@@ -67,9 +67,9 @@ void HpPixie::CheckCollision()
 
 				EFFECTMANAGER->AddCameraText(_x + _vImages[0]->getFrameWidth() / 2, _y, 100, 100, "+" + to_string(hp), PIX, WS_BIG, WSORT_LEFT, RGB(96, 226, 33));
 				int resultHp = ENTITYMANAGER->getPlayer()->GetHP() + hp;
-				if (resultHp > ENTITYMANAGER->getPlayer()->GetInitHp())
+				if (resultHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
 				{
-					resultHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					resultHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 				}
 				ENTITYMANAGER->getPlayer()->SetHp(resultHp);
 

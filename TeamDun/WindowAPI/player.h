@@ -29,7 +29,8 @@ enum PLAYERSTATE
 {
 	PS_IDLE,PS_JUMP,PS_MOVE,PS_DIE,
 };
-struct ReloadEffect
+
+struct PlayerEffect
 {
 	image* ig;
 	float x;
@@ -39,12 +40,14 @@ struct ReloadEffect
 	int frameTime;
 	bool isViewing;
 };
+
 enum CLOTHTYPE
 {
 	PC_NORMAL, PC_METAL, PC_GUNNER, PC_ALICE, PC_HONGRYAN, PC_IKINABEAR, 
 	PC_RIDERH, PC_CRIMINAL, PC_PICKKING, PC_FATGUY, 
 	PC_HORSESWORD, PC_HUMANLASLEY, PC_MASTERCHEF
 };
+
 class Player : public Object
 {
 private:
@@ -61,7 +64,9 @@ private:
 
 	bool			_isReload;
 	float			_reloadCount;
-	ReloadEffect	_reloadEffect;
+	PlayerEffect	_reloadEffect;
+	PlayerEffect	_regenEffect;
+	PlayerEffect	_guardBreakEffect;
 	int				_bulletCount;
 	int				_maxBullet;
 	
@@ -221,12 +226,28 @@ private:
 	float					_movedX;				// 움직인 거리
 	string					_vTraitTooltip[7][3];	// 특성 툴팁들
 	
+	// 음식 스탯 저장용 //
+	int			_foodPower;
+	float		_foodDef;
+	float		_foodEvade;
+	float		_foodCriPer;
+	float		_foodCriDmg;
+	int			_foodInitHp;
+	int			_foodMaxDash;
+	int			_foodTrueDamage;
+	float		_foodAtkSpeedPer;
+	float		_foodReloadSpeed;
+	int			_foodAccsCount;
+	float		_foodToughness;
+	float		_foodBlock;
+	float		_foodMoveSpeed;
+	int			_foodRoomMoveSatiation;
+
 	// 각 캐릭터별 특성 //
 
 	// 총잡이 //
 	bool			_useGun;
 	
-
 	// 앨리스 //
 	image*			_aliceZone;
 	float			_aliceZoneRadius;
@@ -261,6 +282,7 @@ public:
 	void PlayerIsDead();
 	void PlayerDeadTimerCheck();
 	void ReturnToHome();
+	void ReturnToHomeFoodInit();
 	void DashInvincibility();
 	void AddMaxDash();
 	void SubMaxDash();
@@ -294,8 +316,6 @@ public:
 
 	void GetHitDamage(int damage);
 
-	void AdaptCriminalCount();
-
 	void RestoreHpTimerChecker();
 
 	void RemoveMagicShield();
@@ -310,6 +330,8 @@ public:
 	void CheckUsePistolGunner();
 
 	void MoveTraitUI();
+
+	void SetNewMaxHp();
 	
 	void SwitchWeapon();
 	void JumpAttackRectUpdate();
@@ -427,6 +449,26 @@ public:
 	int				GetSpecialAbilityPoint(int index) { return _abilityNum[index]; }
 	int				GetRoomMoveSatiation()	{ return _roomMoveSatiation; }
 
+	int				GetFoodPower() { return _foodPower; }
+	float			GetFoodDef() { return _foodDef; }
+	float			GetFoodEvade() { return _foodEvade; }
+	float			GetFoodCriPer() { return _foodCriPer; }
+	float			GetFoodCriDmg() { return _foodCriDmg; }
+	int				GetFoodInitHp() { return _foodInitHp; }
+	int				GetFoodMaxDash() { return _foodMaxDash; }
+	int				GetFoodTrueDamage() { return _foodTrueDamage; }
+	float			GetFoodAtkSpeedPer() { return _foodAtkSpeedPer; }
+	float			GetFoodReloadSpeed() { return _foodReloadSpeed; }
+	int				GetFoodAccsCount() { return _foodAccsCount; }
+	float			GetFoodToughness() { return _foodToughness; }
+	float			GetFoodBlock() { return _foodBlock; }
+	float			GetFoodMoveSpeed() { return _foodMoveSpeed; }
+	int				GetFoodRoomMoveSatiation() { return _foodRoomMoveSatiation; }
+
+
+
+
+
 	void			SetIsReload(bool isReload)						{ _isReload = isReload; }
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
 	void			SetState(PLAYERSTATE state)						{ _state = state; }
@@ -522,4 +564,20 @@ public:
 	void			SetSpecialAbilityNum(int index, int point)		{ _abilityNum[index] = point; }
 	void			SetSpecialAbilityOn(bool isOn, int index1, int index2) { _specialAbilityOn[index1][index2] = isOn; }
 
+
+	void			SetFoodPower(int power) { _foodPower = power; }
+	void			SetFoodDef(float def) { _foodDef = def; }
+	void			SetFoodEvade(float evade) { _foodEvade = evade; }
+	void			SetFoodCriPer(float criper) { _foodCriPer = criper; }
+	void			SetFoodCriDmg(float cridmg) { _foodCriDmg = cridmg; }
+	void			SetFoodInitHp(int initHp) { _foodInitHp = initHp; }
+	void			SetFoodMaxDash(int maxDash) { _foodMaxDash = maxDash; }
+	void			SetFoodTrueDamage(int trueDmg) { _foodTrueDamage = trueDmg; }
+	void			SetFoodAtkSpeedPer(float atkSpd) { _foodAtkSpeedPer = atkSpd; }
+	void			SetFoodReloadSpeed(float reloadSpd) { _foodReloadSpeed = reloadSpd; }
+	void			SetFoodAccsCount(int accsCount) { _foodAccsCount = accsCount; }
+	void			SetFoodToughness(float toughness) { _foodToughness = toughness; }
+	void			SetFoodBlock(float block) { _foodBlock = block; }
+	void			SetFoodMoveSpeed(float moveSpd) { _foodMoveSpeed = moveSpd; }
+	void			SetFoodRoomMoveSatiation(int moveSatiation) { _foodRoomMoveSatiation = moveSatiation; }
 }; 

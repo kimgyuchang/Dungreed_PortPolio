@@ -88,6 +88,7 @@ void Trainer::Activate()
 	_isActivating = !_isActivating;
 	SOUNDMANAGER->play("인벤토리열기");
 	UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->ToggleIsViewing();
+	UIMANAGER->GetGameFrame()->GetChild("traitToolTip")->SetIsViewing(false);
 	_isUsing = UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->GetIsViewing();
 
 	ENTITYMANAGER->getPlayer()->ReInitTraitUI();

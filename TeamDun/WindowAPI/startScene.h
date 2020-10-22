@@ -14,7 +14,7 @@ private:
 	int _count;
 	int _xFrame;
 	int _yFrame;
-
+	bool _saveLoadOn;
 
 	image* _backGround;
 	image* _midCloud;
@@ -22,6 +22,11 @@ private:
 	image* _StartIg;
 	image* _MaptoolIg;
 	image* _QuitIg;
+	
+	image* _newIg;
+	image* _loadIg;
+	image* _backIg;
+
 	int	   _backLoopX;
 	int	   _midLoopX;
 	int	   _frontLoopX;
@@ -31,6 +36,7 @@ public:
 	HRESULT init();
 	void release();
 	void update();
+	void SaveLoadScene();
 	void render();
 };
 

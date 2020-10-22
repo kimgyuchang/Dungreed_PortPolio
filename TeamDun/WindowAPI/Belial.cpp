@@ -698,7 +698,7 @@ void Belial::GetDamage()
 		int damage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
 		if (p->GetSpecialAbilityOn(0, 2))
 		{
-			if (p->GetInitHp() * 0.6f > p->GetHP())
+			if (p->GetMaxHp() * 0.6f > p->GetHP())
 			{
 				damage = p->GetMaxDamage();
 			}
@@ -727,7 +727,8 @@ void Belial::GetDamage()
 			if (_p->GetClothType() == PC_HUMANLASLEY)
 			{
 				_p->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 10);
-				curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+				_p->SetNewMaxHp();
+				curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 				ENTITYMANAGER->getPlayer()->SetHp(curHp);
 			}
 		
@@ -776,6 +777,7 @@ void Belial::GetDamage(int damage)
 			if (_p->GetClothType() == PC_HUMANLASLEY)
 			{
 				_p->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 10);
+				_p->SetNewMaxHp();
 				curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 				ENTITYMANAGER->getPlayer()->SetHp(curHp);
 			}

@@ -968,6 +968,8 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("monsterSpawnEffect", "Images/Etc/monsterSpawnEffect.bmp", 1302, 93, 14, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("DieEffect", "Images/Effect/DieEffect.bmp", 1320, 120, 11, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("HongRyunEffect", "Images/Effect/HongRyunEffect.bmp", 510, 30, 10, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("RegenerationSkin", "Images/Effect/RegenerationSkin.bmp", 561, 60, 17, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("GuardBreak", "Images/Effect/GuardBreak.bmp", 864, 96, 9, 1, true, RGB(255, 0, 255));
 
 	// PARTICLE //
 	_loading->LoadNormalImage("SqaureParticle", "Images/Particle/SqaureParticle.bmp", 15, 15, true, RGB(255, 0, 255));

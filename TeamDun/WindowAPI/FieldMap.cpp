@@ -669,7 +669,7 @@ void FieldMap::CheckNoMonsterInMap()
 			if (ENTITYMANAGER->getPlayer()->GetSpecialAbilityOn(5, 1)) // 특성 - 집중 10레벨
 			{
 				int hpPlus = ENTITYMANAGER->getPlayer()->GetHP() + 2;
-				if (hpPlus > ENTITYMANAGER->getPlayer()->GetInitHp()) hpPlus = ENTITYMANAGER->getPlayer()->GetInitHp();
+				if (hpPlus > ENTITYMANAGER->getPlayer()->GetMaxHp()) hpPlus = ENTITYMANAGER->getPlayer()->GetMaxHp();
 				ENTITYMANAGER->getPlayer()->SetHp(hpPlus);
 			}
 

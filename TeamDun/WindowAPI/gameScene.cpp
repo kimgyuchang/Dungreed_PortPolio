@@ -146,6 +146,11 @@ void gameScene::MainGameFrameInit()
 	foodText->init("FoodText", 22, 29, 120, 30, "100 / 125", FONT::PIX, WORDSIZE::WS_SMALL);
 	leftDownUI->AddFrame(foodText);
 
+	UIFrame* specialsFrame = new UIFrame();
+	specialsFrame->init("specialsFrame", WINSIZEX - 200, WINSIZEY - 300, 0, 0, "");
+	UIMANAGER->GetGameFrame()->AddFrame(specialsFrame);
+	specialsFrame->SetIsViewing(true);
+
 	// Ikina Frame //
 	UIFrame* IkinaBase = new UIFrame();
 	IkinaBase->init("IkinaBaseFrame", 1330, 580, IMAGEMANAGER->findImage("IkinaBase")->getWidth(), IMAGEMANAGER->findImage("IkinaBase")->getHeight(), "IkinaBase");
@@ -851,28 +856,32 @@ void gameScene::UpdateWardrobeUI()
 				{
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() - 10);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 10);
-					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 				}
 				else if (type == CLOTHTYPE::PC_GUNNER)
 				{
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() + 15);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 15);
-					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 				}
 				else if (type == CLOTHTYPE::PC_ALICE)
 				{
 					ENTITYMANAGER->getPlayer()->SetPower(ENTITYMANAGER->getPlayer()->GetPower() - 40);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 30);
-					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 				}
 				else if (type == CLOTHTYPE::PC_HONGRYAN)
 				{
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 15);
 					ENTITYMANAGER->getPlayer()->SetEvasion(ENTITYMANAGER->getPlayer()->GetEvasion() + 5);
-					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 				}
 				else if (type == CLOTHTYPE::PC_IKINABEAR)
@@ -912,7 +921,8 @@ void gameScene::UpdateWardrobeUI()
 				{
 					/*
 					ENTITYMANAGER->getPlayer()->SetInitHp(100);
-					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					*/
 				}
@@ -920,14 +930,16 @@ void gameScene::UpdateWardrobeUI()
 				else if (type == CLOTHTYPE::PC_HUMANLASLEY)
 				{
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 45);
-					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 				}
 				else if (type == CLOTHTYPE::PC_MASTERCHEF)
 				{
 					ENTITYMANAGER->getPlayer()->SetFireAccuracy(ENTITYMANAGER->getPlayer()->GetFireAccuracy() - 33);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 33);
-					curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 				}
 
@@ -939,8 +951,9 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("baseCharIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("baseCharRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("baseCharDie"));
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_NORMAL);
 					break;
@@ -950,8 +963,10 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("sheetingDie"));
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() + 10);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 10);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
+					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_METAL);
 					break;
@@ -961,8 +976,10 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("gunmanDie"));
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() - 15);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 15);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) 
-						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
+					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_GUNNER);
 					break;
@@ -972,8 +989,10 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("aliceDie"));
 					ENTITYMANAGER->getPlayer()->SetPower(ENTITYMANAGER->getPlayer()->GetPower() + 40);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 30);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) 
-						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
+					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_ALICE);
 					break;
@@ -983,8 +1002,10 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("redlotusDie"));
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 15);
 					ENTITYMANAGER->getPlayer()->SetEvasion(ENTITYMANAGER->getPlayer()->GetEvasion() - 5);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
+					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_HONGRYAN);
 					break;
@@ -994,8 +1015,9 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("lkinabearDie"));
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() - 5);
 					ENTITYMANAGER->getPlayer()->SetPower(ENTITYMANAGER->getPlayer()->GetPower() - 20);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_IKINABEAR);
 					UIMANAGER->GetGameFrame()->GetChild("IkinaBaseFrame")->SetIsViewing(true);
@@ -1006,8 +1028,9 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("riderHDie"));
 					ENTITYMANAGER->getPlayer()->SetMoveSpeedPer(ENTITYMANAGER->getPlayer()->GetMoveSpeedPer() + 22);
 					ENTITYMANAGER->getPlayer()->SetToughness(ENTITYMANAGER->getPlayer()->GetToughness() - 2);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_RIDERH);
 					ENTITYMANAGER->getPlayer()->SetPrevPowerPlus(0);
@@ -1017,8 +1040,9 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("criminalRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("criminalDie"));
 					ENTITYMANAGER->getPlayer()->SetEvasion(ENTITYMANAGER->getPlayer()->GetEvasion() - 12);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_CRIMINAL);
 					break;
@@ -1028,8 +1052,9 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("pickDie"));
 					ENTITYMANAGER->getPlayer()->SetCriDamage(ENTITYMANAGER->getPlayer()->GetCriDamage() - 25);
 					ENTITYMANAGER->getPlayer()->AddMaxDash();
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_PICKKING);
 					break;
@@ -1039,8 +1064,9 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("fastoDie"));
 					ENTITYMANAGER->getPlayer()->SetMoveSpeedPer(ENTITYMANAGER->getPlayer()->GetMoveSpeedPer() - 20);
 					ENTITYMANAGER->getPlayer()->SetAtkSpeedPer(ENTITYMANAGER->getPlayer()->GetAtkSpeedPer() - 10);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_FATGUY);
 					break;
@@ -1048,8 +1074,9 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("horsemanIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("horsemanRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("horsemanDie"));
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_HORSESWORD);
 					ENTITYMANAGER->getPlayer()->SetplayerDeadCount(0);
@@ -1059,8 +1086,10 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("humanlasleyRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("humanlaselyDie"));
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 45);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
+					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_HUMANLASLEY);
 					break;
@@ -1070,8 +1099,10 @@ void gameScene::UpdateWardrobeUI()
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("masterchefDie"));
 					ENTITYMANAGER->getPlayer()->SetFireAccuracy(ENTITYMANAGER->getPlayer()->GetFireAccuracy() + 33);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 33);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) 
-						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
+					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
+						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
+					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_MASTERCHEF);
 					break;
