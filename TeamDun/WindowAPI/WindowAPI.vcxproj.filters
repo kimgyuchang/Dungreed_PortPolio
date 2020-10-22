@@ -390,6 +390,12 @@
     <ClCompile Include="Saber.cpp">
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
     </ClCompile>
+    <ClCompile Include="StrawberryFountain.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="HungryFountain.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -698,6 +704,12 @@
     </ClInclude>
     <ClInclude Include="Saber.h">
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="StrawberryFountain.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="HungryFountain.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

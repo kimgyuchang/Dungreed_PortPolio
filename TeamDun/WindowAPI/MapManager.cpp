@@ -48,6 +48,8 @@ void MapManager::ClearStage(int cntStage)
 			else if (_mapData[i][2] == "SHOP") map->SetFieldMapType(FIELDMAPTYPE::FMT_SHOP);
 			else if (_mapData[i][2] == "RESTAURANT") map->SetFieldMapType(FIELDMAPTYPE::FMT_RESTAURANT);
 			else if (_mapData[i][2] == "TEMPLE") map->SetFieldMapType(FIELDMAPTYPE::FMT_TEMPLE);
+			else if (_mapData[i][2] == "STRAWBERRY") map->SetFieldMapType(FIELDMAPTYPE::FMT_STRAWBERRY);
+			else if (_mapData[i][2] == "HUNGRY") map->SetFieldMapType(FIELDMAPTYPE::FMT_HUNGRY);
 
 			map->SetMovePos(DIRECTION::DIR_LEFT, POINT{ stoi(_mapData[i][3]), stoi(_mapData[i][4]) });
 			map->SetMovePos(DIRECTION::DIR_RIGHT, POINT{ stoi(_mapData[i][5]), stoi(_mapData[i][6]) });
@@ -153,6 +155,7 @@ void MapManager::GenerateMapParticle()
 		mapSquareGen->initSpeed(0.5f, 0.5f, 0.3f, 0.3f, 0, 0);
 		PARTICLEMANAGER->AddGenerator(mapSquareGen);
 	}
+
 	else if(_curStageNum == 0)
 	{
 		CAMERAMANAGER->init(0, 0, 6720, 15000, 0, 0, WINSIZEX / 2, WINSIZEY / 2);
@@ -310,6 +313,8 @@ void MapManager::ReNewMapUI()
 			if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_ENTER) icons.push_back(5);
 			if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_END) icons.push_back(6);
 			if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_TEMPLE) icons.push_back(7);
+			if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_STRAWBERRY) icons.push_back(8);
+			if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_HUNGRY) icons.push_back(9);
 
 			for (int i = 0; i < icons.size(); i++)
 			{
@@ -325,6 +330,8 @@ void MapManager::ReNewMapUI()
 				case 5:	imgName = "EnteranceMap";	break;
 				case 6:	imgName = "ExitMap";	break;
 				case 7:	imgName = "Altar";	break;
+				case 8:	imgName = "Berry";	break;
+				case 9:	imgName = "Hungry";	break;
 				}
 
 				int x = (icons.size() != 1 ? (icons.size() != 3 || i != 2 ? 12 : 24) : 24) + (i % 2) * 24; // 아이콘의 x위치를 중앙정렬 가능하면 중앙정렬하도록

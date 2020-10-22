@@ -50,6 +50,7 @@ public:
 	WORDSIZE GetWordSize() { return _wordSize; }
 
 	void SetText(string text) { _text = text; }
+	void SetColor(COLORREF rgb) { _color = rgb; }
 	void SetCntPos(int n) { _cntPos = n; }
 	virtual void init(string name, float x, float y, float xSize, float ySize, string text, FONT font, WORDSIZE size, WORDSORT sort = WORDSORT::WSORT_LEFT, COLORREF color = RGB(255,255,255), bool isAnimation = false, WORDANIMATIONSPEED speed = WORDANIMATIONSPEED::WAS_MIDDLE);
 	virtual void render(HDC hdc);

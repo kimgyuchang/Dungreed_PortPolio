@@ -48,3 +48,5 @@
 #include "Katana.h"
 #include "Shamshir.h"
 #include "Saber.h"
+#include "StrawberryFountain.h"
+#include "HungryFountain.h"

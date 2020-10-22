@@ -70,6 +70,11 @@ void gameScene::initUI()
 
 void gameScene::MainGameFrameInit()
 {
+	UIText* descriptionText = new UIText();
+	descriptionText->init("descriptionText", 0, 200, WINSIZEX, 500, "", FONT::PIX, WORDSIZE::WS_BIGGEST, WORDSORT::WSORT_MIDDLE);
+	UIMANAGER->GetGameFrame()->AddFrame(descriptionText);
+	descriptionText->SetIsViewing(false);
+
 	UIText* stageName = new UIText();
 	stageName->init("stageName", WINSIZEX + 100, 200, 500, 500, "", FONT::PIX, WORDSIZE::WS_BIGGEST, WORDSORT::WSORT_MIDDLE);
 	UIMANAGER->GetGameFrame()->AddFrame(stageName);

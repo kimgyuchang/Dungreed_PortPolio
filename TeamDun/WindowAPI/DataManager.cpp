@@ -64,6 +64,12 @@ void DataManager::GetObjectData()
 		Object* obj;
 		switch (stoi(objData[i][0]))
 		{
+		case 1 : // 딸기 분수
+			obj = new StrawberryFountain();
+			break;
+		case 239: // 배고파 분수
+			obj = new HungryFountain();
+			break;
 		case 1500:// 큰 해골
 			obj = new BigWhiteSkel();
 			break;
