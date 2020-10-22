@@ -13,7 +13,7 @@ private:
 	int				_animationCount;	// 로딩시 이미지 애니메이션 재생
 	int				_animationFrame;	// 로딩시 이미지 프레임
 	image*			_background;		// 백그라운드 이미지
-	
+	string			_text[11];
 public:
 	HRESULT init();
 	void	release();

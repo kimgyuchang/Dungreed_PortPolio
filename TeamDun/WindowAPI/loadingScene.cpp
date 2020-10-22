@@ -23,6 +23,28 @@ HRESULT loadingScene::init()
 	this->loadingImage();
 	this->loadingSound();
 	this->loadingFont();
+
+	_text[0] = "던전이 광나도록 청소하는 중...";
+	_text[1] = "곧 죽을 해골병사들을 위로하는 중...";
+	_text[2] = "박쥐농장에서 박쥐 회유하는 중...";
+	_text[3] = "미노타우르스와 달리기 연습하는 중...";
+	_text[4] = "신전에서 광란의 제사 파티 즐기는 중...";
+	_text[5] = "무기상 앞에서 하나 더 달라 따지는 중...";
+	_text[6] = "코딩하고 밤새다 지각하는 중...";
+	_text[7] = "던그리드 원작 플레이하다 멘탈꺠지는 중..";
+	_text[8] = "밴시의 라이브공연 감상하는 중...";
+	_text[9] = "브랜치 병합하다 프로젝트 터지는 중...";
+	_text[10] = "식당 이모의 절찬 음식 먹으며 눈물 흘리는 중...";
+
+	for (int i = 0; i < 50; i++)
+	{
+		int j = RANDOM->range(11);
+		int k = RANDOM->range(11);
+		string temp = _text[j];
+		_text[j] = _text[k];
+		_text[k] = temp;
+	}
+
 	return S_OK;
 }
 
@@ -68,11 +90,21 @@ void loadingScene::render()
 
 	_loadingBar->render();
 	_background->frameRender(getMemDC(), 0, 0);
-	textOut(getMemDC(), _loadingBar->getX() + 250, _loadingBar->getY() + 330, _loading->GetCurKey().c_str(), _loading->GetCurKey().length());
 
+	int percent = (int)((float)_currentGauge *(100 / (float)_loading->GetLoadItem().size() / 10));
+	RECT rect = RectMake(0, 530, WINSIZEX, 300);
+
+	HFONT hFont = CreateFont(20, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, "Neo둥근모");
+	HFONT OldFont;
+
+	SetTextColor(getMemDC(), RGB(255,255,255));
+	OldFont = (HFONT)SelectObject(getMemDC(), hFont);
+	DrawText(getMemDC(), _text[percent].c_str(), -1, &rect, DT_CENTER | DT_WORDBREAK);
 	IMAGEMANAGER->frameRender("number", getMemDC(), 710, 500,(int)((float)_currentGauge /(float)_loading->GetLoadItem().size()*100) % 10, 0);
 	if ((int)((float)_currentGauge *(100 / (float)_loading->GetLoadItem().size()) / 10) > 0)
 	IMAGEMANAGER->frameRender("number", getMemDC(), 690, 500, (float)_currentGauge *(100/(float)_loading->GetLoadItem().size()) / 10, 0);
+	SelectObject(getMemDC(), OldFont);
+	DeleteObject(hFont);
 }
 
 /// <summary>
@@ -280,6 +312,7 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("FairyS00", "Images/Object/FairyS00.bmp", 432, 33, 16, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("FairyXL00", "Images/Object/FairyXL00.bmp", 1440, 90, 16, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("GreenFairy00", "Images/Object/GreenFairy00.bmp", 1440, 90, 16, 1, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("InDungeonShop", "Images/NPC/InDungeonShop.bmp", 303, 81, true, RGB(255, 0, 255));
 
 	// STAGE 1 //
 	_loading->LoadNormalImage("Door0_Closed", "Images/1Floor/Door0_Closed.bmp", 171, 195, true, RGB(255, 0, 255));
@@ -295,6 +328,8 @@ void loadingScene::loadingImage()
 	// NPC //
 	_loading->LoadFrameImage("StrawberryFountain0", "Images/Object/StrawberryFountain0.bmp", 384, 96, 4, 1, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("StrawberryFountain1", "Images/Object/StrawberryFountain1.bmp", 96, 96, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("HungryFountain0", "Images/NPC/HungryFountain0.bmp", 384, 129, 4, 1, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("HungryFountain1", "Images/NPC/HungryFountain1.bmp", 96, 129, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("WormPassage00", "Images/Object/WormPassage00.bmp", 81, 93, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("WormPassageEat00", "Images/Object/WormPassageEat00.bmp", 648, 93, 8, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("WormPassageIdle00", "Images/Object/WormPassageIdle00.bmp", 729, 93, 9, 1, true, RGB(255, 0, 255));

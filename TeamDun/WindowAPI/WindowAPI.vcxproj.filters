@@ -399,6 +399,12 @@
     <ClCompile Include="MagnifyingGlass.cpp">
       <Filter>MainGame\Item\Items\Accessory</Filter>
     </ClCompile>
+    <ClCompile Include="HungryFountain.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="StrawberryFountain.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -716,6 +722,12 @@
     </ClInclude>
     <ClInclude Include="MagnifyingGlass.h">
       <Filter>MainGame\Item\Items\Accessory</Filter>
+    </ClInclude>
+    <ClInclude Include="HungryFountain.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="StrawberryFountain.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

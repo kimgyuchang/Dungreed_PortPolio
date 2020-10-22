@@ -95,7 +95,7 @@ HRESULT Player::init()
 	_aliceZoneIn = false;
 	_swapCoolTime = 0;
 	_accesoryCount = 4;
-	_maxSatiety = 300;
+	_maxSatiety = 200;
 	_goldDrop = 100;
 	_level = 30;
 	_remainPoint = 35;
@@ -480,12 +480,6 @@ void Player::ReturnToHome()
 	_subWeapons[0] = nullptr;
 	_subWeapons[1] = nullptr;
 	_vAccessories.clear();
-	_isPlayerDead = false;
-	_useImage = 0;
-	_money *= 0.2f;
-	_hp = _maxHp;
-	_satiety = 0;
-	_inven->AddItem(DATAMANAGER->GetItemById(4017)); 
 	_checkReturnOn = true;
 }
 
@@ -493,8 +487,13 @@ void Player::DeadToLive()
 {
 	if (_isPlayerDead && !MAPMANAGER->GetStageChanger()->GetIsChangingStage() && _checkReturnOn)
 	{
-		
+		_isPlayerDead = false;
+		_useImage = 0;
 		_checkReturnOn = false;
+		_hp = _maxHp;
+		_satiety = 0;
+		_money *= 0.2f;
+		_inven->AddItem(DATAMANAGER->GetItemById(4017));
 	}
 }
 

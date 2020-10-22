@@ -191,6 +191,7 @@
     <ClInclude Include="GreatBow.h" />
     <ClInclude Include="GunShop.h" />
     <ClInclude Include="HpPixie.h" />
+    <ClInclude Include="HungryFountain.h" />
     <ClInclude Include="IceBat.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
@@ -245,6 +246,7 @@
     <ClInclude Include="StageDoor.h" />
     <ClInclude Include="startScene.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StrawberryFountain.h" />
     <ClInclude Include="SwordSkel.h" />
     <ClInclude Include="townNPCimage.h" />
     <ClInclude Include="Trainer.h" />
@@ -298,6 +300,7 @@
     <ClCompile Include="GreatBow.cpp" />
     <ClCompile Include="GunShop.cpp" />
     <ClCompile Include="HpPixie.cpp" />
+    <ClCompile Include="HungryFountain.cpp" />
     <ClCompile Include="IceBat.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
@@ -355,6 +358,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="StrawberryFountain.cpp" />
     <ClCompile Include="SwordSkel.cpp" />
     <ClCompile Include="townNPCimage.cpp" />
     <ClCompile Include="Trainer.cpp" />

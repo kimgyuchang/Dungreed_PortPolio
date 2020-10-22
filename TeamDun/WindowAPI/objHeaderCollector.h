@@ -52,3 +52,5 @@
 #include "Shamshir.h"
 #include "Saber.h"
 #include "MagnifyingGlass.h"
+#include "StrawberryFountain.h"
+#include "HungryFountain.h"
