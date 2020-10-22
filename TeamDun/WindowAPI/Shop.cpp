@@ -290,6 +290,7 @@ void Shop::Activate()
 	_checkSellFrame->SetIsViewing(false);
 }
 
+
 /// <summary>
 /// Inventory의 Tooltip과 같음. Shop용 ToolTip
 /// </summary>

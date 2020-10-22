@@ -200,6 +200,7 @@
     <ClInclude Include="inventory.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Katana.h" />
+    <ClInclude Include="LalaMagic.h" />
     <ClInclude Include="Lilith.h" />
     <ClInclude Include="LittleGhost.h" />
     <ClInclude Include="loading.h" />
@@ -309,6 +310,7 @@
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Katana.cpp" />
+    <ClCompile Include="LalaMagic.cpp" />
     <ClCompile Include="Lilith.cpp" />
     <ClCompile Include="LittleGhost.cpp" />
     <ClCompile Include="loading.cpp" />

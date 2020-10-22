@@ -362,6 +362,10 @@ void Player::update()
 		RangeGetStatusAbility();
 		ReloadItemChecker();
 		RestoreHpTimerChecker();
+		
+
+		// UI
+		BulletNumUIChecker();
 
 		if (INPUT->GetKeyDown('J'))
 		{
@@ -482,6 +486,11 @@ void Player::ReturnToHome()
 	_subWeapons[1] = nullptr;
 	_vAccessories.clear();
 	_checkReturnOn = true;
+	_hp = _maxHp;
+	_satiety = 0;
+	_money *= 0.2f;
+	_inven->AddItem(DATAMANAGER->GetItemById(4017));
+	_inven->ReloadUIImages();
 }
 
 void Player::DeadToLive()
@@ -491,10 +500,6 @@ void Player::DeadToLive()
 		_isPlayerDead = false;
 		_useImage = 0;
 		_checkReturnOn = false;
-		_hp = _maxHp;
-		_satiety = 0;
-		_money *= 0.2f;
-		_inven->AddItem(DATAMANAGER->GetItemById(4017));
 	}
 }
 
@@ -557,6 +562,21 @@ void Player::SubMaxDash()
 	if (_maxDashCount > 0) _maxDashCount--;	// 대쉬 최대 횟수가 0보다 클때 최대횟수 감소
 	if (_dashCount > _maxDashCount) _dashCount--;	//대쉬횟수가 최대 횟수보다 커지면 대쉬횟수 감소
 	DashUICheck();
+}
+
+void Player::BulletNumUIChecker()
+{
+	if (_weapons[_selectedWeaponIdx] != nullptr && (_weapons[_selectedWeaponIdx]->GetWeaponType() == WEAPONTYPE::WT_PISTOL || _weapons[_selectedWeaponIdx]->GetWeaponType() == WEAPONTYPE::WT_RANGE))
+	{
+		dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("bulletText"))->SetText(to_string(_weapons[_selectedWeaponIdx]->GetCurNumOfBullet()) + " / " + to_string(_weapons[_selectedWeaponIdx]->GetInitNumOfBullet()));
+		UIMANAGER->GetGameFrame()->GetChild("bulletText")->SetIsViewing(true);
+	}
+
+	else
+	{
+		UIMANAGER->GetGameFrame()->GetChild("bulletText")->SetIsViewing(false);
+	}
+
 }
 
 void Player::DashAttack()

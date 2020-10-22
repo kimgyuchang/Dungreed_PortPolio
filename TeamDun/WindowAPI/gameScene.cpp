@@ -75,6 +75,11 @@ void gameScene::MainGameFrameInit()
 	UIMANAGER->GetGameFrame()->AddFrame(descriptionText);
 	descriptionText->SetIsViewing(false);
 
+	UIText* bulletText = new UIText();
+	bulletText->init("bulletText", WINSIZEX - 280, WINSIZEY - 50, 120, 50, "100 / 100", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE);
+	UIMANAGER->GetGameFrame()->AddFrame(bulletText);
+	bulletText->SetIsViewing(true);
+
 	UIText* stageName = new UIText();
 	stageName->init("stageName", WINSIZEX + 100, 200, 500, 500, "", FONT::PIX, WORDSIZE::WS_BIGGEST, WORDSORT::WSORT_MIDDLE);
 	UIMANAGER->GetGameFrame()->AddFrame(stageName);

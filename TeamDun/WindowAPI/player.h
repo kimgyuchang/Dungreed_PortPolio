@@ -300,6 +300,7 @@ public:
 	void DashInvincibility();
 	void AddMaxDash();
 	void SubMaxDash();
+	void BulletNumUIChecker();
 	void DashAttack();
 	void DashImageCheck();
 	void SetTextLeftDown();
