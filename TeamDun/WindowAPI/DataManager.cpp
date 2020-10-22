@@ -305,6 +305,15 @@ void DataManager::GetItemData()
 		case 4025: // 세이버
 			item = new Saber();
 			break;
+		case 4026: // 레이피어
+			item = new Rapier();
+			break;
+		case 4027: // 단창
+			item = new ShortSpear();
+			break;
+		case 4028: // 그웬돌린
+			item = new Gwendolyn();
+			break;
 		default:
 			item = new Item();
 			break;
@@ -456,6 +465,12 @@ Item* DataManager::GetItemById(int id)
 		return new Shamshir(*dynamic_cast<Shamshir*>(_mMapItemData[id]));
 	case 4025: // 세이버
 		return new Saber(*dynamic_cast<Saber*>(_mMapItemData[id]));
+	case 4026: // 레이피어
+		return new Rapier(*dynamic_cast<Rapier*>(_mMapItemData[id]));
+	case 4027: // 단창
+		return new ShortSpear(*dynamic_cast<ShortSpear*>(_mMapItemData[id]));
+	case 4028: // 그웬돌린
+		return new Gwendolyn(*dynamic_cast<Gwendolyn*>(_mMapItemData[id]));
 	default:
 		return _mMapItemData[id];
 	}

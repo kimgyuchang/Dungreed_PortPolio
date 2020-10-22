@@ -390,6 +390,15 @@
     <ClCompile Include="Saber.cpp">
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
     </ClCompile>
+    <ClCompile Include="Rapier.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClCompile>
+    <ClCompile Include="ShortSpear.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClCompile>
+    <ClCompile Include="Gwendolyn.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -697,6 +706,15 @@
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
     </ClInclude>
     <ClInclude Include="Saber.h">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="Rapier.h">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="ShortSpear.h">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="Gwendolyn.h">
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
     </ClInclude>
   </ItemGroup>

@@ -188,6 +188,7 @@
     <ClInclude Include="gameScene.h" />
     <ClInclude Include="Gear.h" />
     <ClInclude Include="GunShop.h" />
+    <ClInclude Include="Gwendolyn.h" />
     <ClInclude Include="HpPixie.h" />
     <ClInclude Include="IceBat.h" />
     <ClInclude Include="image.h" />
@@ -222,6 +223,7 @@
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="PurpleGiantBat.h" />
     <ClInclude Include="random.h" />
+    <ClInclude Include="Rapier.h" />
     <ClInclude Include="RedBat.h" />
     <ClInclude Include="RedGiantBat.h" />
     <ClInclude Include="resource.h" />
@@ -231,6 +233,7 @@
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="Shamshir.h" />
     <ClInclude Include="Shop.h" />
+    <ClInclude Include="ShortSpear.h" />
     <ClInclude Include="singletonBase.h" />
     <ClInclude Include="SkelDog.h" />
     <ClInclude Include="Skill.h" />
@@ -292,6 +295,7 @@
     <ClCompile Include="gameScene.cpp" />
     <ClCompile Include="Gear.cpp" />
     <ClCompile Include="GunShop.cpp" />
+    <ClCompile Include="Gwendolyn.cpp" />
     <ClCompile Include="HpPixie.cpp" />
     <ClCompile Include="IceBat.cpp" />
     <ClCompile Include="image.cpp" />
@@ -324,6 +328,7 @@
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="PurpleGiantBat.cpp" />
     <ClCompile Include="random.cpp" />
+    <ClCompile Include="Rapier.cpp" />
     <ClCompile Include="RedBat.cpp" />
     <ClCompile Include="RedGiantBat.cpp" />
     <ClCompile Include="Restaurant.cpp">
@@ -334,6 +339,7 @@
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="Shamshir.cpp" />
     <ClCompile Include="Shop.cpp" />
+    <ClCompile Include="ShortSpear.cpp" />
     <ClCompile Include="SkelDog.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="Smith.cpp" />

@@ -1,46 +1,64 @@
 #include "stdafx.h"
-#include "Saber.h"
+#include "Gwendolyn.h"
 
-HRESULT Saber::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill * skill, string name, string description, ITEMCLASS itemClass,
-	float minAtk, float maxAtk, float atkSpeed, int defence, bool useAtkSpeed, int numOfBullet, float reloadTime, Bullet * bullet,
-	float accuracy, int buyPrice, bool isBulletInfinite, vector<string> imageNames, string invenImage, string dropImage)
+HRESULT Gwendolyn::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill * skill, string name, string description, ITEMCLASS itemClass, float minAtk, float maxAtk, float atkSpeed, int defence, bool useAtkSpeed, int numOfBullet, float reloadTime, Bullet * bullet, float accuracy, int buyPrice, bool isBulletInfinite, vector<string> imageNames, string invenImage, string dropImage)
 {
 	Item::init(id, itemType, weaponType, skill, name, description, itemClass, minAtk, maxAtk, atkSpeed,
 		defence, useAtkSpeed, numOfBullet, reloadTime, bullet, accuracy, buyPrice, isBulletInfinite, imageNames, invenImage, dropImage);
 
 	_isRenderFirst = true;
-	_baseAngle = -(PI / 6);
-	_slashImage = IMAGEMANAGER->findImage("BambooSword_Effect");
+	_slashImage = IMAGEMANAGER->findImage("GwendolynEffect");
+	_baseAngle = 0;
+	_count = 0;
+
 	return S_OK;
 }
 
-void Saber::update()
+void Gwendolyn::update()
 {
 	Item::update();
 	SlashUpdater();
+	if (_isAttacking)
+	{
+		this->Shot();
+	}
 }
 
-void Saber::render(HDC hdc)
+void Gwendolyn::render(HDC hdc)
 {
 	CAMERAMANAGER->FrameRender(hdc, _vImages[0], _renderPosX, _renderPosY, 0, _yFrame, _angle + _baseAngle);
 	for (int i = 0; i < _vSlashes.size(); i++) _vSlashes[i]->render(hdc);
 }
 
-void Saber::Activate()
+void Gwendolyn::Shot() 
 {
-	SOUNDMANAGER->play("ÈÖµÎ¸£±â_°¡º­¿ò (5)");
-	_renderAngle = 0;
+	_count++;
 
-	SaberEffect* slash = new SaberEffect();
+	_renderPosX = _renderPosX + cosf(_angle) * 20;
+	_renderPosY = _renderPosY - sinf(_angle) * 20;
+
+	if (_count > 10)
+	{
+		_isAttacking = false;
+		_count = 0;
+	}
+}
+
+void Gwendolyn::Activate()
+{
+	SOUNDMANAGER->play("¸Û¸ÛÀÌ ¿Ð¿Ð");
+	_renderAngle = 0;
+	_isAttacking = true;
+
+	GwendolynEffect* slash = new GwendolynEffect();
 
 	slash->init(GetAngleCheckPosX() - _slashImage->getFrameWidth(), GetAngleCheckPosY() - _slashImage->getFrameHeight(), _slashImage->getKey(), (_angle));
 	slash->_parent = this;
 
-	_baseAngle = (_baseAngle < 0 ? (PI / 3) : -(PI / 3));
 	_vSlashes.push_back(slash);
 }
 
-void Saber::SlashUpdater()
+void Gwendolyn::SlashUpdater()
 {
 	for (int i = 0; i < _vSlashes.size(); i++)
 	{
@@ -53,16 +71,17 @@ void Saber::SlashUpdater()
 	}
 }
 
-void Saber::SetBaseRenderPos()
+void Gwendolyn::SetBaseRenderPos()
 {
-	bool playerIsLeft = ENTITYMANAGER->getPlayer()->GetIsLeft();	//ÇÃ·¹ÀÌ¾î ¿ÞÂÊÀÎÁö
+	bool playerIsLeft = ENTITYMANAGER->getPlayer()->GetIsLeft();
 	_baseAngle < 0 ? _yFrame = 1 : _yFrame = 0;
 
 	_angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 25 : 50);
 	_angleCheckPosY = ENTITYMANAGER->getPlayer()->GetY() + 50;
 	_renderPosX = _angleCheckPosX - _vImages[_currentImage]->getFrameWidth() / 2;
 	_renderPosY = _angleCheckPosY - _vImages[_currentImage]->getFrameHeight() / 2;
-	if (!_isAttacking)	//°ø°ÝÁßÀÌ ¾Æ´Ï¸é
+
+	if (!_isAttacking)
 	{
 		_angle = getAngle(_angleCheckPosX, _angleCheckPosY, CAMERAMANAGER->GetAbsoluteX(_ptMouse.x), CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
 		if (_angle > PI * 2) _angle -= PI * 2;
@@ -70,42 +89,32 @@ void Saber::SetBaseRenderPos()
 	}
 }
 
-void Saber::ChangeMap()
+void Gwendolyn::ChangeMap()
 {
 	_vSlashes.clear();
 }
 
-
-void SaberEffect::init(float x, float y, string imgName, float angle)
+void GwendolynEffect::init(float x, float y, string imgName, float angle)
 {
 	_x = x;
 	_y = y;
 	_angle = SetAngleInBoundary(angle);
 
-	int posX;
-	if (ENTITYMANAGER->getPlayer()->GetIsLeft())
-	{
-		posX = -50;
-	}
-	else
-	{
-		posX = 50;
-	}
-	_radius = 90;
+	_radius = 180;
 
-	_effect = EFFECTMANAGER->AddEffect(_x + posX, _y, imgName, 6, 0, 0, false, 255, _angle, 2, 2);
+	_effect = EFFECTMANAGER->AddEffect(_x, _y, imgName, 6, 0, 0, false, 255, _angle, 2, 2);
 }
 
-void SaberEffect::update()
+void GwendolynEffect::update()
 {
 	SetCollide();
 }
 
-void SaberEffect::render(HDC hdc)
+void GwendolynEffect::render(HDC hdc)
 {
 }
 
-void SaberEffect::SetCollide()
+void GwendolynEffect::SetCollide()
 {
 	if (_effect->GetFrameX() == 0 && _effect->GetAnimTimer() == 0)
 	{
@@ -114,7 +123,7 @@ void SaberEffect::SetCollide()
 		{
 			if (_vObjs[i]->GetType() == OBJECTTYPE::OT_MONSTER || _vObjs[i]->GetType() == OBJECTTYPE::OT_BREAKABLE)
 			{
-				if (UTIL::interactRectArc(_vObjs[i]->GetBody(), POINT{ (LONG)_parent->GetAngleCheckPosX(), (LONG)_parent->GetAngleCheckPosY() }, _radius, _angle - PI * 0.2f, _angle + PI * 0.2f, _radius / 2))
+				if (UTIL::interactRectArc(_vObjs[i]->GetBody(), POINT{ (LONG)_parent->GetAngleCheckPosX(), (LONG)_parent->GetAngleCheckPosY() }, _radius, _angle - PI * 0.1f, _angle + PI * 0.1f, _radius))
 				{
 					_vObjs[i]->GetDamage();
 				}

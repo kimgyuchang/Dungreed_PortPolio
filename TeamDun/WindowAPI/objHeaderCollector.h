@@ -48,3 +48,6 @@
 #include "Katana.h"
 #include "Shamshir.h"
 #include "Saber.h"
+#include "Rapier.h"
+#include "ShortSpear.h"
+#include "Gwendolyn.h"
