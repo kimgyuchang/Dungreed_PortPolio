@@ -160,6 +160,7 @@
     <ClInclude Include="BigWhiteSkel.h" />
     <ClInclude Include="BlessOfSage.h" />
     <ClInclude Include="BloodOfSrobeo.h" />
+    <ClInclude Include="BloodStoneRing.h" />
     <ClInclude Include="BombPouch.h" />
     <ClInclude Include="Boutique.h" />
     <ClInclude Include="BowSkel.h" />
@@ -186,6 +187,7 @@
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="gameScene.h" />
     <ClInclude Include="Gear.h" />
+    <ClInclude Include="GreatBow.h" />
     <ClInclude Include="GunShop.h" />
     <ClInclude Include="HpPixie.h" />
     <ClInclude Include="IceBat.h" />
@@ -261,6 +263,7 @@
     <ClCompile Include="BigWhiteSkel.cpp" />
     <ClCompile Include="BlessOfSage.cpp" />
     <ClCompile Include="BloodOfSrobeo.cpp" />
+    <ClCompile Include="BloodStoneRing.cpp" />
     <ClCompile Include="BombPouch.cpp" />
     <ClCompile Include="Boutique.cpp" />
     <ClCompile Include="BowSkel.cpp" />
@@ -286,6 +289,7 @@
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="gameScene.cpp" />
     <ClCompile Include="Gear.cpp" />
+    <ClCompile Include="GreatBow.cpp" />
     <ClCompile Include="GunShop.cpp" />
     <ClCompile Include="HpPixie.cpp" />
     <ClCompile Include="IceBat.cpp" />

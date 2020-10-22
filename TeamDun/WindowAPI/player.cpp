@@ -104,7 +104,8 @@ HRESULT Player::init()
 	_immuneElectric = false;
 	_immunePosion = false;
 	
-
+	_killPoint = 0;
+	_maxKillPoint = 10;
 	for (int i = 0; i < 7; i++) _abilityNum[i] = 0;
 
 	_criticalPercent = 2;
@@ -171,11 +172,12 @@ HRESULT Player::init()
 	_inven->init();
 
 	_inven->AddItem(DATAMANAGER->GetItemById(4000));
+	_inven->AddItem(DATAMANAGER->GetItemById(4007));
 	_inven->AddItem(DATAMANAGER->GetItemById(4001));
 	_inven->AddItem(DATAMANAGER->GetItemById(4002));
 	_inven->AddItem(DATAMANAGER->GetItemById(4016));
-	_inven->AddItem(DATAMANAGER->GetItemById(4003));
-	_inven->AddItem(DATAMANAGER->GetItemById(4004));
+	_inven->AddItem(DATAMANAGER->GetItemById(4006));
+	_inven->AddItem(DATAMANAGER->GetItemById(4100));
 	_inven->AddItem(DATAMANAGER->GetItemById(4120));
 	_inven->AddItem(DATAMANAGER->GetItemById(4015));
 	_inven->AddItem(DATAMANAGER->GetItemById(4017));
@@ -217,12 +219,8 @@ void Player::update()
 				_dashCount--;
 				DashImageCheck();;
 			}
-
-			if (INPUT->GetKeyDown('X'))				//X키를 눌렀을때
-			{
-				ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_PLAYERNOCOL, _x, _y, getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y), _ptMouse.x, _ptMouse.y), 10, 10, 600, true);
-			}   //플레이어의 x,y좌표를 받아와서 플레이어와 마우스 좌표 간의 각도를 구한후 그 거리만큼 총알이 날아가게끔
-
+			
+		
 			if (CAMERAMANAGER->GetRelativeX(_x + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() / 2) >= _ptMouse.x)
 			{	//플레이어의 중점+이미지 가로길이의 반이 마우스 x좌표보다 크거나 같을때
 				_isLeft = true;		//왼쪽을 바라보게
@@ -244,10 +242,14 @@ void Player::update()
 			_realAttackSpeed--;
 			if (INPUT->GetKey(VK_LBUTTON))	//만약 왼쪽 버튼을누르면
 			{
-				if (_weapons[_selectedWeaponIdx] != nullptr && _realAttackSpeed < 0)	//장착된무기가 있고, 공격 타이머가 충족되었다면
+				if (_weapons[_selectedWeaponIdx] != nullptr )	//장착된무기가 있고, 공격 타이머가 충족되었다면
 				{
-					_realAttackSpeed = 60 / (_atkSpeed + (_atkSpeed * _atkSpeedPer / 100));
-					_weapons[_selectedWeaponIdx]->Activate();
+					_weapons[_selectedWeaponIdx]->ActivateAlways();
+					if (_realAttackSpeed < 0)
+					{
+						_realAttackSpeed = 60 / (_atkSpeed + (_atkSpeed * _atkSpeedPer / 100));
+						_weapons[_selectedWeaponIdx]->Activate();
+					}
 				}
 			}
 
@@ -427,7 +429,7 @@ void Player::ReturnToHome()
 	if (_weapons[_selectedWeaponIdx] != nullptr) _weapons[_selectedWeaponIdx]->EquipUnEquipStatus(false);
 	if (_subWeapons[_selectedWeaponIdx] != nullptr) _subWeapons[_selectedWeaponIdx]->EquipUnEquipStatus(false);
 	for (int i = 0; i < _vAccessories.size(); i++) _vAccessories[i]->EquipUnEquipStatus(false);
-
+	
 	_weapons[0] = nullptr;
 	_weapons[1] = nullptr;
 	_subWeapons[0] = nullptr;

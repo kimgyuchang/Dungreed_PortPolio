@@ -254,6 +254,11 @@ private:
 
 	// 보스 //
 	bool			_isBossReady;
+
+
+	// 아이템 관련//
+	int				_killPoint;
+	int				_maxKillPoint;
 public:
 
 	virtual HRESULT init();
@@ -293,8 +298,6 @@ public:
 	void RegenDefenceSkill();
 
 	void GetHitDamage(int damage);
-
-	void AdaptCriminalCount();
 
 	void RestoreHpTimerChecker();
 
@@ -426,6 +429,7 @@ public:
 	bool			GetIsPlayerDead()		{ return _isPlayerDead; }
 	int				GetSpecialAbilityPoint(int index) { return _abilityNum[index]; }
 	int				GetRoomMoveSatiation()	{ return _roomMoveSatiation; }
+	int				GetKillPoint()			{ return _killPoint; }
 
 	void			SetIsReload(bool isReload)						{ _isReload = isReload; }
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
@@ -521,5 +525,5 @@ public:
 	void			SetRemainPoint(int remainPoint)					{ _remainPoint = remainPoint; }
 	void			SetSpecialAbilityNum(int index, int point)		{ _abilityNum[index] = point; }
 	void			SetSpecialAbilityOn(bool isOn, int index1, int index2) { _specialAbilityOn[index1][index2] = isOn; }
-
+	void			SetKillPoint(int killPoint)						{ _killPoint = killPoint; }
 }; 

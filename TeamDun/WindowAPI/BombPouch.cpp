@@ -13,15 +13,21 @@ HRESULT BombPouch::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill 
 void BombPouch::update()
 {
 	
-	_isReady = true;
-	if (_isReady)
+	
+	if (ENTITYMANAGER->getPlayer()->GetIsDash())
 	{
-		if (ENTITYMANAGER->getPlayer()->GetIsDash())
+		if (_isReady)
 		{
-
-			_isReady = false;
+			ENTITYMANAGER->makeBullet("Bomb0", "BulletFX0103", BT_PLAYER, ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY(), 0,15, 0, 500, true, 0, BST_GRAVITY,"아이템_폭탄바구니");
 		}
+		_isReady = false;
+		
 	}
+	else
+	{
+		_isReady = true;
+	}
+
 
 	
 }

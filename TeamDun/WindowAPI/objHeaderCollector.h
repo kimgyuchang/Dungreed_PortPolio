@@ -44,3 +44,6 @@
 #include "Spike.h"
 #include "Gear.h"
 #include "BasicShortSword.h"
+#include "BombPouch.h"
+#include "BloodStoneRing.h"
+#include "GreatBow.h"
