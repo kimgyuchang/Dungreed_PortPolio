@@ -201,6 +201,7 @@ private:
 	int				_money;					// 돈
 	int				_level;					// 레벨
 	CLOTHTYPE		_clothType;				// 현재 입은 옷
+
 	// - 내부적 수치
 	int				_experience;			// 경험치
 	int				_needExperience;		// 필요 경험치
@@ -241,7 +242,18 @@ private:
 	// 라이더H //
 	int				_prevPowerPlus;					// 저번 프레임의 증가된 파워량
 	
+	// 범죄자 실루엣 //
+	int				_criminalCount;
+	int				_prevCriminalCount;
 
+	// 뚱뚱보 //
+	bool		    _useMeleeWeapon;
+
+	// 마검사 //
+	int			    _playerDeadCount;
+
+	// 보스 //
+	bool			_isBossReady;
 public:
 
 	virtual HRESULT init();
@@ -282,6 +294,8 @@ public:
 
 	void GetHitDamage(int damage);
 
+	void AdaptCriminalCount();
+
 	void RestoreHpTimerChecker();
 
 	void RemoveMagicShield();
@@ -301,12 +315,16 @@ public:
 	void JumpAttackRectUpdate();
 	void AbnormalState(); // 상태이상 구현
 	void ReloadBullet();
+
 	//캐릭터 능력 구현 함수
 	void CheckAliceZone();
 	void AdjustAlicePower();
 	void SetIkinaBearAngry();
 	void CheckMoveSpeedRiderH();
+	void AdaptCriminalCount(bool isPlus);
 	void CheckCliminal();
+	void Checkfasto();
+	void CheckMasterChef();
 	
 	void SetHpUI();
 	// GETSET //
@@ -391,6 +409,8 @@ public:
 	int				GetMaxSatiety()			{ return _maxSatiety; }
 	int				GetRageCurrent()		{ return _rageCurrent; }
 	int				GetRageMax()			{ return _rageMax; }
+	int				GetMaxPoint()			{ return _maxPoint; }
+	int				GetRemainPoint()		{ return _remainPoint; }
 	bool			GetIsRaging()			{ return _isRaging; }
 	int				GetRageTimer()			{ return _rageTimer; }
 	float			GetPrevPowerPlus()		{ return _prevPowerPlus; }
@@ -400,7 +420,11 @@ public:
 	CLOTHTYPE		GetClothType()			{ return _clothType; }
 	int				GetRestorePrevHp()		{ return _restorePrevHp; }
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
+	bool			GetIsBossReady()		{ return _isBossReady; }
+
+	int				GetDashRestoreTime()	{ return _dashRestoreTime; }
 	bool			GetIsPlayerDead()		{ return _isPlayerDead; }
+	int				GetSpecialAbilityPoint(int index) { return _abilityNum[index]; }
 	int				GetRoomMoveSatiation()	{ return _roomMoveSatiation; }
 
 	void			SetIsReload(bool isReload)						{ _isReload = isReload; }
@@ -486,5 +510,16 @@ public:
 	void			SetRestorePrevHp(int num)						{ _restorePrevHp = num; }
 	void			SetMaxBullet(int maxBullet)						{ _maxBullet = maxBullet; }
 	void			SetBulletCount(int bulletCount)					{ _bulletCount = bulletCount; }
+	void			SetCriminalCount(int count)						{ _criminalCount = count; }
+	void			SetPrevCriminalCount(int count)					{ _prevCriminalCount = count; }
+	void			SetplayerDeadCount(int count)					{ _playerDeadCount = count; }
+
+	void			SetIsBossReady(bool isBossReady)				{ _isBossReady = isBossReady; }
+	void			SetDashRestoreTime(int time)					{ _dashRestoreTime = time; }
 	void			SetRoomMoveSatiation(int roomMoveSatiation)		{ _roomMoveSatiation = roomMoveSatiation; }
-};
+	void			SetMaxPoint(int maxPoint)						{ _maxPoint = maxPoint; }
+	void			SetRemainPoint(int remainPoint)					{ _remainPoint = remainPoint; }
+	void			SetSpecialAbilityNum(int index, int point)		{ _abilityNum[index] = point; }
+	void			SetSpecialAbilityOn(bool isOn, int index1, int index2) { _specialAbilityOn[index1][index2] = isOn; }
+
+}; 

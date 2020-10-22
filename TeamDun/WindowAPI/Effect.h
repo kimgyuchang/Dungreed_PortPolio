@@ -18,8 +18,9 @@ private :
 	float	_scaleY;
 	bool	_isAlpha;
 	bool	_useCamera;
+	bool	_isFirstViewing;
 public :
-	HRESULT init(float x, float y, string imgName, int animSpeed, int frameX = 0, int frameY = 0, bool isLoop = false, int alpha = 255, float angle = 0, float scaleX = 1, float scaleY = 1 ,bool isAlpha = false, bool useCamera = false);
+	HRESULT init(float x, float y, string imgName, int animSpeed, int frameX = 0, int frameY = 0, bool isLoop = false, int alpha = 255, float angle = 0, float scaleX = 1, float scaleY = 1, bool isAlpha = false, bool useCamera = false, bool isFirstViewing = true);
 	void update();
 	void release();
 	void render(HDC hdc);
@@ -33,5 +34,6 @@ public :
 	float GetY() { return _y; }
 	int GetFrameX() { return _frameX; }
 	int GetAnimTimer() { return _animTimer; }
+	bool GetIsFirstViewing()  { return _isFirstViewing;}
 };
 

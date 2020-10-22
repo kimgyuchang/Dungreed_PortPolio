@@ -13,6 +13,7 @@ enum BULLETTYPE
 	BT_PLAYER,
 	BT_PLAYERNOCOL
 };
+
 class Bullet
 {
 private :
@@ -35,6 +36,9 @@ private :
 	float			_maxDistance;
 	float			_damage;
 
+	int				_particleTimer;
+	bool			_useTraceParticle;
+
 	bool			_isFrame;
 	bool			_isDead;
 
@@ -43,6 +47,7 @@ public :
 	virtual void	update();
 	virtual	void	release();
 	virtual void	render(HDC hdc);
+	void GenerateTraceParticle();
 	void makeBullet(const char* imageName,string effectIgName, BULLETTYPE type, float x, float y, float angle,float damage, float speed, float maxDis, bool isFrame ,float igAngle =0 ,BULLETSPEEDTYPE speedtype= BST_NOMAL);
 
 	void moveBullet();
@@ -86,4 +91,5 @@ public :
 	void SetMaxDis(float maxDistance) {  _maxDistance = maxDistance; }
 	void SetIsDead(bool isDead) { _isDead = isDead; }
 	void SetDamage(float damage) { _damage = damage; }
+	void SetUseTraceParticle(bool isOn) { _useTraceParticle = isOn; }
 };

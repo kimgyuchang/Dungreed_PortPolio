@@ -157,9 +157,11 @@
     <ClInclude Include="Banshee.h" />
     <ClInclude Include="BasicShortSword.h" />
     <ClInclude Include="Belial.h" />
+    <ClInclude Include="BelialDie.h" />
     <ClInclude Include="BigWhiteSkel.h" />
     <ClInclude Include="BlessOfSage.h" />
     <ClInclude Include="BloodOfSrobeo.h" />
+    <ClInclude Include="BombPouch.h" />
     <ClInclude Include="Boutique.h" />
     <ClInclude Include="BowSkel.h" />
     <ClInclude Include="Box.h" />
@@ -224,6 +226,7 @@
     <ClInclude Include="RedGiantBat.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Restaurant.h" />
+    <ClInclude Include="SaveLoadManager.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="Shop.h" />
     <ClInclude Include="singletonBase.h" />
@@ -257,9 +260,11 @@
     <ClCompile Include="Banshee.cpp" />
     <ClCompile Include="BasicShortSword.cpp" />
     <ClCompile Include="Belial.cpp" />
+    <ClCompile Include="BelialDie.cpp" />
     <ClCompile Include="BigWhiteSkel.cpp" />
     <ClCompile Include="BlessOfSage.cpp" />
     <ClCompile Include="BloodOfSrobeo.cpp" />
+    <ClCompile Include="BombPouch.cpp" />
     <ClCompile Include="Boutique.cpp" />
     <ClCompile Include="BowSkel.cpp" />
     <ClCompile Include="Box.cpp" />
@@ -322,6 +327,7 @@
     <ClCompile Include="Restaurant.cpp">
       <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</BasicRuntimeChecks>
     </ClCompile>
+    <ClCompile Include="SaveLoadManager.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="Shop.cpp" />
     <ClCompile Include="SkelDog.cpp" />

@@ -223,6 +223,9 @@ void FieldMap::LoadObject()
 		case 102: // 오크통
 			obj = new Box(*dynamic_cast<Box*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
+		case 5000: // 보스시체
+			obj = new BelialDie(*dynamic_cast<BelialDie*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 		case 230: // 피아트 - 마을 총기상점
 			obj = new GunShop(*dynamic_cast<GunShop*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			dynamic_cast<GunShop*>(obj)->initSecond();
@@ -282,6 +285,7 @@ void FieldMap::LoadObject()
 		case 2000: // 벨리알
 			dynamic_cast<Belial*>(obj)->SetAfterSpawn();
 			break;
+
 		}
 
 		_vObjs.push_back(obj);
@@ -788,14 +792,32 @@ void FieldMap::render(HDC hdc)
 	{
 		CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("PixelMapIg"), 0, 0);
 	} // 픽셀충돌 렌더
+	
+
+	for (int i = 0; i < EFFECTMANAGER->GetVEffect().size(); i++)
+	{
+		if (!EFFECTMANAGER->GetVEffect()[i]->GetIsFirstViewing())
+		{
+			EFFECTMANAGER->GetVEffect()[i]->render(hdc);
+		}
+	}
 
 	for (int i = 0; i < _vObjs.size(); i++)
 	{
 		if (_vObjs[i]->GetRenderIndex() == 1)
 			_vObjs[i]->render(hdc);
 	} // 오브젝트 렌더 1 렌더
-
-	EFFECTMANAGER->render(hdc);
+	for (int i = 0; i < EFFECTMANAGER->GetVCamerText().size(); i++)
+	{
+		EFFECTMANAGER->GetVCamerText()[i]->render(hdc);
+	}
+	for (int i = 0; i < EFFECTMANAGER->GetVEffect().size(); i++)
+	{
+		if (EFFECTMANAGER->GetVEffect()[i]->GetIsFirstViewing())
+		{
+			EFFECTMANAGER->GetVEffect()[i]->render(hdc);
+		}
+	}
 	ENTITYMANAGER->render(hdc);
 	PARTICLEMANAGER->render(hdc);
 	// 플레이어 및 불릿 등 렌더
@@ -806,7 +828,7 @@ void FieldMap::render(HDC hdc)
 			_vObjs[i]->render(hdc);
 	} // 오브젝트 렌더 2 렌더
 
-
+	
 	IMAGEMANAGER->findImage("MiniMapGroundIg")->render(hdc, 0, 0);
 	//미니맵에 플레이어 렌더
 	if (_fileName == "stage0_town")

@@ -11,7 +11,7 @@ void iniData::release()
 }
 
 //데이터 추가하기
-void iniData::addData(const char * section, const char * key, const char * value)
+void iniData::addData(const char* section, const char* key, const char* value)
 {
 	//ini데이터 구조체 초기화
 	tagIniData data;
@@ -24,7 +24,7 @@ void iniData::addData(const char * section, const char * key, const char * value
 }
 
 //데이터 세이브하기
-void iniData::saveINI(const char * fileName)
+void iniData::saveINI(const char* fileName)
 {
 	char str[256];
 	char dir[256];
@@ -43,7 +43,7 @@ void iniData::saveINI(const char * fileName)
 }
 
 //문자로 값을 로드하기(파일이름, 섹션, 키)
-char * iniData::loadDataString(const char * fileName, const char * section, const char * key)
+char* iniData::loadDataString(const char* fileName, const char* section, const char* key)
 {
 	char str[256];
 	char dir[256];
@@ -63,7 +63,7 @@ char * iniData::loadDataString(const char * fileName, const char * section, cons
 }
 
 //정수로 값을 로드하기(파일이름, 섹션, 키)
-int iniData::loadDataInteger(const char * fileName, const char * section, const char * key)
+int iniData::loadDataInteger(const char* fileName, const char* section, const char* key)
 {
 	char str[256];
 	char dir[256];
@@ -79,7 +79,7 @@ int iniData::loadDataInteger(const char * fileName, const char * section, const 
 }
 
 //실수로 값을 로드하기(파일이름, 섹션, 키)
-float iniData::loadDataFloat(const char * fileName, const char * section, const char * key)
+float iniData::loadDataFloat(const char* fileName, const char* section, const char* key)
 {
 	return (atof)(loadDataString(fileName, section, key));
 	//atoi => 문자열을 정수로

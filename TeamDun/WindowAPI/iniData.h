@@ -32,7 +32,7 @@ public:
 	//정수로 값을 로드하기(파일이름, 섹션, 키)
 	int loadDataInteger(const char* fileName, const char* section, const char* key);
 	//실수로 값을 로드하기(파일이름, 섹션, 키)
-    float loadDataFloat(const char* fileName, const char* section, const char* key);
+	float loadDataFloat(const char* fileName, const char* section, const char* key);
 
 };
 
