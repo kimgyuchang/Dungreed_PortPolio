@@ -91,7 +91,7 @@ void SaberEffect::init(float x, float y, string imgName, float angle)
 	{
 		posX = 50;
 	}
-	_radius = 100;
+	_radius = 115;
 
 	_effect = EFFECTMANAGER->AddEffect(_x + posX, _y, imgName, 6, 0, 0, false, 255, _angle, 2, 2);
 }

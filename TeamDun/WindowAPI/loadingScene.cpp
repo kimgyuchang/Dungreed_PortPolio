@@ -961,7 +961,7 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("Katana", "Images/item/Katana.bmp", 130, 260, 1, 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Katana_inven", "Images/item/Katana_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Katana_drop", "Images/item/Katana_drop.bmp", 81, 32, true, RGB(255, 0, 255));
-	_loading->LoadFrameImage("KatanaSwing", "Images/item/KatanaSwing.bmp", 1860, 271, 6, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("KatanaSwing", "Images/item/KatanaSwing.bmp", 2570, 378, 6, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("Shamshir", "Images/item/Shamshir.bmp", 130, 260, 1, 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Shamshir_drop", "Images/item/Shamshir_drop.bmp", 72, 32, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Shamshir_inven", "Images/item/Shamshir_inven.bmp", 57, 57, true, RGB(255, 0, 255));

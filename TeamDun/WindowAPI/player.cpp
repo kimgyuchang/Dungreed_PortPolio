@@ -393,6 +393,7 @@ void Player::update()
 	{
 		pixelCollision();
 		PlayerDeadTimerCheck();
+		DeadToLive();
 		SetNewMaxHp();
 	}
 }
@@ -463,9 +464,8 @@ void Player::PlayerDeadTimerCheck()
 
 void Player::ReturnToHome()
 {
-	ReturnToHomeFoodInit();
-	
 	MAPMANAGER->GetStageChanger()->MoveStage(0);
+	ReturnToHomeFoodInit();
 	_inven->GetVItemList().clear();
 	if (_weapons[_selectedWeaponIdx] != nullptr) _weapons[_selectedWeaponIdx]->EquipUnEquipStatus(false);
 	if (_subWeapons[_selectedWeaponIdx] != nullptr) _subWeapons[_selectedWeaponIdx]->EquipUnEquipStatus(false);
@@ -480,7 +480,17 @@ void Player::ReturnToHome()
 	_money *= 0.2f;
 	_hp = _maxHp;
 	_satiety = 0;
-	_inven->AddItem(DATAMANAGER->GetItemById(4017));
+	_inven->AddItem(DATAMANAGER->GetItemById(4017)); 
+	_checkReturnOn = true;
+}
+
+void Player::DeadToLive()
+{
+	if (_isPlayerDead && !MAPMANAGER->GetStageChanger()->GetIsChangingStage() && _checkReturnOn)
+	{
+		
+		_checkReturnOn = false;
+	}
 }
 
 void Player::ReturnToHomeFoodInit()

@@ -83,18 +83,18 @@ void KatanaSwingEffect::init(float x, float y, string imgName, float angle)
 	_y = y;
 	_angle = SetAngleInBoundary(angle);
 
-	_radius = 140;
+	_radius = 170;
 
 	int posX, posY;
 	if (ENTITYMANAGER->getPlayer()->GetIsLeft())
 	{
-		posX = 300;
-		posY = 100;
+		posX = 250;
+		posY = 200;
 	}
 	else
 	{
-		posX = 20;
-		posY = 160;
+		posX = 170;
+		posY = 200;
 	}
 	_effect = EFFECTMANAGER->AddEffect(_x - posX, _y - posY, imgName, 6, 0, 0, false, 255, _angle);
 }

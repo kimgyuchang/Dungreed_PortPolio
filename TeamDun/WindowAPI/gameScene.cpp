@@ -70,6 +70,10 @@ void gameScene::initUI()
 
 void gameScene::MainGameFrameInit()
 {
+	UIText* stageName = new UIText();
+	stageName->init("stageName", WINSIZEX + 100, 200, 500, 500, "", FONT::PIX, WORDSIZE::WS_BIGGEST, WORDSORT::WSORT_MIDDLE);
+	UIMANAGER->GetGameFrame()->AddFrame(stageName);
+
 	UIFrame* container = new UIFrame();
 	container->init("swapContainer", WINSIZEX - 180, WINSIZEY - 150, 200, 200, "");
 	UIMANAGER->GetGameFrame()->AddFrame(container);

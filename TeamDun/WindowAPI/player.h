@@ -70,7 +70,8 @@ private:
 	int				_bulletCount;
 	int				_maxBullet;
 	image*			_dashEffectCharImage;	 // 대쉬 캐릭터 흰색 이미지
-	
+	bool			_checkReturnOn;
+
 	// 피격관련
 	bool			_isStun;				//스턴상태인지
 	int				_stunCount;
@@ -286,6 +287,7 @@ public:
 	void PlayerIsDead();
 	void PlayerDeadTimerCheck();
 	void ReturnToHome();
+	void DeadToLive();
 	void ReturnToHomeFoodInit();
 	void DashInvincibility();
 	void AddMaxDash();
