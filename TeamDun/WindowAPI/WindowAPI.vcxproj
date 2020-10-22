@@ -226,8 +226,10 @@
     <ClInclude Include="RedGiantBat.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Restaurant.h" />
+    <ClInclude Include="Saber.h" />
     <ClInclude Include="SaveLoadManager.h" />
     <ClInclude Include="sceneManager.h" />
+    <ClInclude Include="Shamshir.h" />
     <ClInclude Include="Shop.h" />
     <ClInclude Include="singletonBase.h" />
     <ClInclude Include="SkelDog.h" />
@@ -327,8 +329,10 @@
     <ClCompile Include="Restaurant.cpp">
       <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</BasicRuntimeChecks>
     </ClCompile>
+    <ClCompile Include="Saber.cpp" />
     <ClCompile Include="SaveLoadManager.cpp" />
     <ClCompile Include="sceneManager.cpp" />
+    <ClCompile Include="Shamshir.cpp" />
     <ClCompile Include="Shop.cpp" />
     <ClCompile Include="SkelDog.cpp" />
     <ClCompile Include="Skill.cpp" />

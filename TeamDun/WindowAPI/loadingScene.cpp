@@ -957,10 +957,16 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("BambooSword_inven", "Images/item/BambooSword_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BambooSword_Effect", "Images/item/BambooSword_Effect.bmp", 300, 108, 3, 1, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Monocle", "Images/item/Monocle.bmp", 57, 57, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("Katana", "Images/item/Katana.bmp", 130, 130, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Katana", "Images/item/Katana.bmp", 130, 260, 1, 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Katana_inven", "Images/item/Katana_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Katana_drop", "Images/item/Katana_drop.bmp", 81, 32, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("KatanaSwing", "Images/item/KatanaSwing.bmp", 1860, 271, 6, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Shamshir", "Images/item/Shamshir.bmp", 130, 260, 1, 2, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Shamshir_drop", "Images/item/Shamshir_drop.bmp", 72, 32, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Shamshir_inven", "Images/item/Shamshir_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Saber", "Images/item/Saber.bmp", 130, 260, 1, 2, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Saber_drop", "Images/item/Saber_drop.bmp", 72, 32, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Saber_inven", "Images/item/Saber_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));

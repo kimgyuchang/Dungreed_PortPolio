@@ -24,3 +24,5 @@ id,itemType,weaponType,skill,name,description,itemClass,minAtk,maxAtk,atkSpeed,d
 4021,한손무기,근접,-1,죽도,날 없이 검술 훈련을 할 때 사용되는 검,일반,5,6,6.06,0,0,0,0,-1,0,680,0,BambooSword,.,.,BambooSword_inven,BambooSword_drop,.,.,.,.,.,.,.,.,.
 4022,악세서리,무기아님,-1,모노클,적의 약점을 더 잘 보여주게 하는 안경,일반,0,0,0,0,0,0,0,-1,0,570,0,Monocle,.,.,Monocle,Monocle,CRITICALPERCENT,5,.,DEFENCE,1,.,.,.,.
 4023,두손무기,카타나,-1,카타나,단 한 번의 베기를 위해 만들어진 날카로운 동방의 검,일반,16,19,1.56,0,0,0,0,-1,0,570,0,Katana,.,.,Katana_inven,Katana_drop,DASHATK,-20,.,.,.,.,.,.,.
+4024,한손무기,근접,-1,샴쉬르,사막의 나라에서 사용하는 외날 도검,일반,15,15,1.56,0,0,0,0,-1,0,670,0,Shamshir,.,.,Shamshir_inven,Shamshir_drop,MOVESPEED,10,.,.,.,.,.,.,.
+4025,한손무기,근접,-1,세이버,말을 타고 싸우던 병사들이 사용하던 곡도,고급,5,18,2,1,0,0,0,-1,0,890,0,Saber,.,.,Saber_inven,Saber_drop,TRUEDAMAGE,4,.,.,.,.,.,.,.

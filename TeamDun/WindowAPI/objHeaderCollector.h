@@ -46,3 +46,5 @@
 #include "BasicShortSword.h"
 #include "BambooSword.h"
 #include "Katana.h"
+#include "Shamshir.h"
+#include "Saber.h"
