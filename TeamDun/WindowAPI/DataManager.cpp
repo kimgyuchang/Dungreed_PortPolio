@@ -288,6 +288,12 @@ void DataManager::GetItemData()
 		case 4017: // ¼ô ¼Òµå
 			item = new BasicShortSword();
 			break;
+		case 4021: // Á×µµ
+			item = new BambooSword();
+			break;
+		case 4023: // Ä«Å¸³ª
+			item = new Katana();
+			break;
 		default:
 			item = new Item();
 			break;
@@ -431,6 +437,10 @@ Item* DataManager::GetItemById(int id)
 		return new BlessOfSage(*dynamic_cast<BlessOfSage*>(_mMapItemData[id]));
 	case 4017: // ¼ô ¼Òµå
 		return new BasicShortSword(*dynamic_cast<BasicShortSword*>(_mMapItemData[id]));
+	case 4021: // Á×µµ
+		return new BambooSword(*dynamic_cast<BambooSword*>(_mMapItemData[id]));
+	case 4023: // Ä«Å¸³ª
+		return new Katana(*dynamic_cast<Katana*>(_mMapItemData[id]));
 	default:
 		return _mMapItemData[id];
 	}

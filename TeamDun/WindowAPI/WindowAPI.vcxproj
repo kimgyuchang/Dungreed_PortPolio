@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BambooSword.h" />
     <ClInclude Include="Banshee.h" />
     <ClInclude Include="BasicShortSword.h" />
     <ClInclude Include="Belial.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="inputManager.h" />
     <ClInclude Include="inventory.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="Katana.h" />
     <ClInclude Include="Lilith.h" />
     <ClInclude Include="LittleGhost.h" />
     <ClInclude Include="loading.h" />
@@ -251,6 +253,7 @@
     <ClInclude Include="WormVillage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BambooSword.cpp" />
     <ClCompile Include="Banshee.cpp" />
     <ClCompile Include="BasicShortSword.cpp" />
     <ClCompile Include="Belial.cpp" />
@@ -290,6 +293,7 @@
     <ClCompile Include="inputManager.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Katana.cpp" />
     <ClCompile Include="Lilith.cpp" />
     <ClCompile Include="LittleGhost.cpp" />
     <ClCompile Include="loading.cpp" />

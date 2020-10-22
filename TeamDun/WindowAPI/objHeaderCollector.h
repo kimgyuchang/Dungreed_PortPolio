@@ -44,3 +44,5 @@
 #include "Spike.h"
 #include "Gear.h"
 #include "BasicShortSword.h"
+#include "BambooSword.h"
+#include "Katana.h"

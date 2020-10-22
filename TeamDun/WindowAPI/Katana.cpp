@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "BasicShortSword.h"
+#include "Katana.h"
 
-HRESULT BasicShortSword::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill * skill, string name, string description, ITEMCLASS itemClass,
+HRESULT Katana::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, Skill * skill, string name, string description, ITEMCLASS itemClass,
 	float minAtk, float maxAtk, float atkSpeed, int defence, bool useAtkSpeed, int numOfBullet, float reloadTime, Bullet * bullet,
 	float accuracy, int buyPrice, bool isBulletInfinite, vector<string> imageNames, string invenImage, string dropImage)
 {
@@ -10,37 +10,37 @@ HRESULT BasicShortSword::init(int id, ITEMTYPE itemType, WEAPONTYPE weaponType, 
 
 	_isRenderFirst = true;
 	_baseAngle = -(PI / 6);
-	_slashImage = IMAGEMANAGER->findImage("BasicShortSwordEffect");
+	_slashImage = IMAGEMANAGER->findImage("KatanaSwing");
 	return S_OK;
 }
 
-void BasicShortSword::update()
+void Katana::update()
 {
 	Item::update();
 	SlashUpdater();
 }
 
-void BasicShortSword::render(HDC hdc)
+void Katana::render(HDC hdc)
 {
 	CAMERAMANAGER->Render(hdc, _vImages[0], _renderPosX, _renderPosY, _angle + _baseAngle);
 	for (int i = 0; i < _vSlashes.size(); i++) _vSlashes[i]->render(hdc);
 }
 
-void BasicShortSword::Activate()
+void Katana::Activate()
 {
-	SOUNDMANAGER->play("휘두르기_무척가벼움2 (5)");
+	SOUNDMANAGER->play("무기_카타나 (1)");
 	_renderAngle = 0;
 
-	ShortSwordEffect* slash = new ShortSwordEffect();
+	KatanaSwingEffect* slash = new KatanaSwingEffect();
 
-	slash->init(GetAngleCheckPosX() - _slashImage->getFrameWidth(), GetAngleCheckPosY() - _slashImage->getFrameHeight(), _slashImage->getKey(), (_angle));
+	slash->init(GetAngleCheckPosX(), GetAngleCheckPosY(), _slashImage->getKey(), (_angle));
 	slash->_parent = this;
 
-	_baseAngle = (_baseAngle < 0  ? (PI / 3) : -(PI / 3));
+	_baseAngle = (_baseAngle < 0 ? (PI / 3) : -(PI / 3));
 	_vSlashes.push_back(slash);
 }
 
-void BasicShortSword::SlashUpdater()
+void Katana::SlashUpdater()
 {
 	for (int i = 0; i < _vSlashes.size(); i++)
 	{
@@ -53,13 +53,13 @@ void BasicShortSword::SlashUpdater()
 	}
 }
 
-void BasicShortSword::SetBaseRenderPos()
+void Katana::SetBaseRenderPos()
 {
 	bool playerIsLeft = ENTITYMANAGER->getPlayer()->GetIsLeft();	//플레이어 왼쪽인지
 	_yFrame = playerIsLeft ? 0 : 1;
 
-	_angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 20: 55);	//아이템 타입이 한손일때,각도체크용 중점에 플레이어의 x좌표+ 왼쪽인지 여부에따라 맞으면 +20,아니면 +40
-	_angleCheckPosY = ENTITYMANAGER->getPlayer()->GetY() + 50;	//각도 체크용 중점에 플레이어의 Y좌표를 받아와서  +45만큼
+	_angleCheckPosX = ENTITYMANAGER->getPlayer()->GetX() + (playerIsLeft ? 25 : 50);	//아이템 타입이 한손일때,각도체크용 중점에 플레이어의 x좌표+ 왼쪽인지 여부에따라 맞으면 +20,아니면 +40
+	_angleCheckPosY = ENTITYMANAGER->getPlayer()->GetY() + 50;
 	_renderPosX = _angleCheckPosX - _vImages[_currentImage]->getFrameWidth() / 2;
 	_renderPosY = _angleCheckPosY - _vImages[_currentImage]->getFrameHeight() / 2;
 	if (!_isAttacking)	//공격중이 아니면
@@ -70,13 +70,13 @@ void BasicShortSword::SetBaseRenderPos()
 	}
 }
 
-void BasicShortSword::ChangeMap()
+void Katana::ChangeMap()
 {
 	_vSlashes.clear();
 }
 
 
-void ShortSwordEffect::init(float x, float y, string imgName, float angle)
+void KatanaSwingEffect::init(float x, float y, string imgName, float angle)
 {
 	_x = x;
 	_y = y;
@@ -84,19 +84,30 @@ void ShortSwordEffect::init(float x, float y, string imgName, float angle)
 
 	_radius = 90;
 
-	_effect = EFFECTMANAGER->AddEffect(_x, _y, imgName, 6, 0, 0, false, 255, _angle, 2,2);
+	int posX, posY;
+	if (ENTITYMANAGER->getPlayer()->GetIsLeft())
+	{
+		posX = 300;
+		posY = 100;
+	}
+	else
+	{
+		posX = 20;
+		posY = 160;
+	}
+	_effect = EFFECTMANAGER->AddEffect(_x - posX, _y - posY, imgName, 6, 0, 0, false, 255, _angle);
 }
 
-void ShortSwordEffect::update()
+void KatanaSwingEffect::update()
 {
 	SetCollide();
 }
 
-void ShortSwordEffect::render(HDC hdc)
+void KatanaSwingEffect::render(HDC hdc)
 {
 }
 
-void ShortSwordEffect::SetCollide()
+void KatanaSwingEffect::SetCollide()
 {
 	if (_effect->GetFrameX() == 0 && _effect->GetAnimTimer() == 0)
 	{

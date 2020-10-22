@@ -415,7 +415,7 @@ void Restaurant::SetRestaurantFood()
 			food->_imgName = "14_GarlicMeatball";
 			food->_soundName = "NPC_레스토랑_쿠슝";
 			break;
-		case F_BIBIMBAP: // // 특수 특성 - (액세서리 슬롯 1개 추가, 약간의 위력 & 최대 체력) : 추후 수정필요!
+		case F_BIBIMBAP:
 			food->_name = "비빔밥";
 			food->_vHeal.push_back(FOODHEAL::F_HEAL);
 			food->_vHealPer.push_back(RANDOM->range(5.0f, 12.5f));
@@ -509,13 +509,13 @@ void Restaurant::SetRestaurantFood()
 			food->_imgName = "21_CombinationPizza";
 			food->_soundName = "NPC_레스토랑_쿠슝";
 			break;
-		case F_SALMON: // 특수 특성 - (새로운 방으로 이동 시 포만감 - 1) : 추후 수정필요!
+		case F_SALMON:
 			food->_name = "훈제 연어";
 			food->_vHeal.push_back(FOODHEAL::F_HEAL);
 			food->_vHealPer.push_back(RANDOM->range(5.0f, 12.5f));
 			food->_vStatusType.push_back(FOODSTATUSTYPE::FST_ROOMSATIATION);
 			food->_vStatusNum.push_back(1);
-			food->_price = food->_vHealPer[0] * 50 + food->_vStatusNum[0] * 100;
+			food->_price = food->_vHealPer[0] * 50 + 1000;
 			food->_satiation = RANDOM->range(55,68);
 			food->_img = IMAGEMANAGER->findImage("22_SmokedSalmon");
 			food->_imgName = "22_SmokedSalmon";

@@ -369,6 +369,12 @@
     <ClCompile Include="BasicShortSword.cpp">
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
     </ClCompile>
+    <ClCompile Include="BambooSword.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClCompile>
+    <ClCompile Include="Katana.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -655,6 +661,12 @@
       <Filter>MainGame\Object\Obstacle</Filter>
     </ClInclude>
     <ClInclude Include="BasicShortSword.h">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="BambooSword.h">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="Katana.h">
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
     </ClInclude>
   </ItemGroup>
