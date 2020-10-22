@@ -47,3 +47,7 @@
 #include "BombPouch.h"
 #include "BloodStoneRing.h"
 #include "GreatBow.h"
+#include "BambooSword.h"
+#include "Katana.h"
+#include "Shamshir.h"
+#include "Saber.h"

@@ -121,7 +121,7 @@ void Enemy::GetDamage()
 		int damage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
 		if (p->GetSpecialAbilityOn(0, 2))
 		{
-			if (p->GetInitHp() * 0.6f > p->GetHP())
+			if (p->GetMaxHp() * 0.6f > p->GetHP())
 			{
 				damage = p->GetMaxDamage();
 			}
@@ -249,7 +249,7 @@ void Enemy::CheckSpecialPlayerInteractions()
 	if (_p->GetSpecialAbilityOn(6, 1) && _isWeakining && _p->GetRestorePrevHp() != 0)
 	{
 		int newHp = _p->GetHP() + _p->GetRestorePrevHp();
-		if (newHp > _p->GetInitHp()) newHp = _p->GetInitHp();
+		if (newHp > _p->GetMaxHp()) newHp = _p->GetMaxHp();
 		_p->SetHp(newHp);
 		_p->SetRestorePrevHp(0);
 	}

@@ -3,5 +3,6 @@
 
 void StageDoor::Activate()
 {
-	MAPMANAGER->GetStageChanger()->MoveStage(MAPMANAGER->GetCurStageNum() != 2 ? MAPMANAGER->GetCurStageNum() + 1 : 0);
+	if (MAPMANAGER->GetCurStageNum() == 2) ENTITYMANAGER->getPlayer()->ReturnToHome();
+	else MAPMANAGER->GetStageChanger()->MoveStage(MAPMANAGER->GetCurStageNum() != 2 ? MAPMANAGER->GetCurStageNum() + 1 : 0);
 }

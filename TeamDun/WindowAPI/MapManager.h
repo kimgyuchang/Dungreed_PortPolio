@@ -32,6 +32,12 @@ private:
 	vector<vector<string>>	_mapData;
 	StageChanger*			_stageChanger;
 
+	float					_stageNameSpeedX;
+	float					_stageNameGravity;
+	UIText*					_stageNameText;
+	bool					_stageTextMoving;
+	int						_textMovingStartTimer;
+	int						_textMovingMoveTimer;
 public:
 	HRESULT init();
 	void ClearStage(int cntStage);
@@ -47,6 +53,8 @@ public:
 	void ChangeMap(int index);
 
 	void ChangeMapBGM(FIELDMAPTYPE prevMapType);
+
+	void MoveStageText();
 
 	// GETSET //
 	int					GetCurrentMap()		{ return _currentMap; }

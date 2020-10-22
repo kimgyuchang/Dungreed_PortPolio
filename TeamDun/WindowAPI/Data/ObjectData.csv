@@ -107,3 +107,6 @@ id,name,type,image,image2,image3
 233,밀리아,NPC,NPC_Merchant,.,.
 234,하켄,NPC,NPC_BlackSmith,.,.
 235,율포드,NPC,NPC_Builder,.,.
+236,로젠,NPC,NPC_Temple,.,.
+237,사원,Etc,Temple,.,.
+238,사원기둥,Etc,TempleFront,.,.

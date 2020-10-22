@@ -29,7 +29,8 @@ enum PLAYERSTATE
 {
 	PS_IDLE,PS_JUMP,PS_MOVE,PS_DIE,
 };
-struct ReloadEffect
+
+struct PlayerEffect
 {
 	image* ig;
 	float x;
@@ -39,12 +40,14 @@ struct ReloadEffect
 	int frameTime;
 	bool isViewing;
 };
+
 enum CLOTHTYPE
 {
 	PC_NORMAL, PC_METAL, PC_GUNNER, PC_ALICE, PC_HONGRYAN, PC_IKINABEAR, 
 	PC_RIDERH, PC_CRIMINAL, PC_PICKKING, PC_FATGUY, 
 	PC_HORSESWORD, PC_HUMANLASLEY, PC_MASTERCHEF
 };
+
 class Player : public Object
 {
 private:
@@ -61,10 +64,14 @@ private:
 
 	bool			_isReload;
 	float			_reloadCount;
-	ReloadEffect	_reloadEffect;
+	PlayerEffect	_reloadEffect;
+	PlayerEffect	_regenEffect;
+	PlayerEffect	_guardBreakEffect;
 	int				_bulletCount;
 	int				_maxBullet;
-	
+	image*			_dashEffectCharImage;	 // 대쉬 캐릭터 흰색 이미지
+	bool			_checkReturnOn;
+
 	// 피격관련
 	bool			_isStun;				//스턴상태인지
 	int				_stunCount;
@@ -130,7 +137,7 @@ private:
 	float			_realDefence;			// 방어력 (변환)
 	int				_maxHp;					// 최대 체력 추가량
 	float			_maxHpPercent;			// 최대 최력 추가량 (비율)
-
+	
 	// 속성 //
 	bool			_isFire;
 	int				_fireCount;
@@ -221,12 +228,28 @@ private:
 	float					_movedX;				// 움직인 거리
 	string					_vTraitTooltip[7][3];	// 특성 툴팁들
 	
+	// 음식 스탯 저장용 //
+	int			_foodPower;
+	float		_foodDef;
+	float		_foodEvade;
+	float		_foodCriPer;
+	float		_foodCriDmg;
+	int			_foodInitHp;
+	int			_foodMaxDash;
+	int			_foodTrueDamage;
+	float		_foodAtkSpeedPer;
+	float		_foodReloadSpeed;
+	int			_foodAccsCount;
+	float		_foodToughness;
+	float		_foodBlock;
+	float		_foodMoveSpeed;
+	int			_foodRoomMoveSatiation;
+
 	// 각 캐릭터별 특성 //
 
 	// 총잡이 //
 	bool			_useGun;
 	
-
 	// 앨리스 //
 	image*			_aliceZone;
 	float			_aliceZoneRadius;
@@ -252,6 +275,9 @@ private:
 	// 마검사 //
 	int			    _playerDeadCount;
 
+	// 마스터 셰프 // 
+	float			_shieldPoint;
+	float			_maxShieldPoint;
 	// 보스 //
 	bool			_isBossReady;
 
@@ -266,6 +292,8 @@ public:
 	void PlayerIsDead();
 	void PlayerDeadTimerCheck();
 	void ReturnToHome();
+	void DeadToLive();
+	void ReturnToHomeFoodInit();
 	void DashInvincibility();
 	void AddMaxDash();
 	void SubMaxDash();
@@ -299,6 +327,10 @@ public:
 
 	void GetHitDamage(int damage);
 
+	void AdaptCriminalCount();
+
+	void ShieldUICheck();
+
 	void RestoreHpTimerChecker();
 
 	void RemoveMagicShield();
@@ -313,6 +345,8 @@ public:
 	void CheckUsePistolGunner();
 
 	void MoveTraitUI();
+
+	void SetNewMaxHp();
 	
 	void SwitchWeapon();
 	void JumpAttackRectUpdate();
@@ -424,12 +458,32 @@ public:
 	int				GetRestorePrevHp()		{ return _restorePrevHp; }
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
 	bool			GetIsBossReady()		{ return _isBossReady; }
-
 	int				GetDashRestoreTime()	{ return _dashRestoreTime; }
 	bool			GetIsPlayerDead()		{ return _isPlayerDead; }
-	int				GetSpecialAbilityPoint(int index) { return _abilityNum[index]; }
 	int				GetRoomMoveSatiation()	{ return _roomMoveSatiation; }
 	int				GetKillPoint()			{ return _killPoint; }
+	float			GetMaxShieldPoint()		{ return _maxShieldPoint; }
+	int				GetSpecialAbilityPoint(int index) { return _abilityNum[index]; }
+
+	int				GetFoodPower() { return _foodPower; }
+	float			GetFoodDef() { return _foodDef; }
+	float			GetFoodEvade() { return _foodEvade; }
+	float			GetFoodCriPer() { return _foodCriPer; }
+	float			GetFoodCriDmg() { return _foodCriDmg; }
+	int				GetFoodInitHp() { return _foodInitHp; }
+	int				GetFoodMaxDash() { return _foodMaxDash; }
+	int				GetFoodTrueDamage() { return _foodTrueDamage; }
+	float			GetFoodAtkSpeedPer() { return _foodAtkSpeedPer; }
+	float			GetFoodReloadSpeed() { return _foodReloadSpeed; }
+	int				GetFoodAccsCount() { return _foodAccsCount; }
+	float			GetFoodToughness() { return _foodToughness; }
+	float			GetFoodBlock() { return _foodBlock; }
+	float			GetFoodMoveSpeed() { return _foodMoveSpeed; }
+	int				GetFoodRoomMoveSatiation() { return _foodRoomMoveSatiation; }
+
+
+
+
 
 	void			SetIsReload(bool isReload)						{ _isReload = isReload; }
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
@@ -517,6 +571,7 @@ public:
 	void			SetCriminalCount(int count)						{ _criminalCount = count; }
 	void			SetPrevCriminalCount(int count)					{ _prevCriminalCount = count; }
 	void			SetplayerDeadCount(int count)					{ _playerDeadCount = count; }
+	void			SetDashEffectCharImage(image* img)				{ _dashEffectCharImage = img; }	 // 대쉬 캐릭터 흰색 이미지
 
 	void			SetIsBossReady(bool isBossReady)				{ _isBossReady = isBossReady; }
 	void			SetDashRestoreTime(int time)					{ _dashRestoreTime = time; }
@@ -524,6 +579,24 @@ public:
 	void			SetMaxPoint(int maxPoint)						{ _maxPoint = maxPoint; }
 	void			SetRemainPoint(int remainPoint)					{ _remainPoint = remainPoint; }
 	void			SetSpecialAbilityNum(int index, int point)		{ _abilityNum[index] = point; }
+	void			SetShieldPoint(float num)						{ _shieldPoint = num; }
 	void			SetSpecialAbilityOn(bool isOn, int index1, int index2) { _specialAbilityOn[index1][index2] = isOn; }
 	void			SetKillPoint(int killPoint)						{ _killPoint = killPoint; }
+
+
+	void			SetFoodPower(int power) { _foodPower = power; }
+	void			SetFoodDef(float def) { _foodDef = def; }
+	void			SetFoodEvade(float evade) { _foodEvade = evade; }
+	void			SetFoodCriPer(float criper) { _foodCriPer = criper; }
+	void			SetFoodCriDmg(float cridmg) { _foodCriDmg = cridmg; }
+	void			SetFoodInitHp(int initHp) { _foodInitHp = initHp; }
+	void			SetFoodMaxDash(int maxDash) { _foodMaxDash = maxDash; }
+	void			SetFoodTrueDamage(int trueDmg) { _foodTrueDamage = trueDmg; }
+	void			SetFoodAtkSpeedPer(float atkSpd) { _foodAtkSpeedPer = atkSpd; }
+	void			SetFoodReloadSpeed(float reloadSpd) { _foodReloadSpeed = reloadSpd; }
+	void			SetFoodAccsCount(int accsCount) { _foodAccsCount = accsCount; }
+	void			SetFoodToughness(float toughness) { _foodToughness = toughness; }
+	void			SetFoodBlock(float block) { _foodBlock = block; }
+	void			SetFoodMoveSpeed(float moveSpd) { _foodMoveSpeed = moveSpd; }
+	void			SetFoodRoomMoveSatiation(int moveSatiation) { _foodRoomMoveSatiation = moveSatiation; }
 }; 

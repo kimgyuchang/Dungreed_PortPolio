@@ -302,6 +302,18 @@ void DataManager::GetItemData()
 		case 4100: // 떡갈나무활
 			item = new GreatBow();
 			break;
+		case 4021: // 죽도
+			item = new BambooSword();
+			break;
+		case 4023: // 카타나
+			item = new Katana();
+			break;
+		case 4024: // 샴쉬르
+			item = new Shamshir();
+			break;
+		case 4025: // 세이버
+			item = new Saber();
+			break;
 		default:
 			item = new Item();
 			break;
@@ -451,6 +463,14 @@ Item* DataManager::GetItemById(int id)
 		return new BasicShortSword(*dynamic_cast<BasicShortSword*>(_mMapItemData[id]));
 	case 4100: // 떡갈나무활
 		return new GreatBow(*dynamic_cast<GreatBow*>(_mMapItemData[id]));
+	case 4021: // 죽도
+		return new BambooSword(*dynamic_cast<BambooSword*>(_mMapItemData[id]));
+	case 4023: // 카타나
+		return new Katana(*dynamic_cast<Katana*>(_mMapItemData[id]));
+	case 4024: // 샴쉬르
+		return new Shamshir(*dynamic_cast<Shamshir*>(_mMapItemData[id]));
+	case 4025: // 세이버
+		return new Saber(*dynamic_cast<Saber*>(_mMapItemData[id]));
 	default:
 		return _mMapItemData[id];
 	}

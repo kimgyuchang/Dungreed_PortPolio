@@ -6,6 +6,7 @@ HRESULT Player::init()
 	this->_vImages.push_back(IMAGEMANAGER->findImage("baseCharIdle"));//0
 	this->_vImages.push_back(IMAGEMANAGER->findImage("baseCharRun")); //1
 	this->_vImages.push_back(IMAGEMANAGER->findImage("baseCharDie")); //2
+	_dashEffectCharImage = IMAGEMANAGER->findImage("baseCharEffect");
 	_state = PS_IDLE;
 
 	_x = 300;
@@ -65,6 +66,22 @@ HRESULT Player::init()
 	_reloadEffect.x = 0;
 	_reloadEffect.y = 0;
 
+	_regenEffect.frameTime = 0;
+	_regenEffect.frameX = 0;
+	_regenEffect.frameY = 0;
+	_regenEffect.ig = IMAGEMANAGER->findImage("RegenerationSkin");
+	_regenEffect.isViewing = false;
+	_regenEffect.x = 0;
+	_regenEffect.y = 0;
+
+	_guardBreakEffect.frameTime = 0;
+	_guardBreakEffect.frameX = 0;
+	_guardBreakEffect.frameY = 0;
+	_guardBreakEffect.ig = IMAGEMANAGER->findImage("GuardBreak");
+	_guardBreakEffect.isViewing = false;
+	_guardBreakEffect.x = 0;
+	_guardBreakEffect.y = 0;
+
 	_atkSpdUpUse = false;
 	_dashRestoreCount = 0;
 	_dashRestoreTime = 60;
@@ -78,7 +95,7 @@ HRESULT Player::init()
 	_aliceZoneIn = false;
 	_swapCoolTime = 0;
 	_accesoryCount = 4;
-	_maxSatiety = 100;
+	_maxSatiety = 300;
 	_goldDrop = 100;
 	_level = 30;
 	_remainPoint = 35;
@@ -92,7 +109,7 @@ HRESULT Player::init()
 	_deathDefencerTimer = 0;
 	_criminalCount = 0;
 	_prevCriminalCount = 0;
-
+	_shieldPoint = 0;
 	_isFire = false;
 	_fireCount = 0;
 	_isIce = false;
@@ -106,6 +123,8 @@ HRESULT Player::init()
 	
 	_killPoint = 0;
 	_maxKillPoint = 10;
+
+
 	for (int i = 0; i < 7; i++) _abilityNum[i] = 0;
 
 	_criticalPercent = 2;
@@ -128,7 +147,25 @@ HRESULT Player::init()
 	_rageTimer = 1200;
 	_isRaging = false;
 	_criminalCount = 0;
-	_playerDeadCount=0;
+	_playerDeadCount = 0;
+	_maxShieldPoint = 15;
+	_shieldPoint = 0;
+
+	_foodPower = 0;
+	_foodDef = 0;
+	_foodEvade = 0;
+	_foodCriPer = 0;
+	_foodCriDmg = 0;
+	_foodInitHp = 0;
+	_foodMaxDash = 0;
+	_foodTrueDamage = 0;
+	_foodAtkSpeedPer = 0;
+	_foodReloadSpeed = 0;
+	_foodAccsCount = 0;
+	_foodToughness = 0;
+	_foodBlock = 0;
+	_foodMoveSpeed = 0;
+	_foodRoomMoveSatiation = 0;
 
 	// UI
 	_hpFrame = UIMANAGER->GetGameFrame()->GetChild("hpFrame");
@@ -182,13 +219,17 @@ HRESULT Player::init()
 	_inven->AddItem(DATAMANAGER->GetItemById(4015));
 	_inven->AddItem(DATAMANAGER->GetItemById(4017));
 	_inven->AddItem(DATAMANAGER->GetItemById(4005));
-	
+	_inven->AddItem(DATAMANAGER->GetItemById(4021));
+	_inven->AddItem(DATAMANAGER->GetItemById(4023));
+	_inven->AddItem(DATAMANAGER->GetItemById(4024));
+	_inven->AddItem(DATAMANAGER->GetItemById(4025));
+
 	return S_OK;
 }
 
 void Player::update()
 {
-	
+
 	if (!_isPlayerDead)
 	{
 		if (!UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->GetIsViewing() &&
@@ -297,7 +338,8 @@ void Player::update()
 		CheckMoveSpeedRiderH();
 		CheckCliminal();
 		Checkfasto();
-
+		CheckMasterChef();
+		ShieldUICheck();
 		//====================
 		UpdateCharPage();
 		invincibility();
@@ -347,16 +389,20 @@ void Player::update()
 		{
 			_hp = 0;
 		}
+
+		SetNewMaxHp();
 	}
 
 	else
 	{
 		pixelCollision();
 		PlayerDeadTimerCheck();
+		DeadToLive();
+		SetNewMaxHp();
 	}
 }
 
-void Player::PlayerIsDead() 
+void Player::PlayerIsDead()
 {
 	if (_hp <= 0)
 	{
@@ -385,7 +431,7 @@ void Player::PlayerDeadTimerCheck()
 			if (_playerDeadTimer == 0)
 			{
 				_useImage = 0;
-				_hp = _initHp;
+				_hp = _maxHp;
 				_isPlayerDead = false;
 				_playerDeadCount++;
 			}
@@ -422,10 +468,9 @@ void Player::PlayerDeadTimerCheck()
 
 void Player::ReturnToHome()
 {
-	MAPMANAGER->AddStage(0);
-	MAPMANAGER->ChangeMap(0);
+	MAPMANAGER->GetStageChanger()->MoveStage(0);
+	ReturnToHomeFoodInit();
 	_inven->GetVItemList().clear();
-
 	if (_weapons[_selectedWeaponIdx] != nullptr) _weapons[_selectedWeaponIdx]->EquipUnEquipStatus(false);
 	if (_subWeapons[_selectedWeaponIdx] != nullptr) _subWeapons[_selectedWeaponIdx]->EquipUnEquipStatus(false);
 	for (int i = 0; i < _vAccessories.size(); i++) _vAccessories[i]->EquipUnEquipStatus(false);
@@ -436,10 +481,57 @@ void Player::ReturnToHome()
 	_subWeapons[1] = nullptr;
 	_vAccessories.clear();
 	_isPlayerDead = false;
-	_money *= 0.2f;
 	_useImage = 0;
-	_hp = _initHp;
-	_inven->AddItem(DATAMANAGER->GetItemById(4017));
+	_money *= 0.2f;
+	_hp = _maxHp;
+	_satiety = 0;
+	_inven->AddItem(DATAMANAGER->GetItemById(4017)); 
+	_checkReturnOn = true;
+}
+
+void Player::DeadToLive()
+{
+	if (_isPlayerDead && !MAPMANAGER->GetStageChanger()->GetIsChangingStage() && _checkReturnOn)
+	{
+		
+		_checkReturnOn = false;
+	}
+}
+
+void Player::ReturnToHomeFoodInit()
+{
+	_power -= _foodPower;
+	_foodPower = 0;
+	_defence -= _foodDef;
+	_foodDef = 0;
+	_evasion -= _foodEvade;
+	_foodEvade = 0;
+	_criticalPercent -= _foodCriPer;
+	_foodCriPer = 0;
+	_criticalDamage -= _foodCriDmg;
+	_foodCriDmg = 0;
+	_initHp -= _foodInitHp;
+	_foodInitHp = 0;
+	for (int i = 0; i < _foodMaxDash; i++) SubMaxDash();
+	_foodMaxDash = 0;
+	_trueDamage -= _foodTrueDamage;
+	_foodTrueDamage = 0;
+	_atkSpeedPer -= _foodAtkSpeedPer;
+	_foodAtkSpeedPer = 0;
+	_reloadSpeed -= _foodReloadSpeed;
+	_foodReloadSpeed = 0;
+	_accesoryCount -= _foodAccsCount;
+	_foodAccsCount = 0;
+	GetInventory()->SetInventoryAccesoryUI();
+	GetInventory()->ReloadUIImages();
+	_toughness -= _foodToughness;
+	_foodToughness = 0;
+	_block -= _foodBlock;
+	_foodBlock = 0;
+	_moveSpeed -= _foodMoveSpeed;
+	_foodMoveSpeed = 0;
+	_roomMoveSatiation -= _foodRoomMoveSatiation;
+	_foodRoomMoveSatiation = 0;
 }
 
 void Player::DashInvincibility()
@@ -569,7 +661,7 @@ void Player::SwitchWeapon()
 
 		UIFrame* weapon1 = swapFrame->GetChild("weapon1");	//swapUI의 자식을 저장
 		UIFrame* weapon2 = swapFrame->GetChild("weapon2");	//swapUI의 자식을 저장
-		
+
 		if (_swapCoolTime == 0)	//쿨타임이 0이되면
 		{
 			swapFrame->GetVChildFrames().push_back(swapFrame->GetVChildFrames()[0]);	//swapUI의 자식들을 0번지부터
@@ -633,11 +725,11 @@ void Player::AbnormalState()
 				float y;
 				x = RANDOM->range(_body.left, _body.right);
 				y = RANDOM->range(_body.top, _body.bottom);
-				EFFECTMANAGER->AddEffect(x,y, "StateFireEffect", 4,
+				EFFECTMANAGER->AddEffect(x, y, "StateFireEffect", 4,
 					0, 0, false, 255, 0, 1, 1, false);
-				
+
 			}
-			if (_fireCount >200)
+			if (_fireCount > 200)
 			{
 				_fireCount = 0;
 			}
@@ -685,19 +777,19 @@ void Player::ReloadBullet()
 		_reloadEffect.y = _y - 14;
 		if (_isReload)
 		{
-			_reloadCount+= _reloadSpeed;
+			_reloadCount += _reloadSpeed;
 			if (_reloadCount > _reloadTime)
 			{
 				_reloadEffect.frameX = 0;
 				_reloadEffect.frameY = 0;
 				_reloadEffect.isViewing = true;
-				
+
 				_reloadCount = 0;
 				_isReload = false;
 				_weapons[_selectedWeaponIdx]->SetCurNumOfBullet(_maxBullet);
 			}
 		}
-		
+
 	}
 
 }
@@ -759,13 +851,13 @@ void Player::SpecialAtkSpeedUp()
 {
 	if (_specialAbilityOn[1][1])
 	{
-		if (!_atkSpdUpUse && (_hp / (float)_initHp * 100 >= 80))
+		if (!_atkSpdUpUse && (_hp / (float)_maxHp * 100 >= 80))
 		{
 			_atkSpeedPer += 10;
 			_atkSpdUpUse = true;
 		}
 
-		if (_atkSpdUpUse && (_hp / (float)_initHp * 100 < 80))
+		if (_atkSpdUpUse && (_hp / (float)_maxHp * 100 < 80))
 		{
 			_atkSpeedPer -= 10;
 			_atkSpdUpUse = false;
@@ -773,7 +865,7 @@ void Player::SpecialAtkSpeedUp()
 	}
 	else
 	{
-		if (_atkSpdUpUse && (_hp / (float)_initHp * 100 < 80))
+		if (_atkSpdUpUse && (_hp / (float)_maxHp * 100 < 80))
 		{
 			_atkSpeedPer -= 10;
 			_atkSpdUpUse = false;
@@ -785,13 +877,13 @@ void Player::SetHpUI()
 {
 	//if (INPUT->GetKeyDown('H')) _hp--;
 	UIProgressBar* bar = dynamic_cast<UIProgressBar*>(_hpFrame->GetChild("hpBarPros"));
-	bar->FillCheck(_initHp, _hp);
-	float fillPercent = (float)_hp / _initHp;
+	bar->FillCheck(_maxHp, _hp);
+	float fillPercent = (float)_hp / _maxHp;
 
 	UIImage* hpWave = dynamic_cast<UIImage*>(_hpFrame->GetChild("Wave"));
 	hpWave->SetX((_hpFrame->GetX() + 42) + 157 * fillPercent); // 수치는 적당히 계산해서 넣음
 
-	dynamic_cast<UIText*>(_hpFrame->GetChild("hp"))->SetText(to_string(_hp) + " / " + to_string(_initHp));
+	dynamic_cast<UIText*>(_hpFrame->GetChild("hp"))->SetText(to_string(_hp) + " / " + to_string(_maxHp));
 }
 
 void Player::release()
@@ -803,7 +895,6 @@ void Player::render(HDC hdc)
 {
 	if (!MAPMANAGER->GetPortalAnimOn() && ENTITYMANAGER->GetWormVillage()->GetRenderPlayer())	//포탈 온 상태, 
 	{
-
 		if (!_isPlayerDead)
 		{
 			if (_weapons[_selectedWeaponIdx] != nullptr && _weapons[_selectedWeaponIdx]->GetIsRenderFirst()) _weapons[_selectedWeaponIdx]->render(hdc);				//장착된 무기의 인덱스가 비어있지않고, 플레이어보다 먼저  그려진다면 장착된무기의 인덱스가 그려지도록
@@ -818,7 +909,7 @@ void Player::render(HDC hdc)
 
 		if (_useImage == 2) // 죽었으면
 		{
-			CAMERAMANAGER->Render(hdc, _vImages[_useImage], _x, _y);				
+			CAMERAMANAGER->Render(hdc, _vImages[_useImage], _x, _y);
 		}
 
 		else
@@ -833,13 +924,13 @@ void Player::render(HDC hdc)
 				CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);						//기존 이미지 그대로
 			}
 		}
-		
+
 		if (_isReload)
 		{
-			CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("ReloadBase"), _x+6 , _y - 6);
-			CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("ReloadBar"), _x+6 +69/_reloadTime* _reloadCount, _y - 9);
+			CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("ReloadBase"), _x + 6, _y - 6);
+			CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("ReloadBar"), _x + 6 + 69 / _reloadTime * _reloadCount, _y - 9);
 		}
-		if (_reloadEffect.isViewing)
+		if (_reloadEffect.isViewing && _useImage != 2)
 		{
 			CAMERAMANAGER->FrameRender(hdc, _reloadEffect.ig, _reloadEffect.x, _reloadEffect.y, _reloadEffect.frameX, _reloadEffect.frameY);
 		}
@@ -855,13 +946,23 @@ void Player::render(HDC hdc)
 			if (!_vAccessories[i]->GetIsRenderFirst()) _vAccessories[i]->render(hdc);	//만약 악세서리가 플레이어보다 먼저 그려지지않는다면, 악세서리가 그려지도록
 		}
 
+		if (_regenEffect.isViewing && _useImage != 2)
+		{
+			CAMERAMANAGER->FrameRender(hdc, _regenEffect.ig, _regenEffect.x, _regenEffect.y, _regenEffect.frameX, _regenEffect.frameY);
+		}
+
+		if (_guardBreakEffect.isViewing && _useImage != 2)
+		{
+			CAMERAMANAGER->FrameRender(hdc, _guardBreakEffect.ig, _guardBreakEffect.x, _guardBreakEffect.y, _guardBreakEffect.frameX, _guardBreakEffect.frameY);
+		}
+
 		if (_isStun)	//스턴상태일때
 		{
 			CAMERAMANAGER->FrameRender(hdc, IMAGEMANAGER->findImage("stun"), _x + 13, _y - 10, _stunFrameX, _stunFrameY);
 		}
 		_inven->render(hdc);	//인벤토리의 렌더 실행
 
-		if(_clothType == CLOTHTYPE::PC_ALICE)
+		if (_clothType == CLOTHTYPE::PC_ALICE)
 			CAMERAMANAGER->FrameRender(hdc, _aliceZone, _x + _vImages[_useImage]->getFrameWidth() / 2 - _aliceZone->getFrameWidth() / 2, _y + _vImages[_useImage]->getFrameHeight() / 2 - _aliceZone->getFrameHeight() / 2, _aliceZoneIn ? 1 : 0, 0);
 	}
 }
@@ -1325,23 +1426,23 @@ void Player::dash()
 	}
 	if (_dashTimer == 1)
 	{
-		EFFECTMANAGER->AddEffect(_x, _y, "baseCharEffect", 3, 0, _frameY, false, 150);
+		EFFECTMANAGER->AddEffect(_x, _y, _dashEffectCharImage->getKey(), 3, 0, _frameY, false, 150);
 	}
 	if (_dashTimer == 3)
 	{
-		EFFECTMANAGER->AddEffect(_x, _y, "baseCharEffect", 3, 0, _frameY, false, 150);
+		EFFECTMANAGER->AddEffect(_x, _y, _dashEffectCharImage->getKey(), 3, 0, _frameY, false, 150);
 	}
 	if (_dashTimer == 5)
 	{
-		EFFECTMANAGER->AddEffect(_x, _y, "baseCharEffect", 3, 0, _frameY, false, 150);
+		EFFECTMANAGER->AddEffect(_x, _y, _dashEffectCharImage->getKey(), 3, 0, _frameY, false, 150);
 	}
 	if (_dashTimer == 6)
 	{
-		EFFECTMANAGER->AddEffect(_x, _y, "baseCharEffect", 3, 0, _frameY, false, 150);
+		EFFECTMANAGER->AddEffect(_x, _y, _dashEffectCharImage->getKey(), 3, 0, _frameY, false, 150);
 	}
 	if (_dashTimer == 7)
 	{
-		EFFECTMANAGER->AddEffect(_x, _y, "baseCharEffect", 3, 0, _frameY, false, 150);
+		EFFECTMANAGER->AddEffect(_x, _y, _dashEffectCharImage->getKey(), 3, 0, _frameY, false, 150);
 	}
 
 	if (_dashTimer >= 10)
@@ -1551,22 +1652,66 @@ void Player::SetDeathDefencerTimerDown()
 {
 	if (_deathDefencerTimer > 0)
 	{
+		if (_guardBreakEffect.isViewing)
+		{
+			_guardBreakEffect.frameTime++;
+			if (_guardBreakEffect.frameTime > 6)
+			{
+				_guardBreakEffect.frameTime = 0;
+				_guardBreakEffect.frameX++;
+				if (_guardBreakEffect.frameX >= _guardBreakEffect.ig->getMaxFrameX())
+				{
+					_guardBreakEffect.frameX = 0;
+					_guardBreakEffect.isViewing = true;
+				}
+			}
+
+			_guardBreakEffect.x = _x  - 15;
+			_guardBreakEffect.y = _y  - 20;
+		}
+
 		_deathDefencerTimer--;
 	}
 }
 
 void Player::RegenDefenceSkill()
 {
-	if (_specialAbilityOn[2][2] && _initHp * 0.3f > _hp)
+	if (_specialAbilityOn[2][2] && _maxHp * 0.3f > _hp)
 	{
 		_regenTimer++;
 		if (_regenTimer > 60)
 		{
 			_hp++;
 			_regenTimer = 0;
+			_regenEffect.isViewing = true;
 		}
 	}
+
+	else
+	{
+		_regenEffect.isViewing = false;
+		_regenEffect.frameTime = 0;
+		_regenEffect.frameX = 0;
+	}
+
+	if (_regenEffect.isViewing)
+	{
+		_regenEffect.frameTime++;
+		if (_regenEffect.frameTime > 6)
+		{
+			_regenEffect.frameTime = 0;
+			_regenEffect.frameX++;
+			if (_regenEffect.frameX >= _regenEffect.ig->getMaxFrameX())
+			{
+				_regenEffect.frameX = 0;
+			}
+		}
+
+		_regenEffect.x = _x + 20;
+		_regenEffect.y = _y + 10;
+	}
 }
+
 
 void Player::GetHitDamage(int damage)
 {
@@ -1589,14 +1734,29 @@ void Player::GetHitDamage(int damage)
 				{
 					_deathDefencerActivated = true;
 					_deathDefencerTimer = 240;
+					_guardBreakEffect.isViewing = false;
 				}
-				else // 데미지 받음
+				else
 				{
 					SOUNDMANAGER->play("Hit_Player");
 					_isHit = true;
 					_hitCount = 0;
 
-					_hp = _hp - Realdamage;
+					if (CLOTHTYPE::PC_MASTERCHEF && _shieldPoint > 0) // 쉴드 까임
+					{
+						int tempRealDamage = Realdamage;
+						Realdamage = Realdamage - _shieldPoint;
+						if (Realdamage < 0) Realdamage = 0;
+
+						_shieldPoint = _shieldPoint - tempRealDamage;
+						if (_shieldPoint < 0)
+						{
+							_shieldPoint = 0;
+						}
+					}
+
+					_hp = _hp - Realdamage; // 데미지 받음
+
 					EFFECTMANAGER->AddEffect(0, 0, "hit", 0, 0, 0, true, 100, 0, 1, 1, true, true);
 					CAMERAMANAGER->Shake(25, 25, 6, 1);
 
@@ -1618,6 +1778,18 @@ void Player::GetHitDamage(int damage)
 		}
 	}
 
+}
+
+void Player::ShieldUICheck()
+{
+	if (_clothType == CLOTHTYPE::PC_MASTERCHEF)
+	{
+		UIProgressBar* bar = dynamic_cast<UIProgressBar*>(UIMANAGER->GetGameFrame()->GetChild("ShieldBaseFrame")->GetChild("ShieldBackProgress"));
+		bar->FillCheck(_maxShieldPoint, _shieldPoint);
+
+		_shieldPoint += 0.01f;
+		if (_shieldPoint > _maxShieldPoint) _shieldPoint = _maxShieldPoint;
+	}
 }
 
 void Player::RestoreHpTimerChecker()
@@ -1705,6 +1877,8 @@ void Player::AddTraitPoint()
 
 					case 4:
 						_initHp += 2;
+						SetNewMaxHp();
+						_hp = _maxHp;
 						break;
 
 					case 5:
@@ -1784,6 +1958,15 @@ void Player::MoveTraitUI()
 		_uiMouseLocation = 0;
 	}
 }
+void Player::SetNewMaxHp()
+{
+	_maxHp = _initHp + (_initHp * (_maxHpPercent / 100.0f));
+	if (_clothType == CLOTHTYPE::PC_HORSESWORD)
+	{
+		_maxHp = 40;
+	}
+	if (_maxHp < _hp) _hp = _maxHp;
+}
 
 void Player::ReloadTraitPoint()
 {
@@ -1813,7 +1996,8 @@ void Player::ReloadTraitPoint()
 
 			case 4:
 				_initHp -= 2 * _abilityNum[i];
-				if (_initHp > _hp) _hp = _initHp;
+				SetNewMaxHp();
+				_hp = _maxHp;
 				break;
 
 			case 5:
@@ -1829,7 +2013,7 @@ void Player::ReloadTraitPoint()
 			if (_abilityNum[i] >= 5 && i == 1) SubMaxDash();
 			if (_abilityNum[i] >= 5 && i == 2) RemoveMagicShield();
 			if (_abilityNum[i] >= 5 && i == 4) _goldDrop -= 20;
-			if (_abilityNum[i] >= 5 && i == 5 && _getRangeStatus) { _getRangeStatus = false, _power -= 10, _initHp -= 20; if (_hp > _initHp) _hp = _initHp; }
+			if (_abilityNum[i] >= 5 && i == 5 && _getRangeStatus) { _getRangeStatus = false, _power -= 10, _initHp -= 20; SetNewMaxHp();  if (_hp > _maxHp) _hp = _maxHp; }
 			if (_abilityNum[i] >= 10 && i == 4) _maxSatiety -= 25;
 			if (_abilityNum[i] >= 10 && i == 5) _reloadSpeed -= 0.15f;
 			if (_abilityNum[i] >= 20 && i == 4) { _accesoryCount -= 1; _inven->SetInventoryAccesoryUI(); _inven->ReloadUIImages(); }
@@ -2157,7 +2341,8 @@ void Player::AdaptCriminalCount(bool isPlus)
 	_power += (isPlus ? _criminalCount : _prevCriminalCount) * pm * 4;
 	_defence -= (isPlus ? _criminalCount : _prevCriminalCount) * pm * 2;
 	_initHp -= (isPlus ? _criminalCount : _prevCriminalCount) * pm * 1;
-	if(_hp > _initHp) _hp = _initHp;
+	SetNewMaxHp();
+	if(_hp > _maxHp) _hp = _maxHp;
 }
 
 //	범죄자 실루엣 특성
@@ -2258,4 +2443,14 @@ void Player::Checkfasto()
 
 void Player::CheckMasterChef()
 {
+	if (_clothType == CLOTHTYPE::PC_MASTERCHEF)
+	{
+		UIMANAGER->GetGameFrame()->GetChild("ShieldBaseFrame")->SetIsViewing(true);
+	}
+
+	else
+	{
+		UIMANAGER->GetGameFrame()->GetChild("ShieldBaseFrame")->SetIsViewing(false);
+	}
+
 }

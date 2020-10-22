@@ -384,6 +384,18 @@
     <ClCompile Include="GreatBow.cpp">
       <Filter>MainGame\Item\Items\Weapon\Range</Filter>
     </ClCompile>
+    <ClCompile Include="BambooSword.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClCompile>
+    <ClCompile Include="Katana.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClCompile>
+    <ClCompile Include="Saber.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClCompile>
+    <ClCompile Include="Shamshir.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -686,6 +698,18 @@
     </ClInclude>
     <ClInclude Include="GreatBow.h">
       <Filter>MainGame\Item\Items\Weapon\Range</Filter>
+    </ClInclude>
+    <ClInclude Include="BambooSword.h">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="Katana.h">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="Saber.h">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="Shamshir.h">
+      <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

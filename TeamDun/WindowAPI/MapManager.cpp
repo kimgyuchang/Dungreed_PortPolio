@@ -19,6 +19,13 @@ HRESULT MapManager::init()
 	_portalAnimOn = false;
 	_stageChanger = new StageChanger();
 	_stageChanger->init();
+	
+	_stageTextMoving = false;
+	_stageNameGravity = 0.56f;
+	_stageNameSpeedX = -34;
+	_textMovingMoveTimer = 0;
+	_textMovingStartTimer = 0;
+	_stageNameText = dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("stageName"));
 	return S_OK;
 }
 
@@ -91,6 +98,8 @@ void MapManager::AddStage(int stageNum)
 	}
 
 	if(stageNum == 2) SOUNDMANAGER->play("보스방입장문");
+
+	_stageTextMoving = true;
 }
 
 void MapManager::update()
@@ -111,6 +120,7 @@ void MapManager::update()
 	DungeonMapUIMover();
 	SetMapUIOnOff();
 	UsePortalMap();
+	MoveStageText();
 }
 
 /// <summary>
@@ -397,6 +407,57 @@ void MapManager::ChangeMapBGM(FIELDMAPTYPE prevMapType)
 			SOUNDMANAGER->StopAllBGM();
 			SOUNDMANAGER->play("1.JailField");
 			SOUNDMANAGER->play("ambience_prison");
+		}
+	}
+}
+
+void MapManager::MoveStageText()
+{
+	if (_stageTextMoving)
+	{
+		switch (_curStageNum)
+		{
+		case 0: _stageNameText->SetText("마을");  break;
+		case 1: _stageNameText->SetText("1층 : 지하 감옥"); break;
+		case 2: _stageNameText->SetText("2층 : 벨리알의 방"); break;
+		}
+		_stageNameText->SetIsViewing(true);
+
+		if (_textMovingStartTimer > 60)
+		{
+			_textMovingMoveTimer++;
+			if (_textMovingMoveTimer < 60)
+			{
+				_stageNameText->MoveFrameChild(_stageNameSpeedX, 0);
+				_stageNameSpeedX += _stageNameGravity;
+			}
+
+			else if (_textMovingMoveTimer  < 120)
+			{
+				_stageNameSpeedX = 0;
+				_stageNameGravity = -0.56f;
+			}
+
+			else if (_textMovingMoveTimer < 180)
+			{
+				_stageNameText->MoveFrameChild(_stageNameSpeedX, 0);
+				_stageNameSpeedX += _stageNameGravity;
+			}
+
+			else
+			{
+				_stageTextMoving = false;
+				_stageNameGravity = 0.56f;
+				_stageNameSpeedX = -34;
+				_textMovingMoveTimer = 0;
+				_textMovingStartTimer = 0;
+				_stageNameText->SetX(WINSIZEX + 100);
+			}
+		}
+
+		else
+		{
+			_textMovingStartTimer++;
 		}
 	}
 }

@@ -40,8 +40,6 @@ void BasicShortSword::Activate()
 	_vSlashes.push_back(slash);
 }
 
-
-
 void BasicShortSword::SlashUpdater()
 {
 	for (int i = 0; i < _vSlashes.size(); i++)
