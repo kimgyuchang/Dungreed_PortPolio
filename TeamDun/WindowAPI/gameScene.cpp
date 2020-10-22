@@ -70,13 +70,25 @@ void gameScene::initUI()
 
 void gameScene::MainGameFrameInit()
 {
+	UIFrame* skillFrame = new UIFrame();
+	skillFrame->init("skillFrame", WINSIZEX - 260, WINSIZEY - 110, 66, 66, "accessoryZone", 66/96.f, 66/75.f);
+	UIMANAGER->GetGameFrame()->AddFrame(skillFrame);
+
+	UIFrame* skillImageFrame = new UIFrame();
+	skillImageFrame->init("skillImageFrame", 5, 5, 57, 57, "Skill_lala");
+	skillFrame->AddFrame(skillImageFrame);
+
+	UIText* cooltimeText = new UIText();
+	cooltimeText->init("cooltime", 0, 10, 66, 66, "10", FONT::PIX, WORDSIZE::WS_BIGGEST, WORDSORT::WSORT_MIDDLE, RGB(255,30,30));
+	skillFrame->AddFrame(cooltimeText);
+
 	UIText* descriptionText = new UIText();
 	descriptionText->init("descriptionText", 0, 200, WINSIZEX, 500, "", FONT::PIX, WORDSIZE::WS_BIGGEST, WORDSORT::WSORT_MIDDLE);
 	UIMANAGER->GetGameFrame()->AddFrame(descriptionText);
 	descriptionText->SetIsViewing(false);
 
 	UIText* bulletText = new UIText();
-	bulletText->init("bulletText", WINSIZEX - 280, WINSIZEY - 50, 120, 50, "100 / 100", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE);
+	bulletText->init("bulletText", WINSIZEX - 290, WINSIZEY - 35, 120, 50, "100 / 100", FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_MIDDLE);
 	UIMANAGER->GetGameFrame()->AddFrame(bulletText);
 	bulletText->SetIsViewing(true);
 

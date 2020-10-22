@@ -323,6 +323,9 @@ void DataManager::GetItemData()
 		case 4026: // 돋보기
 			item = new MagnifyingGlass();
 			break;
+		case 4140:
+			item = new LalaMagic();
+			break;
 		default:
 			item = new Item();
 			break;
@@ -356,6 +359,10 @@ void DataManager::GetItemData()
 		switch (stoi(itemData[i][3]))
 		{
 			// 위쪽으로 스킬 추가 (ID를 통해)
+		case 1: // 라라 (유성우)
+			skill = new LalaSkill();
+			skill->init();
+			break;
 		default :
 			skill = nullptr;
 			break;
@@ -482,6 +489,8 @@ Item* DataManager::GetItemById(int id)
 		return new Saber(*dynamic_cast<Saber*>(_mMapItemData[id]));
 	case 4026: // 돋보기
 		return new MagnifyingGlass(*dynamic_cast<MagnifyingGlass*>(_mMapItemData[id]));
+	case 4140: // 라라의 요술봉
+		return new LalaMagic(*dynamic_cast<LalaMagic*>(_mMapItemData[id]));
 	default:
 		return _mMapItemData[id];
 	}

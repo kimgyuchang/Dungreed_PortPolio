@@ -1010,6 +1010,12 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Saber_inven", "Images/item/Saber_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MagnifyingGlass", "Images/item/MagnifyingGlass.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MultiBullet", "Images/item/MultiBullet.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("StarBulletFX", "Images/item/StarBulletFX.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Lala'sMagicWand_inven", "Images/item/Lala'sMagicWand_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Lala'sMagicWand", "Images/item/Lala'sMagicWand.bmp", 70, 70, true, RGB(255, 0, 255));
+
+	// SKILL //
+	_loading->LoadNormalImage("Skill_lala", "Images/item/Skill_lala.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));
@@ -1025,7 +1031,9 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("FireBatBullet0", "Images/Monster/Bullet/FireBatBullet0.bmp", 135, 45,3,1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("Bomb0", "Images/item/Bomb0.bmp", 225, 48,5,1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("BulletFX0103", "Images/item/BulletFX0103.bmp", 924, 120,7,1, true, RGB(255, 0, 255));
-	
+	_loading->LoadFrameImage("StarBullet", "Images/item/StarBullet.bmp", 168, 39, 4,1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("StarBulletFX", "Images/item/StarBulletFX.bmp", 777, 111, 7,1, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("StarBulletParticle", "Images/item/StarBulletParticle.bmp", 42, 39, true, RGB(255, 0, 255));
 
 	// EFFECT //
 	_loading->LoadFrameImage("monsterSpawnEffect", "Images/Etc/monsterSpawnEffect.bmp", 1302, 93, 14, 1, true, RGB(255, 0, 255));

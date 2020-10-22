@@ -212,7 +212,6 @@ HRESULT Player::init()
 
 	_inven->AddItem(DATAMANAGER->GetItemById(4000));
 	_inven->AddItem(DATAMANAGER->GetItemById(4007));
-	_inven->AddItem(DATAMANAGER->GetItemById(4001));
 	_inven->AddItem(DATAMANAGER->GetItemById(4002));
 	_inven->AddItem(DATAMANAGER->GetItemById(4016));
 	_inven->AddItem(DATAMANAGER->GetItemById(4006));
@@ -223,6 +222,8 @@ HRESULT Player::init()
 	_inven->AddItem(DATAMANAGER->GetItemById(4027));
 	_inven->AddItem(DATAMANAGER->GetItemById(4024));
 	_inven->AddItem(DATAMANAGER->GetItemById(4026));
+	_inven->AddItem(DATAMANAGER->GetItemById(4140));
+	_inven->AddItem(DATAMANAGER->GetItemById(4027));
 
 	return S_OK;
 }
@@ -331,6 +332,7 @@ void Player::update()
 		{
 			_vAccessories[i]->update();					//악세서리의 업데이트함수를 실행
 		}
+
 		// 캐릭터 능력
 		CheckAliceZone();
 		AdjustAlicePower();
@@ -366,6 +368,7 @@ void Player::update()
 
 		// UI
 		BulletNumUIChecker();
+		SkillUIChecker();
 
 		if (INPUT->GetKeyDown('J'))
 		{
@@ -562,6 +565,33 @@ void Player::SubMaxDash()
 	if (_maxDashCount > 0) _maxDashCount--;	// 대쉬 최대 횟수가 0보다 클때 최대횟수 감소
 	if (_dashCount > _maxDashCount) _dashCount--;	//대쉬횟수가 최대 횟수보다 커지면 대쉬횟수 감소
 	DashUICheck();
+}
+
+void Player::SkillUIChecker()
+{
+	UIFrame* frame = UIMANAGER->GetGameFrame()->GetChild("skillFrame");
+	if (_weapons[_selectedWeaponIdx] != nullptr && _weapons[_selectedWeaponIdx]->GetSkill() != nullptr)
+	{
+		Skill* skill = _weapons[_selectedWeaponIdx]->GetSkill();
+		frame->SetIsViewing(true);
+		frame->GetChild("skillImageFrame")->SetImage(skill->GetImage());
+
+		if (skill->GetCurCoolTime() == 0)
+		{
+			dynamic_cast<UIText*>(frame->GetChild("cooltime"))->SetIsViewing(false);
+		}
+		else
+		{
+			dynamic_cast<UIText*>(frame->GetChild("cooltime"))->SetIsViewing(true);
+			int coolTime = skill->GetCurCoolTime() / 60.f;
+			dynamic_cast<UIText*>(frame->GetChild("cooltime"))->SetText(to_string(coolTime));
+		}
+	}
+
+	else
+	{
+		frame->SetIsViewing(false);
+	}
 }
 
 void Player::BulletNumUIChecker()

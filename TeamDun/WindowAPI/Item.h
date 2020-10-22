@@ -186,6 +186,7 @@ public:
 	float				GetAngleCheckPosY()		{ return _angleCheckPosY; }
 	string				GetInvenImageName()		{ return _invenImageName; }
 	float				GetRenderScale()		{ return _renderScale; }
+	float				GetAngle()				{ return _angle; }
 	void				SetIsRenderFirst(bool first)	{ _isRenderFirst = first; }
 	void				SetisAttacking(bool attack)		{ _isAttacking = attack; }
 	void				SetRenderAngle(float angle)		{ _renderAngle = angle; }
