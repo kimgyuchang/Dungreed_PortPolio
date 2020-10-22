@@ -4,6 +4,8 @@
 
 HRESULT Object::init(int id, string name, OBJECTTYPE type, vector<string> imgNames)
 {
+	_uid = -1;
+
     _id = id;
     _name = name;
     _type = type;
@@ -105,4 +107,10 @@ void Object::GetDamage(int damage)
 	{
 		SetIsDead(true);
 	}
+}
+
+void Object::SetNewUid()
+{
+	_uid = MAPMANAGER->GetUid();
+	MAPMANAGER->SetUid(MAPMANAGER->GetUid() + 1);
 }

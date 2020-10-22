@@ -16,6 +16,8 @@ public :
 class MapManager : public singletonBase<MapManager>
 {
 private:
+
+	int						_uidCount;		// UID NUMBER
 	vector<FieldMap*>		_vOriginMaps;	// 데이터로 불러온 맵들
 
 	Stage*					_stage;			// 현재 스테이지
@@ -66,7 +68,9 @@ public:
 	Portal*				GetCurrentPortal()	{ return _currentPortal; }
 	int					GetCurStageNum()	{ return _curStageNum; }
 	StageChanger*		GetStageChanger()	{ return _stageChanger; }
-
+	int					GetUid()			{ return _uidCount; }
+	
+	void		SetUid(int uid)				{ _uidCount = uid; }
 	void 		SetCurrentMap(int map)		{ _currentMap = map; }
 	void		SetPortalOn(bool on)		{ _portalOn = on; }
 	void		SetCurrentPortal(Portal* p) { _currentPortal = p; }

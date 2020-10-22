@@ -3,6 +3,7 @@
 
 HRESULT Player::init()
 {
+	_uid = 0;
 	this->_vImages.push_back(IMAGEMANAGER->findImage("baseCharIdle"));//0
 	this->_vImages.push_back(IMAGEMANAGER->findImage("baseCharRun")); //1
 	this->_vImages.push_back(IMAGEMANAGER->findImage("baseCharDie")); //2

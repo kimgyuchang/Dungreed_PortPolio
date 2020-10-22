@@ -265,6 +265,7 @@ void FieldMap::LoadObject()
 		obj->SetSpawnTime(stoi(objData[i][3]));
 		obj->SetBelongMap(this);
 		obj->SetBodyPos();
+		obj->SetNewUid();
 
 		bool CheckRollBack = false;
 		// AFTER OBJECT LOAD

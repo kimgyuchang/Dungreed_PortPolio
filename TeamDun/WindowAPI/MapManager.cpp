@@ -3,6 +3,7 @@
 
 HRESULT MapManager::init()
 {
+	_uidCount = 1;
 	_vOriginMaps.clear();
 	_stage = new Stage();
 
