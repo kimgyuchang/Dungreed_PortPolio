@@ -806,6 +806,8 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Shop", "Images/villageFloor/Shop.bmp", 564, 356, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Tree0", "Images/villageFloor/Tree0.bmp", 156, 183, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Tree1", "Images/villageFloor/Tree1.bmp", 201, 231, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Temple", "Images/villageFloor/Temple.bmp", 723, 369, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("TempleFront", "Images/villageFloor/TempleFront.bmp", 579, 357, true, RGB(255, 0, 255));
 
 	// TOWN NPC //
 	_loading->LoadFrameImage("NPC_Trainee", "Images/villageFloor/NPC/image/NPC_Trainee.bmp", 462, 66, 7, 1, true, RGB(255, 0, 255));
@@ -827,6 +829,7 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("NPC_Merchant", "Images/villageFloor/NPC/NPC_Merchant.bmp", 234, 126, 6, 2, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("PistolMan", "Images/villageFloor/NPC/image/PistolMan.bmp", 306, 108, 6, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("NPC_Builder", "Images/villageFloor/NPC/NPC_Builder.bmp", 252, 138, 6, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("NPC_Temple", "Images/villageFloor/NPC/NPC_Temple.bmp", 216, 126, 6, 2, true, RGB(255, 0, 255));
 
 	_loading->LoadFrameImage("DungeonEat", "Images/villageFloor/NPC/DungeonEat.bmp", 9828, 255, 28, 1, true, RGB(255, 0, 255));
 
@@ -947,9 +950,24 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("DwarvenArmor", "Images/item/DwarvenArmor.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SandBag", "Images/item/SandBag.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Dicegod'sTrick", "Images/item/Dicegod'sTrick.bmp", 57, 57, true, RGB(255, 0, 255));
-	_loading->LoadFrameImage("MiniSlimeMaker", "Images/item/MiniSlimeMaker.bmp", 1044, 144, 12, 2, true, RGB(255, 0, 255));
-	_loading->LoadFrameImage("MiniSlimeBullet", "Images/item/MiniSlimeBullet.bmp", 792, 168, 12, 2, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("MiniSlimeMaker_inven", "Images/item/MiniSlimeMaker_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("RingOfSpeed", "Images/item/RingOfSpeed.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("CharmOfAttack", "Images/item/CharmOfAttack.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("CharmOfMadness", "Images/item/CharmOfMadness.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BambooSword", "Images/item/BambooSword.bmp", 100, 100, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BambooSword_drop", "Images/item/BambooSword_drop.bmp", 60, 32, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("BambooSword_inven", "Images/item/BambooSword_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("BambooSword_Effect", "Images/item/BambooSword_Effect.bmp", 300, 108, 3, 1, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Monocle", "Images/item/Monocle.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Katana", "Images/item/Katana.bmp", 130, 260, 1, 2, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Katana_inven", "Images/item/Katana_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Katana_drop", "Images/item/Katana_drop.bmp", 81, 32, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("KatanaSwing", "Images/item/KatanaSwing.bmp", 1860, 271, 6, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Shamshir", "Images/item/Shamshir.bmp", 130, 260, 1, 2, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Shamshir_drop", "Images/item/Shamshir_drop.bmp", 72, 32, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Shamshir_inven", "Images/item/Shamshir_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Saber", "Images/item/Saber.bmp", 130, 260, 1, 2, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Saber_drop", "Images/item/Saber_drop.bmp", 72, 32, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Saber_inven", "Images/item/Saber_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));

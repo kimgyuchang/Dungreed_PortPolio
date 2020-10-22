@@ -84,6 +84,8 @@ private:
 	bossHands		_RightHandle;
 
 	int				_backEffectCount;
+	bool			_isHitBoss;
+	int				_HitTimer;
 	
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);

@@ -41,6 +41,8 @@ HRESULT Belial::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_leftHandle.Timer = 0;
 	_leftHandle.state = ES_IDLE;
 
+	_isHitBoss = false;
+	_HitTimer = 0;
 	_RightHandle.ig = IMAGEMANAGER->findImage("SkellBossRightHandIdle");
 	_RightHandle.frameX = 0;
 	_RightHandle.frameY = 0;
@@ -91,6 +93,27 @@ void Belial::update()
 
 		if (_realIsViewing)
 		{
+			//히트시 이미지 변경
+			if (_isHitBoss)
+			{
+				_HitTimer++;
+				_vImages[0] = IMAGEMANAGER->findImage("SkellBossIdleHit");
+				_vImages[1] = IMAGEMANAGER->findImage("SkellBossAttackHit");
+				if (_HitTimer > 10)
+				{
+					_HitTimer = 0;
+					_isHitBoss = false;
+				}
+			}
+			else
+			{
+				_vImages[0] = IMAGEMANAGER->findImage("SkellBossIdle");
+				_vImages[1] = IMAGEMANAGER->findImage("SkellBossAttack");
+			}
+
+
+
+			//
 			_backEffectCount++;
 			if (_backEffectCount > 10)
 			{
@@ -667,10 +690,11 @@ void Belial::GetDamage()
 
 	if (_isSpawned)
 	{
+		_isHitBoss = true;
+		_HitTimer = 0;
 		SOUNDMANAGER->play("Hit_Monster");
 		Player* p = ENTITYMANAGER->getPlayer();
 		p->SetIsCritical(false);
-
 		int damage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
 		if (p->GetSpecialAbilityOn(0, 2))
 		{
@@ -725,6 +749,8 @@ void Belial::GetDamage(int damage)
 
 	if (_isSpawned)
 	{
+		_isHitBoss = true;
+		_HitTimer = 0;
 		SOUNDMANAGER->play("Hit_Monster");
 		Player* p = ENTITYMANAGER->getPlayer();
 		p->SetIsCritical(false);
