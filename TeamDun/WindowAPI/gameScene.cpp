@@ -165,12 +165,11 @@ void gameScene::MainGameFrameInit()
 	UIFrame* ShieldBase = new UIFrame();
 	ShieldBase->init("ShieldBaseFrame", 20, 100, IMAGEMANAGER->findImage("ShieldBase")->getWidth(), IMAGEMANAGER->findImage("ShieldBase")->getHeight(), "ShieldBase");
 	UIMANAGER->GetGameFrame()->AddFrame(ShieldBase);
-	ShieldBase->SetIsViewing(true);
+	ShieldBase->SetIsViewing(false);
 
-	UIFrame* ShieldBack = new UIFrame();
-	ShieldBack->init("ShieldBackFrame", 20, 100, IMAGEMANAGER->findImage("ShieldBack")->getWidth(), IMAGEMANAGER->findImage("ShieldBack")->getHeight(), "ShieldBack");
-	UIMANAGER->GetGameFrame()->AddFrame(ShieldBack);
-	ShieldBack->SetIsViewing(false);
+	UIProgressBar* ShieldBackProgressBar = new UIProgressBar();
+	ShieldBackProgressBar->init("ShieldBackProgress", 0, 0, IMAGEMANAGER->findImage("ShieldBack")->getWidth(), IMAGEMANAGER->findImage("ShieldBack")->getHeight(), "ShieldBack", "");
+	ShieldBase->AddFrame(ShieldBackProgressBar);
 
 	container->SetIsViewing(true);
 	hpFrame->SetIsViewing(true);
@@ -1073,6 +1072,7 @@ void gameScene::UpdateWardrobeUI()
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) 
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
+					ENTITYMANAGER->getPlayer()->SetShieldPoint(ENTITYMANAGER->getPlayer()->GetMaxShieldPoint());
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_MASTERCHEF);
 					break;
 

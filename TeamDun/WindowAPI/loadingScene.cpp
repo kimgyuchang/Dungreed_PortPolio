@@ -600,6 +600,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("ThankYou.korean", "Images/UI/ThankYou.korean.bmp", 297, 57, true, RGB(255, 0, 255));
 
 	_loading->LoadNormalImage("ShieldBack", "Images/UI/ShieldBack.bmp", 156, 27, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ShieldFull", "Images/UI/ShieldFull.bmp", 156, 27, true, RGB(255, 0, 255));
 
 	_loading->LoadNormalImage("CheckImage", "Images/GridBound.bmp", 48, 48, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CheckImageRed", "Images/GridBoundRed.bmp", 48, 48, true, RGB(255, 0, 255));

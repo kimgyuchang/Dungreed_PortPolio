@@ -130,7 +130,7 @@ private:
 	float			_realDefence;			// 방어력 (변환)
 	int				_maxHp;					// 최대 체력 추가량
 	float			_maxHpPercent;			// 최대 최력 추가량 (비율)
-
+	
 	// 속성 //
 	bool			_isFire;
 	int				_fireCount;
@@ -252,6 +252,9 @@ private:
 	// 마검사 //
 	int			    _playerDeadCount;
 
+	// 마스터 셰프 // 
+	float			_shieldPoint;
+	float			_maxShieldPoint;
 	// 보스 //
 	bool			_isBossReady;
 public:
@@ -295,6 +298,8 @@ public:
 	void GetHitDamage(int damage);
 
 	void AdaptCriminalCount();
+
+	void ShieldUICheck();
 
 	void RestoreHpTimerChecker();
 
@@ -421,11 +426,11 @@ public:
 	int				GetRestorePrevHp()		{ return _restorePrevHp; }
 	bool			GetSpecialAbilityOn(int indexBig, int indexSmall) { return _specialAbilityOn[indexBig][indexSmall]; }
 	bool			GetIsBossReady()		{ return _isBossReady; }
-
 	int				GetDashRestoreTime()	{ return _dashRestoreTime; }
 	bool			GetIsPlayerDead()		{ return _isPlayerDead; }
-	int				GetSpecialAbilityPoint(int index) { return _abilityNum[index]; }
 	int				GetRoomMoveSatiation()	{ return _roomMoveSatiation; }
+	float			GetMaxShieldPoint()		{ return _maxShieldPoint; }
+	int				GetSpecialAbilityPoint(int index) { return _abilityNum[index]; }
 
 	void			SetIsReload(bool isReload)						{ _isReload = isReload; }
 	void			SetHitCount(int hitCount)						{ _hitCount = hitCount; }
@@ -520,6 +525,7 @@ public:
 	void			SetMaxPoint(int maxPoint)						{ _maxPoint = maxPoint; }
 	void			SetRemainPoint(int remainPoint)					{ _remainPoint = remainPoint; }
 	void			SetSpecialAbilityNum(int index, int point)		{ _abilityNum[index] = point; }
+	void			SetShieldPoint(float num)						{ _shieldPoint = num; }
 	void			SetSpecialAbilityOn(bool isOn, int index1, int index2) { _specialAbilityOn[index1][index2] = isOn; }
 
 }; 
