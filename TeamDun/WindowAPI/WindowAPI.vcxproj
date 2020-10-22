@@ -160,6 +160,7 @@
     <ClInclude Include="BigWhiteSkel.h" />
     <ClInclude Include="BlessOfSage.h" />
     <ClInclude Include="BloodOfSrobeo.h" />
+    <ClInclude Include="BombPouch.h" />
     <ClInclude Include="Boutique.h" />
     <ClInclude Include="BowSkel.h" />
     <ClInclude Include="Box.h" />
@@ -260,6 +261,7 @@
     <ClCompile Include="BigWhiteSkel.cpp" />
     <ClCompile Include="BlessOfSage.cpp" />
     <ClCompile Include="BloodOfSrobeo.cpp" />
+    <ClCompile Include="BombPouch.cpp" />
     <ClCompile Include="Boutique.cpp" />
     <ClCompile Include="BowSkel.cpp" />
     <ClCompile Include="Box.cpp" />

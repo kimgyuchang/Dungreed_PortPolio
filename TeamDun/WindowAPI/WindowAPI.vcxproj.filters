@@ -375,6 +375,9 @@
     <ClCompile Include="SaveLoadManager.cpp">
       <Filter>GameFramework\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="BombPouch.cpp">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -668,6 +671,9 @@
     </ClInclude>
     <ClInclude Include="SaveLoadManager.h">
       <Filter>GameFramework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="BombPouch.h">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
