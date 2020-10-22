@@ -191,6 +191,7 @@
     <ClInclude Include="GoldenCandy.h" />
     <ClInclude Include="GreatBow.h" />
     <ClInclude Include="GunShop.h" />
+    <ClInclude Include="Gwendolyn.h" />
     <ClInclude Include="HpPixie.h" />
     <ClInclude Include="HungryFountain.h" />
     <ClInclude Include="IceBat.h" />
@@ -201,6 +202,7 @@
     <ClInclude Include="inventory.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Katana.h" />
+    <ClInclude Include="LalaMagic.h" />
     <ClInclude Include="Lilith.h" />
     <ClInclude Include="LittleGhost.h" />
     <ClInclude Include="loading.h" />
@@ -227,6 +229,7 @@
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="PurpleGiantBat.h" />
     <ClInclude Include="random.h" />
+    <ClInclude Include="Rapier.h" />
     <ClInclude Include="RedBat.h" />
     <ClInclude Include="RedGiantBat.h" />
     <ClInclude Include="resource.h" />
@@ -236,6 +239,7 @@
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="Shamshir.h" />
     <ClInclude Include="Shop.h" />
+    <ClInclude Include="ShortSpear.h" />
     <ClInclude Include="singletonBase.h" />
     <ClInclude Include="SkelDog.h" />
     <ClInclude Include="Skill.h" />
@@ -301,6 +305,7 @@
     <ClCompile Include="GoldenCandy.cpp" />
     <ClCompile Include="GreatBow.cpp" />
     <ClCompile Include="GunShop.cpp" />
+    <ClCompile Include="Gwendolyn.cpp" />
     <ClCompile Include="HpPixie.cpp" />
     <ClCompile Include="HungryFountain.cpp" />
     <ClCompile Include="IceBat.cpp" />
@@ -311,6 +316,7 @@
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Katana.cpp" />
+    <ClCompile Include="LalaMagic.cpp" />
     <ClCompile Include="Lilith.cpp" />
     <ClCompile Include="LittleGhost.cpp" />
     <ClCompile Include="loading.cpp" />
@@ -335,6 +341,7 @@
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="PurpleGiantBat.cpp" />
     <ClCompile Include="random.cpp" />
+    <ClCompile Include="Rapier.cpp" />
     <ClCompile Include="RedBat.cpp" />
     <ClCompile Include="RedGiantBat.cpp" />
     <ClCompile Include="Restaurant.cpp">
@@ -345,6 +352,7 @@
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="Shamshir.cpp" />
     <ClCompile Include="Shop.cpp" />
+    <ClCompile Include="ShortSpear.cpp" />
     <ClCompile Include="SkelDog.cpp" />
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="Smith.cpp" />

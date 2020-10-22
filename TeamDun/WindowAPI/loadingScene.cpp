@@ -35,11 +35,12 @@ HRESULT loadingScene::init()
 	_text[8] = "밴시의 라이브공연 감상하는 중...";
 	_text[9] = "브랜치 병합하다 프로젝트 터지는 중...";
 	_text[10] = "식당 이모의 절찬 음식 먹으며 눈물 흘리는 중...";
+	_text[11] = "해골 강아지 분양받는 중...";
 
 	for (int i = 0; i < 50; i++)
 	{
-		int j = RANDOM->range(11);
-		int k = RANDOM->range(11);
+		int j = RANDOM->range(12);
+		int k = RANDOM->range(12);
 		string temp = _text[j];
 		_text[j] = _text[k];
 		_text[k] = temp;
@@ -1008,6 +1009,18 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("Saber", "Images/item/Saber.bmp", 130, 260, 1, 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Saber_drop", "Images/item/Saber_drop.bmp", 72, 32, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Saber_inven", "Images/item/Saber_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Rapier", "Images/item/Rapier.bmp", 120, 120, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Rapier_drop", "Images/item/Rapier_drop.bmp", 66, 32, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Rapier_inven", "Images/item/Rapier_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("RapierEffect", "Images/item/RapierEffect.bmp", 1920, 480, 4, 1, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ShortSpear", "Images/item/ShortSpear.bmp", 140, 140, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ShortSpear_inven", "Images/item/ShortSpear_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ShortSpear_drop", "Images/item/ShortSpear_drop.bmp", 84, 32, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Stab", "Images/item/Stab.bmp", 480, 120, 4, 1, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Gwendolyn", "Images/item/Gwendolyn.bmp", 200, 200, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Gwendolyn_drop", "Images/item/Gwendolyn_drop.bmp", 120, 32, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Gwendolyn_inven", "Images/item/Gwendolyn_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("GwendolynEffect", "Images/item/GwendolynEffect.bmp", 720, 240, 3, 1, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MagnifyingGlass", "Images/item/MagnifyingGlass.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MultiBullet", "Images/item/MultiBullet.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("GoldenCandy", "Images/item/GoldenCandy.bmp", 57, 57, true, RGB(255, 0, 255));
