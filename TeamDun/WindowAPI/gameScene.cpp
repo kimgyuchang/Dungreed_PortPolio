@@ -170,12 +170,11 @@ void gameScene::MainGameFrameInit()
 	UIFrame* ShieldBase = new UIFrame();
 	ShieldBase->init("ShieldBaseFrame", 20, 100, IMAGEMANAGER->findImage("ShieldBase")->getWidth(), IMAGEMANAGER->findImage("ShieldBase")->getHeight(), "ShieldBase");
 	UIMANAGER->GetGameFrame()->AddFrame(ShieldBase);
-	ShieldBase->SetIsViewing(true);
+	ShieldBase->SetIsViewing(false);
 
-	UIFrame* ShieldBack = new UIFrame();
-	ShieldBack->init("ShieldBackFrame", 20, 100, IMAGEMANAGER->findImage("ShieldBack")->getWidth(), IMAGEMANAGER->findImage("ShieldBack")->getHeight(), "ShieldBack");
-	UIMANAGER->GetGameFrame()->AddFrame(ShieldBack);
-	ShieldBack->SetIsViewing(false);
+	UIProgressBar* ShieldBackProgressBar = new UIProgressBar();
+	ShieldBackProgressBar->init("ShieldBackProgress", 0, 0, IMAGEMANAGER->findImage("ShieldBack")->getWidth(), IMAGEMANAGER->findImage("ShieldBack")->getHeight(), "ShieldBack", "");
+	ShieldBase->AddFrame(ShieldBackProgressBar);
 
 	container->SetIsViewing(true);
 	hpFrame->SetIsViewing(true);
@@ -948,163 +947,151 @@ void gameScene::UpdateWardrobeUI()
 				switch (i)
 				{
 				case 0:
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_NORMAL);
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("baseCharIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("baseCharRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("baseCharDie"));
-					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
+					ENTITYMANAGER->getPlayer()->SetDashEffectCharImage(IMAGEMANAGER->findImage("baseCharEffect"));
 					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
-					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_NORMAL);
 					break;
 				case 1:
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_METAL);
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("sheetingIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("sheetingRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("sheetingDie"));
+					ENTITYMANAGER->getPlayer()->SetDashEffectCharImage(IMAGEMANAGER->findImage("sheetingEffect"));
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() + 10);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 10);
 					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
-					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
-					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_METAL);
 					break;
 				case 2:
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_GUNNER);
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("gunmanIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("gunmanRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("gunmanDie"));
+					ENTITYMANAGER->getPlayer()->SetDashEffectCharImage(IMAGEMANAGER->findImage("gunmanEffect"));
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() - 15);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 15);
 					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
-					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
-					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_GUNNER);
 					break;
 				case 3:
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_ALICE);
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("aliceIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("aliceRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("aliceDie"));
+					ENTITYMANAGER->getPlayer()->SetDashEffectCharImage(IMAGEMANAGER->findImage("aliceEffect"));
 					ENTITYMANAGER->getPlayer()->SetPower(ENTITYMANAGER->getPlayer()->GetPower() + 40);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 30);
 					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
-					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
-					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_ALICE);
 					break;
 				case 4:
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_HONGRYAN);
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("redlotusIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("redlotusRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("redlotusDie"));
+					ENTITYMANAGER->getPlayer()->SetDashEffectCharImage(IMAGEMANAGER->findImage("redlotusEffect"));
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 15);
 					ENTITYMANAGER->getPlayer()->SetEvasion(ENTITYMANAGER->getPlayer()->GetEvasion() - 5);
 					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
-					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
-					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_HONGRYAN);
 					break;
 				case 5:
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_IKINABEAR);
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("lkinabearIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("lkinabearRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("lkinabearDie"));
+					ENTITYMANAGER->getPlayer()->SetDashEffectCharImage(IMAGEMANAGER->findImage("lkinabearEffect"));
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() - 5);
 					ENTITYMANAGER->getPlayer()->SetPower(ENTITYMANAGER->getPlayer()->GetPower() - 20);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
-					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_IKINABEAR);
 					UIMANAGER->GetGameFrame()->GetChild("IkinaBaseFrame")->SetIsViewing(true);
 					break;
 				case 6:
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_RIDERH);
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("riderHIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("riderHRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("riderHDie"));
+					ENTITYMANAGER->getPlayer()->SetDashEffectCharImage(IMAGEMANAGER->findImage("riderHEffect"));
 					ENTITYMANAGER->getPlayer()->SetMoveSpeedPer(ENTITYMANAGER->getPlayer()->GetMoveSpeedPer() + 22);
 					ENTITYMANAGER->getPlayer()->SetToughness(ENTITYMANAGER->getPlayer()->GetToughness() - 2);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
-					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_RIDERH);
 					ENTITYMANAGER->getPlayer()->SetPrevPowerPlus(0);
 					break;
 				case 7:
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_CRIMINAL);
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("criminalldle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("criminalRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("criminalDie"));
+					ENTITYMANAGER->getPlayer()->SetDashEffectCharImage(IMAGEMANAGER->findImage("criminalEffect"));
 					ENTITYMANAGER->getPlayer()->SetEvasion(ENTITYMANAGER->getPlayer()->GetEvasion() - 12);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
-					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_CRIMINAL);
 					break;
 				case 8:
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_PICKKING);
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("pickIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("pickRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("pickDie"));
+					ENTITYMANAGER->getPlayer()->SetDashEffectCharImage(IMAGEMANAGER->findImage("pickEffect"));
 					ENTITYMANAGER->getPlayer()->SetCriDamage(ENTITYMANAGER->getPlayer()->GetCriDamage() - 25);
 					ENTITYMANAGER->getPlayer()->AddMaxDash();
-					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
-					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_PICKKING);
 					break;
 				case 9:
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_FATGUY);
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("fastoIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("fastoRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("fastoDie"));
+					ENTITYMANAGER->getPlayer()->SetDashEffectCharImage(IMAGEMANAGER->findImage("fastoEffect"));
 					ENTITYMANAGER->getPlayer()->SetMoveSpeedPer(ENTITYMANAGER->getPlayer()->GetMoveSpeedPer() - 20);
 					ENTITYMANAGER->getPlayer()->SetAtkSpeedPer(ENTITYMANAGER->getPlayer()->GetAtkSpeedPer() - 10);
-					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
-					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_FATGUY);
 					break;
 				case 10:
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_HORSESWORD);
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("horsemanIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("horsemanRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("horsemanDie"));
-					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
+					ENTITYMANAGER->getPlayer()->SetDashEffectCharImage(IMAGEMANAGER->findImage("horsemanEffect"));
 					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
-					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_HORSESWORD);
 					ENTITYMANAGER->getPlayer()->SetplayerDeadCount(0);
 					break;
 				case 11:
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_HUMANLASLEY);
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("humanlasleyIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("humanlasleyRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("humanlaselyDie"));
+					ENTITYMANAGER->getPlayer()->SetDashEffectCharImage(IMAGEMANAGER->findImage("humanlasleyEffect"));
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 45);
 					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
-					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
-					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_HUMANLASLEY);
 					break;
 				case 12:
+					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_MASTERCHEF);
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("masterchefIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("masterchefRun"));
 					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("masterchefDie"));
+					ENTITYMANAGER->getPlayer()->SetDashEffectCharImage(IMAGEMANAGER->findImage("masterchefEffect"));
 					ENTITYMANAGER->getPlayer()->SetFireAccuracy(ENTITYMANAGER->getPlayer()->GetFireAccuracy() + 33);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 33);
 					ENTITYMANAGER->getPlayer()->SetNewMaxHp();
-					if (curHp > ENTITYMANAGER->getPlayer()->GetMaxHp())
-						curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
-					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_MASTERCHEF);
+					ENTITYMANAGER->getPlayer()->SetShieldPoint(ENTITYMANAGER->getPlayer()->GetMaxShieldPoint());
 					break;
 
 				default:

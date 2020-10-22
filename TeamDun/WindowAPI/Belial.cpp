@@ -728,7 +728,7 @@ void Belial::GetDamage()
 			{
 				_p->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 10);
 				_p->SetNewMaxHp();
-				curHp = ENTITYMANAGER->getPlayer()->GetMaxHp();
+				curHp += 10;
 				ENTITYMANAGER->getPlayer()->SetHp(curHp);
 			}
 		
@@ -778,7 +778,7 @@ void Belial::GetDamage(int damage)
 			{
 				_p->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 10);
 				_p->SetNewMaxHp();
-				curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+				curHp += 10;
 				ENTITYMANAGER->getPlayer()->SetHp(curHp);
 			}
 
