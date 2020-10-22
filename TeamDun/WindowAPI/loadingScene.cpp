@@ -985,6 +985,11 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("DwarvenArmor", "Images/item/DwarvenArmor.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SandBag", "Images/item/SandBag.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Dicegod'sTrick", "Images/item/Dicegod'sTrick.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("MiniSlimeMaker", "Images/item/MiniSlimeMaker.bmp", 1044, 144, 12, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("MiniSlimeBullet", "Images/item/MiniSlimeBullet.bmp", 792, 168, 12, 2, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("MiniSlimeMaker_inven", "Images/item/MiniSlimeMaker_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("GreatBow", "Images/item/GreatBow.bmp", 342, 51,6,1, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("GreatBow_Inven", "Images/item/GreatBow_Inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("RingOfSpeed", "Images/item/RingOfSpeed.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CharmOfAttack", "Images/item/CharmOfAttack.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CharmOfMadness", "Images/item/CharmOfMadness.bmp", 57, 57, true, RGB(255, 0, 255));
@@ -1016,6 +1021,8 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("IceBulletHit", "Images/Monster/Bullet/IceBulletHit.bmp", 225, 75,3,1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("FireBatBullet", "Images/Monster/Bullet/FireBatBullet.bmp", 345, 69,5,1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("FireBatBullet0", "Images/Monster/Bullet/FireBatBullet0.bmp", 135, 45,3,1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Bomb0", "Images/item/Bomb0.bmp", 225, 48,5,1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("BulletFX0103", "Images/item/BulletFX0103.bmp", 924, 120,7,1, true, RGB(255, 0, 255));
 	
 
 	// EFFECT //

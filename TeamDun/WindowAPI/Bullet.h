@@ -4,7 +4,8 @@ enum BULLETSPEEDTYPE
 	BST_NOMAL,
 	BST_SLOW,
 	BST_FAST,
-	BST_GRAVITY
+	BST_GRAVITY,
+	BST_CHARGE
 };
 enum BULLETTYPE
 {
@@ -21,6 +22,7 @@ private :
 	BULLETSPEEDTYPE _speedType;
 	image*			_ig;
 	string			_effectIgName;
+	string			_effectSound;
 	RECT			_rc;
 	float			_x;
 	float			_y;
@@ -35,7 +37,9 @@ private :
 	float			_distance;
 	float			_maxDistance;
 	float			_damage;
-
+	float			_jumpPower;
+	float			_gravity;
+	
 	int				_particleTimer;
 	bool			_useTraceParticle;
 
@@ -48,7 +52,7 @@ public :
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 	void GenerateTraceParticle();
-	void makeBullet(const char* imageName,string effectIgName, BULLETTYPE type, float x, float y, float angle,float damage, float speed, float maxDis, bool isFrame ,float igAngle =0 ,BULLETSPEEDTYPE speedtype= BST_NOMAL);
+	void makeBullet(const char* imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle, float damage, float speed, float maxDis, bool isFrame, float igAngle = 0, BULLETSPEEDTYPE speedtype = BST_NOMAL, string effectSound = "");
 
 	void moveBullet();
 	void Animation();
@@ -59,6 +63,7 @@ public :
 	BULLETTYPE getType() { return _type; }
 	image* getIg() { return _ig; }
 	string getEffectIgName(){return _effectIgName;}
+	string getEffectSound(){return _effectSound;}
 	RECT getRc() { return _rc; }
 	float getX() { return _x; }
 	float getY() { return _y; }
@@ -77,6 +82,7 @@ public :
 	void SetType(BULLETTYPE type) {  _type = type; }
 	void SetIg(image* ig) { _ig = ig; }
 	void SetEffectIgName(string effectname) { _effectIgName = effectname; }
+	void SetEffectSound(string effectSound) { _effectSound = effectSound; }
 	void SetRc(RECT rc){ _rc = rc; }
 	void SetX(float x) {  _x = x; }
 	void SetY(float y) {  _y = y; }

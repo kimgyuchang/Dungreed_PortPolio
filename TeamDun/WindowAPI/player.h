@@ -280,6 +280,11 @@ private:
 	float			_maxShieldPoint;
 	// 보스 //
 	bool			_isBossReady;
+
+
+	// 아이템 관련//
+	int				_killPoint;
+	int				_maxKillPoint;
 public:
 
 	virtual HRESULT init();
@@ -456,6 +461,7 @@ public:
 	int				GetDashRestoreTime()	{ return _dashRestoreTime; }
 	bool			GetIsPlayerDead()		{ return _isPlayerDead; }
 	int				GetRoomMoveSatiation()	{ return _roomMoveSatiation; }
+	int				GetKillPoint()			{ return _killPoint; }
 	float			GetMaxShieldPoint()		{ return _maxShieldPoint; }
 	int				GetSpecialAbilityPoint(int index) { return _abilityNum[index]; }
 
@@ -575,6 +581,7 @@ public:
 	void			SetSpecialAbilityNum(int index, int point)		{ _abilityNum[index] = point; }
 	void			SetShieldPoint(float num)						{ _shieldPoint = num; }
 	void			SetSpecialAbilityOn(bool isOn, int index1, int index2) { _specialAbilityOn[index1][index2] = isOn; }
+	void			SetKillPoint(int killPoint)						{ _killPoint = killPoint; }
 
 
 	void			SetFoodPower(int power) { _foodPower = power; }

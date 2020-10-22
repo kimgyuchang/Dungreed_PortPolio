@@ -18,6 +18,7 @@ id,itemType,weaponType,skill,name,description,itemClass,minAtk,maxAtk,atkSpeed,d
 4016,악세서리,무기아님,-1,혈석목걸이,죽을때 소지하면 죽은 뒤에 그힘을 얻을수 있다고 한다.,희귀,0,0,0,0,0,0,0,-1,0,3730,0,BloodStoneNecklace,.,.,BloodStoneNecklace,BloodStoneNecklace,MAXHPPERCENT,20,.,.,.,.,.,.,.
 4120,서브무기,무기아님,-1,마법 방패,방패를 바라면 팔찌에서부터 생겨난다,희귀,0,0,0,7,0,0,0,-1,0,1200,0,MagicShield,.,.,MagicShield_inv,MagicShield_inv,BLOCK,8,.,.,.,.,.,.,.
 4017,한손무기,근접,-1,숏소드,가볍고 휘두르기 편한 검,일반,8,10,3.03,0,0,0,0,-1,0,100,0,BasicShortSword_New,.,.,BasicShortSword_inven,BasicShortSword_drop,.,.,.,.,.,.,.,.,.
+4100,두손무기,충전형,-1,떡갈나무활,단단해서 때리는데 쓸 수 있을 것 같습니다.,일반,20,35,3.03,1,0,0,0,-1,0,500,0,GreatBow,.,.,GreatBow_Inven,GreatBow_Inven,.,.,.,.,.,.,.,.,.
 4018,악세서리,무기아님,-1,속도의 반지,온몸이 한결 가벼워짐을 느낍니다. ,일반,0,0,0,0,0,0,0,-1,0,500,0,RingOfSpeed,.,.,RingOfSpeed,RingOfSpeed,MOVESPEED,15,.,.,.,.,.,.,.
 4019,악세서리,무기아님,-1,위력의 부적,부적 안을 확인하면 부적의 효력은 사라집니다.,일반,0,0,0,0,0,0,0,-1,0,500,0,CharmOfAttack,.,.,CharmOfAttack,CharmOfAttack,POWER,8,.,.,.,.,.,.,.
 4020,악세서리,무기아님,-1,광기의 부적,거머리가 붙어있는 불길한 기분을 계속 느껴야 합니다.,일반,0,0,0,0,0,0,0,-1,0,720,0,CharmOfMadness,.,.,CharmOfMadness,CharmOfMadness,POWER,20,.,MAXHP,-10,.,.,.,.

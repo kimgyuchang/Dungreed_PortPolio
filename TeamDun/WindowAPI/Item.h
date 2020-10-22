@@ -144,10 +144,10 @@ public:
 	virtual void Activate();
 	void EquipUnEquipStatus(bool isEquip);
 	void AdaptSubOption(SubOption* subOption, bool isEquip);
+	virtual void ActivateAlways();
 	
 
 	virtual void SetBaseRenderPos();
-
 	virtual void ChangeMap();
 
 	// GETSET // 

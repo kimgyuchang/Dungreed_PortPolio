@@ -54,6 +54,7 @@ void Enemy::WeakeningChecker()
 
 		if (_hp <= 0)
 		{
+			
 			MonsterDead();
 		}
 	}
@@ -146,6 +147,14 @@ void Enemy::GetDamage()
 
 		if (_hp <= 0)
 		{
+			for (int i = 0; i < ENTITYMANAGER->getPlayer()->GetVAccessories().size(); i++)
+			{
+				if (ENTITYMANAGER->getPlayer()->GetVAccessories()[i]->GetId() == 4007)
+				{
+					ENTITYMANAGER->getPlayer()->SetKillPoint(ENTITYMANAGER->getPlayer()->GetKillPoint() + 1);
+				}
+
+			}
 			MonsterDead();
 		}
 
@@ -201,6 +210,14 @@ void Enemy::GetDamage(int damage)
 
 		if (_hp <= 0)
 		{
+			for (int i = 0; i < ENTITYMANAGER->getPlayer()->GetVAccessories().size(); i++)
+			{
+				if (ENTITYMANAGER->getPlayer()->GetVAccessories()[i]->GetId() == 4007)
+				{
+					ENTITYMANAGER->getPlayer()->SetKillPoint(ENTITYMANAGER->getPlayer()->GetKillPoint() + 1);
+				}
+
+			}
 			MonsterDead();
 		}
 
