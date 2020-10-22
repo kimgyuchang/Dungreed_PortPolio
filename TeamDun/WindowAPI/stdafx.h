@@ -19,7 +19,7 @@
 #include <math.h>
 #include <commdlg.h>
 #include <io.h>
-
+#include <set>
 // C++ 런타임 헤더 파일입니다.
 #include <iostream>
 #include <filesystem>
@@ -50,6 +50,7 @@ using namespace std;
 #include "EffectManager.h"
 #include "ParticleManager.h"
 #include "SaveLoadManager.h"
+
 
 using namespace UTIL;
 

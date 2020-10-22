@@ -38,6 +38,17 @@ void Colt::FireBullet()
 		SOUNDMANAGER->play("¹«±â_±ÇÃÑ");
 		ENTITYMANAGER->makeBullet("Bullet01", "BulletEffect01", BT_PLAYER,-20 +_angleCheckPosX +cosf(_angle)*50,-30+ _angleCheckPosY-sinf(_angle) * 50, _angle,
 			10, 22, 1000, true, _angle);
+
+		if (ENTITYMANAGER->getPlayer()->GetIsEquipMulti())
+		{
+
+			Bullet* bullet2 = ENTITYMANAGER->makeBullet("Bullet01", "BulletEffect01", BT_PLAYER, -20 + _angleCheckPosX + cosf(_angle) * 50, -30 + _angleCheckPosY - sinf(_angle) * 50, _angle - PI / 12,
+				10, 22, 1000, true, _angle - PI / 24);
+			
+			Bullet* bullet3 = ENTITYMANAGER->makeBullet("Bullet01", "BulletEffect01", BT_PLAYER, -20 + _angleCheckPosX + cosf(_angle) * 50, -30 + _angleCheckPosY - sinf(_angle) * 50, _angle + PI/12,
+				10, 22, 1000, true, _angle + PI / 24);
+		
+		}
 		ENTITYMANAGER->getPlayer()->SetBulletCount(ENTITYMANAGER->getPlayer()->GetBulletCount() - 1);
 
 

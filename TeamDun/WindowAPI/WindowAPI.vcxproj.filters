@@ -414,8 +414,8 @@
     <ClCompile Include="StrawberryFountain.cpp">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClCompile>
-    <ClCompile Include="LalaMagic.cpp">
-      <Filter>MainGame\Item\Items\Weapon\Range</Filter>
+    <ClCompile Include="GoldenCandy.cpp">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -750,8 +750,8 @@
     <ClInclude Include="StrawberryFountain.h">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClInclude>
-    <ClInclude Include="LalaMagic.h">
-      <Filter>MainGame\Item\Items\Weapon\Range</Filter>
+    <ClInclude Include="GoldenCandy.h">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

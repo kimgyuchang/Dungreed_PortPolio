@@ -1025,6 +1025,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("MultiBullet", "Images/item/MultiBullet.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("StrawBerry", "Images/item/StrawBerry.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("TigarsHammer", "Images/item/TigarsHammer.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("GoldenCandy", "Images/item/GoldenCandy.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));

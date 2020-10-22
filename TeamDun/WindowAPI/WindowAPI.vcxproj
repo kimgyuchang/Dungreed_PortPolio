@@ -188,6 +188,7 @@
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="gameScene.h" />
     <ClInclude Include="Gear.h" />
+    <ClInclude Include="GoldenCandy.h" />
     <ClInclude Include="GreatBow.h" />
     <ClInclude Include="GunShop.h" />
     <ClInclude Include="Gwendolyn.h" />
@@ -301,6 +302,7 @@
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="gameScene.cpp" />
     <ClCompile Include="Gear.cpp" />
+    <ClCompile Include="GoldenCandy.cpp" />
     <ClCompile Include="GreatBow.cpp" />
     <ClCompile Include="GunShop.cpp" />
     <ClCompile Include="Gwendolyn.cpp" />
