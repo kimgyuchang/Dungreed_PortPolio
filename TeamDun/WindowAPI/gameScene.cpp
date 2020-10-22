@@ -161,6 +161,17 @@ void gameScene::MainGameFrameInit()
 	IkinaProgressBar->init("progress", 8, 15, IMAGEMANAGER->findImage("IkinaBack")->getWidth(), IMAGEMANAGER->findImage("IkinaBack")->getHeight(), "IkinaBack", "");
 	IkinaBase->AddFrame(IkinaProgressBar);
 
+	// MasterChefShield Frame //
+	UIFrame* ShieldBase = new UIFrame();
+	ShieldBase->init("ShieldBaseFrame", 20, 100, IMAGEMANAGER->findImage("ShieldBase")->getWidth(), IMAGEMANAGER->findImage("ShieldBase")->getHeight(), "ShieldBase");
+	UIMANAGER->GetGameFrame()->AddFrame(ShieldBase);
+	ShieldBase->SetIsViewing(true);
+
+	UIFrame* ShieldBack = new UIFrame();
+	ShieldBack->init("ShieldBackFrame", 20, 100, IMAGEMANAGER->findImage("ShieldBack")->getWidth(), IMAGEMANAGER->findImage("ShieldBack")->getHeight(), "ShieldBack");
+	UIMANAGER->GetGameFrame()->AddFrame(ShieldBack);
+	ShieldBack->SetIsViewing(false);
+
 	container->SetIsViewing(true);
 	hpFrame->SetIsViewing(true);
 }
@@ -881,6 +892,10 @@ void gameScene::UpdateWardrobeUI()
 				else if (type == CLOTHTYPE::PC_CRIMINAL)
 				{
 					ENTITYMANAGER->getPlayer()->SetEvasion(ENTITYMANAGER->getPlayer()->GetEvasion() + 12);
+					ENTITYMANAGER->getPlayer()->AdaptCriminalCount(false);
+					ENTITYMANAGER->getPlayer()->SetCriminalCount(0);
+					ENTITYMANAGER->getPlayer()->SetPrevCriminalCount(0);
+
 				}
 				else if (type == CLOTHTYPE::PC_PICKKING)
 				{
@@ -923,6 +938,7 @@ void gameScene::UpdateWardrobeUI()
 				case 0:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("baseCharIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("baseCharRun"));
+					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("baseCharDie"));
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
@@ -931,6 +947,7 @@ void gameScene::UpdateWardrobeUI()
 				case 1:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("sheetingIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("sheetingRun"));
+					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("sheetingDie"));
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() + 10);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 10);
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
@@ -941,6 +958,7 @@ void gameScene::UpdateWardrobeUI()
 				case 2:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("gunmanIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("gunmanRun"));
+					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("gunmanDie"));
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() - 15);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 15);
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) 
@@ -951,6 +969,7 @@ void gameScene::UpdateWardrobeUI()
 				case 3:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("aliceIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("aliceRun"));
+					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("aliceDie"));
 					ENTITYMANAGER->getPlayer()->SetPower(ENTITYMANAGER->getPlayer()->GetPower() + 40);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 30);
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) 
@@ -961,6 +980,7 @@ void gameScene::UpdateWardrobeUI()
 				case 4:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("redlotusIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("redlotusRun"));
+					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("redlotusDie"));
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 15);
 					ENTITYMANAGER->getPlayer()->SetEvasion(ENTITYMANAGER->getPlayer()->GetEvasion() - 5);
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
@@ -971,6 +991,7 @@ void gameScene::UpdateWardrobeUI()
 				case 5:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("lkinabearIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("lkinabearRun"));
+					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("lkinabearDie"));
 					ENTITYMANAGER->getPlayer()->SetDefence(ENTITYMANAGER->getPlayer()->GetDefence() - 5);
 					ENTITYMANAGER->getPlayer()->SetPower(ENTITYMANAGER->getPlayer()->GetPower() - 20);
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
@@ -982,6 +1003,7 @@ void gameScene::UpdateWardrobeUI()
 				case 6:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("riderHIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("riderHRun"));
+					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("riderHDie"));
 					ENTITYMANAGER->getPlayer()->SetMoveSpeedPer(ENTITYMANAGER->getPlayer()->GetMoveSpeedPer() + 22);
 					ENTITYMANAGER->getPlayer()->SetToughness(ENTITYMANAGER->getPlayer()->GetToughness() - 2);
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
@@ -993,6 +1015,7 @@ void gameScene::UpdateWardrobeUI()
 				case 7:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("criminalldle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("criminalRun"));
+					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("criminalDie"));
 					ENTITYMANAGER->getPlayer()->SetEvasion(ENTITYMANAGER->getPlayer()->GetEvasion() - 12);
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
@@ -1002,6 +1025,7 @@ void gameScene::UpdateWardrobeUI()
 				case 8:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("pickIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("pickRun"));
+					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("pickDie"));
 					ENTITYMANAGER->getPlayer()->SetCriDamage(ENTITYMANAGER->getPlayer()->GetCriDamage() - 25);
 					ENTITYMANAGER->getPlayer()->AddMaxDash();
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
@@ -1012,6 +1036,7 @@ void gameScene::UpdateWardrobeUI()
 				case 9:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("fastoIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("fastoRun"));
+					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("fastoDie"));
 					ENTITYMANAGER->getPlayer()->SetMoveSpeedPer(ENTITYMANAGER->getPlayer()->GetMoveSpeedPer() - 20);
 					ENTITYMANAGER->getPlayer()->SetAtkSpeedPer(ENTITYMANAGER->getPlayer()->GetAtkSpeedPer() - 10);
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
@@ -1022,14 +1047,17 @@ void gameScene::UpdateWardrobeUI()
 				case 10:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("horsemanIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("horsemanRun"));
+					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("horsemanDie"));
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
 					ENTITYMANAGER->getPlayer()->SetHp(curHp);
 					ENTITYMANAGER->getPlayer()->SetClothType(CLOTHTYPE::PC_HORSESWORD);
+					ENTITYMANAGER->getPlayer()->SetplayerDeadCount(0);
 					break;
 				case 11:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("humanlasleyIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("humanlasleyRun"));
+					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("humanlaselyDie"));
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 45);
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp())
 						curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
@@ -1039,6 +1067,7 @@ void gameScene::UpdateWardrobeUI()
 				case 12:
 					ENTITYMANAGER->getPlayer()->Setimage(0, IMAGEMANAGER->findImage("masterchefIdle"));
 					ENTITYMANAGER->getPlayer()->Setimage(1, IMAGEMANAGER->findImage("masterchefRun"));
+					ENTITYMANAGER->getPlayer()->Setimage(2, IMAGEMANAGER->findImage("masterchefDie"));
 					ENTITYMANAGER->getPlayer()->SetFireAccuracy(ENTITYMANAGER->getPlayer()->GetFireAccuracy() + 33);
 					ENTITYMANAGER->getPlayer()->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() - 33);
 					if (curHp > ENTITYMANAGER->getPlayer()->GetInitHp()) 

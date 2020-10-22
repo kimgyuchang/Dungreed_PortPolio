@@ -686,6 +686,7 @@ void Belial::SetPattern()
 void Belial::GetDamage()
 {
 	Player* _p = ENTITYMANAGER->getPlayer();
+	int curHp = ENTITYMANAGER->getPlayer()->GetHP();
 
 	if (_isSpawned)
 	{
@@ -723,7 +724,13 @@ void Belial::GetDamage()
 
 		if (_hp <= 0)
 		{
-			
+			if (_p->GetClothType() == PC_HUMANLASLEY)
+			{
+				_p->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 10);
+				curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+				ENTITYMANAGER->getPlayer()->SetHp(curHp);
+			}
+		
 			SOUNDMANAGER->StopAllBGM(true);
 			BelialDie* BossDie = new BelialDie();
 			BossDie->init(_x,_y);
@@ -738,6 +745,8 @@ void Belial::GetDamage()
 void Belial::GetDamage(int damage)
 {
 	Player* _p = ENTITYMANAGER->getPlayer();
+	int curHp = ENTITYMANAGER->getPlayer()->GetHP();
+
 	if (_isSpawned)
 	{
 		_isHitBoss = true;
@@ -764,7 +773,13 @@ void Belial::GetDamage(int damage)
 
 		if (_hp <= 0)
 		{
-			
+			if (_p->GetClothType() == PC_HUMANLASLEY)
+			{
+				_p->SetInitHp(ENTITYMANAGER->getPlayer()->GetInitHp() + 10);
+				curHp = ENTITYMANAGER->getPlayer()->GetInitHp();
+				ENTITYMANAGER->getPlayer()->SetHp(curHp);
+			}
+
 			SOUNDMANAGER->StopAllBGM(true);
 			BelialDie* BossDie = new BelialDie();
 			BossDie->init(_x, _y);
