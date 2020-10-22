@@ -185,7 +185,7 @@ void Item::AdaptSubOption(SubOption* subOption, bool isEquip)
 		p->SetReloadSpeed(p->GetReloadSpeed() + value);
 		break;
 	case DASHCOUNT:
-		p->SetDashCount(p->GetDashCount() + value);
+		for (int i = 0; i < abs(value); i++) (value > 0 ? p->AddMaxDash() : p->SubMaxDash());
 		break;
 	case ACCURACY:
 		p->SetFireAccuracy(p->GetFireAccuracy() + value);

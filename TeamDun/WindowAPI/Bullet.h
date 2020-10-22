@@ -53,6 +53,7 @@ private :
 	bool			_useWallCollision;
 	Object*			_target;
 
+	set<int>		_sUid;
 public :
 	virtual HRESULT init();
 	virtual void	update();
@@ -67,6 +68,7 @@ public :
 	
 
 	////GetSet
+	set<int> getSUid() { return _sUid; }
 	BULLETTYPE getType() { return _type; }
 	image* getIg() { return _ig; }
 	string getEffectIgName(){return _effectIgName;}

@@ -97,16 +97,16 @@ void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE 
 		{
 			Player* p = ENTITYMANAGER->getPlayer();
 			int Playerdamage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
+			
 			if (p->GetSpecialAbilityOn(0, 2))
-			if (p->GetMaxHp() * 0.6f > p->GetHP())
 			{
-				if (p->GetInitHp() * 0.6f > p->GetHP())
+				if (p->GetMaxHp() * 0.6f > p->GetHP())
 				{
 					Playerdamage = p->GetMaxDamage();
 				}
 			}
 
-			_damage = Playerdamage+damage;
+			_damage = Playerdamage+ damage;
 		}
 		else
 		{
@@ -115,7 +115,7 @@ void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE 
 			int Playerdamage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
 			if (p->GetSpecialAbilityOn(0, 2))
 			{
-				if (p->GetInitHp() * 0.6f > p->GetHP())
+				if (p->GetMaxHp() * 0.6f > p->GetHP())
 				{
 					Playerdamage = p->GetMaxDamage();
 				}

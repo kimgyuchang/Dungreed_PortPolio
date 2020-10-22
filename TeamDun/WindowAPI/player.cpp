@@ -211,19 +211,18 @@ HRESULT Player::init()
 	_inven->init();
 
 	_inven->AddItem(DATAMANAGER->GetItemById(4000));
-	_inven->AddItem(DATAMANAGER->GetItemById(4007));
-	_inven->AddItem(DATAMANAGER->GetItemById(4002));
-	_inven->AddItem(DATAMANAGER->GetItemById(4016));
 	_inven->AddItem(DATAMANAGER->GetItemById(4006));
 	_inven->AddItem(DATAMANAGER->GetItemById(4100));
-	_inven->AddItem(DATAMANAGER->GetItemById(4120));
+	_inven->AddItem(DATAMANAGER->GetItemById(4500));
 	_inven->AddItem(DATAMANAGER->GetItemById(4015));
 	_inven->AddItem(DATAMANAGER->GetItemById(4017));
-	_inven->AddItem(DATAMANAGER->GetItemById(4027));
+	_inven->AddItem(DATAMANAGER->GetItemById(4005));
 	_inven->AddItem(DATAMANAGER->GetItemById(4024));
 	_inven->AddItem(DATAMANAGER->GetItemById(4026));
 	_inven->AddItem(DATAMANAGER->GetItemById(4140));
 	_inven->AddItem(DATAMANAGER->GetItemById(4027));
+	_inven->AddItem(DATAMANAGER->GetItemById(4050));
+	_inven->AddItem(DATAMANAGER->GetItemById(4051));
 
 	return S_OK;
 }
@@ -403,6 +402,7 @@ void Player::update()
 
 	else
 	{
+		UIMANAGER->GetGameFrame()->GetChild("BossLifeBack")->SetIsViewing(false);
 		pixelCollision();
 		PlayerDeadTimerCheck();
 		DeadToLive();
@@ -1850,7 +1850,7 @@ void Player::RangeItemEquip()
 			{
 				if (ENTITYMANAGER->getVBullets()[i]->getType() == BT_PLAYER || ENTITYMANAGER->getVBullets()[i]->getType() == BT_PLAYERNOCOL)
 				{
-					ENTITYMANAGER->getVBullets()[i]->SetScale(3);
+					ENTITYMANAGER->getVBullets()[i]->SetScale(2);
 				}
 			}
 
