@@ -51,3 +51,4 @@
 #include "Katana.h"
 #include "Shamshir.h"
 #include "Saber.h"
+#include "MagnifyingGlass.h"

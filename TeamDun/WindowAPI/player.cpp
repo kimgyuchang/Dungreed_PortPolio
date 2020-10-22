@@ -124,7 +124,8 @@ HRESULT Player::init()
 	_killPoint = 0;
 	_maxKillPoint = 10;
 
-
+	_isEquipGlass = false;
+	_isEquipMulti = false;
 	for (int i = 0; i < 7; i++) _abilityNum[i] = 0;
 
 	_criticalPercent = 2;
@@ -218,11 +219,9 @@ HRESULT Player::init()
 	_inven->AddItem(DATAMANAGER->GetItemById(4120));
 	_inven->AddItem(DATAMANAGER->GetItemById(4015));
 	_inven->AddItem(DATAMANAGER->GetItemById(4017));
-	_inven->AddItem(DATAMANAGER->GetItemById(4005));
-	_inven->AddItem(DATAMANAGER->GetItemById(4021));
-	_inven->AddItem(DATAMANAGER->GetItemById(4023));
+	_inven->AddItem(DATAMANAGER->GetItemById(4027));
 	_inven->AddItem(DATAMANAGER->GetItemById(4024));
-	_inven->AddItem(DATAMANAGER->GetItemById(4025));
+	_inven->AddItem(DATAMANAGER->GetItemById(4026));
 
 	return S_OK;
 }
@@ -251,6 +250,7 @@ void Player::update()
 
 			// 잡다한 UI가 OFF일때
 		{
+			RangeItemEquip();
 			if (INPUT->GetIsRButtonClicked() && _dashCount > 0)		//마우스 오른쪽 버튼을누르고,대쉬카운트가 0보다 클때
 			{
 				SOUNDMANAGER->play("대쉬소리");
@@ -1778,6 +1778,52 @@ void Player::GetHitDamage(int damage)
 		}
 	}
 
+}
+
+void Player::RangeItemEquip()
+{
+	bool findMulti = false;
+	bool findBig = false;
+	for (int i = 0; i < _vAccessories.size(); i++)
+	{
+		if (_vAccessories[i]->GetId() == 4027) // 갈래총탄 끼고있다면
+		{
+			_isEquipMulti = true;
+			findMulti = true;
+		}
+
+		if (_vAccessories[i]->GetId() == 4026) // 돋보기 끼고있다면
+		{
+			_isEquipGlass = true;
+
+			for (int i = 0; i < ENTITYMANAGER->getVBullets().size(); i++)
+			{
+				if (ENTITYMANAGER->getVBullets()[i]->getType() == BT_PLAYER || ENTITYMANAGER->getVBullets()[i]->getType() == BT_PLAYERNOCOL)
+				{
+					ENTITYMANAGER->getVBullets()[i]->SetScale(3);
+				}
+			}
+
+			findBig = true;
+		}
+	}
+
+	if (!findMulti)
+	{
+		_isEquipMulti = false;
+	}
+
+	if (!findBig)
+	{
+		_isEquipGlass = false;
+		for (int i = 0; i < ENTITYMANAGER->getVBullets().size(); i++)
+		{
+			if (ENTITYMANAGER->getVBullets()[i]->getType() == BT_PLAYER || ENTITYMANAGER->getVBullets()[i]->getType() == BT_PLAYERNOCOL)
+			{
+				ENTITYMANAGER->getVBullets()[i]->SetScale(1);
+			}
+		}
+	}
 }
 
 void Player::ShieldUICheck()

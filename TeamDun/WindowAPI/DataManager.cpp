@@ -314,6 +314,9 @@ void DataManager::GetItemData()
 		case 4025: // 세이버
 			item = new Saber();
 			break;
+		case 4026: // 돋보기
+			item = new MagnifyingGlass();
+			break;
 		default:
 			item = new Item();
 			break;
@@ -471,6 +474,8 @@ Item* DataManager::GetItemById(int id)
 		return new Shamshir(*dynamic_cast<Shamshir*>(_mMapItemData[id]));
 	case 4025: // 세이버
 		return new Saber(*dynamic_cast<Saber*>(_mMapItemData[id]));
+	case 4026: // 돋보기
+		return new MagnifyingGlass(*dynamic_cast<MagnifyingGlass*>(_mMapItemData[id]));
 	default:
 		return _mMapItemData[id];
 	}

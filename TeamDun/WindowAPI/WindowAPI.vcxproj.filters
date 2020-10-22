@@ -396,6 +396,9 @@
     <ClCompile Include="Shamshir.cpp">
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
     </ClCompile>
+    <ClCompile Include="MagnifyingGlass.cpp">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -710,6 +713,9 @@
     </ClInclude>
     <ClInclude Include="Shamshir.h">
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="MagnifyingGlass.h">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

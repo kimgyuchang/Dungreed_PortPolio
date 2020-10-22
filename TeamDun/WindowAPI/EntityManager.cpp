@@ -85,14 +85,16 @@ void EntityManager::eraseBullet()
 	{
 		if (_vBullets[i]->getType() == BT_NOMAL || _vBullets[i]->getType() == BT_PLAYER)
 		{
-			COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _vBullets[i]->getX(), _vBullets[i]->getY());
+			COLORREF color = GetFastPixel(MAPMANAGER->GetPixelGetter(), _vBullets[i]->getX() + (_vBullets[i]->getIg()->getFrameWidth()+ _vBullets[i]->getScale())/2
+				, _vBullets[i]->getY() + (_vBullets[i]->getIg()->getFrameHeight() + _vBullets[i]->getScale()) / 2);
 			int r = GetRValue(color);
 			int g = GetGValue(color);
 			int b = GetBValue(color);
 
 			if ((r == 255 && g == 0 && b == 0))
 			{
-				EFFECTMANAGER->AddEffect(_vBullets[i]->getX(), _vBullets[i]->getY(), _vBullets[i]->getEffectIgName(), 4, 0, 0, false, 255,_vBullets[i]->getAngle(), 1, 1, false, false, true, _vBullets[i]->getEffectSound());
+				EFFECTMANAGER->AddEffect(_vBullets[i]->getX() + (_vBullets[i]->getIg()->getFrameWidth() + _vBullets[i]->getScale()) / 2
+					, _vBullets[i]->getY() + (_vBullets[i]->getIg()->getFrameHeight() + _vBullets[i]->getScale()) / 2, _vBullets[i]->getEffectIgName(), 4, 0, 0, false, 255,_vBullets[i]->getAngle(), 1, 1, false, false, true, _vBullets[i]->getEffectSound());
 				_vBullets[i]->SetIsDead(true);
 
 			}

@@ -39,7 +39,7 @@ private :
 	float			_damage;
 	float			_jumpPower;
 	float			_gravity;
-	
+	float			_scale;
 	int				_particleTimer;
 	bool			_useTraceParticle;
 
@@ -78,6 +78,7 @@ public :
 	float getDis() { return _distance; }
 	float getMaxDis() { return _maxDistance; }
 	bool getIsDead() { return _isDead; }
+	float getScale(){return _scale;}
 
 	void SetType(BULLETTYPE type) {  _type = type; }
 	void SetIg(image* ig) { _ig = ig; }
@@ -98,4 +99,5 @@ public :
 	void SetIsDead(bool isDead) { _isDead = isDead; }
 	void SetDamage(float damage) { _damage = damage; }
 	void SetUseTraceParticle(bool isOn) { _useTraceParticle = isOn; }
+	void SetScale(float scale){ _scale = scale; }
 };

@@ -203,6 +203,7 @@
     <ClInclude Include="LittleGhost.h" />
     <ClInclude Include="loading.h" />
     <ClInclude Include="loadingScene.h" />
+    <ClInclude Include="MagnifyingGlass.h" />
     <ClInclude Include="mainGame.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="MapObject.h" />
@@ -309,6 +310,7 @@
     <ClCompile Include="LittleGhost.cpp" />
     <ClCompile Include="loading.cpp" />
     <ClCompile Include="loadingScene.cpp" />
+    <ClCompile Include="MagnifyingGlass.cpp" />
     <ClCompile Include="mainGame.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MapObject.cpp" />

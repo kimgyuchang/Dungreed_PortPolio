@@ -25,12 +25,12 @@ void Bullet::render(HDC hdc)
 {
 	if (_isFrame)
 	{
-		CAMERAMANAGER->FrameRender(hdc, _ig, _x, _y, _frameX, _frameY,_igAngle);
+		CAMERAMANAGER->FrameStretchRender(hdc, _ig, _x, _y, _frameX, _frameY,_scale, _scale,_igAngle);
 	}
 
 	else
 	{
-		CAMERAMANAGER->Render(hdc, _ig, _x, _y ,_igAngle);
+		CAMERAMANAGER->StretchRender(hdc, _ig, _x, _y, _scale, _scale,_igAngle);
 	}
 
 }
@@ -83,6 +83,8 @@ void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE 
 	_jumpPower = -1;
 	_gravity = 0.3f;
 	_effectSound = effectSound;
+	_scale = 1;
+	
 	if (_type == BT_PLAYER || _type == BT_PLAYERNOCOL)
 	{
 		if (_speedType == BST_CHARGE)
@@ -123,12 +125,12 @@ void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE 
 	_isDead = false;
 	if (_isFrame)
 	{
-		_rc = RectMake(_x, _y, _ig->getFrameWidth(), _ig->getFrameHeight());
+		_rc = RectMake(_x, _y, _ig->getFrameWidth()*_scale, _ig->getFrameHeight()*_scale);
 
 	}
 	else
 	{
-		_rc = RectMake(_x, _y, _ig->getWidth(), _ig->getHeight());
+		_rc = RectMake(_x, _y, _ig->getWidth()*_scale, _ig->getHeight()*_scale);
 	}
 }
 
@@ -138,12 +140,12 @@ void Bullet::moveBullet()
 	_y += -sinf(_angle)*_speed;
 	if (_isFrame)
 	{
-		_rc = RectMake(_x, _y, _ig->getFrameWidth(), _ig->getFrameHeight());
+		_rc = RectMake(_x, _y, _ig->getFrameWidth()*_scale, _ig->getFrameHeight()*_scale);
 
 	}
 	else
 	{
-		_rc = RectMake(_x, _y, _ig->getWidth(), _ig->getHeight());
+		_rc = RectMake(_x, _y, _ig->getWidth()*_scale, _ig->getHeight()*_scale);
 	}
 }
 

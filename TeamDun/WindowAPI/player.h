@@ -285,6 +285,9 @@ private:
 	// 아이템 관련//
 	int				_killPoint;
 	int				_maxKillPoint;
+
+	bool			_isEquipGlass;
+	bool			_isEquipMulti;
 public:
 
 	virtual HRESULT init();
@@ -327,7 +330,7 @@ public:
 
 	void GetHitDamage(int damage);
 
-	void AdaptCriminalCount();
+	void RangeItemEquip();
 
 	void ShieldUICheck();
 
@@ -464,7 +467,7 @@ public:
 	int				GetKillPoint()			{ return _killPoint; }
 	float			GetMaxShieldPoint()		{ return _maxShieldPoint; }
 	int				GetSpecialAbilityPoint(int index) { return _abilityNum[index]; }
-
+	
 	int				GetFoodPower() { return _foodPower; }
 	float			GetFoodDef() { return _foodDef; }
 	float			GetFoodEvade() { return _foodEvade; }
@@ -480,8 +483,9 @@ public:
 	float			GetFoodBlock() { return _foodBlock; }
 	float			GetFoodMoveSpeed() { return _foodMoveSpeed; }
 	int				GetFoodRoomMoveSatiation() { return _foodRoomMoveSatiation; }
-
-
+	bool			GetIsEquipGlass() {return _isEquipGlass;}
+	bool			GetIsEquipMulti() {return _isEquipMulti;}
+	
 
 
 
@@ -599,4 +603,5 @@ public:
 	void			SetFoodBlock(float block) { _foodBlock = block; }
 	void			SetFoodMoveSpeed(float moveSpd) { _foodMoveSpeed = moveSpd; }
 	void			SetFoodRoomMoveSatiation(int moveSatiation) { _foodRoomMoveSatiation = moveSatiation; }
+	void			SetIsEquipGlass(bool isEquipGlass) { _isEquipGlass = isEquipGlass; }
 }; 

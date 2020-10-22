@@ -50,12 +50,24 @@ void GreatBow::FireBullet()
 		{
 			_Power = 25;
 		}
+		
 		if (INPUT->GetIsLButtonUp())
 		{
 			SOUNDMANAGER->play("무기_활발사");
-			Bullet* bullet  = ENTITYMANAGER->makeBullet("SkelArrow", "BulletEffect01", BT_PLAYER, -20 + _angleCheckPosX + cosf(_angle) * 50, -30 + _angleCheckPosY - sinf(_angle) * 50, _angle,
+		
+			Bullet* bullet = ENTITYMANAGER->makeBullet("SkelArrow", "BulletEffect01", BT_PLAYER, -20 + _angleCheckPosX + cosf(_angle) * 50, -30 + _angleCheckPosY - sinf(_angle) * 50, _angle,
 				_Power, _Speed, _range, true, _angle, BST_CHARGE);
 			bullet->SetUseTraceParticle(true);
+			if (ENTITYMANAGER->getPlayer()->GetIsEquipMulti())
+			{
+
+				Bullet* bullet2 = ENTITYMANAGER->makeBullet("SkelArrow", "BulletEffect01", BT_PLAYER, -20 + _angleCheckPosX + cosf(_angle) * 50, -30 + _angleCheckPosY - sinf(_angle) * 50, _angle- PI / 12,
+					_Power, _Speed, _range, true, _angle- PI / 12, BST_CHARGE);
+				bullet2->SetUseTraceParticle(true);
+				Bullet* bullet3 = ENTITYMANAGER->makeBullet("SkelArrow", "BulletEffect01", BT_PLAYER, -20 + _angleCheckPosX + cosf(_angle) * 50, -30 + _angleCheckPosY - sinf(_angle) * 50, _angle+ PI / 12,
+					_Power, _Speed, _range, true, _angle + PI / 12, BST_CHARGE);
+				bullet3->SetUseTraceParticle(true);
+			}
 			_isReady = false;
 			_Power = 0;
 			_Speed = 10;
