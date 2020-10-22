@@ -3,6 +3,7 @@
 
 HRESULT MapManager::init()
 {
+	_uidCount = 1;
 	_vOriginMaps.clear();
 	_stage = new Stage();
 
@@ -19,6 +20,13 @@ HRESULT MapManager::init()
 	_portalAnimOn = false;
 	_stageChanger = new StageChanger();
 	_stageChanger->init();
+	
+	_stageTextMoving = false;
+	_stageNameGravity = 0.56f;
+	_stageNameSpeedX = -34;
+	_textMovingMoveTimer = 0;
+	_textMovingStartTimer = 0;
+	_stageNameText = dynamic_cast<UIText*>(UIMANAGER->GetGameFrame()->GetChild("stageName"));
 	return S_OK;
 }
 
@@ -41,6 +49,8 @@ void MapManager::ClearStage(int cntStage)
 			else if (_mapData[i][2] == "SHOP") map->SetFieldMapType(FIELDMAPTYPE::FMT_SHOP);
 			else if (_mapData[i][2] == "RESTAURANT") map->SetFieldMapType(FIELDMAPTYPE::FMT_RESTAURANT);
 			else if (_mapData[i][2] == "TEMPLE") map->SetFieldMapType(FIELDMAPTYPE::FMT_TEMPLE);
+			else if (_mapData[i][2] == "STRAWBERRY") map->SetFieldMapType(FIELDMAPTYPE::FMT_STRAWBERRY);
+			else if (_mapData[i][2] == "HUNGRY") map->SetFieldMapType(FIELDMAPTYPE::FMT_HUNGRY);
 
 			map->SetMovePos(DIRECTION::DIR_LEFT, POINT{ stoi(_mapData[i][3]), stoi(_mapData[i][4]) });
 			map->SetMovePos(DIRECTION::DIR_RIGHT, POINT{ stoi(_mapData[i][5]), stoi(_mapData[i][6]) });
@@ -91,6 +101,8 @@ void MapManager::AddStage(int stageNum)
 	}
 
 	if(stageNum == 2) SOUNDMANAGER->play("보스방입장문");
+
+	_stageTextMoving = true;
 }
 
 void MapManager::update()
@@ -111,6 +123,7 @@ void MapManager::update()
 	DungeonMapUIMover();
 	SetMapUIOnOff();
 	UsePortalMap();
+	MoveStageText();
 }
 
 /// <summary>
@@ -143,6 +156,7 @@ void MapManager::GenerateMapParticle()
 		mapSquareGen->initSpeed(0.5f, 0.5f, 0.3f, 0.3f, 0, 0);
 		PARTICLEMANAGER->AddGenerator(mapSquareGen);
 	}
+
 	else if(_curStageNum == 0)
 	{
 		CAMERAMANAGER->init(0, 0, 6720, 15000, 0, 0, WINSIZEX / 2, WINSIZEY / 2);
@@ -300,6 +314,8 @@ void MapManager::ReNewMapUI()
 			if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_ENTER) icons.push_back(5);
 			if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_END) icons.push_back(6);
 			if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_TEMPLE) icons.push_back(7);
+			if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_STRAWBERRY) icons.push_back(8);
+			if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_HUNGRY) icons.push_back(9);
 
 			for (int i = 0; i < icons.size(); i++)
 			{
@@ -315,6 +331,8 @@ void MapManager::ReNewMapUI()
 				case 5:	imgName = "EnteranceMap";	break;
 				case 6:	imgName = "ExitMap";	break;
 				case 7:	imgName = "Altar";	break;
+				case 8:	imgName = "Berry";	break;
+				case 9:	imgName = "Hungry";	break;
 				}
 
 				int x = (icons.size() != 1 ? (icons.size() != 3 || i != 2 ? 12 : 24) : 24) + (i % 2) * 24; // 아이콘의 x위치를 중앙정렬 가능하면 중앙정렬하도록
@@ -397,6 +415,57 @@ void MapManager::ChangeMapBGM(FIELDMAPTYPE prevMapType)
 			SOUNDMANAGER->StopAllBGM();
 			SOUNDMANAGER->play("1.JailField");
 			SOUNDMANAGER->play("ambience_prison");
+		}
+	}
+}
+
+void MapManager::MoveStageText()
+{
+	if (_stageTextMoving)
+	{
+		switch (_curStageNum)
+		{
+		case 0: _stageNameText->SetText("마을");  break;
+		case 1: _stageNameText->SetText("1층 : 지하 감옥"); break;
+		case 2: _stageNameText->SetText("2층 : 벨리알의 방"); break;
+		}
+		_stageNameText->SetIsViewing(true);
+
+		if (_textMovingStartTimer > 60)
+		{
+			_textMovingMoveTimer++;
+			if (_textMovingMoveTimer < 60)
+			{
+				_stageNameText->MoveFrameChild(_stageNameSpeedX, 0);
+				_stageNameSpeedX += _stageNameGravity;
+			}
+
+			else if (_textMovingMoveTimer  < 120)
+			{
+				_stageNameSpeedX = 0;
+				_stageNameGravity = -0.56f;
+			}
+
+			else if (_textMovingMoveTimer < 180)
+			{
+				_stageNameText->MoveFrameChild(_stageNameSpeedX, 0);
+				_stageNameSpeedX += _stageNameGravity;
+			}
+
+			else
+			{
+				_stageTextMoving = false;
+				_stageNameGravity = 0.56f;
+				_stageNameSpeedX = -34;
+				_textMovingMoveTimer = 0;
+				_textMovingStartTimer = 0;
+				_stageNameText->SetX(WINSIZEX + 100);
+			}
+		}
+
+		else
+		{
+			_textMovingStartTimer++;
 		}
 	}
 }

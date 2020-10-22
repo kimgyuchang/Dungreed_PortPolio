@@ -25,12 +25,12 @@ void Bullet::render(HDC hdc)
 {
 	if (_isFrame)
 	{
-		CAMERAMANAGER->FrameRender(hdc, _ig, _x, _y, _frameX, _frameY,_igAngle);
+		CAMERAMANAGER->FrameStretchRender(hdc, _ig, _x, _y, _frameX, _frameY,_scale, _scale,_igAngle);
 	}
 
 	else
 	{
-		CAMERAMANAGER->Render(hdc, _ig, _x, _y ,_igAngle);
+		CAMERAMANAGER->StretchRender(hdc, _ig, _x, _y, _scale, _scale,_igAngle);
 	}
 
 }
@@ -63,7 +63,7 @@ void Bullet::GenerateTraceParticle()
 	}
 }
 
-void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle,float damage, float speed, float maxDis, bool isFrame ,float igAngle ,BULLETSPEEDTYPE speedtype)
+void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle,float damage, float speed, float maxDis, bool isFrame ,float igAngle ,BULLETSPEEDTYPE speedtype, string effectSound)
 {
 	_ig = IMAGEMANAGER->findImage(imageName);
 	_effectIgName = effectIgName;
@@ -80,19 +80,43 @@ void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE 
 	_maxDistance = maxDis;
 	_igAngle = igAngle;
 	_speedType = speedtype;
+	_jumpPower = -1;
+	_gravity = 0.3f;
+	_effectSound = effectSound;
+	_scale = 1;
+	
 	if (_type == BT_PLAYER || _type == BT_PLAYERNOCOL)
 	{
-		Player* p = ENTITYMANAGER->getPlayer();
-		int Playerdamage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
-		if (p->GetSpecialAbilityOn(0, 2))
+		if (_speedType == BST_CHARGE)
 		{
-			if (p->GetInitHp() * 0.6f > p->GetHP())
+			Player* p = ENTITYMANAGER->getPlayer();
+			int Playerdamage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
+			if (p->GetSpecialAbilityOn(0, 2))
+			if (p->GetMaxHp() * 0.6f > p->GetHP())
 			{
-				Playerdamage = p->GetMaxDamage();
+				if (p->GetInitHp() * 0.6f > p->GetHP())
+				{
+					Playerdamage = p->GetMaxDamage();
+				}
 			}
-		}
 
-		_damage = Playerdamage;
+			_damage = Playerdamage+damage;
+		}
+		else
+		{
+
+			Player* p = ENTITYMANAGER->getPlayer();
+			int Playerdamage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
+			if (p->GetSpecialAbilityOn(0, 2))
+			{
+				if (p->GetInitHp() * 0.6f > p->GetHP())
+				{
+					Playerdamage = p->GetMaxDamage();
+				}
+			}
+
+			_damage = Playerdamage;
+		}
 	}
 	else
 	{
@@ -101,12 +125,12 @@ void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE 
 	_isDead = false;
 	if (_isFrame)
 	{
-		_rc = RectMake(_x, _y, _ig->getFrameWidth(), _ig->getFrameHeight());
+		_rc = RectMake(_x, _y, _ig->getFrameWidth()*_scale, _ig->getFrameHeight()*_scale);
 
 	}
 	else
 	{
-		_rc = RectMake(_x, _y, _ig->getWidth(), _ig->getHeight());
+		_rc = RectMake(_x, _y, _ig->getWidth()*_scale, _ig->getHeight()*_scale);
 	}
 }
 
@@ -116,12 +140,12 @@ void Bullet::moveBullet()
 	_y += -sinf(_angle)*_speed;
 	if (_isFrame)
 	{
-		_rc = RectMake(_x, _y, _ig->getFrameWidth(), _ig->getFrameHeight());
+		_rc = RectMake(_x, _y, _ig->getFrameWidth()*_scale, _ig->getFrameHeight()*_scale);
 
 	}
 	else
 	{
-		_rc = RectMake(_x, _y, _ig->getWidth(), _ig->getHeight());
+		_rc = RectMake(_x, _y, _ig->getWidth()*_scale, _ig->getHeight()*_scale);
 	}
 }
 
@@ -163,6 +187,8 @@ void Bullet::speedTypeMove()
 		
 		break;
 	case BST_GRAVITY:
+		_y += _jumpPower;
+		_jumpPower += _gravity;
 		break;
 	default:
 		break;

@@ -83,18 +83,18 @@ void KatanaSwingEffect::init(float x, float y, string imgName, float angle)
 	_y = y;
 	_angle = SetAngleInBoundary(angle);
 
-	_radius = 90;
+	_radius = 170;
 
 	int posX, posY;
 	if (ENTITYMANAGER->getPlayer()->GetIsLeft())
 	{
-		posX = 300;
-		posY = 100;
+		posX = 250;
+		posY = 200;
 	}
 	else
 	{
-		posX = 20;
-		posY = 160;
+		posX = 170;
+		posY = 200;
 	}
 	_effect = EFFECTMANAGER->AddEffect(_x - posX, _y - posY, imgName, 6, 0, 0, false, 255, _angle);
 }
@@ -117,7 +117,7 @@ void KatanaSwingEffect::SetCollide()
 		{
 			if (_vObjs[i]->GetType() == OBJECTTYPE::OT_MONSTER || _vObjs[i]->GetType() == OBJECTTYPE::OT_BREAKABLE)
 			{
-				if (UTIL::interactRectArc(_vObjs[i]->GetBody(), POINT{ (LONG)_parent->GetAngleCheckPosX(), (LONG)_parent->GetAngleCheckPosY() }, _radius, _angle - PI * 0.2f, _angle + PI * 0.2f, _radius / 2))
+				if (UTIL::interactRectArc(_vObjs[i]->GetBody(), POINT{ (LONG)_parent->GetAngleCheckPosX(), (LONG)_parent->GetAngleCheckPosY() }, _radius, _angle - PI * 0.4f, _angle + PI * 0.4f, _radius / 2))
 				{
 					_vObjs[i]->GetDamage();
 				}

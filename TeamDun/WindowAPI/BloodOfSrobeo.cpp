@@ -26,9 +26,9 @@ void BloodOfSrobeo::update()
 	{
 		
 		ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetHP() + 2);
-		if (ENTITYMANAGER->getPlayer()->GetHP() > ENTITYMANAGER->getPlayer()->GetInitHp())
+		if (ENTITYMANAGER->getPlayer()->GetHP() > ENTITYMANAGER->getPlayer()->GetMaxHp())
 		{
-			ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetInitHp());
+			ENTITYMANAGER->getPlayer()->SetHp(ENTITYMANAGER->getPlayer()->GetMaxHp());
 		}
 		ENTITYMANAGER->getPlayer()->SetIsCritical(false);
 	}

@@ -161,6 +161,7 @@
     <ClInclude Include="BigWhiteSkel.h" />
     <ClInclude Include="BlessOfSage.h" />
     <ClInclude Include="BloodOfSrobeo.h" />
+    <ClInclude Include="BloodStoneRing.h" />
     <ClInclude Include="BombPouch.h" />
     <ClInclude Include="Boutique.h" />
     <ClInclude Include="BowSkel.h" />
@@ -187,9 +188,11 @@
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="gameScene.h" />
     <ClInclude Include="Gear.h" />
+    <ClInclude Include="GreatBow.h" />
     <ClInclude Include="GunShop.h" />
     <ClInclude Include="Gwendolyn.h" />
     <ClInclude Include="HpPixie.h" />
+    <ClInclude Include="HungryFountain.h" />
     <ClInclude Include="IceBat.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
@@ -202,6 +205,7 @@
     <ClInclude Include="LittleGhost.h" />
     <ClInclude Include="loading.h" />
     <ClInclude Include="loadingScene.h" />
+    <ClInclude Include="MagnifyingGlass.h" />
     <ClInclude Include="mainGame.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="MapObject.h" />
@@ -245,6 +249,7 @@
     <ClInclude Include="StageDoor.h" />
     <ClInclude Include="startScene.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StrawberryFountain.h" />
     <ClInclude Include="SwordSkel.h" />
     <ClInclude Include="townNPCimage.h" />
     <ClInclude Include="Trainer.h" />
@@ -269,6 +274,7 @@
     <ClCompile Include="BigWhiteSkel.cpp" />
     <ClCompile Include="BlessOfSage.cpp" />
     <ClCompile Include="BloodOfSrobeo.cpp" />
+    <ClCompile Include="BloodStoneRing.cpp" />
     <ClCompile Include="BombPouch.cpp" />
     <ClCompile Include="Boutique.cpp" />
     <ClCompile Include="BowSkel.cpp" />
@@ -294,9 +300,11 @@
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="gameScene.cpp" />
     <ClCompile Include="Gear.cpp" />
+    <ClCompile Include="GreatBow.cpp" />
     <ClCompile Include="GunShop.cpp" />
     <ClCompile Include="Gwendolyn.cpp" />
     <ClCompile Include="HpPixie.cpp" />
+    <ClCompile Include="HungryFountain.cpp" />
     <ClCompile Include="IceBat.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
@@ -309,6 +317,7 @@
     <ClCompile Include="LittleGhost.cpp" />
     <ClCompile Include="loading.cpp" />
     <ClCompile Include="loadingScene.cpp" />
+    <ClCompile Include="MagnifyingGlass.cpp" />
     <ClCompile Include="mainGame.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MapObject.cpp" />
@@ -355,6 +364,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="StrawberryFountain.cpp" />
     <ClCompile Include="SwordSkel.cpp" />
     <ClCompile Include="townNPCimage.cpp" />
     <ClCompile Include="Trainer.cpp" />

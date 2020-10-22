@@ -54,6 +54,7 @@ void Enemy::WeakeningChecker()
 
 		if (_hp <= 0)
 		{
+			
 			MonsterDead();
 		}
 	}
@@ -120,7 +121,7 @@ void Enemy::GetDamage()
 		int damage = RANDOM->range(p->GetMinDamage(), p->GetMaxDamage());
 		if (p->GetSpecialAbilityOn(0, 2))
 		{
-			if (p->GetInitHp() * 0.6f > p->GetHP())
+			if (p->GetMaxHp() * 0.6f > p->GetHP())
 			{
 				damage = p->GetMaxDamage();
 			}
@@ -146,6 +147,14 @@ void Enemy::GetDamage()
 
 		if (_hp <= 0)
 		{
+			for (int i = 0; i < ENTITYMANAGER->getPlayer()->GetVAccessories().size(); i++)
+			{
+				if (ENTITYMANAGER->getPlayer()->GetVAccessories()[i]->GetId() == 4007)
+				{
+					ENTITYMANAGER->getPlayer()->SetKillPoint(ENTITYMANAGER->getPlayer()->GetKillPoint() + 1);
+				}
+
+			}
 			MonsterDead();
 		}
 
@@ -201,6 +210,14 @@ void Enemy::GetDamage(int damage)
 
 		if (_hp <= 0)
 		{
+			for (int i = 0; i < ENTITYMANAGER->getPlayer()->GetVAccessories().size(); i++)
+			{
+				if (ENTITYMANAGER->getPlayer()->GetVAccessories()[i]->GetId() == 4007)
+				{
+					ENTITYMANAGER->getPlayer()->SetKillPoint(ENTITYMANAGER->getPlayer()->GetKillPoint() + 1);
+				}
+
+			}
 			MonsterDead();
 		}
 
@@ -232,7 +249,7 @@ void Enemy::CheckSpecialPlayerInteractions()
 	if (_p->GetSpecialAbilityOn(6, 1) && _isWeakining && _p->GetRestorePrevHp() != 0)
 	{
 		int newHp = _p->GetHP() + _p->GetRestorePrevHp();
-		if (newHp > _p->GetInitHp()) newHp = _p->GetInitHp();
+		if (newHp > _p->GetMaxHp()) newHp = _p->GetMaxHp();
 		_p->SetHp(newHp);
 		_p->SetRestorePrevHp(0);
 	}

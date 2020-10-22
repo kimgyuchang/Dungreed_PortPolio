@@ -23,6 +23,29 @@ HRESULT loadingScene::init()
 	this->loadingImage();
 	this->loadingSound();
 	this->loadingFont();
+
+	_text[0] = "던전이 광나도록 청소하는 중...";
+	_text[1] = "곧 죽을 해골병사들을 위로하는 중...";
+	_text[2] = "박쥐농장에서 박쥐 회유하는 중...";
+	_text[3] = "미노타우르스와 달리기 연습하는 중...";
+	_text[4] = "신전에서 광란의 제사 파티 즐기는 중...";
+	_text[5] = "무기상 앞에서 하나 더 달라 따지는 중...";
+	_text[6] = "코딩하고 밤새다 지각하는 중...";
+	_text[7] = "던그리드 원작 플레이하다 멘탈꺠지는 중..";
+	_text[8] = "밴시의 라이브공연 감상하는 중...";
+	_text[9] = "브랜치 병합하다 프로젝트 터지는 중...";
+	_text[10] = "식당 이모의 절찬 음식 먹으며 눈물 흘리는 중...";
+	_text[11] = "해골 강아지 분양받는 중...";
+
+	for (int i = 0; i < 50; i++)
+	{
+		int j = RANDOM->range(12);
+		int k = RANDOM->range(12);
+		string temp = _text[j];
+		_text[j] = _text[k];
+		_text[k] = temp;
+	}
+
 	return S_OK;
 }
 
@@ -68,11 +91,21 @@ void loadingScene::render()
 
 	_loadingBar->render();
 	_background->frameRender(getMemDC(), 0, 0);
-	textOut(getMemDC(), _loadingBar->getX() + 250, _loadingBar->getY() + 330, _loading->GetCurKey().c_str(), _loading->GetCurKey().length());
 
+	int percent = (int)((float)_currentGauge *(100 / (float)_loading->GetLoadItem().size() / 10));
+	RECT rect = RectMake(0, 530, WINSIZEX, 300);
+
+	HFONT hFont = CreateFont(20, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, "Neo둥근모");
+	HFONT OldFont;
+
+	SetTextColor(getMemDC(), RGB(255,255,255));
+	OldFont = (HFONT)SelectObject(getMemDC(), hFont);
+	DrawText(getMemDC(), _text[percent].c_str(), -1, &rect, DT_CENTER | DT_WORDBREAK);
 	IMAGEMANAGER->frameRender("number", getMemDC(), 710, 500,(int)((float)_currentGauge /(float)_loading->GetLoadItem().size()*100) % 10, 0);
 	if ((int)((float)_currentGauge *(100 / (float)_loading->GetLoadItem().size()) / 10) > 0)
 	IMAGEMANAGER->frameRender("number", getMemDC(), 690, 500, (float)_currentGauge *(100/(float)_loading->GetLoadItem().size()) / 10, 0);
+	SelectObject(getMemDC(), OldFont);
+	DeleteObject(hFont);
 }
 
 /// <summary>
@@ -280,6 +313,7 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("FairyS00", "Images/Object/FairyS00.bmp", 432, 33, 16, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("FairyXL00", "Images/Object/FairyXL00.bmp", 1440, 90, 16, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("GreenFairy00", "Images/Object/GreenFairy00.bmp", 1440, 90, 16, 1, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("InDungeonShop", "Images/NPC/InDungeonShop.bmp", 303, 81, true, RGB(255, 0, 255));
 
 	// STAGE 1 //
 	_loading->LoadNormalImage("Door0_Closed", "Images/1Floor/Door0_Closed.bmp", 171, 195, true, RGB(255, 0, 255));
@@ -295,6 +329,8 @@ void loadingScene::loadingImage()
 	// NPC //
 	_loading->LoadFrameImage("StrawberryFountain0", "Images/Object/StrawberryFountain0.bmp", 384, 96, 4, 1, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("StrawberryFountain1", "Images/Object/StrawberryFountain1.bmp", 96, 96, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("HungryFountain0", "Images/NPC/HungryFountain0.bmp", 384, 129, 4, 1, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("HungryFountain1", "Images/NPC/HungryFountain1.bmp", 96, 129, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("WormPassage00", "Images/Object/WormPassage00.bmp", 81, 93, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("WormPassageEat00", "Images/Object/WormPassageEat00.bmp", 648, 93, 8, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("WormPassageIdle00", "Images/Object/WormPassageIdle00.bmp", 729, 93, 9, 1, true, RGB(255, 0, 255));
@@ -600,6 +636,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("ThankYou.korean", "Images/UI/ThankYou.korean.bmp", 297, 57, true, RGB(255, 0, 255));
 
 	_loading->LoadNormalImage("ShieldBack", "Images/UI/ShieldBack.bmp", 156, 27, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("ShieldFull", "Images/UI/ShieldFull.bmp", 156, 27, true, RGB(255, 0, 255));
 
 	_loading->LoadNormalImage("CheckImage", "Images/GridBound.bmp", 48, 48, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CheckImageRed", "Images/GridBoundRed.bmp", 48, 48, true, RGB(255, 0, 255));
@@ -949,6 +986,11 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("DwarvenArmor", "Images/item/DwarvenArmor.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SandBag", "Images/item/SandBag.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Dicegod'sTrick", "Images/item/Dicegod'sTrick.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("MiniSlimeMaker", "Images/item/MiniSlimeMaker.bmp", 1044, 144, 12, 2, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("MiniSlimeBullet", "Images/item/MiniSlimeBullet.bmp", 792, 168, 12, 2, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("MiniSlimeMaker_inven", "Images/item/MiniSlimeMaker_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("GreatBow", "Images/item/GreatBow.bmp", 342, 51,6,1, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("GreatBow_Inven", "Images/item/GreatBow_Inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("RingOfSpeed", "Images/item/RingOfSpeed.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CharmOfAttack", "Images/item/CharmOfAttack.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("CharmOfMadness", "Images/item/CharmOfMadness.bmp", 57, 57, true, RGB(255, 0, 255));
@@ -960,7 +1002,7 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("Katana", "Images/item/Katana.bmp", 130, 260, 1, 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Katana_inven", "Images/item/Katana_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Katana_drop", "Images/item/Katana_drop.bmp", 81, 32, true, RGB(255, 0, 255));
-	_loading->LoadFrameImage("KatanaSwing", "Images/item/KatanaSwing.bmp", 1860, 271, 6, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("KatanaSwing", "Images/item/KatanaSwing.bmp", 2570, 378, 6, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("Shamshir", "Images/item/Shamshir.bmp", 130, 260, 1, 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Shamshir_drop", "Images/item/Shamshir_drop.bmp", 72, 32, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Shamshir_inven", "Images/item/Shamshir_inven.bmp", 57, 57, true, RGB(255, 0, 255));
@@ -979,6 +1021,8 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Gwendolyn_drop", "Images/item/Gwendolyn_drop.bmp", 120, 32, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Gwendolyn_inven", "Images/item/Gwendolyn_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("GwendolynEffect", "Images/item/GwendolynEffect.bmp", 720, 240, 3, 1, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("MagnifyingGlass", "Images/item/MagnifyingGlass.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("MultiBullet", "Images/item/MultiBullet.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));
@@ -992,12 +1036,16 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("IceBulletHit", "Images/Monster/Bullet/IceBulletHit.bmp", 225, 75,3,1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("FireBatBullet", "Images/Monster/Bullet/FireBatBullet.bmp", 345, 69,5,1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("FireBatBullet0", "Images/Monster/Bullet/FireBatBullet0.bmp", 135, 45,3,1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Bomb0", "Images/item/Bomb0.bmp", 225, 48,5,1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("BulletFX0103", "Images/item/BulletFX0103.bmp", 924, 120,7,1, true, RGB(255, 0, 255));
 	
 
 	// EFFECT //
 	_loading->LoadFrameImage("monsterSpawnEffect", "Images/Etc/monsterSpawnEffect.bmp", 1302, 93, 14, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("DieEffect", "Images/Effect/DieEffect.bmp", 1320, 120, 11, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("HongRyunEffect", "Images/Effect/HongRyunEffect.bmp", 510, 30, 10, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("RegenerationSkin", "Images/Effect/RegenerationSkin.bmp", 561, 60, 17, 1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("GuardBreak", "Images/Effect/GuardBreak.bmp", 864, 96, 9, 1, true, RGB(255, 0, 255));
 
 	// PARTICLE //
 	_loading->LoadNormalImage("SqaureParticle", "Images/Particle/SqaureParticle.bmp", 15, 15, true, RGB(255, 0, 255));

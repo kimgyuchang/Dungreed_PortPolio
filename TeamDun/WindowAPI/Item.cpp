@@ -241,6 +241,10 @@ void Item::AdaptSubOption(SubOption* subOption, bool isEquip)
 	}
 }
 
+void Item::ActivateAlways()
+{
+}
+
 void Item::SetBaseRenderPos()
 {
 	bool playerIsLeft = ENTITYMANAGER->getPlayer()->GetIsLeft();	//플레이어 왼쪽인지

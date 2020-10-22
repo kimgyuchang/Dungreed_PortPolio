@@ -94,6 +94,14 @@ void FieldMap::LoadObject()
 		// BEFORE OBJECT LOAD
 		switch (stoi(objData[i][0]))
 		{
+		case 1 : // 딸기 분수
+			obj = new StrawberryFountain(*dynamic_cast<StrawberryFountain*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<StrawberryFountain*>(obj)->initSecond();
+			break;
+		case 239: // 배고파 분수
+			obj = new HungryFountain(*dynamic_cast<HungryFountain*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<HungryFountain*>(obj)->initSecond();
+			break;
 		case 1500:// 큰 해골
 			obj = new BigWhiteSkel(*dynamic_cast<BigWhiteSkel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
@@ -257,6 +265,7 @@ void FieldMap::LoadObject()
 		obj->SetSpawnTime(stoi(objData[i][3]));
 		obj->SetBelongMap(this);
 		obj->SetBodyPos();
+		obj->SetNewUid();
 
 		bool CheckRollBack = false;
 		// AFTER OBJECT LOAD
@@ -669,7 +678,7 @@ void FieldMap::CheckNoMonsterInMap()
 			if (ENTITYMANAGER->getPlayer()->GetSpecialAbilityOn(5, 1)) // 특성 - 집중 10레벨
 			{
 				int hpPlus = ENTITYMANAGER->getPlayer()->GetHP() + 2;
-				if (hpPlus > ENTITYMANAGER->getPlayer()->GetInitHp()) hpPlus = ENTITYMANAGER->getPlayer()->GetInitHp();
+				if (hpPlus > ENTITYMANAGER->getPlayer()->GetMaxHp()) hpPlus = ENTITYMANAGER->getPlayer()->GetMaxHp();
 				ENTITYMANAGER->getPlayer()->SetHp(hpPlus);
 			}
 

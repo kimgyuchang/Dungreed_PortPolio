@@ -64,6 +64,12 @@ void DataManager::GetObjectData()
 		Object* obj;
 		switch (stoi(objData[i][0]))
 		{
+		case 1 : // 딸기 분수
+			obj = new StrawberryFountain();
+			break;
+		case 239: // 배고파 분수
+			obj = new HungryFountain();
+			break;
 		case 1500:// 큰 해골
 			obj = new BigWhiteSkel();
 			break;
@@ -287,11 +293,20 @@ void DataManager::GetItemData()
 		case 4005: // 소르베오의피
 			item = new BloodOfSrobeo();
 			break;
+		case 4006: //폭탄주머니
+			item = new BombPouch();
+			break;
+		case 4007: // 혈석 반지
+			item = new BloodStoneRing();
+			break;
 		case 4015: // 현자의 축복
 			item = new BlessOfSage();
 			break;
 		case 4017: // 숏 소드
 			item = new BasicShortSword();
+			break;
+		case 4100: // 떡갈나무활
+			item = new GreatBow();
 			break;
 		case 4021: // 죽도
 			item = new BambooSword();
@@ -305,14 +320,17 @@ void DataManager::GetItemData()
 		case 4025: // 세이버
 			item = new Saber();
 			break;
-		case 4026: // 레이피어
+		case 4030: // 레이피어
 			item = new Rapier();
 			break;
-		case 4027: // 단창
+		case 4029: // 단창
 			item = new ShortSpear();
 			break;
 		case 4028: // 그웬돌린
 			item = new Gwendolyn();
+			break;
+		case 4026: // 돋보기
+			item = new MagnifyingGlass();
 			break;
 		default:
 			item = new Item();
@@ -453,10 +471,16 @@ Item* DataManager::GetItemById(int id)
 		return new Colt(*dynamic_cast<Colt*>(_mMapItemData[id]));
 	case 4005: // 소르베오의피
 		return new BloodOfSrobeo(*dynamic_cast<BloodOfSrobeo*>(_mMapItemData[id]));
+	case 4006: //폭탄주머니
+		return new BombPouch(*dynamic_cast<BombPouch*>(_mMapItemData[id]));
+	case 4007: // 혈석 반지
+		return new BloodStoneRing(*dynamic_cast<BloodStoneRing*>(_mMapItemData[id]));
 	case 4015: // 현자의 축복
 		return new BlessOfSage(*dynamic_cast<BlessOfSage*>(_mMapItemData[id]));
 	case 4017: // 숏 소드
 		return new BasicShortSword(*dynamic_cast<BasicShortSword*>(_mMapItemData[id]));
+	case 4100: // 떡갈나무활
+		return new GreatBow(*dynamic_cast<GreatBow*>(_mMapItemData[id]));
 	case 4021: // 죽도
 		return new BambooSword(*dynamic_cast<BambooSword*>(_mMapItemData[id]));
 	case 4023: // 카타나
@@ -465,12 +489,14 @@ Item* DataManager::GetItemById(int id)
 		return new Shamshir(*dynamic_cast<Shamshir*>(_mMapItemData[id]));
 	case 4025: // 세이버
 		return new Saber(*dynamic_cast<Saber*>(_mMapItemData[id]));
-	case 4026: // 레이피어
+	case 4030: // 레이피어
 		return new Rapier(*dynamic_cast<Rapier*>(_mMapItemData[id]));
-	case 4027: // 단창
+	case 4029: // 단창
 		return new ShortSpear(*dynamic_cast<ShortSpear*>(_mMapItemData[id]));
 	case 4028: // 그웬돌린
 		return new Gwendolyn(*dynamic_cast<Gwendolyn*>(_mMapItemData[id]));
+	case 4026: // 돋보기
+		return new MagnifyingGlass(*dynamic_cast<MagnifyingGlass*>(_mMapItemData[id]));
 	default:
 		return _mMapItemData[id];
 	}

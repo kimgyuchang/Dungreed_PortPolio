@@ -26,7 +26,6 @@ void inputManager::update()
 	if (GetKeyDown(VK_LBUTTON)) _isLButtonClicked = true;
 	if (GetKeyDown(VK_RBUTTON)) _isRButtonClicked = true;
 	if (GetKeyUp(VK_LBUTTON)) _isLButtonUp = true;
-
 	if (_isOnceClicked)
 	{
 		_clickTimer++;

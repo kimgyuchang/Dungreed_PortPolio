@@ -110,3 +110,5 @@ id,name,type,image,image2,image3
 236,로젠,NPC,NPC_Temple,.,.
 237,사원,Etc,Temple,.,.
 238,사원기둥,Etc,TempleFront,.,.
+239,배고파분수,NPC,HungryFountain0,HungryFountain1,.
+240,던전샵장비,Etc,InDungeonShop,.,.

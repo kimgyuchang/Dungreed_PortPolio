@@ -8,6 +8,7 @@ class FieldMap;
 class Object
 {
 protected:
+	int				_uid;
 	int				_id;					// ID
 	string			_name;					// 이름
 	OBJECTTYPE		_type;					// 오브젝트 타입
@@ -36,8 +37,10 @@ public:
 	virtual void	CheckCollision();
 	virtual void	GetDamage();
 	virtual void	GetDamage(int damage);
+	void SetNewUid();
 
 	// GETSET //
+	int				GetUid()			{ return _uid; }
 	int				GetHP()				{ return _hp; }
 	int				GetId()				{ return _id; }
 	string			GetName()			{ return _name; }
@@ -55,6 +58,7 @@ public:
 	bool			GetIsDead()			{ return _isDead; }
 	int				GetRenderIndex()	{ return _renderOrder; }
 
+	void			SetUid(int uid)						{ _uid = uid; }
 	void			SetHp(int hp)						{ _hp = hp; }
 	void			SetName(string name)				{ _name = name; }
 	void			SetX(int x)							{ _x = x; }

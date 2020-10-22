@@ -658,54 +658,66 @@ void Restaurant::BuyFood(Food* food, int index)
 			case FST_POWER: {
 				int newPower = p->GetPower() + food->_vStatusNum[i];
 				p->SetPower(newPower);
+				p->SetFoodPower(p->GetFoodPower() + food->_vStatusNum[i]);
 				break;
 			}
 			case FST_DEF: {
 				int newDef = p->GetDefence() + food->_vStatusNum[i];
 				p->SetDefence(newDef);
+				p->SetFoodDef(p->GetFoodDef() + food->_vStatusNum[i]);
 				break;
 			}
 			case FST_EVADE: {
 				int newEvade = p->GetEvasion() + food->_vStatusNum[i];
 				p->SetEvasion(newEvade);
+				p->SetFoodEvade(p->GetFoodEvade() + food->_vStatusNum[i]);
 				break;
 			}
 			case FST_CRIPER: {
-				int newCriPer = p->GetCriPer() + (p->GetCriPer() * (food->_vStatusNum[i] / 100));
+				int newCriPer = p->GetCriPer() + food->_vStatusNum[i];
 				p->SetCriPer(newCriPer);
+				p->SetFoodCriPer(p->GetFoodCriPer() + food->_vStatusNum[i]);
 				break;
 			}
 			case FST_CRIDMG: {
 				int newCriDmg = p->GetCriDamage() + food->_vStatusNum[i];
 				p->SetCriDamage(newCriDmg);
+				p->SetFoodCriDmg(p->GetFoodCriDmg() + food->_vStatusNum[i]);
 				break;
 			}
 			case FST_MAXHP: {
 				int newMaxHP = p->GetInitHp() + food->_vStatusNum[i];
 				p->SetInitHp(newMaxHP);
+				p->SetNewMaxHp();
+				p->SetFoodInitHp(p->GetFoodInitHp() + food->_vStatusNum[i]);
 				break;
 			}
 			case FST_MAXDASH: {
 				p->AddMaxDash();
+				p->SetFoodMaxDash(p->GetFoodMaxDash() + 1);
 				break;
 			}
 			case FST_FIXEDDMG: {
 				int newFixedDMG = p->GetTrueDamage() + food->_vStatusNum[i];
 				p->SetTrueDamage(newFixedDMG);
+				p->SetFoodTrueDamage(p->GetFoodTrueDamage() + food->_vStatusNum[i]);
 				break;
 			}
 			case FST_ATKSPEED: {
 				float newAtkSpeed = p->GetAtkSpeedPer() + food->_vStatusNum[i];
 				p->SetAtkSpeedPer(newAtkSpeed);
+				p->SetFoodAtkSpeedPer(p->GetFoodAtkSpeedPer() + food->_vStatusNum[i]);
 				break;
 			}
 			case FST_CHARGESPEED: {
 				int newChargeSpeed = p->GetReloadSpeed() + food->_vStatusNum[i];
 				p->SetReloadSpeed(newChargeSpeed);
+				p->SetFoodReloadSpeed(p->GetFoodReloadSpeed() + food->_vStatusNum[i]);
 				break;
 			}
 			case FST_MAXACCSLOT: {
 				p->SetAccesoryCount(p->GetAccesoryCount() + 1);
+				p->SetFoodAccsCount(p->GetFoodAccsCount() + 1);
 				p->GetInventory()->SetInventoryAccesoryUI(); 
 				p->GetInventory()->ReloadUIImages();
 				break;
@@ -713,6 +725,7 @@ void Restaurant::BuyFood(Food* food, int index)
 			case FST_STRONG: {
 				int newStrong = p->GetToughness() + food->_vStatusNum[i];
 				p->SetToughness(newStrong);
+				p->SetFoodToughness(p->GetFoodToughness() + food->_vStatusNum[i]);
 				break;
 			}
 			case FST_SATIATION: {
@@ -723,15 +736,18 @@ void Restaurant::BuyFood(Food* food, int index)
 			case FST_BLOCK: {
 				int newBlock = p->GetBlock() + food->_vStatusNum[i];
 				p->SetBlock(newBlock);
+				p->SetFoodBlock(p->GetFoodBlock() + food->_vStatusNum[i]);
 				break;
 			}
 			case FST_MOVESPEED: {
 				float newMoveSpeed = p->GetMoveSpeed() + (p->GetMoveSpeed() * (food->_vStatusNum[i] / 100));
 				p->SetMoveSpeed(newMoveSpeed);
+				p->SetFoodMoveSpeed(p->GetFoodMoveSpeed() + food->_vStatusNum[i]);
 				break;
 			}
 			case FST_ROOMSATIATION: {
 				p->SetRoomMoveSatiation(p->GetRoomMoveSatiation() + 1);
+				p->SetFoodRoomMoveSatiation(p->GetFoodRoomMoveSatiation() + 1);
 				break;
 			}
 			default:
@@ -748,8 +764,8 @@ void Restaurant::BuyFood(Food* food, int index)
 			switch (_vHeal)
 			{
 			case F_HEAL: {
-				int newHp = p->GetInitHp() * food->_vHealPer[i] + p->GetHP();
-				if (newHp > p->GetInitHp()) newHp = p->GetInitHp();
+				int newHp = p->GetMaxHp() * food->_vHealPer[i] + p->GetHP();
+				if (newHp > p->GetMaxHp()) newHp = p->GetMaxHp();
 				p->SetHp(newHp);
 				break;
 			}

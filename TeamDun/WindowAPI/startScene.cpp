@@ -14,7 +14,7 @@ HRESULT startScene::init()
 	_StartIg = IMAGEMANAGER->findImage("gameStart1");
 	_MaptoolIg = IMAGEMANAGER->findImage("mapTool2");
 	_QuitIg = IMAGEMANAGER->findImage("quit2");
-
+	
 	_angle = 0;
 	_alpha = 0;
 	_xFrame = 0;
@@ -49,8 +49,8 @@ void startScene::update()
 	{
 		_loopCount = 0;
 		_backLoopX++;
-
 	}
+
 	_midLoopX += 1;
 	_frontLoopX += 2;
 
@@ -118,6 +118,11 @@ void startScene::update()
 	}
 }
 
+void startScene::SaveLoadScene()
+{
+
+}
+
 void startScene::render()
 {
 	RECT rc = RectMake(0, 0, WINSIZEX, WINSIZEY);
@@ -126,10 +131,16 @@ void startScene::render()
 	IMAGEMANAGER->loopRender("FrontCloud", getMemDC(), &rc, _frontLoopX, 0);
 	IMAGEMANAGER->findImage("MainLogo")->render(getMemDC(), 500, 200);
 
-
+	
 	_StartIg->render(getMemDC(), _rc.left, _rc.top);
 	_MaptoolIg->render(getMemDC(), _rc2.left, _rc2.top);
 	_QuitIg->render(getMemDC(), _rc3.left, _rc3.top);
+
+	if (_saveLoadOn)
+	{
+
+	}
+
 	IMAGEMANAGER->findImage("BasicCursor")->render(getMemDC(), _ptMouse.x, _ptMouse.y);
 
 	/*_img->render(getMemDC(), 100, 0, _angle);

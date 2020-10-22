@@ -399,6 +399,21 @@
     <ClCompile Include="Gwendolyn.cpp">
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
     </ClCompile>
+    <ClCompile Include="GreatBow.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Range</Filter>
+    </ClCompile>
+    <ClCompile Include="BloodStoneRing.cpp">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
+    </ClCompile>
+    <ClCompile Include="MagnifyingGlass.cpp">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
+    </ClCompile>
+    <ClCompile Include="HungryFountain.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="StrawberryFountain.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -716,6 +731,21 @@
     </ClInclude>
     <ClInclude Include="Gwendolyn.h">
       <Filter>MainGame\Item\Items\Weapon\Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="GreatBow.h">
+      <Filter>MainGame\Item\Items\Weapon\Range</Filter>
+    </ClInclude>
+    <ClInclude Include="BloodStoneRing.h">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
+    </ClInclude>
+    <ClInclude Include="MagnifyingGlass.h">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
+    </ClInclude>
+    <ClInclude Include="HungryFountain.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="StrawberryFountain.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
