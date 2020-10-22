@@ -32,3 +32,5 @@ id,itemType,weaponType,skill,name,description,itemClass,minAtk,maxAtk,atkSpeed,d
 4028,두손무기,근접,-1,그웬돌린,마력을 흡수하는 푸른 돌을 깎아 만든 창,전설,15.5,22,2,0,0,0,0,-1,0,8200,0,Gwendolyn,.,.,Gwendolyn_inven,Gwendolyn_drop,DASHATK,80,.,.,.,.,.,.,.
 4026,악세서리,무기아님,-1,마법의 돋보기,보는 대상을 실제로 더 크게 만들어 줍니다.,고급,0,0,0,0,0,0,0,-1,0,1380,0,MagnifyingGlass,.,.,MagnifyingGlass,MagnifyingGlass,ATKSPEED,-30,.,ETC,0,총알의 크기가 커지고 대미지 증가,.,.,.
 4027,악세서리,무기아님,-1,갈래총탄,탄을 세갈래로 나누어 뿌려준다. 공격력도 세 갈래가 된다.,희귀,0,0,0,0,0,0,0,-1,0,3210,0,MultiBullet,.,.,MultiBullet,MultiBullet,ETC,0,총알이 세갈래로 발사되지만. 데미지가 감소,.,.,.,.,.,.
+4050,악세서리,무기아님,-1,딸기,설산에 오르는 나약한 자신에게 위안을 주는 붉고 자그마한 과실,전설,0,0,0,0,0,0,0,-1,0,7900,0,StrawBerry,.,.,StrawBerry,StrawBerry,DASHCOUNT,2,.,MOVESPEED,10,.,.,.,.
+4051,악세서리,무기아님,-1,티거스의 망치,대장장이 티거스의 망치. 손이 미끄러지는 경우를 막아준다.,희귀,0,0,0,0,0,0,0,-1,0,6800,0,TigarsHammer,.,.,TigarsHammer,TigarsHammer,CRITICALPERCENT,22,.,.,.,.,.,.,.
