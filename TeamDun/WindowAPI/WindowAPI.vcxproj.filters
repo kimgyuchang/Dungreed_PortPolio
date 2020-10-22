@@ -405,6 +405,9 @@
     <ClCompile Include="StrawberryFountain.cpp">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
     </ClCompile>
+    <ClCompile Include="GoldenCandy.cpp">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -728,6 +731,9 @@
     </ClInclude>
     <ClInclude Include="StrawberryFountain.h">
       <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="GoldenCandy.h">
+      <Filter>MainGame\Item\Items\Accessory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

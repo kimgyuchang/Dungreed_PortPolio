@@ -323,6 +323,9 @@ void DataManager::GetItemData()
 		case 4026: // µ¸º¸±â
 			item = new MagnifyingGlass();
 			break;
+		case 4500: // °ñµçÄµµð
+			item = new GoldenCandy();
+			break;
 		default:
 			item = new Item();
 			break;
@@ -482,6 +485,8 @@ Item* DataManager::GetItemById(int id)
 		return new Saber(*dynamic_cast<Saber*>(_mMapItemData[id]));
 	case 4026: // µ¸º¸±â
 		return new MagnifyingGlass(*dynamic_cast<MagnifyingGlass*>(_mMapItemData[id]));
+	case 4500: // °ñµçÄµµð
+		return new GoldenCandy(*dynamic_cast<GoldenCandy*>(_mMapItemData[id]));
 	default:
 		return _mMapItemData[id];
 	}

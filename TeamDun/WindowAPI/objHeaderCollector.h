@@ -54,3 +54,4 @@
 #include "MagnifyingGlass.h"
 #include "StrawberryFountain.h"
 #include "HungryFountain.h"
+#include "GoldenCandy.h"

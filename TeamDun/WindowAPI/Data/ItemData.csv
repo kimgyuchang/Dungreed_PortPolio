@@ -29,3 +29,4 @@ id,itemType,weaponType,skill,name,description,itemClass,minAtk,maxAtk,atkSpeed,d
 4025,한손무기,근접,-1,세이버,말을 타고 싸우던 병사들이 사용하던 곡도,고급,5,18,2,1,0,0,0,-1,0,890,0,Saber,.,.,Saber_inven,Saber_drop,TRUEDAMAGE,4,.,.,.,.,.,.,.
 4026,악세서리,무기아님,-1,마법의 돋보기,보는 대상을 실제로 더 크게 만들어 줍니다.,고급,0,0,0,0,0,0,0,-1,0,1380,0,MagnifyingGlass,.,.,MagnifyingGlass,MagnifyingGlass,ATKSPEED,-30,.,ETC,0,총알의 크기가 커지고 대미지 증가,.,.,.
 4027,악세서리,무기아님,-1,갈래총탄,탄을 세갈래로 나누어 뿌려준다. 공격력도 세 갈래가 된다.,희귀,0,0,0,0,0,0,0,-1,0,3210,0,MultiBullet,.,.,MultiBullet,MultiBullet,ETC,0,총알이 세갈래로 발사되지만. 데미지가 감소,.,.,.,.,.,.
+4500,악세서리,무기아님,-1,황금사탕,너무나도 귀한 나머지 입에 물고있으면 몸이 부들부들 떨린다.,전설,0,0,0,0,0,0,0,-1,0,8500,0,GoldenCandy,.,.,GoldenCandy,GoldenCandy,MOVESPEED,50,.,EVADE,10,.,DASHATK,30,.

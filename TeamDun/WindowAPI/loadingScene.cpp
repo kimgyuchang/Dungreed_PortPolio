@@ -1010,6 +1010,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("Saber_inven", "Images/item/Saber_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MagnifyingGlass", "Images/item/MagnifyingGlass.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MultiBullet", "Images/item/MultiBullet.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("GoldenCandy", "Images/item/GoldenCandy.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));

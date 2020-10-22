@@ -217,7 +217,7 @@ HRESULT Player::init()
 	_inven->AddItem(DATAMANAGER->GetItemById(4016));
 	_inven->AddItem(DATAMANAGER->GetItemById(4006));
 	_inven->AddItem(DATAMANAGER->GetItemById(4100));
-	_inven->AddItem(DATAMANAGER->GetItemById(4120));
+	_inven->AddItem(DATAMANAGER->GetItemById(4500));
 	_inven->AddItem(DATAMANAGER->GetItemById(4015));
 	_inven->AddItem(DATAMANAGER->GetItemById(4017));
 	_inven->AddItem(DATAMANAGER->GetItemById(4027));
@@ -396,6 +396,7 @@ void Player::update()
 
 	else
 	{
+		UIMANAGER->GetGameFrame()->GetChild("BossLifeBack")->SetIsViewing(false);
 		pixelCollision();
 		PlayerDeadTimerCheck();
 		DeadToLive();
@@ -1800,7 +1801,7 @@ void Player::RangeItemEquip()
 			{
 				if (ENTITYMANAGER->getVBullets()[i]->getType() == BT_PLAYER || ENTITYMANAGER->getVBullets()[i]->getType() == BT_PLAYERNOCOL)
 				{
-					ENTITYMANAGER->getVBullets()[i]->SetScale(3);
+					ENTITYMANAGER->getVBullets()[i]->SetScale(2);
 				}
 			}
 
