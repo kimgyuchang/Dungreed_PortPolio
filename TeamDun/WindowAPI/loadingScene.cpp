@@ -1024,6 +1024,9 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("MagnifyingGlass", "Images/item/MagnifyingGlass.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MultiBullet", "Images/item/MultiBullet.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("GoldenCandy", "Images/item/GoldenCandy.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("MetalBoomerang", "Images/item/MetalBoomerang.bmp", 93, 93, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("MetalBoomerang_Inven", "Images/item/MetalBoomerang_Inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("MetalBoomerangSpin", "Images/item/MetalBoomerangSpin.bmp", 222, 111,2,1, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));
