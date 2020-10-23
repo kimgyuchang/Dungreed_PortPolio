@@ -210,8 +210,8 @@ HRESULT Player::init()
 	_inven = new Inventory();
 	_inven->init();
 
-	_inven->AddItem(DATAMANAGER->GetItemById(4016));
-	_inven->AddItem(DATAMANAGER->GetItemById(4006));
+	_inven->AddItem(DATAMANAGER->GetItemById(4029));
+	_inven->AddItem(DATAMANAGER->GetItemById(4030));
 	_inven->AddItem(DATAMANAGER->GetItemById(4100));
 	_inven->AddItem(DATAMANAGER->GetItemById(4500));
 	_inven->AddItem(DATAMANAGER->GetItemById(4015));
@@ -223,8 +223,6 @@ HRESULT Player::init()
 	_inven->AddItem(DATAMANAGER->GetItemById(4027));
 	_inven->AddItem(DATAMANAGER->GetItemById(4024));
 	_inven->AddItem(DATAMANAGER->GetItemById(4026));
-	_inven->AddItem(DATAMANAGER->GetItemById(4050));
-	_inven->AddItem(DATAMANAGER->GetItemById(4051));
 
 	return S_OK;
 }

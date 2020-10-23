@@ -5,7 +5,7 @@ HRESULT Trainer::init(int id, string name, OBJECTTYPE type, vector<string> imgNa
 {
 	NPC::init(id, name, type, imgNames);
 
-	_npcName = "카블로비나";
+	_npcName = "정연";
 	_vConvTexts = vector<string>
 	{
 		"자네 왔군! 훈련할 텐가?",

@@ -46,7 +46,7 @@ void Gwendolyn::Shot()
 
 void Gwendolyn::Activate()
 {
-	SOUNDMANAGER->play("¸Û¸ÛÀÌ ¿Ð¿Ð");
+	SOUNDMANAGER->play("¹«±â_ÇØ°ñ¿Õ°Ë");
 	_renderAngle = 0;
 	_isAttacking = true;
 
