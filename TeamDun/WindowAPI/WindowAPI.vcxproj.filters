@@ -420,6 +420,12 @@
     <ClCompile Include="GoldenCandy.cpp">
       <Filter>MainGame\Item\Items\Accessory</Filter>
     </ClCompile>
+    <ClCompile Include="LalaMagic.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Range</Filter>
+    </ClCompile>
+    <ClCompile Include="MetalBoomerang.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Range</Filter>
+    </ClCompile>
     <ClCompile Include="LalaSkill.cpp">
       <Filter>MainGame\Item\Items\Skill</Filter>
     </ClCompile>
@@ -758,6 +764,12 @@
     </ClInclude>
     <ClInclude Include="GoldenCandy.h">
       <Filter>MainGame\Item\Items\Accessory</Filter>
+    </ClInclude>
+    <ClInclude Include="LalaMagic.h">
+      <Filter>MainGame\Item\Items\Weapon\Range</Filter>
+    </ClInclude>
+    <ClInclude Include="MetalBoomerang.h">
+      <Filter>MainGame\Item\Items\Weapon\Range</Filter>
     </ClInclude>
     <ClInclude Include="LalaSkill.h">
       <Filter>MainGame\Item\Items\Skill</Filter>
