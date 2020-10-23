@@ -30,8 +30,8 @@ HRESULT Belial::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_RazerEndCount = 0;
 	_realIsViewing = false;
 	_handAlpha = 0;
-	 _hp = 1000;
-	 _initHp = 1000;
+	 _hp = 2000;
+	 _initHp = 2000;
 	_Damage = 10; //ºÒ·¿´ë¹ÌÁö
 	_playSound = false;
 	_backEffectCount = 0;
@@ -99,7 +99,7 @@ void Belial::update()
 				_HitTimer++;
 				_vImages[0] = IMAGEMANAGER->findImage("SkellBossIdleHit");
 				_vImages[1] = IMAGEMANAGER->findImage("SkellBossAttackHit");
-				if (_HitTimer > 10)
+				if (_HitTimer > 3)
 				{
 					_HitTimer = 0;
 					_isHitBoss = false;

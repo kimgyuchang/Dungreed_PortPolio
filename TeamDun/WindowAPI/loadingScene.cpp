@@ -1023,7 +1023,6 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("GwendolynEffect", "Images/item/GwendolynEffect.bmp", 720, 240, 3, 1, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MagnifyingGlass", "Images/item/MagnifyingGlass.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MultiBullet", "Images/item/MultiBullet.bmp", 57, 57, true, RGB(255, 0, 255));
-	_loading->LoadNormalImage("StarBulletFX", "Images/item/StarBulletFX.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Lala'sMagicWand_inven", "Images/item/Lala'sMagicWand_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Lala'sMagicWand", "Images/item/Lala'sMagicWand.bmp", 70, 70, true, RGB(255, 0, 255));
 

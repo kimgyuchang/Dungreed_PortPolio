@@ -110,7 +110,7 @@ void BowSkel::Animation()
 			if (_skelBow.frameX == 3)
 			{
 				SOUNDMANAGER->play("무기_활발사");
-				Bullet* bullet = ENTITYMANAGER->makeBullet("SkelArrow", "BatBulletHit", BT_NOMAL, _x, _y+20,
+				Bullet* bullet = ENTITYMANAGER->makeBullet("SkelArrow", "BulletEffect01", BT_NOMAL, _x, _y+20,
 					_skelBow.angle,_Damage,10, 1000, true ,_skelBow.angle);
 				bullet->SetUseTraceParticle(true);
 			}

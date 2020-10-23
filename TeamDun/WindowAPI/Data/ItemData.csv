@@ -13,12 +13,12 @@ id,itemType,weaponType,skill,name,description,itemClass,minAtk,maxAtk,atkSpeed,d
 4011,악세서리,무기아님 ,-1,친타마니돌,고대의 사원에서 발견된 아름다운 돌 일곱개로 갈라질 것 같다.,희귀,0,0,0,0,0,0,0,-1,0,2920,0,Cintamani,.,.,Cintamani,Cintamani,ETC,0,체력이 10이하로 떨어지게 되면 체력이 30 회복,.,.,.,.,.,.
 4012,악세서리,무기아님,-1,드워프제 갑옷,드워프들이 만든 이 갑옷은 가볍지만 무척 단단하다. 드워프처럼 크기가 작지도않고.,희귀,0,0,0,14,0,0,0,-1,0,3100,0,DwarvenArmor,.,.,DwarvenArmor,DwarvenArmor,POWER,5,.,TOUGHNESS,1,.,.,.,.
 4013,악세서리,무기아님,-1,주사위 신의농간,이 주사위는 사용자가 원하는 면을 보여준다.,전설,0,0,0,0,0,0,0,-1,0,8200,0,Dicegod'sTrick,.,.,Dicegod'sTrick,Dicegod'sTrick,CRITICALPERCENT,30,.,CRITICALDAMAGE,40,.,.,.,.
-4014,악세서리 ,무기아님,-1,모래주머니,전력으로 상대할 필요가 없을 때 착용하라.,일반,0,0,0,0,0,0,0,-1,0,600,0,SandBag,.,.,SandBag,SandBag,DASHATK,15,.,.,.,.,.,.,.
+4014,악세서리,무기아님,-1,모래주머니,전력으로 상대할 필요가 없을 때 착용하라.,일반,0,0,0,0,0,0,0,-1,0,600,0,SandBag,.,.,SandBag,SandBag,DASHATK,15,.,.,.,.,.,.,.
 4015,악세서리,무기아님,-1,현자의 축복,현자가 쓰다듬어 주었다.,희귀,0,0,0,1,0,0,0,-1,0,3880,0,BlessOfSage,.,.,BlessOfSage,BlessOfSage,MAXHP,5,.,TOUGHNESS,3,.,EVADE,5,.
 4016,악세서리,무기아님,-1,혈석목걸이,죽을때 소지하면 죽은 뒤에 그힘을 얻을수 있다고 한다.,희귀,0,0,0,0,0,0,0,-1,0,3730,0,BloodStoneNecklace,.,.,BloodStoneNecklace,BloodStoneNecklace,MAXHPPERCENT,20,.,.,.,.,.,.,.
 4120,서브무기,무기아님,-1,마법 방패,방패를 바라면 팔찌에서부터 생겨난다,희귀,0,0,0,7,0,0,0,-1,0,1200,0,MagicShield,.,.,MagicShield_inv,MagicShield_inv,BLOCK,8,.,.,.,.,.,.,.
 4017,한손무기,근접,-1,숏소드,가볍고 휘두르기 편한 검,일반,8,10,3.03,0,0,0,0,-1,0,100,0,BasicShortSword_New,.,.,BasicShortSword_inven,BasicShortSword_drop,.,.,.,.,.,.,.,.,.
-4100,두손무기,충전형,-1,떡갈나무활,단단해서 때리는데 쓸 수 있을 것 같습니다.,일반,20,35,3.03,1,0,0,0,-1,0,500,0,GreatBow,.,.,GreatBow_Inven,GreatBow_Inven,.,.,.,.,.,.,.,.,.
+4100,두손무기,충전형,-1,떡갈나무활,단단해서 때리는데 쓸 수 있을 것 같습니다.,일반,15,25,3.03,1,0,0,0,-1,0,500,0,GreatBow,.,.,GreatBow_Inven,GreatBow_Inven,.,.,.,.,.,.,.,.,.
 4018,악세서리,무기아님,-1,속도의 반지,온몸이 한결 가벼워짐을 느낍니다. ,일반,0,0,0,0,0,0,0,-1,0,500,0,RingOfSpeed,.,.,RingOfSpeed,RingOfSpeed,MOVESPEED,15,.,.,.,.,.,.,.
 4019,악세서리,무기아님,-1,위력의 부적,부적 안을 확인하면 부적의 효력은 사라집니다.,일반,0,0,0,0,0,0,0,-1,0,500,0,CharmOfAttack,.,.,CharmOfAttack,CharmOfAttack,POWER,8,.,.,.,.,.,.,.
 4020,악세서리,무기아님,-1,광기의 부적,거머리가 붙어있는 불길한 기분을 계속 느껴야 합니다.,일반,0,0,0,0,0,0,0,-1,0,720,0,CharmOfMadness,.,.,CharmOfMadness,CharmOfMadness,POWER,20,.,MAXHP,-10,.,.,.,.
@@ -36,4 +36,3 @@ id,itemType,weaponType,skill,name,description,itemClass,minAtk,maxAtk,atkSpeed,d
 4050,악세서리,무기아님,-1,딸기,설산에 오르는 나약한 자신에게 위안을 주는 붉고 자그마한 과실,전설,0,0,0,0,0,0,0,-1,0,7900,0,StrawBerry,.,.,StrawBerry,StrawBerry,DASHCOUNT,2,.,MOVESPEED,10,.,.,.,.
 4051,악세서리,무기아님,-1,티거스의 망치,대장장이 티거스의 망치. 손이 미끄러지는 경우를 막아준다.,희귀,0,0,0,0,0,0,0,-1,0,6800,0,TigarsHammer,.,.,TigarsHammer,TigarsHammer,CRITICALPERCENT,22,.,.,.,.,.,.,.
 4500,악세서리,무기아님,-1,황금사탕,너무나도 귀한 나머지 입에 물고있으면 몸이 부들부들 떨린다.,전설,0,0,0,0,0,0,0,-1,0,8500,0,GoldenCandy,.,.,GoldenCandy,GoldenCandy,MOVESPEED,50,.,EVADE,10,.,DASHATK,30,.
-4501,한손무기,원거리 ,-1,부메랑,부메랑은 돌아오지만 사랑은 돌아오지 않는다.,고급,16,19,0.5,0,0,0,0,-1,0,1300,0,MetalBoomerang,.,.,MetalBoomerang_Inven,MetalBoomerang,.,.,.,.,.,.,.,.,.
