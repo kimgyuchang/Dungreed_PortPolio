@@ -35,7 +35,7 @@ void BoxParticle::update()
 
 void BoxParticle::render(HDC hdc)
 {
-	DropObjs::render(hdc);
+	CAMERAMANAGER->Render(hdc, _vImages[_useImage], _x, _y);
 }
 
 void BoxParticle::CheckLiveTime()

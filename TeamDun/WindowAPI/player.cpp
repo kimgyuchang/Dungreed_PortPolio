@@ -212,20 +212,19 @@ HRESULT Player::init()
 	_inven = new Inventory();
 	_inven->init();
 
+	_inven->AddItem(DATAMANAGER->GetItemById(4000));
+	_inven->AddItem(DATAMANAGER->GetItemById(4001));
+	_inven->AddItem(DATAMANAGER->GetItemById(4002));
+	_inven->AddItem(DATAMANAGER->GetItemById(4003));
+	_inven->AddItem(DATAMANAGER->GetItemById(4004));
+	_inven->AddItem(DATAMANAGER->GetItemById(4005));
+	_inven->AddItem(DATAMANAGER->GetItemById(4025));
 	_inven->AddItem(DATAMANAGER->GetItemById(4028));
+	_inven->AddItem(DATAMANAGER->GetItemById(4029));
+	_inven->AddItem(DATAMANAGER->GetItemById(4100));
+	_inven->AddItem(DATAMANAGER->GetItemById(4140));
 	_inven->AddItem(DATAMANAGER->GetItemById(4026));
 	_inven->AddItem(DATAMANAGER->GetItemById(4027));
-	_inven->AddItem(DATAMANAGER->GetItemById(4140));
-	_inven->AddItem(DATAMANAGER->GetItemById(4050));
-	_inven->AddItem(DATAMANAGER->GetItemById(4051));
-	_inven->AddItem(DATAMANAGER->GetItemById(4500));
-	_inven->AddItem(DATAMANAGER->GetItemById(4021));
-	_inven->AddItem(DATAMANAGER->GetItemById(4022));
-	_inven->AddItem(DATAMANAGER->GetItemById(4023));
-	_inven->AddItem(DATAMANAGER->GetItemById(4024));
-	_inven->AddItem(DATAMANAGER->GetItemById(4025));
-	_inven->AddItem(DATAMANAGER->GetItemById(4030));
-	_inven->AddItem(DATAMANAGER->GetItemById(4029));
 
 	return S_OK;
 }
