@@ -631,7 +631,7 @@ void Restaurant::BuyFood(Food* food, int index)
 {
 	Player* p = ENTITYMANAGER->getPlayer();
 
-	int foodSatiety = (p->GetSpecialAbilityOn(4, 2) ? (food->_satiation * 0.9f) : food->_satiation);
+	float foodSatiety = (p->GetSpecialAbilityOn(4, 2) ? (food->_satiation * 0.9f) : food->_satiation);
 	if (food->_price > p->GetMoney())
 	{
 		UIMANAGER->GetGameFrame()->GetChild("noMoney")->SetViewingTimer(30);
@@ -753,10 +753,7 @@ void Restaurant::BuyFood(Food* food, int index)
 			default:
 				break;
 			}
-			if (p->GetSatiety() - food->_satiation < 0)
-			{
-				p->SetSatiety(0);
-			}
+			if (p->GetSatiety() < 0) p->SetSatiety(0);
 		}
 		for (int i = 0; i < food->_vHeal.size(); i++)
 		{
