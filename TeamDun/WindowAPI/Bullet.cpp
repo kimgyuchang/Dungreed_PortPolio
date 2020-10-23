@@ -25,7 +25,7 @@ void Bullet::render(HDC hdc)
 {
 	if (_isFrame)
 	{
-		CAMERAMANAGER->FrameStretchRender(hdc, _ig, _x, _y, _frameX, _frameY,_scale, _scale,_igAngle);
+		CAMERAMANAGER->FrameStretchRender(hdc, _ig, _x, _y, _frameX, _frameY,_scale, _scale, _igAngle);
 	}
 
 	else
@@ -44,21 +44,21 @@ void Bullet::GenerateTraceParticle()
 		{
 			particle* curParticle = PARTICLEMANAGER->AddNewParticle();
 			curParticle->initParticle(
-				_x + _ig->getFrameWidth()/2,					// X좌표에 랜덤성 추가
-				_y + _ig->getFrameHeight()/2,					// Y좌표에 랜덤성 추가
+				_x ,					// X좌표에 랜덤성 추가
+				_y ,					// Y좌표에 랜덤성 추가
 				0, 0,					// 스피드 XY 변화량
 				0,						// X스피드 랜덤성 추가
 				0,						// Y스피드 랜덤성 추가
 				0,						// 각도값 변화량
-				0,						// 각도값 랜덤성 추가
-				3,						// 알파값 변화량
+				0,						// 각도값 랜덤성 추가s
+				_traceAlphaChanger,		// 알파값 변화량
 				255,					// 알파값 랜덤성 추가
 				0,						// 크기 XY 변화량
 				1,						// 크기 X 랜덤성 추가
 				60,						// 파티클 생존 시간에 랜덤성 추가
-				"SqaureParticle_5"		// 이미지 중 하나를 선택해 파티클에 입력
+				_useTraceImage			// 이미지 중 하나를 선택해 파티클에 입력
 			);
-			_particleTimer = 4;
+			_particleTimer = _particleTime;
 		}
 	}
 }
@@ -84,7 +84,13 @@ void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE 
 	_gravity = 0.3f;
 	_effectSound = effectSound;
 	_scale = 1;
-	
+	_useTraceImage = "SqaureParticle_5";
+	_particleTime = 4;
+	_traceAlphaChanger = 3;
+	_angleChanger = (RANDOM->range(2) == 0 ? PI / 180.f : -PI / 180.f);
+	_useWallCollision = true;
+	_target = nullptr;
+
 	if (_type == BT_PLAYER || _type == BT_PLAYERNOCOL)
 	{
 		if (_speedType == BST_CHARGE)
@@ -183,13 +189,46 @@ void Bullet::speedTypeMove()
 		break;
 	case BST_FAST:
 		_speed += 0.1;
-
-		
 		break;
 	case BST_GRAVITY:
 		_y += _jumpPower;
 		_jumpPower += _gravity;
 		break;
+	case BST_TRACE:
+		_speed += 0.05f;
+		if (!_target || _target->GetIsDead())
+		{
+			_angle += _angleChanger;
+
+			float minDistance = INT_MAX;
+			int minIndex = -1;
+			for (int i = 0; i < MAPMANAGER->GetPlayMap()->GetObjects().size(); i++)
+			{
+				Object* obj = MAPMANAGER->GetPlayMap()->GetObjects()[i];
+				if (obj->GetType() == OBJECTTYPE::OT_MONSTER && dynamic_cast<Enemy*>(obj)->GetIsSpawned())
+				{
+					float distance = getDistance(obj->GetX(), obj->GetY(), _x, _y);
+					if (minDistance >= abs(distance))
+					{
+						minDistance = distance;
+						minIndex = i;
+					}
+				}
+			}
+			if (minIndex != -1) _target = MAPMANAGER->GetPlayMap()->GetObjects()[minIndex];
+		}
+
+		else
+		{
+			float angle = UTIL::getAngle(_x, _y, _target->GetX(), _target->GetY());
+			if (abs(angle - _angle) > PI / 15)
+			{
+				if (angle > _angle) _angle += PI / 30;
+				else _angle -= PI / 30;
+			}
+		}
+		break;
+
 	default:
 		break;
 	}

@@ -5,7 +5,8 @@ enum BULLETSPEEDTYPE
 	BST_SLOW,
 	BST_FAST,
 	BST_GRAVITY,
-	BST_CHARGE
+	BST_CHARGE,
+	BST_TRACE
 };
 enum BULLETTYPE
 {
@@ -42,9 +43,16 @@ private :
 	float			_scale;
 	int				_particleTimer;
 	bool			_useTraceParticle;
-
+	string			_useTraceImage;
 	bool			_isFrame;
 	bool			_isDead;
+	int				_particleTime;
+	float			_traceAlphaChanger;
+	float			_angleChanger;
+	float			_angleChangerTrace;
+	bool			_useWallCollision;
+	Object*			_target;
+
 	set<int>		_sUid;
 public :
 	virtual HRESULT init();
@@ -80,6 +88,7 @@ public :
 	float getMaxDis() { return _maxDistance; }
 	bool getIsDead() { return _isDead; }
 	float getScale(){return _scale;}
+	bool getUseWallCollision() { return _useWallCollision; }
 
 	void SetType(BULLETTYPE type) {  _type = type; }
 	void SetIg(image* ig) { _ig = ig; }
@@ -100,5 +109,9 @@ public :
 	void SetIsDead(bool isDead) { _isDead = isDead; }
 	void SetDamage(float damage) { _damage = damage; }
 	void SetUseTraceParticle(bool isOn) { _useTraceParticle = isOn; }
+	void SetUseTraceImage(string str) { _useTraceImage = str; }
+	void SetTraceAlphaChanger(float changer) { _traceAlphaChanger = changer; }
 	void SetScale(float scale){ _scale = scale; }
+	void SetParticleTime(int time) { _particleTime = time; }
+	void SetUseWallCollision(bool use) { _useWallCollision = use; }
 };

@@ -91,6 +91,9 @@
     <Filter Include="MainGame\Object\Obstacle">
       <UniqueIdentifier>{b3b1d8cb-9801-4187-8f4e-4af9c3ff11ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Item\Items\Skill">
+      <UniqueIdentifier>{38f5a3e3-f620-4ef6-bb53-e3fcd639c151}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -416,6 +419,9 @@
     </ClCompile>
     <ClCompile Include="GoldenCandy.cpp">
       <Filter>MainGame\Item\Items\Accessory</Filter>
+    </ClCompile>
+    <ClCompile Include="LalaSkill.cpp">
+      <Filter>MainGame\Item\Items\Skill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -752,6 +758,9 @@
     </ClInclude>
     <ClInclude Include="GoldenCandy.h">
       <Filter>MainGame\Item\Items\Accessory</Filter>
+    </ClInclude>
+    <ClInclude Include="LalaSkill.h">
+      <Filter>MainGame\Item\Items\Skill</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
