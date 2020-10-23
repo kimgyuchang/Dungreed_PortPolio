@@ -38,6 +38,7 @@ void Box::SetParticle()
 		_vParticles.push_back(IMAGEMANAGER->findImage("OakDrumParticle0_4"));
 		break;
 	}
+
 }
 
 void Box::update()

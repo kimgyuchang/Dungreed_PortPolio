@@ -761,7 +761,7 @@ void Restaurant::BuyFood(Food* food, int index)
 			switch (_vHeal)
 			{
 			case F_HEAL: {
-				int newHp = p->GetMaxHp() * food->_vHealPer[i] + p->GetHP();
+				int newHp = p->GetMaxHp() * (food->_vHealPer[i] / 100.f) + p->GetHP();
 				if (newHp > p->GetMaxHp()) newHp = p->GetMaxHp();
 				p->SetHp(newHp);
 				break;
