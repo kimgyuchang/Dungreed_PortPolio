@@ -1456,8 +1456,8 @@ void Player::dash()
 		int b = GetBValue(color);
 		if ((r == 255 && g == 0 && b == 0))
 		{
-			_x = i - baseCharIg->getFrameWidth();
-			break;
+			_x = i - baseCharIg->getFrameWidth()-3;
+			break;	
 		}
 	}
 
