@@ -53,6 +53,8 @@ HRESULT Player::init()
 	_bottomCol = false;
 	_dashEffect = nullptr;
 	_isPlayerDead = false;
+	_damageUpTimer = 0;
+	_damageUpTimerUse = false;
 
 	_isReload = false;
 	_bulletCount = 0;
@@ -121,7 +123,7 @@ HRESULT Player::init()
 	_immuneIce = false;
 	_immuneElectric = false;
 	_immunePosion = false;
-	
+
 	_killPoint = 0;
 	_maxKillPoint = 10;
 
@@ -210,19 +212,20 @@ HRESULT Player::init()
 	_inven = new Inventory();
 	_inven->init();
 
-	_inven->AddItem(DATAMANAGER->GetItemById(4029));
-	_inven->AddItem(DATAMANAGER->GetItemById(4030));
-	_inven->AddItem(DATAMANAGER->GetItemById(4100));
-	_inven->AddItem(DATAMANAGER->GetItemById(4500));
-	_inven->AddItem(DATAMANAGER->GetItemById(4015));
-	_inven->AddItem(DATAMANAGER->GetItemById(4017));
-	_inven->AddItem(DATAMANAGER->GetItemById(4005));
-	_inven->AddItem(DATAMANAGER->GetItemById(4024));
+	_inven->AddItem(DATAMANAGER->GetItemById(4028));
 	_inven->AddItem(DATAMANAGER->GetItemById(4026));
-	_inven->AddItem(DATAMANAGER->GetItemById(4140));
 	_inven->AddItem(DATAMANAGER->GetItemById(4027));
+	_inven->AddItem(DATAMANAGER->GetItemById(4140));
 	_inven->AddItem(DATAMANAGER->GetItemById(4050));
 	_inven->AddItem(DATAMANAGER->GetItemById(4051));
+	_inven->AddItem(DATAMANAGER->GetItemById(4500));
+	_inven->AddItem(DATAMANAGER->GetItemById(4021));
+	_inven->AddItem(DATAMANAGER->GetItemById(4022));
+	_inven->AddItem(DATAMANAGER->GetItemById(4023));
+	_inven->AddItem(DATAMANAGER->GetItemById(4024));
+	_inven->AddItem(DATAMANAGER->GetItemById(4025));
+	_inven->AddItem(DATAMANAGER->GetItemById(4030));
+	_inven->AddItem(DATAMANAGER->GetItemById(4029));
 
 	return S_OK;
 }
@@ -261,8 +264,8 @@ void Player::update()
 				_dashCount--;
 				DashImageCheck();;
 			}
-			
-		
+
+
 			if (CAMERAMANAGER->GetRelativeX(_x + IMAGEMANAGER->findImage("baseCharIdle")->getFrameWidth() / 2) >= _ptMouse.x)
 			{	//플레이어의 중점+이미지 가로길이의 반이 마우스 x좌표보다 크거나 같을때
 				_isLeft = true;		//왼쪽을 바라보게
@@ -284,7 +287,7 @@ void Player::update()
 			_realAttackSpeed--;
 			if (INPUT->GetKey(VK_LBUTTON))	//만약 왼쪽 버튼을누르면
 			{
-				if (_weapons[_selectedWeaponIdx] != nullptr )	//장착된무기가 있고, 공격 타이머가 충족되었다면
+				if (_weapons[_selectedWeaponIdx] != nullptr)	//장착된무기가 있고, 공격 타이머가 충족되었다면
 				{
 					_weapons[_selectedWeaponIdx]->ActivateAlways();
 					if (_realAttackSpeed < 0)
@@ -363,7 +366,7 @@ void Player::update()
 		RangeGetStatusAbility();
 		ReloadItemChecker();
 		RestoreHpTimerChecker();
-		
+
 
 		// UI
 		BulletNumUIChecker();
@@ -447,14 +450,17 @@ void Player::PlayerDeadTimerCheck()
 
 		else // 부활 다씀
 		{
-			_useImage = 2;
-			_hp = 0;
-			_playerDeadTimer--;
-
-			if (_playerDeadTimer == 0)
+			if (_playerDeadTimer > 0)
 			{
-				ReturnToHome();
-				_playerDeadCount = 0;
+				_useImage = 2;
+				_hp = 0;
+				_playerDeadTimer--;
+
+				if (_playerDeadTimer == 0)
+				{
+					ReturnToHome();
+					_playerDeadCount = 0;
+				}
 			}
 		}
 	}
@@ -482,7 +488,7 @@ void Player::ReturnToHome()
 	if (_weapons[_selectedWeaponIdx] != nullptr) _weapons[_selectedWeaponIdx]->EquipUnEquipStatus(false);
 	if (_subWeapons[_selectedWeaponIdx] != nullptr) _subWeapons[_selectedWeaponIdx]->EquipUnEquipStatus(false);
 	for (int i = 0; i < _vAccessories.size(); i++) _vAccessories[i]->EquipUnEquipStatus(false);
-	
+
 	_weapons[0] = nullptr;
 	_weapons[1] = nullptr;
 	_subWeapons[0] = nullptr;
@@ -1716,8 +1722,8 @@ void Player::SetDeathDefencerTimerDown()
 				}
 			}
 
-			_guardBreakEffect.x = _x  - 15;
-			_guardBreakEffect.y = _y  - 20;
+			_guardBreakEffect.x = _x - 15;
+			_guardBreakEffect.y = _y - 20;
 		}
 
 		_deathDefencerTimer--;
@@ -2438,7 +2444,7 @@ void Player::AdaptCriminalCount(bool isPlus)
 	_defence -= (isPlus ? _criminalCount : _prevCriminalCount) * pm * 2;
 	_initHp -= (isPlus ? _criminalCount : _prevCriminalCount) * pm * 1;
 	SetNewMaxHp();
-	if(_hp > _maxHp) _hp = _maxHp;
+	if (_hp > _maxHp) _hp = _maxHp;
 }
 
 //	범죄자 실루엣 특성

@@ -99,7 +99,7 @@ void Belial::update()
 				_HitTimer++;
 				_vImages[0] = IMAGEMANAGER->findImage("SkellBossIdleHit");
 				_vImages[1] = IMAGEMANAGER->findImage("SkellBossAttackHit");
-				if (_HitTimer > 10)
+				if (_HitTimer > 3)
 				{
 					_HitTimer = 0;
 					_isHitBoss = false;

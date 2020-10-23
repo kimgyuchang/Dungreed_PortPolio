@@ -90,6 +90,7 @@ void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE 
 	_angleChanger = (RANDOM->range(2) == 0 ? PI / 180.f : -PI / 180.f);
 	_useWallCollision = true;
 	_target = nullptr;
+	_particleTimer = 0;
 
 	if (_type == BT_PLAYER || _type == BT_PLAYERNOCOL)
 	{
