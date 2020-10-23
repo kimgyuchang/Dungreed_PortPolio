@@ -5,7 +5,7 @@ HRESULT Boutique::init(int id, string name, OBJECTTYPE type, vector<string> imgN
 {
 	NPC::init(id, name, type, imgNames);
 
-	_npcName = "블로슈";
+	_npcName = "승기";
 	_vConvTexts = vector<string>
 	{
 		"옷 갈아입을 준비는 되셨습니까?",

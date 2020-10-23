@@ -5,7 +5,7 @@ HRESULT GunShop::init(int id, string name, OBJECTTYPE type, vector<string> imgNa
 {
 	Object::init(id, name, type, imgNames);
 
-	_npcName = "피아트";
+	_npcName = "샘";
 	_vConvTexts = vector<string>
 	{
 		"겨우 무기 구실은 할 수 있겠군.",

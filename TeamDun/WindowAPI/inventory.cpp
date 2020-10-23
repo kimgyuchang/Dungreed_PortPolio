@@ -919,7 +919,7 @@ void Inventory::InitToolTipItem(Item* item)
 		skillDescription->init("skillDescription", 55, 22, 220, 120, item->GetSkill()->GetDescription(), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_LEFT);
 		skillFrame->AddFrame(skillDescription);
 		UIText* skillCoolTime = new UIText();
-		skillCoolTime->init("skillCoolTime", 257, 39, 20, 30, to_string_with_precision(item->GetSkill()->GetCoolTime(), 1), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_RIGHT, RGB(221, 173, 103));
+		skillCoolTime->init("skillCoolTime", 257, 39, 60, 30, to_string_with_precision(item->GetSkill()->GetCoolTime()/60, 1), FONT::PIX, WORDSIZE::WS_SMALLEST, WORDSORT::WSORT_RIGHT, RGB(221, 173, 103));
 		skillFrame->AddFrame(skillCoolTime);
 		_toolTipFinalY += 45;
 	}

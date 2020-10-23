@@ -332,6 +332,9 @@ void DataManager::GetItemData()
 		case 4026: // 돋보기
 			item = new MagnifyingGlass();
 			break;
+		case 4140:
+			item = new LalaMagic();
+			break;
 		case 4500: // 골든캔디
 			item = new GoldenCandy();
 			break;
@@ -368,6 +371,10 @@ void DataManager::GetItemData()
 		switch (stoi(itemData[i][3]))
 		{
 			// 위쪽으로 스킬 추가 (ID를 통해)
+		case 1: // 라라 (유성우)
+			skill = new LalaSkill();
+			skill->init();
+			break;
 		default :
 			skill = nullptr;
 			break;
@@ -500,6 +507,8 @@ Item* DataManager::GetItemById(int id)
 		return new Gwendolyn(*dynamic_cast<Gwendolyn*>(_mMapItemData[id]));
 	case 4026: // 돋보기
 		return new MagnifyingGlass(*dynamic_cast<MagnifyingGlass*>(_mMapItemData[id]));
+	case 4140: // 라라의 요술봉
+		return new LalaMagic(*dynamic_cast<LalaMagic*>(_mMapItemData[id]));
 	case 4500: // 골든캔디
 		return new GoldenCandy(*dynamic_cast<GoldenCandy*>(_mMapItemData[id]));
 	default:

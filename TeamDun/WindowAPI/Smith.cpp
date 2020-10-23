@@ -5,7 +5,7 @@ HRESULT Smith::init(int id, string name, OBJECTTYPE type, vector<string> imgName
 {
 	Object::init(id, name, type, imgNames);
 
-	_npcName = "하켄";
+	_npcName = "신홍";
 	_vConvTexts = vector<string>
 	{
 		"그리 좋은 물건은 아니지만... 보탬은 될 걸세!",
