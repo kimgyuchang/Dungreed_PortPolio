@@ -6,6 +6,9 @@ HRESULT mapScene::init()
 	UIMANAGER->init();
 	ShowCursor(false);
 
+	SOUNDMANAGER->StopAllBGM();
+	SOUNDMANAGER->play("2.IceBoss");
+
 	// Ä«¸Þ¶ó //
 	_pivot = POINT{ _widthNum / 2 * 48, _heightNum / 2 * 48 };
 	CAMERAMANAGER->init(_pivot.x, _pivot.y, 50000, 50000, -50000, -50000, WINSIZEX / 2, WINSIZEY / 2);
