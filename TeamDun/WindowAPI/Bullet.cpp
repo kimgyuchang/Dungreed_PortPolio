@@ -44,8 +44,8 @@ void Bullet::GenerateTraceParticle()
 		{
 			particle* curParticle = PARTICLEMANAGER->AddNewParticle();
 			curParticle->initParticle(
-				_x ,					// X좌표에 랜덤성 추가
-				_y ,					// Y좌표에 랜덤성 추가
+				_x + (_scale - 1) * (IMAGEMANAGER->findImage(_useTraceImage)->getFrameWidth() / 2) ,					// X좌표에 랜덤성 추가
+				_y + (_scale - 1) * (IMAGEMANAGER->findImage(_useTraceImage)->getFrameHeight() / 2),					// Y좌표에 랜덤성 추가
 				0, 0,					// 스피드 XY 변화량
 				0,						// X스피드 랜덤성 추가
 				0,						// Y스피드 랜덤성 추가
@@ -54,7 +54,7 @@ void Bullet::GenerateTraceParticle()
 				_traceAlphaChanger,		// 알파값 변화량
 				255,					// 알파값 랜덤성 추가
 				0,						// 크기 XY 변화량
-				1,						// 크기 X 랜덤성 추가
+				_scale,						// 크기 X 랜덤성 추가
 				60,						// 파티클 생존 시간에 랜덤성 추가
 				_useTraceImage			// 이미지 중 하나를 선택해 파티클에 입력
 			);
