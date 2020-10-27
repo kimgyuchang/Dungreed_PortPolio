@@ -62,6 +62,7 @@ private:
 public:
 	virtual HRESULT init(int id, string name, OBJECTTYPE type, vector<string> imgNames);
 	virtual void	update();
+	void EscapeChecker();
 	void			MoveFood();
 	void			FoodAlphaAnim();
 	virtual	void	release();

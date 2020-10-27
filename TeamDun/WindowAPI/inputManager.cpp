@@ -14,6 +14,7 @@ HRESULT inputManager::init()
 	_isOnceClicked = false;
 	_isLButtonClicked = false;
 	_isRButtonClicked = false;
+	_isEscapePressed = false;
 	return S_OK;
 }
 
@@ -22,9 +23,11 @@ void inputManager::update()
 	_isLButtonClicked = false;
 	_isRButtonClicked = false;
 	_isLButtonUp = false;
+	_isEscapePressed = false;
 
 	if (GetKeyDown(VK_LBUTTON)) _isLButtonClicked = true;
 	if (GetKeyDown(VK_RBUTTON)) _isRButtonClicked = true;
+	if (GetKeyDown(VK_ESCAPE)) _isEscapePressed = true;
 	if (GetKeyUp(VK_LBUTTON)) _isLButtonUp = true;
 	if (_isOnceClicked)
 	{
@@ -41,8 +44,6 @@ void inputManager::update()
 		_mouseWheel = 0;
 	}
 	_prevMouseWheel = _mouseWheel;
-
-
 }
 
 void inputManager::release()

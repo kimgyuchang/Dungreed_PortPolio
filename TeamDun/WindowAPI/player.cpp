@@ -929,7 +929,6 @@ void Player::SpecialAtkSpeedUp()
 
 void Player::SetHpUI()
 {
-	//if (INPUT->GetKeyDown('H')) _hp--;
 	UIProgressBar* bar = dynamic_cast<UIProgressBar*>(_hpFrame->GetChild("hpBarPros"));
 	bar->FillCheck(_maxHp, _hp);
 	float fillPercent = (float)_hp / _maxHp;

@@ -19,6 +19,7 @@ private:
 	bool _isLButtonClicked;
 	bool _isRButtonClicked;
 	bool _isLButtonUp;
+	bool _isEscapePressed;
 
 public:
 	//입력매니져 초기화
@@ -41,6 +42,7 @@ public:
 	int GetClickTimer() { return _clickTimer; }
 	bool GetIsLButtonClicked() { return _isLButtonClicked; }
 	bool GetIsRButtonClicked() { return _isRButtonClicked; }
+	bool GetIsEscapeKeyPressed() { return _isEscapePressed; }
 	void SetIsOnceClicked(bool isOnceClicked) { _isOnceClicked = isOnceClicked; }
 	void SetClickTimer(int clickTimer) { _clickTimer = clickTimer; }
 	inputManager() {}

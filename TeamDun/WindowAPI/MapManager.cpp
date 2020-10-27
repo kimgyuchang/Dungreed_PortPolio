@@ -140,7 +140,7 @@ void MapManager::SetMapUIOnOff()
 		UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->ToggleIsViewing();
 	}
 
-	else if (INPUT->GetKeyDown(VK_ESCAPE) && UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetIsViewing())
+	else if (INPUT->GetIsEscapeKeyPressed() && UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetIsViewing())
 	{
 		_portalOn = false;
 		MAPMANAGER->ReNewMapUI();

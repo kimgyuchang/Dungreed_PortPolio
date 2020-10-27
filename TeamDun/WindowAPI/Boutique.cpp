@@ -31,11 +31,13 @@ void Boutique::update()
 	{
 		Conversation();
 	}
+
+	if (UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetIsViewing()) EscapeChecker();
 }
 
 void Boutique::Conversation()
 {
-	
+
 	if (PtInRect(&_selectFrame->GetChild("selected1")->GetRect(), _ptMouse))
 	{
 		_selectFrame->GetChild("selected1")->SetImage(IMAGEMANAGER->findImage("SelectedFrame"));
@@ -95,6 +97,22 @@ void Boutique::Activate()
 	for (int i = 0; i < 13; i++)
 	{
 		UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(false);
+	}
+}
+
+void Boutique::EscapeChecker()
+{
+	if (INPUT->GetIsEscapeKeyPressed())
+	{
+		SOUNDMANAGER->play("인벤토리열기");
+		_isActivating = false;
+		_isUsing = false;
+		UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->SetIsViewing(false);
+
+		for (int i = 0; i < 13; i++)
+		{
+			UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(false);
+		}
 	}
 }
 

@@ -11,6 +11,7 @@ public:
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 			void	Activate();
+			void EscapeChecker();
 	virtual void	Animation();
 
 	void			Conversation();

@@ -31,6 +31,11 @@ void Trainer::update()
 	{
 		Conversation();
 	}
+
+	if (UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->GetIsViewing())
+	{
+		CheckEscapePressed();
+	}
 }
 
 void Trainer::Conversation()
@@ -83,6 +88,19 @@ void Trainer::render(HDC hdc)
 	NPC::render(hdc);
 }
 
+void Trainer::CheckEscapePressed()
+{
+	if (INPUT->GetIsEscapeKeyPressed())
+	{
+		_isActivating = false;
+		_isUsing = false;
+		SOUNDMANAGER->play("인벤토리열기");
+		UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->SetIsViewing(false);
+		UIMANAGER->GetGameFrame()->GetChild("traitToolTip")->SetIsViewing(false);
+
+		ENTITYMANAGER->getPlayer()->ReInitTraitUI();
+	}
+}
 void Trainer::Activate()
 {
 	_isActivating = !_isActivating;
