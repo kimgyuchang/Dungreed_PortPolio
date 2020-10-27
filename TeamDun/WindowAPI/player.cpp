@@ -2159,7 +2159,7 @@ void Player::CheckTraitIconHovered()
 			{
 				finded = true;
 				UIMANAGER->GetGameFrame()->GetChild("traitToolTip")->SetIsViewing(true);
-				UIMANAGER->GetGameFrame()->GetChild("traitToolTip")->MoveFrameChild((_ptMouse.x) - text->GetX(), (_ptMouse.y) - text->GetY());
+				UIMANAGER->GetGameFrame()->GetChild("traitToolTip")->MoveFrameChild((_ptMouse.x) - text->GetX() + 20, (_ptMouse.y) + 20 - text->GetY());
 				text->SetText(_vTraitTooltip[i][j]);
 				break;
 			}
@@ -2433,8 +2433,6 @@ void Player::CheckMoveSpeedRiderH()
 		_prevPowerPlus = 50 * speedPercent; // 이번 프레임에서 계산된 비율을 다음 프레임에서 사용하기 위해 저장해둠
 	}
 }
-
-
 
 void Player::AdaptCriminalCount(bool isPlus)
 {

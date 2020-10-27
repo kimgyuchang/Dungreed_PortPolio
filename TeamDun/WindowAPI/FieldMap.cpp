@@ -180,6 +180,9 @@ void FieldMap::LoadObject()
 			obj = new TreasureSpawner(*dynamic_cast<TreasureSpawner*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			_treasureSpawner = dynamic_cast<TreasureSpawner*>(obj);
 			break;
+		case 2504: // 포지션 무버
+			obj = new MovePositioner(*dynamic_cast<MovePositioner*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 		case 10: // 상점
 			obj = new Shop(*dynamic_cast<Shop*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			dynamic_cast<Shop*>(obj)->initSecond();
@@ -255,6 +258,10 @@ void FieldMap::LoadObject()
 			break;
 		case 1000 : case 1001 : case 1002: // 기어
 			obj = new Gear(*dynamic_cast<Gear*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+		case 241: // 이전문
+			obj = new PrevDoor(*dynamic_cast<PrevDoor*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			dynamic_cast<PrevDoor*>(obj)->initSecond();
 			break;
 		default:
 			obj = new Object(*DATAMANAGER->GetObjectById(stoi(objData[i][0])));

@@ -51,6 +51,7 @@ void MapManager::ClearStage(int cntStage)
 			else if (_mapData[i][2] == "TEMPLE") map->SetFieldMapType(FIELDMAPTYPE::FMT_TEMPLE);
 			else if (_mapData[i][2] == "STRAWBERRY") map->SetFieldMapType(FIELDMAPTYPE::FMT_STRAWBERRY);
 			else if (_mapData[i][2] == "HUNGRY") map->SetFieldMapType(FIELDMAPTYPE::FMT_HUNGRY);
+			else if (_mapData[i][2] == "TRAP") map->SetFieldMapType(FIELDMAPTYPE::FMT_TRAP);
 
 			map->SetMovePos(DIRECTION::DIR_LEFT, POINT{ stoi(_mapData[i][3]), stoi(_mapData[i][4]) });
 			map->SetMovePos(DIRECTION::DIR_RIGHT, POINT{ stoi(_mapData[i][5]), stoi(_mapData[i][6]) });
@@ -97,6 +98,7 @@ void MapManager::AddStage(int stageNum)
 		_stage = new Stage();
 		_stage->init(stageNum);
 		if (!_stage->SettingMap()) mapAllCleared = false;
+		_stage->SetFieldMapNumber();
 		if (mapAllCleared) break;
 	}
 
@@ -136,6 +138,13 @@ void MapManager::SetMapUIOnOff()
 		_portalOn = false;
 		MAPMANAGER->ReNewMapUI();
 		UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->ToggleIsViewing();
+	}
+
+	else if (INPUT->GetKeyDown(VK_ESCAPE) && UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetIsViewing())
+	{
+		_portalOn = false;
+		MAPMANAGER->ReNewMapUI();
+		UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->SetIsViewing(false);
 	}
 }
 
@@ -360,10 +369,42 @@ void MapManager::render(HDC hdc)
 void MapManager::ChangeMap(int index)
 {
 	FIELDMAPTYPE prevMapType;
-	if (_currentMap >= 0 && _currentMap < _stage->GetMaps().size()) prevMapType = GetPlayMap()->GetFieldMapType();
-	else prevMapType = FIELDMAPTYPE::FMT_NULL;
+	int prevMapIndex = -1;
+
+	if (_currentMap >= 0 && _currentMap < _stage->GetMaps().size())
+	{
+		prevMapType = GetPlayMap()->GetFieldMapType();
+		prevMapIndex = MAPMANAGER->GetPlayMap()->GetMapIndex();
+	}
+
+	else
+	{
+		prevMapType = FIELDMAPTYPE::FMT_NULL;
+		prevMapIndex = -1;
+	}
 
 	_currentMap = index;
+	
+	FieldMap* map = MAPMANAGER->GetPlayMap();
+	if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_TRAP)
+	{
+		for (int i = 0; i < map->GetObjects().size(); i++)
+		{
+			if (map->GetObjects()[i]->GetId() == 241) // 돌아가기문
+			{
+				for (int j = 0; j < map->GetObjects().size(); j++)
+				{
+					if (map->GetObjects()[j]->GetId() == 2504) // 이동장소
+					{
+						dynamic_cast<PrevDoor*>(map->GetObjects()[i])->SetPoint(POINT{ map->GetObjects()[j]->GetX(), map->GetObjects()[j]->GetY() - 10 }); // 이동 장소 설정
+						break;
+					}
+				}
+				break;
+			}
+		}
+	}
+
 	ChangeMapBGM(prevMapType);
 
 	GetPlayMap()->PixelCollisionMapGenerate();

@@ -11,7 +11,7 @@ struct Tile
 
 enum FIELDMAPTYPE
 {
-	FMT_ENTER, FMT_END, FMT_RESTAURANT, FMT_SHOP, FMT_TEMPLE, FMT_NORMAL, FMT_STRAWBERRY, FMT_HUNGRY, FMT_NULL
+	FMT_ENTER, FMT_END, FMT_RESTAURANT, FMT_SHOP, FMT_TEMPLE, FMT_NORMAL, FMT_STRAWBERRY, FMT_HUNGRY, FMT_TRAP, FMT_NULL
 };
 
 class Portal;
@@ -36,7 +36,8 @@ private :
 	int						_nextMapIndex[4];	// 다음 방의 Vector Index (방향별)
 	POINT					_mapMovePos[4];		// 이 방으로 도착할때의 플레이어 위치
 	int						_stage;				// 해당 방의 스테이지
-												   
+	int						_mapIndex;			// 맵 인덱스
+
 	bool					_isCleared;			// 방의 몬스터를 모두 처리했는지 여부	
 	bool					_isSpawning;		// 스폰 중
 	bool					_mapGenVisited;		// 맵 제작시 플러드필 체크용 
@@ -91,6 +92,7 @@ public :
 	Portal*				GetPortal()						{ return _portal; }
 	bool				GetHasTreasure()				{ return _hasTreasure; }
 	bool				GetHasPixie()					{ return _hasPixie; }
+	int					GetMapIndex()					{ return _mapIndex; }
 
 	void	SetXIndex(int index)						{ _xIndex = index; }
 	void	SetYIndex(int index)						{ _yIndex = index; }
@@ -102,4 +104,5 @@ public :
 	void	SetMapGenVisited(bool visit)				{ _mapGenVisited = visit; }
 	void	SetVisited(bool visit)						{ _visited = visit; }
 	void	SetPortal(Portal* portal)					{ _portal = portal; }
+	void	SetMapIndex(int index)						{ _mapIndex = index; }
 };

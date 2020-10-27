@@ -328,6 +328,15 @@ bool Stage::SettingMap()
 	return true;
 }
 
+void Stage::SetFieldMapNumber()
+{
+	for (int i = 0; i < _vMaps.size(); i++)
+	{
+		_vMaps[i]->SetMapIndex(i);
+		cout << _vMaps[i]->GetMapIndex() << endl;
+	}
+}
+
 bool Stage::AddLine(FieldMap* map, DIRECTION dir, int index)
 {
 	int result;

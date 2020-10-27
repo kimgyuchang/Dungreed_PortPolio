@@ -217,6 +217,7 @@
     <ClInclude Include="MetalBoomerang.h" />
     <ClInclude Include="Minotaurs.h" />
     <ClInclude Include="MonsterSpawner.h" />
+    <ClInclude Include="MovePositioner.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectPooler.h" />
@@ -228,6 +229,7 @@
     <ClInclude Include="PixieSpawner.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Portal.h" />
+    <ClInclude Include="PrevDoor.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="PurpleGiantBat.h" />
     <ClInclude Include="random.h" />
@@ -333,6 +335,7 @@
     <ClCompile Include="MetalBoomerang.cpp" />
     <ClCompile Include="Minotaurs.cpp" />
     <ClCompile Include="MonsterSpawner.cpp" />
+    <ClCompile Include="MovePositioner.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Obstacle.cpp" />
@@ -342,6 +345,7 @@
     <ClCompile Include="PixieSpawner.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="PrevDoor.cpp" />
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="PurpleGiantBat.cpp" />
     <ClCompile Include="random.cpp" />
