@@ -37,7 +37,7 @@ void FieldMap::LoadMap()
 	_townBackgroundImg = nullptr;
 	_townMountainImg = nullptr;
 	_townGrassImg = nullptr;
-	
+
 	for (int i = 0; i < stringData.size(); i++)
 	{
 		vector<Tile*> tileLine;
@@ -94,7 +94,7 @@ void FieldMap::LoadObject()
 		// BEFORE OBJECT LOAD
 		switch (stoi(objData[i][0]))
 		{
-		case 1 : // 딸기 분수
+		case 1: // 딸기 분수
 			obj = new StrawberryFountain(*dynamic_cast<StrawberryFountain*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			dynamic_cast<StrawberryFountain*>(obj)->initSecond();
 			break;
@@ -189,7 +189,7 @@ void FieldMap::LoadObject()
 			dynamic_cast<Shop*>(obj)->SetShopItem();
 			dynamic_cast<Shop*>(obj)->ReNewUI();
 			break;
-		case 12 : // 밥 잘 파는 예쁜 누나
+		case 12: // 밥 잘 파는 예쁜 누나
 			obj = new Restaurant(*dynamic_cast<Restaurant*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			dynamic_cast<Restaurant*>(obj)->initSecond();
 			dynamic_cast<Restaurant*>(obj)->SetRestaurantFood();
@@ -256,7 +256,7 @@ void FieldMap::LoadObject()
 		case 1003: case 1004: // 가시
 			obj = new Spike(*dynamic_cast<Spike*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-		case 1000 : case 1001 : case 1002: // 기어
+		case 1000: case 1001: case 1002: // 기어
 			obj = new Gear(*dynamic_cast<Gear*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
 		case 241: // 이전문
@@ -308,6 +308,21 @@ void FieldMap::LoadObject()
 		if (CheckRollBack)
 		{
 			_vObjs.erase(_vObjs.end() - 1);
+		}
+	}
+
+	for (int i = 0; i < GetObjects().size(); i++)
+	{
+		if (GetFieldMapType() == FIELDMAPTYPE::FMT_TRAP && GetObjects()[i]->GetId() == 241)
+		{
+			for (int j = 0; j < GetObjects().size(); j++)
+			{
+				if (GetObjects()[j]->GetId() == 2504) // 이동장소
+				{
+					dynamic_cast<PrevDoor*>(GetObjects()[i])->SetPoint(POINT{ GetObjects()[j]->GetX(), GetObjects()[j]->GetY() - 10 }); // 이동 장소 설정
+					break;
+				}
+			}
 		}
 	}
 }
@@ -560,13 +575,13 @@ void FieldMap::GridMapGenerate()
 {
 	HDC pixelMapDC = IMAGEMANAGER->findImage("PixelMapIg")->getMemDC();
 
-	IMAGEMANAGER->addImage("Layer1MapIg", "Images/PixelMapIg.bmp", ((_vMapData[0].size()+15) * 48 > 1440 ? (_vMapData[0].size() + 15) * 48 : 1440), ((_vMapData.size() + 15) * 48 > 800 ? (_vMapData.size() + 15) * 48 : 800), true, RGB(255, 255, 255));
+	IMAGEMANAGER->addImage("Layer1MapIg", "Images/PixelMapIg.bmp", ((_vMapData[0].size() + 15) * 48 > 1440 ? (_vMapData[0].size() + 15) * 48 : 1440), ((_vMapData.size() + 15) * 48 > 800 ? (_vMapData.size() + 15) * 48 : 800), true, RGB(255, 255, 255));
 	IMAGEMANAGER->addImage("Layer2MapIg", "Images/PixelMapIg.bmp", ((_vMapData[0].size() + 15) * 48 > 1440 ? (_vMapData[0].size() + 15) * 48 : 1440), ((_vMapData.size() + 15) * 48 > 800 ? (_vMapData.size() + 15) * 48 : 800), true, RGB(255, 255, 255));
-	
+
 	Rectangle(IMAGEMANAGER->findImage("Layer1MapIg")->getMemDC(), -10, -10, ((_vMapData[0].size() + 15) * 48 > 1440 ? (_vMapData[0].size() + 15) * 48 : 1440), ((_vMapData.size() + 15) * 48 > 800 ? (_vMapData.size() + 15) * 48 : 800)); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
-	Rectangle(IMAGEMANAGER->findImage("Layer2MapIg")->getMemDC(), -10, -10, ((_vMapData[0].size() + 15) * 48 > 1440 ? (_vMapData[0].size() + 15) * 48 : 1440), ((_vMapData.size() + 15) * 48 > 800 ? (_vMapData.size() + 15)* 48 : 800)); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
-	Rectangle(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), -10, -10, ((_vMapData[0].size() + 15) * 48 > 1440 ? (_vMapData[0].size() + 15) * 48 : 1440), ((_vMapData.size() + 15) * 48 > 800 ? (_vMapData.size() + 15)* 48 : 800)); // 미니맵 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
-	
+	Rectangle(IMAGEMANAGER->findImage("Layer2MapIg")->getMemDC(), -10, -10, ((_vMapData[0].size() + 15) * 48 > 1440 ? (_vMapData[0].size() + 15) * 48 : 1440), ((_vMapData.size() + 15) * 48 > 800 ? (_vMapData.size() + 15) * 48 : 800)); // 픽셀충돌 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
+	Rectangle(IMAGEMANAGER->findImage("MiniMapGroundIg")->getMemDC(), -10, -10, ((_vMapData[0].size() + 15) * 48 > 1440 ? (_vMapData[0].size() + 15) * 48 : 1440), ((_vMapData.size() + 15) * 48 > 800 ? (_vMapData.size() + 15) * 48 : 800)); // 미니맵 이미지 도화지에 커다란 흰색 RECT를 끼얹는다
+
 	for (int i = 0; i < _vMapData.size(); i++)
 	{
 		for (int j = 0; j < _vMapData[i].size(); j++)
@@ -681,7 +696,7 @@ void FieldMap::CheckNoMonsterInMap()
 			int satiety = ENTITYMANAGER->getPlayer()->GetSatiety() - 1;
 			if (satiety < 0) satiety = 0;
 			ENTITYMANAGER->getPlayer()->SetSatiety(satiety);
-			
+
 			if (ENTITYMANAGER->getPlayer()->GetSpecialAbilityOn(5, 1)) // 특성 - 집중 10레벨
 			{
 				int hpPlus = ENTITYMANAGER->getPlayer()->GetHP() + 2;
@@ -715,7 +730,7 @@ void FieldMap::CheckNoMonsterInMap()
 			{
 				if (RANDOM->range(100) < 30)
 				{
-					_treasureSpawner->SpawnTreasure();			
+					_treasureSpawner->SpawnTreasure();
 					SOUNDMANAGER->play("오브젝트_상자오픈", 0.5f, true);
 				}
 			}
@@ -790,7 +805,7 @@ void FieldMap::render(HDC hdc)
 	{
 		_townBackgroundImg->render(hdc, 0, 0);
 		_townMountainImg->loopRender(hdc, &RectMake(0, -300, WINSIZEX, 1200), CAMERAMANAGER->GetRect().left / 4, CAMERAMANAGER->GetRect().top / 8);
-		_townGrassImg->loopRender(hdc, &RectMake(0, -200,WINSIZEX, 1000), CAMERAMANAGER->GetRect().left / 2, CAMERAMANAGER->GetRect().top/2);
+		_townGrassImg->loopRender(hdc, &RectMake(0, -200, WINSIZEX, 1000), CAMERAMANAGER->GetRect().left / 2, CAMERAMANAGER->GetRect().top / 2);
 		CAMERAMANAGER->StretchRender(hdc, _backImageEtc, -WINSIZEX / 2, mapSizeY, WINSIZEX + mapSizeX, WINSIZEY / 2);
 	}
 
@@ -808,7 +823,7 @@ void FieldMap::render(HDC hdc)
 	{
 		CAMERAMANAGER->Render(hdc, IMAGEMANAGER->findImage("PixelMapIg"), 0, 0);
 	} // 픽셀충돌 렌더
-	
+
 
 	for (int i = 0; i < EFFECTMANAGER->GetVEffect().size(); i++)
 	{
@@ -844,7 +859,7 @@ void FieldMap::render(HDC hdc)
 			_vObjs[i]->render(hdc);
 	} // 오브젝트 렌더 2 렌더
 
-	
+
 	IMAGEMANAGER->findImage("MiniMapGroundIg")->render(hdc, 0, 0);
 	//미니맵에 플레이어 렌더
 	if (_fileName == "stage0_town")

@@ -385,26 +385,6 @@ void MapManager::ChangeMap(int index)
 
 	_currentMap = index;
 	
-	FieldMap* map = MAPMANAGER->GetPlayMap();
-	if (map->GetFieldMapType() == FIELDMAPTYPE::FMT_TRAP)
-	{
-		for (int i = 0; i < map->GetObjects().size(); i++)
-		{
-			if (map->GetObjects()[i]->GetId() == 241) // 돌아가기문
-			{
-				for (int j = 0; j < map->GetObjects().size(); j++)
-				{
-					if (map->GetObjects()[j]->GetId() == 2504) // 이동장소
-					{
-						dynamic_cast<PrevDoor*>(map->GetObjects()[i])->SetPoint(POINT{ map->GetObjects()[j]->GetX(), map->GetObjects()[j]->GetY() - 10 }); // 이동 장소 설정
-						break;
-					}
-				}
-				break;
-			}
-		}
-	}
-
 	ChangeMapBGM(prevMapType);
 
 	GetPlayMap()->PixelCollisionMapGenerate();

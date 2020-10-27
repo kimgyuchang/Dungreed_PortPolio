@@ -70,6 +70,8 @@ void Shop::update()
 			BuyItem();
 			if (_invenFrame->GetIsViewing()) SellItem();
 		}
+
+		EscapeChecker();
 	}
 }
 
@@ -231,6 +233,18 @@ void Shop::ActivateSell()
 	_selectedItem = nullptr;
 	_index = 0;
 	_checkSellFrame->SetIsViewing(false);
+}
+
+void Shop::EscapeChecker()
+{
+	if (INPUT->GetIsEscapeKeyPressed())
+	{
+		ReNewUI();
+		_isActivating = false;
+		_shopBase->SetIsViewing(false);
+		UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->SetIsViewing(false);
+		_checkSellFrame->SetIsViewing(false);
+	}
 }
 
 /// <summary>
