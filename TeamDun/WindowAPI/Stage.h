@@ -28,7 +28,7 @@ public :
 	void SetStageZero();
 	void SetStageTwo();
 	bool SettingMap();
-
+	void SetFieldMapNumber();
 	bool AddLine(FieldMap* map, DIRECTION dir, int index);
 	bool CheckCollision();
 

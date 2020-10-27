@@ -429,6 +429,12 @@
     <ClCompile Include="LalaSkill.cpp">
       <Filter>MainGame\Item\Items\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="PrevDoor.cpp">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="MovePositioner.cpp">
+      <Filter>MainGame\Object\Etc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -773,6 +779,12 @@
     </ClInclude>
     <ClInclude Include="LalaSkill.h">
       <Filter>MainGame\Item\Items\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="PrevDoor.h">
+      <Filter>MainGame\Object\NPC\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="MovePositioner.h">
+      <Filter>MainGame\Object\Etc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -825,6 +825,33 @@ void gameScene::UpdateWardrobeUI()
 		}
 	}
 	*/
+	
+	//의상실 마우스 휠 작동시
+	if (UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetIsViewing() == true)
+	{
+		if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetRect(), _ptMouse))
+		{
+			if (_mouseWheel <0)
+			{
+				for (int i = 0; i < 13; i++)
+				{
+					UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeBack" + to_string(i))->MoveFrameChild(50, 0);
+					UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->MoveFrameChild(50, 0);
+					UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->MoveFrameChild(50, 0);
+				}
+			}
+			else if(_mouseWheel>0)
+			{
+				for (int i = 0; i < 13; i++)
+				{
+					UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeBack" + to_string(i))->MoveFrameChild(-50, 0);
+					UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->MoveFrameChild(-50, 0);
+					UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->MoveFrameChild(-50, 0);
+				}
+			}
+		}
+	}
+
 
 	if (UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetIsViewing() == true)
 	{
@@ -1173,6 +1200,9 @@ void gameScene::update()
 		UIMANAGER->GetGameFrame()->GetChild("charFrame")->ToggleIsViewing();
 	}
 
+	if(_mouseWheel<0)
+	{
+	}
 	//if (INPUT->GetKeyDown('O'))
 	//{
 	//	SOUNDMANAGER->play("인벤토리열기");

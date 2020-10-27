@@ -348,6 +348,7 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("NPC_Giant", "Images/NPC/NPC_Giant.bmp", 588, 144, 4, 1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("DungeonIngurgitate", "Images/NPC/DungeonIngurgitate.bmp", 19125, 255, 51, 1, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("DungeonInn", "Images/NPC/DungeonInn.bmp", 594, 276, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Door_PrevDoor", "Images/1Floor/Door_PrevDoor.bmp", 119, 136, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("NPC_NeighboringVillager", "Images/NPC/NPC_NeighboringVillager.bmp", 270, 69, 6, 1, true, RGB(255, 0, 255));
 
 	// FOOD //
@@ -392,6 +393,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("SpawnMonsterPos", "Images/Etc/SpawnMonsterPos.bmp", 48, 48, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SpawnBoxPos", "Images/Etc/SpawnBoxPos.bmp", 48, 48, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("SpawnPixiePos", "Images/Etc/SpawnPixiePos.bmp", 48, 48, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("MovePos", "Images/Etc/MovePos.bmp", 48, 48, true, RGB(255, 0, 255));
 
 	// UI //  
 	_loading->LoadNormalImage("UIBaseBig", "Images/UI/Base.bmp", 500, 300, true, RGB(255, 0, 255));
@@ -1224,30 +1226,8 @@ void loadingScene::loadingSound()
 	_loading->LoadSound("Foodshop", "Sounds/BGM/Foodshop.wav", true, true);
 	_loading->LoadSound("Shop", "Sounds/BGM/Shop.wav", true, true);
 	_loading->LoadSound("title", "Sounds/BGM/title.wav", true, true);
-
-	
 	_loading->LoadSound("2.IceBoss", "Sounds/BGM/2.IceBoss.wav", true, true);
 	_loading->LoadSound("2.IceField", "Sounds/BGM/2.IceField.wav", true, true);
-	_loading->LoadSound("3.jungleboss", "Sounds/BGM/3.jungleboss.wav", true, true);
-	_loading->LoadSound("3.junglefield", "Sounds/BGM/3.junglefield.wav", true, true);
-	_loading->LoadSound("4.lavaboss", "Sounds/BGM/4.lavaboss.wav", true, true);
-	_loading->LoadSound("4.lavafield", "Sounds/BGM/4.lavafield.wav", true, true);
-	_loading->LoadSound("5.ForestBoss", "Sounds/BGM/5.ForestBoss.wav", true, true);
-	_loading->LoadSound("5.forestfield", "Sounds/BGM/5.forestfield.wav", true, true);
-	_loading->LoadSound("6.desertboss", "Sounds/BGM/6.desertboss.wav", true, true);
-	_loading->LoadSound("6.desertfield", "Sounds/BGM/6.desertfield.wav", true, true);
-	_loading->LoadSound("7.arsha", "Sounds/BGM/7.arsha.wav", true, true);
-	_loading->LoadSound("8.kaminela", "Sounds/BGM/8.kaminela.wav", true, true);
-	_loading->LoadSound("actiongyoza", "Sounds/BGM/actiongyoza.wav", true, true);
-	_loading->LoadSound("ambience_desert", "Sounds/BGM/ambience_desert.wav", true, true);
-	_loading->LoadSound("ambience_ericha", "Sounds/BGM/ambience_ericha.wav", true, true);
-	_loading->LoadSound("ambience_forest", "Sounds/BGM/ambience_forest.wav", true, true);
-	_loading->LoadSound("ambience_ice", "Sounds/BGM/ambience_ice.wav", true, true);
-	_loading->LoadSound("ambience_jungle", "Sounds/BGM/ambience_jungle.wav", true, true);
-	_loading->LoadSound("ambience_magma", "Sounds/BGM/ambience_magma.wav", true, true);
-	_loading->LoadSound("erichaphase3_final", "Sounds/BGM/erichaphase3_final.wav", true, true);
-	_loading->LoadSound("erichaphase12_final", "Sounds/BGM/erichaphase12_final.wav", true, true);
-	_loading->LoadSound("firegolem_v02", "Sounds/BGM/firegolem_v02.wav", true, true);
 	
 
 	// EFFECT //

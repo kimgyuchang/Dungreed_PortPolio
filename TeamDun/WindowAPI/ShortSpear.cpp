@@ -32,7 +32,7 @@ void ShortSpear::render(HDC hdc)
 
 void ShortSpear::Activate()
 {
-	SOUNDMANAGER->play("Skorpion-Kibblesbob");
+	SOUNDMANAGER->play("ÈÖµÎ¸£±â_¹«Ã´°¡º­¿ò2 (1)");
 	_renderAngle = 0;
 
 	SpearEffect* slash = new SpearEffect();

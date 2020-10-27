@@ -770,6 +770,7 @@ void Inventory::SwitchWeapon(int selectedWeapon)
 
 void Inventory::InitToolTipItem(Item* item)
 {
+
 	_curToolTipItem = item;
 
 	UIImage* uiToolTip = dynamic_cast<UIImage*>(UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->GetChild("itemToolTip"));

@@ -60,3 +60,5 @@
 #include "LalaMagic.h"
 #include "LalaSkill.h"
 #include "GoldenCandy.h"
+#include "PrevDoor.h"
+#include "MovePositioner.h"

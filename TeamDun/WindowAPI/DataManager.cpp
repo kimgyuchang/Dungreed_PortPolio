@@ -239,6 +239,12 @@ void DataManager::GetObjectData()
 		case 1003: case 1004: // 가시
 			obj = new Spike();
 			break;
+		case 241: // 이전무
+			obj = new PrevDoor();
+			break;
+		case 2504: // 무브 포지셔너
+			obj = new MovePositioner();
+			break;
 		default:
 			obj = new Object();
 			break;
