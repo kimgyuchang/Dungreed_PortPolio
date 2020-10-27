@@ -825,6 +825,8 @@ void gameScene::UpdateWardrobeUI()
 		}
 	}
 	*/
+	
+	//의상실 마우스 휠 작동시
 	if (UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetIsViewing() == true)
 	{
 		if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetRect(), _ptMouse))
