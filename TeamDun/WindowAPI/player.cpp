@@ -224,7 +224,7 @@ HRESULT Player::init()
 	_inven->AddItem(DATAMANAGER->GetItemById(4100));
 	_inven->AddItem(DATAMANAGER->GetItemById(4140));
 	_inven->AddItem(DATAMANAGER->GetItemById(4026));
-	_inven->AddItem(DATAMANAGER->GetItemById(4027));
+	_inven->AddItem(DATAMANAGER->GetItemById(4030));
 
 	return S_OK;
 }

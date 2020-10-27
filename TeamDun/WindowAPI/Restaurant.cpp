@@ -977,25 +977,18 @@ void Restaurant::ReNewUI()
 
 void Restaurant::MoveUI()
 {
-	if (PtInRect(&_restaurantBase->GetChild("_wholeFoodFrame")->GetRect(), _ptMouse) && INPUT->GetKey(VK_LBUTTON))
+	if (_mouseWheel == 1) // 마우스 휠 올리면
 	{
-		_scrollTimer++;
-		if (_scrollTimer == 1)
+		for (int i = 0; i < _vFoods.size(); i++)
 		{
-			_mouseLocation = _ptMouse.y;
-		}
-		else if (_scrollTimer > 1)
-		{
-			for (int i = 0; i < _vFoods.size(); i++)
-			{
-				_restaurantBase->GetChild("_foodFrame" + to_string(i))->MoveFrameChild(0, _ptMouse.y - _mouseLocation);
-			}
-			_mouseLocation = _ptMouse.y;
+			_restaurantBase->GetChild("_foodFrame" + to_string(i))->MoveFrameChild(0, 100);
 		}
 	}
-	if (INPUT->GetIsLButtonUp())
+	if (_mouseWheel == -1) // 마우스 휠 내리면
 	{
-		_scrollTimer = 0;
-		_mouseLocation = 0;
+		for (int i = 0; i < _vFoods.size(); i++)
+		{
+			_restaurantBase->GetChild("_foodFrame" + to_string(i))->MoveFrameChild(0, -100);
+		}
 	}
 }
