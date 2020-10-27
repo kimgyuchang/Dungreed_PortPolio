@@ -21,6 +21,7 @@ void EffectManager::update()
 	}
 	DeleteEffect();
 	DeleteText();
+	HitEffect();
 }
 
 void EffectManager::release()
@@ -48,10 +49,10 @@ void EffectManager::render(HDC hdc)
 	}
 }
 
-Effect* EffectManager::AddEffect(float x, float y, string imgName, int animSpeed, int frameX, int frameY, bool isLoop, int alpha, float angle, float scaleX, float scaleY, bool isAlpha,bool useCamera , bool isFirstViewing, string effectSound )
+Effect* EffectManager::AddEffect(float x, float y, string imgName, int animSpeed, int frameX, int frameY, bool isLoop, int alpha, float angle, float scaleX, float scaleY, bool isAlpha, bool useCamera, bool isFirstViewing, string effectSound, float damage)
 {
 	Effect* effect = new Effect();
-	effect->init(x, y, imgName, animSpeed, frameX, frameY, isLoop, alpha, angle, scaleX, scaleY ,isAlpha ,useCamera,isFirstViewing , effectSound);
+	effect->init(x, y, imgName, animSpeed, frameX, frameY, isLoop, alpha, angle, scaleX, scaleY, isAlpha, useCamera, isFirstViewing, effectSound , damage);
 	_vEffect.push_back(effect);
 
 	return effect;
@@ -75,7 +76,7 @@ void EffectManager::DeleteEffect()
 			i--;
 		}
 	}
-	
+
 }
 
 void EffectManager::DeleteText()
@@ -86,6 +87,29 @@ void EffectManager::DeleteText()
 		{
 			_vCameraText.erase(_vCameraText.begin() + i);
 			i--;
+		}
+	}
+}
+
+void EffectManager::HitEffect()
+{
+	RECT temp;
+
+	for (int i = 0; i < _vEffect.size(); i++)
+	{
+		if (_vEffect[i]->GetFrameX() == 1 && _vEffect[i]->GetAnimTimer() == 0 && _vEffect[i]->GetDamage() != 0)
+		{
+			for (int j = 0; j < MAPMANAGER->GetPlayMap()->GetObjects().size(); j++)
+			{
+				Object* obj = MAPMANAGER->GetPlayMap()->GetObjects()[j];
+				if (obj->GetType() == OBJECTTYPE::OT_MONSTER || obj->GetType() == OBJECTTYPE::OT_BREAKABLE)
+				{
+					if (IntersectRect(&temp, &_vEffect[i]->GetBody(), &obj->GetBody()))
+					{
+						obj->GetDamage(_vEffect[i]->GetDamage());
+					}
+				}
+			}
 		}
 	}
 }

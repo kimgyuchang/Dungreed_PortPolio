@@ -214,9 +214,9 @@ HRESULT Player::init()
 
 	_inven->AddItem(DATAMANAGER->GetItemById(4000));
 	_inven->AddItem(DATAMANAGER->GetItemById(4001));
-	_inven->AddItem(DATAMANAGER->GetItemById(4002));
-	_inven->AddItem(DATAMANAGER->GetItemById(4003));
-	_inven->AddItem(DATAMANAGER->GetItemById(4004));
+	_inven->AddItem(DATAMANAGER->GetItemById(4006));
+	_inven->AddItem(DATAMANAGER->GetItemById(4500));
+	_inven->AddItem(DATAMANAGER->GetItemById(4018));
 	_inven->AddItem(DATAMANAGER->GetItemById(4005));
 	_inven->AddItem(DATAMANAGER->GetItemById(4025));
 	_inven->AddItem(DATAMANAGER->GetItemById(4028));

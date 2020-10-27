@@ -70,6 +70,7 @@ public :
 	////GetSet
 	set<int> getSUid() { return _sUid; }
 	BULLETTYPE getType() { return _type; }
+	BULLETSPEEDTYPE getSpeedType() {return _speedType;}
 	image* getIg() { return _ig; }
 	string getEffectIgName(){return _effectIgName;}
 	string getEffectSound(){return _effectSound;}

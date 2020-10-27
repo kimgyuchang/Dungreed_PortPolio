@@ -189,7 +189,7 @@ void Inventory::DragItemStart()
 	{
 		if (!_shopFrame->GetIsViewing())
 		{
-			for (int i = 0; i < 15; i++)
+			for (int i = 0; i < _vInvenItems.size(); i++)
 			{
 				UIFrame* curFrame = _InvenFrame->GetChild("itemFrame_" + to_string(i))->GetChild("itemImageFrame");
 				if (PtInRect(&curFrame->GetRect(), _ptMouse))
@@ -309,6 +309,7 @@ void Inventory::DragItem()
 					}
 				}
 
+				_dragItem = nullptr;
 				EraseDragInfor();
 			}
 
