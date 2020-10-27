@@ -7,15 +7,20 @@
 class CSVManager : public singletonBase<CSVManager>
 {
 public:
+    // ±âº» //
     CSVManager();
     ~CSVManager();
 
     HRESULT init();
     void release();
 
+    // Save //
     void csvSave(string saveFileName, vector<vector<string>> vStr);
+    
+    // Load //
     vector<vector<string>> csvLoad(string loadFileName);
 private:
+
     char* vectorArrayCombine(vector<string> vArray);
     vector<string> charArraySeparation(char charArray[]);
     vector<vector<string>> charArraySeparationSub(vector<string> stringVec);

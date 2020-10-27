@@ -2,10 +2,13 @@
 #include "singletonBase.h"
 #include "image.h"
 
+/// <summary>
+/// 카메라를 관리하는 매니저이다.
+/// 기능 목록 : Pivot Lerp / 쉐이크
+/// </summary>
 class CameraManager : public singletonBase<CameraManager>
 {
 private:
-
 	// CAMERAFOLLOW //
 	RECT	_cameraRect;		// 현재 카메라의 좌표 (RelativeX, Y를 구할때 사용)
 	float	_pivotX;			// 현재 카메라가 중심으로 잡고있는 PIVOT X
@@ -52,13 +55,12 @@ public:
 	}
 	~CameraManager() {}
 
+	// 기본 //
 	HRESULT init(float pivotX, float pivotY, float maxX, float maxY, float minX, float minY, float disX, float disY);
 	void update();
 
 	// RENDER //
-
 	void LineMake(HDC hdc, int startX, int startY, int endX, int endY);
-
 	void Render(HDC hdc, image* ig, int destX, int destY, float angle = 0);
 	void AlphaRender(HDC hdc, image * ig, int destX, int destY, BYTE alpha, float angle = 0);
 	void alphaRender(HDC hdc,image* ig, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha, float angle = 0.f);

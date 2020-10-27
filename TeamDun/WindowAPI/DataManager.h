@@ -17,17 +17,20 @@ struct GridData
 class DataManager : public singletonBase<DataManager>
 {
 private :
+	// 데이터 목록 //
 	map<string, GridData*>	_mGridDataByName;	// 그리드 데이터 맵 (이름으로 가져오기)
 	map<int, GridData*>		_mGridData;			// 그리드 데이터 맵
 	map<int, Object*>		_mObjectData;		// 오브젝트 맵
 	map<int, MapObject*>	_mMapObjectData;	// 맵 오브젝트 맵
 	map<int, Item*>			_mMapItemData;		// 아이템 맵
 
-	int	_itemMaxId;
-	int _itemMinId;
+	int						_itemMaxId;			// 아이템 제일 큰 ID
+	int						_itemMinId;			// 아이템 제일 작은 ID
 
 public :
+	// 기본 //
 	HRESULT Init();
+	
 	// 데이터 불러오기 //
 	void GetUIBrushToolGridData();
 	void GetObjectData();
