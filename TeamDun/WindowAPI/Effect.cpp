@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Effect.h"
 
-HRESULT Effect::init(float x, float y, string imgName, int animSpeed, int frameX, int frameY, bool isLoop, int alpha, float angle, float scaleX, float scaleY, bool isAlpha, bool useCamera, bool isFirstViewing, string effectSound)
+HRESULT Effect::init(float x, float y, string imgName, int animSpeed, int frameX, int frameY, bool isLoop, int alpha, float angle, float scaleX, float scaleY, bool isAlpha, bool useCamera, bool isFirstViewing, string effectSound, float damage)
 {
 	_x = x;
 	_y = y;
@@ -9,7 +9,7 @@ HRESULT Effect::init(float x, float y, string imgName, int animSpeed, int frameX
 	_frameY = frameY;
 	_image = IMAGEMANAGER->findImage(imgName);
 	_initAnimTimer = _animTimer = animSpeed;
-	_body = RECT{0, 0, 0, 0};
+	_body = RectMake(_x, _y, _image->getFrameWidth(), _image->getFrameHeight());
 	_isLoop = isLoop;
 	_isDead = false;
 	_alpha = alpha;
@@ -19,6 +19,8 @@ HRESULT Effect::init(float x, float y, string imgName, int animSpeed, int frameX
 	_isAlpha = isAlpha;
 	_useCamera = useCamera;
 	_isFirstViewing = isFirstViewing;
+	_damage = damage;
+	_hitObj = false;
 	if (effectSound != "")
 	{
 		SOUNDMANAGER->play(effectSound);
