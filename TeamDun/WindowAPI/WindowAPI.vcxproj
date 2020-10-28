@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="abyssBanshee.h" />
     <ClInclude Include="BambooSword.h" />
     <ClInclude Include="Banshee.h" />
     <ClInclude Include="BasicShortSword.h" />
@@ -232,6 +233,7 @@
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PrevDoor.h" />
     <ClInclude Include="progressBar.h" />
+    <ClInclude Include="PurpleBat.h" />
     <ClInclude Include="PurpleGiantBat.h" />
     <ClInclude Include="RampageWpn.h" />
     <ClInclude Include="random.h" />
@@ -275,6 +277,7 @@
     <ClInclude Include="WormVillage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="abyssBanshee.cpp" />
     <ClCompile Include="BambooSword.cpp" />
     <ClCompile Include="Banshee.cpp" />
     <ClCompile Include="BasicShortSword.cpp" />
@@ -351,6 +354,7 @@
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="PrevDoor.cpp" />
     <ClCompile Include="progressBar.cpp" />
+    <ClCompile Include="PurpleBat.cpp" />
     <ClCompile Include="PurpleGiantBat.cpp" />
     <ClCompile Include="RampageWpn.cpp" />
     <ClCompile Include="random.cpp" />

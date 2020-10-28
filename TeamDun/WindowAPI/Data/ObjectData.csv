@@ -60,7 +60,7 @@ id,name,type,image,image2,image3
 522,촛불ON1,Etc,CandleOn10,.,.
 523,촛불ON2,Etc,CandleOn20,.,.
 524,코인,Etc,Bullion,GoldCoin,.
-701,아비스밴시,Monster,AbyssBansheeIdle,.,.
+701,아비스밴시,Monster,AbyssBansheeIdle,AbyssBansheeAttack,.
 702,붉은박쥐,Monster,BatRedIdle,BatRedAttack,.
 703,보라박쥐,Monster,BatIdle,BatAttack,.
 704,얼음박쥐,Monster,IceBat,IceBatAttack,.

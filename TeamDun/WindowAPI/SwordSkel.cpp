@@ -14,7 +14,7 @@ HRESULT SwordSkel::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_moveSpeed = 3;
 	_initHp = _hp = 50;
 
-	_Damage = 10;
+	_damage = 10;
 	_swordX = _x;
 	_swordY = _y;
 
@@ -99,7 +99,7 @@ void SwordSkel::update()
 
 					if (UTIL::interactRectArc(ENTITYMANAGER->getPlayer()->GetBody(), POINT{ _swordX ,_swordY },_skelSword.swordIg->getWidth() ,0 ,PI/2 ,10))
 					{
-						ENTITYMANAGER->getPlayer()->GetHitDamage(_Damage);
+						ENTITYMANAGER->getPlayer()->GetHitDamage(_damage);
 					}
 				}
 				if (_attackTimer < 5)
@@ -115,7 +115,7 @@ void SwordSkel::update()
 
 					if (UTIL::interactRectArc(ENTITYMANAGER->getPlayer()->GetBody(), POINT{ _swordX ,_swordY }, _skelSword.swordIg->getWidth(), PI / 2, PI, 10))
 					{
-						ENTITYMANAGER->getPlayer()->GetHitDamage(_Damage);
+						ENTITYMANAGER->getPlayer()->GetHitDamage(_damage);
 					}
 				}
 				if (_attackTimer < 5)

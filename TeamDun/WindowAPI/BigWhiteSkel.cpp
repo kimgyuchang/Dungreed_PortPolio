@@ -17,7 +17,7 @@ HRESULT BigWhiteSkel::init(int id, string name, OBJECTTYPE type, vector<string> 
 	_attackAnimFrame = vector<int>{ 40,3,5,5,5,5,5,5,5,5,5,5 };
 	_randomXPosTimer = RANDOM->range(30) + 70;
 	_randomXPos = RANDOM->range(-200, 200);
-	_Damage = 12;
+	_damage = 12;
 
 	return S_OK;
 }
@@ -240,7 +240,7 @@ void BigWhiteSkel::Animation()
 
 					if (UTIL::interactRectArc(ENTITYMANAGER->getPlayer()->GetBody(), POINT{(LONG)_x+100 , (LONG)_y+70 }, _vImages[2]->getFrameWidth()-_vImages[1]->getFrameWidth()+20, 0, PI / 2, 10))
 					{
-						ENTITYMANAGER->getPlayer()->GetHitDamage(_Damage);
+						ENTITYMANAGER->getPlayer()->GetHitDamage(_damage);
 					}
 				}
 				if (_frameX > _vImages[_useImage]->getMaxFrameX() - 1)
@@ -265,7 +265,7 @@ void BigWhiteSkel::Animation()
 
 					if (UTIL::interactRectArc(ENTITYMANAGER->getPlayer()->GetBody(), POINT{(LONG) _x + 100 , (LONG)_y + 70 }, _vImages[2]->getFrameWidth() - _vImages[1]->getFrameWidth() + 20, PI/2, PI , 10))
 					{
-						ENTITYMANAGER->getPlayer()->GetHitDamage(_Damage);
+						ENTITYMANAGER->getPlayer()->GetHitDamage(_damage);
 					}
 				}
 				if (_frameX < 0)

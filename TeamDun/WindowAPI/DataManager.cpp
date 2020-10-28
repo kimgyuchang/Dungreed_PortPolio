@@ -162,8 +162,12 @@ void DataManager::GetObjectData()
 			break;
 		case 524: // µ¿Àü
 			obj = new Coin(); break;
+		case 701: // ¾îºñ½º ¹ê½Ã
+			obj = new AbyssBanshee(); break;
 		case 702: // ºÓÀº ¹ÚÁã
 			obj = new RedBat(); break;
+		case 703: // º¸¶ó ¹ÚÁã
+			obj = new PurpleBat(); break;
 		case 704: // ¾óÀ½ ¹ÚÁã
 			obj = new IceBat(); break;
 		case 705: // ºÒ¹ÚÁã

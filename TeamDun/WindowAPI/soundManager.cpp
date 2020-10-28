@@ -17,6 +17,7 @@ HRESULT soundManager::init()
 	memset(_sound, 0, sizeof(Sound*) * SOUNDBUFFER);
 	memset(_channel, 0, sizeof(Channel*) * SOUNDBUFFER);
 
+	//Fade In / Out
 	_fadeOutCount = 0;
 	_fadeInCount = 0;
 	return S_OK;
@@ -54,45 +55,41 @@ void soundManager::release()
 
 void soundManager::update()
 {
-	//메인게임에 사운드매니져를 업데이트 꼭 해줘야 한다
-	//사운드 관련 총괄담당을 한다
-	//사운드 시스템은 볼륨이 변경되거나, 재생이 끝난 후 사운드를 변경하는 등
-	//사운드 전반적으로 변경이 이루어 질때 즉각적으로 처리해준다
 	_system->update();
 	FadeOutBGM();
 	FadeInBGM();
 }
 
+/// <summary>
+/// 사운드 추가
+/// </summary>
 void soundManager::addSound(string keyName, string soundName, bool bgm, bool loop)
 {
 
-	if (loop) //일반적으로 BGM
+	if (loop) // BGM에 주로 사용하는 Loop
 	{
 		if (bgm)
 		{
-			//사운드 파일을 미리 업로딩해두고 사용한다
-			//한개의 파일만 재생가능
-			_system->createStream(soundName.c_str(), FMOD_LOOP_NORMAL, 0, &_sound[_mTotalSound.size()]);
+			_system->createStream(soundName.c_str(), FMOD_LOOP_NORMAL, 0, &_sound[_mTotalSound.size()]); // 한개의 파일만을 사용
 			_bgmStrings.push_back(soundName);
 		}
-		else //거의 사용안함
+		else // 효과음 Loop는 거의 없다.
 		{
-			//사운드 파일을 그때그때 실시간으로 로딩한다
-			//따라서 효과음의 파일 크기가 클경우 버퍼가 생길 수도 있다
-			//여러개의 파일 동시재생 가능하기때문에 효과음에 사용하기적당하다
 			_system->createSound(soundName.c_str(), FMOD_LOOP_NORMAL, 0, &_sound[_mTotalSound.size()]);
 			_bgmStrings.push_back(soundName);
 		}
 	}
-	else //일반적으로 효과음
+	else // 효과음에 주로 사용하는 No Loop
 	{
 		_system->createSound(soundName.c_str(), FMOD_DEFAULT, 0, &_sound[_mTotalSound.size()]);
 	}
 
-	//맵에 사운드를 키값과 함께 담아둔다
-	_mTotalSound.insert(make_pair(keyName, &_sound[_mTotalSound.size()]));
+	_mTotalSound.insert(make_pair(keyName, &_sound[_mTotalSound.size()]));	//맵에 사운드를 키값과 함께 담아둔다
 }
 
+/// <summary>
+/// 사운드를 재생
+/// </summary>
 void soundManager::play(string keyName, float volume, bool useOverlapVolumeDown, bool useFadeIn)
 {
 	int count = 0;
@@ -103,25 +100,24 @@ void soundManager::play(string keyName, float volume, bool useOverlapVolumeDown,
 		{
 			//사운드 플레이
 			_system->playSound(FMOD_CHANNEL_FREE, *iter->second, false, &_channel[count]);
-			//볼륨세팅
 
 			FMOD_MODE mode;
 			_channel[count]->getMode(&mode);
 			if (mode == 131274) // LOOP하는애면 (BGM)
 			{
 				_vStarts.push_back(keyName);
-				if(useFadeIn) _channel[count]->setVolume(0);
-				else _channel[count]->setVolume(0.5f);
-			}
+				if(useFadeIn) _channel[count]->setVolume(0); // 페이드인을 사용하는 경우 초기 사운드를 0으로
+				else _channel[count]->setVolume(0.5f); // 아니면 default 값으로
+			} 
 
 			else // 효과음이면
 			{
-				if (useOverlapVolumeDown)
+				if (useOverlapVolumeDown) // 사운드 겹칠 시 음량 다운 사용한다면
 				{
-					if(isPlaySound(keyName))
-						_channel[count]->setVolume(volume * 0.5f);
+					if(isPlaySound(keyName)) // 재생중인 사운드면
+						_channel[count]->setVolume(volume * 0.5f); // 좀 더 작은 사운드로 겹쳐 재생되도록
 					else
-						_channel[count]->setVolume(volume);
+						_channel[count]->setVolume(volume); // 그냥 재생하도록
 				}
 				else
 				{
@@ -134,6 +130,9 @@ void soundManager::play(string keyName, float volume, bool useOverlapVolumeDown,
 	}
 }
 
+/// <summary>
+/// 사운드를 중지한다
+/// </summary>
 void soundManager::stop(string keyName)
 {
 	int count = 0;
@@ -148,6 +147,9 @@ void soundManager::stop(string keyName)
 	}
 }
 
+/// <summary>
+/// 사운드를 일시정지한다
+/// </summary>
 void soundManager::pause(string keyName)
 {
 	int count = 0;
@@ -162,6 +164,9 @@ void soundManager::pause(string keyName)
 	}
 }
 
+/// <summary>
+/// 사운드를 재개한다
+/// </summary>
 void soundManager::resume(string keyName)
 {
 	int count = 0;
@@ -176,6 +181,9 @@ void soundManager::resume(string keyName)
 	}
 }
 
+/// <summary>
+/// 현재 사운드가 플레이중인지 확인한다.
+/// </summary>
 bool soundManager::isPlaySound(string keyName)
 {
 	bool isPlay;
@@ -193,6 +201,9 @@ bool soundManager::isPlaySound(string keyName)
 	return !isPlay;
 }
 
+/// <summary>
+/// 현재 사운드가 일시정지중인지 확인한다.
+/// </summary>
 bool soundManager::isPauseSound(string keyName)
 {
 	bool isPause;
@@ -221,6 +232,9 @@ void soundManager::StopAllBGM(bool useFadeIn)
 	if(useFadeIn) _fadeInCount = 150;
 }
 
+/// <summary>
+/// BGM 페이드 인
+/// </summary>
 void soundManager::FadeInBGM()
 {
 	if (_fadeInCount > 0 && _fadeOutCount == 0)
@@ -246,7 +260,7 @@ void soundManager::FadeInBGM()
 
 							if (volume < 50)
 							{
-								_channel[count]->setVolume(volume + 0.5f / 150);
+								_channel[count]->setVolume(volume + 0.5f / 150); // 현재 볼륨에서 천천히 음량을 높인다.
 							}
 						}
 					}
@@ -262,6 +276,9 @@ void soundManager::FadeInBGM()
 
 }
 
+/// <summary>
+/// BGM 페이드 아웃
+/// </summary>
 void soundManager::FadeOutBGM()
 {
 	int count = 0;
@@ -299,7 +316,7 @@ void soundManager::FadeOutBGM()
 
 					if (volume > 0)
 					{
-						_channel[count]->setVolume(volume - 0.5f / 150);
+						_channel[count]->setVolume(volume - 0.5f / 150); // 현재 볼륨에서 천천히 음량을 줄인다.
 					}
 				}
 			}

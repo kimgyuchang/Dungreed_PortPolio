@@ -18,7 +18,7 @@ HRESULT Minotaurs::init(int id, string name, OBJECTTYPE type, vector<string> img
 	_moveSpeed = 10;
 	_gravity = 10.0f;
 	_isLeft = _isAttack = _isDash = false;
-	_Damage = 14;
+	_damage = 14;
 	_attackAnimFrame = vector<int>{ 3,3,30,5,5,5,5 };
 	_MoveAnimFrame = vector<int>{ 3,3,3,30,5,5,5,5 };
 	_dashEffect = nullptr;
@@ -286,7 +286,7 @@ void Minotaurs::Animation()
 						RECT temp;
 						if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_body))
 						{
-							ENTITYMANAGER->getPlayer()->GetHitDamage(_Damage);
+							ENTITYMANAGER->getPlayer()->GetHitDamage(_damage);
 						}
 					}
 					if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -310,7 +310,7 @@ void Minotaurs::Animation()
 						RECT temp;
 						if (IntersectRect(&temp, &ENTITYMANAGER->getPlayer()->GetBody(), &_body))
 						{
-							ENTITYMANAGER->getPlayer()->GetHitDamage(_Damage);
+							ENTITYMANAGER->getPlayer()->GetHitDamage(_damage);
 						}
 					}
 					if (_frameX < 0)

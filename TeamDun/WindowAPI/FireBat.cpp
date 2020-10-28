@@ -10,7 +10,7 @@ HRESULT FireBat::init(int id, string name, OBJECTTYPE type, vector<string> imgNa
 	_initHp = _hp = 30;
 	_attackCoolTime = 200 + RANDOM->range(150);
 	_fireAngle = 0;
-	_Damage = 10;
+	_damage = 10;
 	return S_OK;
 }
 
@@ -201,19 +201,19 @@ void FireBat::Animation()
 				if (_frameX == 3)
 				{
 					ENTITYMANAGER->makeBullet("FireBatBullet0", "IceBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle - PI / 6, _Damage,
+						_fireAngle - PI / 6, _damage,
 						6, 1000, true, _fireAngle - PI / 12 ,BST_SLOW);
 					ENTITYMANAGER->makeBullet("FireBatBullet0", "IceBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle - PI / 12, _Damage,
+						_fireAngle - PI / 12, _damage,
 						6, 1000, true, _fireAngle - PI / 12, BST_SLOW);
 					ENTITYMANAGER->makeBullet("FireBatBullet0", "IceBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle, _Damage,
+						_fireAngle, _damage,
 						6, 1000, true, _fireAngle, BST_SLOW);
 					ENTITYMANAGER->makeBullet("FireBatBullet0", "IceBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle + PI / 12, _Damage,
+						_fireAngle + PI / 12, _damage,
 						6, 1000, true, _fireAngle + PI / 12, BST_SLOW);
 					ENTITYMANAGER->makeBullet("FireBatBullet0", "IceBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle + PI / 6, _Damage,
+						_fireAngle + PI / 6, _damage,
 						6, 1000, true, _fireAngle + PI / 12, BST_SLOW);
 
 				}
@@ -240,19 +240,19 @@ void FireBat::Animation()
 				if (_frameX == _vImages[_useImage]->getMaxFrameX() - 3)
 				{
 					ENTITYMANAGER->makeBullet("FireBatBullet0", "IceBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle - PI / 6, _Damage,
+						_fireAngle - PI / 6, _damage,
 						6, 1000, true, _fireAngle - PI / 12, BST_SLOW);
 					ENTITYMANAGER->makeBullet("FireBatBullet0", "IceBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle - PI / 12, _Damage,
+						_fireAngle - PI / 12, _damage,
 						6, 1000, true, _fireAngle - PI / 12, BST_SLOW);
 					ENTITYMANAGER->makeBullet("FireBatBullet0", "IceBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle, _Damage,
+						_fireAngle, _damage,
 						6, 1000, true, _fireAngle, BST_SLOW);
 					ENTITYMANAGER->makeBullet("FireBatBullet0", "IceBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle + PI / 12, _Damage,
+						_fireAngle + PI / 12, _damage,
 						6, 1000, true, _fireAngle + PI / 12, BST_SLOW);
 					ENTITYMANAGER->makeBullet("FireBatBullet0", "IceBulletHit", BT_NOMAL, _x + _vImages[_useImage]->getFrameWidth() / 2 - 20, _y + _vImages[_useImage]->getFrameHeight() / 2 - 20,
-						_fireAngle + PI / 6, _Damage,
+						_fireAngle + PI / 6, _damage,
 						6, 1000, true, _fireAngle + PI / 12, BST_SLOW);
 
 				}

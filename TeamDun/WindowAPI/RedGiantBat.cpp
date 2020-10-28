@@ -12,7 +12,7 @@ HRESULT RedGiantBat::init(int id, string name, OBJECTTYPE type, vector<string> i
 	_ReadyBulletTime = 0;
 	_bulletCount = 0;
 	_initHp = _hp = 80;
-	_Damage = 10;
+	_damage = 10;
 	_body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight());
 	_attackCoolTime = 150 + RANDOM->range(100);
 	_angle = 0;
@@ -96,7 +96,7 @@ void RedGiantBat::Attack()
 			image* ig = _vImages[_useImage];
 			_ReadyBulletTime = 0;
 			Bullet* bullet = ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x+ig->getFrameWidth()/2-20, _y+ig->getFrameHeight()/2-20,
-				_angle,_Damage, 10, 1500, true);
+				_angle,_damage, 10, 1500, true);
 			_vBatBullet.push_back(bullet);
 			_angle += PI / 9;
 		}

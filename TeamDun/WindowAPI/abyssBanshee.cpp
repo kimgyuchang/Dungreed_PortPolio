@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "Banshee.h"
+#include "abyssBanshee.h"
 
-HRESULT Banshee::init(int id, string name, OBJECTTYPE type, vector<string> imgNames)
+HRESULT AbyssBanshee::init(int id, string name, OBJECTTYPE type, vector<string> imgNames)
 {
 	Enemy::init(id, name, type, imgNames);
 	_state = ES_IDLE;
 	_stateTimer = 0;
-	_damage = 8;
+	_damage = 12;
 	_isAtk = false;
 	_initHp = _hp = 50;
 	_attackCoolTime = RANDOM->range(200) + 250;
 	return S_OK;
 }
 
-void Banshee::update()
+void AbyssBanshee::update()
 {
 	Enemy::update();
 
@@ -26,11 +26,11 @@ void Banshee::update()
 	}
 }
 
-void Banshee::release()
+void AbyssBanshee::release()
 {
 }
 
-void Banshee::render(HDC hdc)
+void AbyssBanshee::render(HDC hdc)
 {
 	if (_isSpawned)
 	{
@@ -38,11 +38,14 @@ void Banshee::render(HDC hdc)
 	}
 }
 
-void Banshee::Attack()
+void AbyssBanshee::Attack()
 {
 	if (!_isAtk)
 	{
 		_attackCoolTime--;
+
+		if (_attackCoolTime == 100) CheckNewPos();
+
 		if (_attackCoolTime < 0)
 		{
 			_attackCoolTime = RANDOM->range(200) + 250;
@@ -64,7 +67,30 @@ void Banshee::Attack()
 	}
 }
 
-void Banshee::Animation()
+/// <summary>
+/// 새로운 위치를 정해준다.
+/// </summary>
+void AbyssBanshee::CheckNewPos()
+{
+	while (true)
+	{
+		_x = RANDOM->range(MAPMANAGER->GetPlayMap()->GetMapSizeX() * 48);
+		_y = RANDOM->range(MAPMANAGER->GetPlayMap()->GetMapSizeY() * 48);
+		_body = RectMake(_x, _y, _vImages[_useImage]->getFrameWidth(), _vImages[_useImage]->getFrameHeight());
+
+		COLORREF color1 = GetFastPixel(MAPMANAGER->GetPixelGetter(), _body.left, _body.top);
+		COLORREF color2 = GetFastPixel(MAPMANAGER->GetPixelGetter(), _body.left, _body.bottom);
+		COLORREF color3 = GetFastPixel(MAPMANAGER->GetPixelGetter(), _body.right, _body.top);
+		COLORREF color4 = GetFastPixel(MAPMANAGER->GetPixelGetter(), _body.right, _body.bottom);
+		
+		if (color1 != RGB(255, 0, 0) && color2 != RGB(255, 0, 0) && color3 != RGB(255, 0, 0) && color4 != RGB(255, 0, 0))
+		{
+			break;
+		}
+	}
+}
+
+void AbyssBanshee::Animation()
 {
 	switch (_state)
 	{
@@ -92,30 +118,23 @@ void Banshee::Animation()
 			_frameY = 1;
 			if (_count % 5 == 0)
 			{
-
 				_frameX--;
-
 				if (_frameX < 0)
 				{
 					_frameX = _vImages[_useImage]->getMaxFrameX();
 				}
 			}
 		}
-
 		break;
 	case ES_MOVE:
 		_useImage = 0;
 		if (_isLeft)
 		{
-
 			_count++;
-
 			_frameY = 0;
 			if (_count % 5 == 0)
 			{
-
 				_frameX++;
-
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
 				{
 					_frameX = 0;
@@ -125,11 +144,9 @@ void Banshee::Animation()
 		else
 		{
 			_count++;
-
 			_frameY = 1;
 			if (_count % 5 == 0)
 			{
-
 				_frameX--;
 
 				if (_frameX < 0)
@@ -138,14 +155,11 @@ void Banshee::Animation()
 				}
 			}
 		}
-
 		break;
 	case ES_ATTACK:
-
 		if (_leftAtk)
 		{
 			_count++;
-
 			_frameY = 0;
 			if (_count % 10 == 0)
 			{
@@ -153,13 +167,12 @@ void Banshee::Animation()
 				if (_frameX == _vImages[_useImage]->getMaxFrameX() / 2)
 				{
 					for (int i = 0; i < 12; i++)
-						ENTITYMANAGER->makeBullet("BansheeBulletIdle", "BansheeBulletHit", BT_NOCOL, _x, _y, PI / 6 * i,_damage,
+						ENTITYMANAGER->makeBullet("BansheeBulletIdle", "BansheeBulletHit", BT_NOCOL, _x, _y, PI / 6 * i, _damage,
 							4, 1000, true);
 				}
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
 				{
 					_frameX = 0;
-
 					_state = ES_IDLE;
 					_isAtk = false;
 				}
@@ -168,16 +181,14 @@ void Banshee::Animation()
 		else
 		{
 			_count++;
-
 			_frameY = 1;
 			if (_count % 10 == 0)
 			{
-
 				_frameX--;
 				if (_frameX == _vImages[_useImage]->getMaxFrameX() / 2)
 				{
-					for(int i = 0 ;i < 12 ; i++)
-					ENTITYMANAGER->makeBullet("BansheeBulletIdle", "BansheeBulletHit", BT_NOCOL , _x , _y,PI/6*i ,_damage, 4, 1000 , true);
+					for (int i = 0; i < 12; i++)
+						ENTITYMANAGER->makeBullet("BansheeBulletIdle", "BansheeBulletHit", BT_NOCOL, _x, _y, PI / 6 * i, _damage, 4, 1000, true);
 				}
 				if (_frameX < 0)
 				{

@@ -12,7 +12,7 @@ class UIManager : public singletonBase<UIManager>
 {
 
 public :
-	UIFrame*			_GameFrame;		// 예시용
+	UIFrame*	_GameFrame;		// 예시용
 
 public :
 	HRESULT init();

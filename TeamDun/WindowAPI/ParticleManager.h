@@ -19,7 +19,6 @@ public:
 	virtual void render(HDC hdc);
 
 	// 실질적인 파티클 생성기의 초기화
-	
 	void AddGenerator(ParticleGenerator* gen);
 	particle* AddNewParticle();
 	

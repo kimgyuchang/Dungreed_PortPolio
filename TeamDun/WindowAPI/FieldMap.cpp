@@ -105,13 +105,17 @@ void FieldMap::LoadObject()
 		case 1500:// 큰 해골
 			obj = new BigWhiteSkel(*dynamic_cast<BigWhiteSkel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
 		case 1501:// 미노타우르스
 			obj = new Minotaurs(*dynamic_cast<Minotaurs*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
+		case 701: // 어비스 밴시
+			obj = new AbyssBanshee(*dynamic_cast<AbyssBanshee*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
 		case 702: // 붉은 박쥐
 			obj = new RedBat(*dynamic_cast<RedBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
+			break;
+		case 703: // 보라 박쥐
+			obj = new PurpleBat(*dynamic_cast<PurpleBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
 		case 704: // 얼음 박쥐
 			obj = new IceBat(*dynamic_cast<IceBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
@@ -119,31 +123,24 @@ void FieldMap::LoadObject()
 		case 705: // 불 박쥐
 			obj = new FireBat(*dynamic_cast<FireBat*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
 		case 2000: // 벨리알
 			obj = new Belial(*dynamic_cast<Belial*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
 		case 1504: // 서큐버스
 			obj = new Lilith(*dynamic_cast<Lilith*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
 		case 1505: // 작은 유령
 			obj = new LittleGhost(*dynamic_cast<LittleGhost*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
 		case 1506:// 해골 강아지
 			obj = new SkelDog(*dynamic_cast<SkelDog*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
 		case 1507:// 칼 해골
 			obj = new SwordSkel(*dynamic_cast<SwordSkel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
 		case 1508:// 활 해골
 			obj = new BowSkel(*dynamic_cast<BowSkel*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
 		case 1502: // 밴시
 			obj = new Banshee(*dynamic_cast<Banshee*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
@@ -156,19 +153,15 @@ void FieldMap::LoadObject()
 		case 514: // 문 왼쪽
 			obj = new Door(*dynamic_cast<Door*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
 		case 515: // 문 오른쪽
 			obj = new Door(*dynamic_cast<Door*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
 		case 516: // 문 위쪽
 			obj = new Door(*dynamic_cast<Door*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
 		case 517: // 문 아래쪽
 			obj = new Door(*dynamic_cast<Door*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
-
 		case 2500: // 몬스터 스포너
 			obj = new MonsterSpawner(*dynamic_cast<MonsterSpawner*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			break;
@@ -200,7 +193,6 @@ void FieldMap::LoadObject()
 			dynamic_cast<Portal*>(obj)->initSecond();
 			_portal = dynamic_cast<Portal*>(obj);
 			break;
-
 		case 2: // 전설상자
 			obj = new Treasure(*dynamic_cast<Treasure*>(DATAMANAGER->GetObjectById(stoi(objData[i][0]))));
 			dynamic_cast<Treasure*>(obj)->initSecond();

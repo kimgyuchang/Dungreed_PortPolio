@@ -65,3 +65,5 @@
 #include "RampageWpn.h"
 #include "Canon.h"
 #include "Rifle.h"
+#include "PurpleBat.h"
+#include "abyssBanshee.h"

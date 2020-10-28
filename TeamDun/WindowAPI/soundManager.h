@@ -1,16 +1,15 @@
 #pragma once
 #include "singletonBase.h"
-/*FMOD 사용하기 위해 라이브러리 추가*/
 #include "FMOD/inc/fmod.hpp"
 #pragma comment (lib, "FMOD/lib/fmodex_vc.lib")
 using namespace FMOD;
-//=============================================================
-//	## soundManager ## (사운드 매니져)
-//=============================================================
 
-//사용할 사운드버퍼 (사운드갯수가 30개 넘어가면 크기를 더 늘려줘야 한다)
+//사용할 사운드버퍼, 여유롭게 사용해줘야 함
 #define SOUNDBUFFER 450
 
+/// <summary>
+/// 사운드를 관리하는 사운드매니저, FMOD를 사용.
+/// </summary>
 class soundManager : public singletonBase <soundManager>
 {
 private:
@@ -18,39 +17,31 @@ private:
 	typedef map<string, Sound**>::iterator arrSoundIter;
 
 private:
-	System* _system;		//시스템 클래스
-	Sound** _sound;			//사운드 클래스
-	Channel** _channel;		//채널 클래스
+	System*			_system;		//시스템 클래스
+	Sound**			_sound;			//사운드 클래스
+	Channel**		_channel;		//채널 클래스
 
-	arrSound _mTotalSound;	//맵에 담아둘 사운드들
+	arrSound		_mTotalSound;	//맵에 담아둘 사운드들
 
-	vector<string> _vStarts;	// 재생 대기중인 애들
-	vector<string> _bgmStrings;	// BGM 스트링 목록
-	int	_fadeOutCount;
-	int _fadeInCount;
+	vector<string>	_vStarts;		// 재생 대기중인 애들
+	vector<string>	_bgmStrings;	// BGM 스트링 목록
+	int				_fadeOutCount;	// 페이드 아웃 카운트
+	int				_fadeInCount;	// 페이드 인 카운트
 public:
+
+	// 기본 //
 	HRESULT init();
 	void release();
 	void update();
 
-	//사운드 추가 (키값, 파일이름, BGM?, 루프시킬거냐)
+	// 기능 //
 	void addSound(string keyName, string soundName, bool bgm = false, bool loop = false);
-
 	void play(string keyName, float volume = 0.5f, bool useOverlapVolumeDown = false, bool useFadeIn = true);
-
-
-	//사운드 정지
 	void stop(string keyName);
-	//사운드 일시정지
 	void pause(string keyName);
-	//사운드 다시재생
 	void resume(string keyName);
-
-	//플레이 중이냐?
 	bool isPlaySound(string keyName);
-	//일시정지 중이냐?
 	bool isPauseSound(string keyName);
-
 	void StopAllBGM(bool useFadeIN = true);
 	void FadeInBGM();
 	void FadeOutBGM();

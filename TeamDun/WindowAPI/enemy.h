@@ -9,7 +9,7 @@ enum ENEMYSTATE {
 class Enemy : public Object
 {
 protected:
-	int				_Damage;				// 최종 데미지
+	int				_damage;				// 최종 데미지
 	int				_minDamage;				// 최소 데미지
 	int				_maxDamage;				// 최대 데미지
 	int				_power;					// 위력

@@ -11,7 +11,7 @@ HRESULT Lilith::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_isLeft = _isAttack = false;
 	_isHit = false;
 	_hitCount = 0;
-	_Damage = 10;
+	_damage = 10;
 	return S_OK;
 }
 
@@ -53,7 +53,7 @@ void Lilith::update()
 			{
 				if (_isHit == false)
 				{
-					ENTITYMANAGER->getPlayer()->GetHitDamage(_Damage);
+					ENTITYMANAGER->getPlayer()->GetHitDamage(_damage);
 					ENTITYMANAGER->getPlayer()->SetIsStun(true);
 					_state = ES_ATTACK;
 					_isAttack = true;

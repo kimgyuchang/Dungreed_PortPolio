@@ -444,6 +444,12 @@
     <ClCompile Include="Rifle.cpp">
       <Filter>MainGame\Item\Items\Weapon\Range</Filter>
     </ClCompile>
+    <ClCompile Include="PurpleBat.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="abyssBanshee.cpp">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -803,6 +809,12 @@
     </ClInclude>
     <ClInclude Include="Rifle.h">
       <Filter>MainGame\Item\Items\Weapon\Range</Filter>
+    </ClInclude>
+    <ClInclude Include="PurpleBat.h">
+      <Filter>MainGame\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="abyssBanshee.h">
+      <Filter>MainGame\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

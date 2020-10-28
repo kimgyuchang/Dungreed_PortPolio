@@ -11,7 +11,7 @@ HRESULT LittleGhost::init(int id, string name, OBJECTTYPE type, vector<string> i
 	_frameX, _frameY = 0;
 	_initHp = _hp = 15;
 	_realMoveX, _realMoveY = 0;
-	_Damage = 5;
+	_damage = 5;
 	_isLeft = false;
 	_isAtk = false;
 	_attackCoolTime = RANDOM->range(20) + 20;
@@ -61,7 +61,7 @@ void LittleGhost::update()
 				_isAtk = true;
 				if (IntersectRect(&temp,&ENTITYMANAGER->getPlayer()->GetBody(),&_body))
 				{
-					ENTITYMANAGER->getPlayer()->GetHitDamage(_Damage);
+					ENTITYMANAGER->getPlayer()->GetHitDamage(_damage);
 				} 
 			}
 			this->Attack();

@@ -15,7 +15,7 @@ HRESULT BowSkel::init(int id, string name, OBJECTTYPE type, vector<string> imgNa
 	_skelBow.angle = 0.f;
 	_attackCoolTime = 150 + RANDOM->range(200);
 
-	_Damage = 10;
+	_damage = 10;
 	return S_OK;
 }
 
@@ -111,7 +111,7 @@ void BowSkel::Animation()
 			{
 				SOUNDMANAGER->play("무기_활발사");
 				Bullet* bullet = ENTITYMANAGER->makeBullet("SkelArrow", "BulletEffect01", BT_NOMAL, _x, _y+20,
-					_skelBow.angle,_Damage,10, 1000, true ,_skelBow.angle);
+					_skelBow.angle,_damage,10, 1000, true ,_skelBow.angle);
 				bullet->SetUseTraceParticle(true);
 			}
 			if (_skelBow.frameX > _skelBow.bowIg->getMaxFrameX())

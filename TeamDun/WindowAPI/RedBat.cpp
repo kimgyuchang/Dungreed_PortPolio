@@ -10,7 +10,7 @@ HRESULT RedBat::init(int id, string name, OBJECTTYPE type, vector<string> imgNam
 	_initHp = _hp = 30;
 	_attackCoolTime = 200 + RANDOM->range(150);
 
-	_Damage = 10;
+	_damage = 10;
 	return S_OK;
 }
 
@@ -200,7 +200,7 @@ void RedBat::Animation()
 
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit",BT_NOMAL ,_x, _y,
 						getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y),
-							CAMERAMANAGER->GetRelativeX(ENTITYMANAGER->getPlayer()->GetX()),  CAMERAMANAGER->GetRelativeY(ENTITYMANAGER->getPlayer()->GetY())), _Damage,
+							CAMERAMANAGER->GetRelativeX(ENTITYMANAGER->getPlayer()->GetX()),  CAMERAMANAGER->GetRelativeY(ENTITYMANAGER->getPlayer()->GetY())), _damage,
 						10, 1000, true);
 				}
 				if (_frameX > _vImages[_useImage]->getMaxFrameX())
@@ -226,7 +226,7 @@ void RedBat::Animation()
 
 					ENTITYMANAGER->makeBullet("BatBullet", "BatBulletHit", BT_NOMAL, _x, _y,
 						getAngle(CAMERAMANAGER->GetRelativeX(_x), CAMERAMANAGER->GetRelativeY(_y),
-							CAMERAMANAGER->GetRelativeX(ENTITYMANAGER->getPlayer()->GetX() ), CAMERAMANAGER->GetRelativeY(ENTITYMANAGER->getPlayer()->GetY())),_Damage,
+							CAMERAMANAGER->GetRelativeX(ENTITYMANAGER->getPlayer()->GetX() ), CAMERAMANAGER->GetRelativeY(ENTITYMANAGER->getPlayer()->GetY())),_damage,
 						10, 1000, true);
 				}
 				if (_frameX < 0)
