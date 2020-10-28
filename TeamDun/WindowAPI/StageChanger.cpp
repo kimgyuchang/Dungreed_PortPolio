@@ -46,7 +46,7 @@ void StageChanger::fadeInOut()
 				_changerAlpha = 255;
 				_waitTime = 50;
 				_updown = -_updown;
-				MAPMANAGER->AddStage(_stage);
+				MAPMANAGER->MoveStage(_stage);
 				MAPMANAGER->ChangeMap(0);
 				MAPMANAGER->GetPlayMap()->ChangePlayerByDirection(DIRECTION::DIR_RIGHT);
 				

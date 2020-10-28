@@ -10,6 +10,7 @@ public:
 	virtual void	update();
 	virtual	void	release();
 	virtual void	render(HDC hdc);
+	void CheckEscapePressed();
 	virtual void	Activate();
 	virtual void	Animation();
 

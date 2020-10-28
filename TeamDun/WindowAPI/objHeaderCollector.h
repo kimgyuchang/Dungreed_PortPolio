@@ -63,3 +63,4 @@
 #include "PrevDoor.h"
 #include "MovePositioner.h"
 #include "Canon.h"
+#include "Rifle.h"

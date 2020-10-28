@@ -111,6 +111,18 @@ void Restaurant::update()
 			if (_foodMoveAnimOn) MoveFood();
 		}
 		MoveUI();
+		EscapeChecker();
+	}
+}
+
+void Restaurant::EscapeChecker()
+{
+	if (INPUT->GetIsEscapeKeyPressed())
+	{
+		ReNewUI();
+		_isActivating = false;
+		_restaurantBase->SetIsViewing(false);
+		UIMANAGER->GetGameFrame()->GetChild("_foodImg")->SetIsViewing(false);
 	}
 }
 
@@ -516,7 +528,7 @@ void Restaurant::SetRestaurantFood()
 			food->_vStatusType.push_back(FOODSTATUSTYPE::FST_ROOMSATIATION);
 			food->_vStatusNum.push_back(1);
 			food->_price = food->_vHealPer[0] * 50 + 1000;
-			food->_satiation = RANDOM->range(55,68);
+			food->_satiation = RANDOM->range(55, 68);
 			food->_img = IMAGEMANAGER->findImage("22_SmokedSalmon");
 			food->_imgName = "22_SmokedSalmon";
 			food->_soundName = "NPC_·¹½ºÅä¶û_­h";
@@ -718,7 +730,7 @@ void Restaurant::BuyFood(Food* food, int index)
 			case FST_MAXACCSLOT: {
 				p->SetAccesoryCount(p->GetAccesoryCount() + 1);
 				p->SetFoodAccsCount(p->GetFoodAccsCount() + 1);
-				p->GetInventory()->SetInventoryAccesoryUI(); 
+				p->GetInventory()->SetInventoryAccesoryUI();
 				p->GetInventory()->ReloadUIImages();
 				break;
 			}
@@ -822,7 +834,7 @@ void Restaurant::ReNewUI()
 				_foodFrame->AddFrame(life);
 
 				UIText* foodSatiation = new UIText();
-				foodSatiation->init("foodSatiation", -100, 90, 500, 500, (to_string_with_precision((ENTITYMANAGER->getPlayer()->GetSpecialAbilityOn(4, 2) ? _vFoods[i]->_satiation * 0.9f : _vFoods[i]->_satiation),0)),
+				foodSatiation->init("foodSatiation", -100, 90, 500, 500, (to_string_with_precision((ENTITYMANAGER->getPlayer()->GetSpecialAbilityOn(4, 2) ? _vFoods[i]->_satiation * 0.9f : _vFoods[i]->_satiation), 0)),
 					FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_RIGHT, RGB(0, 255, 0));
 				_foodFrame->AddFrame(foodSatiation);
 

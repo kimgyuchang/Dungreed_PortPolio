@@ -215,9 +215,6 @@ HRESULT Player::init()
 	_inven->AddItem(DATAMANAGER->GetItemById(4000));
 	_inven->AddItem(DATAMANAGER->GetItemById(4001));
 	_inven->AddItem(DATAMANAGER->GetItemById(4006));
-	_inven->AddItem(DATAMANAGER->GetItemById(4500));
-	_inven->AddItem(DATAMANAGER->GetItemById(4018));
-	_inven->AddItem(DATAMANAGER->GetItemById(4005));
 	_inven->AddItem(DATAMANAGER->GetItemById(4025));
 	_inven->AddItem(DATAMANAGER->GetItemById(4028));
 	_inven->AddItem(DATAMANAGER->GetItemById(4029));
@@ -225,6 +222,7 @@ HRESULT Player::init()
 	_inven->AddItem(DATAMANAGER->GetItemById(4021));
 	_inven->AddItem(DATAMANAGER->GetItemById(4026));
 	_inven->AddItem(DATAMANAGER->GetItemById(5200));
+	_inven->AddItem(DATAMANAGER->GetItemById(4031));
 
 	return S_OK;
 }
@@ -930,7 +928,6 @@ void Player::SpecialAtkSpeedUp()
 
 void Player::SetHpUI()
 {
-	//if (INPUT->GetKeyDown('H')) _hp--;
 	UIProgressBar* bar = dynamic_cast<UIProgressBar*>(_hpFrame->GetChild("hpBarPros"));
 	bar->FillCheck(_maxHp, _hp);
 	float fillPercent = (float)_hp / _maxHp;
