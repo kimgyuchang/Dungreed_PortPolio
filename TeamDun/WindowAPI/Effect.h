@@ -21,8 +21,9 @@ private :
 	bool	_useCamera;
 	bool	_isFirstViewing;
 	bool	_hitObj;
+	bool	_isCenter;
 public :
-	HRESULT init(float x, float y, string imgName, int animSpeed, int frameX = 0, int frameY = 0, bool isLoop = false, int alpha = 255, float angle = 0, float scaleX = 1, float scaleY = 1, bool isAlpha = false, bool useCamera = false, bool isFirstViewing = true ,string effectSound = "" , float damage = 0);
+	HRESULT init(float x, float y, string imgName, int animSpeed, int frameX = 0, int frameY = 0, bool isLoop = false, int alpha = 255, float angle = 0, float scaleX = 1, float scaleY = 1, bool isAlpha = false, bool useCamera = false, bool isFirstViewing = true ,string effectSound = "" , float damage = 0 , bool isCenter = false);
 	void update();
 	void release();
 	void render(HDC hdc);

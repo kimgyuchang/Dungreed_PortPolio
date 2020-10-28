@@ -435,6 +435,9 @@
     <ClCompile Include="MovePositioner.cpp">
       <Filter>MainGame\Object\Etc</Filter>
     </ClCompile>
+    <ClCompile Include="Canon.cpp">
+      <Filter>MainGame\Item\Items\Weapon\Range</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameNode.h">
@@ -785,6 +788,9 @@
     </ClInclude>
     <ClInclude Include="MovePositioner.h">
       <Filter>MainGame\Object\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Canon.h">
+      <Filter>MainGame\Item\Items\Weapon\Range</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

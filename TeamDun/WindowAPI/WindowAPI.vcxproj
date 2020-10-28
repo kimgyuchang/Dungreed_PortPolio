@@ -170,6 +170,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="cameraText.h" />
+    <ClInclude Include="Canon.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Colt.h" />
     <ClInclude Include="commonMacroFunction.h" />
@@ -289,6 +290,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="cameraText.cpp" />
+    <ClCompile Include="Canon.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Colt.cpp" />
     <ClCompile Include="CSVManager.cpp" />

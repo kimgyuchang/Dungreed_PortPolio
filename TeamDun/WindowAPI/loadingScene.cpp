@@ -1027,6 +1027,9 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("MultiBullet", "Images/item/MultiBullet.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Lala'sMagicWand_inven", "Images/item/Lala'sMagicWand_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Lala'sMagicWand", "Images/item/Lala'sMagicWand.bmp", 70, 70, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Canon_drop", "Images/item/Canon_drop.bmp", 57, 30, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Canon_inven", "Images/item/Canon_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Canon", "Images/item/Canon.bmp", 63, 126,1,2, true, RGB(255, 0, 255));
 
 	// SKILL //
 	_loading->LoadNormalImage("Skill_lala", "Images/item/Skill_lala.bmp", 57, 57, true, RGB(255, 0, 255));
@@ -1054,6 +1057,7 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("StarBullet", "Images/item/StarBullet.bmp", 168, 39, 4,1, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("StarBulletFX", "Images/item/StarBulletFX.bmp", 777, 111, 7,1, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("StarBulletParticle", "Images/item/StarBulletParticle.bmp", 42, 39, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("SilverBullet", "Images/item/SilverBullet.bmp", 35, 35, true, RGB(255, 0, 255));
 
 	// EFFECT //
 	_loading->LoadFrameImage("monsterSpawnEffect", "Images/Etc/monsterSpawnEffect.bmp", 1302, 93, 14, 1, true, RGB(255, 0, 255));
