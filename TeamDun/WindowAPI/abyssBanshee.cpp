@@ -8,7 +8,7 @@ HRESULT AbyssBanshee::init(int id, string name, OBJECTTYPE type, vector<string> 
 	_stateTimer = 0;
 	_damage = 12;
 	_isAtk = false;
-	_initHp = _hp = 50;
+	_initHp = _hp = 100;
 	_attackCoolTime = RANDOM->range(200) + 250;
 	return S_OK;
 }
@@ -72,6 +72,8 @@ void AbyssBanshee::Attack()
 /// </summary>
 void AbyssBanshee::CheckNewPos()
 {
+	EFFECTMANAGER->AddEffect(_x + _vImages[0]->getFrameWidth() / 2 - IMAGEMANAGER->findImage("DieEffect")->getFrameWidth() / 2, _y + _vImages[0]->getFrameHeight() / 2 - IMAGEMANAGER->findImage("DieEffect")->getFrameHeight() / 2, "DieEffect", 3, 0, 0, false, 255, 0, 1, 1, false);
+
 	while (true)
 	{
 		_x = RANDOM->range(MAPMANAGER->GetPlayMap()->GetMapSizeX() * 48);
@@ -88,6 +90,8 @@ void AbyssBanshee::CheckNewPos()
 			break;
 		}
 	}
+	
+	EFFECTMANAGER->AddEffect(_x + _vImages[0]->getFrameWidth() / 2 - IMAGEMANAGER->findImage("DieEffect")->getFrameWidth() / 2, _y + _vImages[0]->getFrameHeight() / 2 - IMAGEMANAGER->findImage("DieEffect")->getFrameHeight() / 2, "DieEffect", 3, 0, 0, false, 255, 0, 1, 1, false);
 }
 
 void AbyssBanshee::Animation()

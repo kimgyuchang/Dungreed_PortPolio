@@ -50,15 +50,16 @@ protected:
 	bool					_useDebug;
 
 public:
+	// 기본 //
 	virtual HRESULT init(string name, float x, float y, float sizeX, float sizeY, string imageName, float scaleX = 1, float scaleY = 1);
 	virtual void render(HDC hdc);
 	virtual void update();
 	virtual void release();
 
+
 	virtual void AddChildMap(string name, UIFrame* frame) { _mChildFrames[name] = frame; } // 자식 목록 Map에 key = name, value = frame으로 넣는다.
 	virtual void ToggleIsViewing();
 	virtual void AddFrame(UIFrame* frame);
-	
 	void MoveFrame(); // 자식 포함 이동
 	void MoveFrameChild(float x, float y);
 	void CheckIsOutside();
@@ -69,33 +70,33 @@ public:
 	void OperateViewingTimer();
 	void SetViewingTimer(int timer) { _isSetTimer = true; _timer = timer; SetIsViewing(true);}
 
-	UIFrame* GetChild(string name) { return _mChildFrames[name]; }
-	void RemoveChild(string name) { _mChildFrames.erase(name); }
 
-	float GetX() { return _x; }
-	float GetY() { return _y; }
-	float GetSizeX() { return _sizeX; }
-	float GetSizeY() { return _sizeY; }
-	string GetName() { return _name; }
-	RECT GetRect() { return _interactRect; }
+	// GETSET //
+	UIFrame*	GetChild(string name) { return _mChildFrames[name]; }
+	void		RemoveChild(string name) { _mChildFrames.erase(name); }
+	float		GetX() { return _x; }
+	float		GetY() { return _y; }
+	float		GetSizeX() { return _sizeX; }
+	float		GetSizeY() { return _sizeY; }
+	string		GetName() { return _name; }
+	RECT		GetRect() { return _interactRect; }
+	image*		GetImage() { return _image; }
+	float		GetScaleX() { return _scaleX; }
+	float		GetScaleY() { return _scaleY; }
+	bool		GetIsOutside() { return _isOutside; }
+	bool		GetIsViewing() { return _isViewing; }
+	bool		GetUseOutsideLimit() { return _useOutsideLimit; }
+	bool		GetRenderBeforeParent() { return _renderBeforeParent; }
 	vector<UIFrame*>& GetVChildFrames() { return _vChildFrames; }
-	image* GetImage() { return _image; }
-	float GetScaleX() { return _scaleX; }
-	float GetScaleY() { return _scaleY; }
 
-	bool GetIsOutside() { return _isOutside; }
-	bool GetIsViewing() { return _isViewing; }
-	bool GetUseOutsideLimit() { return _useOutsideLimit; }
-	bool GetRenderBeforeParent() { return _renderBeforeParent; }
-
-	void SetX(int x) { _x = x; }
-	void SetY(int y) { _y = y; }
-	void SetIsViewing(bool isViewing, bool withChild = true);
-	void SetUseOutsideLimit(bool outside) { _useOutsideLimit = outside; }
-	void SetIsMoveToDrag(bool drag) { _isMoveToDrag = drag; }
-	void SetImage(image* target) { _image = target; }
-	void SetRenderBeforeParent(bool rbp) { _renderBeforeParent = rbp; }
-	void SetScaleX(float x) { _scaleX = x; }
-	void SetScaleY(float y) { _scaleY = y; }
-	void SetUseDebug(bool useDebug) { _useDebug = useDebug; }
+	void		SetX(int x) { _x = x; }
+	void		SetY(int y) { _y = y; }
+	void		SetIsViewing(bool isViewing, bool withChild = true);
+	void		SetUseOutsideLimit(bool outside) { _useOutsideLimit = outside; }
+	void		SetIsMoveToDrag(bool drag) { _isMoveToDrag = drag; }
+	void		SetImage(image* target) { _image = target; }
+	void		SetRenderBeforeParent(bool rbp) { _renderBeforeParent = rbp; }
+	void		SetScaleX(float x) { _scaleX = x; }
+	void		SetScaleY(float y) { _scaleY = y; }
+	void		SetUseDebug(bool useDebug) { _useDebug = useDebug; }
 };

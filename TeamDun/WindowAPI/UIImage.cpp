@@ -26,6 +26,9 @@ void UIImage::update()
 	Animation();
 }
 
+/// <summary>
+/// 프레임 애니메이션 재생
+/// </summary>
 void UIImage::Animation()
 {
 	if (_useFrameImage)
@@ -86,7 +89,7 @@ void UIImage::render(HDC hdc)
 						if (_scaleX == 1 && _scaleY == 1)
 							_image->render(hdc, _x, _y);
 						else
-							_image->stretchRender(hdc, _x, _y, _scaleX, _scaleY);
+							_image->stretchRender(hdc, _x, _y, _scaleX, _scaleY); 
 					}
 
 					else

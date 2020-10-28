@@ -33,7 +33,7 @@ void UIScroll::update()
 /// </summary>
 void UIScroll::MoveScrollBar()
 {
-	if (_isVertical)
+	if (_isVertical) // 세로 케이스
 	{
 		if (PtInRect(&_parent->GetRect(), _ptMouse)) // 부모 UI와 마우스가 겹친 상태에서
 		{
@@ -57,6 +57,7 @@ void UIScroll::MoveScrollBar()
 				{
 					_y = _parent->GetSizeY() + _parent->GetY() - _image->getHeight();
 				} // 범위 제약
+
 				SetIntersectRect();
 				CalculateScrollBarPercent();
 			}
@@ -71,7 +72,7 @@ void UIScroll::MoveScrollBar()
 		}
 	}
 	
-	else
+	else // 가로 케이스
 	{
 		if (PtInRect(&_parent->GetRect(), _ptMouse)) // 부모 UI와 마우스가 겹친 상태에서
 		{
@@ -116,7 +117,7 @@ void UIScroll::MoveScrollBar()
 /// </summary>
 void UIScroll::CalculateScrollBarPercent()
 {
-	if (_isVertical) 
+	if (_isVertical)  // 세로 케이스
 	{
 		float _prevScrollPercent = _scrollPercent;
 		_scrollPercent = (_y - _parent->GetY()) / (_parent->GetSizeY() - _image->getHeight()); // 비율 계산
@@ -143,7 +144,7 @@ void UIScroll::CalculateScrollBarPercent()
 		}
 	}
 	
-	else
+	else // 가로 케이스
 	{
 		float _prevScrollPercent = _scrollPercent;
 		_scrollPercent = (_x - _parent->GetX()) / (_parent->GetSizeX() - _image->getWidth());
