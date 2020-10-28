@@ -39,6 +39,7 @@ public :
 	void RenewCheckUI();
 	void CheckToSell();
 	void ActivateSell();
+	void EscapeChecker();
 	void BuyItem();
 };
 

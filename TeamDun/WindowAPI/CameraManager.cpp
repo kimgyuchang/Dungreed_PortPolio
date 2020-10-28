@@ -4,7 +4,6 @@
 
 HRESULT CameraManager::init(float pivotX, float pivotY, float maxX, float maxY, float minX, float minY, float disX, float disY)
 {
-
 	// MOVE //
 	_pivotX = pivotX;
 	_pivotY = pivotY;
@@ -26,8 +25,10 @@ HRESULT CameraManager::init(float pivotX, float pivotY, float maxX, float maxY, 
 	_shakeCycleTimer = 0;
 	_shakeCycle = 0;
 
+	// ZOOM //
 	_zoomTargetX = 0;
-	_zoomTargetY = 0;
+	_zoomTargetY = 0; 
+	// zoom 미사용
 
 	_cameraRect = RectMake(_pivotX - disX, _pivotY - disY, WINSIZEX, WINSIZEY);
 
@@ -39,6 +40,9 @@ void CameraManager::update()
 	Shaker();
 }
 
+/// <summary>
+/// x, y로 피벗을 움직이도록 하고, 이때 Camera가 제한을 넘지 못하도록 한다.
+/// </summary>
 void CameraManager::MovePivot(float x, float y)
 {
 	_pivotX = x;
@@ -46,6 +50,7 @@ void CameraManager::MovePivot(float x, float y)
 	_cameraRect = RectMake(_pivotX - _initDistanceX, _pivotY - _initDistanceY, WINSIZEX, WINSIZEY);
 	//_pivotX - _initDistanceX -> _initDistance = Pivot이 화면에서 표시될 위치, _pivotX = 현재 따라갈 X의 좌표
 	//_pivotX - _initDistanceX = _INITDISTANCE = WINSIZEX/2 , _PIVOTX = WINSIZEX/2 + 100
+	
 	if (_cameraRect.left <= _minX) // LEFT가 최소가 되면
 	{
 		_cameraRect.left = _minX; // 카메라 렉트를 최소에 맞춰준다
@@ -71,16 +76,22 @@ void CameraManager::MovePivot(float x, float y)
 	OffsetRect(&_cameraRect, _shakeX, _shakeY);
 }
 
-// MOVEPIVOTLERP :: 부드럽게 움직이게 한다
-	
+
+/// <summary>
+/// 카메라를 부드럽게 움직이게 한다.
+/// </summary>
 void CameraManager::MovePivotLerp(float x, float y, float lerpSpeed)
 {
 
 	MovePivot(
 		(x - _pivotX) / lerpSpeed + _pivotX,
-		(y - _pivotY) / lerpSpeed + _pivotY
+		(y - _pivotY) / lerpSpeed + _pivotY // lerp 속도에 맞춰 천천히 움직이도록 한다.
 	);
 }
+
+/// <summary>
+/// 일정한 속도로 카메라를 움직이도록 한다.
+/// </summary>
 void CameraManager::MovePivotRegular(float x, float y, float moveSpeed)
 {
 	int yDis = abs(y - _pivotY);
@@ -96,6 +107,9 @@ void CameraManager::MovePivotRegular(float x, float y, float moveSpeed)
 	);
 }
 
+/// <summary>
+/// 흔들림 지수를 정해준다.
+/// </summary>
 void CameraManager::Shake(float shakePowerX, float shakePowerY, int shakeTime, int shakeCycle)
 {
 	_shakePowerX = shakePowerX;
@@ -104,13 +118,16 @@ void CameraManager::Shake(float shakePowerX, float shakePowerY, int shakeTime, i
 	_shakeCycleTimer = _shakeCycle = shakeCycle;
 }
 
+/// <summary>
+/// 줌인 줌아웃을 실시한다 (버그)
+/// </summary>
 void CameraManager::ZoomInOut(HDC hdc, int destX, int destY, int sourX, int sourY, float scale)
 {
 	SetStretchBltMode(hdc, COLORONCOLOR);
 
 	if (scale < 0) scale = 0;
-
-	StretchBlt(
+	
+	StretchBlt( 
 		hdc,
 		GetRelativeX(_pivotX) + sourX - (WINSIZEX * scale/2), GetRelativeY(_pivotY) +sourY - (WINSIZEY * scale/2),
 		WINSIZEX * scale, WINSIZEY * scale,
@@ -121,6 +138,9 @@ void CameraManager::ZoomInOut(HDC hdc, int destX, int destY, int sourX, int sour
 	);
 }
 
+/// <summary>
+/// 매프레임 흔들림 적용
+/// </summary>
 void CameraManager::Shaker()
 {
 	if (_shakeTimer > 0)
@@ -148,7 +168,6 @@ void CameraManager::Shaker()
 
 				_tempShakeX = RANDOM->range(-_shakePowerX, _shakePowerX);
 				_tempShakeY = RANDOM->range(-_shakePowerY, _shakePowerY);
-
 			}
 			
 			_shakeCycleTimer = _shakeCycle;
@@ -171,8 +190,10 @@ void CameraManager::Shaker()
 	}
 }
 
+/// <summary>
+/// 렌더 관련
+/// </summary>
 
-//선 그리기
 void CameraManager::LineMake(HDC hdc, int startX, int startY, int endX, int endY)
 {
 	MoveToEx(hdc, GetRelativeX(startX), GetRelativeY(startY), NULL);
@@ -218,8 +239,6 @@ void CameraManager::alphaRender(HDC hdc, image* ig, int destX, int destY, int so
 {
 	ig->alphaRender(hdc, GetRelativeX(destX), GetRelativeY(destY), sourX,sourY,sourWidth,sourHeight , alpha, angle);
 }
-
-
 
 void CameraManager::FrameAlphaRender(HDC hdc, image* ig, int destX, int destY, int frameX, int frameY, BYTE alpha , float angle)
 {

@@ -1186,7 +1186,7 @@ void gameScene::update()
 
 	UpdateWardrobeUI();
 
-	if (INPUT->GetKeyDown('V'))
+	if (INPUT->GetKeyDown('V')) // 인벤토리 열기
 	{
 		SOUNDMANAGER->play("인벤토리열기");
 		UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->ToggleIsViewing();
@@ -1194,21 +1194,28 @@ void gameScene::update()
 		ENTITYMANAGER->getPlayer()->GetInventory()->EraseDragInfor();
 	}
 
-	if (INPUT->GetKeyDown('C'))
+	if (INPUT->GetKeyDown('C')) // 캐릭터창 열기
 	{
 		SOUNDMANAGER->play("인벤토리열기");
 		UIMANAGER->GetGameFrame()->GetChild("charFrame")->ToggleIsViewing();
 	}
 
-	if(_mouseWheel<0)
+	if (INPUT->GetIsEscapeKeyPressed()) // ESCAPE로 끄기
 	{
+		if (UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->GetIsViewing() || UIMANAGER->GetGameFrame()->GetChild("CheckTrash")->GetIsViewing())
+		{
+			SOUNDMANAGER->play("인벤토리열기");
+			UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->SetIsViewing(false);
+			UIMANAGER->GetGameFrame()->GetChild("CheckTrash")->SetIsViewing(false);
+			ENTITYMANAGER->getPlayer()->GetInventory()->EraseDragInfor();
+		}
+
+		if (UIMANAGER->GetGameFrame()->GetChild("charFrame")->GetIsViewing())
+		{
+			SOUNDMANAGER->play("인벤토리열기");
+			UIMANAGER->GetGameFrame()->GetChild("charFrame")->SetIsViewing(false);
+		}
 	}
-	//if (INPUT->GetKeyDown('O'))
-	//{
-	//	SOUNDMANAGER->play("인벤토리열기");
-	//	UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->ToggleIsViewing();
-	//	ENTITYMANAGER->getPlayer()->ReInitTraitUI();
-	//}
 }
 
 void gameScene::render()

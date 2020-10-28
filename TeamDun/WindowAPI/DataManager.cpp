@@ -61,96 +61,21 @@ void DataManager::GetObjectData()
 		else if (objData[i][2] == "Death")
 			type = OBJECTTYPE::OT_DEATH;
 
+		/// <summary>
+		/// 오브젝트를 추가하고 클래스를 따로 만들었다면 반드시 체크해야할 부분 (ID순)
+		/// </summary>
 		Object* obj;
 		switch (stoi(objData[i][0]))
 		{
-		case 1 : // 딸기 분수
-			obj = new StrawberryFountain();
-			break;
-		case 239: // 배고파 분수
-			obj = new HungryFountain();
-			break;
-		case 1500:// 큰 해골
-			obj = new BigWhiteSkel();
-			break;
-		case 1501:// 미노타우르스
-			obj = new Minotaurs();
-			break;
-		case 1504:// 서큐버스
-			obj = new Lilith();
-			break;
-		case 1505:// 작은 유령
-			obj = new LittleGhost();
-			break;
-		case 1506:// 해골 강아지
-			obj = new SkelDog();
-			break;
-		case 1507:// 칼 해골
-			obj = new SwordSkel();
-			break;
-		case 1508:// 활 해골
-			obj = new BowSkel();
-			break;
-		case 1502: // 밴시
-			obj = new Banshee();
-			break;
-		case 1509: // 빨간 큰 박쥐
-			obj = new RedGiantBat();
-			break;
-		case 1510: // 보라 큰 박쥐
-			obj = new PurpleGiantBat();
-			break;
-		case 702: // 붉은 박쥐
-			obj = new RedBat();
-			break;
-		case 704: // 얼음 박쥐
-			obj = new IceBat();
-			break;
-		case 705: // 불박쥐
-			obj = new FireBat();
-			break;
-		case 2000: // 벨리알
-			obj = new Belial();
-			break;
-		case 514: // 문 왼쪽
-			obj = new Door();
-			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_LEFT);
-			break;
-		case 515: // 문 오른쪽
-			obj = new Door();
-			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_RIGHT);
-			break;
-		case 516: // 문 위쪽
-			obj = new Door();
-			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_UP);
-			break;
-		case 517: // 문 아래쪽
-			obj = new Door();
-			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_DOWN);
-			break;
-		case 2500: // 몬스터 스포너
-			obj = new MonsterSpawner();
-			break;
-		case 2502: // 픽시 스포너
-			obj = new PixieSpawner();
-			break;
-		case 2503: // 상자 스포너
-			obj = new TreasureSpawner();
-			break;
-		case 10 : // 상점 주인
-			obj = new Shop();
-			break;
-		case 12 : // 밥 잘 파는 예쁜 누나
-			obj = new Restaurant();
-			break;
-		case 0 : // 포탈
-			obj = new Portal();
-			break;
-		case 2 : // 전설상자
+		case 0: // 포탈
+			obj = new Portal(); break;
+		case 1: // 딸기 분수
+			obj = new StrawberryFountain(); break;
+		case 2: // 전설상자
 			obj = new Treasure();
 			dynamic_cast<Treasure*>(obj)->SetTreasureType(TREASURETYPE::TST_LEGENDARY);
 			break;
-		case 3 : // 레어상자
+		case 3: // 레어상자
 			obj = new Treasure();
 			dynamic_cast<Treasure*>(obj)->SetTreasureType(TREASURETYPE::TST_BLUE);
 			break;
@@ -167,43 +92,32 @@ void DataManager::GetObjectData()
 			dynamic_cast<Treasure*>(obj)->SetTreasureType(TREASURETYPE::TST_GOLD);
 			break;
 		case 7: // 다음 스테이지 문
-			obj = new StageDoor();
-			break;
-			
-		case 524: // 동전
-			obj = new Coin();
-			break;
-
-		case 2501: // 마을 - 던전 포탈
-			obj = new WormVillage();
-			break;
-
+			obj = new StageDoor(); break;
+		case 10: // 상점 주인
+			obj = new Shop(); break;
+		case 12: // 밥 잘 파는 예쁜 누나
+			obj = new Restaurant(); break;
 		case 13: // 작은 픽시
 			obj = new HpPixie();
 			dynamic_cast<HpPixie*>(obj)->SetPixType(PIXIETYPE::SMALL);
 			break;
-
 		case 14: // 중간 픽시
 			obj = new HpPixie();
 			dynamic_cast<HpPixie*>(obj)->SetPixType(PIXIETYPE::MIDDLE);
 			break;
-
 		case 15: // 큰 픽시
 			obj = new HpPixie();
 			dynamic_cast<HpPixie*>(obj)->SetPixType(PIXIETYPE::LARGE);
 			break;
-
 		case 16: // 매우 큰 픽시
 			obj = new HpPixie();
 			dynamic_cast<HpPixie*>(obj)->SetPixType(PIXIETYPE::XLARGE);
 			break;
-
 		case 17: // 매우 큰 픽시
 			obj = new HpPixie();
 			dynamic_cast<HpPixie*>(obj)->SetPixType(PIXIETYPE::GREEN);
 			break;
-
-		case 100 : // 큰 박스
+		case 100: // 큰 박스
 			obj = new Box();
 			dynamic_cast<Box*>(obj)->SetBoxType(BOXTYPE::BOX_BIGBOX);
 			dynamic_cast<Box*>(obj)->SetParticle();
@@ -218,36 +132,82 @@ void DataManager::GetObjectData()
 			dynamic_cast<Box*>(obj)->SetBoxType(BOXTYPE::BOX_ORC);
 			dynamic_cast<Box*>(obj)->SetParticle();
 			break;
-		case 5000: // 밸리알 시체
-			obj = new BelialDie();
-			break;
 		case 230: // 피아트 - 마을 총기상점
-			obj = new GunShop();
-			break;
+			obj = new GunShop(); break;
 		case 231: // 카블로비나 - 훈련장 코치
-			obj = new Trainer();
-			break;
+			obj = new Trainer(); break;
 		case 232: // 블로슈 - 마을 의상실
-			obj = new Boutique();
-			break;
+			obj = new Boutique(); break;
 		case 234: // 하켄 - 마을 대장장이
-			obj = new Smith();
-			break;	
-		case 1000 : case 1001 : case 1002 : // 기어
-			obj = new Gear();
-			break;
-		case 1003: case 1004: // 가시
-			obj = new Spike();
-			break;
+			obj = new Smith(); break;
+		case 239: // 배고파 분수
+			obj = new HungryFountain(); break;
 		case 241: // 이전무
-			obj = new PrevDoor();
+			obj = new PrevDoor(); break;
+		case 514: // 문 왼쪽
+			obj = new Door();
+			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_LEFT);
 			break;
+		case 515: // 문 오른쪽
+			obj = new Door();
+			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_RIGHT);
+			break;
+		case 516: // 문 위쪽
+			obj = new Door();
+			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_UP);
+			break;
+		case 517: // 문 아래쪽
+			obj = new Door();
+			dynamic_cast<Door*>(obj)->SetDirection(DIRECTION::DIR_DOWN);
+			break;
+		case 524: // 동전
+			obj = new Coin(); break;
+		case 702: // 붉은 박쥐
+			obj = new RedBat(); break;
+		case 704: // 얼음 박쥐
+			obj = new IceBat(); break;
+		case 705: // 불박쥐
+			obj = new FireBat(); break;
+		case 1000: case 1001: case 1002: // 기어
+			obj = new Gear(); break;
+		case 1003: case 1004: // 가시
+			obj = new Spike(); break;
+		case 1500:// 큰 해골
+			obj = new BigWhiteSkel(); break;
+		case 1501:// 미노타우르스
+			obj = new Minotaurs(); break;
+		case 1502: // 밴시
+			obj = new Banshee(); break;
+		case 1504:// 서큐버스
+			obj = new Lilith(); break;
+		case 1505:// 작은 유령
+			obj = new LittleGhost(); break;
+		case 1506:// 해골 강아지
+			obj = new SkelDog();  break;
+		case 1507:// 칼 해골
+			obj = new SwordSkel(); break;
+		case 1508:// 활 해골
+			obj = new BowSkel(); break;
+		case 1509: // 빨간 큰 박쥐
+			obj = new RedGiantBat(); break;
+		case 1510: // 보라 큰 박쥐
+			obj = new PurpleGiantBat(); break;
+		case 2000: // 벨리알
+			obj = new Belial(); break;
+		case 2500: // 몬스터 스포너
+			obj = new MonsterSpawner(); break;
+		case 2501: // 마을 - 던전 포탈
+			obj = new WormVillage(); break;
+		case 2502: // 픽시 스포너
+			obj = new PixieSpawner(); break;
+		case 2503: // 상자 스포너
+			obj = new TreasureSpawner(); break;
 		case 2504: // 무브 포지셔너
-			obj = new MovePositioner();
-			break;
+			obj = new MovePositioner(); break;
+		case 5000: // 밸리알 시체
+			obj = new BelialDie(); break;
 		default:
-			obj = new Object();
-			break;
+			obj = new Object();  break;
 		}
 
 		obj->init(
@@ -257,8 +217,7 @@ void DataManager::GetObjectData()
 			vector<string>{objData[i][3], objData[i][4], objData[i][5] }
 		);
 
-		if (obj->GetType() == OT_OBSTACLE)
-			obj->SetRenderIndex(false);
+		if (obj->GetType() == OT_OBSTACLE) obj->SetRenderIndex(false); // 장애물은 렌더가 벽 뒤로 되도록 함
 
 		_mObjectData[stoi(objData[i][0])] = obj;
 	}
@@ -278,6 +237,9 @@ void DataManager::GetObjectData()
 	}
 }
 
+/// <summary>
+/// 아이템 데이터를 불러온다
+/// </summary>
 void DataManager::GetItemData()
 {
 	vector<vector<string>> itemData = CSVMANAGER->csvLoad("Data/ItemData.csv");
@@ -287,69 +249,52 @@ void DataManager::GetItemData()
 		if (i == 0) _itemMinId = stoi(itemData[i][0]);
 		if (i == itemData.size() - 1) _itemMaxId = stoi(itemData[i][0]);
 
+		/// <summary>
+		/// 아이템을 추가하고 클래스가 존재하면 이곳에 반드시 추가해준다! (ID순)
+		/// </summary>
 		Item* item;
 		switch (stoi(itemData[i][0]))
 		{
 		case 4000: // 마검 엘레마
-			item = new DemonSword();
-			break;
+			item = new DemonSword(); break;
 		case 4001: // 더콜트
-			item = new Colt();
-			break;
+			item = new Colt(); break;
 		case 4005: // 소르베오의피
-			item = new BloodOfSrobeo();
-			break;
+			item = new BloodOfSrobeo(); break;
 		case 4006: //폭탄주머니
-			item = new BombPouch();
-			break;
+			item = new BombPouch(); break;
 		case 4007: // 혈석 반지
-			item = new BloodStoneRing();
-			break;
+			item = new BloodStoneRing(); break;
 		case 4015: // 현자의 축복
-			item = new BlessOfSage();
-			break;
+			item = new BlessOfSage(); break;
 		case 4017: // 숏 소드
-			item = new BasicShortSword();
-			break;
+			item = new BasicShortSword(); break;
 		case 4100: // 떡갈나무활
-			item = new GreatBow();
-			break;
+			item = new GreatBow(); break;
 		case 4021: // 죽도
-			item = new BambooSword();
-			break;
+			item = new BambooSword(); break;
 		case 4023: // 카타나
-			item = new Katana();
-			break;
+			item = new Katana(); break;
 		case 4024: // 샴쉬르
-			item = new Shamshir();
-			break;
+			item = new Shamshir(); break;
 		case 4025: // 세이버
-			item = new Saber();
-			break;
-		case 4030: // 레이피어
-			item = new Rapier();
-			break;
-		case 4029: // 단창
-			item = new ShortSpear();
-			break;
-		case 4028: // 그웬돌린
-			item = new Gwendolyn();
-			break;
+			item = new Saber(); break;
 		case 4026: // 돋보기
-			item = new MagnifyingGlass();
-			break;
-		case 4140:
-			item = new LalaMagic();
-			break;
-		case 4500: // 골든캔디
-			item = new GoldenCandy();
-			break;
+			item = new MagnifyingGlass(); break;
+		case 4028: // 그웬돌린
+			item = new Gwendolyn(); break;
+		case 4029: // 단창
+			item = new ShortSpear(); break;
+		case 4030: // 레이피어
+			item = new Rapier(); break;
 		case 4031: // MT8 카빈
-			item = new Rifle();
-			break;
-		default:
-			item = new Item();
-			break;
+			item = new Rifle(); break;
+		case 4140:
+			item = new LalaMagic(); break;
+		case 4500: // 골든캔디
+			item = new GoldenCandy(); break;
+		default: // 기타
+			item = new Item(); break;
 		}
 
 		// 아이템 타입
@@ -370,42 +315,36 @@ void DataManager::GetItemData()
 		else if (itemData[i][2] == "카타나") weaponType = WEAPONTYPE::WT_KATANA;
 		else weaponType = WEAPONTYPE::WT_NOWEAPON;
 
+		// 아이템 클래스
 		ITEMCLASS itemClass = ITEMCLASS::IC_NORMAL;
 		if (itemData[i][6] == "일반") itemClass = ITEMCLASS::IC_NORMAL;
 		else if (itemData[i][6] == "고급") itemClass = ITEMCLASS::IC_ADVANCED;
 		else if (itemData[i][6] == "희귀") itemClass = ITEMCLASS::IC_RARE;
 		else if (itemData[i][6] == "전설") itemClass = ITEMCLASS::IC_LEGENDARY;
 
+		// 스킬 추가 (ID를 통해)
 		Skill* skill;
 		switch (stoi(itemData[i][3]))
 		{
-			// 위쪽으로 스킬 추가 (ID를 통해)
 		case 1: // 라라 (유성우)
 			skill = new LalaSkill();
 			skill->init();
 			break;
-		default :
+		default:
 			skill = nullptr;
 			break;
 		}
 
-		Bullet* bullet;
-		switch (stoi(itemData[i][14]))
-		{
-			// 위쪽으로 불릿 추가 (ID를 통해) 
-		default :
-			bullet = nullptr;
-			break;
-		}
-
+		// 아이템 초기화
 		item->init(stoi(itemData[i][0]), itemType, weaponType, skill,
 			itemData[i][4], itemData[i][5], itemClass, stof(itemData[i][7]), stof(itemData[i][8]),
 			stof(itemData[i][9]), stoi(itemData[i][10]), stoi(itemData[i][11]),
-			stoi(itemData[i][12]), stof(itemData[i][13]), bullet, stof(itemData[i][15]), stoi(itemData[i][16]),
+			stoi(itemData[i][12]), stof(itemData[i][13]), nullptr, stof(itemData[i][15]), stoi(itemData[i][16]),
 			stoi(itemData[i][17]), vector<string>{itemData[i][18], itemData[i][19], itemData[i][20]}, itemData[i][21], itemData[i][22]
 		);
 
-		for (int j = 0; j < 3; j++)
+		// 추가 옵션 파트
+		for (int j = 0; j < 3; j++) // CSV에서는 최대 3개지만, 클래스 내부의 init를 통해 얼마든지 추가할 수 있다.
 		{
 			if (itemData[i][23 + (j * 3)] != ".")
 			{
@@ -466,6 +405,9 @@ int	DataManager::GetItemSize()
 	return _mMapItemData.size();
 }
 
+/// <summary>
+/// index번째 아이템을 가져온다.
+/// </summary>
 Item* DataManager::GetItemByIndex(int index)
 {
 	map<int, Item*>::iterator iter;
@@ -475,18 +417,21 @@ Item* DataManager::GetItemByIndex(int index)
 		if (count == index) { return iter->second; }
 		count++;
 	}
-	
+
 	return nullptr;
 }
 
+/// <summary>
+/// ID를 통해 아이템을 가져온다.
+/// </summary>
 Item* DataManager::GetItemById(int id)
 {
 	Item* rtnItem;
 	switch (id)
 	{
-	case 4000 : // 마검 엘레마
-		return new DemonSword (*dynamic_cast<DemonSword*>(_mMapItemData[id]));
-	case 4001 : // 더 콜트
+	case 4000: // 마검 엘레마
+		return new DemonSword(*dynamic_cast<DemonSword*>(_mMapItemData[id]));
+	case 4001: // 더 콜트
 		return new Colt(*dynamic_cast<Colt*>(_mMapItemData[id]));
 	case 4005: // 소르베오의피
 		return new BloodOfSrobeo(*dynamic_cast<BloodOfSrobeo*>(_mMapItemData[id]));
