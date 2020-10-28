@@ -31,12 +31,7 @@ void Rifle::SetRenderPos()
 	_angleCheckPosY = ENTITYMANAGER->getPlayer()->GetY() + 45;
 	_renderPosX = _angleCheckPosX - _vImages[_currentImage]->getFrameWidth() / 2;
 	_renderPosY = _angleCheckPosY - _vImages[_currentImage]->getFrameHeight() / 2;
-	if (!_isAttacking)
-	{
-		_angle = getAngle(_angleCheckPosX, _angleCheckPosY, CAMERAMANAGER->GetAbsoluteX(_ptMouse.x), CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
-		if (_angle > PI * 2) _angle -= PI * 2;
-		if (_angle < 0) _angle += PI * 2;
-	}
+	_angle = getAngle(_angleCheckPosX, _angleCheckPosY, CAMERAMANAGER->GetAbsoluteX(_ptMouse.x), CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
 }
 
 void Rifle::render(HDC hdc)
