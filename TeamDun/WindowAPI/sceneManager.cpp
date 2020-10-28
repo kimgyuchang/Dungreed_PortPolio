@@ -18,39 +18,34 @@ void sceneManager::release()
 
 void sceneManager::update()
 {
-	//현재씬이 존재한다면 해당 씬을 업데이트해라
-	if (_currentScene) _currentScene->update();
+	if (_currentScene) _currentScene->update(); // 현재의 씬만 업데이트
 }
 
 void sceneManager::render()
 {
-	//현재씬이 존재한다면 해당 씬을 출력해라
-	if (_currentScene) _currentScene->render();
+	if (_currentScene) _currentScene->render(); // 현재의 씬만 렌더
 }
 
+/// <summary>
+/// 이름과 Scene class를 받아 맵에 추가한다.
+/// </summary>
 gameNode * sceneManager::addScene(string sceneName, gameNode * scene)
 {
-	//씬이 없으면 그냥 널 리턴
 	if (!scene) return NULL;
-
-	//씬이 있다면 그씬을 리턴시키고 맵에 담아두기
 	_mSceneList.insert(make_pair(sceneName, scene));
-	//_mSceneList.insert(pair<string, gameNode*>(sceneName, scene));
 
 	return scene;
 }
 
+/// <summary>
+/// 이름을 받아 해당 씬으로 변경한다.
+/// </summary>
 HRESULT sceneManager::loadScene(string sceneName)
 {
 	miSceneList find = _mSceneList.find(sceneName);
 
-	//못찾았다면 E_FAIL
 	if (find == _mSceneList.end()) return E_FAIL;
-
-	//바꾸려는 씬과 현재씬이 같다면 E_FAIL
 	if (find->second == _currentScene) return E_FAIL;
-
-	//여기까지 왔으면 크게 문제가 없으니 씬을 변경처리하자
 	if (SUCCEEDED(find->second->init()))
 	{
 		_currentScene = find->second;

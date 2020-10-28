@@ -382,7 +382,6 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("98_HotMeatball", "Images/food/98_HotMeatball.bmp", 219, 144, true, RGB(255, 0, 255));
 
 	// OBSTACLE //
-
 	_loading->LoadNormalImage("gear", "Images/Object/gear.bmp", 108, 108, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Gear_Small", "Images/Object/Gear_Small.bmp", 69, 69, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Gear_Small_Small", "Images/Object/Gear_Small_Small.bmp", 51, 51, true, RGB(255, 0, 255));
@@ -652,6 +651,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("ReloadBar", "Images/UI/ReloadBar.bmp", 6,9, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("ReloadBase", "Images/UI/ReloadBase.bmp", 69,3, true, RGB(255, 0, 255));
 	_loading->LoadFrameImage("ReloadEffect", "Images/UI/ReloadEffect.bmp", 324, 27, 4, 1, true, RGB(255, 0, 255));
+
 	// ICON //
 	_loading->LoadNormalImage("brushCursor", "Images/UI/ICON/Brush.bmp", 35, 35, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("paintCursor", "Images/UI/ICON/paintCursor.bmp", 27, 33, true, RGB(255, 0, 255));
@@ -1027,6 +1027,9 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("MultiBullet", "Images/item/MultiBullet.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Lala'sMagicWand_inven", "Images/item/Lala'sMagicWand_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Lala'sMagicWand", "Images/item/Lala'sMagicWand.bmp", 70, 70, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Autopistol", "Images/item/Autopistol.bmp", 69, 138, 1, 2, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Autopistol_drop", "Images/item/Autopistol_drop.bmp", 48, 24, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Autopistol_inven", "Images/item/Autopistol_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// SKILL //
 	_loading->LoadNormalImage("Skill_lala", "Images/item/Skill_lala.bmp", 57, 57, true, RGB(255, 0, 255));

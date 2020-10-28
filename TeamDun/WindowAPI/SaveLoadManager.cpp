@@ -6,6 +6,9 @@ HRESULT SaveLoadManager::Init()
 	return S_OK;
 }
 
+/// <summary>
+/// 데이터 세이브
+/// </summary>
 void SaveLoadManager::SaveData()
 {
 	Player* p = ENTITYMANAGER->getPlayer();
@@ -126,6 +129,9 @@ void SaveLoadManager::SaveData()
 	INIDATA->saveINI("Data/PlayerSavaData");
 }
 
+/// <summary>
+/// 데이터 로드
+/// </summary>
 void SaveLoadManager::LoadData()
 {
 	Player* p = ENTITYMANAGER->getPlayer();
@@ -326,7 +332,10 @@ void SaveLoadManager::LoadData()
 }
 
 
-
+/// <summary>
+/// ini로 데이터 로드하여 맵 데이터로 반환
+/// </summary>
+/// <returns></returns>
 map<string, string> SaveLoadManager::LoadIniFromIni()
 {
 	HANDLE file;
@@ -343,16 +352,16 @@ map<string, string> SaveLoadManager::LoadIniFromIni()
 	const char* separator = "\n";
 	char* token;
 
-	token = strtok(str, separator);
+	token = strtok(str, separator); // 한 줄씩 불러와
 	while (NULL != (token = strtok(NULL, separator)))
 	{
 		string subString, subString2;
 		string tokenString = token;
 		size_t current;
-		current = tokenString.find('=');
+		current = tokenString.find('='); // =마다 데이터 나누어
 		subString = tokenString.substr(0, current);
 		subString2 = tokenString.substr(current + 1, tokenString.size());
-		checkMap[subString] = subString2;
+		checkMap[subString] = subString2; // 좌측 데이터를 키, 우측 데이터를 값으로
 	}
 	CloseHandle(file);
 	return checkMap;

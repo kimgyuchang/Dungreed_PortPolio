@@ -232,6 +232,7 @@
     <ClInclude Include="PrevDoor.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="PurpleGiantBat.h" />
+    <ClInclude Include="RampageWpn.h" />
     <ClInclude Include="random.h" />
     <ClInclude Include="Rapier.h" />
     <ClInclude Include="RedBat.h" />
@@ -348,6 +349,7 @@
     <ClCompile Include="PrevDoor.cpp" />
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="PurpleGiantBat.cpp" />
+    <ClCompile Include="RampageWpn.cpp" />
     <ClCompile Include="random.cpp" />
     <ClCompile Include="Rapier.cpp" />
     <ClCompile Include="RedBat.cpp" />

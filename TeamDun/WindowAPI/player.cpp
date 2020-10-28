@@ -214,7 +214,6 @@ HRESULT Player::init()
 
 	_inven->AddItem(DATAMANAGER->GetItemById(4000));
 	_inven->AddItem(DATAMANAGER->GetItemById(4001));
-	_inven->AddItem(DATAMANAGER->GetItemById(4006));
 	_inven->AddItem(DATAMANAGER->GetItemById(4500));
 	_inven->AddItem(DATAMANAGER->GetItemById(4018));
 	_inven->AddItem(DATAMANAGER->GetItemById(4005));
@@ -224,6 +223,7 @@ HRESULT Player::init()
 	_inven->AddItem(DATAMANAGER->GetItemById(4100));
 	_inven->AddItem(DATAMANAGER->GetItemById(4021));
 	_inven->AddItem(DATAMANAGER->GetItemById(4026));
+	_inven->AddItem(DATAMANAGER->GetItemById(4052));
 
 	return S_OK;
 }
@@ -973,7 +973,6 @@ void Player::render(HDC hdc)
 			}
 			else            //플레이어가 데미지를 입지않았다면
 			{
-
 				CAMERAMANAGER->FrameRender(hdc, _vImages[_useImage], _x, _y, _frameX, _frameY);						//기존 이미지 그대로
 			}
 		}

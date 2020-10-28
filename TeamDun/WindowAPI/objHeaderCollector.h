@@ -62,3 +62,4 @@
 #include "GoldenCandy.h"
 #include "PrevDoor.h"
 #include "MovePositioner.h"
+#include "RampageWpn.h"

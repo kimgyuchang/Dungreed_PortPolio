@@ -12,6 +12,7 @@ private :
 	
 public:
 
+	// 기본 //
 	virtual void init();
 	virtual void release();
 	virtual void update();
@@ -19,12 +20,10 @@ public:
 
 	// 실질적인 파티클 생성기의 초기화
 	
-	// 생성기를 만든다
 	void AddGenerator(ParticleGenerator* gen);
-
-	// 파티클을 ObjectPooler로부터 받아온다
 	particle* AddNewParticle();
-
+	
+	// GETSET //
 	vector<ParticleGenerator*>& GetGenerators() { return _vGenerators; }
-	vector<particle*>& GetParticles() { return _vParticles; }
+	vector<particle*>&			GetParticles()	{ return _vParticles; }
 };

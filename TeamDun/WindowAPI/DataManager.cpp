@@ -287,7 +287,9 @@ void DataManager::GetItemData()
 			item = new ShortSpear(); break;
 		case 4030: // ·¹ÀÌÇÇ¾î
 			item = new Rapier(); break;
-		case 4140:
+		case 4052: // ³­»ç
+			item = new RampageWpn(); break;
+		case 4140: // ¶ó¶óÀÇ ¿ä¼úºÀ
 			item = new LalaMagic(); break;
 		case 4500: // °ñµçÄµµð
 			item = new GoldenCandy(); break;
@@ -459,6 +461,8 @@ Item* DataManager::GetItemById(int id)
 		return new Gwendolyn(*dynamic_cast<Gwendolyn*>(_mMapItemData[id]));
 	case 4026: // µ¸º¸±â
 		return new MagnifyingGlass(*dynamic_cast<MagnifyingGlass*>(_mMapItemData[id]));
+	case 4052: // ³­»ç
+		return new RampageWpn(*dynamic_cast<RampageWpn*>(_mMapItemData[id]));
 	case 4140: // ¶ó¶óÀÇ ¿ä¼úºÀ
 		return new LalaMagic(*dynamic_cast<LalaMagic*>(_mMapItemData[id]));
 	case 4500: // °ñµçÄµµð
