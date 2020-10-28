@@ -344,6 +344,9 @@ void DataManager::GetItemData()
 		case 4500: // °ñµçÄµµð
 			item = new GoldenCandy();
 			break;
+		case 4031: // MT8 Ä«ºó
+			item = new Rifle();
+			break;
 		default:
 			item = new Item();
 			break;
@@ -517,6 +520,8 @@ Item* DataManager::GetItemById(int id)
 		return new LalaMagic(*dynamic_cast<LalaMagic*>(_mMapItemData[id]));
 	case 4500: // °ñµçÄµµð
 		return new GoldenCandy(*dynamic_cast<GoldenCandy*>(_mMapItemData[id]));
+	case 4031: // MT8 Ä«ºó
+		return new Rifle(*dynamic_cast<Rifle*>(_mMapItemData[id]));
 	default:
 		return _mMapItemData[id];
 	}

@@ -1027,6 +1027,9 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("MultiBullet", "Images/item/MultiBullet.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Lala'sMagicWand_inven", "Images/item/Lala'sMagicWand_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Lala'sMagicWand", "Images/item/Lala'sMagicWand.bmp", 70, 70, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("Rifle", "Images/item/Rifle.bmp", 111, 222, 1, 2, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Rifle_drop", "Images/item/Rifle_drop.bmp", 57, 21, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Rifle_inven", "Images/item/Rifle_inven.bmp", 57, 57, true, RGB(255, 0, 255));
 
 	// SKILL //
 	_loading->LoadNormalImage("Skill_lala", "Images/item/Skill_lala.bmp", 57, 57, true, RGB(255, 0, 255));
@@ -1035,7 +1038,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("GoldenCandy", "Images/item/GoldenCandy.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MetalBoomerang", "Images/item/MetalBoomerang.bmp", 93, 93, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("MetalBoomerang_Inven", "Images/item/MetalBoomerang_Inven.bmp", 57, 57, true, RGB(255, 0, 255));
-	_loading->LoadFrameImage("MetalBoomerangSpin", "Images/item/MetalBoomerangSpin.bmp", 222, 111,2,1, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("MetalBoomerangSpin", "Images/item/MetalBoomerangSpin.bmp", 222, 111, 2, 1, true, RGB(255, 0, 255));
 
 	// BULLET //
 	_loading->LoadFrameImage("BatBullet", "Images/Monster/Bullet/BatBullet.bmp", 210, 42, 5, 1, true, RGB(255, 0, 255));
