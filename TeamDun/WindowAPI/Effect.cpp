@@ -1,15 +1,31 @@
 #include "stdafx.h"
 #include "Effect.h"
 
-HRESULT Effect::init(float x, float y, string imgName, int animSpeed, int frameX, int frameY, bool isLoop, int alpha, float angle, float scaleX, float scaleY, bool isAlpha, bool useCamera, bool isFirstViewing, string effectSound, float damage)
+HRESULT Effect::init(float x, float y, string imgName, int animSpeed, int frameX, int frameY, bool isLoop, int alpha, float angle, float scaleX, float scaleY, bool isAlpha, bool useCamera, bool isFirstViewing, string effectSound, float damage, bool isCenter)
 {
-	_x = x;
-	_y = y;
 	_frameX = frameX;
 	_frameY = frameY;
 	_image = IMAGEMANAGER->findImage(imgName);
+	if (!isCenter)
+	{
+		_x = x;
+		_y = y;
+	}
+	else
+	{
+		_x = x - _image->getFrameWidth() / 2;
+		_y = y - _image->getFrameHeight() / 2;
+	}
 	_initAnimTimer = _animTimer = animSpeed;
-	_body = RectMake(_x, _y, _image->getFrameWidth(), _image->getFrameHeight());
+	if (!isCenter)
+	{
+		_body = RectMake(_x, _y, _image->getFrameWidth(), _image->getFrameHeight());
+	}
+	else
+	{
+		_body = RectMake(_x - _image->getFrameWidth() / 2, _y - _image->getFrameHeight() / 2, _image->getFrameWidth(), _image->getFrameHeight());
+	}
+
 	_isLoop = isLoop;
 	_isDead = false;
 	_alpha = alpha;

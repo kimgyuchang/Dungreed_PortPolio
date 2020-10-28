@@ -291,9 +291,13 @@ void DataManager::GetItemData()
 			item = new RampageWpn(); break;
 		case 4140: // 라라의 요술봉
 			item = new LalaMagic(); break;
+		case 4031: // MT8 카빈
+			item = new Rifle(); break;
 		case 4500: // 골든캔디
 			item = new GoldenCandy(); break;
-		default: // 기타
+		case 5200: // 대포
+			item = new Canon(); break;
+		default:
 			item = new Item(); break;
 		}
 
@@ -443,8 +447,6 @@ Item* DataManager::GetItemById(int id)
 		return new BlessOfSage(*dynamic_cast<BlessOfSage*>(_mMapItemData[id]));
 	case 4017: // 숏 소드
 		return new BasicShortSword(*dynamic_cast<BasicShortSword*>(_mMapItemData[id]));
-	case 4100: // 떡갈나무활
-		return new GreatBow(*dynamic_cast<GreatBow*>(_mMapItemData[id]));
 	case 4021: // 죽도
 		return new BambooSword(*dynamic_cast<BambooSword*>(_mMapItemData[id]));
 	case 4023: // 카타나
@@ -453,20 +455,26 @@ Item* DataManager::GetItemById(int id)
 		return new Shamshir(*dynamic_cast<Shamshir*>(_mMapItemData[id]));
 	case 4025: // 세이버
 		return new Saber(*dynamic_cast<Saber*>(_mMapItemData[id]));
-	case 4030: // 레이피어
-		return new Rapier(*dynamic_cast<Rapier*>(_mMapItemData[id]));
-	case 4029: // 단창
-		return new ShortSpear(*dynamic_cast<ShortSpear*>(_mMapItemData[id]));
-	case 4028: // 그웬돌린
-		return new Gwendolyn(*dynamic_cast<Gwendolyn*>(_mMapItemData[id]));
 	case 4026: // 돋보기
 		return new MagnifyingGlass(*dynamic_cast<MagnifyingGlass*>(_mMapItemData[id]));
+	case 4028: // 그웬돌린
+		return new Gwendolyn(*dynamic_cast<Gwendolyn*>(_mMapItemData[id]));
+	case 4029: // 단창
+		return new ShortSpear(*dynamic_cast<ShortSpear*>(_mMapItemData[id]));
+	case 4030: // 레이피어
+		return new Rapier(*dynamic_cast<Rapier*>(_mMapItemData[id]));
+	case 4031: // MT8 카빈
+		return new Rifle(*dynamic_cast<Rifle*>(_mMapItemData[id]));
 	case 4052: // 난사
 		return new RampageWpn(*dynamic_cast<RampageWpn*>(_mMapItemData[id]));
+	case 4100: // 떡갈나무활
+		return new GreatBow(*dynamic_cast<GreatBow*>(_mMapItemData[id]));
 	case 4140: // 라라의 요술봉
 		return new LalaMagic(*dynamic_cast<LalaMagic*>(_mMapItemData[id]));
 	case 4500: // 골든캔디
 		return new GoldenCandy(*dynamic_cast<GoldenCandy*>(_mMapItemData[id]));
+	case 5200: // 대포
+		return new Canon(*dynamic_cast<Canon*>(_mMapItemData[id]));
 	default:
 		return _mMapItemData[id];
 	}

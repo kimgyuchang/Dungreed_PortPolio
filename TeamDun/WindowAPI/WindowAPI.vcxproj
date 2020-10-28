@@ -170,6 +170,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="cameraText.h" />
+    <ClInclude Include="Canon.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Colt.h" />
     <ClInclude Include="commonMacroFunction.h" />
@@ -239,6 +240,7 @@
     <ClInclude Include="RedGiantBat.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Restaurant.h" />
+    <ClInclude Include="Rifle.h" />
     <ClInclude Include="Saber.h" />
     <ClInclude Include="SaveLoadManager.h" />
     <ClInclude Include="sceneManager.h" />
@@ -290,6 +292,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="cameraText.cpp" />
+    <ClCompile Include="Canon.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Colt.cpp" />
     <ClCompile Include="CSVManager.cpp" />
@@ -357,6 +360,7 @@
     <ClCompile Include="Restaurant.cpp">
       <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</BasicRuntimeChecks>
     </ClCompile>
+    <ClCompile Include="Rifle.cpp" />
     <ClCompile Include="Saber.cpp" />
     <ClCompile Include="SaveLoadManager.cpp" />
     <ClCompile Include="sceneManager.cpp" />
