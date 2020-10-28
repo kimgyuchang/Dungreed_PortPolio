@@ -35,6 +35,7 @@ void Rifle::SetRenderPos()
 		_angle = getAngle(_angleCheckPosX, _angleCheckPosY, CAMERAMANAGER->GetAbsoluteX(_ptMouse.x), CAMERAMANAGER->GetAbsoluteY(_ptMouse.y));
 		if (_angle > PI * 2) _angle -= PI * 2;
 		if (_angle < 0) _angle += PI * 2;
+
 }
 
 void Rifle::render(HDC hdc)
