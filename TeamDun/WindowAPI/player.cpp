@@ -734,7 +734,9 @@ void Player::SwitchWeapon()
 		}
 	}
 
-	if (_mouseWheel != 0)	//마우스 휠 작동시
+	if (_mouseWheel != 0 ||
+		(INPUT->GetKeyDown('1') &&	_selectedWeaponIdx == 1) ||
+		(INPUT->GetKeyDown('2') && _selectedWeaponIdx == 0))
 	{
 		SOUNDMANAGER->play("게임_무기스왑");
 		if (_swapCoolTime == 0)
@@ -744,7 +746,7 @@ void Player::SwitchWeapon()
 				_weapons[_selectedWeaponIdx]->SetisAttacking(false);	// 주무기 공격 상태 초기화
 				_weapons[_selectedWeaponIdx]->SetRenderAngle(0);		// 주무기 렌더 앵글 초기화
 			}
-			if (_subWeapons[_selectedWeaponIdx] != nullptr)	//장착뒨 보조무기가 있다면
+			if (_subWeapons[_selectedWeaponIdx] != nullptr)	//장착된 보조무기가 있다면
 			{
 				_subWeapons[_selectedWeaponIdx]->SetisAttacking(false);	// 보조무기 공격 상태 초기화
 				_subWeapons[_selectedWeaponIdx]->SetRenderAngle(0);		// 보조무기 렌더 상태 초기화
