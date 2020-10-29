@@ -369,7 +369,6 @@ void Player::update()
 		// UI
 		BulletNumUIChecker();
 		SkillUIChecker();
-		ExitPage();
 
 		if (INPUT->GetKeyDown('J'))
 		{
@@ -759,44 +758,6 @@ void Player::SwitchWeapon()
 			_inven->SwitchWeapon(_selectedWeaponIdx);
 
 			_swapCoolTime = 20;		//ÄðÅ¸ÀÓ 20
-		}
-	}
-}
-
-void Player::ExitPage()
-{
-	UIFrame* exitFrame = UIMANAGER->GetGameFrame()->GetChild("CheckExit");
-
-	if (INPUT->GetIsEscapeKeyPressed() &&
-		!UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->GetIsViewing() &&
-		!UIMANAGER->GetGameFrame()->GetChild("DungeonShopBase")->GetIsViewing() &&
-		!UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetIsViewing() &&
-		!UIMANAGER->GetGameFrame()->GetChild("selectFrame")->GetIsViewing() &&
-		!UIMANAGER->GetGameFrame()->GetChild("convFrame")->GetIsViewing() &&
-		!UIMANAGER->GetGameFrame()->GetChild("_restaurantBase")->GetIsViewing() &&
-		!UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetIsViewing() &&
-		!UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->GetIsViewing() &&
-		!_traitFrame->GetIsViewing() &&
-		MAPMANAGER->GetCurStageNum() != 0
-		)
-	{
-		exitFrame->ToggleIsViewing();
-	}
-
-	if (exitFrame->GetIsViewing())
-	{
-		if (INPUT->GetIsLButtonClicked())
-		{
-			if(PtInRect(&exitFrame->GetChild("yes")->GetRect(), _ptMouse))
-			{
-				ReturnToHome();
-				exitFrame->SetIsViewing(false);
-			}
-
-			else if (PtInRect(&exitFrame->GetChild("no")->GetRect(), _ptMouse))
-			{
-				exitFrame->SetIsViewing(false);
-			}
 		}
 	}
 }
