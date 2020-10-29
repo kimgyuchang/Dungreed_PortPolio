@@ -83,7 +83,7 @@ void EntityManager::eraseBullet()
 				}
 				else if (_vBullets[i]->getSpeedType() == BST_RETURN)
 				{
-
+					_vBullets[i]->SetIsDead(true);
 				}
 				else
 				{
@@ -100,7 +100,7 @@ void EntityManager::eraseBullet()
 				}
 				else if (_vBullets[i]->getSpeedType() == BST_RETURN)
 				{
-
+					_vBullets[i]->SetIsDead(true);
 				}
 				else
 				{
@@ -279,7 +279,7 @@ void EntityManager::HitBullet()
 										else
 										{
 											_vBullets[j]->getSUid().push_back(MAPMANAGER->GetPlayMap()->GetObjects()[i]->GetUid());
-											cout << MAPMANAGER->GetPlayMap()->GetObjects()[i]->GetUid() << endl;
+											
 											MAPMANAGER->GetPlayMap()->GetObjects()[i]->GetDamage(_vBullets[j]->getDamage());
 										}
 
@@ -310,7 +310,7 @@ void EntityManager::HitBullet()
 									else
 									{
 										_vBullets[j]->getSUid().push_back(MAPMANAGER->GetPlayMap()->GetObjects()[i]->GetUid());
-										cout << MAPMANAGER->GetPlayMap()->GetObjects()[i]->GetUid() << endl;
+										
 										MAPMANAGER->GetPlayMap()->GetObjects()[i]->GetDamage(_vBullets[j]->getDamage());
 									}
 								}
