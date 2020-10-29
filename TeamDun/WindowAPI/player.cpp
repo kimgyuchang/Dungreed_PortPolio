@@ -242,10 +242,11 @@ void Player::update()
 			!UIMANAGER->GetGameFrame()->GetChild("_restaurantBase")->GetIsViewing() &&
 			!UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetIsViewing() &&
 			!UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->GetIsViewing() &&
+			!UIMANAGER->GetGameFrame()->GetChild("CheckExit")->GetIsViewing() &&
+			!_traitFrame->GetIsViewing() &&
 			!ENTITYMANAGER->GetWormVillage()->GetIsOn() &&
 			!MAPMANAGER->GetPortalAnimOn() &&
 			!MAPMANAGER->GetStageChanger()->GetIsChangingStage() &&
-			!_traitFrame->GetIsViewing() &&
 			!_isStun &&
 			!_isPlayerDead &&
 			!_isBossReady
@@ -365,7 +366,6 @@ void Player::update()
 		RangeGetStatusAbility();
 		ReloadItemChecker();
 		RestoreHpTimerChecker();
-
 
 		// UI
 		BulletNumUIChecker();
@@ -809,9 +809,9 @@ void Player::ReloadBullet()
 			_isReload = false;
 		}
 
-		if (_maxBullet > 0)
+		if (_maxBullet > 0 && _weapons[_selectedWeaponIdx]->GetCurNumOfBullet() < _maxBullet)
 		{
-			if (_weapons[_selectedWeaponIdx]->GetCurNumOfBullet() <= 0)
+			if (_weapons[_selectedWeaponIdx]->GetCurNumOfBullet() <= 0 || INPUT->GetKeyDown('R'))
 			{
 				_isReload = true;
 			}
