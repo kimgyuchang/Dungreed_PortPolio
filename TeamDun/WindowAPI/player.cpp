@@ -849,7 +849,7 @@ void Player::ReloadBullet()
 
 		if (_maxBullet > 0)
 		{
-			if (_weapons[_selectedWeaponIdx]->GetCurNumOfBullet() <= 0)
+			if (_weapons[_selectedWeaponIdx]->GetCurNumOfBullet() <= 0 || INPUT->GetKeyDown('R'))
 			{
 				_isReload = true;
 			}
