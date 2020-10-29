@@ -354,6 +354,7 @@ public:
 	void SetNewMaxHp();
 	
 	void SwitchWeapon();
+	void ExitPage();
 	void JumpAttackRectUpdate();
 	void AbnormalState(); // 상태이상 구현
 	void ReloadBullet();

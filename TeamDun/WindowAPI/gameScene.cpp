@@ -70,6 +70,7 @@ void gameScene::initUI()
 
 void gameScene::MainGameFrameInit()
 {
+	// 스킬 //
 	UIFrame* skillFrame = new UIFrame();
 	skillFrame->init("skillFrame", WINSIZEX - 260, WINSIZEY - 110, 66, 66, "accessoryZone", 66/96.f, 66/75.f);
 	UIMANAGER->GetGameFrame()->AddFrame(skillFrame);
@@ -92,10 +93,12 @@ void gameScene::MainGameFrameInit()
 	UIMANAGER->GetGameFrame()->AddFrame(bulletText);
 	bulletText->SetIsViewing(true);
 
+	// 스테이지 이름 //
 	UIText* stageName = new UIText();
 	stageName->init("stageName", WINSIZEX + 100, 200, 500, 500, "", FONT::PIX, WORDSIZE::WS_BIGGEST, WORDSORT::WSORT_MIDDLE);
 	UIMANAGER->GetGameFrame()->AddFrame(stageName);
 
+	// 무기 스왑 //
 	UIFrame* container = new UIFrame();
 	container->init("swapContainer", WINSIZEX - 180, WINSIZEY - 150, 200, 200, "");
 	UIMANAGER->GetGameFrame()->AddFrame(container);
@@ -116,6 +119,7 @@ void gameScene::MainGameFrameInit()
 	image2->init("image", 0, 0, 0, 0, "");
 	weapon2->AddFrame(image2);
 
+	// HP //
 	UIFrame* hpFrame = new UIFrame();
 	hpFrame->init("hpFrame", 20, 20, 0, 0, "");
 	UIMANAGER->GetGameFrame()->AddFrame(hpFrame);
@@ -148,10 +152,12 @@ void gameScene::MainGameFrameInit()
 	hpFrameBar1->init("hpBarFrame2", 63, 0, 159, 48, "PlayerLifeBase_2");
 	hpFrame->AddFrame(hpFrameBar1);
 
+	// 대쉬 //
 	UIFrame* dashUI = new UIFrame();
 	dashUI->init("dashFrame", 20, 70, 0, 0, "");
 	UIMANAGER->GetGameFrame()->AddFrame(dashUI);
 
+	// 좌하단 //
 	UIFrame* leftDownUI = new UIFrame();
 	leftDownUI->init("leftDown", 20, WINSIZEY - 80, 0, 0, "");
 	UIMANAGER->GetGameFrame()->AddFrame(leftDownUI);
@@ -172,12 +178,12 @@ void gameScene::MainGameFrameInit()
 	foodText->init("FoodText", 22, 29, 120, 30, "100 / 125", FONT::PIX, WORDSIZE::WS_SMALL);
 	leftDownUI->AddFrame(foodText);
 
+	// Ikina Frame //
 	UIFrame* specialsFrame = new UIFrame();
 	specialsFrame->init("specialsFrame", WINSIZEX - 200, WINSIZEY - 300, 0, 0, "");
 	UIMANAGER->GetGameFrame()->AddFrame(specialsFrame);
 	specialsFrame->SetIsViewing(true);
 
-	// Ikina Frame //
 	UIFrame* IkinaBase = new UIFrame();
 	IkinaBase->init("IkinaBaseFrame", 1330, 580, IMAGEMANAGER->findImage("IkinaBase")->getWidth(), IMAGEMANAGER->findImage("IkinaBase")->getHeight(), "IkinaBase");
 	UIMANAGER->GetGameFrame()->AddFrame(IkinaBase);
@@ -202,8 +208,35 @@ void gameScene::MainGameFrameInit()
 	ShieldBackProgressBar->init("ShieldBackProgress", 0, 0, IMAGEMANAGER->findImage("ShieldBack")->getWidth(), IMAGEMANAGER->findImage("ShieldBack")->getHeight(), "ShieldBack", "");
 	ShieldBase->AddFrame(ShieldBackProgressBar);
 
+	// Exit Frame // 
+	UIFrame* checkExit = new UIFrame();
+	checkExit->init("CheckExit", WINSIZEX / 2 - IMAGEMANAGER->findImage("BaseType2")->getWidth() / 2 * 1.5f, WINSIZEY / 2 - IMAGEMANAGER->findImage("BaseType2")->getHeight() / 2 * 0.7f, IMAGEMANAGER->findImage("BaseType2")->getWidth(), IMAGEMANAGER->findImage("BaseType2")->getHeight(), "BaseType2", 1.5f, 0.7f);
+	UIMANAGER->GetGameFrame()->AddFrame(checkExit);
+
+	UIText* checkText = new UIText();
+	checkText->init("text", 20, 15, 300, 200, "던전에서 나가시겠습니까?", FONT::PIX, WORDSIZE::WS_MIDDLESMALL);
+	checkExit->AddFrame(checkText);
+
+	UIFrame* checkOK = new UIFrame();
+	checkOK->init("yes", 110, 80, 113, 45, "YesOrNo", 0.9f, 0.9f);
+	checkExit->AddFrame(checkOK);
+
+	UIText* YES = new UIText();
+	YES->init("text", 0, 10, 113 * 0.9f, 30, "예", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_MIDDLE);
+	checkOK->AddFrame(YES);
+
+	UIFrame* checkNo = new UIFrame();
+	checkNo->init("no", 215, 80, 113, 45, "YesOrNo", 0.9f, 0.9f);
+	checkExit->AddFrame(checkNo);
+
+	UIText* NO = new UIText();
+	NO->init("text", 0, 10, 113 * 0.9f, 30, "아니오", FONT::PIX, WORDSIZE::WS_MIDDLESMALL, WORDSORT::WSORT_MIDDLE);
+	checkNo->AddFrame(NO);
+
+
 	container->SetIsViewing(true);
 	hpFrame->SetIsViewing(true);
+	checkExit->SetIsViewing(false);
 }
 
 void gameScene::GetItemUIInit()
@@ -815,17 +848,6 @@ void gameScene::release()
 
 void gameScene::UpdateWardrobeUI()
 {
-	/*
-	if (INPUT->GetKeyDown('P'))
-	{
-		UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->ToggleIsViewing();
-		for (int i = 0; i < 13; i++)
-		{
-			UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeOver" + to_string(i))->SetIsViewing(false);
-		}
-	}
-	*/
-	
 	//의상실 마우스 휠 작동시
 	if (UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetIsViewing() == true)
 	{

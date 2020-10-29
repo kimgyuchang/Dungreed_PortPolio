@@ -395,6 +395,7 @@ void loadingScene::loadingImage()
 	_loading->LoadNormalImage("MovePos", "Images/Etc/MovePos.bmp", 48, 48, true, RGB(255, 0, 255));
 
 	// UI //  
+	_loading->LoadNormalImage("ItemX", "Images/UI/ItemX.bmp", 57, 57, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("UIBaseBig", "Images/UI/Base.bmp", 500, 300, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("UIBaseMiddle", "Images/UI/Base.bmp", 222 * 2, 189 * 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("UIBaseSmall", "Images/UI/Base.bmp", 222, 189, true, RGB(255, 0, 255));
