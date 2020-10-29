@@ -187,6 +187,9 @@ void UIFrame::CheckIsOutside()
 	}
 }
 
+/// <summary>
+/// 프레임을 x,y만큼 이동시키며, 자식들도 그만큼 이동시킨다.
+/// </summary>
 void UIFrame::MoveFrame(float x, float y)
 {
 	_x += x;
@@ -199,6 +202,11 @@ void UIFrame::MoveFrame(float x, float y)
 	}
 }
 
+/// <summary>
+/// x, y 위치로 자식을 포함해 이동시킨다.
+/// </summary>
+/// <param name="x"></param>
+/// <param name="y"></param>
 void UIFrame::MoveFrameToXY(float x, float y)
 {
 	float moveX = _x - x;
@@ -267,6 +275,6 @@ void UIFrame::release()
 {
 	for (int i = 0; i < _vChildFrames.size(); i++)
 	{
-		_vChildFrames[i]->release();
+		_vChildFrames[i]->release();	
 	}
 }

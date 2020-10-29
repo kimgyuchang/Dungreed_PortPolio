@@ -1036,6 +1036,8 @@ void loadingScene::loadingImage()
 	_loading->LoadFrameImage("Rifle", "Images/item/Rifle.bmp", 111, 222, 1, 2, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Rifle_drop", "Images/item/Rifle_drop.bmp", 57, 21, true, RGB(255, 0, 255));
 	_loading->LoadNormalImage("Rifle_inven", "Images/item/Rifle_inven.bmp", 57, 57, true, RGB(255, 0, 255));
+	_loading->LoadNormalImage("Canon_bullet", "Images/item/Canon_bullet.bmp", 66, 72, true, RGB(255, 0, 255));
+	_loading->LoadFrameImage("boom", "Images/item/boom.bmp", 2484, 219, 12, 1, true, RGB(255, 0, 255));
 
 	// SKILL //
 	_loading->LoadNormalImage("Skill_lala", "Images/item/Skill_lala.bmp", 57, 57, true, RGB(255, 0, 255));

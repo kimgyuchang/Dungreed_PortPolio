@@ -63,7 +63,7 @@ void Bullet::GenerateTraceParticle()
 	}
 }
 
-void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle,float damage, float speed, float maxDis, bool isFrame ,float igAngle ,BULLETSPEEDTYPE speedtype, string effectSound)
+void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle,float damage, float speed, float maxDis, bool isFrame ,float igAngle ,BULLETSPEEDTYPE speedtype, string effectSound, bool isEffectAngle)
 {
 	_ig = IMAGEMANAGER->findImage(imageName);
 	_effectIgName = effectIgName;
@@ -91,7 +91,7 @@ void Bullet::makeBullet(const char * imageName, string effectIgName, BULLETTYPE 
 	_useWallCollision = true;
 	_target = nullptr;
 	_particleTimer = 0;
-
+	_isEffectAngle = isEffectAngle;
 	if (_type == BT_PLAYER || _type == BT_PLAYERNOCOL)
 	{
 		if (_speedType == BST_CHARGE)

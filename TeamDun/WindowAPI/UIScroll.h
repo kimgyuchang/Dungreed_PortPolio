@@ -12,17 +12,20 @@ private :
 	bool		_isVertical;	// Scroll이 세로면
 
 	void CalculateScrollBarPercent();
+
 public :
 
+	// 기본 //
 	virtual	HRESULT init(string name, float x, float y, float sizeX, float sizeY, string imageName);
 	virtual void update();
 
+	void MoveScrollBar();
+
+	// GETSET //
 	UIFrame* GetTarget() { return _target; }
 	float GetScrollPercent() { return _scrollPercent; }
-
 	void SetTarget(UIFrame* target) { _target = target; }
 	void SetScroll(float percent) { _scrollPercent = percent; }
 	void SetIsVertical(bool vertical) { _isVertical = vertical; }
-	void MoveScrollBar();
 };
 
