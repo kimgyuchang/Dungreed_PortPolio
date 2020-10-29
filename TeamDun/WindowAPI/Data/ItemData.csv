@@ -36,7 +36,7 @@ id,itemType,weaponType,skill,name,description,itemClass,minAtk,maxAtk,atkSpeed,d
 4050,악세서리,무기아님,-1,딸기,설산에 오르는 나약한 자신에게 위안을 주는 붉고 자그마한 과실,전설,0,0,0,0,0,0,0,-1,0,7900,0,StrawBerry,.,.,StrawBerry,StrawBerry,DASHCOUNT,2,.,MOVESPEED,10,.,.,.,.
 4051,악세서리,무기아님,-1,티거스의 망치,대장장이 티거스의 망치. 손이 미끄러지는 경우를 막아준다.,희귀,0,0,0,0,0,0,0,-1,0,6800,0,TigarsHammer,.,.,TigarsHammer,TigarsHammer,CRITICALPERCENT,22,.,.,.,.,.,.,.
 4500,악세서리,무기아님,-1,황금사탕,너무나도 귀한 나머지 입에 물고있으면 몸이 부들부들 떨린다.,전설,0,0,0,0,0,0,0,-1,0,8500,0,GoldenCandy,.,.,GoldenCandy,GoldenCandy,MOVESPEED,50,.,EVADE,10,.,DASHATK,30,.
-4052,두손무기,원거리,-1,기관총,.,고급,8,8,30,0,1,100,30,-1,0,1200,0,Autopistol,.,.,Autopistol_inven,Autopistol_drop,CRITICALPERCENT,15,.,.,.,.,.,.,.
+4052,두손무기,원거리,-1,청개구리총,자신이 원하는 방향으로 쏘지 않는다.,고급,8,8,30,0,1,100,30,-1,0,1200,0,Autopistol,.,.,Autopistol_inven,Autopistol_drop,CRITICALPERCENT,15,.,.,.,.,.,.,.
 5200,두손무기,원거리,-1,천자총통,대포를 발사하는 먼 동방의 화포,고급,25,40,1,0,1,1,20,-1,100,2500,0,Canon,.,.,Canon_inven,Canon_drop,.,.,.,.,.,.,.,.,.
 4031,두손무기,원거리,-1,MT8 카빈,가볍고 연사가 빠른 돌격 소총,고급,14,16,1,0,0,6,150,-1,0,1500,0,Rifle,.,.,Rifle_inven,Rifle_drop,CRITICALPERCENT,15,.,ETC,0, 6발 점사 총이다.,.,.,.
 5201,한손무기,원거리,-1,부메랑,부메랑은 돌아오지만 사랑은 돌아오지 않는다.,고급,16,19,0.5,0,0,1,0,-1,0,3500,0,MetalBoomerang,.,.,MetalBoomerang_Inven,MetalBoomerang,.,.,.,.,.,.,.,.,.
