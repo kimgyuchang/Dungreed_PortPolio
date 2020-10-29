@@ -8,7 +8,7 @@ HRESULT gameScene::init()
 	initUI();
 
 	_p = new Player();
-	
+
 	SAVELOADMANAGER->Init();
 	ENTITYMANAGER->init();
 	ENTITYMANAGER->setPlayer(_p);
@@ -72,7 +72,7 @@ void gameScene::MainGameFrameInit()
 {
 	// 스킬 //
 	UIFrame* skillFrame = new UIFrame();
-	skillFrame->init("skillFrame", WINSIZEX - 260, WINSIZEY - 110, 66, 66, "accessoryZone", 66/96.f, 66/75.f);
+	skillFrame->init("skillFrame", WINSIZEX - 260, WINSIZEY - 110, 66, 66, "accessoryZone", 66 / 96.f, 66 / 75.f);
 	UIMANAGER->GetGameFrame()->AddFrame(skillFrame);
 
 	UIFrame* skillImageFrame = new UIFrame();
@@ -80,7 +80,7 @@ void gameScene::MainGameFrameInit()
 	skillFrame->AddFrame(skillImageFrame);
 
 	UIText* cooltimeText = new UIText();
-	cooltimeText->init("cooltime", 0, 10, 66, 66, "10", FONT::PIX, WORDSIZE::WS_BIGGEST, WORDSORT::WSORT_MIDDLE, RGB(255,30,30));
+	cooltimeText->init("cooltime", 0, 10, 66, 66, "10", FONT::PIX, WORDSIZE::WS_BIGGEST, WORDSORT::WSORT_MIDDLE, RGB(255, 30, 30));
 	skillFrame->AddFrame(cooltimeText);
 
 	UIText* descriptionText = new UIText();
@@ -474,7 +474,7 @@ void gameScene::InventoryUIInit()
 	InventoryFrame->init("InventoryFrame", 1000, 170, IMAGEMANAGER->findImage("InventoryBase_2")->getWidth(), IMAGEMANAGER->findImage("InventoryBase_2")->getHeight(), "InventoryBase_2");
 	InventoryFrame->SetUseOutsideLimit(false);
 	UIMANAGER->GetGameFrame()->AddFrame(InventoryFrame);
-	
+
 	UIFrame* weaponImageFrame = new UIFrame();
 	weaponImageFrame->init("curWeapon_1", 48, 105, 57, 57, "");
 	InventoryFrame->AddFrame(weaponImageFrame);
@@ -494,7 +494,7 @@ void gameScene::InventoryUIInit()
 	UIFrame* accesoryFrame = new UIFrame();
 	accesoryFrame->init("accesoryFrame", 65, 190, 0, 0, "");
 	InventoryFrame->AddFrame(accesoryFrame);
-	
+
 	int accesorySize = 4;
 	for (int i = 0; i < accesorySize; i++)
 	{
@@ -804,7 +804,7 @@ void gameScene::BossHpUIInit()
 	UIProgressBar* BossLifeImg = new UIProgressBar();
 	BossLifeImg->init("BossLife", 106, 0, IMAGEMANAGER->findImage("BossLife")->getWidth(), IMAGEMANAGER->findImage("BossLife")->getHeight(), "BossLife", "");
 	BossLifeBackImg->AddFrame(BossLifeImg);
-	
+
 	UIFrame* BossLifeBaseImg = new UIFrame();
 	BossLifeBaseImg->init("BossLifeBase", -106, 0, IMAGEMANAGER->findImage("BossLifeBase")->getWidth(), IMAGEMANAGER->findImage("BossLifeBase")->getHeight(), "BossLifeBase");
 	BossLifeImg->AddFrame(BossLifeBaseImg);
@@ -853,7 +853,7 @@ void gameScene::UpdateWardrobeUI()
 	{
 		if (PtInRect(&UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetRect(), _ptMouse))
 		{
-			if (_mouseWheel <0)
+			if (_mouseWheel < 0)
 			{
 				for (int i = 0; i < 13; i++)
 				{
@@ -862,7 +862,7 @@ void gameScene::UpdateWardrobeUI()
 					UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetChild("Base")->GetChild("CostumeUnlocked" + to_string(i))->MoveFrameChild(50, 0);
 				}
 			}
-			else if(_mouseWheel>0)
+			else if (_mouseWheel > 0)
 			{
 				for (int i = 0; i < 13; i++)
 				{
@@ -1199,6 +1199,7 @@ void gameScene::update()
 		SCENEMANAGER->loadScene("시작화면");
 	}
 
+	ExitPage();
 	MAPMANAGER->update();
 	CAMERAMANAGER->MovePivotLerp(ENTITYMANAGER->getPlayer()->GetX(), ENTITYMANAGER->getPlayer()->GetY(), 5.f);
 	ENTITYMANAGER->update();
@@ -1256,6 +1257,46 @@ void gameScene::render()
 	if (MAPMANAGER->GetStageChanger()->GetIsChangingStage())
 	{
 		MAPMANAGER->GetStageChanger()->render(getMemDC());
+	}
+}
+
+
+void gameScene::ExitPage()
+{
+	UIFrame* exitFrame = UIMANAGER->GetGameFrame()->GetChild("CheckExit");
+
+	if (INPUT->GetIsEscapeKeyPressed())
+	{
+		if ((UIMANAGER->GetGameFrame()->GetChild("InventoryFrame")->GetIsViewing()) ||
+			(UIMANAGER->GetGameFrame()->GetChild("DungeonShopBase")->GetIsViewing()) ||
+			(UIMANAGER->GetGameFrame()->GetChild("allMapFrame")->GetIsViewing()) ||
+			(UIMANAGER->GetGameFrame()->GetChild("selectFrame")->GetIsViewing()) ||
+			(UIMANAGER->GetGameFrame()->GetChild("convFrame")->GetIsViewing()) ||
+			(UIMANAGER->GetGameFrame()->GetChild("_restaurantBase")->GetIsViewing()) ||
+			(UIMANAGER->GetGameFrame()->GetChild("warDrobeFrame")->GetIsViewing()) ||
+			(UIMANAGER->GetGameFrame()->GetChild("allTraitFrame")->GetIsViewing()) ||
+			(UIMANAGER->GetGameFrame()->GetChild("charFrame")->GetIsViewing()) ||
+			MAPMANAGER->GetCurStageNum() == 0) {
+		}
+		else
+			exitFrame->ToggleIsViewing();
+	}
+
+	if (exitFrame->GetIsViewing())
+	{
+		if (INPUT->GetIsLButtonClicked())
+		{
+			if (PtInRect(&exitFrame->GetChild("yes")->GetRect(), _ptMouse))
+			{
+				ENTITYMANAGER->getPlayer()->ReturnToHome();
+				exitFrame->SetIsViewing(false);
+			}
+
+			else if (PtInRect(&exitFrame->GetChild("no")->GetRect(), _ptMouse))
+			{
+				exitFrame->SetIsViewing(false);
+			}
+		}
 	}
 }
 
