@@ -51,9 +51,12 @@ void UIProgressBar::update()
 	UIFrame::update();
 }
 
+/// <summary>
+/// Progressbar가 채워지는 정도를 정한다.
+/// </summary>
 void UIProgressBar::FillCheck(float initX, float fillX)
 {
-	_fillPercent = fillX / initX;
-	_imgFillX = _fillPercent * (_backImg == nullptr ? _image->getWidth() : _backImg->getWidth());
+	_fillPercent = fillX / initX; // 비율을 구하고
+	_imgFillX = _fillPercent * (_backImg == nullptr ? _image->getWidth() : _backImg->getWidth()); // 이미지의 크기에 입각하여 채워질 정도를 구한다.
 }
 

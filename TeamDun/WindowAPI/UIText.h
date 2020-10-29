@@ -44,14 +44,18 @@ private:
 	int					_cntPos;				// 현재 출력중인 위치 
 	int					_animationTimer;		// 애니메이션 타이머
 	int					_initAnimationTimer;	// 초기 애니메이션 타이머
+
 public:
+	// 기본 //
+	virtual void init(string name, float x, float y, float xSize, float ySize, string text, FONT font, WORDSIZE size, WORDSORT sort = WORDSORT::WSORT_LEFT, COLORREF color = RGB(255,255,255), bool isAnimation = false, WORDANIMATIONSPEED speed = WORDANIMATIONSPEED::WAS_MIDDLE);
+	virtual void render(HDC hdc);
+
+	// GETSET //
 	string GetText() { return _text; }
 	bool GetIsAnimation() { return _isAnimation; }
 	WORDSIZE GetWordSize() { return _wordSize; }
-
 	void SetText(string text) { _text = text; }
 	void SetColor(COLORREF rgb) { _color = rgb; }
 	void SetCntPos(int n) { _cntPos = n; }
-	virtual void init(string name, float x, float y, float xSize, float ySize, string text, FONT font, WORDSIZE size, WORDSORT sort = WORDSORT::WSORT_LEFT, COLORREF color = RGB(255,255,255), bool isAnimation = false, WORDANIMATIONSPEED speed = WORDANIMATIONSPEED::WAS_MIDDLE);
-	virtual void render(HDC hdc);
+	
 };

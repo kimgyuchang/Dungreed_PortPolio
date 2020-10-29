@@ -52,7 +52,7 @@ private :
 	float			_angleChangerTrace;
 	bool			_useWallCollision;
 	Object*			_target;
-
+	bool			_isEffectAngle;
 	set<int>		_sUid;
 public :
 	virtual HRESULT init();
@@ -60,7 +60,7 @@ public :
 	virtual	void	release();
 	virtual void	render(HDC hdc);
 	void GenerateTraceParticle();
-	void makeBullet(const char* imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle, float damage, float speed, float maxDis, bool isFrame, float igAngle = 0, BULLETSPEEDTYPE speedtype = BST_NOMAL, string effectSound = "");
+	void makeBullet(const char* imageName, string effectIgName, BULLETTYPE type, float x, float y, float angle, float damage, float speed, float maxDis, bool isFrame, float igAngle = 0, BULLETSPEEDTYPE speedtype = BST_NOMAL, string effectSound = "", bool isEffectAngle = true);
 
 	void moveBullet();
 	void Animation();
@@ -90,7 +90,7 @@ public :
 	bool getIsDead() { return _isDead; }
 	float getScale(){return _scale;}
 	bool getUseWallCollision() { return _useWallCollision; }
-
+	bool getIsEffectAngle() { return _isEffectAngle; }
 	void SetType(BULLETTYPE type) {  _type = type; }
 	void SetIg(image* ig) { _ig = ig; }
 	void SetEffectIgName(string effectname) { _effectIgName = effectname; }
